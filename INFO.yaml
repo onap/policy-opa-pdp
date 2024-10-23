@@ -1,0 +1,54 @@
+---
+project: 'policy-opa-pdp'
+project_creation_date: '2024-10-18'
+lifecycle_state: 'Mature'
+project_category: ''
+project_lead: &onap_releng_ptl
+  - name: 'Ramesh Murugan Iyer'
+    email: 'ramesh.murugan.iyer@est.tech'
+    company: 'Ericsson'
+    id: 'rameshiyer27'
+    timezone: 'Europe/Ireland'
+primary_contact: *onap_releng_ptl
+issue_tracking:
+  type: 'jira'
+  url: 'https://jira.onap.org/projects/POLICY'
+  key: 'POLICY'
+mailing_list:
+  type: 'groups.io'
+  url: 'lists.onap.org'
+  tag: '<[sub-project_name]>'
+realtime_discussion: ''
+meetings:
+  - type: 'zopa-pdp'
+    agenda: 'https://wiki.onap.org/pages/viewpage.action?pageId=6589781'
+    url: 'https://wiki.onap.org/display/DW/Policy+Framework+Project'
+    server: 'n/a'
+    channel: 'n/a'
+    repeats: 'weekly'
+    time: '14:00 UTC'
+repositories:
+  - 'policy/opa-pdp'
+committers:
+  - <<: *onap_releng_ptl
+  - name: 'Jorge Hernandez'
+    email: 'jorge.hernandez-herrero@att.com'
+    company: 'ATT'
+    id: 'jhh'
+    timezone: 'America/Illinois'
+  - name: 'Liam Fallon'
+    email: 'liam.fallon@est.tech'
+    company: 'Ericsson'
+    id: 'liamfallon'
+    timezone: 'Europe/Ireland'
+  - name: 'Adheli Tavares'
+    email: 'adheli.tavares@est.tech'
+    company: 'Ericsson'
+    id: 'adheli.tavares'
+    timezone: 'Europe/Ireland'
+tsc:
+  approval: 'https://lists.onap.org/pipermail/onap-tsc'
+  changes:
+    - type: ''
+      name: ''
+      link: ''
