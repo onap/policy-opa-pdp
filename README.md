@@ -13,3 +13,6 @@ docker build -f  ./build/Dockerfile  -t opa-pdp:1.1.1 .
 
 4.  docker logs -f opa-pdp
 
+
+
+
