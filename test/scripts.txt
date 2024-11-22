@@ -1,0 +1,21 @@
+ curl -u 'policyadmin:zb!XztG34' --header "Content-Type:application/yaml"  -X POST --data-binary @policy-new.yaml http://localhost:30002/policy/api/v1/policytypes
+
+# policy-new.yaml is inside test directory to create policy 
+#check policy-api logs
+
+
+//Create Groups
+
+curl -u 'policyadmin:zb!XztG34' --header "Content-Type:application/json"  -X POST --data-binary  @Opagroup.json http://localhost:30003/policy/pap/v1/pdps/groups/batch
+
+#Check policy-pap logs
+#file Opagroup.json is inside test
+
+// Sends registration message to policy-pdp-pap
+
+docker exec -it kafka /bin/sh 
+
+echo '{"messageName": "PDP_STATUS", "requestId": "e9b4ee77-5400-41a8-87ba-3c914a86ee08", "timestampMs": "1728551661460","name": "opa-2e953ecf-40f1-47f7-8a5e-53031947516c","pdpGroup": "opaGroup","pdpSubgroup": null, "pdpType": "opa","state": "PASSIVE","healthy": "HEALTHY", "description": null, "policies": []}' |  kafka-console-producer --broker-list kafka:9092 --topic policy-pdp-pap
+
+
+#To get Gracefulshutdown signals commented command and changed entrypoint to /app/opa-pdp
