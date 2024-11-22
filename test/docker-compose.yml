@@ -1,0 +1,143 @@
+version: '3.8'
+services:
+   mariadb:
+      image: nexus3.onap.org:10001/mariadb:10.10.2
+      container_name: mariadb
+      hostname: mariadb
+      command: ['--lower-case-table-names=1', '--wait_timeout=28800', '--default-authentication-plugin=mysql_native_password']
+      env_file: ./config/db/db.conf
+      volumes:
+         - ./config/db:/docker-entrypoint-initdb.d
+         - ./config/clamp/policy-clamp-create-tables.sql:/tmp/policy-clamp-create-tables.sql
+      ports:
+       - "3306:3306"
+   policy-db-migrator:
+      image: nexus3.onap.org:10001/onap/policy-db-migrator:4.0.1-SNAPSHOT
+      container_name: policy-db-migrator
+      hostname: policy-db-migrator
+      depends_on:
+        - mariadb
+      expose:
+       - 6824
+      env_file: ./config/db/db.conf
+      environment:
+        SQL_DB: policyadmin
+        SQL_HOST: mariadb
+      volumes:
+         - ./config/db-migrator/init.sh:/opt/app/policy/bin/db_migrator_policy_init.sh:ro
+         - ./wait_for_port.sh:/tmp/wait_for_port.sh
+      entrypoint: sh /tmp/wait_for_port.sh
+      command: [
+              '-c',
+                '/opt/app/policy/bin/db_migrator_policy_init.sh',
+                'mariadb', '3306'
+               ]
+   api:
+      image: nexus3.onap.org:10001/onap/policy-api:4.0.1-SNAPSHOT
+      container_name: policy-api
+      depends_on:
+       - policy-db-migrator
+      hostname: policy-api
+      ports:
+       - 30002:6969
+      volumes:
+       - ./config/api/apiParameters.yaml:/opt/app/policy/api/etc/apiParameters.yaml:ro
+       - ./config/api/logback.xml:/opt/app/policy/api/etc/logback.xml:ro
+       - ./wait_for_port.sh:/opt/app/policy/api/bin/wait_for_port.sh
+      entrypoint: sh wait_for_port.sh
+      command: [
+        '-c', './policy-api.sh',
+        'mariadb', '3306',
+        'policy-db-migrator', '6824'
+        ]
+   pap:
+      image: nexus3.onap.org:10001/onap/policy-pap:4.0.1-SNAPSHOT
+      container_name: policy-pap
+      depends_on:
+       - mariadb
+       - kafka
+       - api
+      hostname: policy-pap
+      ports:
+       - 30003:6969
+      volumes:
+       - ./config/pap/papParameters.yaml:/opt/app/policy/pap/etc/papParameters.yaml:ro
+       - ./config/pap/groups.json:/opt/app/policy/pap/etc/mounted/groups.json:ro
+       - ./config/pap/logback.xml:/opt/app/policy/pap/etc/logback.xml:ro
+       - ./wait_for_port.sh:/opt/app/policy/pap/bin/wait_for_port.sh
+      entrypoint: sh wait_for_port.sh
+      command: [
+        '-c', './policy-pap.sh',
+        'mariadb', '3306',
+        'kafka', '9092',
+        'api', '6969'
+        ]
+   zookeeper:
+     image: confluentinc/cp-zookeeper:latest
+     environment:
+       ZOOKEEPER_CLIENT_PORT: 2181
+       ZOOKEEPER_TICK_TIME: 2000
+     ports:
+       - 2181:2181
+
+   pdp:
+      image: docker.io/opa-pdp:1.0.0
+      container_name: opa-pdp
+      depends_on:
+       - mariadb
+       - kafka
+       - api
+       - pap
+      hostname: opa-pdp
+      volumes:
+       - ./config/opa-pdp/config.json:/app/config/config.json:ro
+       - ./config/opa-pdp/groups.json:/app/groups.json:ro
+       - ./config/opa-pdp/policy-opa-pdp.sh:/app/policy-opa-pdp.sh:ro
+       - ./wait_for_port.sh:/app/wait_for_port.sh
+       - ./scripts.sh:/app/scripts.sh
+       - ./Opagroup.json:/app/Opagroup.json
+       - ./policy-new.yaml:/app/policy-new.yaml
+       - type: bind
+         source: ./policies
+         target: /app/policies 
+
+      environment:
+        LOG_LEVEL: debug
+        KAFKA_URL: "kafka:9092"
+        PAP_TOPIC: policy-pdp-pap
+        GROUPID: opa-pdp
+        API_USER: policyadmin
+        API_PASSWORD: "zb!XztG34"
+      entrypoint: sh wait_for_port.sh
+      command: [
+        '-c', './policy-opa-pdp.sh',
+        'mariadb', '3306',
+        'kafka', '9092',
+        'api', '6969',
+        'pap', '6969'
+        ]
+      ports:
+        - 8282:8282
+   zookeeper:
+     image: confluentinc/cp-zookeeper:latest
+     environment:
+       ZOOKEEPER_CLIENT_PORT: 2181
+       ZOOKEEPER_TICK_TIME: 2000
+     ports:
+       - 2181:2181
+   
+   kafka:
+     image: confluentinc/cp-kafka:latest
+     container_name: kafka
+     depends_on:
+       - zookeeper
+     ports:
+       - 29092:29092
+       - 9092:9092
+     environment:
+       KAFKA_BROKER_ID: 1
+       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
