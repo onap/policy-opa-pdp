@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84763e64_8c2b4149",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2024-11-22T14:46:06Z",
+      "side": 1,
+      "message": "Why do we have the config files of other components added under the test package?",
+      "revId": "2abae8aaa56e7bf14609d7523c06dc94e728e25e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
