@@ -1,0 +1,15 @@
+{
+  "groups": [
+    {
+      "name": "defaultGroup",
+      "version": "1.0.0",
+      "description": "The default group that registers all supported policy types and pdps.",
+      "pdpGroupState": "ACTIVE",
+      "pdpSubgroups": [
+        {
+          "pdpType": "opa"
+        }
+      ]
+    }
+  ]
+}
