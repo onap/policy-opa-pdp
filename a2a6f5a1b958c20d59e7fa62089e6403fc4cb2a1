@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a62c3576_2f683023",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2024-11-25T08:55:20Z",
+      "side": 1,
+      "message": "jjb-deploy policy-opa-pdp-master-verify-golang",
+      "revId": "a2a6f5a1b958c20d59e7fa62089e6403fc4cb2a1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
