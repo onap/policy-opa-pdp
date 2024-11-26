@@ -128,6 +128,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1e84d33_776b8761",
+        "filename": "api/register-handlers.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-11-26T08:56:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bb877b72_e3c2cfc9",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 1
+      },
+      "revId": "2abae8aaa56e7bf14609d7523c06dc94e728e25e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82b7eb6e_a68845a6",
