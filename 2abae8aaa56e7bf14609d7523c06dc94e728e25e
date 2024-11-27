@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "90a97dd2_5269088c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-11-27T09:47:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b8c4f0a_5f49068f",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "2abae8aaa56e7bf14609d7523c06dc94e728e25e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "84763e64_8c2b4149",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -71,6 +95,30 @@
       "writtenOn": "2024-11-22T14:47:15Z",
       "side": 1,
       "message": "make sure there are no unnecessary blank spaces in files. they show as this pink space",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 11
+      },
+      "revId": "2abae8aaa56e7bf14609d7523c06dc94e728e25e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "300c3d06_5e6329cd",
+        "filename": "api/openapi.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-11-27T09:47:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc735606_3da800ff",
       "range": {
         "startLine": 25,
         "startChar": 10,
