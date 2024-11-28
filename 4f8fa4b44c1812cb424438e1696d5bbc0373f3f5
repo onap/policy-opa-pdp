@@ -48,6 +48,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "738a5e68_14bfddd1",
+        "filename": "api/register-handlers.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2024-11-28T14:49:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fbcdb3c7_2c2f794c",
+      "range": {
+        "startLine": 3,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 8
+      },
+      "revId": "4f8fa4b44c1812cb424438e1696d5bbc0373f3f5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fb32113_195d3948",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "In documentation of pap https://docs.onap.org/projects/onap-policy-parent/en/latest/pap/pap.html  search for zb!XztG34. it is provided hence I provided else users don\u0027t know how to run the examples.\nwe can remove it if you want to.\nAlso in docker-compose it is provided as environment variables this can be modified in docker-compose.\nenvironment:\n        API_USER: policyadmin\n        API_PASSWORD: \"zb!XztG34\"",
       "parentUuid": "1fb32113_195d3948",
+      "range": {
+        "startLine": 5,
+        "startChar": 9,
+        "endLine": 5,
+        "endChar": 30
+      },
+      "revId": "4f8fa4b44c1812cb424438e1696d5bbc0373f3f5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "647c334f_05017f6f",
+        "filename": "test/README.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2024-11-28T14:49:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ea068826_229d7587",
       "range": {
         "startLine": 5,
         "startChar": 9,
