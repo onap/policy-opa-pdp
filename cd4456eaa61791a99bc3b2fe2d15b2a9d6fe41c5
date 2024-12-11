@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac597ebb_08b62365",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-12-11T15:45:04Z",
+      "side": 1,
+      "message": "the commit message should be like:\n\nMy very short title\n\u003cblank line\u003e\nDescription.... (description preferably to be on the ticket)\n\u003cblank line\u003e\nIssue-ID\nChange-Id\nSign-off \n\nSo this way gerrit won\u0027t take the whole commit message as title",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "cd4456eaa61791a99bc3b2fe2d15b2a9d6fe41c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
