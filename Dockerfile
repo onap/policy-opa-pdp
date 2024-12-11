@@ -3,7 +3,7 @@ FROM curlimages/curl:7.78.0 AS build
 # Get OPA
 RUN curl -Lo /tmp/opa https://github.com/open-policy-agent/opa/releases/download/v0.69.0/opa_linux_amd64
 
-FROM golang:1.23 AS compile
+FROM dockerhub.devops.telekom.de/golang:1.23 AS compile
 
 RUN mkdir /app
 
@@ -35,7 +35,7 @@ RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/opa-pdp /app/cmd/o
 #COPY config.json /app/config.json
 #RUN chmod 644 /app/config.json
 
-FROM ubuntu
+FROM dockerhub.devops.telekom.de/ubuntu
 
 RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
 

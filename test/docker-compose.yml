@@ -99,7 +99,10 @@ services:
        - ./policy-new.yaml:/app/policy-new.yaml
        - type: bind
          source: ./policies
-         target: /app/policies 
+         target: /opt/policies 
+       - type: bind
+         source: ./data
+         target: /opt/data 
 
       environment:
         LOG_LEVEL: debug
@@ -108,6 +111,7 @@ services:
         GROUPID: opa-pdp
         API_USER: policyadmin
         API_PASSWORD: "zb!XztG34"
+        JAASLOGIN: org.apache.kafka.common.security.scram.ScramLoginModule required username="policy-opa-pdp-ku" password="pzmdwfFvBhv21mSD7dieHoUZf2aobdqR"
       entrypoint: sh wait_for_port.sh
       command: [
         '-c', './policy-opa-pdp.sh',
