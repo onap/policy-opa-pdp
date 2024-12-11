@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -20,8 +20,13 @@ package handler
 
 import (
 	"github.com/stretchr/testify/assert"
+	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/pdpattributes"
 	"testing"
+	//		"context"
+	//	       "encoding/json"
+	//		"errors"
+	//		"policy-opa-pdp/pkg/kafkacomm/mocks"
 )
 
 /*
@@ -36,7 +41,7 @@ func TestCheckIfMessageIsForOpaPdp_Check(t *testing.T) {
 
 	opapdpMessage.Name = "opa-3a318049-813f-4172-b4d3-7d4f466e5b80"
 	opapdpMessage.MessageType = "PDP_STATUS"
-	opapdpMessage.PdpGroup = "defaultGroup"
+	opapdpMessage.PdpGroup = "opaGroup"
 	opapdpMessage.PdpSubgroup = "opa"
 
 	assert.False(t, checkIfMessageIsForOpaPdp(opapdpMessage), "Its a valid Opa Pdp Message")
@@ -55,7 +60,7 @@ func TestCheckIfMessageIsForOpaPdp_Check_Message_Name(t *testing.T) {
 
 	opapdpMessage.Name = ""
 	opapdpMessage.MessageType = "PDP_STATUS"
-	opapdpMessage.PdpGroup = "defaultGroup"
+	opapdpMessage.PdpGroup = "opaGroup"
 	opapdpMessage.PdpSubgroup = "opa"
 
 	assert.False(t, checkIfMessageIsForOpaPdp(opapdpMessage), "Not a valid Opa Pdp Message")
@@ -74,7 +79,7 @@ func TestCheckIfMessageIsForOpaPdp_Check_PdpGroup(t *testing.T) {
 
 	opapdpMessage.Name = ""
 	opapdpMessage.MessageType = "PDP_STATUS"
-	opapdpMessage.PdpGroup = "defaultGroup"
+	opapdpMessage.PdpGroup = "opaGroup"
 	opapdpMessage.PdpSubgroup = "opa"
 
 	pdpattributes.PdpSubgroup = "opa"
@@ -113,7 +118,7 @@ func TestCheckIfMessageIsForOpaPdp_Check_PdpSubgroup(t *testing.T) {
 
 	opapdpMessage.Name = ""
 	opapdpMessage.MessageType = "PDP_STATUS"
-	opapdpMessage.PdpGroup = "defaultGroup"
+	opapdpMessage.PdpGroup = "opaGroup"
 	opapdpMessage.PdpSubgroup = "opa"
 
 	pdpattributes.PdpSubgroup = "opa"
@@ -133,10 +138,53 @@ func TestCheckIfMessageIsForOpaPdp_Check_IncorrectPdpSubgroup(t *testing.T) {
 
 	opapdpMessage.Name = ""
 	opapdpMessage.MessageType = "PDP_STATUS"
-	opapdpMessage.PdpGroup = "defaultGroup"
+	opapdpMessage.PdpGroup = "opaGroup"
 	opapdpMessage.PdpSubgroup = "o"
 
 	pdpattributes.PdpSubgroup = "opa"
 	assert.False(t, checkIfMessageIsForOpaPdp(opapdpMessage), "Not a valid Opa Pdp Message")
 
+}
+
+func TestCheckIfMessageIsForOpaPdp_EmptyPdpSubgroupAndGroup(t *testing.T) {
+	var opapdpMessage OpaPdpMessage
+	opapdpMessage.Name = ""
+	opapdpMessage.MessageType = "PDP_STATUS"
+	opapdpMessage.PdpGroup = ""
+	opapdpMessage.PdpSubgroup = ""
+
+	assert.False(t, checkIfMessageIsForOpaPdp(opapdpMessage), "Message should be invalid when PdpGroup and PdpSubgroup are empty")
+}
+
+func TestCheckIfMessageIsForOpaPdp_ValidBroadcastMessage(t *testing.T) {
+	var opapdpMessage OpaPdpMessage
+	opapdpMessage.Name = ""
+	opapdpMessage.MessageType = "PDP_UPDATE"
+	opapdpMessage.PdpGroup = "opaGroup"
+	opapdpMessage.PdpSubgroup = ""
+
+	pdpattributes.PdpSubgroup = "opa"
+	consts.PdpGroup = "opaGroup"
+
+	assert.True(t, checkIfMessageIsForOpaPdp(opapdpMessage), "Valid broadcast message should pass the check")
+}
+
+func TestCheckIfMessageIsForOpaPdp_InvalidGroupMismatch(t *testing.T) {
+	var opapdpMessage OpaPdpMessage
+	opapdpMessage.Name = ""
+	opapdpMessage.MessageType = "PDP_STATUS"
+	opapdpMessage.PdpGroup = "wrongGroup"
+	opapdpMessage.PdpSubgroup = ""
+
+	consts.PdpGroup = "opaGroup"
+
+	assert.False(t, checkIfMessageIsForOpaPdp(opapdpMessage), "Message with mismatched PdpGroup should fail")
+}
+
+// Test SetShutdownFlag and IsShutdown
+func TestSetAndCheckShutdownFlag(t *testing.T) {
+	assert.False(t, IsShutdown(), "Shutdown flag should be false initially")
+
+	SetShutdownFlag()
+	assert.True(t, IsShutdown(), "Shutdown flag should be true after calling SetShutdownFlag")
 }
