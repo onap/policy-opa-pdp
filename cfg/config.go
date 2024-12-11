@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -22,8 +22,10 @@
 package cfg
 
 import (
+	"fmt"
 	log "github.com/sirupsen/logrus"
 	"os"
+	"regexp"
 	"strconv"
 )
 
@@ -46,6 +48,7 @@ var (
 	UseSASLForKAFKA string
 	KAFKA_USERNAME  string
 	KAFKA_PASSWORD  string
+	JAASLOGIN       string
 )
 
 // Initializes the configuration settings.
@@ -65,8 +68,10 @@ func init() {
 	Username = getEnv("API_USER", "policyadmin")
 	Password = getEnv("API_PASSWORD", "zb!XztG34")
 	UseSASLForKAFKA = getEnv("UseSASLForKAFKA", "false")
-	KAFKA_USERNAME = getEnv("KAFKA_USERNAME", "strimzi-kafka-user")
-	KAFKA_PASSWORD = getEnv("KAFKA_PASSWORD", "kafkaSecretPassword123")
+	KAFKA_USERNAME, KAFKA_PASSWORD = getSaslJAASLOGINFromEnv(JAASLOGIN)
+	log.Debugf("Username: %s", KAFKA_USERNAME)
+	log.Debugf("Password: %s", KAFKA_PASSWORD)
+
 	log.Debug("Configuration module: environment initialised")
 }
 
@@ -100,4 +105,35 @@ func getLogLevel(key string, defaultVal string) log.Level {
 		log.Warnf("Invalid log level: %v. Log level will be Info!", logLevelStr)
 		return log.DebugLevel
 	}
+}
+
+func getSaslJAASLOGINFromEnv(JAASLOGIN string) (string, string) {
+	// Retrieve the value of the environment variable
+	decodingConfigBytes := getEnv("JAASLOGIN", "JAASLOGIN")
+	if decodingConfigBytes == "" {
+		return "", ""
+	}
+
+	decodedConfig := string(decodingConfigBytes)
+	fmt.Println("decodedConfig", decodedConfig)
+
+	// Extract username and password using regex
+	usernamePattern := `username=["'](.+?)["']`
+	passwordPattern := `password=["'](.+?)["']`
+
+	// Extract username
+	usernameMatch := regexp.MustCompile(usernamePattern).FindStringSubmatch(decodedConfig)
+	if len(usernameMatch) < 2 {
+		return "", ""
+	}
+	username := usernameMatch[1]
+
+	// Extract password
+	passwordMatch := regexp.MustCompile(passwordPattern).FindStringSubmatch(decodedConfig)
+	if len(passwordMatch) < 2 {
+		return "", ""
+	}
+	password := passwordMatch[1]
+
+	return username, password
 }
