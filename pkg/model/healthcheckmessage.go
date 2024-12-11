@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
 //   limitations under the License.
 //   ========================LICENSE_END===================================
 //
- 
+
 package model
- 
+
 type HealthCheckResponse struct {
-        Name    string `json:"name"`
-        Url     string `json:"url"`
-        Healthy bool   `json:"healthy"`
-        Code    int    `json:"code"`
-        Message string `json:"message"`
+	Name    string `json:"name"`
+	Url     string `json:"url"`
+	Healthy bool   `json:"healthy"`
+	Code    int    `json:"code"`
+	Message string `json:"message"`
 }
