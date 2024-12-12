@@ -1,7 +1,7 @@
 {
     "groups": [
         {
-            "name": "defaultGroup",
+            "name": "opaGroup",
             "pdpGroupState": "ACTIVE",
             "properties": {},
             "pdpSubgroups": [
