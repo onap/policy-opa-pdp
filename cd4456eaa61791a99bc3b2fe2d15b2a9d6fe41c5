@@ -22,6 +22,30 @@
       },
       "revId": "cd4456eaa61791a99bc3b2fe2d15b2a9d6fe41c5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efc0269f_e0676ea3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2024-12-12T13:04:35Z",
+      "side": 1,
+      "message": "We will take care here on.",
+      "parentUuid": "ac597ebb_08b62365",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "cd4456eaa61791a99bc3b2fe2d15b2a9d6fe41c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
