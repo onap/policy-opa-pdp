@@ -33,6 +33,57 @@
       "message": "recheck",
       "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e1ff80_f4d1e800",
+        "filename": "build_image.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 7833
+      },
+      "writtenOn": "2024-12-13T16:00:36Z",
+      "side": 1,
+      "message": "you can remove these unnecessary empty spaces",
+      "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c301f6a_e788dcf3",
+        "filename": "build_image.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 7833
+      },
+      "writtenOn": "2024-12-13T16:00:36Z",
+      "side": 1,
+      "message": "you can remove these unnecessary empty spaces",
+      "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a58fb4e_2dc619f4",
+        "filename": "build_image.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7833
+      },
+      "writtenOn": "2024-12-13T16:00:36Z",
+      "side": 1,
+      "message": "you can remove these unnecessary empty spaces",
+      "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
