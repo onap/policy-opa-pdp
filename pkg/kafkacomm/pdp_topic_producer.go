@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@ package kafkacomm
 
 import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"log"
 	"policy-opa-pdp/cfg"
 	"sync"
-	"log"
 )
 
 type KafkaProducerInterface interface {

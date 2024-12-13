@@ -1,6 +1,5 @@
-// -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -43,7 +42,7 @@ func TestPdpUpdateMessageHandler_Success(t *testing.T) {
 		"requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
 		"timestampMs":1730722305297,
 		"name":"opa-21cabb3e-f652-4ca6-b498-a77e62fcd059",
-		"pdpGroup":"defaultGroup",
+		"pdpGroup":"opaGroup",
 		"pdpSubgroup":"opa"
 	         }`
 
@@ -154,7 +153,7 @@ func TestPdpUpdateMessageHandler_Fails_Sending_UpdateResponse(t *testing.T) {
 		"requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
 		"timestampMs":1730722305297,
 		"name":"opa-21cabb3e-f652-4ca6-b498-a77e62fcd059",
-		"pdpGroup":"defaultGroup"
+		"pdpGroup":"opaGroup"
 	         }`
 
 	mockSender := new(mocks.PdpStatusSender)
@@ -183,7 +182,7 @@ func TestPdpUpdateMessageHandler_Invalid_Starttimeinterval(t *testing.T) {
 		"requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
 		"timestampMs":1730722305297,
 		"name":"opa-21cabb3e-f652-4ca6-b498-a77e62fcd059",
-		"pdpGroup":"defaultGroup",
+		"pdpGroup":"opaGroup",
 		"pdpSubgroup":"opa"
 	         }`
 
