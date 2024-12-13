@@ -33,6 +33,23 @@
       "message": "rechecking jenkins job for verify",
       "revId": "432866528ff82153edbb63b8d9c19062fef1cb10",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68f85f61_004a8854",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2024-12-13T15:21:35Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "432866528ff82153edbb63b8d9c19062fef1cb10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
