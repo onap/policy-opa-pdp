@@ -1,6 +1,6 @@
 #
 #  ========================LICENSE_START=================================
-#   Copyright (C) 2024: Deutsche Telecom
+#   Copyright (C) 2024: Deutsche Telekom
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -13,13 +13,14 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #  limitations under the License.
+#  SPDX-License-Identifier: Apache-2.0
 #  ========================LICENSE_END===================================
 #
 openapi: 3.0.3
 info:
   title: "Policy OPA PDP Documentation"
   description: Policy OPA PDP Service
-  version: 1.0.0
+  version: 1.0.2
   x-component: Policy Framework
   x-planned-retirement-date: tbd
   contact:
@@ -296,6 +297,10 @@ components:
           description: "Time offset in hours and minutes, e.g., '+02:00' or '-05:00'"
         policyName:
           type: string
+        policyFilter:
+          type: array
+          items:
+            type: string
         input:
           type: object
           additionalProperties: true
@@ -329,8 +334,12 @@ components:
           - PERMIT
           - DENY
           - INDETERMINATE
+          - NOTAPPLICABLE
         policyName:
           type: string
+        output:
+          type: object
+          additionalProperties: true
     StatisticsReport:
       type: object
       properties:
@@ -365,6 +374,12 @@ components:
           type: integer
           format: int64
         indeterminantDecisionsCount:
+          type: integer
+          format: int64
+        querySuccessCount:
+          type: integer
+          format: int64
+        queryFailureCount:
           type: integer
           format: int64
   securitySchemes:

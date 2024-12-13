@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
+//   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 //
 
@@ -76,15 +77,16 @@ func TestHandleShutdown(t *testing.T) {
 		Consumer: mockConsumer,
 	}
 	interruptChannel := make(chan os.Signal, 1)
+	_, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
 	go func() {
 		time.Sleep(500 * time.Millisecond)
 		interruptChannel <- os.Interrupt
 	}()
-
 	done := make(chan bool)
 	go func() {
-		handleShutdown(mockKafkaConsumer, interruptChannel)
+		handleShutdown(mockKafkaConsumer, interruptChannel, cancel)
 		done <- true
 	}()
 
@@ -145,14 +147,15 @@ func TestMainFunction(t *testing.T) {
 		return false // Simulate successful registration
 	}
 
-	handleMessagesFunc = func(kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
+	handleMessagesFunc = func(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
 		return
 	}
 
 	// Mock handleShutdown
 	interruptChannel := make(chan os.Signal, 1)
-	handleShutdownFunc = func(kc *kafkacomm.KafkaConsumer, interruptChan chan os.Signal) {
+	handleShutdownFunc = func(kc *kafkacomm.KafkaConsumer, interruptChan chan os.Signal, cancel context.CancelFunc) {
 		interruptChannel <- os.Interrupt
+		cancel()
 	}
 
 	// Run main function in a goroutine

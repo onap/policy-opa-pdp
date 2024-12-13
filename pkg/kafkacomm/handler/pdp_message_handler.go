@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
+//   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 
 // The handler package is responsible for processing messages from Kafka, specifically targeting the OPA
@@ -22,13 +23,34 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/pdpattributes"
+	"sync"
 )
+
+var (
+	shutdownFlag bool
+	mu           sync.Mutex
+)
+
+// SetShutdownFlag sets the shutdown flag
+func SetShutdownFlag() {
+	mu.Lock()
+	shutdownFlag = true
+	mu.Unlock()
+}
+
+// IsShutdown checks if the consumer has already been shut down
+func IsShutdown() bool {
+	mu.Lock()
+	defer mu.Unlock()
+	return shutdownFlag
+}
 
 type OpaPdpMessage struct {
 	Name        string `json:"name"`        // Name of the PDP (optional for broadcast messages).
@@ -74,58 +96,65 @@ func checkIfMessageIsForOpaPdp(message OpaPdpMessage) bool {
 
 // Handles incoming Kafka messages, validates their relevance to the current PDP,
 // and dispatches them for further processing based on their type.
-func PdpMessageHandler(kc *kafkacomm.KafkaConsumer, topic string, p publisher.PdpStatusSender) error {
+func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string, p publisher.PdpStatusSender) error {
 
 	log.Debug("Starting PDP Message Listener.....")
 	var stopConsuming bool
 	for !stopConsuming {
-		message, err := kafkacomm.ReadKafkaMessages(kc)
-		if err != nil {
-			log.Warnf("Failed to Read Kafka Messages: %v\n", err)
-			continue
-		}
-		log.Debugf("[IN|KAFKA|%s]\n%s", topic, string(message))
-
-		if message != nil {
-
-			var opaPdpMessage OpaPdpMessage
-
-			err = json.Unmarshal(message, &opaPdpMessage)
+		select {
+		case <-ctx.Done():
+			log.Debug("Stopping PDP Listener.....")
+			return nil
+			stopConsuming = true ///Loop Exits
+		default:
+			message, err := kafkacomm.ReadKafkaMessages(kc)
 			if err != nil {
-				log.Warnf("Failed to UnMarshal Messages: %v\n", err)
 				continue
 			}
+			log.Debugf("[IN|KAFKA|%s]\n%s", topic, string(message))
 
-			if !checkIfMessageIsForOpaPdp(opaPdpMessage) {
+			if message != nil {
 
-				log.Warnf("Not a valid Opa Pdp Message")
-				continue
-			}
+				var opaPdpMessage OpaPdpMessage
 
-			switch opaPdpMessage.MessageType {
-
-			case "PDP_UPDATE":
-				err = PdpUpdateMessageHandler(message, p)
+				err = json.Unmarshal(message, &opaPdpMessage)
 				if err != nil {
-					log.Warnf("Error processing Update Message: %v", err)
+					log.Warnf("Failed to UnMarshal Messages: %v\n", err)
+					continue
 				}
 
-			case "PDP_STATE_CHANGE":
-				err = PdpStateChangeMessageHandler(message, p)
-				if err != nil {
-					log.Warnf("Error processing Update Message: %v", err)
+				if !checkIfMessageIsForOpaPdp(opaPdpMessage) {
+
+					log.Warnf("Not a valid Opa Pdp Message")
+					continue
 				}
 
-			case "PDP_STATUS":
-				log.Debugf("discarding event of type PDP_STATUS")
-				continue
-			default:
-				log.Errorf("This is not a valid Message Type: %s", opaPdpMessage.MessageType)
-				continue
+				switch opaPdpMessage.MessageType {
+
+				case "PDP_UPDATE":
+					err = PdpUpdateMessageHandler(message, p)
+					if err != nil {
+						log.Warnf("Error processing Update Message: %v", err)
+					}
+
+				case "PDP_STATE_CHANGE":
+					err = PdpStateChangeMessageHandler(message, p)
+					if err != nil {
+						log.Warnf("Error processing Update Message: %v", err)
+					}
+
+				case "PDP_STATUS":
+					log.Debugf("discarding event of type PDP_STATUS")
+					continue
+				default:
+					log.Errorf("This is not a valid Message Type: %s", opaPdpMessage.MessageType)
+					continue
+
+				}
 
 			}
-
 		}
+
 	}
 	return nil
 

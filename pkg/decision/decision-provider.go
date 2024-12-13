@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
+//   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 
 // Package decision provides functionalities for handling decision requests using OPA (Open Policy Agent).
@@ -33,7 +34,7 @@ import (
 	"policy-opa-pdp/pkg/pdpstate"
 	"policy-opa-pdp/pkg/utils"
 	"strings"
-
+        "fmt"
 	"github.com/google/uuid"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/open-policy-agent/opa/sdk"
@@ -73,11 +74,12 @@ func writeErrorJSONResponse(res http.ResponseWriter, status int, errorDescriptio
 }
 
 // creates a decision response based on the provided parameters
-func createSuccessDecisionResponse(statusMessage, decision, policyName string) *oapicodegen.OPADecisionResponse {
+func createSuccessDecisionResponse(statusMessage, decision, policyName string, output map[string]interface{}) *oapicodegen.OPADecisionResponse {
 	return &oapicodegen.OPADecisionResponse{
 		StatusMessage: &statusMessage,
 		Decision:      (*oapicodegen.OPADecisionResponseDecision)(&decision),
 		PolicyName:    &policyName,
+		Output:        &output,
 	}
 }
 
@@ -181,12 +183,21 @@ func OpaDecision(res http.ResponseWriter, req *http.Request) {
 
 	log.Debugf("SDK making a decision")
 	options := sdk.DecisionOptions{Path: *decisionReq.PolicyName, Input: decisionReq.Input}
+
 	decision, err := opa.Decision(ctx, options)
+
+	jsonOutput, err := json.MarshalIndent(decision, "", "  ")
+	if err != nil {
+		log.Warnf("Error serializing decision output: %v\n", err)
+		return
+	}
+	log.Debugf("RAW opa Decision output:\n%s\n", string(jsonOutput))
 
 	// Check for errors in the OPA decision
 	if err != nil {
 		if strings.Contains(err.Error(), "opa_undefined_error") {
-			decisionRes := createSuccessDecisionResponse(err.Error(), string(oapicodegen.INDETERMINATE), *decisionReq.PolicyName)
+			decisionRes := createSuccessDecisionResponse(err.Error(), string(oapicodegen.INDETERMINATE),
+				*decisionReq.PolicyName, nil)
 			writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
 			metrics.IncrementIndeterminantDecisionsCount()
 			return
@@ -199,15 +210,128 @@ func OpaDecision(res http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	// Check the decision result
-	if decisionExcult, ok := decision.Result.(bool); !ok || !decisionExcult {
-		decisionRes := createSuccessDecisionResponse("OPA Denied", string(oapicodegen.DENY), *decisionReq.PolicyName)
+	var policyFilter []string
+	if decisionReq.PolicyFilter != nil {
+		policyFilter = *decisionReq.PolicyFilter
+	}
+
+	// Decision Result Processing
+	outputMap := make(map[string]interface{})
+	// Check if the decision result is a bool or a map
+	switch result := decision.Result.(type) {
+	case bool:
+		// If the result is a boolean (true/false)
+		if result {
+			// If "allow" is true, process filters if they exist
+			if len(policyFilter) > 0 {
+				// If filters are present, we apply them
+				decisionRes := createSuccessDecisionResponse("OPA Allowed", string(oapicodegen.PERMIT), *decisionReq.PolicyName, nil)
+				metrics.IncrementPermitDecisionsCount()
+				writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
+				return
+			}
+
+			// No filters provided, just allow the decision
+			decisionRes := createSuccessDecisionResponse("OPA Allowed", string(oapicodegen.PERMIT), *decisionReq.PolicyName, nil)
+			metrics.IncrementPermitDecisionsCount()
+			writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
+			return
+		}
+
+		// If "allow" is false
+		decisionRes := createSuccessDecisionResponse("OPA Denied", string(oapicodegen.DENY), *decisionReq.PolicyName, nil)
 		metrics.IncrementDenyDecisionsCount()
 		writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
 		return
-	} else {
-		decisionRes := createSuccessDecisionResponse("OPA Allowed", string(oapicodegen.PERMIT), *decisionReq.PolicyName)
-		metrics.IncrementPermitDecisionsCount()
+
+	case map[string]interface{}:
+		if len(policyFilter) > 0 {
+			// Apply the policy filter if present
+			filteredResult := applyPolicyFilter(result, policyFilter)
+			if filteredResultMap, ok := filteredResult.(map[string]interface{}); ok && len(filteredResultMap) > 0 {
+				outputMap = filteredResultMap
+			} else {
+				decisionRes := createSuccessDecisionResponse(
+					"No Decision: Result is Empty after applying filter",
+					string(oapicodegen.NOTAPPLICABLE),
+					*decisionReq.PolicyName, nil)
+				metrics.IncrementQueryFailureCount()
+				writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
+				return
+			}
+		} else {
+			// Process result without filters
+			var statusMessage string
+			boolValueFound := false
+			for key, value := range result {
+				if len(statusMessage) == 0 {
+					statusMessage = fmt.Sprintf("%s: %v", key, value)
+				} else {
+					statusMessage = fmt.Sprintf("%s ,%s: %v", statusMessage, key, value)
+				}
+				if boolVal, ok := value.(bool); ok {
+					boolValueFound = boolVal
+				}
+			}
+			// Return decision based on boolean value
+			if boolValueFound {
+				decisionRes := createSuccessDecisionResponse(statusMessage, string(oapicodegen.PERMIT),
+					*decisionReq.PolicyName, nil)
+				metrics.IncrementPermitDecisionsCount()
+				writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
+				return
+			} else {
+				decisionRes := createSuccessDecisionResponse(statusMessage, string(oapicodegen.DENY),
+					*decisionReq.PolicyName, nil)
+				metrics.IncrementDenyDecisionsCount()
+				writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
+				return
+			}
+
+		}
+
+		// If only non-boolean values were collected
+		if len(outputMap) > 0 {
+			decisionRes := createSuccessDecisionResponse(
+				"Decision Not Applicable, Output Only",
+				string(oapicodegen.NOTAPPLICABLE),
+				*decisionReq.PolicyName, outputMap)
+			metrics.IncrementQuerySuccessCount()
+			writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
+		} else {
+			decisionRes := createSuccessDecisionResponse(
+				"No Decision: Result is Empty",
+				string(oapicodegen.NOTAPPLICABLE),
+				*decisionReq.PolicyName, nil)
+			metrics.IncrementQueryFailureCount()
+			writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
+		}
+		return
+
+	default:
+		// Handle unexpected types in decision.Result
+		decisionRes := createSuccessDecisionResponse("Invalid decision result format", string(oapicodegen.DENY), *decisionReq.PolicyName, nil)
+		metrics.IncrementDenyDecisionsCount()
 		writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
+		return
 	}
+
+}
+
+// Function to apply policy filter to decision result
+func applyPolicyFilter(result map[string]interface{}, filters []string) interface{} {
+
+	// Assuming filter matches specific keys or values
+	filteredOutput := make(map[string]interface{})
+	for key, value := range result {
+		for _, filter := range filters {
+			if strings.Contains(key, filter) {
+				filteredOutput[key] = value
+				break
+			}
+
+		}
+	}
+
+	return filteredOutput
 }
