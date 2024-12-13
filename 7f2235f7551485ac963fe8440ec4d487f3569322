@@ -16,6 +16,23 @@
       "message": "jjb-deploy policy-opa-pdp-master-merge-golang",
       "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d34fce88_a77f9c0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2024-12-13T15:21:08Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
