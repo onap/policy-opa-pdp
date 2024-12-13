@@ -137,6 +137,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef1744fa_6b6e9212",
+        "filename": "Makefile",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2024-12-13T13:14:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cf69b331_d035f97d",
+      "revId": "39c2ed832a832ef5507ac0ad705b1b5a47d15579",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc5e5b35_030233b3",
@@ -150,6 +168,24 @@
       "writtenOn": "2024-12-12T20:32:25Z",
       "side": 1,
       "message": "If you call this script from a verify job it won\u0027t work as per it shouldn\u0027t be releasing artifacts.\nYou can make a separate script named \u0027release_image\u0027 with docker push commands so it can be called from a merge job and this build_image.sh script works accordingly under a verify job",
+      "revId": "39c2ed832a832ef5507ac0ad705b1b5a47d15579",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "278ce76d_ce0da803",
+        "filename": "build_image.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2024-12-13T13:14:03Z",
+      "side": 1,
+      "message": "this script call happens from makefile. i have modified such that this script is called only for merge action",
+      "parentUuid": "bc5e5b35_030233b3",
       "revId": "39c2ed832a832ef5507ac0ad705b1b5a47d15579",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }

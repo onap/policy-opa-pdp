@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "541334c2_e84ecc26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2024-12-13T13:14:03Z",
+      "side": 1,
+      "message": "jjb-deploy policy-opa-pdp-master-merge-golang",
+      "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
