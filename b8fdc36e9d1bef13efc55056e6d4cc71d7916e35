@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3526b5d0_93679330",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2024-12-13T14:00:25Z",
+      "side": 1,
+      "message": "This can be reviewed and merged once the other review for fixing the verify job is merged.",
+      "revId": "b8fdc36e9d1bef13efc55056e6d4cc71d7916e35",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
