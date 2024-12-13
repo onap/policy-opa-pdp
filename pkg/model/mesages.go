@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
+//   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 
 // Defines structure for messages exchanged between PDP and PAP
@@ -65,35 +66,35 @@ func (p PdpMessageType) MarshalJSON() ([]byte, error) {
 // https://github.com/onap/policy-models
 // models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java
 type PdpStatus struct {
-	MessageType PdpMessageType           `json:"messageName"`
-	PdpType     string                   `json:"pdpType"`
-	State       PdpState                 `json:"state"`
-	Healthy     PdpHealthStatus          `json:"healthy"`
-	Description string                   `json:"description"`
-	PdpResponse *PdpResponseDetails      `json:"response"`
-	Policies    []ToscaConceptIdentifier `json:"policies"`
-	Name        string                   `json:"name"`
-	RequestID   string                   `json:"requestId"`
-	PdpGroup    string                   `json:"pdpGroup"`
-	PdpSubgroup *string                  `json:"pdpSubgroup"`
-	TimestampMs string                   `json:"timestampMs"`
-	DeploymentInstanceInfo string        `json:"deploymentInstanceInfo"`
+	MessageType            PdpMessageType           `json:"messageName"`
+	PdpType                string                   `json:"pdpType"`
+	State                  PdpState                 `json:"state"`
+	Healthy                PdpHealthStatus          `json:"healthy"`
+	Description            string                   `json:"description"`
+	PdpResponse            *PdpResponseDetails      `json:"response"`
+	Policies               []ToscaConceptIdentifier `json:"policies"`
+	Name                   string                   `json:"name"`
+	RequestID              string                   `json:"requestId"`
+	PdpGroup               string                   `json:"pdpGroup"`
+	PdpSubgroup            *string                  `json:"pdpSubgroup"`
+	TimestampMs            string                   `json:"timestampMs"`
+	DeploymentInstanceInfo string                   `json:"deploymentInstanceInfo"`
 }
 
 // PDP_UPDATE sent by PAP to PDP.
 // https://github.com/onap/policy-models
 // models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpUpdate.java
 type PdpUpdate struct {
-	Source                 string                    `json:"source" validate:"required"`
-	PdpHeartbeatIntervalMs int64                     `json:"pdpHeartbeatIntervalMs" validate:"required"`
-	MessageType            string                    `json:"messageName" validate:"required"`
-	PoliciesToBeDeloyed    []string                  `json:"policiesToBeDeployed" validate:"required"`
-	policiesToBeUndeployed []ToscaConceptIdentifier  `json:"policiesToBeUndeployed"`
-	Name                   string                    `json:"name" validate:"required"`
-	TimestampMs            int64                     `json:"timestampMs" validate:"required"`
-	PdpGroup               string                    `json:"pdpGroup" validate:"required"`
-	PdpSubgroup            string                    `json:"pdpSubgroup" validate:"required"`
-	RequestId              string                    `json:"requestId" validate:"required"`
+	Source                 string                   `json:"source" validate:"required"`
+	PdpHeartbeatIntervalMs int64                    `json:"pdpHeartbeatIntervalMs" validate:"required"`
+	MessageType            string                   `json:"messageName" validate:"required"`
+	PoliciesToBeDeloyed    []string                 `json:"policiesToBeDeployed" validate:"required"`
+	policiesToBeUndeployed []ToscaConceptIdentifier `json:"policiesToBeUndeployed"`
+	Name                   string                   `json:"name" validate:"required"`
+	TimestampMs            int64                    `json:"timestampMs" validate:"required"`
+	PdpGroup               string                   `json:"pdpGroup" validate:"required"`
+	PdpSubgroup            string                   `json:"pdpSubgroup" validate:"required"`
+	RequestId              string                   `json:"requestId" validate:"required"`
 }
 
 // PDP_STATE_CHANGE sent by PAP to PDP.

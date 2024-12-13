@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,15 +13,16 @@
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
+//   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 //
- 
+
 package model
- 
+
 type HealthCheckResponse struct {
-        Name    string `json:"name"`
-        Url     string `json:"url"`
-        Healthy bool   `json:"healthy"`
-        Code    int    `json:"code"`
-        Message string `json:"message"`
+	Name    string `json:"name"`
+	Url     string `json:"url"`
+	Healthy bool   `json:"healthy"`
+	Code    int    `json:"code"`
+	Message string `json:"message"`
 }

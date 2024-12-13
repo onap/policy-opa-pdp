@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
+//   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 
 // Package consts provides constant values used throughout the policy-opa-pdp service.
@@ -47,18 +48,19 @@ package consts
 //	OkCode              - The Code for HealthCheck response
 //	HealthCheckMessage  - The Healtcheck Message
 var (
-	LogFilePath         = "/var/logs/logs.log"
-	LogMaxSize          = 10
-	LogMaxBackups       = 3
-	OpasdkConfigPath    = "/app/config/config.json"
-	Opa                 = "/app/opa"
-	BuildBundle         = "build"
-	Policies            = "/app/policies"
-	Data                = "/app/policies/data"
-	Output              = "-o"
-	BundleTarGz         = "bundle.tar.gz"
-	BundleTarGzFile     = "/app/bundles/bundle.tar.gz"
-	PdpGroup            = "defaultGroup"
+	LogFilePath      = "/var/logs/logs.log"
+	LogMaxSize       = 10
+	LogMaxBackups    = 3
+	OpasdkConfigPath = "/app/config/config.json"
+	Opa              = "/app/opa"
+	BuildBundle      = "build"
+	Policies         = "/opt/policies"
+	Data             = "/opt/data"
+	Output           = "-o"
+	BundleTarGz      = "bundle.tar.gz"
+	BundleTarGzFile  = "/app/bundles/bundle.tar.gz"
+	PdpGroup         = "opaGroup"
+	//This is a workaround as currently opa-pdp is not defined in the PapDB  defaultGroup configuration  and creating it manually overrides the existing configuration, so currently PdpGroup is opaGroup and it will be changed to defaultGroup once added in the configuration.
 	PdpType             = "opa"
 	ServerPort          = ":8282"
 	SERVER_WAIT_UP_TIME = 5

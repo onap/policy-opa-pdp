@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
+//   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 
 // Package main is the entry point for the policy-opa-pdp service.
@@ -62,6 +63,9 @@ var (
 func main() {
 	log.Debugf("Starting OPA PDP Service")
 
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	// Initialize Handlers and Build Bundle
 	initializeHandlersFunc()
 	if err := initializeBundleFunc(exec.Command); err != nil {
@@ -85,7 +89,7 @@ func main() {
 
 	// Start Kafka Consumer and producer
 	kc, producer, err := startKafkaConsAndProdFunc()
-	if err != nil {
+	if err != nil || kc == nil {
 		log.Warnf("Kafka consumer initialization failed: %v", err)
 	}
 	defer producer.Close()
@@ -97,19 +101,24 @@ func main() {
 		return
 	}
 
-
 	// start pdp message handler in a seperate routine
-	handleMessagesFunc(kc, sender)
+	handleMessagesFunc(ctx, kc, sender)
 
 	// Handle OS Interrupts and Graceful Shutdown
 	interruptChannel := make(chan os.Signal, 1)
 	signal.Notify(interruptChannel, os.Interrupt, syscall.SIGTERM, syscall.SIGINT, syscall.SIGHUP)
-	handleShutdownFunc(kc, interruptChannel)
+	handleShutdownFunc(kc, interruptChannel, cancel)
 }
 
 // starts pdpMessage Handler in a seperate routine which handles incoming messages on Kfka topic
-func handleMessages(kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
-	go handler.PdpMessageHandler(kc, topic, sender)
+func handleMessages(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
+
+	go func() {
+		err := handler.PdpMessageHandler(ctx, kc, topic, sender)
+		if err != nil {
+			log.Warnf("Erro in PdpUpdate Message Handler: %v", err)
+		}
+	}()
 }
 
 // register pdp with PAP
@@ -180,7 +189,7 @@ func startKafkaConsAndProd() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer
 	return kc, producer, nil
 }
 
-func handleShutdown(kc *kafkacomm.KafkaConsumer, interruptChannel chan os.Signal) {
+func handleShutdown(kc *kafkacomm.KafkaConsumer, interruptChannel chan os.Signal, cancel context.CancelFunc) {
 
 myLoop:
 	for {
@@ -190,15 +199,27 @@ myLoop:
 			break myLoop
 		}
 	}
-
+	cancel()
+	log.Debugf("Loop Exited and shutdown started")
 	signal.Stop(interruptChannel)
 
-	if kc != nil {
-		kc.Consumer.Unsubscribe()
-		kc.Consumer.Close()
-		log.Debug("Consumer Unsubscribed and Closed......")
+	if kc == nil {
+		log.Debugf("kc is nil so skipping")
+		return
 	}
 
+	if err := kc.Consumer.Unsubscribe(); err != nil {
+		log.Warnf("Failed to unsubscribe consumer: %v", err)
+	} else {
+		log.Debugf("Consumer Unsubscribed....")
+	}
+	if err := kc.Consumer.Close(); err != nil {
+		log.Debug("Failed to close consumer......")
+	} else {
+		log.Debugf("Consumer closed....")
+	}
+
+	handler.SetShutdownFlag()
 	publisher.StopTicker()
 
 	time.Sleep(time.Duration(consts.SHUTDOWN_WAIT_TIME) * time.Second)

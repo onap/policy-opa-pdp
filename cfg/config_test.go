@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telecom
+//   Copyright (C) 2024: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
+//   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 //
 
@@ -20,6 +21,7 @@ package cfg
 
 import (
 	log "github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
 )
@@ -73,4 +75,59 @@ func TestGetLogLevel(t *testing.T) {
 	if val := getLogLevel("NON_EXISTENT_LOG_LEVEL", defaultVal); val != log.InfoLevel {
 		t.Errorf("Expected %v, got %v", log.InfoLevel, val)
 	}
+}
+
+func TestGetSaslJAASLOGINFromEnv(t *testing.T) {
+	// Define mock JAASLOGIN value
+	mockJAASLOGIN := `username="mockUser" password="mockPassword"`
+
+	// Set the mock environment variable
+	os.Setenv("JAASLOGIN", mockJAASLOGIN)
+	defer os.Unsetenv("JAASLOGIN") // Ensure the environment variable is unset after the test
+
+	// Call the function
+	username, password := getSaslJAASLOGINFromEnv("JAASLOGIN")
+
+	// Validate the result
+	assert.Equal(t, "mockUser", username, "Expected username to match mock value")
+	assert.Equal(t, "mockPassword", password, "Expected password to match mock value")
+}
+
+func TestGetSaslJAASLOGINFromEnv_InvalidEnv(t *testing.T) {
+	// Set the mock environment variable with an invalid format
+	mockJAASLOGIN := `username="mockUser" password=mockPassword`
+	os.Setenv("JAASLOGIN", mockJAASLOGIN)
+	defer os.Unsetenv("JAASLOGIN") // Ensure the environment variable is unset after the test
+
+	// Call the function
+	username, password := getSaslJAASLOGINFromEnv("JAASLOGIN")
+
+	// Validate that the function returns empty strings for invalid input
+	assert.Empty(t, username, "Expected username to be empty for invalid format")
+	assert.Empty(t, password, "Expected password to be empty for invalid format")
+}
+
+func TestGetSaslJAASLOGINFromEnv_EmptyEnv(t *testing.T) {
+	// Set an empty environment variable
+	os.Setenv("JAASLOGIN", "")
+	defer os.Unsetenv("JAASLOGIN") // Ensure the environment variable is unset after the test
+
+	// Call the function
+	username, password := getSaslJAASLOGINFromEnv("JAASLOGIN")
+
+	// Validate that the function returns empty strings for an empty value
+	assert.Empty(t, username, "Expected username to be empty for empty environment variable")
+	assert.Empty(t, password, "Expected password to be empty for empty environment variable")
+}
+
+func TestGetSaslJAASLOGINFromEnv_MissingEnv(t *testing.T) {
+	// Unset the environment variable to simulate missing variable
+	os.Unsetenv("JAASLOGIN")
+
+	// Call the function
+	username, password := getSaslJAASLOGINFromEnv("JAASLOGIN")
+
+	// Validate that the function returns empty strings for a missing environment variable
+	assert.Empty(t, username, "Expected username to be empty for missing environment variable")
+	assert.Empty(t, password, "Expected password to be empty for missing environment variable")
 }
