@@ -52,6 +52,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d2345fa_6b2fd335",
+        "filename": "build_image.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2024-12-13T16:55:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "05e1ff80_f4d1e800",
+      "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c301f6a_e788dcf3",
@@ -69,6 +87,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eef353dc_90829751",
+        "filename": "build_image.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2024-12-13T16:55:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7c301f6a_e788dcf3",
+      "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a58fb4e_2dc619f4",
@@ -82,6 +118,24 @@
       "writtenOn": "2024-12-13T16:00:36Z",
       "side": 1,
       "message": "you can remove these unnecessary empty spaces",
+      "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c30e529_124c74d6",
+        "filename": "build_image.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2024-12-13T16:55:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0a58fb4e_2dc619f4",
       "revId": "7f2235f7551485ac963fe8440ec4d487f3569322",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
