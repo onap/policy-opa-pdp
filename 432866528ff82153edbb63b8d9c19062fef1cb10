@@ -67,6 +67,52 @@
       "message": "recheck",
       "revId": "432866528ff82153edbb63b8d9c19062fef1cb10",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b7df56_905a9233",
+        "filename": "api/openapi.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2024-12-15T23:22:04Z",
+      "side": 1,
+      "message": "Please add SPDX License Identifier before the last line. Applicable for all files.\n\nSPDX-License-Identifier: Apache-2.0",
+      "range": {
+        "startLine": 16,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 38
+      },
+      "revId": "432866528ff82153edbb63b8d9c19062fef1cb10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3f0fffa_6531be7b",
+        "filename": "build_image.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2024-12-15T23:22:04Z",
+      "side": 1,
+      "message": "Please remove any unwanted trailing spaces in all files.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 4
+      },
+      "revId": "432866528ff82153edbb63b8d9c19062fef1cb10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
