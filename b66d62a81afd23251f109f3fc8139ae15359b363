@@ -16,6 +16,46 @@
       "message": "recheck",
       "revId": "b66d62a81afd23251f109f3fc8139ae15359b363",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d91131_86786fad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-12-16T09:24:32Z",
+      "side": 1,
+      "message": "your review needs rebase as it has merge conflicts.",
+      "revId": "b66d62a81afd23251f109f3fc8139ae15359b363",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad33fe66_2db08002",
+        "filename": "api/openapi.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-12-16T09:24:32Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "range": {
+        "startLine": 341,
+        "startChar": 22,
+        "endLine": 341,
+        "endChar": 23
+      },
+      "revId": "b66d62a81afd23251f109f3fc8139ae15359b363",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
