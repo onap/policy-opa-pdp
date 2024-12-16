@@ -8,9 +8,9 @@ SLEEP_BETWEEN_RETRIES ?= 5
 
 all: test build
 
-build: install clean go_build test cover
+build: install clean go_build test coveri build_image
 
-deploy: install clean build_image
+deploy: build_image
 
 .PHONY: test
 test:

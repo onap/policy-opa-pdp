@@ -31,14 +31,13 @@ GO_URL="https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz"
 if [ -f "$VERSION_FILE" ]; then
     VERSION=`cat version|xargs echo`;
 else
-    VERSION=1.0.0;
+    VERSION=1.0.0-SNAPSHOT;
 fi
 
 
 function  _build_docker_and_push_image {
     local tag_name=${IMAGE_NAME}:${VERSION}
 
-    docker login -u docker -p docker nexus3.onap.org:10003
     docker build -f  Dockerfile  -t policy-opa-pdp:${VERSION} .
     echo "Start push {$tag_name}"
     docker tag policy-opa-pdp:${VERSION} ${IMAGE_NAME}:latest
