@@ -155,6 +155,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ec82f10_60e57b1e",
+        "filename": "Makefile",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8492
+      },
+      "writtenOn": "2024-12-16T06:35:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cf69b331_d035f97d",
+      "revId": "39c2ed832a832ef5507ac0ad705b1b5a47d15579",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc5e5b35_030233b3",
@@ -185,6 +203,24 @@
       "writtenOn": "2024-12-13T13:14:03Z",
       "side": 1,
       "message": "this script call happens from makefile. i have modified such that this script is called only for merge action",
+      "parentUuid": "bc5e5b35_030233b3",
+      "revId": "39c2ed832a832ef5507ac0ad705b1b5a47d15579",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55e93ff6_f19f0903",
+        "filename": "build_image.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 8492
+      },
+      "writtenOn": "2024-12-16T06:35:27Z",
+      "side": 1,
+      "message": "Ack",
       "parentUuid": "bc5e5b35_030233b3",
       "revId": "39c2ed832a832ef5507ac0ad705b1b5a47d15579",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
