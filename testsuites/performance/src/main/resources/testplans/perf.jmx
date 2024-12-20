@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Policy OPA PDP Performance">
+      <stringProp name="TestPlan.comments">Policy OPA PDP Performance Tests</stringProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="DURATION" elementType="Argument">
+            <stringProp name="Argument.name">DURATION</stringProp>
+            <stringProp name="Argument.value">${__P(duration, 1200)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="USERS" elementType="Argument">
+            <stringProp name="Argument.name">USERS</stringProp>
+            <stringProp name="Argument.value">${__P(users, 10)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="HTTP" elementType="Argument">
+            <stringProp name="Argument.name">HTTP</stringProp>
+            <stringProp name="Argument.value">http</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="API_HOST" elementType="Argument">
+            <stringProp name="Argument.name">API_HOST</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="PAP_HOST" elementType="Argument">
+            <stringProp name="Argument.name">PAP_HOST</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="OPA_PDP_HOST" elementType="Argument">
+            <stringProp name="Argument.name">OPA_PDP_HOST</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="API_PORT" elementType="Argument">
+            <stringProp name="Argument.name">API_PORT</stringProp>
+            <stringProp name="Argument.value">${__P(api_port, 30002)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="PAP_PORT" elementType="Argument">
+            <stringProp name="Argument.name">PAP_PORT</stringProp>
+            <stringProp name="Argument.value">${__P(pap_port, 30003)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="OPA_PDP_PORT" elementType="Argument">
+            <stringProp name="Argument.name">OPA_PDP_PORT</stringProp>
+            <stringProp name="Argument.value">${__P(opa_pdp_port, 30012)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="API_USER" elementType="Argument">
+            <stringProp name="Argument.name">API_USER</stringProp>
+            <stringProp name="Argument.value">policyadmin</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="PAP_USER" elementType="Argument">
+            <stringProp name="Argument.name">PAP_USER</stringProp>
+            <stringProp name="Argument.value">policyadmin</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="OPA_PDP_USER" elementType="Argument">
+            <stringProp name="Argument.name">OPA_PDP_USER</stringProp>
+            <stringProp name="Argument.value">policyadmin</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="API_PASSWORD" elementType="Argument">
+            <stringProp name="Argument.name">API_PASSWORD</stringProp>
+            <stringProp name="Argument.value">zb!XztG34</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="PAP_PASSWORD" elementType="Argument">
+            <stringProp name="Argument.name">PAP_PASSWORD</stringProp>
+            <stringProp name="Argument.value">zb!XztG34</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="OPA_PDP_PASSWORD" elementType="Argument">
+            <stringProp name="Argument.name">OPA_PDP_PASSWORD</stringProp>
+            <stringProp name="Argument.value">zb!XztG34</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+        <collectionProp name="HeaderManager.headers">
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Content-Type</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
+          </elementProp>
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Accept</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
+          </elementProp>
+        </collectionProp>
+      </HeaderManager>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy OPA PDP Health Check" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
+        <intProp name="ThreadGroup.ramp_time">10</intProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <longProp name="ThreadGroup.delay">1</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Check Health" enabled="true">
+          <stringProp name="TestPlan.comments">Basic Health Check</stringProp>
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpx/v1/healthcheck</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+            <stringProp name="Assertion.scope">all</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import groovy.json.JsonSlurper;
+
+def res = [];
+if (prev.getResponseCode() == &apos;200&apos;) {
+    def jsonSlurper = new JsonSlurper();
+    res = jsonSlurper.parseText(prev.getResponseDataAsString());
+
+    assert res instanceof Map;
+    assert res.code == 200;
+
+}</stringProp>
+          </JSR223Assertion>
+          <hashTree/>
+        </hashTree>
+        <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+          <collectionProp name="AuthManager.auth_list">
+            <elementProp name="" elementType="Authorization">
+              <stringProp name="Authorization.url">${HTTP}://${OPA_PDP_HOST}:${OPA_PDP_PORT}/policy/pdpx/v1</stringProp>
+              <stringProp name="Authorization.username">${OPA_PDP_USER}</stringProp>
+              <stringProp name="Authorization.password">${OPA_PDP_PASSWORD}</stringProp>
+              <stringProp name="Authorization.domain"></stringProp>
+              <stringProp name="Authorization.realm"></stringProp>
+            </elementProp>
+          </collectionProp>
+          <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+          <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+        </AuthManager>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename">/tmp/pdpx_perf_health.log</stringProp>
+          <stringProp name="TestPlan.comments">	</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="OPA  PDP Decisions" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
+        <intProp name="ThreadGroup.ramp_time">10</intProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <longProp name="ThreadGroup.delay">1</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Verification API Call 1" enabled="true">
+          <stringProp name="TestPlan.comments">Get Verification API Call 1</stringProp>
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
+  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
+  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
+  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
+  &quot;policyName&quot;: &quot;example/allow&quot;,&#xd;
+  &quot;input&quot;: {&#xd;
+    &quot;method&quot;: &quot;POST&quot;,&#xd;
+    &quot;path&quot;: [&#xd;
+      &quot;users&quot;&#xd;
+    ]&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1938393061">PERMIT</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Verification API Call 2" enabled="true">
+          <stringProp name="TestPlan.comments">Get Verification API Call 2</stringProp>
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
+  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
+  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
+  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
+  &quot;policyName&quot;: &quot;role/allow&quot;,&#xd;
+  &quot;input&quot;: {&#xd;
+    &quot;user&quot;: &quot;alice&quot;,&#xd;
+    &quot;action&quot;: &quot;write&quot;,&#xd;
+    &quot;object&quot;: &quot;id123&quot;,&#xd;
+    &quot;type&quot;: &quot;dog&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1938393061">PERMIT</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PERMIT for policy:action" enabled="true">
+          <stringProp name="TestPlan.comments">PERMIT for policy:action</stringProp>
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
+  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
+  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
+  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
+  &quot;policyName&quot;: &quot;action/allow&quot;,&#xd;
+  &quot;input&quot;: {&#xd;
+    &quot;user&quot;: &quot;alice&quot;,&#xd;
+    &quot;action&quot;: &quot;delete&quot;,&#xd;
+    &quot;type&quot;: &quot;server&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1938393061">PERMIT</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DENY for policy:action" enabled="true">
+          <stringProp name="TestPlan.comments">DENY for policy:action</stringProp>
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
+  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
+  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
+  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
+  &quot;policyName&quot;: &quot;action/allow&quot;,&#xd;
+  &quot;input&quot;: {&#xd;
+    &quot;user&quot;: &quot;charlie&quot;,&#xd;
+    &quot;action&quot;: &quot;delete&quot;,&#xd;
+    &quot;type&quot;: &quot;server&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="2094604">DENY</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PERMIT for policy:account" enabled="true">
+          <stringProp name="TestPlan.comments">PERMIT for policy:account</stringProp>
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
+  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
+  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
+  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
+  &quot;policyName&quot;: &quot;account/allow&quot;,&#xd;
+  &quot;input&quot;: {&#xd;
+    &quot;creditor_account&quot;: 11111,&#xd;
+    &quot;creditor&quot;: &quot;alice&quot;,&#xd;
+    &quot;debtor_account&quot;: 22222,&#xd;
+    &quot;debtor&quot;: &quot;bob&quot;,&#xd;
+    &quot;period&quot;: 30,&#xd;
+    &quot;amount&quot;: 1000&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1938393061">PERMIT</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DENY for policy:account" enabled="true">
+          <stringProp name="TestPlan.comments">DENY for policy:account</stringProp>
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
+  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
+  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
+  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
+  &quot;policyName&quot;: &quot;account/allow&quot;,&#xd;
+  &quot;input&quot;: {&#xd;
+    &quot;creditor_account&quot;: 11111,&#xd;
+    &quot;creditor&quot;: &quot;alice&quot;,&#xd;
+    &quot;debtor_account&quot;: 22222,&#xd;
+    &quot;debtor&quot;: &quot;bob&quot;,&#xd;
+    &quot;period&quot;: 31,&#xd;
+    &quot;amount&quot;: 1000&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="2094604">DENY</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PERMIT for policy:organization" enabled="true">
+          <stringProp name="TestPlan.comments">PERMIT for policy:organization</stringProp>
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
+  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
+  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
+  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
+  &quot;policyName&quot;: &quot;organization/allow&quot;,&#xd;
+  &quot;input&quot;: {&#xd;
+    &quot;user&quot;: &quot;alice&quot;,&#xd;
+    &quot;action&quot;: &quot;read&quot;,&#xd;
+    &quot;component&quot;: &quot;component_A&quot;,&#xd;
+    &quot;project&quot;: &quot;project_A&quot;,&#xd;
+    &quot;organization&quot;: &quot;org_A&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1938393061">PERMIT</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DENY for policy:organization" enabled="true">
+          <stringProp name="TestPlan.comments">DENY for policy:organization</stringProp>
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
+  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
+  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
+  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
+  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
+  &quot;policyName&quot;: &quot;organization/allow&quot;,&#xd;
+  &quot;input&quot;: {&#xd;
+    &quot;user&quot;: &quot;charlie&quot;,&#xd;
+    &quot;action&quot;: &quot;edit&quot;,&#xd;
+    &quot;component&quot;: &quot;component_A&quot;,&#xd;
+    &quot;project&quot;: &quot;project_A&quot;,&#xd;
+    &quot;organization&quot;: &quot;org_A&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="2094604">DENY</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+          <collectionProp name="AuthManager.auth_list">
+            <elementProp name="" elementType="Authorization">
+              <stringProp name="Authorization.url">${HTTP}://${OPA_PDP_HOST}:${OPA_PDP_PORT}/policy/pdpx/v1</stringProp>
+              <stringProp name="Authorization.username">${OPA_PDP_USER}</stringProp>
+              <stringProp name="Authorization.password">${OPA_PDP_PASSWORD}</stringProp>
+              <stringProp name="Authorization.domain"></stringProp>
+              <stringProp name="Authorization.realm"></stringProp>
+            </elementProp>
+          </collectionProp>
+          <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+          <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+        </AuthManager>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename">/tmp/pdpx_perf_decisions.log</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename">/tmp/pdpx_perf_summaryReport.log</stringProp>
+        <boolProp name="useGroupName">true</boolProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename">/tmp/pdpx_perf_resultsTree.log</stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename">/tmp/pdpx_perf_resultsTable.log</stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
