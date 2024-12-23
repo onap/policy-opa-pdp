@@ -68,6 +68,24 @@
       "parentUuid": "3db82d26_2ade658b",
       "revId": "399e2bf9e98049e55702499d4a34b310f897fe7f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "490022ce_6206e3e2",
+        "filename": "version",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2024-12-23T14:37:01Z",
+      "side": 1,
+      "message": "I have changed to 1.0.0-SNAPSHOT",
+      "parentUuid": "a408db79_7141fcd6",
+      "revId": "399e2bf9e98049e55702499d4a34b310f897fe7f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
