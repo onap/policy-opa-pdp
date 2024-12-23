@@ -16,6 +16,24 @@
       "message": "I don\u0027t think you need to have this folder as a maven module, as the tests are ran with bash scripts.",
       "revId": "37f2dc6e1f0df5db7a55be8d79cfbb613c290224",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7274010e_4744deff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2024-12-23T12:28:57Z",
+      "side": 1,
+      "message": "Removed maven related files",
+      "parentUuid": "54ac98a6_71318bf3",
+      "revId": "37f2dc6e1f0df5db7a55be8d79cfbb613c290224",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
