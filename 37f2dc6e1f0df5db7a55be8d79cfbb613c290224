@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54ac98a6_71318bf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-12-23T09:41:43Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to have this folder as a maven module, as the tests are ran with bash scripts.",
+      "revId": "37f2dc6e1f0df5db7a55be8d79cfbb613c290224",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
