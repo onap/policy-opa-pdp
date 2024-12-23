@@ -35,7 +35,7 @@ func RegisterHandlers() {
 
 	// Handler for OPA decision making
 	opaDecisionHandler := http.HandlerFunc(decision.OpaDecision)
-	http.Handle("/policy/pdpx/v1/decision", basicAuth(opaDecisionHandler))
+	http.Handle("/policy/pdpo/v1/decision", basicAuth(opaDecisionHandler))
 
 	//This api is used internally by OPA-SDK
 	bundleServerHandler := http.HandlerFunc(bundleserver.GetBundle)
@@ -47,11 +47,11 @@ func RegisterHandlers() {
 
 	// Handler for health checks
 	healthCheckHandler := http.HandlerFunc(healthcheck.HealthCheckHandler)
-	http.HandleFunc("/policy/pdpx/v1/healthcheck", basicAuth(healthCheckHandler))
+	http.HandleFunc("/policy/pdpo/v1/healthcheck", basicAuth(healthCheckHandler))
 
 	// Handler for statistics report
 	statisticsReportHandler := http.HandlerFunc(metrics.FetchCurrentStatistics)
-	http.HandleFunc("/policy/pdpx/v1/statistics", basicAuth(statisticsReportHandler))
+	http.HandleFunc("/policy/pdpo/v1/statistics", basicAuth(statisticsReportHandler))
 
 }
 

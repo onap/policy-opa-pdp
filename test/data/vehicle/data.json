@@ -1,0 +1,7 @@
+{
+  "vehicles": [
+    { "vehicle_id": "v1", "owner": "user1", "type": "car", "status": "available" },
+    { "vehicle_id": "v2", "owner": "user2", "type": "bike", "status": "in use" }
+  ]
+}
+

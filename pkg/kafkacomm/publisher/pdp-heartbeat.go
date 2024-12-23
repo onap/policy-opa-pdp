@@ -30,7 +30,7 @@ import (
 	"policy-opa-pdp/pkg/pdpattributes"
 	"policy-opa-pdp/pkg/pdpstate"
 	"time"
-
+        "sync"
 	"github.com/google/uuid"
 )
 
@@ -38,6 +38,7 @@ var (
 	ticker          *time.Ticker
 	stopChan        chan bool
 	currentInterval int64
+	mu              sync.Mutex
 )
 
 // Initializes a timer that sends periodic heartbeat messages to indicate the health and state of the PDP.
@@ -47,6 +48,8 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 		ticker = nil
 		return
 	}
+	mu.Lock()
+	defer mu.Unlock()
 
 	if ticker != nil && intervalMs == currentInterval {
 		log.Debug("Ticker is already running")
@@ -102,10 +105,13 @@ func sendPDPHeartBeat(s PdpStatusSender) error {
 
 // Stops the running ticker and terminates the goroutine managing heartbeat messages.
 func StopTicker() {
+	mu.Lock()
+	defer mu.Unlock()
 	if ticker != nil && stopChan != nil {
 		stopChan <- true
 		close(stopChan)
 		ticker = nil
+		stopChan = nil
 	} else {
 		log.Debugf("Ticker is not Running")
 	}

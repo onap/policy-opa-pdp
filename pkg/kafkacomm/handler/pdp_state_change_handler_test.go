@@ -24,7 +24,7 @@ import (
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/pdpstate"
 	"testing"
-
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -56,6 +56,7 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 		expectedState string
 		mockError     error
 		expectError   bool
+		checkNotEqual bool
 	}{
 		{
 			name:          "Valid state change",
@@ -63,20 +64,36 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 			expectedState: "ACTIVE",
 			mockError:     nil,
 			expectError:   false,
+			checkNotEqual: false,
 		},
 		{
 			name:        "Invalid JSON",
 			message:     []byte(`{"state":}`),
 			mockError:   nil,
 			expectError: true,
+			checkNotEqual: true,
 		},
+		{
+            name:        "Error in SendStateChangeResponse",
+            message:       []byte(`{"state":"PASSIVE"}`),
+            expectedState: "PASSIVE",
+            mockError:   assert.AnError,
+            expectError: true,
+            checkNotEqual: false,
+        },
 	}
 
-	for _, tt := range tests {
+	for i, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Set up the mock to return the expected error
-			mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(tt.mockError)
-			mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+			if i == 0 {
+				mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(tt.mockError).Once()
+				mockSender.On("SendPdpStatus", mock.Anything).Return(nil).Once()
+			} else if i != 1 {
+                mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(fmt.Errorf("failed to send PDP status"))
+                mockSender.On("SendPdpStatus", mock.Anything).Return(fmt.Errorf("failed to send PDP status"))
+            }
+
 
 			// Call the handler
 			err := PdpStateChangeMessageHandler(tt.message, mockSender)
@@ -86,7 +103,11 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 				assert.Error(t, err)
 			} else {
 				assert.NoError(t, err)
-				assert.Equal(t, tt.expectedState, pdpstate.GetState().String())
+				if tt.checkNotEqual {
+                    assert.NotEqual(t, tt.expectedState, pdpstate.GetState().String())
+                } else {
+                    assert.Equal(t, tt.expectedState, pdpstate.GetState().String())
+                }
 			}
 
 		})
