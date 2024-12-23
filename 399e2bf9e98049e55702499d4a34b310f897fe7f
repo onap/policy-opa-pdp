@@ -50,6 +50,24 @@
       "message": "you don\u0027t need to change this as the image haven\u0027t been released yet. probably should be 1.0.0-SNAPSHOT now that I think about it.",
       "revId": "399e2bf9e98049e55702499d4a34b310f897fe7f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a408db79_7141fcd6",
+        "filename": "version",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2024-12-23T09:57:29Z",
+      "side": 1,
+      "message": "as we are maintaining changes for different functionality, would prefer to keep this as 1.0.6-SNAPSHOT as csit and S3p are using 1.0.5-SNAPSHOT. They will also raise review to modify the version of SW, once this code is merged.",
+      "parentUuid": "3db82d26_2ade658b",
+      "revId": "399e2bf9e98049e55702499d4a34b310f897fe7f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
