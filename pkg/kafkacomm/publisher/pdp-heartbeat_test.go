@@ -91,7 +91,7 @@ Description: Test sending a heartbeat successfully.
 Input: Valid pdpStatus object
 Expected Output: Heartbeat message is sent successfully, and a debug log "Message sent successfully" is generated.
 */
-/*
+
 func TestSendPDPHeartBeat_Success(t *testing.T) {
 
 	mockSender := new(mocks.PdpStatusSender)
@@ -99,14 +99,14 @@ func TestSendPDPHeartBeat_Success(t *testing.T) {
 	err := sendPDPHeartBeat(mockSender)
 	assert.NoError(t, err)
 }
-*/
+
 /*
 TestSendPDPHeartBeat_Failure 2
 Description: Test failing to send a heartbeat.
 Input: Invalid pdpStatus object or network failure
 Expected Output: An error occurs while sending the heartbeat, and a warning log "Error producing message: ..." is generated.
 */
-/*
+
 func TestSendPDPHeartBeat_Failure(t *testing.T) {
 	// Mock SendPdpStatus to return an error
 	mockSender := new(mocks.PdpStatusSender)
@@ -114,7 +114,7 @@ func TestSendPDPHeartBeat_Failure(t *testing.T) {
 	err := sendPDPHeartBeat(mockSender)
 	assert.Error(t, err)
 }
-*/
+
 
 /*
 TestStopTicker_Success 3
