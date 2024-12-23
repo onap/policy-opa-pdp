@@ -1,0 +1,7 @@
+{
+  "files": [
+    { "file_id": "file1", "access_level": "admin", "owner": "user1", "size": "10MB" },
+    { "file_id": "file2", "access_level": "user", "owner": "user2", "size": "5MB" }
+  ]
+}
+

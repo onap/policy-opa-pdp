@@ -27,8 +27,8 @@ info:
       name: Deena Mukundan
       email: dm00536893@techmahindra.com
 servers:
-- url: http://policy-opa-pdp:8282/policy/pdpx/v1
-- url: https://policy-opa-pdp:8282/policy/pdpx/v1
+- url: http://policy-opa-pdp:8282/policy/pdpo/v1
+- url: https://policy-opa-pdp:8282/policy/pdpo/v1
 tags:
 - name: Decision
 - name: Statistics
@@ -110,7 +110,7 @@ paths:
       - basicAuth: []
       x-interface info:
         last-mod-release: Paris
-        pdpx-version: 1.0.0
+        pdpo-version: 1.0.0
       x-codegen-request-body-name: body
   /healthcheck:
     get:
@@ -170,13 +170,13 @@ paths:
       - basicAuth: []
       x-interface info:
         last-mod-release: Paris
-        pdpx-version: 1.0.0
+        pdpo-version: 1.0.0
   /statistics:
     get:
       tags:
       - Statistics
       summary: Fetch current statistics
-      description: Provides current statistics of the Policy OPA PDP component
+      description: Provides current statistics of the Policy OPA PDP component 
       operationId: statistics
       parameters:
       - name: X-ONAP-RequestID
@@ -229,7 +229,7 @@ paths:
       - basicAuth: []
       x-interface info:
         last-mod-release: Paris
-        pdpx-version: 1.0.0
+        pdpo-version: 1.0.0
 components:
   schemas:
     ErrorResponse:

@@ -54,6 +54,8 @@ func TestStartHeartbeatIntervalTimer_ValidInterval(t *testing.T) {
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
+	mu.Lock()
+	defer mu.Unlock()
 	if ticker == nil {
 		t.Errorf("Expected ticker to be initialized")
 	}
@@ -75,6 +77,8 @@ func TestStartHeartbeatIntervalTimer_InvalidInterval(t *testing.T) {
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
+	mu.Lock()
+	defer mu.Unlock()
 
 	if ticker != nil {
 		t.Log("Expected ticker to be nil for invalid interval")
@@ -119,7 +123,10 @@ func TestStopTicker_Success(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 	StartHeartbeatIntervalTimer(1000, mockSender)
+
 	StopTicker()
+	mu.Lock()
+	defer mu.Unlock()
 	if ticker != nil {
 		t.Errorf("Expected ticker to be nil")
 	}
@@ -133,4 +140,6 @@ Expected Output: The function should handle this case gracefully, possibly by lo
 */
 func TestStopTicker_NotRunning(t *testing.T) {
 	StopTicker()
+	mu.Lock()
+	defer mu.Unlock()
 }

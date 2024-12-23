@@ -10,7 +10,7 @@ all: test build
 
 build: install clean go_build test cover
 
-deploy: build_image
+deploy: install clean build_image
 
 .PHONY: test
 test:
