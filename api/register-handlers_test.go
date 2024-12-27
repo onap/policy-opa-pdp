@@ -43,10 +43,10 @@ func TestRegisterHandlers(t *testing.T) {
 		handler    http.HandlerFunc
 		statusCode int
 	}{
-		{"/policy/pdpx/v1/decision", decision.OpaDecision, http.StatusUnauthorized},
+		{"/policy/pdpo/v1/decision", decision.OpaDecision, http.StatusUnauthorized},
 		{"/opa/bundles/", bundleserver.GetBundle, http.StatusInternalServerError},
 		{"/ready", readinessProbe, http.StatusOK},
-		{"/policy/pdpx/v1/healthcheck", healthcheck.HealthCheckHandler, http.StatusUnauthorized},
+		{"/policy/pdpo/v1/healthcheck", healthcheck.HealthCheckHandler, http.StatusUnauthorized},
 	}
 
 	for _, tt := range tests {

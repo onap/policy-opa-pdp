@@ -24,6 +24,10 @@ package decision
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"github.com/google/uuid"
+	openapi_types "github.com/oapi-codegen/runtime/types"
+	"github.com/open-policy-agent/opa/sdk"
 	"net/http"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
@@ -34,10 +38,6 @@ import (
 	"policy-opa-pdp/pkg/pdpstate"
 	"policy-opa-pdp/pkg/utils"
 	"strings"
-        "fmt"
-	"github.com/google/uuid"
-	openapi_types "github.com/oapi-codegen/runtime/types"
-	"github.com/open-policy-agent/opa/sdk"
 )
 
 // creates a response code map to ErrorResponseResponseCode
@@ -128,6 +128,7 @@ func OpaDecision(res http.ResponseWriter, req *http.Request) {
 		log.Debugf("%s: %s", key, value)
 	}
 	// Check if the system is in an active state
+
 	if pdpstate.GetCurrentState() != model.Active {
 		msg := " System Is In PASSIVE State so Unable To Handle Decision wait until it becomes ACTIVE"
 		errorMsg := " System Is In PASSIVE State so error Handling the request"
@@ -184,7 +185,7 @@ func OpaDecision(res http.ResponseWriter, req *http.Request) {
 	log.Debugf("SDK making a decision")
 	options := sdk.DecisionOptions{Path: *decisionReq.PolicyName, Input: decisionReq.Input}
 
-	decision, err := opa.Decision(ctx, options)
+	decision, decision_err := opa.Decision(ctx, options)
 
 	jsonOutput, err := json.MarshalIndent(decision, "", "  ")
 	if err != nil {
@@ -194,18 +195,18 @@ func OpaDecision(res http.ResponseWriter, req *http.Request) {
 	log.Debugf("RAW opa Decision output:\n%s\n", string(jsonOutput))
 
 	// Check for errors in the OPA decision
-	if err != nil {
-		if strings.Contains(err.Error(), "opa_undefined_error") {
-			decisionRes := createSuccessDecisionResponse(err.Error(), string(oapicodegen.INDETERMINATE),
+	if decision_err != nil {
+		if strings.Contains(decision_err.Error(), "opa_undefined_error") {
+			decisionRes := createSuccessDecisionResponse(decision_err.Error(), string(oapicodegen.INDETERMINATE),
 				*decisionReq.PolicyName, nil)
 			writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
 			metrics.IncrementIndeterminantDecisionsCount()
 			return
 		} else {
 			decisionExc := createDecisionExceptionResponse(http.StatusBadRequest, "Error from OPA while making decision",
-				[]string{err.Error()}, *decisionReq.PolicyName)
+				[]string{decision_err.Error()}, *decisionReq.PolicyName)
 			metrics.IncrementTotalErrorCount()
-			writeErrorJSONResponse(res, http.StatusBadRequest, err.Error(), *decisionExc)
+			writeErrorJSONResponse(res, http.StatusBadRequest, decision_err.Error(), *decisionExc)
 			return
 		}
 	}
@@ -310,8 +311,8 @@ func OpaDecision(res http.ResponseWriter, req *http.Request) {
 
 	default:
 		// Handle unexpected types in decision.Result
-		decisionRes := createSuccessDecisionResponse("Invalid decision result format", string(oapicodegen.DENY), *decisionReq.PolicyName, nil)
-		metrics.IncrementDenyDecisionsCount()
+		decisionRes := createSuccessDecisionResponse("Invalid decision result format", string(oapicodegen.INDETERMINATE), *decisionReq.PolicyName, nil)
+		metrics.IncrementIndeterminantDecisionsCount()
 		writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
 		return
 	}

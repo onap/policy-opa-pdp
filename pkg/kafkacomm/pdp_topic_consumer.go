@@ -139,3 +139,4 @@ func ReadKafkaMessages(kc *KafkaConsumer) ([]byte, error) {
 	}
 	return msg.Value, nil
 }
+

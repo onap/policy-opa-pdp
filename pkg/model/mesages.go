@@ -90,7 +90,7 @@ type PdpUpdate struct {
 	MessageType            string                   `json:"messageName" validate:"required"`
 	PoliciesToBeDeloyed    []string                 `json:"policiesToBeDeployed" validate:"required"`
 	policiesToBeUndeployed []ToscaConceptIdentifier `json:"policiesToBeUndeployed"`
-	Name                   string                   `json:"name" validate:"required"`
+	Name                   string                   `json:"name"`
 	TimestampMs            int64                    `json:"timestampMs" validate:"required"`
 	PdpGroup               string                   `json:"pdpGroup" validate:"required"`
 	PdpSubgroup            string                   `json:"pdpSubgroup" validate:"required"`
