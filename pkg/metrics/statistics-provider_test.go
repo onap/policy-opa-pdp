@@ -68,3 +68,23 @@ func TestFetchCurrentStatistics(t *testing.T) {
 
 	assert.Equal(t, int32(200), *statReport.Code)
 }
+
+func TestFetchCurrentStatistics_ValidRequestID(t *testing.T) {
+
+	validUUID := "123e4567-e89b-12d3-a456-426614174000"
+
+	req := httptest.NewRequest(http.MethodGet, "/statistics", nil)
+
+	req.Header.Set("X-ONAP-RequestID", validUUID)
+
+	res := httptest.NewRecorder()
+
+	// Call the function under test
+
+	FetchCurrentStatistics(res, req)
+
+	assert.Equal(t, validUUID, res.Header().Get("X-ONAP-RequestID"))
+
+	assert.Equal(t, http.StatusOK, res.Code)
+
+}
