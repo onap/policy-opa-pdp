@@ -1,6 +1,7 @@
 // -
 //   ========================LICENSE_START=================================
 //   Copyright (C) 2024: Deutsche Telekom
+//   Modifications Copyright © 2024 Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -43,10 +44,10 @@ func TestRegisterHandlers(t *testing.T) {
 		handler    http.HandlerFunc
 		statusCode int
 	}{
-		{"/policy/pdpo/v1/decision", decision.OpaDecision, http.StatusUnauthorized},
+		{"/policy/pdpo/v1/decision", decision.OpaDecision, http.StatusNotFound},
 		{"/opa/bundles/", bundleserver.GetBundle, http.StatusInternalServerError},
 		{"/ready", readinessProbe, http.StatusOK},
-		{"/policy/pdpo/v1/healthcheck", healthcheck.HealthCheckHandler, http.StatusUnauthorized},
+		{"/policy/pdpo/v1/healthcheck", healthcheck.HealthCheckHandler, http.StatusNotFound},
 	}
 
 	for _, tt := range tests {
