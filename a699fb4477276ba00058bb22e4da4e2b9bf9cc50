@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44c1427d_d83464ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-12-30T10:17:28Z",
+      "side": 1,
+      "message": "needs to be rebased with origin/master",
+      "revId": "a699fb4477276ba00058bb22e4da4e2b9bf9cc50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a48eab76_c3877d02",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-12-30T10:17:28Z",
+      "side": 1,
+      "message": "this seems to be using the wrong indentation.",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 9
+      },
+      "revId": "a699fb4477276ba00058bb22e4da4e2b9bf9cc50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
