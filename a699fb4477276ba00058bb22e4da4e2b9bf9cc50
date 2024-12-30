@@ -35,6 +35,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad7dcd6c_d6cbec9c",
+        "filename": "api/register-handlers_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2024-12-30T12:46:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72b22cc3_06c2fbc0",
+      "revId": "a699fb4477276ba00058bb22e4da4e2b9bf9cc50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a48eab76_c3877d02",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-12-30T10:17:28Z",
       "side": 1,
       "message": "this seems to be using the wrong indentation.",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 9
+      },
+      "revId": "a699fb4477276ba00058bb22e4da4e2b9bf9cc50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "483f2fdc_23f28387",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2024-12-30T12:46:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a48eab76_c3877d02",
       "range": {
         "startLine": 27,
         "startChar": 4,
