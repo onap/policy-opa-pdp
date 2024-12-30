@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f0c5e8e_c194605e",
+        "filename": "api/register-handlers_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-12-30T15:32:53Z",
+      "side": 1,
+      "message": "you don\u0027t need to add Modifications copyrights if the original is the same.",
+      "range": {
+        "startLine": 4,
+        "startChar": 5,
+        "endLine": 4,
+        "endChar": 52
+      },
+      "revId": "cd17e53d200a94caf5ab21d8fa7ed8f8d068b127",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
