@@ -353,3 +353,26 @@ func TestTracef_Failure(t *testing.T) {
 		t.Errorf("Expected trace message not to be logged")
 	}
 }
+
+func TestParseLevel(t *testing.T) {
+	tests := []struct {
+		input       string
+		expectedErr bool
+	}{
+		{"DEBUG", false},
+		{"INFO", false},
+		{"WARN", false},
+		{"ERROR", false},
+		{"TRACE", false},
+		{"PANIC", false},
+		{"", true},        // Invalid input
+		{"INVALID", true}, // Invalid input
+	}
+
+	for _, test := range tests {
+		_, err := log.ParseLevel(test.input)
+		if (err != nil) != test.expectedErr {
+			t.Errorf("ParseLevel(%q) unexpected error state: got %v, want error: %v", test.input, err != nil, test.expectedErr)
+		}
+	}
+}
