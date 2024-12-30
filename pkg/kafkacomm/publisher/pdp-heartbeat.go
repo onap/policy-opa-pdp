@@ -24,14 +24,14 @@ package publisher
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/pdpattributes"
 	"policy-opa-pdp/pkg/pdpstate"
+	"sync"
 	"time"
-        "sync"
-	"github.com/google/uuid"
 )
 
 var (

@@ -1,6 +1,6 @@
 module policy-opa-pdp
 
-go 1.22.3
+go 1.23.4
 
 require (
 	github.com/confluentinc/confluent-kafka-go v1.9.2
@@ -14,6 +14,7 @@ require (
 )
 
 require (
+	bou.ke/monkey v1.0.2 // indirect
 	github.com/AdaLogics/go-fuzz-headers v0.0.0-20230811130428-ced1acdcaa24 // indirect
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
 	github.com/agnivade/levenshtein v1.2.0 // indirect
