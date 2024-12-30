@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ package publisher
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/pdpattributes"
 	"policy-opa-pdp/pkg/pdpstate"
+	"sync"
 	"time"
-        "sync"
-	"github.com/google/uuid"
 )
 
 var (

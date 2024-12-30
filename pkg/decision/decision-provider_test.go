@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -20,15 +20,21 @@
 package decision
 
 import (
+	"bou.ke/monkey"
 	"bytes"
+	"context"
 	"encoding/json"
+	"errors"
+	"github.com/open-policy-agent/opa/sdk"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/model/oapicodegen"
+	opasdk "policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/pdpstate"
+	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -307,4 +313,481 @@ func TestWriteOpaJSONResponse_EncodingError(t *testing.T) {
 	if !bytes.Contains(res.Body.Bytes(), []byte("json: unsupported type")) {
 		t.Errorf("Expected encoding error message, got '%s'", res.Body.String())
 	}
+}
+
+// Mocks for test cases
+var GetOPASingletonInstance = opasdk.GetOPASingletonInstance
+
+var mockDecisionResult = &sdk.DecisionResult{
+	Result: map[string]interface{}{
+		"allowed": true,
+	},
+}
+
+var mockDecisionResult2 = &sdk.DecisionResult{
+	Result: map[string]interface{}{
+		"allow": "true",
+	},
+}
+
+var mockDecisionResultUnexp = &sdk.DecisionResult{
+	Result: map[int]interface{}{
+		123: 123,
+	},
+}
+var mockDecisionResultBoolFalse = &sdk.DecisionResult{
+	Result: false,
+}
+
+var mockDecisionResultBool = &sdk.DecisionResult{
+	Result: true,
+}
+
+var mockDecisionReq = oapicodegen.OPADecisionRequest{
+	PolicyName:   ptrString("mockPolicy"),
+	PolicyFilter: &[]string{"filter1", "filter2"},
+	//Input:        map[string]interface{}{"key": "value"},
+}
+
+var mockDecisionReq2 = oapicodegen.OPADecisionRequest{
+	PolicyName:   ptrString("mockPolicy"),
+	PolicyFilter: &[]string{"allow", "filter2"},
+	//Input:        map[string]interface{}{"key": "value"},
+}
+
+// Test to check invalid UUID in request
+func Test_Invalid_request_UUID(t *testing.T) {
+	originalGetInstance := GetOPASingletonInstance
+	GetOPASingletonInstance = func() (*sdk.OPA, error) {
+		opa, err := sdk.New(context.Background(), sdk.Options{
+			ID: "mock-opa-instance",
+			// Any necessary options for mocking can go here
+		})
+		if err != nil {
+			return nil, err
+		}
+		return opa, nil
+	}
+
+	defer func() {
+		GetOPASingletonInstance = originalGetInstance
+	}()
+	GetOPASingletonInstance = originalGetInstance
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	body := map[string]interface{}{"PolicyName": "data.policy"}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	req.Header.Set("X-ONAP-RequestID", "valid-uuid")
+	res := httptest.NewRecorder()
+	OpaDecision(res, req)
+	assert.Equal(t, http.StatusInternalServerError, res.Code)
+}
+
+// Test to check UUID is valid
+func Test_valid_UUID(t *testing.T) {
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", nil)
+	req.Header.Set("X-ONAP-RequestID", "123e4567-e89b-12d3-a456-426614174000")
+	res := httptest.NewRecorder()
+	OpaDecision(res, req)
+	assert.Equal(t, "123e4567-e89b-12d3-a456-426614174000", res.Header().Get("X-ONAP-RequestID"), "X-ONAP-RequestID header mismatch")
+}
+
+// Test for PASSIVE system state
+func Test_passive_system_state(t *testing.T) {
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", nil)
+	res := httptest.NewRecorder()
+
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusInternalServerError, res.Code)
+	assert.Contains(t, res.Body.String(), "System Is In PASSIVE State")
+}
+
+// Test for valid HTTP Method (POST)
+func Test_valid_HTTP_method(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+
+	var patch *monkey.PatchGuard
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			return mockDecisionResult, nil
+		},
+	)
+	defer patch.Unpatch()
+
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Contains(t, res.Body.String(), "PERMIT")
+}
+
+// Test for Marshalling error in Decision Result
+func Test_Error_Marshalling(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+	var patch *monkey.PatchGuard
+
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			// Create a mock result with an incompatible field (e.g., a channel)
+			mockDecisionResult := &sdk.DecisionResult{
+				Result: map[string]interface{}{
+					"key": make(chan int),
+				},
+			}
+			return mockDecisionResult, nil
+		},
+	)
+	defer patch.Unpatch()
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+
+	OpaDecision(res, req)
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Empty(t, res.Body.String())
+}
+
+// Test for Policy filter with invalid/not applicable Decision result
+func Test_Policy_Filter_with_invalid_decision_result(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+
+	var patch *monkey.PatchGuard
+
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			return mockDecisionResult, nil
+		},
+	)
+	defer patch.Unpatch()
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+
+	var patch1 *monkey.PatchGuard
+	patch1 = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&json.Decoder{}), "Decode",
+		func(_ *json.Decoder, v interface{}) error {
+			if req, ok := v.(*oapicodegen.OPADecisionRequest); ok {
+				*req = mockDecisionReq
+			}
+			return nil
+		},
+	)
+	defer patch1.Unpatch()
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Contains(t, res.Body.String(), "NOTAPPLICABLE")
+}
+
+// Test with OPA Decision of boolean type true
+func Test_with_boolean_OPA_Decision(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+
+	var patch *monkey.PatchGuard
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			return mockDecisionResultBool, nil
+		},
+	)
+	defer patch.Unpatch()
+
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Contains(t, res.Body.String(), "PERMIT")
+}
+
+// Test with OPA Decision of boolean type with false
+func Test_Successful_decision_allow_false(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+
+	var patch *monkey.PatchGuard
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			return mockDecisionResultBool, nil
+		},
+	)
+	defer patch.Unpatch()
+
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Contains(t, res.Body.String(), "OPA Allowed")
+}
+
+// Test with OPA Decision of boolean type with false having filter
+func Test_decision_result_false_with_Filter(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+
+	var patch *monkey.PatchGuard
+
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			// Simulate an error to trigger the second error block
+			return mockDecisionResultBool, nil
+		},
+	)
+	defer patch.Unpatch()
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+
+	var patch1 *monkey.PatchGuard
+	patch1 = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&json.Decoder{}), "Decode",
+		func(_ *json.Decoder, v interface{}) error {
+			if req, ok := v.(*oapicodegen.OPADecisionRequest); ok {
+				*req = mockDecisionReq
+			}
+			return nil
+		},
+	)
+	defer patch1.Unpatch()
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Contains(t, res.Body.String(), "OPA Allowed")
+}
+
+// Test with OPA Decision of boolean type with true having filter
+func Test_decision_result_true_with_Filter(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+
+	var patch *monkey.PatchGuard
+
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			return mockDecisionResultBoolFalse, nil
+		},
+	)
+	defer patch.Unpatch()
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+	var patch1 *monkey.PatchGuard
+	patch1 = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&json.Decoder{}), "Decode",
+		func(_ *json.Decoder, v interface{}) error {
+			if req, ok := v.(*oapicodegen.OPADecisionRequest); ok {
+				*req = mockDecisionReq
+			}
+			return nil
+		},
+	)
+	defer patch1.Unpatch()
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Contains(t, res.Body.String(), "Denied")
+}
+
+// Test with OPA Decision with String type
+func Test_decision_Result_String(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+
+	var patch *monkey.PatchGuard
+
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			// Create a mock result with an incompatible field (e.g., a channel)
+			mockDecisionResult := &sdk.DecisionResult{
+				Result: map[string]interface{}{
+					"allowed": "deny",
+				},
+			}
+			return mockDecisionResult, nil
+		},
+	)
+	defer patch.Unpatch()
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Contains(t, res.Body.String(), "DENY")
+}
+
+// Test with OPA Decision with String type wth filtered result
+func Test_decision_Result_String_with_filtered_Result(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+
+	var patch *monkey.PatchGuard
+
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			// Simulate an error to trigger the second error block
+			return mockDecisionResult2, nil
+		},
+	)
+	defer patch.Unpatch()
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+	var patch1 *monkey.PatchGuard
+	patch1 = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&json.Decoder{}), "Decode",
+		func(_ *json.Decoder, v interface{}) error {
+			if req, ok := v.(*oapicodegen.OPADecisionRequest); ok {
+				*req = mockDecisionReq2
+			}
+			return nil
+		},
+	)
+	defer patch1.Unpatch()
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Contains(t, res.Body.String(), "NOTAPPLICABLE")
+
+}
+
+// Test with OPA Decision with unexpected type wth filtered result
+func Test_decision_with_filtered_Result_as_unexpected_Res_Type(t *testing.T) {
+	originalGetState := pdpstate.GetCurrentState
+	pdpstate.GetCurrentState = func() model.PdpState {
+		return model.Active
+	}
+	defer func() { pdpstate.GetCurrentState = originalGetState }()
+	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+
+	var patch *monkey.PatchGuard
+
+	patch = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&sdk.OPA{}), "Decision",
+		func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+			// Simulate an error to trigger the second error block
+			return mockDecisionResultUnexp, nil
+		},
+	)
+	defer patch.Unpatch()
+	body := map[string]interface{}{"PolicyName": jsonString}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/opa/decision", bytes.NewBuffer(jsonBody))
+	res := httptest.NewRecorder()
+	var patch1 *monkey.PatchGuard
+	patch1 = monkey.PatchInstanceMethod(
+		reflect.TypeOf(&json.Decoder{}), "Decode",
+		func(_ *json.Decoder, v interface{}) error {
+			if req, ok := v.(*oapicodegen.OPADecisionRequest); ok {
+				*req = mockDecisionReq2
+			}
+			return nil
+		},
+	)
+	defer patch1.Unpatch()
+	OpaDecision(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code)
+	assert.Contains(t, res.Body.String(), "INDETERMINATE")
+}
+
+// Test with OPA Decision with Error in response
+func TestWriteErrorJSONResponse_EncodingFailure(t *testing.T) {
+	recorder := httptest.NewRecorder()
+	errorMessage := "Test error message"
+	policyName := "TestPolicy"
+	responseCode := oapicodegen.ErrorResponseResponseCode("500")
+	errorDetails := []string{"Detail 1", "Detail 2"}
+	mockDecisionExc := oapicodegen.ErrorResponse{
+		ErrorDetails: &errorDetails,
+		ErrorMessage: &errorMessage,
+		PolicyName:   &policyName,
+		ResponseCode: &responseCode,
+	}
+
+	patch := monkey.PatchInstanceMethod(
+		reflect.TypeOf(json.NewEncoder(recorder)),
+		"Encode",
+		func(_ *json.Encoder, _ interface{}) error {
+			return errors.New("forced encoding error")
+		},
+	)
+	defer patch.Unpatch()
+
+	writeErrorJSONResponse(recorder, http.StatusInternalServerError, "Encoding error", mockDecisionExc)
+
+	response := recorder.Result()
+	defer response.Body.Close()
+
+	assert.Equal(t, http.StatusInternalServerError, response.StatusCode)
 }

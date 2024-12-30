@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -20,12 +20,15 @@
 package kafkacomm
 
 import (
+	"bytes"
 	"errors"
-	"testing"
-	"time"
-	//	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"log"
+	"policy-opa-pdp/cfg"
+	"testing"
+	"time"
 
 	"policy-opa-pdp/pkg/kafkacomm/mocks" // Adjust to your actual mock path
 )
@@ -45,11 +48,20 @@ func TestKafkaProducer_Produce_Success(t *testing.T) {
 
 		message := []byte("test message")
 
+		kafkaMessage := &kafka.Message{
+			TopicPartition: kafka.TopicPartition{
+				Topic:     &topic,
+				Partition: kafka.PartitionAny,
+			},
+			Value: message,
+		}
+		var eventChan chan kafka.Event = nil
+
 		// Mock Produce method to simulate successful delivery
 		mockProducer.On("Produce", mock.Anything, mock.Anything).Return(nil)
 
 		// Act
-		err := kp.Produce(message)
+		err := kp.Produce(kafkaMessage, eventChan)
 
 		assert.NoError(t, err)
 		mockProducer.AssertExpectations(t)
@@ -74,8 +86,19 @@ func TestKafkaProducer_Produce_Error(t *testing.T) {
 	// Simulate production error
 	mockProducer.On("Produce", mock.Anything, mock.Anything).Return(errors.New("produce error"))
 
+	message := []byte("test message")
+
+	kafkaMessage := &kafka.Message{
+		TopicPartition: kafka.TopicPartition{
+			Topic:     &topic,
+			Partition: kafka.PartitionAny,
+		},
+		Value: message,
+	}
+	var eventChan chan kafka.Event = nil
+
 	// Act
-	err := kp.Produce([]byte("test message"))
+	err := kp.Produce(kafkaMessage, eventChan)
 
 	// Assert
 	assert.Error(t, err)
@@ -115,4 +138,65 @@ func TestKafkaProducer_Close_Error(t *testing.T) {
 
 	// Assert
 	mockProducer.AssertExpectations(t)
+}
+
+var kafkaProducerFactory = kafka.NewProducer
+
+type MockKafkaProducer struct {
+	mock.Mock
+}
+
+func (m *MockKafkaProducer) Produce(msg *kafka.Message, events chan kafka.Event) error {
+	args := m.Called(msg, events)
+	return args.Error(0)
+}
+
+func (m *MockKafkaProducer) Close() {
+	m.Called()
+}
+
+func mockKafkaNewProducer(conf *kafka.ConfigMap) (*kafka.Producer, error) {
+	// Return a mock *kafka.Producer (it doesn't have to be functional)
+	mockProducer := new(MockKafkaProducer)
+	mockProducer.On("Produce", mock.Anything, mock.Anything).Return(nil)
+	mockProducer.On("Close").Return()
+	return &kafka.Producer{}, nil
+}
+
+func TestGetKafkaProducer_Success(t *testing.T) {
+
+	cfg.BootstrapServer = "localhost:9092"
+	cfg.UseSASLForKAFKA = "true"
+	kafkaProducerFactory = mockKafkaNewProducer
+
+	_, err := GetKafkaProducer("localhost:9092", "test-topic")
+
+	assert.NoError(t, err)
+}
+
+func TestGetKafkaProducer_WithSASL(t *testing.T) {
+
+	// Arrange: Set up the configuration to enable SASL
+	cfg.BootstrapServer = "localhost:9092"
+	cfg.UseSASLForKAFKA = "true"
+	cfg.KAFKA_USERNAME = "test-user"
+	cfg.KAFKA_PASSWORD = "test-password"
+
+	_, err := GetKafkaProducer("localhost:9092", "test-topic")
+
+	assert.NoError(t, err)
+}
+
+func TestKafkaProducer_Close_NilProducer(t *testing.T) {
+	kp := &KafkaProducer{
+		producer: nil, // Simulate the nil producer
+	}
+
+	var buf bytes.Buffer
+	log.SetOutput(&buf)
+
+	kp.Close()
+
+	logOutput := buf.String()
+	assert.Contains(t, logOutput, "KafkaProducer or producer is nil, skipping Close.")
 }

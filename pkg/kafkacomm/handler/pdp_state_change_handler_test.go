@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
 package handler
 
 import (
+	"fmt"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/pdpstate"
 	"testing"
-	"fmt"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
 
 // MockPdpStatusSender is a mock implementation of the PdpStatusSender interface
@@ -50,7 +50,7 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
 
 	// Define test cases
-	tests := []struct {
+	tests := map[string]struct {
 		name          string
 		message       []byte
 		expectedState string
@@ -58,42 +58,41 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 		expectError   bool
 		checkNotEqual bool
 	}{
-		{
-			name:          "Valid state change",
+		"Valid state change": {
 			message:       []byte(`{"state":"ACTIVE"}`),
 			expectedState: "ACTIVE",
 			mockError:     nil,
 			expectError:   false,
 			checkNotEqual: false,
 		},
-		{
-			name:        "Invalid JSON",
-			message:     []byte(`{"state":}`),
-			mockError:   nil,
-			expectError: true,
+		"Invalid JSON": {
+			message:       []byte(`{"state":}`),
+			mockError:     nil,
+			expectError:   true,
 			checkNotEqual: true,
 		},
-		{
-            name:        "Error in SendStateChangeResponse",
-            message:       []byte(`{"state":"PASSIVE"}`),
-            expectedState: "PASSIVE",
-            mockError:   assert.AnError,
-            expectError: true,
-            checkNotEqual: false,
-        },
+		"Error in SendStateChangeResponse": {
+			message:       []byte(`{"state":"PASSIVE"}`),
+			expectedState: "PASSIVE",
+			mockError:     assert.AnError,
+			expectError:   false,
+			checkNotEqual: false,
+		},
 	}
 
-	for i, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			// Set up the mock to return the expected error
-			if i == 0 {
-				mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(tt.mockError).Once()
-				mockSender.On("SendPdpStatus", mock.Anything).Return(nil).Once()
-			} else if i != 1 {
-                mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(fmt.Errorf("failed to send PDP status"))
-                mockSender.On("SendPdpStatus", mock.Anything).Return(fmt.Errorf("failed to send PDP status"))
-            }
+	orderedKeys := []string{"Valid state change", "Invalid JSON", "Error in SendStateChangeResponse"}
 
+	for _, name := range orderedKeys {
+		tt := tests[name]
+		t.Run(name, func(t *testing.T) {
+			// Set up the mock to return the expected error
+			if name == "Valid state change" {
+				mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(tt.mockError)
+				mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+			} else if name == "Error in SendStateChangeResponse" {
+				mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(tt.mockError)
+				mockSender.On("SendPdpStatus", mock.Anything).Return(fmt.Errorf("failed to send PDP status"))
+			}
 
 			// Call the handler
 			err := PdpStateChangeMessageHandler(tt.message, mockSender)
@@ -104,10 +103,10 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 			} else {
 				assert.NoError(t, err)
 				if tt.checkNotEqual {
-                    assert.NotEqual(t, tt.expectedState, pdpstate.GetState().String())
-                } else {
-                    assert.Equal(t, tt.expectedState, pdpstate.GetState().String())
-                }
+					assert.NotEqual(t, tt.expectedState, pdpstate.GetState().String())
+				} else {
+					assert.Equal(t, tt.expectedState, pdpstate.GetState().String())
+				}
 			}
 
 		})

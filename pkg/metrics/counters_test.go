@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -76,4 +76,49 @@ func TestCounters(t *testing.T) {
 	}
 	wg.Wait()
 	assert.Equal(t, int64(5), *TotalErrorCountRef())
+
+	// Test IncrementQuerySuccessCount and TotalQuerySuccessCountRef
+
+	QuerySuccessCount = 0
+
+	wg.Add(7)
+
+	for i := 0; i < 7; i++ {
+
+		go func() {
+
+			defer wg.Done()
+
+			IncrementQuerySuccessCount()
+
+		}()
+
+	}
+
+	wg.Wait()
+
+	assert.Equal(t, int64(7), *TotalQuerySuccessCountRef())
+
+	// Test IncrementQueryFailureCount and TotalQueryFailureCountRef
+
+	QueryFailureCount = 0
+
+	wg.Add(3)
+
+	for i := 0; i < 3; i++ {
+
+		go func() {
+
+			defer wg.Done()
+
+			IncrementQueryFailureCount()
+
+		}()
+
+	}
+
+	wg.Wait()
+
+	assert.Equal(t, int64(3), *TotalQueryFailureCountRef())
+
 }

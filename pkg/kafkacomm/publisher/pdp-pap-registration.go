@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ package publisher
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/google/uuid"
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
@@ -36,13 +37,15 @@ type PdpStatusSender interface {
 	SendPdpStatus(pdpStatus model.PdpStatus) error
 }
 
-type RealPdpStatusSender struct{}
+type RealPdpStatusSender struct {
+	Producer kafkacomm.KafkaProducerInterface
+}
 
 // Sends PdpSTatus Message type to KafkaTopic
 func (s *RealPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
 
 	var topic string
-	bootstrapServers := cfg.BootstrapServer
+	//	bootstrapServers := cfg.BootstrapServer
 	topic = cfg.Topic
 	pdpStatus.RequestID = uuid.New().String()
 	pdpStatus.TimestampMs = fmt.Sprintf("%d", time.Now().UnixMilli())
@@ -52,16 +55,26 @@ func (s *RealPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
 		log.Warnf("failed to marshal PdpStatus to JSON: %v", err)
 		return err
 	}
+	/*	producer, err := kafkacomm.GetKafkaProducer(bootstrapServers, topic)
+		if err != nil {
+			log.Warnf("Error creating Kafka producer: %v\n", err)
+			return err
+		}*/
+	//	s.Producer = producer
+	log.Debugf("Producer saved in RealPdp StatusSender")
 
-	producer, err := kafkacomm.GetKafkaProducer(bootstrapServers, topic)
-	if err != nil {
-		log.Warnf("Error creating Kafka producer: %v\n", err)
-		return err
+	kafkaMessage := &kafka.Message{
+		TopicPartition: kafka.TopicPartition{
+			Topic:     &topic,
+			Partition: kafka.PartitionAny,
+		},
+		Value: jsonMessage,
 	}
-
-	err = producer.Produce(jsonMessage)
+	var eventChan chan kafka.Event = nil
+	err = s.Producer.Produce(kafkaMessage, eventChan)
 	if err != nil {
 		log.Warnf("Error producing message: %v\n", err)
+		return err
 	} else {
 		log.Debugf("[OUT|KAFKA|%s]\n%s", topic, string(jsonMessage))
 	}

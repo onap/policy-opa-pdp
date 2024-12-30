@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -84,12 +84,15 @@ func GetKafkaProducer(bootstrapServers, topic string) (*KafkaProducer, error) {
 
 // Produce sends a message to the configured Kafka topic.
 // It takes the message payload as a byte slice and returns any errors
-func (kp *KafkaProducer) Produce(message []byte) error {
-	kafkaMessage := &kafka.Message{
-		TopicPartition: kafka.TopicPartition{Topic: &kp.topic, Partition: kafka.PartitionAny},
-		Value:          []byte(message),
+func (kp *KafkaProducer) Produce(kafkaMessage *kafka.Message, eventChan chan kafka.Event) error {
+	if kafkaMessage.TopicPartition.Topic == nil {
+		kafkaMessage.TopicPartition = kafka.TopicPartition{
+			Topic:     &kp.topic,
+			Partition: kafka.PartitionAny,
+		}
 	}
-	err := kp.producer.Produce(kafkaMessage, nil)
+	eventChan = nil
+	err := kp.producer.Produce(kafkaMessage, eventChan)
 	if err != nil {
 		return err
 	}

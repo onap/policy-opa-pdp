@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -21,9 +21,13 @@ package publisher
 
 import (
 	"errors"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"time"
+	"github.com/google/uuid"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"policy-opa-pdp/pkg/model"
 	"testing"
 )
@@ -57,3 +61,83 @@ func TestSendPdpPapRegistration_Failure(t *testing.T) {
 	assert.EqualError(t, err, "failed To Send", "Error messages should match")
 	mockSender.AssertCalled(t, "SendPdpStatus", mock.AnythingOfType("model.PdpStatus"))
 }
+
+// New
+
+type MockKafkaProducer struct {
+	mock.Mock
+}
+
+func (m *MockKafkaProducer) Produce(message *kafka.Message, evenchan chan kafka.Event) error {
+	args := m.Called(message)
+	return args.Error(0)
+}
+
+func (m *MockKafkaProducer) Close() {
+	m.Called()
+}
+
+// Test the SendPdpStatus method
+func TestSendPdpStatus_Success(t *testing.T) {
+	// Create the mock producer
+	mockProducer := new(MockKafkaProducer)
+
+	// Mock the Produce method to simulate success
+	mockProducer.On("Produce", mock.Anything).Return(nil)
+	//t.Fatalf("Inside Sender checking for producer , but got: %v", mockProducer)
+
+	// Create the RealPdpStatusSender with the mocked producer
+	sender := RealPdpStatusSender{
+		Producer: mockProducer,
+	}
+
+	// Prepare a mock PdpStatus
+	pdpStatus := model.PdpStatus{
+		RequestID:   uuid.New().String(),
+		TimestampMs: fmt.Sprintf("%d", time.Now().UnixMilli()),
+		State:       model.Active, // Use the correct enum value for State
+	}
+	// Call the SendPdpStatus method
+	err := sender.SendPdpStatus(pdpStatus)
+	if err != nil {
+		t.Fatalf("Expected no error, but got: %v", err)
+	}
+
+	// Assert expectations on the mock
+	mockProducer.AssertExpectations(t)
+}
+
+func TestSendPdpStatus_Failure(t *testing.T) {
+	// Create a mock Kafka producer
+	mockProducer := new(MockKafkaProducer)
+
+	// Configure the mock to simulate an error when Produce is called
+	mockProducer.On("Produce", mock.Anything).Return(errors.New("mock produce error"))
+
+	// Create a RealPdpStatusSender with the mock producer
+	sender := RealPdpStatusSender{
+		Producer: mockProducer,
+	}
+
+	// Create a mock PdpStatus object
+	pdpStatus := model.PdpStatus{}
+
+	// Call the method under test
+	err := sender.SendPdpStatus(pdpStatus)
+	// t.Fatalf("Expected an error, but got: %v", err)
+
+	// Assert that an error was returned
+	if err == nil {
+		t.Fatalf("Expected an error, but got nil")
+	}
+
+	// Assert that the error message is correct
+	expectedError := "mock produce error"
+	if err.Error() != expectedError {
+		t.Errorf("Expected error: %v, but got: %v", expectedError, err)
+	}
+
+	// Verify that the Produce method was called exactly once
+	mockProducer.AssertExpectations(t)
+}
+

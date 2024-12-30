@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -351,5 +351,28 @@ func TestTracef_Failure(t *testing.T) {
 	log.Tracef("Trace message: %s", "should not log")
 	if bytes.Contains(buf.Bytes(), []byte("Trace message: should not log")) {
 		t.Errorf("Expected trace message not to be logged")
+	}
+}
+
+func TestParseLevel(t *testing.T) {
+	tests := []struct {
+		input       string
+		expectedErr bool
+	}{
+		{"DEBUG", false},
+		{"INFO", false},
+		{"WARN", false},
+		{"ERROR", false},
+		{"TRACE", false},
+		{"PANIC", false},
+		{"", true},        // Invalid input
+		{"INVALID", true}, // Invalid input
+	}
+
+	for _, test := range tests {
+		_, err := log.ParseLevel(test.input)
+		if (err != nil) != test.expectedErr {
+			t.Errorf("ParseLevel(%q) unexpected error state: got %v, want error: %v", test.input, err != nil, test.expectedErr)
+		}
 	}
 }

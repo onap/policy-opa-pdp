@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ package model
 import (
 	"encoding/json"
 	"errors"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -239,4 +240,78 @@ func TestPdpStateChangeSerialization_Failure(t *testing.T) {
 	if err == nil {
 		t.Error("Expected an error while validating invalid PdpStatus, but got none")
 	}
+}
+
+func TestPdpStateEnum(t *testing.T) {
+
+	// Using enums instead of string constants
+
+	state, err := ConvertStringToEnumState("ACTIVE")
+
+	assert.Nil(t, err)
+
+	assert.Equal(t, Active, state)
+
+}
+
+func TestPdpHealthStatusEnum(t *testing.T) {
+
+	// Using enums instead of string constants
+
+	healthStatus := Healthy // Use the enum directly
+
+	assert.Equal(t, Healthy, healthStatus)
+
+}
+
+
+// TestPdpMessageType_String_Success validates the string representation of valid PdpMessageType values.
+
+func TestPdpMessageType_String_Success(t *testing.T) {
+
+	tests := []struct {
+		msgType PdpMessageType
+
+		expected string
+	}{
+
+		{PDP_STATUS, "PDP_STATUS"},
+
+		{PDP_UPDATE, "PDP_UPDATE"},
+
+		{PDP_STATE_CHANGE, "PDP_STATE_CHANGE"},
+
+		{PDP_HEALTH_CHECK, "PDP_HEALTH_CHECK"},
+
+		{PDP_TOPIC_CHECK, "PDP_TOPIC_CHECK"},
+	}
+
+	for _, test := range tests {
+
+		if got := test.msgType.String(); got != test.expected {
+
+			t.Errorf("PdpMessageType.String() = %v, want %v", got, test.expected)
+			assert.Equal(t, test.expected, got, "PdpMessageType.String() = %v, want %v", got, test.expected)
+
+		}
+
+	}
+
+}
+
+// TestPdpMessageType_String_Failure tests string representation for an invalid PdpMessageType value.
+
+func TestPdpMessageType_String_Failure(t *testing.T) {
+
+	invalidType := PdpMessageType(100)
+
+	expected := "Unknown PdpMessageType: 100"
+
+	if got := invalidType.String(); got != expected {
+
+		t.Errorf("PdpMessageType.String() = %v, want %v", got, expected)
+		assert.Equal(t, expected, got, "PdpMessageType.String() should match the expected value")
+
+	}
+
 }
