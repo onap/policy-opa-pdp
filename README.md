@@ -51,30 +51,3 @@ to opa-pdp as shown in curl commands below.
 "input":{"user":"alice","action":"read","object":"id123","type":"dog"}
   Input defines the specific data to be evaluated by the Rego policy
 
-## Verification API Calls
-
-`curl -u 'policyadmin:zb!XztG34' -H 'Content-Type: application/json' -H 'Accept: application/json' --header 'X-ONAP-RequestID:8e6f784e-c9cb-42f6-bcc9-edb5d0af1ce1' -d '{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS","currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z", "policyName":"role/allow","input":{"user":"alice","action":"write","object":"id123","type":"dog"}}' -X POST http://0.0.0.0:8282/policy/pdpx/v1/decision`
-
-## Result Of Verification API calls(Success)
-
-`curl -u 'policyadmin:zb!XztG34' -H 'Content-Type: application/json' -H 'Accept: application/json' --header 'X-ONAP-RequestID:8e6f784e-c9cb-42f6-bcc9-edb5d0af1ce1' -d '{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS","currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC",  "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z", "policyName":"role/allow","input":{"user":"alice","action":"write","object":"id123","type":"dog"}}' -X POST http://0.0.0.0:8282/policy/pdpx/v1/decision`
-
-`{"decision":"PERMIT","policyName":"role/allow","statusMessage":"OPA Allowed"}`
-
-
-## Result of Verification API calls(Failure)
-
-`curl -u 'policyadmin:zb!XztG34' -H 'Content-Type: application/json' -H 'Accept: application/json' --header 'X-ONAP-RequestID:8e6f784e-c9cb-42f6-bcc9-edb5d0af1ce1' -d '{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS","currentDate": "2024-11-22", "currentTime": "2024-11-22T11:34:56Z", "timeZone": "UTC",  "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z", "policyName":"role/allow","input":{"user":"carol","action":"write","object":"id123","type":"dog"}}' -X POST http://0.0.0.0:8282/policy/pdpx/v1/decision`
-
-## HealthCheck API Call With Response
-
-`curl -u 'policyadmin:zb!XztG34' --header 'X-ONAP-RequestID:8e6f784e-c9cb-42f6-bcc9-edb5d0af1ce1' -X GET http://0.0.0.0:8282/policy/pdpx/v1/healthcheck`
-
-`{"code":200,"healthy":true,"message":"alive","name":"opa-9f0248ea-807e-45f6-8e0f-935e570b75cc","url":"self"}`
-
-## Statistics API Call With Response
-
-`curl -u 'policyadmin:zb!XztG34' --header 'X-ONAP-RequestID:8e6f784e-c9cb-42f6-bcc9-edb5d0af1ce1' -X GET http://0.0.0.0:8282/policy/pdpx/v1/statistics`
-
-`{"code":200,"denyDecisionsCount":10,"deployFailureCount":0,"deploySuccessCount":0,"indeterminantDecisionsCount":0,"permitDecisionsCount":18,"totalErrorCount":4,"totalPoliciesCount":0,"totalPolicyTypesCount":1,"undeployFailureCount":0,"undeploySuccessCount":0}`
-
