@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c57869d_5db50d18",
+        "filename": ".github/workflows/gerrit-opa-performance-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-01-07T09:27:48Z",
+      "side": 1,
+      "message": "2025 - when adding a file, the copyright year is the current year.",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "d729ef38764a17c3cc9289c50ff98d3afbfe854c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0514bbb_7b4f4fcc",
+        "filename": ".github/workflows/gerrit-opa-performance-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-01-07T09:27:48Z",
+      "side": 1,
+      "message": "remove spaces",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 4
+      },
+      "revId": "d729ef38764a17c3cc9289c50ff98d3afbfe854c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94556684_f1ee1592",
+        "filename": ".github/workflows/gerrit-opa-stability-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-01-07T09:27:48Z",
+      "side": 1,
+      "message": "2025 - when adding a file, the copyright year is the current year.",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 27
+      },
+      "revId": "d729ef38764a17c3cc9289c50ff98d3afbfe854c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe21553e_5fff51e2",
+        "filename": ".github/workflows/gerrit-opa-stability-test.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-01-07T09:27:48Z",
+      "side": 1,
+      "message": "remove spaces",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 4
+      },
+      "revId": "d729ef38764a17c3cc9289c50ff98d3afbfe854c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
