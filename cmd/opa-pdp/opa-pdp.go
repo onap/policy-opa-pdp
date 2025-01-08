@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@ func main() {
 	}
 	defer producer.Close()
 
-	sender := &publisher.RealPdpStatusSender{}
+	sender := &publisher.RealPdpStatusSender{Producer: producer}
 	// pdp registration
 	isRegistered := registerPDPFunc(sender)
 	if !isRegistered {
