@@ -45,7 +45,6 @@ type RealPdpStatusSender struct {
 func (s *RealPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
 
 	var topic string
-	//	bootstrapServers := cfg.BootstrapServer
 	topic = cfg.Topic
 	pdpStatus.RequestID = uuid.New().String()
 	pdpStatus.TimestampMs = fmt.Sprintf("%d", time.Now().UnixMilli())
@@ -55,12 +54,6 @@ func (s *RealPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
 		log.Warnf("failed to marshal PdpStatus to JSON: %v", err)
 		return err
 	}
-	/*	producer, err := kafkacomm.GetKafkaProducer(bootstrapServers, topic)
-		if err != nil {
-			log.Warnf("Error creating Kafka producer: %v\n", err)
-			return err
-		}*/
-	//	s.Producer = producer
 	log.Debugf("Producer saved in RealPdp StatusSender")
 
 	kafkaMessage := &kafka.Message{
