@@ -23,17 +23,17 @@
           </elementProp>
           <elementProp name="API_HOST" elementType="Argument">
             <stringProp name="Argument.name">API_HOST</stringProp>
-            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.value">policy-api</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="PAP_HOST" elementType="Argument">
             <stringProp name="Argument.name">PAP_HOST</stringProp>
-            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.value">policy-pap</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="OPA_PDP_HOST" elementType="Argument">
             <stringProp name="Argument.name">OPA_PDP_HOST</stringProp>
-            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.value">policy-opa-pdp</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="API_PORT" elementType="Argument">

@@ -65,7 +65,7 @@ on:
 
   # Run every Monday at 16:30 UTC
   schedule:
-    - cron: '30 16 * * 1'
+    - cron: '*/60 * * * *'
  
 jobs:
   run-s3p-tests:

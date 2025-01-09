@@ -1,7 +1,7 @@
 # Running docker  policy-opa-pdp
 
 ## Building Docker Image.
-docker build -f  ./build/Dockerfile  -t opa-pdp:1.0.0 .
+docker build -f  ./build/Dockerfile  -t opa-pdp:1.0.0.
 
 ## Running the containers and Testing
 
