@@ -63,9 +63,13 @@ on:
   # To guarantee Maintained check is occasionally updated. See
   # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
 
-  # Run every Monday at 16:30 UTC
+  push:
+    branches:
+      - '**'
+
+  # Run everyday at 16:30 UTC
   schedule:
-    - cron: '30 16 * * 1'
+    - cron: '30 16 * * *'
  
 jobs:
   run-s3p-tests:
