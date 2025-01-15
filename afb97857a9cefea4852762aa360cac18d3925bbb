@@ -16,6 +16,24 @@
       "message": "the jenkins pipeline uses a version.properties file for release. have you checked how it works for go projects? if it follows similar approach, then you need a version file like this https://github.com/onap/policy-parent/blob/master/version.properties",
       "revId": "afb97857a9cefea4852762aa360cac18d3925bbb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87022195_2f31c528",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-01-15T12:15:18Z",
+      "side": 1,
+      "message": "yes, there is a version.properties file present in opa-pdp but it is not used. Instead the \"version\" file is being used for creating version and pushing the code to nexus. Pls refer https://github.com/onap/policy-opa-pdp/blob/master/build_image.sh",
+      "parentUuid": "633dfc07_52689782",
+      "revId": "afb97857a9cefea4852762aa360cac18d3925bbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
