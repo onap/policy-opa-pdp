@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "633dfc07_52689782",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-01-15T12:04:19Z",
+      "side": 1,
+      "message": "the jenkins pipeline uses a version.properties file for release. have you checked how it works for go projects? if it follows similar approach, then you need a version file like this https://github.com/onap/policy-parent/blob/master/version.properties",
+      "revId": "afb97857a9cefea4852762aa360cac18d3925bbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
