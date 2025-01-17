@@ -51,6 +51,23 @@
       "message": "stage-master pipeline still looks for the file anyway, but I see it\u0027s using the correct values.",
       "revId": "afb97857a9cefea4852762aa360cac18d3925bbb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5304c441_42b5e822",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-01-17T14:07:54Z",
+      "side": 1,
+      "message": "stage-release",
+      "revId": "afb97857a9cefea4852762aa360cac18d3925bbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ],
   "submitRequirementResults": [
