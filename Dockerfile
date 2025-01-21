@@ -16,6 +16,9 @@
 #   SPDX-License-Identifier: Apache-2.0
 #   ========================LICENSE_END===================================
 #
+FROM ubuntu:22.04
+RUN apt-get update && apt-get install -y curl librdkafka-dev
+
 FROM curlimages/curl:7.78.0 AS build
 
 # Get OPA
