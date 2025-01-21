@@ -16,6 +16,7 @@
 #   SPDX-License-Identifier: Apache-2.0
 #   ========================LICENSE_END===================================
 #
+
 FROM curlimages/curl:7.78.0 AS build
 
 # Get OPA
@@ -49,13 +50,14 @@ RUN mkdir /app/bundles
 WORKDIR /app
 
 # Build the binary
-RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/opa-pdp /app/cmd/opa-pdp/opa-pdp.go
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -tags static_all -o /app/opa-pdp /app/cmd/opa-pdp/opa-pdp.go
 #COPY config.json /app/config.json
 #RUN chmod 644 /app/config.json
 
 FROM ubuntu
 
-RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+#RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y curl netcat-openbsd librdkafka-dev && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y curl
 

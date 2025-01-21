@@ -27,7 +27,7 @@ import (
 	"time"
 	"github.com/google/uuid"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
-	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"policy-opa-pdp/pkg/model"
 	"testing"
 )
