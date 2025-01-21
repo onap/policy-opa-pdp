@@ -1,6 +1,6 @@
 #
 #  ========================LICENSE_START=================================
-#   Copyright (C) 2024: Deutsche Telekom
+#   Copyright (C) 2024-2025: Deutsche Telekom
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ tags:
 - name: Decision
 - name: Statistics
 - name: HealthCheck
+
 paths:
   /decision:
     post:
@@ -56,7 +57,7 @@ paths:
           application/yaml:
             schema:
               $ref: '#/components/schemas/OPADecisionRequest'
-        required: false
+        required: true
       responses:
         200:
           description: successful operation
@@ -88,6 +89,7 @@ paths:
             application/yaml:
               schema:
                 $ref: '#/components/schemas/OPADecisionResponse'
+            
         400:
           description: Bad Request
           content:
@@ -230,6 +232,7 @@ paths:
       x-interface info:
         last-mod-release: Paris
         pdpo-version: 1.0.0
+ 
 components:
   schemas:
     ErrorResponse:
@@ -238,38 +241,20 @@ components:
         responseCode:
           type: string
           enum:
-          - BAD_REQUEST
-          - UNAUTHORIZED
-          - METHOD_NOT_ALLOWED
-          - NOT_ACCEPTABLE
-          - REQUEST_TIMEOUT
-          - CONFLICT
-          - GONE
-          - LENGTH_REQUIRED
-          - PRECONDITION_FAILED
-          - REQUEST_ENTITY_TOO_LARGE
-          - REQUEST_URI_TOO_LONG
-          - UNSUPPORTED_MEDIA_TYPE
-          - REQUESTED_RANGE_NOT_SATISFIABLE
-          - EXPECTATION_FAILED
-          - PRECONDITION_REQUIRED
-          - TOO_MANY_REQUESTS
-          - REQUEST_HEADER_FIELDS_TOO_LARGE
-          - INTERNAL_SERVER_ERROR
-          - NOT_IMPLEMENTED
-          - BAD_GATEWAY
-          - SERVICE_UNAVAILABLE
-          - GATEWAY_TIMEOUT
-          - HTTP_VERSION_NOT_SUPPORTED
-          - NETWORK_AUTHENTICATION_REQUIRED
+          - internal_error
+          - bad_request
+          - evaluation_error
+          - unauthorized
+          - invalid_parameter
+          - invalid_operation
+          - resource_not_found
+          - resource_conflict
+          - undefined_document
+          - opa_undefined_error
         errorMessage:
           type: string
         policyName:
           type: string
-        errorDetails:
-          type: array
-          items:
-            type: string
     OPADecisionRequest:
       type: object
       properties:
@@ -287,7 +272,7 @@ components:
           format: date
         currentTime:
           type: string
-          format: date-time
+          format: time
         timeZone:
           type: string
           description: "Timezone in IANA format (e.g., 'America/NewYork', 'Europe/Paris', 'UTC')"
@@ -309,6 +294,11 @@ components:
                     action: read
                     object: id123
                     type: dog
+      required:
+      - policyName
+      - policyFilter
+      - input
+      
     HealthCheckReport:
       type: object
       properties:
@@ -326,20 +316,17 @@ components:
     OPADecisionResponse:
       type: object
       properties:
-        statusMessage:
-          type: string
-        decision:
-          type: string
-          enum:
-          - PERMIT
-          - DENY
-          - INDETERMINATE
-          - NOTAPPLICABLE
         policyName:
+          type: string
+        statusMessage:
           type: string
         output:
           type: object
           additionalProperties: true
+      required:
+      - policyName
+      - output
+      
     StatisticsReport:
       type: object
       properties:
@@ -355,12 +342,6 @@ components:
         totalErrorCount:
           type: integer
           format: int64
-        permitDecisionsCount:
-          type: integer
-          format: int64
-        denyDecisionsCount:
-          type: integer
-          format: int64
         deploySuccessCount:
           type: integer
           format: int64
@@ -373,17 +354,16 @@ components:
         undeployFailureCount:
           type: integer
           format: int64
-        indeterminantDecisionsCount:
+        decisionSuccessCount:
           type: integer
           format: int64
-        querySuccessCount:
+        decisionFailureCount:
           type: integer
           format: int64
-        queryFailureCount:
-          type: integer
-          format: int64
+    
   securitySchemes:
     basicAuth:
       type: http
       description: ""
       scheme: basic
+
