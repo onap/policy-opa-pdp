@@ -18,6 +18,10 @@
 #
 FROM curlimages/curl:7.78.0 AS build
 
+RUN apt-get update && apt-get install -y \
+    librdkafka-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # Get OPA
 RUN curl -Lo /tmp/opa https://github.com/open-policy-agent/opa/releases/download/v0.69.0/opa_linux_amd64
 
