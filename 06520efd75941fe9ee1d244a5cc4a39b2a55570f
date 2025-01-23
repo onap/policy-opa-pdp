@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9376cb21_7862c174",
+        "filename": "releases/1.0.1-container.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 7849
+      },
+      "writtenOn": "2025-01-23T15:46:06Z",
+      "side": 1,
+      "message": "This should be the same tag as the one defined in the version.properties file (https://gerrit.onap.org/r/gitweb?p\u003dpolicy/opa-pdp.git;a\u003dblob;f\u003dversion.properties;h\u003d512878731631f166b3b485422632ff0bb6123d64;hb\u003dHEAD). In this case it should be `1.0.0`",
+      "revId": "06520efd75941fe9ee1d244a5cc4a39b2a55570f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
