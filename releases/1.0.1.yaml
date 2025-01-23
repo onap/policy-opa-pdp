@@ -1,0 +1,5 @@
+distribution_type: 'maven'
+version: '1.0.1'
+project: 'policy-opa-pdp'
+tag_release: false
+log_dir: 'policy-opa-pdp-master-merge-golang/19/'
