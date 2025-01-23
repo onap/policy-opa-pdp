@@ -46,6 +46,29 @@
       },
       "revId": "f967ac3cf7e577d4865187f5847eaf1d5616acae",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43a2db73_716d2d96",
+        "filename": "releases/1.0.1-container.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-01-23T15:37:40Z",
+      "side": 1,
+      "message": "Should it be latest or a specific version generated?",
+      "range": {
+        "startLine": 8,
+        "startChar": 16,
+        "endLine": 8,
+        "endChar": 22
+      },
+      "revId": "f967ac3cf7e577d4865187f5847eaf1d5616acae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
