@@ -33,6 +33,23 @@
       "message": "jjb-deploy policy-opa-pdp-master-verify-golang",
       "revId": "59e5735a99760987b34f575f358f2291259af91a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f8912eb_b9a7a132",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8049
+      },
+      "writtenOn": "2025-01-31T09:40:34Z",
+      "side": 1,
+      "message": "jjb-deploy policy-opa-pdp-go-verify-master",
+      "revId": "59e5735a99760987b34f575f358f2291259af91a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
