@@ -15,43 +15,19 @@ const (
 
 // Defines values for ErrorResponseResponseCode.
 const (
-	BADGATEWAY                    ErrorResponseResponseCode = "BAD_GATEWAY"
-	BADREQUEST                    ErrorResponseResponseCode = "BAD_REQUEST"
-	CONFLICT                      ErrorResponseResponseCode = "CONFLICT"
-	EXPECTATIONFAILED             ErrorResponseResponseCode = "EXPECTATION_FAILED"
-	GATEWAYTIMEOUT                ErrorResponseResponseCode = "GATEWAY_TIMEOUT"
-	GONE                          ErrorResponseResponseCode = "GONE"
-	HTTPVERSIONNOTSUPPORTED       ErrorResponseResponseCode = "HTTP_VERSION_NOT_SUPPORTED"
-	INTERNALSERVERERROR           ErrorResponseResponseCode = "INTERNAL_SERVER_ERROR"
-	LENGTHREQUIRED                ErrorResponseResponseCode = "LENGTH_REQUIRED"
-	METHODNOTALLOWED              ErrorResponseResponseCode = "METHOD_NOT_ALLOWED"
-	NETWORKAUTHENTICATIONREQUIRED ErrorResponseResponseCode = "NETWORK_AUTHENTICATION_REQUIRED"
-	NOTACCEPTABLE                 ErrorResponseResponseCode = "NOT_ACCEPTABLE"
-	NOTIMPLEMENTED                ErrorResponseResponseCode = "NOT_IMPLEMENTED"
-	PRECONDITIONFAILED            ErrorResponseResponseCode = "PRECONDITION_FAILED"
-	PRECONDITIONREQUIRED          ErrorResponseResponseCode = "PRECONDITION_REQUIRED"
-	REQUESTEDRANGENOTSATISFIABLE  ErrorResponseResponseCode = "REQUESTED_RANGE_NOT_SATISFIABLE"
-	REQUESTENTITYTOOLARGE         ErrorResponseResponseCode = "REQUEST_ENTITY_TOO_LARGE"
-	REQUESTHEADERFIELDSTOOLARGE   ErrorResponseResponseCode = "REQUEST_HEADER_FIELDS_TOO_LARGE"
-	REQUESTTIMEOUT                ErrorResponseResponseCode = "REQUEST_TIMEOUT"
-	REQUESTURITOOLONG             ErrorResponseResponseCode = "REQUEST_URI_TOO_LONG"
-	SERVICEUNAVAILABLE            ErrorResponseResponseCode = "SERVICE_UNAVAILABLE"
-	TOOMANYREQUESTS               ErrorResponseResponseCode = "TOO_MANY_REQUESTS"
-	UNAUTHORIZED                  ErrorResponseResponseCode = "UNAUTHORIZED"
-	UNSUPPORTEDMEDIATYPE          ErrorResponseResponseCode = "UNSUPPORTED_MEDIA_TYPE"
-)
-
-// Defines values for OPADecisionResponseDecision.
-const (
-	DENY          OPADecisionResponseDecision = "DENY"
-	INDETERMINATE OPADecisionResponseDecision = "INDETERMINATE"
-	NOTAPPLICABLE OPADecisionResponseDecision = "NOTAPPLICABLE"
-	PERMIT        OPADecisionResponseDecision = "PERMIT"
+	EvaluationError   ErrorResponseResponseCode = "evaluation_error"
+	InternalError     ErrorResponseResponseCode = "internal_error"
+	InvalidOperation  ErrorResponseResponseCode = "invalid_operation"
+	InvalidParameter  ErrorResponseResponseCode = "invalid_parameter"
+	OpaUndefinedError ErrorResponseResponseCode = "opa_undefined_error"
+	ResourceConflict  ErrorResponseResponseCode = "resource_conflict"
+	ResourceNotFound  ErrorResponseResponseCode = "resource_not_found"
+	Unauthorized      ErrorResponseResponseCode = "unauthorized"
+	UndefinedDocument ErrorResponseResponseCode = "undefined_document"
 )
 
 // ErrorResponse defines model for ErrorResponse.
 type ErrorResponse struct {
-	ErrorDetails *[]string                  `json:"errorDetails,omitempty"`
 	ErrorMessage *string                    `json:"errorMessage,omitempty"`
 	PolicyName   *string                    `json:"policyName,omitempty"`
 	ResponseCode *ErrorResponseResponseCode `json:"responseCode,omitempty"`
@@ -90,30 +66,22 @@ type OPADecisionRequest struct {
 
 // OPADecisionResponse defines model for OPADecisionResponse.
 type OPADecisionResponse struct {
-	Decision      *OPADecisionResponseDecision `json:"decision,omitempty"`
-	Output        *map[string]interface{}      `json:"output,omitempty"`
-	PolicyName    *string                      `json:"policyName,omitempty"`
-	StatusMessage *string                      `json:"statusMessage,omitempty"`
+	Output     *map[string]interface{} `json:"output,omitempty"`
+	PolicyName *string                 `json:"policyName,omitempty"`
 }
-
-// OPADecisionResponseDecision defines model for OPADecisionResponse.Decision.
-type OPADecisionResponseDecision string
 
 // StatisticsReport defines model for StatisticsReport.
 type StatisticsReport struct {
-	Code                        *int32 `json:"code,omitempty"`
-	DenyDecisionsCount          *int64 `json:"denyDecisionsCount,omitempty"`
-	DeployFailureCount          *int64 `json:"deployFailureCount,omitempty"`
-	DeploySuccessCount          *int64 `json:"deploySuccessCount,omitempty"`
-	IndeterminantDecisionsCount *int64 `json:"indeterminantDecisionsCount,omitempty"`
-	PermitDecisionsCount        *int64 `json:"permitDecisionsCount,omitempty"`
-	QueryFailureCount           *int64 `json:"queryFailureCount,omitempty"`
-	QuerySuccessCount           *int64 `json:"querySuccessCount,omitempty"`
-	TotalErrorCount             *int64 `json:"totalErrorCount,omitempty"`
-	TotalPoliciesCount          *int64 `json:"totalPoliciesCount,omitempty"`
-	TotalPolicyTypesCount       *int64 `json:"totalPolicyTypesCount,omitempty"`
-	UndeployFailureCount        *int64 `json:"undeployFailureCount,omitempty"`
-	UndeploySuccessCount        *int64 `json:"undeploySuccessCount,omitempty"`
+	Code                  *int32 `json:"code,omitempty"`
+	DecisionFailureCount  *int64 `json:"decisionFailureCount,omitempty"`
+	DecisionSuccessCount  *int64 `json:"decisionSuccessCount,omitempty"`
+	DeployFailureCount    *int64 `json:"deployFailureCount,omitempty"`
+	DeploySuccessCount    *int64 `json:"deploySuccessCount,omitempty"`
+	TotalErrorCount       *int64 `json:"totalErrorCount,omitempty"`
+	TotalPoliciesCount    *int64 `json:"totalPoliciesCount,omitempty"`
+	TotalPolicyTypesCount *int64 `json:"totalPolicyTypesCount,omitempty"`
+	UndeployFailureCount  *int64 `json:"undeployFailureCount,omitempty"`
+	UndeploySuccessCount  *int64 `json:"undeploySuccessCount,omitempty"`
 }
 
 // DecisionParams defines parameters for Decision.
