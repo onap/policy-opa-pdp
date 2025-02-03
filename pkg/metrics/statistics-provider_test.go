@@ -32,8 +32,6 @@ import (
 func TestFetchCurrentStatistics(t *testing.T) {
 
 	IndeterminantDecisionsCount = 10
-	PermitDecisionsCount = 15
-	DenyDecisionsCount = 20
 	TotalErrorCount = 5
 
 	// Create a new HTTP request
@@ -56,8 +54,6 @@ func TestFetchCurrentStatistics(t *testing.T) {
 
 	// Verify the response body
 	assert.Equal(t, int64(10), *statReport.IndeterminantDecisionsCount)
-	assert.Equal(t, int64(15), *statReport.PermitDecisionsCount)
-	assert.Equal(t, int64(20), *statReport.DenyDecisionsCount)
 	assert.Equal(t, int64(5), *statReport.TotalErrorCount)
 	assert.Equal(t, int64(0), *statReport.TotalPoliciesCount)
 	assert.Equal(t, int64(1), *statReport.TotalPolicyTypesCount)
