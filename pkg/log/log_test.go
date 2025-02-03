@@ -25,12 +25,14 @@ import (
 	"bytes"
 	"github.com/sirupsen/logrus"
 	"policy-opa-pdp/pkg/log"
+	"policy-opa-pdp/consts"
 )
 
 func TestSetOutput_Success(t *testing.T) {
 	var buf bytes.Buffer
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.InfoLevel)
+	consts.LogFilePath = "test_logs.log"
 
 	log.Info("Testing SetOutput")
 	if !bytes.Contains(buf.Bytes(), []byte("Testing SetOutput")) {
@@ -40,9 +42,10 @@ func TestSetOutput_Success(t *testing.T) {
 
 func TestInit_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 
 	log.SetOutput(&buf)
-	log.InitLogger("/tmp/logfile.log", 10, 5, "debug")
+	//log.InitLogger("/tmp/logfile.log", 10, 5, "debug")
 	log.Info("Logger initialized")
 
 	if !bytes.Contains(buf.Bytes(), []byte("Logger initialized")) {
@@ -52,10 +55,11 @@ func TestInit_Success(t *testing.T) {
 
 func TestInitLogger_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 
 	log.SetOutput(&buf)
 
-	log.InitLogger("/tmp/logfile.log", 10, 5, "info")
+	//log.InitLogger("/tmp/logfile.log", 10, 5, "info")
 
 	log.Info("Logger Initialized Test")
 	if !bytes.Contains(buf.Bytes(), []byte("Logger Initialized Test")) {
@@ -65,6 +69,7 @@ func TestInitLogger_Success(t *testing.T) {
 
 func TestParseLevel_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 
 	level, err := logrus.ParseLevel("info")
@@ -82,6 +87,7 @@ func TestParseLevel_Success(t *testing.T) {
 
 func TestSetLevel_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.DebugLevel)
 
@@ -93,6 +99,7 @@ func TestSetLevel_Success(t *testing.T) {
 
 func TestError_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.ErrorLevel)
 
@@ -104,6 +111,7 @@ func TestError_Success(t *testing.T) {
 
 func TestInfo_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.InfoLevel)
 
@@ -115,6 +123,7 @@ func TestInfo_Success(t *testing.T) {
 
 func TestDebug_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.DebugLevel)
 
@@ -126,6 +135,7 @@ func TestDebug_Success(t *testing.T) {
 
 func TestWarn_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.WarnLevel)
 
@@ -136,6 +146,9 @@ func TestWarn_Success(t *testing.T) {
 }
 
 func TestPanic_Success(t *testing.T) {
+	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
+	log.SetOutput(&buf)
 	defer func() {
 		if r := recover(); r == nil {
 			t.Errorf("Expected panic, but did not get one")
@@ -148,6 +161,7 @@ func TestPanic_Success(t *testing.T) {
 
 func TestTrace_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.TraceLevel)
 
@@ -159,6 +173,7 @@ func TestTrace_Success(t *testing.T) {
 
 func TestErrorf_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.ErrorLevel)
 
@@ -170,6 +185,7 @@ func TestErrorf_Success(t *testing.T) {
 
 func TestInfof_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.InfoLevel)
 
@@ -181,6 +197,7 @@ func TestInfof_Success(t *testing.T) {
 
 func TestDebugf_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.DebugLevel)
 
@@ -192,6 +209,7 @@ func TestDebugf_Success(t *testing.T) {
 
 func TestWarnf_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.WarnLevel)
 
@@ -202,6 +220,9 @@ func TestWarnf_Success(t *testing.T) {
 }
 
 func TestPanicf_Success(t *testing.T) {
+	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
+	log.SetOutput(&buf)
 	defer func() {
 		if r := recover(); r == nil {
 			t.Errorf("Expected panic, but did not get one")
@@ -214,6 +235,7 @@ func TestPanicf_Success(t *testing.T) {
 
 func TestTracef_Success(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.TraceLevel)
 
@@ -225,6 +247,7 @@ func TestTracef_Success(t *testing.T) {
 
 func TestError_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.FatalLevel) // Set level higher than Error
 
@@ -236,6 +259,7 @@ func TestError_Failure(t *testing.T) {
 
 func TestInfo_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.WarnLevel) // Set level higher than Info
 
@@ -247,6 +271,7 @@ func TestInfo_Failure(t *testing.T) {
 
 func TestDebug_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.InfoLevel) // Set level higher than Debug
 
@@ -258,6 +283,7 @@ func TestDebug_Failure(t *testing.T) {
 
 func TestWarn_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.ErrorLevel) // Set level higher than Warn
 
@@ -268,6 +294,9 @@ func TestWarn_Failure(t *testing.T) {
 }
 
 func TestPanic_Failure(t *testing.T) {
+	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
+	log.SetOutput(&buf)
 	defer func() {
 		if r := recover(); r == nil {
 			t.Errorf("Expected a panic at PanicLevel, but did not get one")
@@ -279,6 +308,7 @@ func TestPanic_Failure(t *testing.T) {
 
 func TestTrace_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.DebugLevel) // Set level higher than Trace
 
@@ -290,6 +320,7 @@ func TestTrace_Failure(t *testing.T) {
 
 func TestErrorf_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.FatalLevel) // Set level higher than Error
 
@@ -301,6 +332,7 @@ func TestErrorf_Failure(t *testing.T) {
 
 func TestInfof_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.WarnLevel) // Set level higher than Info
 
@@ -312,6 +344,7 @@ func TestInfof_Failure(t *testing.T) {
 
 func TestDebugf_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.InfoLevel) // Set level higher than Debug
 
@@ -323,6 +356,7 @@ func TestDebugf_Failure(t *testing.T) {
 
 func TestWarnf_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.ErrorLevel) // Set level higher than Warn
 
@@ -333,6 +367,9 @@ func TestWarnf_Failure(t *testing.T) {
 }
 
 func TestPanicf_Failure(t *testing.T) {
+	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
+	log.SetOutput(&buf)
 	defer func() {
 		if r := recover(); r == nil {
 			t.Errorf("Expected a panic at PanicLevel, but did not get one")
@@ -345,6 +382,7 @@ func TestPanicf_Failure(t *testing.T) {
 
 func TestTracef_Failure(t *testing.T) {
 	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
 	log.SetOutput(&buf)
 	log.SetLevel(logrus.DebugLevel) // Set level higher than Trace
 
@@ -355,6 +393,9 @@ func TestTracef_Failure(t *testing.T) {
 }
 
 func TestParseLevel(t *testing.T) {
+	var buf bytes.Buffer
+	//consts.LogFilePath = "/tmp/test_logs.log"
+	log.SetOutput(&buf)
 	tests := []struct {
 		input       string
 		expectedErr bool

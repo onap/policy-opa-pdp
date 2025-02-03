@@ -69,7 +69,9 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 		for {
 			select {
 			case <-ticker.C:
-				sendPDPHeartBeat(s)
+				if err := sendPDPHeartBeat(s); err != nil {
+					log.Errorf("Failed to send PDP Heartbeat: %v", err)
+				}
 			case <-stopChan:
 				ticker.Stop()
 				return

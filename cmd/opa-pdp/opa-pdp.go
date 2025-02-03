@@ -95,15 +95,19 @@ func main() {
 	defer producer.Close()
 
 	sender := &publisher.RealPdpStatusSender{Producer: producer}
+	// start pdp message handler in a seperate routine
+	handleMessagesFunc(ctx, kc, sender)
+	
+	time.Sleep(10 * time.Second)
+	
 	// pdp registration
 	isRegistered := registerPDPFunc(sender)
 	if !isRegistered {
 		return
 	}
 
-	// start pdp message handler in a seperate routine
-	handleMessagesFunc(ctx, kc, sender)
-
+	time.Sleep(10 * time.Second)
+	log.Debugf("After registration successful delay")
 	// Handle OS Interrupts and Graceful Shutdown
 	interruptChannel := make(chan os.Signal, 1)
 	signal.Notify(interruptChannel, os.Interrupt, syscall.SIGTERM, syscall.SIGINT, syscall.SIGHUP)

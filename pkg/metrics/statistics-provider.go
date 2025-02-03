@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -17,8 +17,7 @@
 //   ========================LICENSE_END===================================
 //
 
-// Handles an HTTP request to fetch the current system statistics.
-// It aggregates various decision counts (e.g., indeterminate, permit, deny)
+// Handles an HTTP request to fetch the current system statistics
 // and error counts into a structured response and sends it back to the client in JSON format.
 package metrics
 
@@ -58,12 +57,9 @@ func FetchCurrentStatistics(res http.ResponseWriter, req *http.Request) {
 
 	var statReport oapicodegen.StatisticsReport
 
-	statReport.IndeterminantDecisionsCount = IndeterminantDecisionsCountRef()
-	statReport.PermitDecisionsCount = PermitDecisionsCountRef()
-	statReport.DenyDecisionsCount = DenyDecisionsCountRef()
+	statReport.DecisionSuccessCount = TotalDecisionSuccessCountRef()
+	statReport.DecisionFailureCount = TotalDecisionFailureCountRef()
 	statReport.TotalErrorCount = TotalErrorCountRef()
-	statReport.QuerySuccessCount = TotalQuerySuccessCountRef()
-	statReport.QueryFailureCount = TotalQueryFailureCountRef()
 
 	// not implemented hardcoding the values to zero
 	// will be implemeneted in phase-2
@@ -81,6 +77,9 @@ func FetchCurrentStatistics(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 	res.WriteHeader(http.StatusOK)
-	json.NewEncoder(res).Encode(statReport)
-
+	if err := json.NewEncoder(res).Encode(statReport); err != nil {
+		log.Errorf("Failed to encode JSON response: %v", err)
+		http.Error(res, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }

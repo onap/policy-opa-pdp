@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -22,55 +22,14 @@ package metrics
 import "sync"
 
 // global counter variables
-var IndeterminantDecisionsCount int64
-var PermitDecisionsCount int64
-var DenyDecisionsCount int64
 var TotalErrorCount int64
-var QuerySuccessCount int64
-var QueryFailureCount int64
+var DecisionSuccessCount int64
+var DecisionFailureCount int64
 var mu sync.Mutex
 
-// Increment counter
-func IncrementIndeterminantDecisionsCount() {
-	mu.Lock()
-	IndeterminantDecisionsCount++
-	mu.Unlock()
-}
 
-// returns pointer to the counter
-func IndeterminantDecisionsCountRef() *int64 {
-	mu.Lock()
-	defer mu.Unlock()
-	return &IndeterminantDecisionsCount
-}
 
-// Increment counter
-func IncrementPermitDecisionsCount() {
-	mu.Lock()
-	PermitDecisionsCount++
-	mu.Unlock()
-}
 
-// returns pointer to the counter
-func PermitDecisionsCountRef() *int64 {
-	mu.Lock()
-	defer mu.Unlock()
-	return &PermitDecisionsCount
-}
-
-// Increment counter
-func IncrementDenyDecisionsCount() {
-	mu.Lock()
-	DenyDecisionsCount++
-	mu.Unlock()
-}
-
-// returns pointer to the counter
-func DenyDecisionsCountRef() *int64 {
-	mu.Lock()
-	defer mu.Unlock()
-	return &DenyDecisionsCount
-}
 
 // Increment counter
 func IncrementTotalErrorCount() {
@@ -87,31 +46,31 @@ func TotalErrorCountRef() *int64 {
 }
 
 // Increment counter
-func IncrementQuerySuccessCount() {
+func IncrementDecisionSuccessCount() {
 	mu.Lock()
-	QuerySuccessCount++
+	DecisionSuccessCount++
 	mu.Unlock()
 }
 
 // returns pointer to the counter
-func TotalQuerySuccessCountRef() *int64 {
+func TotalDecisionSuccessCountRef() *int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &QuerySuccessCount
+	return &DecisionSuccessCount
 
 }
 
 // Increment counter
-func IncrementQueryFailureCount() {
+func IncrementDecisionFailureCount() {
 	mu.Lock()
-	QueryFailureCount++
+	DecisionFailureCount++
 	mu.Unlock()
 }
 
 // returns pointer to the counter
-func TotalQueryFailureCountRef() *int64 {
+func TotalDecisionFailureCountRef() *int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &QueryFailureCount
+	return &DecisionFailureCount
 
 }
