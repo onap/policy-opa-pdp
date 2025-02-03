@@ -41,14 +41,6 @@ const (
 	UNSUPPORTEDMEDIATYPE          ErrorResponseResponseCode = "UNSUPPORTED_MEDIA_TYPE"
 )
 
-// Defines values for OPADecisionResponseDecision.
-const (
-	DENY          OPADecisionResponseDecision = "DENY"
-	INDETERMINATE OPADecisionResponseDecision = "INDETERMINATE"
-	NOTAPPLICABLE OPADecisionResponseDecision = "NOTAPPLICABLE"
-	PERMIT        OPADecisionResponseDecision = "PERMIT"
-)
-
 // ErrorResponse defines model for ErrorResponse.
 type ErrorResponse struct {
 	ErrorDetails *[]string                  `json:"errorDetails,omitempty"`
@@ -90,25 +82,18 @@ type OPADecisionRequest struct {
 
 // OPADecisionResponse defines model for OPADecisionResponse.
 type OPADecisionResponse struct {
-	Decision      *OPADecisionResponseDecision `json:"decision,omitempty"`
-	Output        *map[string]interface{}      `json:"output,omitempty"`
-	PolicyName    *string                      `json:"policyName,omitempty"`
-	StatusMessage *string                      `json:"statusMessage,omitempty"`
+	Output     *map[string]interface{} `json:"output,omitempty"`
+	PolicyName *string                 `json:"policyName,omitempty"`
 }
-
-// OPADecisionResponseDecision defines model for OPADecisionResponse.Decision.
-type OPADecisionResponseDecision string
 
 // StatisticsReport defines model for StatisticsReport.
 type StatisticsReport struct {
 	Code                        *int32 `json:"code,omitempty"`
-	DenyDecisionsCount          *int64 `json:"denyDecisionsCount,omitempty"`
+	DecisionFailureCount        *int64 `json:"decisionFailureCount,omitempty"`
+	DecisionSuccessCount        *int64 `json:"decisionSuccessCount,omitempty"`
 	DeployFailureCount          *int64 `json:"deployFailureCount,omitempty"`
 	DeploySuccessCount          *int64 `json:"deploySuccessCount,omitempty"`
 	IndeterminantDecisionsCount *int64 `json:"indeterminantDecisionsCount,omitempty"`
-	PermitDecisionsCount        *int64 `json:"permitDecisionsCount,omitempty"`
-	QueryFailureCount           *int64 `json:"queryFailureCount,omitempty"`
-	QuerySuccessCount           *int64 `json:"querySuccessCount,omitempty"`
 	TotalErrorCount             *int64 `json:"totalErrorCount,omitempty"`
 	TotalPoliciesCount          *int64 `json:"totalPoliciesCount,omitempty"`
 	TotalPolicyTypesCount       *int64 `json:"totalPolicyTypesCount,omitempty"`
