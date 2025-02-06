@@ -16,6 +16,24 @@
       "message": "why InvalidOperation is mapped to 400 and 405",
       "revId": "3039f155fb0e101908b78041d5a1d3e34be41a6c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1611d18f_fa5eb29a",
+        "filename": "pkg/decision/decision-provider.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-06T12:18:42Z",
+      "side": 1,
+      "message": "It was fixed in the latest patchset",
+      "parentUuid": "c919da74_8e452c22",
+      "revId": "3039f155fb0e101908b78041d5a1d3e34be41a6c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
