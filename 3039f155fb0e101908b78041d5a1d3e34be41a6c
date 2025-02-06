@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c919da74_8e452c22",
+        "filename": "pkg/decision/decision-provider.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-02-06T12:11:21Z",
+      "side": 1,
+      "message": "why InvalidOperation is mapped to 400 and 405",
+      "revId": "3039f155fb0e101908b78041d5a1d3e34be41a6c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
