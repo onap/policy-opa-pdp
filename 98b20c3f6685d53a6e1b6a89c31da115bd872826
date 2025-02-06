@@ -81,6 +81,24 @@
       "parentUuid": "bbe83f09_1a78a200",
       "revId": "98b20c3f6685d53a6e1b6a89c31da115bd872826",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "672b9583_63d698a2",
+        "filename": "pkg/decision/decision-provider.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-06T11:24:54Z",
+      "side": 1,
+      "message": "As mentioned in the OPA documentation in  https://www.openpolicyagent.org/docs/latest/rest-api/#get-a-document-with-input, for undefined policy document OPA will send 200 OK response. And opasdk is giving opa_undefined_error if policy name is not available, we have to capture this error and give success response for just this case, and error for rest.",
+      "parentUuid": "d8de0f6e_b5f01a32",
+      "revId": "98b20c3f6685d53a6e1b6a89c31da115bd872826",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
