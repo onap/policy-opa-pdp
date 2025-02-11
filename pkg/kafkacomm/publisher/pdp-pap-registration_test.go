@@ -22,11 +22,11 @@ package publisher
 import (
 	"errors"
 	"fmt"
-	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"policy-opa-pdp/pkg/model"
 	"testing"
 	"time"
@@ -77,6 +77,11 @@ func (m *MockKafkaProducer) Close() {
 	m.Called()
 }
 
+func (m *MockKafkaProducer) Flush(timeout int) int {
+        m.Called(timeout)
+	return 0
+}
+
 // Test the SendPdpStatus method
 func TestSendPdpStatus_Success(t *testing.T) {
 	// Create the mock producer
@@ -85,6 +90,7 @@ func TestSendPdpStatus_Success(t *testing.T) {
 	// Mock the Produce method to simulate success
 	mockProducer.On("Produce", mock.Anything).Return(nil)
 	//t.Fatalf("Inside Sender checking for producer , but got: %v", mockProducer)
+
 
 	// Create the RealPdpStatusSender with the mocked producer
 	sender := RealPdpStatusSender{

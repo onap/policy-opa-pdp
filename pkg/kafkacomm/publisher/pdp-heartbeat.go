@@ -128,6 +128,7 @@ func StopTicker() {
 	if ticker != nil && stopChan != nil {
 		stopChan <- true
 		close(stopChan)
+		ticker.Stop()
 		ticker = nil
 		stopChan = nil
 	} else {
