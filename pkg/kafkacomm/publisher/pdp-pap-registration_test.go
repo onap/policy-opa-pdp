@@ -22,11 +22,11 @@ package publisher
 import (
 	"errors"
 	"fmt"
-	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"policy-opa-pdp/pkg/model"
 	"testing"
 	"time"

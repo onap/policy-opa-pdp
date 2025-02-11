@@ -4,7 +4,7 @@ go 1.23.3
 
 require (
 	bou.ke/monkey v1.0.2
-	github.com/confluentinc/confluent-kafka-go v1.9.2
+	github.com/confluentinc/confluent-kafka-go/v2 v2.8.0
 	github.com/go-playground/validator/v10 v10.24.0
 	github.com/google/uuid v1.6.0
 	github.com/oapi-codegen/runtime v1.1.1
@@ -18,7 +18,6 @@ require (
 	github.com/AdaLogics/go-fuzz-headers v0.0.0-20230811130428-ced1acdcaa24 // indirect
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
 	github.com/agnivade/levenshtein v1.2.0 // indirect
-	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bytecodealliance/wasmtime-go/v3 v3.0.2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
