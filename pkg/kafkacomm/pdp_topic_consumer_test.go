@@ -22,8 +22,8 @@ package kafkacomm
 import (
 	"bou.ke/monkey"
 	"errors"
-	"fmt"
-	"github.com/confluentinc/confluent-kafka-go/kafka"
+        "fmt"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/cfg"
