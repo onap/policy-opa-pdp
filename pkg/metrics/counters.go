@@ -25,11 +25,12 @@ import "sync"
 var TotalErrorCount int64
 var DecisionSuccessCount int64
 var DecisionFailureCount int64
+var DeployFailureCount int64
+var DeploySuccessCount int64
+var UndeployFailureCount int64
+var UndeploySuccessCount int64
+var TotalPoliciesCount int64
 var mu sync.Mutex
-
-
-
-
 
 // Increment counter
 func IncrementTotalErrorCount() {
@@ -39,7 +40,7 @@ func IncrementTotalErrorCount() {
 }
 
 // returns pointer to the counter
-func TotalErrorCountRef() *int64 {
+func totalErrorCountRef() *int64 {
 	mu.Lock()
 	defer mu.Unlock()
 	return &TotalErrorCount
@@ -53,7 +54,7 @@ func IncrementDecisionSuccessCount() {
 }
 
 // returns pointer to the counter
-func TotalDecisionSuccessCountRef() *int64 {
+func totalDecisionSuccessCountRef() *int64 {
 	mu.Lock()
 	defer mu.Unlock()
 	return &DecisionSuccessCount
@@ -74,3 +75,84 @@ func TotalDecisionFailureCountRef() *int64 {
 	return &DecisionFailureCount
 
 }
+
+// Increment counter
+func IncrementDeploySuccessCount() {
+        mu.Lock()
+        DeploySuccessCount++
+        mu.Unlock()
+}
+
+// returns pointer to the counter
+
+func totalDeploySuccessCountRef() *int64 {
+        mu.Lock()
+        defer mu.Unlock()
+        return &DeploySuccessCount
+
+}
+
+// Increment counter
+func IncrementDeployFailureCount() {
+        mu.Lock()
+        DeployFailureCount++
+        mu.Unlock()
+}
+
+// returns pointer to the counter
+
+func totalDeployFailureCountRef() *int64 {
+        mu.Lock()
+        defer mu.Unlock()
+        return &DeployFailureCount
+
+}
+
+
+// Increment counter
+func IncrementUndeploySuccessCount() {
+        mu.Lock()
+	UndeploySuccessCount++
+	mu.Unlock()
+}
+
+// returns pointer to the counter
+
+func totalUndeploySuccessCountRef() *int64 {
+        mu.Lock()
+        defer mu.Unlock()
+        return &UndeploySuccessCount
+
+}
+
+// Increment counter
+func IncrementUndeployFailureCount() {
+        mu.Lock()
+        UndeployFailureCount++
+        mu.Unlock()
+}
+
+// returns pointer to the counter
+
+func totalUndeployFailureCountRef() *int64 {
+        mu.Lock()
+        defer mu.Unlock()
+        return &UndeployFailureCount
+
+}
+
+// Increment counter
+func SetTotalPoliciesCount(newCount int64) {
+        mu.Lock()
+        TotalPoliciesCount = newCount
+        mu.Unlock()
+}
+
+// returns pointer to the counter
+
+func totalPoliciesCountRef() *int64 {
+        mu.Lock()
+        defer mu.Unlock()
+        return &TotalPoliciesCount
+}
+

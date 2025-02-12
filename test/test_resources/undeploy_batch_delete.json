@@ -1,0 +1,23 @@
+{
+    "groups": [
+        {
+            "name": "opaGroup",
+            "deploymentSubgroups": [
+                {
+                    "pdpType": "opa",
+                    "action": "DELETE",
+                    "policies": [
+                        {
+                            "name": "account",
+                            "version": "1.0.0"
+                        },
+                        {
+                            "name": "organization",
+                            "version": "1.0.0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

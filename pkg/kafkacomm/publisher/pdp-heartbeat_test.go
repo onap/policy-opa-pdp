@@ -25,8 +25,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
 	"testing"
-	)
-
+)
 
 /*
 Success Case 1

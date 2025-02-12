@@ -39,7 +39,7 @@ func TestCounters(t *testing.T) {
 		}()
 	}
 	wg.Wait()
-	assert.Equal(t, int64(5), *TotalErrorCountRef())
+	assert.Equal(t, int64(5), *totalErrorCountRef())
 
 	// Test IncrementQuerySuccessCount and TotalQuerySuccessCountRef
 
@@ -61,7 +61,7 @@ func TestCounters(t *testing.T) {
 
 	wg.Wait()
 
-	assert.Equal(t, int64(7), *TotalDecisionSuccessCountRef())
+	assert.Equal(t, int64(7), *totalDecisionSuccessCountRef())
 
 	// Test IncrementDecisionFailureCount and TotalDecisionFailureCountRef
 
