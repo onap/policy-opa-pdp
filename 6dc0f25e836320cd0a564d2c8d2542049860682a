@@ -41,6 +41,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08c33d68_9a4dde08",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8ff2745_41757002",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 3
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e07705e5_70189336",
@@ -77,6 +101,30 @@
       "writtenOn": "2025-02-12T13:30:02Z",
       "side": 1,
       "message": "remove extra blank space",
+      "range": {
+        "startLine": 26,
+        "startChar": 89,
+        "endLine": 26,
+        "endChar": 90
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a579c685_04851c0b",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d397a629_da3ffd5d",
       "range": {
         "startLine": 26,
         "startChar": 89,
@@ -133,6 +181,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26286a37_805924a5",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d147c7a_b48ac74e",
+      "range": {
+        "startLine": 42,
+        "startChar": 23,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5d53bfa_1fefeff1",
@@ -169,6 +241,30 @@
       "writtenOn": "2025-02-12T13:30:02Z",
       "side": 1,
       "message": "remove extra blank space",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 10
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd60569d_465e0d83",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6f57c89_c4f3575e",
       "range": {
         "startLine": 62,
         "startChar": 9,
@@ -225,6 +321,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1b788b_092c0964",
+        "filename": "api/register-handlers.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e5e333b_189503b3",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bc1f5b2_cbd02bf4",
@@ -261,6 +381,30 @@
       "writtenOn": "2025-02-12T13:30:02Z",
       "side": 1,
       "message": "remove extra spaces",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 1
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b46ccc40_c93d5c75",
+        "filename": "cmd/opa-pdp/opa-pdp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3369bf0f_343e12a7",
       "range": {
         "startLine": 103,
         "startChar": 0,
@@ -317,6 +461,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b830b2a4_ffa5509f",
+        "filename": "pkg/decision/decision-provider.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70ece92e_38eb9d1c",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 2
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2464218c_99c3c49c",
@@ -330,6 +498,30 @@
       "writtenOn": "2025-02-12T13:30:02Z",
       "side": 1,
       "message": "remove extra spaces",
+      "range": {
+        "startLine": 423,
+        "startChar": 0,
+        "endLine": 423,
+        "endChar": 1
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0944e6bf_1b031546",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2464218c_99c3c49c",
       "range": {
         "startLine": 423,
         "startChar": 0,
@@ -376,6 +568,30 @@
       "writtenOn": "2025-02-12T13:30:02Z",
       "side": 1,
       "message": "assert comment says 400; actual assert goes for 200",
+      "range": {
+        "startLine": 523,
+        "startChar": 2,
+        "endLine": 524,
+        "endChar": 31
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f096b51_f89fc01c",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bb24391_d7f303c7",
       "range": {
         "startLine": 523,
         "startChar": 2,
@@ -455,6 +671,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b448e1e6_97dc802a",
+        "filename": "pkg/kafkacomm/handler/pdp_update_deploy_policy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "940ce62e_e56ea9ff",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4ec72d1_ad88c406",
@@ -491,6 +731,30 @@
       "writtenOn": "2025-02-12T13:30:02Z",
       "side": 1,
       "message": "remove extra spaces",
+      "range": {
+        "startLine": 249,
+        "startChar": 149,
+        "endLine": 249,
+        "endChar": 150
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4660e63_ab3d87c3",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ce431c6_7dd8c891",
       "range": {
         "startLine": 249,
         "startChar": 149,
@@ -547,6 +811,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb11ceff_22c96801",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de618a7e_b3c90d10",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdfd39bd_ba7fd964",
@@ -583,6 +871,30 @@
       "writtenOn": "2025-02-12T13:30:02Z",
       "side": 1,
       "message": "the test name is still with capital S - TestSend....",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08c48a32_9f192850",
+        "filename": "pkg/kafkacomm/publisher/pdp-heartbeat_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52008fb3_9e33c065",
       "range": {
         "startLine": 90,
         "startChar": 0,
@@ -639,6 +951,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6b52d78_246e8923",
+        "filename": "pkg/policymap/policy_and_data_map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "980b34f0_5d68474b",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "969724d6_2a20ddbc",
@@ -685,6 +1021,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38dca6e5_629e1e92",
+        "filename": "test/test_resources/policy_conflict.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc60111b_7f2436a7",
+      "range": {
+        "startLine": 8,
+        "startChar": 15,
+        "endLine": 8,
+        "endChar": 16
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77bdc08f_69107141",
@@ -721,6 +1081,30 @@
       "writtenOn": "2025-02-12T13:30:02Z",
       "side": 1,
       "message": "remove extra blank space",
+      "range": {
+        "startLine": 8,
+        "startChar": 15,
+        "endLine": 8,
+        "endChar": 16
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a511446c_6ee294a6",
+        "filename": "test/test_resources/policy_zone.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-12T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "874c5419_c9f90207",
       "range": {
         "startLine": 8,
         "startChar": 15,
