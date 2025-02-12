@@ -97,13 +97,6 @@ services:
        - ./scripts.sh:/app/scripts.sh
        - ./Opagroup.json:/app/Opagroup.json
        - ./policy-new.yaml:/app/policy-new.yaml
-       - type: bind
-         source: ./policies
-         target: /opt/policies 
-       - type: bind
-         source: ./data
-         target: /opt/data 
-
       environment:
         LOG_LEVEL: debug
         KAFKA_URL: "kafka:9092"

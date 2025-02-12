@@ -1,6 +1,6 @@
 # -
 #   ========================LICENSE_START=================================
-#   Copyright (C) 2024: Deutsche Telekom
+#   Copyright (C) 2024-2025: Deutsche Telekom
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -64,6 +64,9 @@ RUN apt-get update && apt-get install -y curl
 RUN mkdir /app
 COPY --from=compile /app /app
 RUN chmod +x /app/opa-pdp
+
+RUN mkdir /opt/policies
+RUN mkdir /opt/data
 
 # Copy our opa executable from build stage
 COPY --from=build /tmp/opa /app/opa

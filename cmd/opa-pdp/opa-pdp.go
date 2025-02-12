@@ -68,7 +68,8 @@ func main() {
 
 	// Initialize Handlers and Build Bundle
 	initializeHandlersFunc()
-	if err := initializeBundleFunc(exec.Command); err != nil {
+	if output, err := initializeBundleFunc(exec.Command); err != nil {
+		log.Warnf("Output %s", string(output))
 		log.Warnf("Failed to initialize bundle: %s", err)
 	}
 
@@ -95,11 +96,11 @@ func main() {
 	defer producer.Close()
 
 	sender := &publisher.RealPdpStatusSender{Producer: producer}
+
 	// start pdp message handler in a seperate routine
 	handleMessagesFunc(ctx, kc, sender)
-	
+
 	time.Sleep(10 * time.Second)
-	
 	// pdp registration
 	isRegistered := registerPDPFunc(sender)
 	if !isRegistered {
@@ -141,7 +142,7 @@ func initializeHandlers() {
 }
 
 // build bundle tar file
-func initializeBundle(execCmd func(string, ...string) *exec.Cmd) error {
+func initializeBundle(execCmd func(string, ...string) *exec.Cmd) (string, error) {
 	return bundleserver.BuildBundle(execCmd)
 }
 
@@ -228,3 +229,4 @@ myLoop:
 
 	time.Sleep(time.Duration(consts.SHUTDOWN_WAIT_TIME) * time.Second)
 }
+

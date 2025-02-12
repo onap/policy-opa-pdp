@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import (
 
 // Processes incoming messages indicating a PDP state change.
 // This includes updating the PDP state and sending a status response when the state transitions.
-func PdpStateChangeMessageHandler(message []byte, p publisher.PdpStatusSender) error {
+func pdpStateChangeMessageHandler(message []byte, p publisher.PdpStatusSender) error {
 
 	var pdpStateChange model.PdpStateChange
 
