@@ -54,7 +54,6 @@ func (s *RealPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
 		log.Warnf("failed to marshal PdpStatus to JSON: %v", err)
 		return err
 	}
-	log.Debugf("Producer saved in RealPdp StatusSender")
 
 	kafkaMessage := &kafka.Message{
 		TopicPartition: kafka.TopicPartition{

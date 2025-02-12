@@ -1,0 +1,10 @@
+{
+   "policies": [
+           {
+                    "policy-id": "conflict",
+                    "policy-version": "1.0.0"
+
+           }
+   ]
+}
+

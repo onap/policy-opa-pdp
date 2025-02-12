@@ -114,8 +114,8 @@ func (p *PdpUpdate) Validate() error {
 	if p.MessageType == "" {
 		return errors.New("MessageType is required")
 	}
-	if len(p.PoliciesToBeDeloyed) == 0 {
-		return errors.New("PoliciesToBeDeloyed is required and must contain at least one policy")
+	if len(p.PoliciesToBeDeployed) == 0 {
+		return errors.New("PoliciesToBeDeployed is required and must contain at least one policy")
 	}
 	if p.Name == "" {
 		return errors.New("Name is required")
@@ -138,11 +138,52 @@ func (p *PdpUpdate) Validate() error {
 
 // TestPdpUpdateSerialization_Positive tests the successful serialization of PdpUpdate.
 func TestPdpUpdateSerialization_Success(t *testing.T) {
+	policies := []ToscaPolicy{
+		{
+			Type:        "onap.policies.native.opa",
+			TypeVersion: "1.0",
+			Properties: PolicyProperties{
+				Data: map[string]string{
+					"key1": "value1",
+					"key2": "value2",
+				},
+				Policy: map[string]string{
+					"policyKey1": "policyValue1",
+				},
+			},
+			Name:    "MySecurityPolicy",
+			Version: "1.0.0",
+			Metadata: Metadata{
+				PolicyID:      "policy-id-001",
+				PolicyVersion: "1.0",
+			},
+		},
+		{
+			Type:        "onap.policies.native.opa",
+			TypeVersion: "1.0",
+			Properties: PolicyProperties{
+				Data: map[string]string{
+					"threshold": "75",
+					"duration":  "30",
+				},
+				Policy: map[string]string{
+					"policyKey2": "policyValue2",
+				},
+			},
+			Name:    "MyPerformancePolicy",
+			Version: "1.0.0",
+			Metadata: Metadata{
+				PolicyID:      "policy-id-002",
+				PolicyVersion: "1.0",
+			},
+		},
+	}
+
 	pdpUpdate := PdpUpdate{
 		Source:                 "source1",
 		PdpHeartbeatIntervalMs: 5000,
 		MessageType:            "PDP_UPDATE",
-		PoliciesToBeDeloyed:    []string{"policy1", "policy2"},
+		PoliciesToBeDeployed:    policies,
 		Name:                   "ExamplePDP",
 		TimestampMs:            1633017600000,
 		PdpGroup:               "Group1",
@@ -162,7 +203,7 @@ func TestPdpUpdateSerialization_Failure(t *testing.T) {
 		Source:                 "",
 		PdpHeartbeatIntervalMs: 5000,
 		MessageType:            "",
-		PoliciesToBeDeloyed:    nil,
+		PoliciesToBeDeployed:    nil,
 		Name:                   "",
 		TimestampMs:            0,
 		PdpGroup:               "",
@@ -263,7 +304,6 @@ func TestPdpHealthStatusEnum(t *testing.T) {
 	assert.Equal(t, Healthy, healthStatus)
 
 }
-
 
 // TestPdpMessageType_String_Success validates the string representation of valid PdpMessageType values.
 
