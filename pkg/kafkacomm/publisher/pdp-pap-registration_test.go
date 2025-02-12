@@ -22,14 +22,14 @@ package publisher
 import (
 	"errors"
 	"fmt"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"time"
-	"github.com/google/uuid"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
-	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"policy-opa-pdp/pkg/model"
 	"testing"
+	"time"
 )
 
 type MockPdpStatusSender struct {
@@ -140,4 +140,3 @@ func TestSendPdpStatus_Failure(t *testing.T) {
 	// Verify that the Produce method was called exactly once
 	mockProducer.AssertExpectations(t)
 }
-

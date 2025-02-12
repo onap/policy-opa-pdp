@@ -28,15 +28,15 @@ import (
 
 func TestGenerateUniquePdpName_Success(t *testing.T) {
 	t.Run("GenerateValidPdpName", func(t *testing.T) {
-		pdpName := GenerateUniquePdpName()
+		pdpName := generateUniquePdpName()
 		assert.Contains(t, pdpName, "opa-", "Expected PDP name to start with 'opa-'")
 	})
 }
 
 func TestGenerateUniquePdpName_Failure(t *testing.T) {
 	t.Run("UniqueNamesCheck", func(t *testing.T) {
-		pdpName1 := GenerateUniquePdpName()
-		pdpName2 := GenerateUniquePdpName()
+		pdpName1 := generateUniquePdpName()
+		pdpName2 := generateUniquePdpName()
 		assert.NotEqual(t, pdpName1, pdpName2, "Expected different UUID for each generated PDP name")
 		assert.Len(t, pdpName1, len("opa-")+36, "Expected length of PDP name to match 'opa-<UUID>' format")
 	})
@@ -46,14 +46,14 @@ func TestSetPdpSubgroup_Success(t *testing.T) {
 	t.Run("ValidSubgroup", func(t *testing.T) {
 		expectedSubgroup := "subgroup1"
 		SetPdpSubgroup(expectedSubgroup)
-		assert.Equal(t, expectedSubgroup, GetPdpSubgroup(), "Expected PDP subgroup to match set value")
+		assert.Equal(t, expectedSubgroup, getPdpSubgroup(), "Expected PDP subgroup to match set value")
 	})
 }
 
 func TestSetPdpSubgroup_Failure(t *testing.T) {
 	t.Run("EmptySubgroup", func(t *testing.T) {
 		SetPdpSubgroup("")
-		assert.Equal(t, "", GetPdpSubgroup(), "Expected PDP subgroup to be empty when set to empty string")
+		assert.Equal(t, "", getPdpSubgroup(), "Expected PDP subgroup to be empty when set to empty string")
 	})
 
 	t.Run("LargeSubgroup", func(t *testing.T) {
@@ -62,7 +62,7 @@ func TestSetPdpSubgroup_Failure(t *testing.T) {
 			largeSubgroup[i] = 'a'
 		}
 		SetPdpSubgroup(string(largeSubgroup))
-		assert.Equal(t, string(largeSubgroup), GetPdpSubgroup(), "Expected large PDP subgroup to match set value")
+		assert.Equal(t, string(largeSubgroup), getPdpSubgroup(), "Expected large PDP subgroup to match set value")
 	})
 }
 
@@ -70,19 +70,19 @@ func TestSetPdpHeartbeatInterval_Success(t *testing.T) {
 	t.Run("ValidHeartbeatInterval", func(t *testing.T) {
 		expectedInterval := int64(30)
 		SetPdpHeartbeatInterval(expectedInterval)
-		assert.Equal(t, expectedInterval, GetPdpHeartbeatInterval(), "Expected heartbeat interval to match set value")
+		assert.Equal(t, expectedInterval, getPdpHeartbeatInterval(), "Expected heartbeat interval to match set value")
 	})
 }
 
 func TestSetPdpHeartbeatInterval_Failure(t *testing.T) {
 	t.Run("FailureHeartbeatInterval", func(t *testing.T) {
 		SetPdpHeartbeatInterval(-10)
-		assert.Equal(t, int64(-10), GetPdpHeartbeatInterval(), "Expected heartbeat interval to handle negative values")
+		assert.Equal(t, int64(-10), getPdpHeartbeatInterval(), "Expected heartbeat interval to handle negative values")
 	})
 
 	t.Run("LargeHeartbeatInterval", func(t *testing.T) {
 		largeInterval := int64(time.Hour * 24 * 365 * 10) // 10 years in seconds
 		SetPdpHeartbeatInterval(largeInterval)
-		assert.Equal(t, largeInterval, GetPdpHeartbeatInterval(), "Expected PDP heartbeat interval to handle large values")
+		assert.Equal(t, largeInterval, getPdpHeartbeatInterval(), "Expected PDP heartbeat interval to handle large values")
 	})
 }
