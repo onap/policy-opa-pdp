@@ -35,7 +35,7 @@ func TestSendPdpUpdateResponse_Success(t *testing.T) {
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
 
-	err := SendPdpUpdateResponse(mockSender, pdpUpdate)
+	err := SendPdpUpdateResponse(mockSender, pdpUpdate, "PDPUpdate Successful")
 	assert.NoError(t, err)
 	mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
 }
@@ -48,7 +48,7 @@ func TestSendPdpUpdateResponse_Failure(t *testing.T) {
 
 	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
 
-	err := SendPdpUpdateResponse(mockSender, pdpUpdate)
+	err := SendPdpUpdateResponse(mockSender, pdpUpdate, "PDPUpdate Failure")
 
 	assert.Error(t, err)
 

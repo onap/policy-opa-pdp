@@ -29,6 +29,7 @@ import (
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/pdpattributes"
 	"policy-opa-pdp/pkg/pdpstate"
+	"policy-opa-pdp/pkg/policymap"
 	"time"
 
 	"github.com/google/uuid"
@@ -36,10 +37,10 @@ import (
 
 // Sends a PDP_STATUS message to indicate the successful processing of a PDP_UPDATE request
 // received from the Policy Administration Point (PAP).
-func SendPdpUpdateResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate) error {
+func SendPdpUpdateResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMessage string) error {
 
 	responseStatus := model.Success
-	responseMessage := "PDP Update was Successful"
+	responseMessage := resMessage
 
 	pdpStatus := model.PdpStatus{
 		MessageType: model.PDP_STATUS,
@@ -50,7 +51,7 @@ func SendPdpUpdateResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate) error 
 		Description: "Pdp Status Response Message For Pdp Update",
 		PdpGroup:    consts.PdpGroup,
 		PdpSubgroup: &pdpattributes.PdpSubgroup,
-		// Policies: [],
+		Policies:    []model.ToscaConceptIdentifier{},
 		PdpResponse: &model.PdpResponseDetails{
 			ResponseTo:      &pdpUpdate.RequestId,
 			ResponseStatus:  &responseStatus,
@@ -61,9 +62,66 @@ func SendPdpUpdateResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate) error 
 	pdpStatus.RequestID = uuid.New().String()
 	pdpStatus.TimestampMs = fmt.Sprintf("%d", time.Now().UnixMilli())
 
+	policiesMap := policymap.LastDeployedPolicies
+
+	if policiesMap != "" {
+		if (policymap.ExtractDeployedPolicies(policiesMap)) == nil {
+			log.Warnf("No Policies extracted from Policy Map")
+		} else {
+			pdpStatus.Policies = policymap.ExtractDeployedPolicies(policiesMap)
+		}
+	}
+
 	log.Infof("Sending PDP Status With Update Response")
 
 	err := s.SendPdpStatus(pdpStatus)
+	if err != nil {
+		log.Warnf("Failed to send PDP Update Message : %v", err)
+		return err
+	}
+
+	return nil
+
+}
+
+func SendPdpUpdateErrorResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, err error) error {
+
+	responseStatus := model.Failure
+	responseMessage := fmt.Sprintf("%v", err)
+
+	pdpStatus := model.PdpStatus{
+		MessageType: model.PDP_STATUS,
+		PdpType:     consts.PdpType,
+		State:       pdpstate.State,
+		Healthy:     model.Healthy,
+		Name:        pdpattributes.PdpName,
+		Description: "Pdp Status Response Message For Pdp Update",
+		PdpGroup:    consts.PdpGroup,
+		PdpSubgroup: &pdpattributes.PdpSubgroup,
+		Policies:    []model.ToscaConceptIdentifier{},
+		PdpResponse: &model.PdpResponseDetails{
+			ResponseTo:      &pdpUpdate.RequestId,
+			ResponseStatus:  &responseStatus,
+			ResponseMessage: &responseMessage,
+		},
+	}
+
+	pdpStatus.RequestID = uuid.New().String()
+	pdpStatus.TimestampMs = fmt.Sprintf("%d", time.Now().UnixMilli())
+
+	policiesMap := policymap.LastDeployedPolicies
+
+	if policiesMap != "" {
+		if (policymap.ExtractDeployedPolicies(policiesMap)) == nil {
+			log.Warnf("No Policies extracted from Policy Map")
+		} else {
+			pdpStatus.Policies = policymap.ExtractDeployedPolicies(policiesMap)
+		}
+	}
+
+	log.Infof("Sending PDP Status With Update Error Response")
+
+	err = s.SendPdpStatus(pdpStatus)
 	if err != nil {
 		log.Warnf("Failed to send PDP Update Message : %v", err)
 		return err
@@ -87,7 +145,7 @@ func SendStateChangeResponse(s PdpStatusSender, pdpStateChange *model.PdpStateCh
 		Description: "Pdp Status Response Message to Pdp State Change",
 		PdpGroup:    consts.PdpGroup,
 		PdpSubgroup: &pdpattributes.PdpSubgroup,
-		// Policies: [],
+		Policies:    []model.ToscaConceptIdentifier{},
 		PdpResponse: &model.PdpResponseDetails{
 			ResponseTo:      &pdpStateChange.RequestId,
 			ResponseStatus:  &responseStatus,

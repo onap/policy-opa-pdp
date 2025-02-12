@@ -33,12 +33,12 @@ var (
 )
 
 func init() {
-	PdpName = GenerateUniquePdpName()
+	PdpName = generateUniquePdpName()
 	log.Debugf("Name: %s", PdpName)
 }
 
 // Generates a unique PDP name by appending a randomly generated UUID
-func GenerateUniquePdpName() string {
+func generateUniquePdpName() string {
 	return "opa-" + uuid.New().String()
 }
 
@@ -48,7 +48,7 @@ func SetPdpSubgroup(pdpsubgroup string) {
 }
 
 // Retrieves the current PDP subgroup value.
-func GetPdpSubgroup() string {
+func getPdpSubgroup() string {
 	return PdpSubgroup
 }
 
@@ -58,7 +58,7 @@ func SetPdpHeartbeatInterval(pdpHeartbeatInterval int64) {
 }
 
 // Retrieves the current PDP heartbeat interval value.
-func GetPdpHeartbeatInterval() int64 {
+func getPdpHeartbeatInterval() int64 {
 	return PdpHeartbeatInterval
 
 }

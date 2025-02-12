@@ -1,5 +1,19 @@
 # Testing OPA
 
+## Curl URL For Deployment.
+
+1. `curl -u 'policyadmin:zb!XztG34' -X POST -H "Content-Type":"application/yaml" --data-binary @test_resources/policy_deploy_single_policy.yaml http://localhost:30002/policy/api/v1/policytypes/onap.policies.native.opa/versions/1.0.0/policies`
+
+2. `curl -u 'policyadmin:zb!XztG34' -X POST  -H "Content-Type":"application/json" -d  @test_resources/deploy.json http://localhost:30003/policy/pap/v1/pdps/policies`
+
+## Curl URL For Undeployment
+
+`curl -u 'policyadmin:zb!XztG34' -X DELETE http://localhost:30003/policy/pap/v1/pdps/policies/role/versions/1.0.0` , where role is the policy name.
+
+## Curl URL for Batch Undeployment.
+
+`curl -v -u 'policyadmin:zb!XztG34' -X POST  -H "Content-Type":"application/json" -d  @test_resources/undeploy_batch_delete.json  http://localhost:30003/policy/pap/v1/pdps/deployments/batch`
+
 ## Verification API Calls
 
 curl -u 'policyadmin:zb!XztG34' -H 'Content-Type: application/json' -H 'Accept: application/json' -d '{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS","currentDate": "2024-11-22", "currentTime": "11:34:56", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z", "policyFilter" : [""], "policyName":"example","input":{"method":"POST","path":["users"]}}' -X POST http://0.0.0.0:8282/policy/pdpo/v1/decision

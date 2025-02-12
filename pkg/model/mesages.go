@@ -86,11 +86,11 @@ type PdpStatus struct {
 // models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpUpdate.java
 type PdpUpdate struct {
 	Source                 string                   `json:"source" validate:"required"`
-	PdpHeartbeatIntervalMs int64                    `json:"pdpHeartbeatIntervalMs" validate:"required"`
+	PdpHeartbeatIntervalMs int64                    `json:"pdpHeartbeatIntervalMs"`
 	MessageType            string                   `json:"messageName" validate:"required"`
-	PoliciesToBeDeloyed    []string                 `json:"policiesToBeDeployed" validate:"required"`
-	policiesToBeUndeployed []ToscaConceptIdentifier `json:"policiesToBeUndeployed"`
-	Name                   string                   `json:"name" validate:"required"`
+	PoliciesToBeDeployed   []ToscaPolicy            `json:"policiesToBeDeployed" validate:"required"`
+	PoliciesToBeUndeployed []ToscaConceptIdentifier `json:"policiesToBeUndeployed"`
+	Name                   string                   `json:"name"`
 	TimestampMs            int64                    `json:"timestampMs" validate:"required"`
 	PdpGroup               string                   `json:"pdpGroup" validate:"required"`
 	PdpSubgroup            string                   `json:"pdpSubgroup" validate:"required"`

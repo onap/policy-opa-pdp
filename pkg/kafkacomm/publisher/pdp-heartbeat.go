@@ -30,6 +30,7 @@ import (
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/pdpattributes"
 	"policy-opa-pdp/pkg/pdpstate"
+	"policy-opa-pdp/pkg/policymap"
 	"sync"
 	"time"
 )
@@ -43,13 +44,17 @@ var (
 
 // Initializes a timer that sends periodic heartbeat messages to indicate the health and state of the PDP.
 func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
-	if intervalMs <= 0 {
+	mu.Lock()
+	defer mu.Unlock()
+
+	if intervalMs < 0 {
 		log.Errorf("Invalid interval provided: %d. Interval must be greater than zero.", intervalMs)
 		ticker = nil
 		return
+	} else if intervalMs == 0 {
+		intervalMs = currentInterval
+
 	}
-	mu.Lock()
-	defer mu.Unlock()
 
 	if ticker != nil && intervalMs == currentInterval {
 		log.Debug("Ticker is already running")
@@ -59,7 +64,7 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 	if ticker != nil {
 		ticker.Stop()
 	}
-	// StopTicker()
+
 	currentInterval = intervalMs
 
 	ticker = time.NewTicker(time.Duration(intervalMs) * time.Millisecond)
@@ -89,11 +94,22 @@ func sendPDPHeartBeat(s PdpStatusSender) error {
 		Healthy:     model.Healthy,
 		Name:        pdpattributes.PdpName,
 		Description: "Pdp heartbeat",
+		Policies:    []model.ToscaConceptIdentifier{},
 		PdpGroup:    consts.PdpGroup,
 		PdpSubgroup: &pdpattributes.PdpSubgroup,
 	}
 	pdpStatus.RequestID = uuid.New().String()
 	pdpStatus.TimestampMs = fmt.Sprintf("%d", time.Now().UnixMilli())
+
+	policiesMap := policymap.LastDeployedPolicies
+
+	if policiesMap != "" {
+		if (policymap.ExtractDeployedPolicies(policiesMap)) == nil {
+			log.Warnf("No Policies extracted from Policy Map")
+		} else {
+			pdpStatus.Policies = policymap.ExtractDeployedPolicies(policiesMap)
+		}
+	}
 
 	err := s.SendPdpStatus(pdpStatus)
 	log.Debugf("Sending Heartbeat ...")
