@@ -24,6 +24,7 @@ package decision
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/google/uuid"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/open-policy-agent/opa/sdk"
@@ -35,6 +36,7 @@ import (
 	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/pdpstate"
+	"policy-opa-pdp/pkg/policymap"
 	"policy-opa-pdp/pkg/utils"
 	"strings"
 )
@@ -47,7 +49,7 @@ var httpToResponseCode = map[int]oapicodegen.ErrorResponseResponseCode{
 }
 
 // Gets responsecode from map
-func GetErrorResponseResponseCode(httpStatus int) oapicodegen.ErrorResponseResponseCode {
+func getErrorResponseResponseCode(httpStatus int) oapicodegen.ErrorResponseResponseCode {
 	if code, exists := httpToResponseCode[httpStatus]; exists {
 		return code
 	}
@@ -91,7 +93,8 @@ func createSuccessDecisionResponseWithStatus(policyName string, output map[strin
 
 // creates a decision response based on the provided parameters
 func createDecisionExceptionResponse(statusCode int, errorMessage string, policyName string) *oapicodegen.ErrorResponse {
-	responseCode := GetErrorResponseResponseCode(statusCode)
+
+	responseCode := getErrorResponseResponseCode(statusCode)
 	return &oapicodegen.ErrorResponse{
 		ResponseCode: (*oapicodegen.ErrorResponseResponseCode)(&responseCode),
 		ErrorMessage: &errorMessage,
@@ -99,7 +102,7 @@ func createDecisionExceptionResponse(statusCode int, errorMessage string, policy
 	}
 }
 
-// handles HTTP requests for decisions using OPA. 
+// handles HTTP requests for decisions using OPA.
 func OpaDecision(res http.ResponseWriter, req *http.Request) {
 	log.Debugf("PDP received a decision request.")
 	var errorDtls string
@@ -116,30 +119,80 @@ func OpaDecision(res http.ResponseWriter, req *http.Request) {
 		errorDtls = req.Method + " MethodNotAllowed"
 		httpStatus = http.StatusMethodNotAllowed
 	} else {
-		decisionReq, err := parseRequestBody(req)
-		if err != nil {
-			errorDtls = err.Error()
-			httpStatus = http.StatusBadRequest
-		} else if (decisionReq.PolicyName == "") {
-			errorDtls = "Policy Name is nil which is invalid."
-			httpStatus = http.StatusBadRequest
-		} else if (decisionReq.PolicyFilter == nil || len(decisionReq.PolicyFilter) == 0)  {
-			errorDtls = "Policy Filter is nil."
-			httpStatus = http.StatusBadRequest
-		} else {
-			opa, err := getOpaInstance()
-			if err != nil {
-				errorDtls = "Failed to get OPA instance."
-				httpStatus = http.StatusInternalServerError
-				policyId = decisionReq.PolicyName
-			} else {
-				processOpaDecision(res, opa, decisionReq)
-				return
-			}
+		handleDecisionRequest(res, req, &errorDtls, &httpStatus, &policyId)
+	}
+	if errorDtls != "" {
+		sendErrorResponse(errorDtls, res, httpStatus, policyId)
+	}
+}
+
+// Function to handle decision request logic
+func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls *string, httpStatus *int, policyId *string) {
+	decisionReq, err := parseRequestBody(req)
+	if err != nil {
+		*errorDtls = err.Error()
+		*httpStatus = http.StatusBadRequest
+		return
+	}
+
+	if decisionReq.PolicyName == "" {
+		*errorDtls = "Policy Name is nil which is invalid."
+		*httpStatus = http.StatusBadRequest
+		return
+	}
+
+	if decisionReq.PolicyFilter == nil || len(decisionReq.PolicyFilter) == 0 {
+		*errorDtls = "Policy Filter is nil."
+		*httpStatus = http.StatusBadRequest
+		return
+	}
+	decisionReq.PolicyName = strings.ReplaceAll(decisionReq.PolicyName, ".", "/")
+	handlePolicyValidation(res, decisionReq, errorDtls, httpStatus, policyId)
+}
+
+// Function to handle policy validation logic
+func handlePolicyValidation(res http.ResponseWriter, decisionReq *oapicodegen.OPADecisionRequest, errorDtls *string, httpStatus *int, policyId *string) {
+	policiesMap := policymap.LastDeployedPolicies
+	if policiesMap == "" {
+		*errorDtls = "No policies are deployed."
+		*httpStatus = http.StatusBadRequest
+		return
+	}
+
+	extractedPolicies := policymap.ExtractDeployedPolicies(policiesMap)
+	if extractedPolicies == nil {
+		log.Warnf("No Policies extracted from Policy Map")
+		*errorDtls = "No policies are deployed."
+		*httpStatus = http.StatusBadRequest
+		return
+	}
+
+	if !policyExists(decisionReq.PolicyName, extractedPolicies) {
+		*errorDtls = fmt.Sprintf("Policy Name %s does not exist", decisionReq.PolicyName)
+		*httpStatus = http.StatusBadRequest
+		return
+	}
+
+	// Process OPA decision
+	opa, err := getOpaInstance()
+	if err != nil {
+		*errorDtls = "Failed to get OPA instance."
+		*httpStatus = http.StatusInternalServerError
+		*policyId = decisionReq.PolicyName
+		return
+	}
+
+	processOpaDecision(res, opa, decisionReq)
+}
+
+// Function to check if policy exists in extracted policies
+func policyExists(policyName string, extractedPolicies []model.ToscaConceptIdentifier) bool {
+	for _, policy := range extractedPolicies {
+		if strings.ReplaceAll(policy.Name, ".", "/") == policyName {
+			return true
 		}
 	}
-	//If it comes here then there will be error
-	sendErrorResponse(errorDtls, res, httpStatus, policyId)
+	return false
 }
 
 //This function processes the request headers
@@ -189,6 +242,7 @@ func parseRequestBody(req *http.Request) (*oapicodegen.OPADecisionRequest, error
 func sendErrorResponse(msg string, res http.ResponseWriter, httpStatus int, policyName string) {
 	log.Warnf("%s", msg)
 	decisionExc := createDecisionExceptionResponse(httpStatus, msg, policyName)
+	metrics.IncrementDecisionFailureCount()
 	metrics.IncrementTotalErrorCount()
 	writeErrorJSONResponse(res, httpStatus, msg, *decisionExc)
 }
@@ -216,20 +270,22 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 			return
 		}
 		log.Debugf("RAW opa Decision output:\n%s\n", string(jsonOutput))
-		
+
 		if decisionErr != nil {
 			handleOpaDecisionError(res, decisionErr, decisionReq.PolicyName)
 			return
 		}
-		
+
 		var policyFilter []string
 		if decisionReq.PolicyFilter != nil {
 			policyFilter = decisionReq.PolicyFilter
 		}
 		result, _ := decisionResult.Result.(map[string]interface{})
-		outputMap := processPolicyFilter(result, policyFilter)
-		if outputMap == nil {
-			decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, outputMap, "Policy Filter is not matching.")
+		outputMap, unmatchedFilters := processPolicyFilter(result, policyFilter)
+
+		if len(unmatchedFilters) > 0 {
+			message := fmt.Sprintf("Policy Filter(s) not matching: [%s]", strings.Join(unmatchedFilters, ", "))
+			decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, outputMap, message)
 		} else {
 			decisionRes = createSuccessDecisionResponse(decisionReq.PolicyName, outputMap)
 		}
@@ -249,39 +305,41 @@ func handleOpaDecisionError(res http.ResponseWriter, err error, policyName strin
 		metrics.IncrementDecisionSuccessCount()
 		writeOpaJSONResponse(res, http.StatusOK, *decisionExc)
 	} else {
-		decisionExc := createDecisionExceptionResponse(http.StatusInternalServerError, err.Error(), policyName)
-		metrics.IncrementTotalErrorCount()
-		writeErrorJSONResponse(res, http.StatusInternalServerError, err.Error(), *decisionExc)
+		sendErrorResponse(err.Error(), res, http.StatusInternalServerError, policyName)
 	}
 }
 
 //This function processes the policy filters
-func processPolicyFilter(result map[string]interface{}, policyFilter []string) map[string]interface{} {
+func processPolicyFilter(result map[string]interface{}, policyFilter []string) (map[string]interface{}, []string) {
 	if len(policyFilter) > 0 {
-		filteredResult := applyPolicyFilter(result, policyFilter)
-		if filteredMap, ok := filteredResult.(map[string]interface{}); ok && len(filteredMap) > 0 {
-			return filteredMap
+		filteredResult, unmatchedFilters := applyPolicyFilter(result, policyFilter)
+		if len(filteredResult) > 0 {
+			return filteredResult, unmatchedFilters
 		}
 	}
-	return nil
+	return nil, policyFilter
 }
-
 
 // Function to apply policy filter to decision result
-func applyPolicyFilter(result map[string]interface{}, filters []string) interface{} {
-
-	// Assuming filter matches specific keys or values
+func applyPolicyFilter(result map[string]interface{}, filters []string) (map[string]interface{}, []string) {
 	filteredOutput := make(map[string]interface{})
+	unmatchedFilters := make(map[string]struct{})
+	for _, filter := range filters {
+		unmatchedFilters[filter] = struct{}{}
+	}
 	for key, value := range result {
 		for _, filter := range filters {
-			if strings.Contains(key, filter) {
+			if (key == filter || strings.TrimSpace(filter) == "") {
 				filteredOutput[key] = value
-				break
-			}
-
-		}
+				delete(unmatchedFilters, filter)
+	        }
+	    }
 	}
 
-	return filteredOutput
-}
+	unmatchedList := make([]string, 0, len(unmatchedFilters))
+	for filter := range unmatchedFilters {
+		unmatchedList = append(unmatchedList, filter)
+	}
 
+	return filteredOutput, unmatchedList
+}
