@@ -95,7 +95,7 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 			}
 
 			// Call the handler
-			err := PdpStateChangeMessageHandler(tt.message, mockSender)
+			err := pdpStateChangeMessageHandler(tt.message, mockSender)
 
 			// Check the results
 			if tt.expectError {

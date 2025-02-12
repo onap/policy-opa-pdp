@@ -94,9 +94,9 @@ func TestGetBundle_FileNotFound(t *testing.T) {
 }
 
 func TestBuildBundle(t *testing.T) {
-	err := BuildBundle(mockCmd)
+	output, err := BuildBundle(mockCmd)
 	if err != nil {
-		t.Errorf("BuildBundle() error = %v, wantErr %v", err, nil)
+		t.Errorf("BuildBundle() error = %v, wantErr %v", err, output)
 	}
 }
 
@@ -111,8 +111,8 @@ func TestBuildBundle_CommandFailure(t *testing.T) {
 		return cmd
 	}
 
-	err := BuildBundle(mockCmdFail)
+	output, err := BuildBundle(mockCmdFail)
 	if err == nil {
-		t.Errorf("BuildBundle() error = nil, wantErr %v", "command failure")
+		t.Errorf("BuildBundle() error = nil, wantErr %v", output)
 	}
 }

@@ -64,6 +64,10 @@ RUN mkdir /app
 COPY --from=compile /app /app
 RUN chmod +x /app/opa-pdp
 
+RUN mkdir /opt/policies
+RUN mkdir /opt/data
+
+
 # Copy our opa executable from build stage
 COPY --from=build /tmp/opa /app/opa
 RUN chmod 755 /app/opa

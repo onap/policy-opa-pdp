@@ -39,6 +39,24 @@ docker build -f  ./build/Dockerfile  -t opa-pdp:1.0.0 .
 
 9. To deploy a new policy opa-pdp need to be redpolyed i.e; docker-compose down and up need to be executed.
 
+## Deploying New Policy 
+
+1. Create a tosca policy file that has policy.rego and data.json encoded contents.
+
+2. For example refer to test/policy_deployment.yaml.
+
+3. OPA emphasizes that each policy should have a unique policy-name/policy-id, 
+
+   example:
+   Not Allowed --> when policy with name onap.org.cell is deployed and when onap.org.cell.consistency  not allowed for deployment since it carries the same hierarchy.
+   Allowed --> Policy with name onap.org.cell is deployed and when onap.org.consistency is allowed for deployment since it does not have the same hierarchy.
+
+
+4. Policy and data key should start (prefixed) with policy-id. For ex refer totest/testresources/policy_deploy_single_policy.yaml.
+
+5. Create a deploy.json file to deploy through pap. Refer to file under test/testresources/deploy.json.
+
+
 ## Testing Decision Api
 
 send json 

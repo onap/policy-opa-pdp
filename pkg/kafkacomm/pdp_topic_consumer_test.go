@@ -20,16 +20,16 @@
 package kafkacomm
 
 import (
+	"bou.ke/monkey"
 	"errors"
-	"policy-opa-pdp/pkg/kafkacomm/mocks"
-	"testing"
-	"sync"
-        "fmt"
+	"fmt"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/cfg"
-	"bou.ke/monkey"
+	"policy-opa-pdp/pkg/kafkacomm/mocks"
+	"sync"
+	"testing"
 )
 
 var kafkaConsumerFactory = kafka.NewConsumer
@@ -175,34 +175,34 @@ func TestKafkaConsumer_Unsubscribe_Nil_Error(t *testing.T) {
 
 }
 
-//Helper function to reset
+// Helper function to reset
 func resetKafkaConsumerSingleton() {
-        consumerOnce = sync.Once{}
-        consumerInstance = nil
+	consumerOnce = sync.Once{}
+	consumerInstance = nil
 }
 
-//Test for mock error creating consumers
+// Test for mock error creating consumers
 func TestNewKafkaConsumer_ErrorCreatingConsumer(t *testing.T) {
-        resetKafkaConsumerSingleton()
-        monkey.Patch(kafka.NewConsumer, func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
-                return nil, fmt.Errorf("mock error creating consumer")
-        })
-        defer monkey.Unpatch(kafka.NewConsumer)
+	resetKafkaConsumerSingleton()
+	monkey.Patch(kafka.NewConsumer, func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
+		return nil, fmt.Errorf("mock error creating consumer")
+	})
+	defer monkey.Unpatch(kafka.NewConsumer)
 
-        consumer, err := NewKafkaConsumer()
-        assert.Nil(t, consumer)
-        assert.EqualError(t, err, "Kafka Consumer instance not created")
+	consumer, err := NewKafkaConsumer()
+	assert.Nil(t, consumer)
+	assert.EqualError(t, err, "Kafka Consumer instance not created")
 }
 
 // Test for error creating kafka instance
 func TestNewKafkaConsumer_NilConsumer(t *testing.T) {
-        resetKafkaConsumerSingleton()
-        monkey.Patch(kafka.NewConsumer, func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
-                return nil, nil
-        })
-        defer monkey.Unpatch(kafka.NewConsumer)
+	resetKafkaConsumerSingleton()
+	monkey.Patch(kafka.NewConsumer, func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
+		return nil, nil
+	})
+	defer monkey.Unpatch(kafka.NewConsumer)
 
-        consumer, err := NewKafkaConsumer()
-        assert.Nil(t, consumer)
-        assert.EqualError(t, err, "Kafka Consumer instance not created")
+	consumer, err := NewKafkaConsumer()
+	assert.Nil(t, consumer)
+	assert.EqualError(t, err, "Kafka Consumer instance not created")
 }

@@ -25,8 +25,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
 	"testing"
-	)
-
+)
 
 /*
 Success Case 1
@@ -74,7 +73,7 @@ func TestStartHeartbeatIntervalTimer_InvalidInterval(t *testing.T) {
 }
 
 /*
-TestSendPDPHeartBeat_Success 2
+TestsendPDPHeartBeat_Success 2
 Description: Test sending a heartbeat successfully.
 Input: Valid pdpStatus object
 Expected Output: Heartbeat message is sent successfully, and a debug log "Message sent successfully" is generated.
@@ -88,7 +87,7 @@ func TestSendPDPHeartBeat_Success(t *testing.T) {
 }
 
 /*
-TestSendPDPHeartBeat_Failure 2
+TestsendPDPHeartBeat_Failure 2
 Description: Test failing to send a heartbeat.
 Input: Invalid pdpStatus object or network failure
 Expected Output: An error occurs while sending the heartbeat, and a warning log "Error producing message: ..." is generated.

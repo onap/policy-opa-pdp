@@ -28,6 +28,7 @@ import (
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
 	"policy-opa-pdp/pkg/metrics"
+	"policy-opa-pdp/pkg/opasdk"
 )
 
 // RegisterHandlers registers the HTTP handlers for the service.
@@ -52,6 +53,12 @@ func RegisterHandlers() {
 	// Handler for statistics report
 	statisticsReportHandler := http.HandlerFunc(metrics.FetchCurrentStatistics)
 	http.HandleFunc("/policy/pdpo/v1/statistics", basicAuth(statisticsReportHandler))
+
+	listPoliciesHandler := http.HandlerFunc(opasdk.ListPolicies)
+	http.Handle("/opa/listpolicies", listPoliciesHandler)
+
+	getDataHandler := http.HandlerFunc(opasdk.GetData)
+	http.Handle("/opa/getData/", getDataHandler)
 
 }
 

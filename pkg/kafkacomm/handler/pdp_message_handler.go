@@ -132,13 +132,13 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
 				switch opaPdpMessage.MessageType {
 
 				case "PDP_UPDATE":
-					err = PdpUpdateMessageHandler(message, p)
+					err = pdpUpdateMessageHandler(message, p)
 					if err != nil {
 						log.Warnf("Error processing Update Message: %v", err)
 					}
 
 				case "PDP_STATE_CHANGE":
-					err = PdpStateChangeMessageHandler(message, p)
+					err = pdpStateChangeMessageHandler(message, p)
 					if err != nil {
 						log.Warnf("Error processing Update Message: %v", err)
 					}

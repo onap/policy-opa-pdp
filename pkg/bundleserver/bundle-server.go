@@ -51,7 +51,7 @@ func GetBundle(res http.ResponseWriter, req *http.Request) {
 }
 
 // builds the OPA bundle using specified commands
-func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) error {
+func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) (string, error) {
 	cmd := cmdFunc(consts.Opa, consts.BuildBundle, consts.V1_COMPATIBLE, consts.Policies, consts.Data, consts.Output, consts.BundleTarGzFile)
 	log.Debugf("Before calling combinedoutput")
 	output, err := cmd.CombinedOutput()
@@ -59,8 +59,8 @@ func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) error {
 	if err != nil {
 		log.Warnf("Error output : %s", string(output))
 		log.Warnf("Failed to build Bundle: %v", err)
-		return err
+		return string(output), err
 	}
 	log.Debug("Bundle Built Sucessfully....")
-	return nil
+	return string(output), nil
 }
