@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a97f7b34_33133550",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-02-14T11:57:17Z",
+      "side": 1,
+      "message": "blank space",
+      "range": {
+        "startLine": 249,
+        "startChar": 149,
+        "endLine": 249,
+        "endChar": 150
+      },
+      "revId": "2c81e60b24933c57b373b53d9ee92f7f75ba1c02",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
