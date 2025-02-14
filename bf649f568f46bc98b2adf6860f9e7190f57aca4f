@@ -18,6 +18,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5494d645_0e678e40",
+        "filename": "api/register-handlers.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-14T11:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b59f76f_0d81b231",
+      "revId": "bf649f568f46bc98b2adf6860f9e7190f57aca4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63d78e15_c9b62251",
@@ -35,6 +53,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08329d3e_8d236e76",
+        "filename": "build/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-14T11:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63d78e15_c9b62251",
+      "revId": "bf649f568f46bc98b2adf6860f9e7190f57aca4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d43feb3f_6ef69990",
@@ -48,6 +84,30 @@
       "writtenOn": "2025-02-14T11:01:45Z",
       "side": 1,
       "message": "Shall we rename to sendDecisionErrorResponse",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 308,
+        "endChar": 81
+      },
+      "revId": "bf649f568f46bc98b2adf6860f9e7190f57aca4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b55612d_fc2c3af1",
+        "filename": "pkg/decision/decision-provider.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-14T11:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d43feb3f_6ef69990",
       "range": {
         "startLine": 308,
         "startChar": 0,

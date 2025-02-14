@@ -794,6 +794,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50fcda04_6c7a8dce",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-14T11:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef9c37f8_dbddf369",
+      "range": {
+        "startLine": 523,
+        "startChar": 2,
+        "endLine": 524,
+        "endChar": 31
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f7ab7d2_700df4bc",
@@ -1043,6 +1067,30 @@
       "side": 1,
       "message": "not solved.",
       "parentUuid": "d4660e63_ab3d87c3",
+      "range": {
+        "startLine": 249,
+        "startChar": 149,
+        "endLine": 249,
+        "endChar": 150
+      },
+      "revId": "6dc0f25e836320cd0a564d2c8d2542049860682a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f52c998_14932c28",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-02-14T11:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd417225_9784411a",
       "range": {
         "startLine": 249,
         "startChar": 149,
