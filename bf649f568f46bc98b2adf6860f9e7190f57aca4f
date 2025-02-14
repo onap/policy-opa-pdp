@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b59f76f_0d81b231",
+        "filename": "api/register-handlers.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-02-14T11:01:45Z",
+      "side": 1,
+      "message": "why getData is added here ? Pls remove",
+      "revId": "bf649f568f46bc98b2adf6860f9e7190f57aca4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63d78e15_c9b62251",
+        "filename": "build/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-02-14T11:01:45Z",
+      "side": 1,
+      "message": "Do we need this file...are we not using the file outside of build directory",
+      "revId": "bf649f568f46bc98b2adf6860f9e7190f57aca4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d43feb3f_6ef69990",
+        "filename": "pkg/decision/decision-provider.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-02-14T11:01:45Z",
+      "side": 1,
+      "message": "Shall we rename to sendDecisionErrorResponse",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 308,
+        "endChar": 81
+      },
+      "revId": "bf649f568f46bc98b2adf6860f9e7190f57aca4f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
