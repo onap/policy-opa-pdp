@@ -42,7 +42,11 @@ func pdpStateChangeMessageHandler(message []byte, p publisher.PdpStatusSender) e
 	log.Debugf("PDP STATE CHANGE message received: %s", string(message))
 
 	if pdpStateChange.State != "" {
-		pdpstate.SetState(pdpStateChange.State)
+		err := pdpstate.SetState(pdpStateChange.State)
+		if err != nil {
+			log.Errorf("Failed to set PDP state: %v", err)
+			return err // or handle the error as appropriate
+		}
 
 	}
 
