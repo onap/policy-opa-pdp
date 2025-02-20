@@ -30,6 +30,14 @@ import (
 )
 
 func TestFetchCurrentStatistics(t *testing.T) {
+         TotalErrorCount = 0
+	DecisionSuccessCount = 0
+	DecisionFailureCount = 0
+	DeployFailureCount = 0
+	DeploySuccessCount = 0
+	UndeployFailureCount = 0
+	UndeploySuccessCount = 0
+	TotalPoliciesCount = 0
 
 	TotalErrorCount = 5
 
@@ -64,6 +72,14 @@ func TestFetchCurrentStatistics(t *testing.T) {
 }
 
 func TestFetchCurrentStatistics_ValidRequestID(t *testing.T) {
+        TotalErrorCount = 0
+	DecisionSuccessCount = 0
+	DecisionFailureCount = 0
+	DeployFailureCount = 0
+	DeploySuccessCount = 0
+	UndeployFailureCount = 0
+	UndeploySuccessCount = 0
+	TotalPoliciesCount = 0
 
 	validUUID := "123e4567-e89b-12d3-a456-426614174000"
 
