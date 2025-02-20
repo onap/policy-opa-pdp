@@ -18,6 +18,24 @@ func (_m *KafkaProducerInterface) Close() {
 	_m.Called()
 }
 
+// Flush provides a mock function with given fields: timeout
+func (_m *KafkaProducerInterface) Flush(timeout int) int {
+	ret := _m.Called(timeout)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Flush")
+	}
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func(int) int); ok {
+		r0 = rf(timeout)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	return r0
+}
+
 // Produce provides a mock function with given fields: _a0, _a1
 func (_m *KafkaProducerInterface) Produce(_a0 *kafka.Message, _a1 chan kafka.Event) error {
 	ret := _m.Called(_a0, _a1)

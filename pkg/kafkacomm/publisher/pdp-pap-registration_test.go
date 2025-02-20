@@ -77,6 +77,11 @@ func (m *MockKafkaProducer) Close() {
 	m.Called()
 }
 
+func (m *MockKafkaProducer) Flush(timeout int) int {
+        m.Called(timeout)
+	return 0
+}
+
 // Test the SendPdpStatus method
 func TestSendPdpStatus_Success(t *testing.T) {
 	// Create the mock producer
@@ -85,6 +90,7 @@ func TestSendPdpStatus_Success(t *testing.T) {
 	// Mock the Produce method to simulate success
 	mockProducer.On("Produce", mock.Anything).Return(nil)
 	//t.Fatalf("Inside Sender checking for producer , but got: %v", mockProducer)
+
 
 	// Create the RealPdpStatusSender with the mocked producer
 	sender := RealPdpStatusSender{
