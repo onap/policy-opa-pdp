@@ -24,6 +24,8 @@ package healthcheck
 import (
 	"encoding/json"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"policy-opa-pdp/pkg/model/oapicodegen"
@@ -92,6 +94,35 @@ func TestHealthCheckHandler_Failure(t *testing.T) {
 	assert.Equal(t, "error", *response.Message)
 
 }
+
+// MockResponseWriter to simulate Encode failure
+type FailingResponseWriter struct {
+mock.Mock
+}
+
+func (f *FailingResponseWriter) Header() http.Header {
+return http.Header{}
+}
+
+func (f *FailingResponseWriter) Write(b []byte) (int, error) {
+// Simulate a failure during writing JSON encoding
+return 0, errors.New("forced JSON encoding error")
+}
+
+func (f *FailingResponseWriter) WriteHeader(statusCode int) {}
+
+func TestHealthCheckHandler_JSONEncodeFailure(t *testing.T) {
+req, err := http.NewRequest("GET", "/healthcheck", nil)
+assert.NoError(t, err)
+
+mockWriter := new(FailingResponseWriter)
+
+HealthCheckHandler(mockWriter, req) // Call handler with failing writer
+
+// Verify if an encoding failure was triggered
+mockWriter.AssertNotCalled(t, "Write") // Should not have written any successful response
+}
+
 
 func TestHealthCheckHandler_ValidUUID(t *testing.T) {
 	// Prepare a request with a valid UUID in the header

@@ -31,8 +31,8 @@
             <stringProp name="Argument.value">localhost</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="OPA_PDP_HOST" elementType="Argument">
-            <stringProp name="Argument.name">OPA_PDP_HOST</stringProp>
+          <elementProp name="OPA_HOST" elementType="Argument">
+            <stringProp name="Argument.name">OPA_HOST</stringProp>
             <stringProp name="Argument.value">localhost</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -46,9 +46,9 @@
             <stringProp name="Argument.value">${__P(pap_port, 30003)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="OPA_PDP_PORT" elementType="Argument">
-            <stringProp name="Argument.name">OPA_PDP_PORT</stringProp>
-            <stringProp name="Argument.value">${__P(opa_pdp_port, 30012)}</stringProp>
+          <elementProp name="OPA_PORT" elementType="Argument">
+            <stringProp name="Argument.name">OPA_PORT</stringProp>
+            <stringProp name="Argument.value">${__P(opa_port, 30012)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="API_USER" elementType="Argument">
@@ -61,8 +61,8 @@
             <stringProp name="Argument.value">policyadmin</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="OPA_PDP_USER" elementType="Argument">
-            <stringProp name="Argument.name">OPA_PDP_USER</stringProp>
+          <elementProp name="OPA_USER" elementType="Argument">
+            <stringProp name="Argument.name">OPA_USER</stringProp>
             <stringProp name="Argument.value">policyadmin</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -76,8 +76,8 @@
             <stringProp name="Argument.value">zb!XztG34</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="OPA_PDP_PASSWORD" elementType="Argument">
-            <stringProp name="Argument.name">OPA_PDP_PASSWORD</stringProp>
+          <elementProp name="OPA_PASSWORD" elementType="Argument">
+            <stringProp name="Argument.name">OPA_PASSWORD</stringProp>
             <stringProp name="Argument.value">zb!XztG34</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -98,7 +98,592 @@
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy OPA PDP Health Check" enabled="true">
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Role Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${API_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${API_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/api/v1/policytypes/onap.policies.native.opa/versions/1.0.0/policies</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">tosca_definitions_version: tosca_simple_yaml_1_1_0&#xd;
+topology_template:&#xd;
+  policies:&#xd;
+    - role:&#xd;
+        type: onap.policies.native.opa&#xd;
+        type_version: 1.0.0&#xd;
+        properties:&#xd;
+          data: &#xd;
+             role: ewogICAgInVzZXJfcm9sZXMiOiB7CiAgICAgICAgImFsaWNlIjogWwogICAgICAgICAgICAiYWRtaW4iCiAgICAgICAgXSwKICAgICAgICAiYm9iIjogWwogICAgICAgICAgICAiZW1wbG95ZWUiLAogICAgICAgICAgICAiYmlsbGluZyIKICAgICAgICBdLAogICAgICAgICJldmUiOiBbCiAgICAgICAgICAgICJjdXN0b21lciIKICAgICAgICBdCiAgICB9LAogICAgInJvbGVfZ3JhbnRzIjogewogICAgICAgICJjdXN0b21lciI6IFsKICAgICAgICAgICAgewogICAgICAgICAgICAgICAgImFjdGlvbiI6ICJyZWFkIiwKICAgICAgICAgICAgICAgICJ0eXBlIjogImRvZyIKICAgICAgICAgICAgfSwKICAgICAgICAgICAgewogICAgICAgICAgICAgICAgImFjdGlvbiI6ICJyZWFkIiwKICAgICAgICAgICAgICAgICJ0eXBlIjogImNhdCIKICAgICAgICAgICAgfSwKICAgICAgICAgICAgewogICAgICAgICAgICAgICAgImFjdGlvbiI6ICJhZG9wdCIsCiAgICAgICAgICAgICAgICAidHlwZSI6ICJkb2ciCiAgICAgICAgICAgIH0sCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICJhY3Rpb24iOiAiYWRvcHQiLAogICAgICAgICAgICAgICAgInR5cGUiOiAiY2F0IgogICAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAiZW1wbG95ZWUiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICJhY3Rpb24iOiAicmVhZCIsCiAgICAgICAgICAgICAgICAidHlwZSI6ICJkb2ciCiAgICAgICAgICAgIH0sCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICJhY3Rpb24iOiAicmVhZCIsCiAgICAgICAgICAgICAgICAidHlwZSI6ICJjYXQiCiAgICAgICAgICAgIH0sCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICJhY3Rpb24iOiAidXBkYXRlIiwKICAgICAgICAgICAgICAgICJ0eXBlIjogImRvZyIKICAgICAgICAgICAgfSwKICAgICAgICAgICAgewogICAgICAgICAgICAgICAgImFjdGlvbiI6ICJ1cGRhdGUiLAogICAgICAgICAgICAgICAgInR5cGUiOiAiY2F0IgogICAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAiYmlsbGluZyI6IFsKICAgICAgICAgICAgewogICAgICAgICAgICAgICAgImFjdGlvbiI6ICJyZWFkIiwKICAgICAgICAgICAgICAgICJ0eXBlIjogImZpbmFuY2UiCiAgICAgICAgICAgIH0sCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICJhY3Rpb24iOiAidXBkYXRlIiwKICAgICAgICAgICAgICAgICJ0eXBlIjogImZpbmFuY2UiCiAgICAgICAgICAgIH0KICAgICAgICBdCiAgICB9Cn0KCg==&#xd;
+          policy:&#xd;
+            role: cGFja2FnZSByb2xlCgppbXBvcnQgcmVnby52MQoKIyBCeSBkZWZhdWx0LCBkZW55IHJlcXVlc3RzLgpkZWZhdWx0IGFsbG93IDo9IGZhbHNlCgojIEFsbG93IGFkbWlucyB0byBkbyBhbnl0aGluZy4KYWxsb3cgaWYgdXNlcl9pc19hZG1pbgoKIyBBbGxvdyB0aGUgYWN0aW9uIGlmIHRoZSB1c2VyIGlzIGdyYW50ZWQgcGVybWlzc2lvbiB0byBwZXJmb3JtIHRoZSBhY3Rpb24uCmFsbG93IGlmIHsKICAgICAgICAjIEZpbmQgZ3JhbnRzIGZvciB0aGUgdXNlci4KICAgICAgICBzb21lIGdyYW50IGluIHVzZXJfaXNfZ3JhbnRlZAoKICAgICAgICAjIENoZWNrIGlmIHRoZSBncmFudCBwZXJtaXRzIHRoZSBhY3Rpb24uCiAgICAgICAgaW5wdXQuYWN0aW9uID09IGdyYW50LmFjdGlvbgogICAgICAgIGlucHV0LnR5cGUgPT0gZ3JhbnQudHlwZQp9CgojIHVzZXJfaXNfYWRtaW4gaXMgdHJ1ZSBpZiAiYWRtaW4iIGlzIGFtb25nIHRoZSB1c2VyJ3Mgcm9sZXMgYXMgcGVyIGRhdGEudXNlcl9yb2xlcwp1c2VyX2lzX2FkbWluIGlmICJhZG1pbiIgaW4gZGF0YS5yb2xlLnVzZXJfcm9sZXNbaW5wdXQudXNlcl0KCiMgdXNlcl9pc19ncmFudGVkIGlzIGEgc2V0IG9mIGdyYW50cyBmb3IgdGhlIHVzZXIgaWRlbnRpZmllZCBpbiB0aGUgcmVxdWVzdC4KIyBUaGUgYGdyYW50YCB3aWxsIGJlIGNvbnRhaW5lZCBpZiB0aGUgc2V0IGB1c2VyX2lzX2dyYW50ZWRgIGZvciBldmVyeS4uLgp1c2VyX2lzX2dyYW50ZWQgY29udGFpbnMgZ3JhbnQgaWYgewogICAgICAgICMgYHJvbGVgIGFzc2lnbmVkIGFuIGVsZW1lbnQgb2YgdGhlIHVzZXJfcm9sZXMgZm9yIHRoaXMgdXNlci4uLgogICAgICAgIHNvbWUgcm9sZSBpbiBkYXRhLnJvbGUudXNlcl9yb2xlc1tpbnB1dC51c2VyXQoKICAgICAgICAjIGBncmFudGAgYXNzaWduZWQgYSBzaW5nbGUgZ3JhbnQgZnJvbSB0aGUgZ3JhbnRzIGxpc3QgZm9yICdyb2xlJy4uLgogICAgICAgIHNvbWUgZ3JhbnQgaW4gZGF0YS5yb2xlLnJvbGVfZ3JhbnRzW3JvbGVdCn0KCiMgICAgICAgKiBSZWdvIGNvbXBhcmlzb24gdG8gb3RoZXIgc3lzdGVtczogaHR0cHM6Ly93d3cub3BlbnBvbGljeWFnZW50Lm9yZy9kb2NzL2xhdGVzdC9jb21wYXJpc29uLXRvLW90aGVyLXN5c3RlbXMvCiMgICAgICAgKiBSZWdvIEl0ZXJhdGlvbjogaHR0cHM6Ly93d3cub3BlbnBvbGljeWFnZW50Lm9yZy9kb2NzL2xhdGVzdC8jaXRlcmF0aW9uCg==&#xd;
+        name: role&#xd;
+        version: 1.0.0&#xd;
+        metadata:&#xd;
+          policy-id: role&#xd;
+          policy-version: 1.0.0&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${API_HOST}:${API_PORT}/policy/api/v1</stringProp>
+                <stringProp name="Authorization.username">${API_USER}</stringProp>
+                <stringProp name="Authorization.password">${API_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/yaml</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49587">201</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Account Policy" enabled="true">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${API_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${API_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/api/v1/policytypes/onap.policies.native.opa/versions/1.0.0/policies</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">tosca_definitions_version: tosca_simple_yaml_1_1_0&#xd;
+topology_template:&#xd;
+  policies:&#xd;
+    - account:&#xd;
+        type: onap.policies.native.opa&#xd;
+        type_version: 1.0.0&#xd;
+        properties:&#xd;
+          data:&#xd;
+            account : ewogICJhY2NvdW50X2F0dHJpYnV0ZXMiOnsKICAgICIxMTExMSI6ewogICAgICAib3duZXIiOiJhbGljZSIsCiAgICAgICJhbW91bnQiOjEwMDAwCiAgICB9LAogICAgIjIyMjIyIjp7CiAgICAgICJvd25lciI6ImJvYiIsCiAgICAgICJhbW91bnQiOjEwMDAwCiAgICB9LAogICAgIjMzMzMzIjp7CiAgICAgICJvd25lciI6ImNhbSIsCiAgICAgICJhbW91bnQiOjEwMDAwCiAgICB9CiAgfQp9&#xd;
+          policy:&#xd;
+           account: cGFja2FnZSBhY2NvdW50CgppbXBvcnQgcmVnby52MQoKZGVmYXVsdCBhbGxvdyA6PSBmYWxzZQoKYWxsb3cgaWYgewogY3JlZGl0b3JfaXNfdmFsaWQKIGRlYnRvcl9pc192YWxpZAogcGVyaW9kX2lzX3ZhbGlkCiBhbW91bnRfaXNfdmFsaWQKfQpjcmVkaXRvcl9pc192YWxpZCBpZiBkYXRhLmFjY291bnQuYWNjb3VudF9hdHRyaWJ1dGVzW2lucHV0LmNyZWRpdG9yX2FjY291bnRdLm93bmVyID09IGlucHV0LmNyZWRpdG9yCmRlYnRvcl9pc192YWxpZCBpZiBkYXRhLmFjY291bnQuYWNjb3VudF9hdHRyaWJ1dGVzW2lucHV0LmRlYnRvcl9hY2NvdW50XS5vd25lciA9PSBpbnB1dC5kZWJ0b3IKCnBlcmlvZF9pc192YWxpZCBpZiBpbnB1dC5wZXJpb2QgPD0gMzAKYW1vdW50X2lzX3ZhbGlkIGlmIGRhdGEuYWNjb3VudC5hY2NvdW50X2F0dHJpYnV0ZXNbaW5wdXQuZGVidG9yX2FjY291bnRdLmFtb3VudCA+PSBpbnB1dC5hbW91bnQK&#xd;
+        name: account&#xd;
+        version: 1.0.0&#xd;
+        metadata:&#xd;
+          policy-id: account&#xd;
+          policy-version: 1.0.0</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${API_HOST}:${API_PORT}/policy/api/v1</stringProp>
+                <stringProp name="Authorization.username">${API_USER}</stringProp>
+                <stringProp name="Authorization.password">${API_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/yaml</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49587">201</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Organization Policy" enabled="true">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${API_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${API_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/api/v1/policytypes/onap.policies.native.opa/versions/1.0.0/policies</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">tosca_definitions_version: tosca_simple_yaml_1_1_0&#xd;
+topology_template:&#xd;
+  policies:&#xd;
+    - organization:&#xd;
+        type: onap.policies.native.opa&#xd;
+        type_version: 1.0.0&#xd;
+        properties:&#xd;
+          data: &#xd;
+            organization: ewogICAgImFjbHMiOiBbCiAgICAgICAgewogICAgICAgICAgICAidXNlciI6ICJhbGljZSIsCiAgICAgICAgICAgICJhY3Rpb25zIjogWwogICAgICAgICAgICAgICAgImVkaXQiLAogICAgICAgICAgICAgICAgInJlYWQiCiAgICAgICAgICAgIF0sCiAgICAgICAgICAgICJjb21wb25lbnQiOiAiY29tcG9uZW50X0EiLAogICAgICAgICAgICAicHJvamVjdCI6ICJwcm9qZWN0X0EiLAogICAgICAgICAgICAib3JnYW5pemF0aW9uIjogIm9yZ19BIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAidXNlciI6ICJib2IiLAogICAgICAgICAgICAiYWN0aW9ucyI6IFsicmVhZCJdLAogICAgICAgICAgICAib3JnYW5pemF0aW9uIjogIm9yZ19BIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAidXNlciI6ICJib2IiLAogICAgICAgICAgICAiYWN0aW9uIjogWyJlZGl0Il0sCiAgICAgICAgICAgICJjb21wb25lbnQiOiAiY29tcG9uZW50X0EiLAogICAgICAgICAgICAicHJvamVjdCI6ICJwcm9qZWN0X0IiLAogICAgICAgICAgICAib3JnYW5pemF0aW9uIjogIm9yZ19BIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAidXNlciI6ICJjaGFybGllIiwKICAgICAgICAgICAgImFjdGlvbiI6IFsicmVhZCJdLAogICAgICAgICAgICAicHJvamVjdCI6ICJwcm9qZWN0X0IiLAogICAgICAgICAgICAib3JnYW5pemF0aW9uIjogIm9yZ19BIgogICAgICAgIH0KICAgIF0KfQo=&#xd;
+          policy:&#xd;
+            organization: cGFja2FnZSBvcmdhbml6YXRpb24KCmltcG9ydCByZWdvLnYxCgpkZWZhdWx0IGFsbG93IDo9IGZhbHNlCgojIG9yZ2FuaXphdGlvbiBsZXZlbCBhY2Nlc3MKYWxsb3cgaWYgewogc29tZSBhY2wgaW4gZGF0YS5vcmdhbml6YXRpb24uYWNscwogYWNsLnVzZXIgPT0gaW5wdXQudXNlcgogYWNsLm9yZ2FuaXphdGlvbiA9PSBpbnB1dC5vcmdhbml6YXRpb24KIGFjbC5wcm9qZWN0ID09IGlucHV0LnByb2plY3QKIGFjbC5jb21wb25lbnQgPT0gaW5wdXQuY29tcG9uZW50Cgogc29tZSBhY3Rpb24gaW4gYWNsLmFjdGlvbnMKIGFjdGlvbiA9PSBpbnB1dC5hY3Rpb24KfQoKIyBwcm9qZWN0IGxldmVsIGFjY2VzcwphbGxvdyBpZiB7CiBzb21lIGFjbCBpbiBkYXRhLm9yZ2FuaXphdGlvbi5hY2xzCiBhY2wudXNlciA9PSBpbnB1dC51c2VyCiBhY2wub3JnYW5pemF0aW9uID09IGlucHV0Lm9yZ2FuaXphdGlvbgogYWNsLnByb2plY3QgPT0gaW5wdXQucHJvamVjdAoKIHNvbWUgYWN0aW9uIGluIGFjbC5hY3Rpb25zCiBhY3Rpb24gPT0gaW5wdXQuYWN0aW9uCn0KCiMgY29tcG9uZW50IGxldmVsIGFjY2VzcwphbGxvdyBpZiB7CiBzb21lIGFjbCBpbiBkYXRhLm9yZ2FuaXphdGlvbi5hY2xzCiBhY2wudXNlciA9PSBpbnB1dC51c2VyCiBhY2wub3JnYW5pemF0aW9uID09IGlucHV0Lm9yZ2FuaXphdGlvbgoKIHNvbWUgYWN0aW9uIGluIGFjbC5hY3Rpb25zCiBhY3Rpb24gPT0gaW5wdXQuYWN0aW9uCn0K&#xd;
+        name: organization&#xd;
+        version: 1.0.0&#xd;
+        metadata:&#xd;
+          policy-id: organization&#xd;
+          policy-version: 1.0.0&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${API_HOST}:${API_PORT}/policy/api/v1</stringProp>
+                <stringProp name="Authorization.username">${API_USER}</stringProp>
+                <stringProp name="Authorization.password">${API_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/yaml</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49587">201</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Topology Policy" enabled="true">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${API_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${API_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/api/v1/policytypes/onap.policies.native.opa/versions/1.0.0/policies</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">tosca_definitions_version: tosca_simple_yaml_1_1_0&#xd;
+topology_template:&#xd;
+  policies:&#xd;
+    - topology:&#xd;
+        type: onap.policies.native.opa&#xd;
+        type_version: 1.0.0&#xd;
+        properties:&#xd;
+          data:&#xd;
+            topology: CnsKICAiY2x1c3Rlcl9pbmZvIjogewogICAgImNsdXN0ZXJfdG9wb2xvZ3kiOiBbCiAgICAgIHsKICAgICAgICAiY2VsbHMiOiBudWxsLAogICAgICAgICJjbHVzdGVyX25hbWUiOiAiIiwKICAgICAgICAiaWQiOiAiIiwKICAgICAgICAiaXNfdmFsaWQiOiBmYWxzZQogICAgICB9LAogICAgICB7CiAgICAgICAgImNlbGxzIjogWwogICAgICAgICAgewogICAgICAgICAgICAiY2VsbF9pZCI6ICI0NDU2MTExOTMyNzM5NTg5MTYiLAogICAgICAgICAgICAibmFtZSI6ICJNWTY4ODVfTS1TY2h3ZXJlLVJlaXRlci1TdHItNDQwNDYwX0dVMl84NDA3OTkxMyIKICAgICAgICAgIH0sCiAgICAgICAgICB7CiAgICAgICAgICAgICJjZWxsX2lkIjogIjQ0NTYxMTE5MzI3MjMzMDI0MSIsCiAgICAgICAgICAgICJuYW1lIjogIk1ZNjg4NV9NLVNjaHdlcmUtUmVpdGVyLVN0ci00NDA0NjBfR1RDMl84NDAwMzgwMyIKICAgICAgICAgIH0KICAgICAgICBdLAogICAgICAgICJjbHVzdGVyX25hbWUiOiAiVXJiYW4iLAogICAgICAgICJpZCI6ICJyaWNfY2x1c3RlciIsCiAgICAgICAgImlzX3ZhbGlkIjogdHJ1ZQogICAgICB9LAogICAgICB7CiAgICAgICAgImNlbGxzIjogbnVsbCwKICAgICAgICAiY2x1c3Rlcl9uYW1lIjogInRlc3Qtb2JqZWN0Z3JvdXBOYW1lIiwKICAgICAgICAiaWQiOiAidGVzdC1vYmplY3QtZ3JvdXAiLAogICAgICAgICJpc192YWxpZCI6IHRydWUKICAgICAgfQogICAgXQogIH0sCiAgInByb3ZpZGVyX2luZm8iOiB7CiAgICAicHJvdmlkZXJzIjogWwogICAgICB7CiAgICAgICAgImlkIjogIm5vbnJ0cmljLWNtcyIsCiAgICAgICAgImtleWNsb2FrQXV0aGVudGljYXRvciI6ICJqd3QtY2xpZW50IiwKICAgICAgICAia2V5Y2xvYWtSZWFsbSI6ICJub25ydHJpYy1yZWFsbSIsCiAgICAgICAgInJvbGVzIjogWwogICAgICAgICAgewogICAgICAgICAgICAiZ3JhbnRzIjogWwogICAgICAgICAgICAgICJHRVQiCiAgICAgICAgICAgIF0sCiAgICAgICAgICAgICJyb2xlIjogImNtLXNlcnZpY2Utdmlld2VyIgogICAgICAgICAgfSwKICAgICAgICAgIHsKICAgICAgICAgICAgImdyYW50cyI6IFsKICAgICAgICAgICAgICAiR0VUIiwKICAgICAgICAgICAgICAiUFVUIiwKICAgICAgICAgICAgICAiUE9TVCIsCiAgICAgICAgICAgICAgIkRFTEVURSIKICAgICAgICAgICAgXSwKICAgICAgICAgICAgInJvbGUiOiAiY20tc2VydmljZS1hZG1pbiIKICAgICAgICAgIH0sCiAgICAgICAgICB7CiAgICAgICAgICAgICJncmFudHMiOiBbCiAgICAgICAgICAgICAgIkdFVCIsCiAgICAgICAgICAgICAgIlBVVCIsCiAgICAgICAgICAgICAgIlBPU1QiCiAgICAgICAgICAgIF0sCiAgICAgICAgICAgICJyb2xlIjogImNtLXNlcnZpY2UtZWRpdG9yIgogICAgICAgICAgfSwKICAgICAgICAgIHsKICAgICAgICAgICAgImdyYW50cyI6IFsKICAgICAgICAgICAgICAiR0VUIiwKICAgICAgICAgICAgICAiUFVUIgogICAgICAgICAgICBdLAogICAgICAgICAgICAicm9sZSI6ICJjbS1zZXJ2aWNlLW1vZGlmeSIKICAgICAgICAgIH0KICAgICAgICBdLAogICAgICAgICJzZWN1cml0eUVuYWJsZWQiOiB0cnVlLAogICAgICAgICJzdmNQb3J0IjogIjgwODAiLAogICAgICAgICJ0eXBlIjogInByb3ZpZGVyIgogICAgICB9LAogICAgICB7CiAgICAgICAgImlkIjogIm5vbnJ0cmljLWhlbGxvd29ybGQtcHJvdmlkZXIiLAogICAgICAgICJrZXljbG9ha0F1dGhlbnRpY2F0b3IiOiAiand0LWNsaWVudCIsCiAgICAgICAgImtleWNsb2FrUmVhbG0iOiAibm9ucnRyaWMtcmVhbG0iLAogICAgICAgICJyb2xlcyI6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgImdyYW50cyI6IFsKICAgICAgICAgICAgICAiR0VUIgogICAgICAgICAgICBdLAogICAgICAgICAgICAicm9sZSI6ICJoZWxsb3dvcmxkLXZpZXdlciIKICAgICAgICAgIH0sCiAgICAgICAgICB7CiAgICAgICAgICAgICJncmFudHMiOiBbCiAgICAgICAgICAgICAgIkdFVCIsCiAgICAgICAgICAgICAgIlBVVCIsCiAgICAgICAgICAgICAgIlBPU1QiLAogICAgICAgICAgICAgICJERUxFVEUiCiAgICAgICAgICAgIF0sCiAgICAgICAgICAgICJyb2xlIjogImhlbGxvd29ybGQtYWRtaW4iCiAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAic2VjdXJpdHlFbmFibGVkIjogdHJ1ZSwKICAgICAgICAic3ZjUG9ydCI6ICI4MDgwIiwKICAgICAgICAidHlwZSI6ICJwcm92aWRlciIKICAgICAgfQogICAgXQogIH0sCiAgInJhcHBfaW5mbyI6IHsKICAgICJyYXBwcyI6IFsKICAgICAgewogICAgICAgICJhcHBfcmVsZWFzZU5hbWUiOiAic2xpY2UxMjMiLAogICAgICAgICJjbHVzdGVycyI6IG51bGwsCiAgICAgICAgImlkIjogIm5vbnJ0cmljLXNsaWNlLW1vbi1yYXBwIiwKICAgICAgICAia2V5Y2xvYWtBdXRoZW50aWNhdG9yIjogImNsaWVudC1qd3QiLAogICAgICAgICJrZXljbG9ha1JlYWxtIjogIm5vbnJ0cmljLXJlYWxtIiwKICAgICAgICAia2V5Y2xvYWtSb2xlcyI6IFsKICAgICAgICAgICJjbS1zZXJ2aWNlLXZpZXdlciIKICAgICAgICBdLAogICAgICAgICJtb2RlIjogIm9wZW5fbG9vcCIsCiAgICAgICAgInJvbGVfcGVybSI6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgInJvbGVzX3Blcm1fc3J2IjogWwogICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICJtZXRob2QiOiBbCiAgICAgICAgICAgICAgICAgICJHRVQiCiAgICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICAgInBhdGgiOiAiYXBpL3YxL2FjdGl2ZVNsaWNlIgogICAgICAgICAgICAgIH0KICAgICAgICAgICAgXSwKICAgICAgICAgICAgInNlcnZpY2VfbmFtZSI6ICJub25ydHJpYy1jbXMiCiAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAic2VjdXJpdHlFbmFibGVkIjogdHJ1ZSwKICAgICAgICAidHlwZSI6ICJpbnZva2VyIgogICAgICB9LAogICAgICB7CiAgICAgICAgImFwcF9yZWxlYXNlTmFtZSI6ICJ0ZXN0IiwKICAgICAgICAiY2x1c3RlcnMiOiBbCiAgICAgICAgICAicmljX2NsdXN0ZXIiCiAgICAgICAgXSwKICAgICAgICAiaWQiOiAicmFwcC1oZWxsby13b3JsZC1pbnZva2VyIiwKICAgICAgICAia2V5Y2xvYWtBdXRoZW50aWNhdG9yIjogImNsaWVudC1qd3QiLAogICAgICAgICJrZXljbG9ha1JlYWxtIjogIm5vbnJ0cmljLXJlYWxtIiwKICAgICAgICAia2V5Y2xvYWtSb2xlcyI6IFsKICAgICAgICAgICJoZWxsb3dvcmxkLXZpZXdlciIKICAgICAgICBdLAogICAgICAgICJtb2RlIjogIm9wZW5fbG9vcCIsCiAgICAgICAgInJvbGVfcGVybSI6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgInJvbGVzX3Blcm1fc3J2IjogWwogICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICJtZXRob2QiOiBbCiAgICAgICAgICAgICAgICAgICJHRVQiCiAgICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICAgInBhdGgiOiAiL2FhaS92MjgvZHNsP2Zvcm1hdD1zaW1wbGUiCiAgICAgICAgICAgICAgfQogICAgICAgICAgICBdLAogICAgICAgICAgICAic2VydmljZV9uYW1lIjogImFhaS1hcGktc21vLWRldi50bmFwbGFiLnRlbGVrb20uZGUiCiAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAic2VjdXJpdHlFbmFibGVkIjogdHJ1ZSwKICAgICAgICAidHlwZSI6ICJpbnZva2VyIgogICAgICB9LAogICAgICB7CiAgICAgICAgImFwcF9yZWxlYXNlTmFtZSI6ICJ0ZXN0YWlyaG9wIiwKICAgICAgICAiY2x1c3RlcnMiOiBbCiAgICAgICAgICAicmljX2NsdXN0ZXIiCiAgICAgICAgXSwKICAgICAgICAiaWQiOiAibm9ucnRyaWMtYWlyaG9wLXBjaS1yYXBwIiwKICAgICAgICAia2V5Y2xvYWtBdXRoZW50aWNhdG9yIjogImNsaWVudC1qd3QiLAogICAgICAgICJrZXljbG9ha1JlYWxtIjogIm5vbnJ0cmljLXJlYWxtIiwKICAgICAgICAia2V5Y2xvYWtSb2xlcyI6IFsKICAgICAgICAgICJoZWxsb3dvcmxkLXZpZXdlciIKICAgICAgICBdLAogICAgICAgICJtb2RlIjogIm9wZW5fbG9vcCIsCiAgICAgICAgInJvbGVfcGVybSI6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgInJvbGVzX3Blcm1fc3J2IjogWwogICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICJtZXRob2QiOiBbCiAgICAgICAgICAgICAgICAgICJHRVQiCiAgICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICAgInBhdGgiOiAiL2FhaS92MjgvZHNsP2Zvcm1hdD1zaW1wbGUiCiAgICAgICAgICAgICAgfQogICAgICAgICAgICBdLAogICAgICAgICAgICAic2VydmljZV9uYW1lIjogImFhaS1hcGktc21vLWRldi50bmFwbGFiLnRlbGVrb20uZGUiCiAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAic2VjdXJpdHlFbmFibGVkIjogdHJ1ZSwKICAgICAgICAidHlwZSI6ICJpbnZva2VyIgogICAgICB9LAogICAgICB7CiAgICAgICAgImFwcF9yZWxlYXNlTmFtZSI6ICJhaXJob3ByYXBwIiwKICAgICAgICAiY2x1c3RlcnMiOiBbCiAgICAgICAgICAicmljX2NsdXN0ZXIiCiAgICAgICAgXSwKICAgICAgICAiaWQiOiAibm9ucnRyaWMtYWlyaG9wLXBjaS1yYXBwIiwKICAgICAgICAia2V5Y2xvYWtBdXRoZW50aWNhdG9yIjogImNsaWVudC1qd3QiLAogICAgICAgICJrZXljbG9ha1JlYWxtIjogIm5vbnJ0cmljLXJlYWxtIiwKICAgICAgICAia2V5Y2xvYWtSb2xlcyI6IFsKICAgICAgICAgICJoZWxsb3dvcmxkLXZpZXdlciIKICAgICAgICBdLAogICAgICAgICJtb2RlIjogIm9wZW5fbG9vcCIsCiAgICAgICAgInJvbGVfcGVybSI6IFsKICAgICAgICAgIHsKICAgICAgICAgICAgInJvbGVzX3Blcm1fc3J2IjogWwogICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICJtZXRob2QiOiBbCiAgICAgICAgICAgICAgICAgICJHRVQiCiAgICAgICAgICAgICAgICBdLAogICAgICAgICAgICAgICAgInBhdGgiOiAiL2FhaS92MjgvZHNsP2Zvcm1hdD1zaW1wbGUiCiAgICAgICAgICAgICAgfQogICAgICAgICAgICBdLAogICAgICAgICAgICAic2VydmljZV9uYW1lIjogImFhaS1hcGktc21vLWRldi50bmFwbGFiLnRlbGVrb20uZGUiCiAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAic2VjdXJpdHlFbmFibGVkIjogdHJ1ZSwKICAgICAgICAidHlwZSI6ICJpbnZva2VyIgogICAgICB9LAogICAgICB7CiAgICAgICAgImFwcF9yZWxlYXNlTmFtZSI6ICJzbGljZW1vbiIsCiAgICAgICAgImNsdXN0ZXJzIjogbnVsbCwKICAgICAgICAiaWQiOiAibm9ucnRyaWMtc2xpY2UtbW9uLXJhcHAiLAogICAgICAgICJrZXljbG9ha0F1dGhlbnRpY2F0b3IiOiAiY2xpZW50LWp3dCIsCiAgICAgICAgImtleWNsb2FrUmVhbG0iOiAibm9ucnRyaWMtcmVhbG0iLAogICAgICAgICJrZXljbG9ha1JvbGVzIjogWwogICAgICAgICAgImNtLXNlcnZpY2Utdmlld2VyIgogICAgICAgIF0sCiAgICAgICAgIm1vZGUiOiAib3Blbl9sb29wIiwKICAgICAgICAicm9sZV9wZXJtIjogWwogICAgICAgICAgewogICAgICAgICAgICAicm9sZXNfcGVybV9zcnYiOiBbCiAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgIm1ldGhvZCI6IFsKICAgICAgICAgICAgICAgICAgIkdFVCIKICAgICAgICAgICAgICAgIF0sCiAgICAgICAgICAgICAgICAicGF0aCI6ICJhcGkvdjEvYWN0aXZlU2xpY2UiCiAgICAgICAgICAgICAgfQogICAgICAgICAgICBdLAogICAgICAgICAgICAic2VydmljZV9uYW1lIjogIm5vbnJ0cmljLWNtcyIKICAgICAgICAgIH0KICAgICAgICBdLAogICAgICAgICJzZWN1cml0eUVuYWJsZWQiOiB0cnVlLAogICAgICAgICJ0eXBlIjogImludm9rZXIiCiAgICAgIH0KICAgIF0KICB9Cn0K&#xd;
+          policy:&#xd;
+            topology: cGFja2FnZSB0b3BvbG9neQoKaW1wb3J0IHJlZ28udjEKCnhfbWV0aG9kIDo9IGlucHV0Lm1ldGhvZCBpZiB7CiAgICAgICAgICBpbnB1dC5tZXRob2QgIT0gIiIKfQp4X3NlcnZpY2UgOj0gaW5wdXQuc2VydmljZSBpZiB7CiAgICAgICAgaW5wdXQuc2VydmljZSAhPSAiIgp9CnhfcGF0aCA6PSBpbnB1dC5wYXRoCnhfdXNlciA6PSBpbnB1dC5jbGllbnRJZCBpZiB7CiAgICAgICAgaW5wdXQuY2xpZW50SWQgIT0gIiIKfQp4X3BhdGhfY2VsbGlkIDo9IGlucHV0LmNlbGxpZCBpZnsKICAgIGlucHV0LmNlbGxpZCAhPSAiIgp9Cnhfb3B0aW9uIDo9ICJub3JtYWwiICAgICAgICAgICAgIyB2YWxpZCB2YWx1ZXMgYXJlICJub3JtYWwiIG9yICJwbHVzIiwgY2hlY2tzIGNlbGxzIGFnYWluc3QKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIG5vcm1hbCBjbHVzdGVyIG9yIGNsdXN0ZXJfcGx1cyBhcnJheQoKZGVmYXVsdCBhbGxvdyA9IGZhbHNlCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCmRlbnkgY29udGFpbnMgbXNnIGlmIHsKICAgICAgICAjIGBpbnB1dGAgaXMgYSBnbG9iYWwgdmFyaWFibGUgYm91bmQgdG8gdGhlIGRhdGEgc2VudCB0byBPUEEgYnkgS3ViZXJuZXRlcy4gSW4gUmVnbywKICAgICAgICAjIHRoZSBgLmAgb3BlcmF0b3Igc2VsZWN0cyBrZXlzIGZyb20gb2JqZWN0cy4gSWYgYSBrZXkgaXMgbWlzc2luZywgbm8gZXJyb3IKICAgICAgICAjIGlzIGdlbmVyYXRlZC4gVGhlIHN0YXRlbWVudCBpcyBqdXN0IHVuZGVmaW5lZC4KICAgICAgICB2YWx1ZSA6PSBkYXRhLnRvcG9sb2d5LnJhcHBfaW5mby5yYXBwc1tfXS5pZAoKICAgICAgICAjIENoZWNrIGlmIHRoZSBsYWJlbCB2YWx1ZSBpcyBmb3JtYXR0ZWQgY29ycmVjdGx5LgogICAgICAgIG5vdCBzdGFydHN3aXRoKHZhbHVlLCAicmFwcC0iKQoKICAgICAgICAjIENvbnN0cnVjdCBhbiBlcnJvciBtZXNzYWdlIHRvIHJldHVybiB0byB0aGUgdXNlci4KICAgICAgICBtc2cgOj0gc3ByaW50ZigiQXBwIGNvZGUgbXVzdCBzdGFydCB3aXRoIGByQXBwLWA7IGZvdW5kIGAldmAiLCBbdmFsdWVdKQp9CmRlbnkgY29udGFpbnMgbXNnIGlmIHsKICAgICAgICAjIFRoZSBgbm90YCBrZXl3b3JkIHR1cm5zIGFuIHVuZGVmaW5lZCBzdGF0ZW1lbnQgaW50byBhIHRydWUgc3RhdGVtZW50LiBJZiBhbnkKICAgICAgICAjIG9mIHRoZSBrZXlzIGFyZSBtaXNzaW5nLCB0aGlzIHN0YXRlbWVudCB3aWxsIGJlIHRydWUuCgogICAgICAgIHNvbWUgciBpbiBkYXRhLnRvcG9sb2d5LnJhcHBfaW5mby5yYXBwcwogICAgICAgIG5vdCByLmlkCiAgICAgICAgbXNnIDo9ICJFdmVyeSB1c2VyX3JvbGVzIChhcHApIG11c3QgaGF2ZSBhIGlkIgp9CmRlbnkgY29udGFpbnMgbXNnIGlmIHsKICAgICAgICAjIFRoZSBgbm90YCBrZXl3b3JkIHR1cm5zIGFuIHVuZGVmaW5lZCBzdGF0ZW1lbnQgaW50byBhIHRydWUgc3RhdGVtZW50LiBJZiBhbnkKICAgICAgICAjIG9mIHRoZSBrZXlzIGFyZSBtaXNzaW5nLCB0aGlzIHN0YXRlbWVudCB3aWxsIGJlIHRydWUuCgogICAgICAgIHNvbWUgciBpbiBkYXRhLnRvcG9sb2d5LnJhcHBfaW5mby5yYXBwcwogICAgICAgIG5vdCByLnJvbGVfcGVybQogICAgICAgIG1zZyA6PSAiRXZlcnkgdXNlcl9yb2xlcyAoYXBwKSBtdXN0IGhhdmUgYSByb2xlX3Blcm0iCn0KZGVueSBjb250YWlucyBtc2cgaWYgewogICAgICAgICMgVGhlIGBub3RgIGtleXdvcmQgdHVybnMgYW4gdW5kZWZpbmVkIHN0YXRlbWVudCBpbnRvIGEgdHJ1ZSBzdGF0ZW1lbnQuIElmIGFueQogICAgICAgICMgb2YgdGhlIGtleXMgYXJlIG1pc3NpbmcsIHRoaXMgc3RhdGVtZW50IHdpbGwgYmUgdHJ1ZS4KCiAgICAgICAgc29tZSByIGluIGRhdGEudG9wb2xvZ3kucmFwcF9pbmZvLnJhcHBzCiAgICAgICAgbm90IHIuY2x1c3RlcnMKICAgICAgICBtc2cgOj0gIkV2ZXJ5IHVzZXJfcm9sZXMgKGFwcCkgbXVzdCBoYXZlIGFzc2lnbmVkIGNsdXN0ZXIiCn0KCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKCnVzZXJfcm9sZXNfZW50cnkgY29udGFpbnMgciAgaWYgewogICAgIHNvbWUgciBpbiBkYXRhLnRvcG9sb2d5LnJhcHBfaW5mby5yYXBwcyAgICAgICAgICAgICAgICAgICAgICAgICAgIyBzb21lIHVzZXIgZXhpc3RzIGFuZCAuLgogICAgIHIuYXBwX3JlbGVhc2VOYW1lID09IHhfdXNlcgp9Cgpyb2xlX3Blcm1fZW50cnkgY29udGFpbnMgciBpZiB7CiAgICAgc29tZSByIGluIHVzZXJfcm9sZXNfZW50cnlbX10ucm9sZV9wZXJtCiAgICAgci5zZXJ2aWNlX25hbWUgPT0geF9zZXJ2aWNlICAgICAgICAgICAgICAgICAgICAgICAgIyBzb21lIHVzZXIgZXhpc3RzIGFuZCAuLgp9Cgpyb2xlX3Blcm1fc2VydiBjb250YWlucyByICBpZiB7CiAgICAgc29tZSByIGluIHJvbGVfcGVybV9lbnRyeVtfXS5yb2xlc19wZXJtX3NydiAgICAgICAgICAgICMgc29tZSB1c2VyIGV4aXN0cyBhbmQgLi4KICAgICByLnBhdGggPT0geF9wYXRoICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIG1hdGNoZXMKICAgICBjb3VudChyb2xlX3Blcm1fZW50cnkpID09IDEgICAgICAgICAgICAgICAgICAgICAgICMgb25seSBvbmUgZW50cnkgZm9yIHVzZXJfcm9sZXMKfQoKY21fbWV0aG9kX2VudHJ5IGNvbnRhaW5zIHIgaWYgewogICAgIHNvbWUgciBpbiByb2xlX3Blcm1fc2VydltfXS5tZXRob2QgICAgICAgICAgICAgIyBzb21lIHVzZXIgZXhpc3RzIGFuZCAuLgogICAgIHIgPT0geF9tZXRob2QgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgbWF0Y2hlcwogICAgIGNvdW50KHJvbGVfcGVybV9zZXJ2KSA9PSAxICAgICAgICAgICAgICAgICAgICAgICAgIyBvbmx5IG9uZSBlbnRyeSBmb3Igcm9sZV9wZXJtCn0KCmNsdXN0ZXJzX2VudHJ5IGNvbnRhaW5zIHIgaWYgewogICAgc29tZSByIGluIHVzZXJfcm9sZXNfZW50cnlbX10uY2x1c3RlcnMgICAgICAgICAgICAgICMgc29tZSBzY29wZSBleGlzdHMgYW5kIC4uCiAgICBjb3VudCh1c2VyX3JvbGVzX2VudHJ5KSA9PSAxICAgICAgICAgICAgICAgICAgICAgICAgIyBvbmx5IG9uZSBlbnRyeSBmb3IgdXNlcl9yb2xlcwp9CgpjbHVzdGVyX3RvcG9sb2d5X2VudHJ5IGNvbnRhaW5zIHIgaWYgewogICAgc29tZSByIGluIGRhdGEudG9wb2xvZ3kuY2x1c3Rlcl9pbmZvLmNsdXN0ZXJfdG9wb2xvZ3kgICAgICAgICAgICAgICAgICAgICAjIHNvbWUgc2NvcGUgZXhpc3RzIGFuZCAuLgogICAgci5pZCA9PSBjbHVzdGVyc19lbnRyeVtfXSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBtYXRjaGVzCiAgICByLmlzX3ZhbGlkCn0KCmNsdXN0ZXJfdG9wb2xvZ3lfcGx1c19lbnRyeSBjb250YWlucyByIGlmIHsKICAgIHNvbWUgciBpbiBkYXRhLnRvcG9sb2d5LmNsdXN0ZXJfaW5mby5jbHVzdGVyX3RvcG9sb2d5X3BsdXMgICAgICAgICAgICAgICAgIyBzb21lIHNjb3BlIGV4aXN0cyBhbmQgLi4KICAgIHIucGFyZW50X2NsdXN0ZXIgPT0gY2x1c3Rlcl90b3BvbG9neV9lbnRyeVtfXS5pZCAgICAjIG1hdGNoZXMKfQoKY2VsbHNfZW50cnkgY29udGFpbnMgci5jZWxsc1tfXSBpZiB7CiAgICBzb21lIHIgaW4gY2x1c3Rlcl90b3BvbG9neV9lbnRyeQp9CgpjZWxscyBjb250YWlucyByLmNlbGxfaWQgaWYgewogIHNvbWUgciBpbiBjZWxsc19lbnRyeQp9CgoKY2VsbHNfcGx1cyBjb250YWlucyByLmNlbGxzW19dIGlmIHsKICAgIHNvbWUgciBpbiBjbHVzdGVyX3RvcG9sb2d5X2VudHJ5Cn0KY2VsbHNfcGx1cyBjb250YWlucyByLmFkZF9jZWxsc1tfXSBpZiB7CiAgICBzb21lIHIgaW4gY2x1c3Rlcl90b3BvbG9neV9wbHVzX2VudHJ5Cn0KCm1ldGhvZHMgY29udGFpbnMgciBpZiB7CiAgICBzb21lIHIgaW4gY21fbWV0aG9kX2VudHJ5Cn0KCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKCm9wdGlvbnNfY2hlY2tfY2VsbGlkIDo9IHRydWUgaWYgewogICAgeF9vcHRpb24gPT0gIm5vcm1hbCIKICAgIHhfcGF0aF9jZWxsaWQgaW4gY2VsbHMKfSBlbHNlIDo9IGZhbHNlIGlmIHsKICAgeF9wYXRoX2NlbGxpZAogICBwcmludCgiREVCVUcgOiBJbnZhbGlkIGNlbGwgaWQiKQp9CgpvcHRpb25zX2NoZWNrX2NlbGxpZCA6PSB0cnVlIGlmIHsKICAgIHhfb3B0aW9uID09ICJwbHVzIgogICAgeF9wYXRoX2NlbGxpZCBpbiBjZWxsc19wbHVzCn0KCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiNDaGVjayB3aGVuIGNlbGxfaWQgaXMgc3BlY2lmaWVkCmFsbG93IDo9IHRydWUgaWZ7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBhbGxvdyBpcyB0cnVlIGlmLi4uCiAgICB4X21ldGhvZCBpbiBtZXRob2RzCiAgICBvcHRpb25zX2NoZWNrX2NlbGxpZAp9CmVsc2UgOj0gZmFsc2UgaWZ7CiAgIHJvbGVfcGVybV9lbnRyeSA9PSBzZXQoKQogICB4X3BhdGhfY2VsbGlkCiAgIHByaW50KCJJbnZhbGlkIHNlcnZpY2UgbmFtZSIpCn0KZWxzZSA6PSBmYWxzZSBpZnsKICAgeF9wYXRoX2NlbGxpZAogICByb2xlX3Blcm1fc2VydiA9PSBzZXQoKQogICBwcmludCgiSW52YWxpZCBwYXRoIikKfQplbHNlIDo9IGZhbHNlIGlmewogICB4X3BhdGhfY2VsbGlkCiAgIGNtX21ldGhvZF9lbnRyeSA9PSBzZXQoKQogICBwcmludCgiSW52YWxpZCBtZXRob2QiKQp9CmVsc2UgOj1mYWxzZSBpZnsKICB4X3BhdGhfY2VsbGlkCiAgY2x1c3RlcnNfZW50cnkgPT0gc2V0KCkKICBwcmludCgiSW52YWxpZCBjbHVzdGVyIikKfQojY2hlY2sgd2hlbiBjZWxsX2lkIGlzIG5vdCBzcGVjaWZpZWQKYWxsb3cgOj0gdHJ1ZSBpZiB7CiAgICB4X21ldGhvZCBpbiBtZXRob2RzCiAgICBub3QgeF9wYXRoX2NlbGxpZAp9CmVsc2UgOj0gZmFsc2UgaWZ7CiAgIG5vdCB4X3BhdGhfY2VsbGlkCiAgIHJvbGVfcGVybV9lbnRyeSA9PSBzZXQoKQogICBwcmludCgiSW52YWxpZCBzZXJ2aWNlIG5hbWUiKQp9CmVsc2UgOj0gZmFsc2UgaWZ7CiAgIHJvbGVfcGVybV9zZXJ2ID09IHNldCgpCiAgIG5vdCB4X3BhdGhfY2VsbGlkCiAgIHByaW50KCJJbnZhbGlkIHBhdGgiKQp9CmVsc2UgOj0gZmFsc2UgaWZ7CiAgIGNtX21ldGhvZF9lbnRyeSA9PSBzZXQoKQogICBub3QgeF9wYXRoX2NlbGxpZAogICBwcmludCgiSW52YWxpZCBtZXRob2QiKQp9CmVsc2UgOj0gZmFsc2UgaWZ7CiAgY2x1c3RlcnNfZW50cnkgPT0gc2V0KCkKICBub3QgeF9wYXRoX2NlbGxpZAogIHByaW50KCJJbnZhbGlkIGNsdXN0ZXIiKQp9CiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMK&#xd;
+        name: topology   &#xd;
+        version: 1.0.0&#xd;
+        metadata:&#xd;
+          policy-id: topology&#xd;
+          policy-version: 1.0.0</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${API_HOST}:${API_PORT}/policy/api/v1</stringProp>
+                <stringProp name="Authorization.username">${API_USER}</stringProp>
+                <stringProp name="Authorization.password">${API_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/yaml</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49587">201</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Deploy Role Policy" enabled="true">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${PAP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${PAP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pap/v1/pdps/policies</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+   &quot;policies&quot;: [&#xd;
+           {&#xd;
+                    &quot;policy-id&quot;: &quot;role&quot;,&#xd;
+                    &quot;policy-version&quot;: &quot;1.0.0&quot;&#xd;
+&#xd;
+           }&#xd;
+   ]&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${PAP_HOST}:${PAP_PORT}/policy/pap/v1</stringProp>
+                <stringProp name="Authorization.username">${PAP_USER}</stringProp>
+                <stringProp name="Authorization.password">${PAP_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49588">202</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Deploy Account Policy" enabled="true">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${PAP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${PAP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pap/v1/pdps/policies</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+   &quot;policies&quot;: [&#xd;
+           {&#xd;
+                    &quot;policy-id&quot;: &quot;account&quot;,&#xd;
+                    &quot;policy-version&quot;: &quot;1.0.0&quot;&#xd;
+&#xd;
+           }&#xd;
+   ]&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${PAP_HOST}:${PAP_PORT}/policy/pap/v1</stringProp>
+                <stringProp name="Authorization.username">${PAP_USER}</stringProp>
+                <stringProp name="Authorization.password">${PAP_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49588">202</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Deploy Organization Policy" enabled="true">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${PAP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${PAP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pap/v1/pdps/policies</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+   &quot;policies&quot;: [&#xd;
+           {&#xd;
+                    &quot;policy-id&quot;: &quot;organization&quot;,&#xd;
+                    &quot;policy-version&quot;: &quot;1.0.0&quot;&#xd;
+&#xd;
+           }&#xd;
+   ]&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${PAP_HOST}:${PAP_PORT}/policy/pap/v1</stringProp>
+                <stringProp name="Authorization.username">${PAP_USER}</stringProp>
+                <stringProp name="Authorization.password">${PAP_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49588">202</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Deploy Topology Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${PAP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${PAP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pap/v1/pdps/policies</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+   &quot;policies&quot;: [&#xd;
+           {&#xd;
+                    &quot;policy-id&quot;: &quot;topology&quot;,&#xd;
+                    &quot;policy-version&quot;: &quot;1.0.0&quot;&#xd;
+&#xd;
+           }&#xd;
+   ]&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${PAP_HOST}:${PAP_PORT}/policy/pap/v1</stringProp>
+                <stringProp name="Authorization.username">${PAP_USER}</stringProp>
+                <stringProp name="Authorization.password">${PAP_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49588">202</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename">/tmp/pdpo_perf_setup.log</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy OPA PDP Health Check ">
         <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
         <intProp name="ThreadGroup.ramp_time">10</intProp>
         <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
@@ -115,10 +700,10 @@
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Check Health" enabled="true">
           <stringProp name="TestPlan.comments">Basic Health Check</stringProp>
           <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
-          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.domain">${OPA_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdpx/v1/healthcheck</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpo/v1/healthcheck</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -161,9 +746,9 @@ if (prev.getResponseCode() == &apos;200&apos;) {
         <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
           <collectionProp name="AuthManager.auth_list">
             <elementProp name="" elementType="Authorization">
-              <stringProp name="Authorization.url">${HTTP}://${OPA_PDP_HOST}:${OPA_PDP_PORT}/policy/pdpx/v1</stringProp>
-              <stringProp name="Authorization.username">${OPA_PDP_USER}</stringProp>
-              <stringProp name="Authorization.password">${OPA_PDP_PASSWORD}</stringProp>
+              <stringProp name="Authorization.url">${HTTP}://${OPA_HOST}:${OPA_PORT}/policy/pdpo/v1</stringProp>
+              <stringProp name="Authorization.username">${OPA_USER}</stringProp>
+              <stringProp name="Authorization.password">${OPA_PASSWORD}</stringProp>
               <stringProp name="Authorization.domain"></stringProp>
               <stringProp name="Authorization.realm"></stringProp>
             </elementProp>
@@ -206,12 +791,12 @@ if (prev.getResponseCode() == &apos;200&apos;) {
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">/tmp/pdpx_perf_health.log</stringProp>
+          <stringProp name="filename">/tmp/pdpo_perf_health.log</stringProp>
           <stringProp name="TestPlan.comments">	</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="OPA  PDP Decisions" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="OPA PDP Decisions">
         <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
         <intProp name="ThreadGroup.ramp_time">10</intProp>
         <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
@@ -225,13 +810,13 @@ if (prev.getResponseCode() == &apos;200&apos;) {
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Verification API Call 1" enabled="true">
-          <stringProp name="TestPlan.comments">Get Verification API Call 1</stringProp>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Fetch Role Decisions" enabled="true">
+          <stringProp name="TestPlan.comments">Get Configuration Data for Monitoring Policy</stringProp>
           <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
-          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.domain">${OPA_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpo/v1/decision</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -245,11 +830,14 @@ if (prev.getResponseCode() == &apos;200&apos;) {
   &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
   &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
   &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
-  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;11:34:56&quot;,&#xd;
   &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
   &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
   &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
-  &quot;policyName&quot;: &quot;example/allow&quot;,&#xd;
+  &quot;policyFilter&quot;: [&#xd;
+    &quot;&quot;&#xd;
+  ],&#xd;
+  &quot;policyName&quot;: &quot;role&quot;,&#xd;
   &quot;input&quot;: {&#xd;
     &quot;method&quot;: &quot;POST&quot;,&#xd;
     &quot;path&quot;: [&#xd;
@@ -263,6 +851,20 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${OPA_HOST}:${OPA_PORT}/policy/pdpo/v1</stringProp>
+                <stringProp name="Authorization.username">${OPA_USER}</stringProp>
+                <stringProp name="Authorization.password">${OPA_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
@@ -275,7 +877,7 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1938393061">PERMIT</stringProp>
+              <stringProp name="-1005512447">output</stringProp>
             </collectionProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -284,13 +886,13 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Verification API Call 2" enabled="true">
-          <stringProp name="TestPlan.comments">Get Verification API Call 2</stringProp>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Fetch Role Decisions with Filter" enabled="true">
+          <stringProp name="TestPlan.comments">Get Data with Filter for Role Policy</stringProp>
           <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
-          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.domain">${OPA_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpo/v1/decision</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -304,16 +906,19 @@ if (prev.getResponseCode() == &apos;200&apos;) {
   &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
   &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
   &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
-  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;11:34:56&quot;,&#xd;
   &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
   &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
   &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
-  &quot;policyName&quot;: &quot;role/allow&quot;,&#xd;
+  &quot;policyFilter&quot;: [&#xd;
+    &quot;user_roles&quot;&#xd;
+  ],&#xd;
+  &quot;policyName&quot;: &quot;role&quot;,&#xd;
   &quot;input&quot;: {&#xd;
-    &quot;user&quot;: &quot;alice&quot;,&#xd;
-    &quot;action&quot;: &quot;write&quot;,&#xd;
-    &quot;object&quot;: &quot;id123&quot;,&#xd;
-    &quot;type&quot;: &quot;dog&quot;&#xd;
+    &quot;method&quot;: &quot;POST&quot;,&#xd;
+    &quot;path&quot;: [&#xd;
+      &quot;users&quot;&#xd;
+    ]&#xd;
   }&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
@@ -322,6 +927,20 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${OPA_HOST}:${OPA_PORT}/policy/pdpo/v1</stringProp>
+                <stringProp name="Authorization.username">${OPA_USER}</stringProp>
+                <stringProp name="Authorization.password">${OPA_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
@@ -334,7 +953,7 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1938393061">PERMIT</stringProp>
+              <stringProp name="-1005512447">output</stringProp>
             </collectionProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -343,13 +962,13 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PERMIT for policy:action" enabled="true">
-          <stringProp name="TestPlan.comments">PERMIT for policy:action</stringProp>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Fetch Account Decisions" enabled="true">
+          <stringProp name="TestPlan.comments">Get Output for Account Policy</stringProp>
           <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
-          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.domain">${OPA_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpo/v1/decision</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -358,28 +977,27 @@ if (prev.getResponseCode() == &apos;200&apos;) {
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&#xd;
-  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
-  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
-  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
-  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
-  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
-  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
-  &quot;policyName&quot;: &quot;action/allow&quot;,&#xd;
-  &quot;input&quot;: {&#xd;
-    &quot;user&quot;: &quot;alice&quot;,&#xd;
-    &quot;action&quot;: &quot;delete&quot;,&#xd;
-    &quot;type&quot;: &quot;server&quot;&#xd;
-  }&#xd;
-}</stringProp>
+                <stringProp name="Argument.value">{&quot;onapName&quot;:&quot;CDS&quot;,&quot;onapComponent&quot;:&quot;CDS&quot;,&quot;onapInstance&quot;:&quot;CDS&quot;, &quot;currentDate&quot;: &quot;2024-11-22&quot;, &quot;currentTime&quot;: &quot;11:34:56&quot;, &quot;timeZone&quot;: &quot;UTC&quot;,&quot;timeOffset&quot;: &quot;+05:30&quot;, &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&quot;policyFilter&quot;: [&quot;account_attributes&quot;], &quot;policyName&quot;:&quot;account&quot;, &quot;input&quot;:{&quot;creditor_account&quot;:11111,&quot;creditor&quot;:&quot;alice&quot;,&quot;debtor_account&quot;:22222,&quot;debtor&quot;:&quot;bob&quot;,&quot;period&quot;:30,&quot;amount&quot;:1000}}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${OPA_HOST}:${OPA_PORT}/policy/pdpo/v1</stringProp>
+                <stringProp name="Authorization.username">${OPA_USER}</stringProp>
+                <stringProp name="Authorization.password">${OPA_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
@@ -392,7 +1010,7 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1938393061">PERMIT</stringProp>
+              <stringProp name="-1005512447">output</stringProp>
             </collectionProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -401,13 +1019,13 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DENY for policy:action" enabled="true">
-          <stringProp name="TestPlan.comments">DENY for policy:action</stringProp>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Fetch Organization Decisions" enabled="true">
+          <stringProp name="TestPlan.comments">Get Output for Organization Policy</stringProp>
           <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
-          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.domain">${OPA_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpo/v1/decision</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -416,28 +1034,27 @@ if (prev.getResponseCode() == &apos;200&apos;) {
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&#xd;
-  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
-  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
-  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
-  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
-  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
-  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
-  &quot;policyName&quot;: &quot;action/allow&quot;,&#xd;
-  &quot;input&quot;: {&#xd;
-    &quot;user&quot;: &quot;charlie&quot;,&#xd;
-    &quot;action&quot;: &quot;delete&quot;,&#xd;
-    &quot;type&quot;: &quot;server&quot;&#xd;
-  }&#xd;
-}</stringProp>
+                <stringProp name="Argument.value">{&quot;onapName&quot;:&quot;CDS&quot;,&quot;onapComponent&quot;:&quot;CDS&quot;,&quot;onapInstance&quot;:&quot;CDS&quot;, &quot;currentDate&quot;: &quot;2024-11-22&quot;, &quot;currentTime&quot;: &quot;11:34:56&quot;, &quot;timeZone&quot;: &quot;UTC&quot;,&quot;timeOffset&quot;: &quot;+05:30&quot;, &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&quot;policyFilter&quot;: [&quot;account_attributes&quot;], &quot;policyName&quot;:&quot;organization&quot;, &quot;input&quot;:{&quot;creditor_account&quot;:11111,&quot;creditor&quot;:&quot;alice&quot;,&quot;debtor_account&quot;:22222,&quot;debtor&quot;:&quot;bob&quot;,&quot;period&quot;:30,&quot;amount&quot;:1000}}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${OPA_HOST}:${OPA_PORT}/policy/pdpo/v1</stringProp>
+                <stringProp name="Authorization.username">${OPA_USER}</stringProp>
+                <stringProp name="Authorization.password">${OPA_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
@@ -450,7 +1067,7 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="2094604">DENY</stringProp>
+              <stringProp name="-1005512447">output</stringProp>
             </collectionProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -459,13 +1076,13 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PERMIT for policy:account" enabled="true">
-          <stringProp name="TestPlan.comments">PERMIT for policy:account</stringProp>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Fetch Topology Decisions" enabled="true">
+          <stringProp name="TestPlan.comments">Get Topology Decisions</stringProp>
           <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
-          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.domain">${OPA_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpo/v1/decision</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -474,31 +1091,27 @@ if (prev.getResponseCode() == &apos;200&apos;) {
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&#xd;
-  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
-  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
-  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
-  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
-  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
-  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
-  &quot;policyName&quot;: &quot;account/allow&quot;,&#xd;
-  &quot;input&quot;: {&#xd;
-    &quot;creditor_account&quot;: 11111,&#xd;
-    &quot;creditor&quot;: &quot;alice&quot;,&#xd;
-    &quot;debtor_account&quot;: 22222,&#xd;
-    &quot;debtor&quot;: &quot;bob&quot;,&#xd;
-    &quot;period&quot;: 30,&#xd;
-    &quot;amount&quot;: 1000&#xd;
-  }&#xd;
-}</stringProp>
+                <stringProp name="Argument.value">{&quot;onapName&quot;:&quot;CDS&quot;,&quot;onapComponent&quot;:&quot;CDS&quot;,&quot;onapInstance&quot;:&quot;CDS&quot;, &quot;currentDate&quot;: &quot;2024-11-22&quot;, &quot;currentTime&quot;: &quot;11:34:56&quot;, &quot;timeZone&quot;: &quot;UTC&quot;, &quot;timeOffset&quot;: &quot;+05:30&quot;, &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&quot;policyFilter&quot;: [&quot;&quot;], &quot;policyName&quot;:&quot;topology&quot;, &quot;input&quot;:{&quot;user&quot;:&quot;alice&quot;,&quot;action&quot;: &quot;read&quot;,&quot;component&quot;: &quot;component_A&quot;,&quot;project&quot;: &quot;project_A&quot;, &quot;organization&quot;: &quot;org_A&quot;}}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${OPA_HOST}:${OPA_PORT}/policy/pdpo/v1</stringProp>
+                <stringProp name="Authorization.username">${OPA_USER}</stringProp>
+                <stringProp name="Authorization.password">${OPA_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
@@ -511,7 +1124,7 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1938393061">PERMIT</stringProp>
+              <stringProp name="-1005512447">output</stringProp>
             </collectionProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -520,15 +1133,15 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DENY for policy:account" enabled="true">
-          <stringProp name="TestPlan.comments">DENY for policy:account</stringProp>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Patch Data for Policy" enabled="true">
+          <stringProp name="TestPlan.comments">Patch Data for Policy</stringProp>
           <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
-          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.domain">${OPA_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpo/v1/data</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <stringProp name="HTTPSampler.method">PATCH</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -536,23 +1149,24 @@ if (prev.getResponseCode() == &apos;200&apos;) {
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
-  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
-  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
-  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
-  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
-  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
-  &quot;policyName&quot;: &quot;account/allow&quot;,&#xd;
-  &quot;input&quot;: {&#xd;
-    &quot;creditor_account&quot;: 11111,&#xd;
-    &quot;creditor&quot;: &quot;alice&quot;,&#xd;
-    &quot;debtor_account&quot;: 22222,&#xd;
-    &quot;debtor&quot;: &quot;bob&quot;,&#xd;
-    &quot;period&quot;: 31,&#xd;
-    &quot;amount&quot;: 1000&#xd;
-  }&#xd;
+  &quot;onapName&quot;: &quot;string&quot;,&#xd;
+  &quot;onapComponent&quot;: &quot;string&quot;,&#xd;
+  &quot;onapInstance&quot;: &quot;string&quot;,&#xd;
+  &quot;currentDateTime&quot;: &quot;2025-01-17T08:26:41.857Z&quot;,&#xd;
+  &quot;currentDate&quot;: &quot;2025-01-17&quot;,&#xd;
+  &quot;currentTime&quot;: &quot;2025-01-17T08:26:41.857Z&quot;,&#xd;
+  &quot;timeZone&quot;: &quot;string&quot;,&#xd;
+  &quot;timeOffset&quot;: &quot;89:45&quot;,&#xd;
+   &quot;policyName&quot;: &quot;role&quot;,&#xd;
+  &quot;data&quot;: [&#xd;
+    {&#xd;
+      &quot;op&quot;: &quot;add&quot;,&#xd;
+      &quot;path&quot;: &quot;/cell&quot;,&#xd;
+      &quot;value&quot;: {&#xd;
+              &quot;test&quot;: &quot;testinfo&quot;&#xd;
+      }&#xd;
+    }&#xd;
+]&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
@@ -560,6 +1174,20 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${OPA_HOST}:${OPA_PORT}/policy/pdpo/v1</stringProp>
+                <stringProp name="Authorization.username">${OPA_USER}</stringProp>
+                <stringProp name="Authorization.password">${OPA_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
@@ -568,58 +1196,39 @@ if (prev.getResponseCode() == &apos;200&apos;) {
             <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">8</intProp>
-          </ResponseAssertion>
-          <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="2094604">DENY</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.custom_message"></stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PERMIT for policy:organization" enabled="true">
-          <stringProp name="TestPlan.comments">PERMIT for policy:organization</stringProp>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Data for polcy role" enabled="true">
+          <stringProp name="TestPlan.comments">Get Data for polcy role</stringProp>
           <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
-          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.domain">${OPA_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${OPA_PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pdpo/v1/data</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&#xd;
-  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
-  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
-  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
-  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
-  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
-  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
-  &quot;policyName&quot;: &quot;organization/allow&quot;,&#xd;
-  &quot;input&quot;: {&#xd;
-    &quot;user&quot;: &quot;alice&quot;,&#xd;
-    &quot;action&quot;: &quot;read&quot;,&#xd;
-    &quot;component&quot;: &quot;component_A&quot;,&#xd;
-    &quot;project&quot;: &quot;project_A&quot;,&#xd;
-    &quot;organization&quot;: &quot;org_A&quot;&#xd;
-  }&#xd;
-}</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${OPA_HOST}:${OPA_PORT}/policy/pdpo/v1</stringProp>
+                <stringProp name="Authorization.username">${OPA_USER}</stringProp>
+                <stringProp name="Authorization.password">${OPA_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
@@ -632,67 +1241,7 @@ if (prev.getResponseCode() == &apos;200&apos;) {
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1938393061">PERMIT</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.custom_message"></stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">2</intProp>
-          </ResponseAssertion>
-          <hashTree/>
-        </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DENY for policy:organization" enabled="true">
-          <stringProp name="TestPlan.comments">DENY for policy:organization</stringProp>
-          <intProp name="HTTPSampler.concurrentPool">6</intProp>
-          <stringProp name="HTTPSampler.domain">${OPA_PDP_HOST}</stringProp>
-          <stringProp name="HTTPSampler.port">${OPA_PDP_PORT}</stringProp>
-          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
-          <stringProp name="HTTPSampler.path">policy/pdpx/v1/decision</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&#xd;
-  &quot;onapName&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapComponent&quot;: &quot;CDS&quot;,&#xd;
-  &quot;onapInstance&quot;: &quot;CDS&quot;,&#xd;
-  &quot;currentDate&quot;: &quot;2024-11-22&quot;,&#xd;
-  &quot;currentTime&quot;: &quot;2024-11-22T11:34:56Z&quot;,&#xd;
-  &quot;timeZone&quot;: &quot;UTC&quot;,&#xd;
-  &quot;timeOffset&quot;: &quot;+05:30&quot;,&#xd;
-  &quot;currentDateTime&quot;: &quot;2024-11-22T12:08:00Z&quot;,&#xd;
-  &quot;policyName&quot;: &quot;organization/allow&quot;,&#xd;
-  &quot;input&quot;: {&#xd;
-    &quot;user&quot;: &quot;charlie&quot;,&#xd;
-    &quot;action&quot;: &quot;edit&quot;,&#xd;
-    &quot;component&quot;: &quot;component_A&quot;,&#xd;
-    &quot;project&quot;: &quot;project_A&quot;,&#xd;
-    &quot;organization&quot;: &quot;org_A&quot;&#xd;
-  }&#xd;
-}</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
-        </HTTPSamplerProxy>
-        <hashTree>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="49586">200</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.custom_message"></stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">8</intProp>
-          </ResponseAssertion>
-          <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="2094604">DENY</stringProp>
+              <stringProp name="3076010">data</stringProp>
             </collectionProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -704,9 +1253,9 @@ if (prev.getResponseCode() == &apos;200&apos;) {
         <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
           <collectionProp name="AuthManager.auth_list">
             <elementProp name="" elementType="Authorization">
-              <stringProp name="Authorization.url">${HTTP}://${OPA_PDP_HOST}:${OPA_PDP_PORT}/policy/pdpx/v1</stringProp>
-              <stringProp name="Authorization.username">${OPA_PDP_USER}</stringProp>
-              <stringProp name="Authorization.password">${OPA_PDP_PASSWORD}</stringProp>
+              <stringProp name="Authorization.url">${HTTP}://${OPA_HOST}:${OPA_PORT}/policy/pdpo/v1</stringProp>
+              <stringProp name="Authorization.username">${OPA_USER}</stringProp>
+              <stringProp name="Authorization.password">${OPA_PASSWORD}</stringProp>
               <stringProp name="Authorization.domain"></stringProp>
               <stringProp name="Authorization.realm"></stringProp>
             </elementProp>
@@ -749,7 +1298,334 @@ if (prev.getResponseCode() == &apos;200&apos;) {
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">/tmp/pdpx_perf_decisions.log</stringProp>
+          <stringProp name="filename">/tmp/pdpo_perf_decisions.log</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="tearDown OPA PDP Decision">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <longProp name="ThreadGroup.delay">1</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </PostThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Undeploy Role Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${PAP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${PAP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pap/v1/pdps/policies/role/versions/1.0.0</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${PAP_HOST}:${PAP_PORT}/policy/pap/v1</stringProp>
+                <stringProp name="Authorization.username">${PAP_USER}</stringProp>
+                <stringProp name="Authorization.password">${PAP_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Undeploy Account Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${PAP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${PAP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pap/v1/pdps/policies/account/versions/1.0.0</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${PAP_HOST}:${PAP_PORT}/policy/pap/v1</stringProp>
+                <stringProp name="Authorization.username">${PAP_USER}</stringProp>
+                <stringProp name="Authorization.password">${PAP_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Undeploy Organization Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${PAP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${PAP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pap/v1/pdps/policies/organization/versions/1.0.0</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${PAP_HOST}:${PAP_PORT}/policy/pap/v1</stringProp>
+                <stringProp name="Authorization.username">${PAP_USER}</stringProp>
+                <stringProp name="Authorization.password">${PAP_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Undeploy Topology Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${PAP_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${PAP_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/pap/v1/pdps/policies/topology/versions/1.0.0</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${PAP_HOST}:${PAP_PORT}/policy/pap/v1</stringProp>
+                <stringProp name="Authorization.username">${PAP_USER}</stringProp>
+                <stringProp name="Authorization.password">${PAP_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Delete Role Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${API_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${API_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/api/v1/policytypes/onap.policies.native.opa/versions/1.0.0/policies/role/versions/1.0.0</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${API_HOST}:${API_PORT}/policy/api/v1</stringProp>
+                <stringProp name="Authorization.username">${API_USER}</stringProp>
+                <stringProp name="Authorization.password">${API_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Delete Account Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${API_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${API_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/api/v1/policytypes/onap.policies.native.opa/versions/1.0.0/policies/account/versions/1.0.0</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${API_HOST}:${API_PORT}/policy/api/v1</stringProp>
+                <stringProp name="Authorization.username">${API_USER}</stringProp>
+                <stringProp name="Authorization.password">${API_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Delete Organization Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${API_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${API_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/api/v1/policytypes/onap.policies.native.opa/versions/1.0.0/policies/organization/versions/1.0.0</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${API_HOST}:${API_PORT}/policy/api/v1</stringProp>
+                <stringProp name="Authorization.username">${API_USER}</stringProp>
+                <stringProp name="Authorization.password">${API_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Delete Topology Policy">
+          <intProp name="HTTPSampler.concurrentPool">6</intProp>
+          <stringProp name="HTTPSampler.domain">${API_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${API_PORT}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${HTTP}</stringProp>
+          <stringProp name="HTTPSampler.path">policy/api/v1/policytypes/onap.policies.native.opa/versions/1.0.0/policies/topology/versions/1.0.0</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">DELETE</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+            <collectionProp name="AuthManager.auth_list">
+              <elementProp name="" elementType="Authorization">
+                <stringProp name="Authorization.url">${HTTP}://${API_HOST}:${API_PORT}/policy/api/v1</stringProp>
+                <stringProp name="Authorization.username">${API_USER}</stringProp>
+                <stringProp name="Authorization.password">${API_PASSWORD}</stringProp>
+                <stringProp name="Authorization.domain"></stringProp>
+                <stringProp name="Authorization.realm"></stringProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="AuthManager.clearEachIteration">true</boolProp>
+            <boolProp name="AuthManager.controlledByThreadGroup">false</boolProp>
+          </AuthManager>
+          <hashTree/>
+        </hashTree>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename">/tmp/pdpo_perf_deployment.log</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
@@ -787,7 +1663,7 @@ if (prev.getResponseCode() == &apos;200&apos;) {
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">/tmp/pdpx_perf_summaryReport.log</stringProp>
+        <stringProp name="filename">/tmp/pdpo_perf_summaryReport.log</stringProp>
         <boolProp name="useGroupName">true</boolProp>
       </ResultCollector>
       <hashTree/>
@@ -825,10 +1701,10 @@ if (prev.getResponseCode() == &apos;200&apos;) {
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">/tmp/pdpx_perf_resultsTree.log</stringProp>
+        <stringProp name="filename">/tmp/pdpo_perf_resultsTree.log</stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+      <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -862,7 +1738,7 @@ if (prev.getResponseCode() == &apos;200&apos;) {
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">/tmp/pdpx_perf_resultsTable.log</stringProp>
+        <stringProp name="filename">/tmp/pdpo_perf_resultsTable.log</stringProp>
       </ResultCollector>
       <hashTree/>
     </hashTree>
