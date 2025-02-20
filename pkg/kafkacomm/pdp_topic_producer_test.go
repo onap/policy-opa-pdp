@@ -113,6 +113,8 @@ func TestKafkaProducer_Close(t *testing.T) {
 		producer: mockProducer,
 	}
 
+        mockProducer.On("Flush", mock.AnythingOfType("int")).Return(0)
+
 	// Simulate successful close
 	mockProducer.On("Close").Return()
 
@@ -130,6 +132,7 @@ func TestKafkaProducer_Close_Error(t *testing.T) {
 		producer: mockProducer,
 	}
 
+	mockProducer.On("Flush", mock.AnythingOfType("int")).Return(-1)
 	// Simulate close error
 	mockProducer.On("Close").Return()
 
@@ -160,6 +163,7 @@ func mockKafkaNewProducer(conf *kafka.ConfigMap) (*kafka.Producer, error) {
 	mockProducer := new(MockKafkaProducer)
 	mockProducer.On("Produce", mock.Anything, mock.Anything).Return(nil)
 	mockProducer.On("Close").Return()
+	mockProducer.On("Flush").Return()
 	return &kafka.Producer{}, nil
 }
 

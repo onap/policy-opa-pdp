@@ -247,10 +247,19 @@ func sendDecisionErrorResponse(msg string, res http.ResponseWriter, httpStatus i
 	writeErrorJSONResponse(res, httpStatus, msg, *decisionExc)
 }
 
+
+type OPASingletonInstanceFunc func() (*sdk.OPA, error)
+var OPASingletonInstance OPASingletonInstanceFunc = opasdk.GetOPASingletonInstance
+
 //This function returns the opasdk instance
 func getOpaInstance() (*sdk.OPA, error) {
-	return opasdk.GetOPASingletonInstance()
+	return OPASingletonInstance()
 }
+
+
+
+type OPADecisionFunc func(opa *sdk.OPA, ctx context.Context, options sdk.DecisionOptions) (*sdk.DecisionResult, error)
+var OPADecision OPADecisionFunc = (*sdk.OPA).Decision
 
 //This function processes the OPA decision
 func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapicodegen.OPADecisionRequest) {
@@ -263,7 +272,7 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 	    decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, nil, statusMessage)
 	} else {
 		options := sdk.DecisionOptions{Path: decisionReq.PolicyName, Input: decisionReq.Input}
-		decisionResult, decisionErr := opa.Decision(ctx, options)
+		decisionResult, decisionErr := OPADecision(opa, ctx, options)
 		jsonOutput, err := json.MarshalIndent(decisionResult, "", "  ")
 		if err != nil {
 			log.Warnf("Error serializing decision output: %v\n", err)

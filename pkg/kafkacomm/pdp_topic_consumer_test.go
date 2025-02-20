@@ -20,7 +20,6 @@
 package kafkacomm
 
 import (
-	"bou.ke/monkey"
 	"errors"
         "fmt"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
@@ -133,6 +132,21 @@ func TestKafkaConsumer_Close(t *testing.T) {
 	mockConsumer.AssertExpectations(t)
 }
 
+func TestKafkaConsumerClose_Error(t *testing.T) {
+        mockConsumer := new(mocks.KafkaConsumerInterface)
+
+        kc := &KafkaConsumer{Consumer: mockConsumer}
+
+        // Set up the mock for Close
+        mockConsumer.On("Close").Return(errors.New("close error"))
+
+        // Test Close method
+        kc.Close()
+
+        // Verify that Close was called
+        mockConsumer.AssertExpectations(t)
+}
+
 func TestKafkaConsumer_Unsubscribe(t *testing.T) {
 	mockConsumer := new(mocks.KafkaConsumerInterface)
 
@@ -184,25 +198,27 @@ func resetKafkaConsumerSingleton() {
 // Test for mock error creating consumers
 func TestNewKafkaConsumer_ErrorCreatingConsumer(t *testing.T) {
 	resetKafkaConsumerSingleton()
-	monkey.Patch(kafka.NewConsumer, func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
+	originalNewKafkaConsumer := KafkaNewConsumer
+	KafkaNewConsumer = func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
 		return nil, fmt.Errorf("mock error creating consumer")
-	})
-	defer monkey.Unpatch(kafka.NewConsumer)
+	}
 
 	consumer, err := NewKafkaConsumer()
 	assert.Nil(t, consumer)
 	assert.EqualError(t, err, "Kafka Consumer instance not created")
+	KafkaNewConsumer = originalNewKafkaConsumer
 }
 
 // Test for error creating kafka instance
 func TestNewKafkaConsumer_NilConsumer(t *testing.T) {
 	resetKafkaConsumerSingleton()
-	monkey.Patch(kafka.NewConsumer, func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
+	originalNewKafkaConsumer := KafkaNewConsumer
+	KafkaNewConsumer = func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
 		return nil, nil
-	})
-	defer monkey.Unpatch(kafka.NewConsumer)
+	}
 
 	consumer, err := NewKafkaConsumer()
 	assert.Nil(t, consumer)
 	assert.EqualError(t, err, "Kafka Consumer instance not created")
+	KafkaNewConsumer = originalNewKafkaConsumer
 }
