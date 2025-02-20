@@ -194,11 +194,30 @@ func ExtractDeployedPolicies(policiesMap string) []model.ToscaConceptIdentifier 
 	return pdpstatus.Policies
 }
 
+func CheckIfPolicyAlreadyExists(policyId string) bool {
+	if len(LastDeployedPolicies) > 0 {
+		// Unmarshal the last known policies
+		deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
+		if err != nil {
+			log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
+		}
+
+		log.Debugf("deployedPolicies %s", deployedPolicies)
+
+		for _, policy := range deployedPolicies {
+			if policy["policy-id"] == policyId {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func GetTotalDeployedPoliciesCountFromMap() int {
-        deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
-        if err != nil {
-                log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
+	deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
+	if err != nil {
+		log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
 		return 0
-        }
-        return len(deployedPolicies)
+	}
+	return len(deployedPolicies)
 }

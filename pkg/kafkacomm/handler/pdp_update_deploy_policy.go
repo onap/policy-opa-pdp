@@ -39,29 +39,57 @@ import (
 	"strings"
 )
 
+// Define types for the functions
+type (
+	UpsertPolicyFunc             func(model.ToscaPolicy) error
+	UpsertDataFunc               func(model.ToscaPolicy) error
+	HandlePolicyDeploymentFunc   func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string)
+	validatePackageNameFunc      func(key, decodedPolicyContent string) error
+	extractAndDecodePoliciesFunc func(policy model.ToscaPolicy) (map[string]string, []string, error)
+	createPolicyDirectoriesFunc  func(decodedPolicies map[string]string) error
+	extractAndDecodeDatFunc      func(policy model.ToscaPolicy) (map[string]string, []string, error)
+	createDataDirectoriesFunc    func(decodedData map[string]string) error
+	createAndStorePolicyDataFunc func(policy model.ToscaPolicy) error
+	validateParentPolicyFunc     func(policy model.ToscaPolicy) (bool, error)
+)
+
+// Declare function variables that will be used during testing
+var (
+	upsertPolicyFunc            UpsertPolicyFunc             = upsertPolicy
+	upsertDataFunc              UpsertDataFunc               = upsertData
+	handlePolicyDeploymentVar   HandlePolicyDeploymentFunc   = handlePolicyDeployment
+	validatePackageNameVar      validatePackageNameFunc      = validatePackageName
+	extractAndDecodePoliciesVar extractAndDecodePoliciesFunc = extractAndDecodePolicies
+	createPolicyDirectoriesVar  createPolicyDirectoriesFunc  = createPolicyDirectories
+	extractAndDecodeDataVar     extractAndDecodeDatFunc      = extractAndDecodeData
+	createDataDirectoriesVar    createDataDirectoriesFunc    = createDataDirectories
+	createAndStorePolicyDataVar createAndStorePolicyDataFunc = createAndStorePolicyData
+	validateParentPolicyVar     validateParentPolicyFunc     = validateParentPolicy
+)
+
 // stores policy and data files to directory.
 func createAndStorePolicyData(policy model.ToscaPolicy) error {
 
 	// Extract and decode policies
-	decodedPolicies, key, err := extractAndDecodePolicies(policy)
+	decodedPolicies, key, err := extractAndDecodePoliciesVar(policy)
 	if err != nil {
 		log.Errorf("Failed to extract and decode policies for key : %v, %v", key, err)
 		return err
 	}
 
-	err = createPolicyDirectories(decodedPolicies)
+	err = createPolicyDirectoriesVar(decodedPolicies)
 	if err != nil {
 		log.Errorf("Failed to create policy directories: %v", err)
 		return err
 	}
 
-	decodedData, key, err := extractAndDecodeData(policy)
+	decodedData, key, err := extractAndDecodeDataVar(policy)
 	if err != nil {
 		log.Errorf("Failed to extract and decode data: %v", err)
 		return err
 	}
 
-	err = createDataDirectories(decodedData)
+	err = createDataDirectoriesVar(decodedData)
 	if err != nil {
 		log.Errorf("Failed to create data directories: %v", err)
 		return err
@@ -76,13 +104,13 @@ func createPolicyDirectories(decodedPolicies map[string]string) error {
 	for key, decodedPolicy := range decodedPolicies {
 		policyDir := filepath.Join(basePolicyDir, filepath.Join(strings.Split(key, ".")...))
 
-		err := utils.CreateDirectory(policyDir)
+		err := utils.CreateDirectoryVar(policyDir)
 		if err != nil {
 			log.Errorf("Failed to create policy directory %s: %v", policyDir, err)
 			return err
 		}
 
-		err = os.WriteFile(filepath.Join(policyDir, "policy.rego"), []byte(decodedPolicy), os.ModePerm)
+		err = os.WriteFile(filepath.Join(policyDir, "policy.rego"), []byte(decodedPolicy), 0600)
 		if err != nil {
 			log.Errorf("Failed to save policy.rego for %s: %v", key, err)
 			return err
@@ -99,13 +127,13 @@ func createDataDirectories(decodedData map[string]string) error {
 	for key, dataContent := range decodedData {
 		dataDir := filepath.Join(baseDataDir, filepath.Join(strings.Split(key, ".")...))
 
-		err := utils.CreateDirectory(dataDir)
+		err := utils.CreateDirectoryVar(dataDir)
 		if err != nil {
 			log.Errorf("Failed to create data directory %s: %v", dataDir, err)
 			return err
 		}
 
-		err = os.WriteFile(filepath.Join(dataDir, "data.json"), []byte(dataContent), os.ModePerm)
+		err = os.WriteFile(filepath.Join(dataDir, "data.json"), []byte(dataContent), 0600)
 		if err != nil {
 			log.Errorf("Failed to save data.json for %s: %v", key, err)
 			return err
@@ -134,7 +162,7 @@ func extractAndDecodePolicies(policy model.ToscaPolicy) (map[string]string, []st
 		log.Tracef("Decoded policy content: %s", decodedPolicy)
 
 		// Validate package name
-		if err := validatePackageName(key, string(decodedPolicy)); err != nil {
+		if err := validatePackageNameVar(key, string(decodedPolicy)); err != nil {
 
 			log.Errorf("Validation for Policy: %v failed, %v", key, err)
 			return nil, nil, err
@@ -214,10 +242,10 @@ func getDirName(policy model.ToscaPolicy) []string {
 
 // upsert policy to sdk.
 func upsertPolicy(policy model.ToscaPolicy) error {
-	decodedContent, keys, _ := extractAndDecodePolicies(policy)
+	decodedContent, keys, _ := extractAndDecodePoliciesVar(policy)
 	for _, key := range keys {
 		policyContent := decodedContent[key]
-		err := opasdk.UpsertPolicy(context.Background(), key, []byte(policyContent))
+		err := opasdk.UpsertPolicyVar(context.Background(), key, []byte(policyContent))
 		if err != nil {
 			log.Errorf("Failed to Insert Policy %v", err)
 			return err
@@ -229,7 +257,7 @@ func upsertPolicy(policy model.ToscaPolicy) error {
 
 // handles writing data to sdk.
 func upsertData(policy model.ToscaPolicy) error {
-	decodedDataContent, dataKeys, _ := extractAndDecodeData(policy)
+	decodedDataContent, dataKeys, _ := extractAndDecodeDataVar(policy)
 	for _, dataKey := range dataKeys {
 		dataContent := decodedDataContent[dataKey]
 		reader := bytes.NewReader([]byte(dataContent))
@@ -244,7 +272,7 @@ func upsertData(policy model.ToscaPolicy) error {
 
 		}
 		keypath := "/" + strings.Replace(dataKey, ".", "/", -1)
-		err = opasdk.WriteData(context.Background(), keypath, wdata)
+		err = opasdk.WriteDataVar(context.Background(), keypath, wdata)
 		if err != nil {
 			log.Errorf("Failed to Write Data: %s: %v", policy.Name, err)
 			return err
@@ -266,7 +294,7 @@ func handlePolicyDeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSend
 	for _, policy := range pdpUpdate.PoliciesToBeDeployed {
 		// Validate the policy
 
-		policyAllowed, err := validateParentPolicy(policy)
+		policyAllowed, err := validateParentPolicyVar(policy)
 		if err != nil {
 			log.Warnf("Tosca Policy Id validation failed for policy nameas it is a parent folder:%s, %v", policy.Name, err)
 			failureMessages = append(failureMessages, fmt.Sprintf("%s, %v", policy.Name, err))
@@ -287,7 +315,7 @@ func handlePolicyDeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSend
 		}
 
 		// Create and store policy data
-		if err := createAndStorePolicyData(policy); err != nil {
+		if err := createAndStorePolicyDataVar(policy); err != nil {
 			failureMessages = append(failureMessages, fmt.Sprintf("%s: %v", policy.Name, err))
 			metrics.IncrementDeployFailureCount()
 			metrics.IncrementTotalErrorCount()
@@ -343,7 +371,7 @@ func verifyPolicyByBundleCreation(policy model.ToscaPolicy) error {
 		return fmt.Errorf("failed to extract folder name")
 	}
 	// create bundle
-	output, err := createBundleFunc(exec.Command, policy)
+	output, err := createBundleFuncVar(exec.Command, policy)
 	if err != nil {
 		log.Warnf("Failed to initialize bundle for %s: %s", policy.Name, string(output))
 		for _, dirPath := range dirNames {
@@ -359,12 +387,12 @@ func verifyPolicyByBundleCreation(policy model.ToscaPolicy) error {
 
 // handles Upsert func for policy and data
 func upsertPolicyAndData(policy model.ToscaPolicy, successPolicies map[string]string) error {
-	if err := upsertPolicy(policy); err != nil {
+	if err := upsertPolicyFunc(policy); err != nil {
 		log.Warnf("Failed to upsert policy: %v", err)
 		return fmt.Errorf("Failed to Insert Policy: %s: %v", policy.Name, err)
 	}
 
-	if err := upsertData(policy); err != nil {
+	if err := upsertDataFunc(policy); err != nil {
 		return fmt.Errorf("Failed to Write Data: %s: %v", policy.Name, err)
 	}
 

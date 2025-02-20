@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -25,17 +25,21 @@ package opasdk
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
+	"strings"
 	"sync"
 
-	"github.com/open-policy-agent/opa/sdk"
-	"github.com/open-policy-agent/opa/storage"
 	"github.com/open-policy-agent/opa/storage/inmem"
+	"github.com/open-policy-agent/opa/v1/ast"
+	"github.com/open-policy-agent/opa/v1/sdk"
+	"github.com/open-policy-agent/opa/v1/storage"
+	"policy-opa-pdp/pkg/model/oapicodegen"
 )
 
 // Define the structs
@@ -43,7 +47,20 @@ var (
 	opaInstance *sdk.OPA  //A singleton instance of the OPA object
 	once        sync.Once //A sync.Once variable used to ensure that the OPA instance is initialized only once,
 	memStore    storage.Store
+	UpsertPolicyVar UpsertPolicyFunc = UpsertPolicy
+        WriteDataVar    WriteDataFunc    = WriteData
 )
+
+type (
+        UpsertPolicyFunc func(ctx context.Context, policyID string, policyContent []byte) error
+        WriteDataFunc    func(ctx context.Context, dataPath string, data interface{}) error
+)
+
+type PatchImpl struct {
+	Path  storage.Path
+	Op    storage.PatchOp
+	Value interface{}
+}
 
 // reads JSON configuration from a file and return a jsonReader
 func getJSONReader(filePath string, openFunc func(string) (*os.File, error),
@@ -63,14 +80,17 @@ func getJSONReader(filePath string, openFunc func(string) (*os.File, error),
 	return jsonReader, nil
 }
 
+type NewSDKFunc func(ctx context.Context, options sdk.Options) (*sdk.OPA, error)
+var NewSDK NewSDKFunc = sdk.New
+
 // Returns a singleton instance of the OPA object. The initialization of the instance is
 // thread-safe, and the OPA object is configured using a JSON configuration file.
 func GetOPASingletonInstance() (*sdk.OPA, error) {
 	var err error
+	memStore = inmem.New()
 	once.Do(func() {
-		var opaErr error
-		memStore = inmem.New()
-		opaInstance, opaErr = sdk.New(context.Background(), sdk.Options{
+	        var opaErr error
+	        opaInstance, opaErr = NewSDK(context.Background(), sdk.Options{
 			// Configure your OPA instance here
 			V1Compatible: true,
 			Store:        memStore,
@@ -89,9 +109,12 @@ func GetOPASingletonInstance() (*sdk.OPA, error) {
 			}
 			log.Debugf("Configure an instance of OPA Object")
 
-			opaInstance.Configure(context.Background(), sdk.ConfigOptions{
+			err := opaInstance.Configure(context.Background(), sdk.ConfigOptions{
 				Config: jsonReader,
 			})
+			if err != nil {
+			    log.Warnf("Failed to configure OPA: %v", err)
+			}
 		}
 	})
 	return opaInstance, err
@@ -196,6 +219,7 @@ func DeleteData(ctx context.Context, dataPath string) error {
 	return nil
 }
 
+// Added below method to test get policies (added for testing purpose only)
 func ListPolicies(res http.ResponseWriter, req *http.Request) {
 	ctx := context.Background()
 	rtxn, err := memStore.NewTransaction(ctx, storage.TransactionParams{Write: false})
@@ -226,7 +250,9 @@ func ListPolicies(res http.ResponseWriter, req *http.Request) {
 	}
 	memStore.Abort(ctx, rtxn)
 	res.WriteHeader(http.StatusOK)
-	res.Write([]byte("Check logs"))
+	if _, err := res.Write([]byte("Check logs")); err != nil {
+		log.Warnf("Warning: Failed to write response: %v", err)
+	}
 }
 
 func initializePath(ctx context.Context, txn storage.Transaction, path string) error {
@@ -248,4 +274,104 @@ func initializePath(ctx context.Context, txn storage.Transaction, path string) e
 		}
 	}
 	return nil
+}
+
+func PatchData(ctx context.Context, patches []PatchImpl) error {
+	txn, err := memStore.NewTransaction(ctx, storage.WriteParams)
+	if err != nil {
+		log.Warnf("Error in creating transaction: %s", err)
+		memStore.Abort(ctx, txn)
+		return err
+	}
+
+	for _, patch := range patches {
+		err = memStore.Write(ctx, txn, patch.Op, patch.Path, patch.Value)
+		path := (patch.Path).String()
+		if err != nil {
+			log.Warnf("Error in writing data under "+path+" in memory: %s", err)
+			memStore.Abort(ctx, txn)
+			return err
+		}
+	}
+
+	// Create a new compiler instance
+	compiler := ast.NewCompiler()
+
+	// Check for path conflicts
+	errInfo := ast.CheckPathConflicts(compiler, storage.NonEmpty(ctx, memStore, txn))
+	if len(errInfo) > 0 {
+		memStore.Abort(ctx, txn)
+		log.Errorf("Path conflicts detected: %s", errInfo)
+		return errInfo
+	} else {
+		log.Debugf("No path conflicts detected")
+	}
+
+	err = memStore.Commit(ctx, txn)
+	if err != nil {
+		log.Warnf("Error in commiting the transaction: %s", err)
+		memStore.Abort(ctx, txn)
+		return err
+	}
+	return nil
+}
+
+func GetDataInfo(ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error) {
+
+	rtxn, _ := memStore.NewTransaction(ctx, storage.TransactionParams{Write: false})
+	defer memStore.Abort(ctx, rtxn) // Ensure transaction is aborted to avoid leaks
+	path := storage.MustParsePath(dataPath)
+
+	result, err := memStore.Read(ctx, rtxn, path)
+	if err != nil {
+		log.Warnf("Error in reading data under " + dataPath + " path")
+		return nil, err
+	}
+
+	jsonData, err := json.Marshal(result)
+	if err != nil {
+		log.Warnf("Error in converting result into json data %s", err)
+		return nil, err
+	}
+
+	log.Debugf("Json Data at %s: %s\n", path, jsonData)
+
+	var resData oapicodegen.OPADataResponse_Data
+
+	err = json.Unmarshal(jsonData, &resData)
+	if err != nil {
+		log.Errorf("Error in unmarshalling data: %s", err)
+		return nil, err
+	}
+
+	return &resData, nil
+}
+
+func ParsePatchPathEscaped(str string) (path storage.Path, ok bool) {
+	path, ok = storage.ParsePathEscaped(str)
+	if !ok {
+		return
+	}
+	for i := range path {
+		// RFC 6902 section 4: "[The "path" member's] value is a string containing
+		// a JSON-Pointer value [RFC6901] that references a location within the
+		// target document (the "target location") where the operation is performed."
+		//
+		// RFC 6901 section 3: "Because the characters '~' (%x7E) and '/' (%x2F)
+		// have special meanings in JSON Pointer, '~' needs to be encoded as '~0'
+		// and '/' needs to be encoded as '~1' when these characters appear in a
+		// reference token."
+
+		// RFC 6901 section 4: "Evaluation of each reference token begins by
+		// decoding any escaped character sequence.  This is performed by first
+		// transforming any occurrence of the sequence '~1' to '/', and then
+		// transforming any occurrence of the sequence '~0' to '~'.  By performing
+		// the substitutions in this order, an implementation avoids the error of
+		// turning '~01' first into '~1' and then into '/', which would be
+		// incorrect (the string '~01' correctly becomes '~1' after transformation)."
+		path[i] = strings.Replace(path[i], "~1", "/", -1)
+		path[i] = strings.Replace(path[i], "~0", "~", -1)
+	}
+
+	return
 }
