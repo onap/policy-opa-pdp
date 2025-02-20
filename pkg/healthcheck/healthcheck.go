@@ -71,5 +71,7 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	log.Debug("Received Health Check message")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response)
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		log.Warnf("Failed to decode json response: %v", err)
+	}
 }
