@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "900b25bf_73994bf5",
+        "filename": "cfg/config.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-20T13:59:35Z",
+      "side": 1,
+      "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "e76e64d0590ef002997679ab5493e326ba1e62cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "521878f0_4aaf6fb8",
+        "filename": "pkg/healthcheck/healthcheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-20T13:59:35Z",
+      "side": 1,
+      "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "e76e64d0590ef002997679ab5493e326ba1e62cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71a23279_a859bb6c",
+        "filename": "pkg/healthcheck/healthcheck_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-20T13:59:35Z",
+      "side": 1,
+      "message": "2024-2025",
+      "revId": "e76e64d0590ef002997679ab5493e326ba1e62cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2a26eb3_81fa1db2",
+        "filename": "pkg/kafkacomm/publisher/pdp-status-publisher_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-20T13:59:35Z",
+      "side": 1,
+      "message": "2024-2025",
+      "revId": "e76e64d0590ef002997679ab5493e326ba1e62cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d3ae96_76f8cbbd",
+        "filename": "pkg/opasdk/opasdk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-20T13:59:35Z",
+      "side": 1,
+      "message": "2024-2025",
+      "revId": "e76e64d0590ef002997679ab5493e326ba1e62cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e447fadf_37829a25",
+        "filename": "pkg/utils/utils_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-20T13:59:35Z",
+      "side": 1,
+      "message": "2024-2025",
+      "revId": "e76e64d0590ef002997679ab5493e326ba1e62cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
