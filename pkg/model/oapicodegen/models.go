@@ -4,8 +4,10 @@
 package oapicodegen
 
 import (
+	"encoding/json"
 	"time"
 
+	"github.com/oapi-codegen/runtime"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
@@ -44,6 +46,40 @@ type HealthCheckReport struct {
 	Message *string `json:"message,omitempty"`
 	Name    *string `json:"name,omitempty"`
 	Url     *string `json:"url,omitempty"`
+}
+
+// OPADataResponse defines model for OPADataResponse.
+type OPADataResponse struct {
+	Data *OPADataResponse_Data `json:"data,omitempty"`
+}
+
+// OPADataResponseData0 defines model for .
+type OPADataResponseData0 = interface{}
+
+// OPADataResponseData1 defines model for .
+type OPADataResponseData1 map[string]interface{}
+
+// OPADataResponse_Data defines model for OPADataResponse.Data.
+type OPADataResponse_Data struct {
+	union json.RawMessage
+}
+
+// OPADataUpdateRequest defines model for OPADataUpdateRequest.
+type OPADataUpdateRequest struct {
+	CurrentDate     *openapi_types.Date       `json:"currentDate,omitempty"`
+	CurrentDateTime *time.Time                `json:"currentDateTime,omitempty"`
+	CurrentTime     *string                   `json:"currentTime,omitempty"`
+	Data            *[]map[string]interface{} `json:"data,omitempty"`
+	OnapComponent   *string                   `json:"onapComponent,omitempty"`
+	OnapInstance    *string                   `json:"onapInstance,omitempty"`
+	OnapName        *string                   `json:"onapName,omitempty"`
+	PolicyName      *string                   `json:"policyName,omitempty"`
+
+	// TimeOffset Time offset in hours and minutes, e.g., '+02:00' or '-05:00'
+	TimeOffset *string `json:"timeOffset,omitempty"`
+
+	// TimeZone Timezone in IANA format (e.g., 'America/NewYork', 'Europe/Paris', 'UTC')
+	TimeZone *string `json:"timeZone,omitempty"`
 }
 
 // OPADecisionRequest defines model for OPADecisionRequest.
@@ -86,6 +122,18 @@ type StatisticsReport struct {
 	UndeploySuccessCount  *int64 `json:"undeploySuccessCount,omitempty"`
 }
 
+// DataGetParams defines parameters for DataGet.
+type DataGetParams struct {
+	// XONAPRequestID RequestID for http transaction
+	XONAPRequestID *openapi_types.UUID `json:"X-ONAP-RequestID,omitempty"`
+}
+
+// PatchdataParams defines parameters for Patchdata.
+type PatchdataParams struct {
+	// XONAPRequestID RequestID for http transaction
+	XONAPRequestID *openapi_types.UUID `json:"X-ONAP-RequestID,omitempty"`
+}
+
 // DecisionParams defines parameters for Decision.
 type DecisionParams struct {
 	// XONAPRequestID RequestID for http transaction
@@ -104,5 +152,70 @@ type StatisticsParams struct {
 	XONAPRequestID *openapi_types.UUID `json:"X-ONAP-RequestID,omitempty"`
 }
 
+// PatchdataJSONRequestBody defines body for Patchdata for application/json ContentType.
+type PatchdataJSONRequestBody = OPADataUpdateRequest
+
 // DecisionJSONRequestBody defines body for Decision for application/json ContentType.
 type DecisionJSONRequestBody = OPADecisionRequest
+
+// AsOPADataResponseData0 returns the union data inside the OPADataResponse_Data as a OPADataResponseData0
+func (t OPADataResponse_Data) AsOPADataResponseData0() (OPADataResponseData0, error) {
+	var body OPADataResponseData0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromOPADataResponseData0 overwrites any union data inside the OPADataResponse_Data as the provided OPADataResponseData0
+func (t *OPADataResponse_Data) FromOPADataResponseData0(v OPADataResponseData0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeOPADataResponseData0 performs a merge with any union data inside the OPADataResponse_Data, using the provided OPADataResponseData0
+func (t *OPADataResponse_Data) MergeOPADataResponseData0(v OPADataResponseData0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsOPADataResponseData1 returns the union data inside the OPADataResponse_Data as a OPADataResponseData1
+func (t OPADataResponse_Data) AsOPADataResponseData1() (OPADataResponseData1, error) {
+	var body OPADataResponseData1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromOPADataResponseData1 overwrites any union data inside the OPADataResponse_Data as the provided OPADataResponseData1
+func (t *OPADataResponse_Data) FromOPADataResponseData1(v OPADataResponseData1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeOPADataResponseData1 performs a merge with any union data inside the OPADataResponse_Data, using the provided OPADataResponseData1
+func (t *OPADataResponse_Data) MergeOPADataResponseData1(v OPADataResponseData1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t OPADataResponse_Data) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *OPADataResponse_Data) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}

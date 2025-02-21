@@ -34,9 +34,18 @@ import (
 	"strings"
 )
 
+type (
+	sendSuccessResponseFunc func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage string) error
+	sendFailureResponseFunc func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage error) error
+	createBundleFuncRef     func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error)
+)
+
 var (
-	basePolicyDir = consts.Policies
-	baseDataDir   = consts.Data
+	basePolicyDir                                  = consts.Policies
+	baseDataDir                                    = consts.Data
+	sendSuccessResponseVar sendSuccessResponseFunc = sendSuccessResponse
+	sendFailureResponseVar sendFailureResponseFunc = sendFailureResponse
+	createBundleFuncVar    createBundleFuncRef     = createBundleFunc
 )
 
 // Handles messages of type PDP_UPDATE sent from the Policy Administration Point (PAP).
@@ -50,7 +59,7 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 	if err != nil {
 		log.Debugf("Failed to UnMarshal Messages: %v\n", err)
 		resMessage := fmt.Errorf("PDP Update Failed: %v", err)
-		if err := sendFailureResponse(p, &pdpUpdate, resMessage); err != nil {
+		if err := sendFailureResponseVar(p, &pdpUpdate, resMessage); err != nil {
 			log.Debugf("Failed to send update error response: %v", err)
 			return err
 		}
@@ -61,7 +70,7 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 	err = utils.ValidateFieldsStructs(pdpUpdate)
 	if err != nil {
 		resMessage := fmt.Errorf("PDP Update Failed: %v", err)
-		if err := sendFailureResponse(p, &pdpUpdate, resMessage); err != nil {
+		if err := sendFailureResponseVar(p, &pdpUpdate, resMessage); err != nil {
 			log.Debugf("Failed to send update error response: %v", err)
 			return err
 		}
@@ -74,7 +83,7 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 	pdpattributes.SetPdpHeartbeatInterval(pdpUpdate.PdpHeartbeatIntervalMs)
 
 	if len(pdpUpdate.PoliciesToBeDeployed) > 0 {
-		failureMessage, successfullyDeployedPolicies := handlePolicyDeployment(pdpUpdate, p)
+		failureMessage, successfullyDeployedPolicies := handlePolicyDeploymentVar(pdpUpdate, p)
 		mapJson, err := policymap.FormatMapofAnyType(successfullyDeployedPolicies)
 		if len(failureMessage) > 0 {
 			failureMessages = append(failureMessages, "{Deployment Errors:"+strings.Join(failureMessage, "")+"}")
@@ -82,7 +91,7 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 		if err != nil {
 			failureMessages = append(failureMessages, "|Internal Map Error:"+err.Error()+"|")
 			resMessage := fmt.Errorf("PDP Update Failed: failed to format successfullyDeployedPolicies json %v", failureMessages)
-			if err = sendFailureResponse(p, &pdpUpdate, resMessage); err != nil {
+			if err = sendFailureResponseVar(p, &pdpUpdate, resMessage); err != nil {
 				log.Debugf("Failed to send update error response: %v", err)
 				return err
 			}
@@ -93,7 +102,7 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 	// Check if "PoliciesToBeUndeployed" is empty or not
 	if len(pdpUpdate.PoliciesToBeUndeployed) > 0 {
 		log.Infof("Found Policies to be undeployed")
-		failureMessage, successfullyUndeployedPolicies := handlePolicyUndeployment(pdpUpdate, p)
+		failureMessage, successfullyUndeployedPolicies := handlePolicyUndeploymentVar(pdpUpdate, p)
 		mapJson, err := policymap.FormatMapofAnyType(successfullyUndeployedPolicies)
 		if len(failureMessage) > 0 {
 			failureMessages = append(failureMessages, "{UnDeployment Errors:"+strings.Join(failureMessage, "")+"}")
@@ -101,7 +110,7 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 		if err != nil {
 			failureMessages = append(failureMessages, "|Internal Map Error:"+err.Error()+"|")
 			resMessage := fmt.Errorf("PDP Update Failed: failed to format successfullyUnDeployedPolicies json %v", failureMessages)
-			if err = sendFailureResponse(p, &pdpUpdate, resMessage); err != nil {
+			if err = sendFailureResponseVar(p, &pdpUpdate, resMessage); err != nil {
 				log.Debugf("Failed to send update error response: %v", err)
 				return err
 			}
@@ -111,7 +120,7 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 
 	if len(pdpUpdate.PoliciesToBeDeployed) == 0 && len(pdpUpdate.PoliciesToBeUndeployed) == 0 {
 		//Response for PAP Registration
-		err = sendSuccessResponse(p, &pdpUpdate, "PDP UPDATE is successfull")
+		err = sendSuccessResponseVar(p, &pdpUpdate, "PDP UPDATE is successfull")
 		if err != nil {
 			log.Debugf("Failed to Send Update Response Message: %v\n", err)
 			return err
@@ -149,7 +158,7 @@ func sendFailureResponse(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate
 func sendPDPStatusResponse(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender, loggingPoliciesList string, failureMessages []string) error {
 	if len(failureMessages) > 0 {
 		resMessage := fmt.Errorf("PDP Update Failed: %v", failureMessages)
-		if err := sendFailureResponse(p, &pdpUpdate, resMessage); err != nil {
+		if err := sendFailureResponseVar(p, &pdpUpdate, resMessage); err != nil {
 			log.Warnf("Failed to send update error response: %v", err)
 			return err
 		}
@@ -157,7 +166,7 @@ func sendPDPStatusResponse(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSende
 
 		if len(pdpUpdate.PoliciesToBeUndeployed) == 0 {
 			resMessage := fmt.Sprintf("PDP Update Successful for all policies: %v", loggingPoliciesList)
-			if err := sendSuccessResponse(p, &pdpUpdate, resMessage); err != nil {
+			if err := sendSuccessResponseVar(p, &pdpUpdate, resMessage); err != nil {
 				log.Warnf("Failed to send update response: %v", err)
 				return err
 			}
@@ -166,14 +175,14 @@ func sendPDPStatusResponse(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSende
 
 			resMessage := fmt.Sprintf("PDP Update Policies undeployed :%v", loggingPoliciesList)
 
-			if err := sendSuccessResponse(p, &pdpUpdate, resMessage); err != nil {
+			if err := sendSuccessResponseVar(p, &pdpUpdate, resMessage); err != nil {
 				log.Warnf("Failed to Send Update Response Message: %v", err)
 				return err
 			}
 			log.Infof("Processed policies_to_be_undeployed successfully")
 		} else {
 
-			if err := sendSuccessResponse(p, &pdpUpdate, "PDP UPDATE is successfull"); err != nil {
+			if err := sendSuccessResponseVar(p, &pdpUpdate, "PDP UPDATE is successfull"); err != nil {
 				log.Warnf("Failed to Send Update Response Message: %v", err)
 				return err
 			}
