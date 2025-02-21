@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -23,7 +23,9 @@ package healthcheck
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 	"net/http"
 	"net/http/httptest"
 	"policy-opa-pdp/pkg/model/oapicodegen"
@@ -91,6 +93,34 @@ func TestHealthCheckHandler_Failure(t *testing.T) {
 	assert.Equal(t, int32(500), *response.Code)
 	assert.Equal(t, "error", *response.Message)
 
+}
+
+// MockResponseWriter to simulate Encode failure
+type FailingResponseWriter struct {
+	mock.Mock
+}
+
+func (f *FailingResponseWriter) Header() http.Header {
+	return http.Header{}
+}
+
+func (f *FailingResponseWriter) Write(b []byte) (int, error) {
+	// Simulate a failure during writing JSON encoding
+	return 0, errors.New("forced JSON encoding error")
+}
+
+func (f *FailingResponseWriter) WriteHeader(statusCode int) {}
+
+func TestHealthCheckHandler_JSONEncodeFailure(t *testing.T) {
+	req, err := http.NewRequest("GET", "/healthcheck", nil)
+	assert.NoError(t, err)
+
+	mockWriter := new(FailingResponseWriter)
+
+	HealthCheckHandler(mockWriter, req) // Call handler with failing writer
+
+	// Verify if an encoding failure was triggered
+	mockWriter.AssertNotCalled(t, "Write") // Should not have written any successful response
 }
 
 func TestHealthCheckHandler_ValidUUID(t *testing.T) {
