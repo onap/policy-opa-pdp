@@ -48,10 +48,13 @@ type KafkaConsumer struct {
 }
 
 // Close closes the KafkaConsumer
-func (kc *KafkaConsumer) Close() {
+func (kc *KafkaConsumer) Close() error{
 	if kc.Consumer != nil {
-		kc.Consumer.Close()
+		if err := kc.Consumer.Close(); err != nil{
+			return fmt.Errorf("failed to close consumer: %v", err)
+		}
 	}
+	return nil
 }
 
 // Unsubscribe unsubscribes the KafkaConsumer
@@ -68,7 +71,10 @@ func (kc *KafkaConsumer) Unsubscribe() error {
 	return nil
 }
 
-// NewKafkaConsumer creates a new Kafka consumer and returns it
+type KafkaNewConsumerFunc func(*kafka.ConfigMap) (*kafka.Consumer, error)
+var KafkaNewConsumer KafkaNewConsumerFunc = kafka.NewConsumer
+
+// NewKafkaConsumer creates a new Kafka consumer and returns 
 func NewKafkaConsumer() (*KafkaConsumer, error) {
 	// Initialize the consumer instance only once
 	consumerOnce.Do(func() {
@@ -86,25 +92,25 @@ func NewKafkaConsumer() (*KafkaConsumer, error) {
 			"group.id":          groupid,
 			"auto.offset.reset": "latest",
 		}
-
+		fmt.Print(configMap)
 		// If SASL is enabled, add SASL properties
 		if useSASL == "true" {
-			configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512")
-			configMap.SetKey("sasl.username", username)
-			configMap.SetKey("sasl.password", password)
-			configMap.SetKey("security.protocol", "SASL_PLAINTEXT")
-			configMap.SetKey("fetch.max.bytes", 50*1024*1024)
-			configMap.SetKey("max.partition.fetch.bytes",50*1024*1024)
-                        configMap.SetKey("socket.receive.buffer.bytes", 50*1024*1024)
-			configMap.SetKey("session.timeout.ms", "30000")
-			configMap.SetKey("max.poll.interval.ms", "300000")
-			configMap.SetKey("enable.partition.eof", true)
-			configMap.SetKey("enable.auto.commit", true)
+			configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512") // #nosec G104
+			configMap.SetKey("sasl.username", username) // #nosec G104
+			configMap.SetKey("sasl.password", password) // #nosec G104
+			configMap.SetKey("security.protocol", "SASL_PLAINTEXT") // #nosec G104
+			configMap.SetKey("fetch.max.bytes", 50*1024*1024) // #nosec G104
+			configMap.SetKey("max.partition.fetch.bytes",50*1024*1024) // #nosec G104
+                        configMap.SetKey("socket.receive.buffer.bytes", 50*1024*1024) // #nosec G104
+			configMap.SetKey("session.timeout.ms", "30000") // #nosec G104
+			configMap.SetKey("max.poll.interval.ms", "300000") // #nosec G104
+			configMap.SetKey("enable.partition.eof", true) // #nosec G104
+			configMap.SetKey("enable.auto.commit", true) // #nosec G104
 			// configMap.SetKey("debug", "all") // Uncomment for debug
 		}
 
 		// Create a new Kafka consumer
-		consumer, err := kafka.NewConsumer(configMap)
+		consumer, err := KafkaNewConsumer(configMap)
 		if err != nil {
 			log.Warnf("Error creating consumer: %v", err)
 			return

@@ -93,14 +93,13 @@ func main() {
 	if err != nil || kc == nil {
 		log.Warnf("Kafka consumer initialization failed: %v", err)
 	}
-	defer producer.Close()
-
 	sender := &publisher.RealPdpStatusSender{Producer: producer}
 
 	// start pdp message handler in a seperate routine
 	handleMessagesFunc(ctx, kc, sender)
 
 	time.Sleep(10 * time.Second)
+
 	// pdp registration
 	isRegistered := registerPDPFunc(sender)
 	if !isRegistered {
@@ -112,14 +111,18 @@ func main() {
 	// Handle OS Interrupts and Graceful Shutdown
 	interruptChannel := make(chan os.Signal, 1)
 	signal.Notify(interruptChannel, os.Interrupt, syscall.SIGTERM, syscall.SIGINT, syscall.SIGHUP)
-	handleShutdownFunc(kc, interruptChannel, cancel)
+	handleShutdownFunc(kc, interruptChannel, cancel, producer)
 }
+
+type PdpMessageHandlerFunc func(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string, p publisher.PdpStatusSender) error
+
+var PdpMessageHandler PdpMessageHandlerFunc = handler.PdpMessageHandler
 
 // starts pdpMessage Handler in a seperate routine which handles incoming messages on Kfka topic
 func handleMessages(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
 
 	go func() {
-		err := handler.PdpMessageHandler(ctx, kc, topic, sender)
+		err := PdpMessageHandler(ctx, kc, topic, sender)
 		if err != nil {
 			log.Warnf("Erro in PdpUpdate Message Handler: %v", err)
 		}
@@ -147,7 +150,8 @@ func initializeBundle(execCmd func(string, ...string) *exec.Cmd) (string, error)
 }
 
 func startHTTPServer() *http.Server {
-	server := &http.Server{Addr: consts.ServerPort}
+	//Configures the HTTP server to wait a maximum of 5 seconds for the headers of incoming requests
+	server := &http.Server{Addr: consts.ServerPort, ReadHeaderTimeout: 5 * time.Second}
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Errorf("Server error: %s", err)
@@ -156,11 +160,15 @@ func startHTTPServer() *http.Server {
 	return server
 }
 
+type ShutdownServFunc func(server *http.Server, ctx context.Context) error
+
+var ShutdownServ ShutdownServFunc = (*http.Server).Shutdown
+
 func shutdownHTTPServer(server *http.Server) {
 	timeoutContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	if err := server.Shutdown(timeoutContext); err != nil {
+	if err := ShutdownServ(server, timeoutContext); err != nil {
 		log.Warnf("Failed to gracefully shut down server: %v", err)
 	} else {
 		log.Debug("Server shut down gracefully")
@@ -180,13 +188,21 @@ func initializeOPA() error {
 	return nil
 }
 
+type NewKafkaConsumerFunc func() (*kafkacomm.KafkaConsumer, error)
+
+var NewKafkaConsumer NewKafkaConsumerFunc = kafkacomm.NewKafkaConsumer
+
+type GetKafkaProducerFunc func(bootstrapServers string, topic string) (*kafkacomm.KafkaProducer, error)
+
+var GetKafkaProducer GetKafkaProducerFunc = kafkacomm.GetKafkaProducer
+
 func startKafkaConsAndProd() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
-	kc, err := kafkacomm.NewKafkaConsumer()
+	kc, err := NewKafkaConsumer()
 	if err != nil {
 		log.Warnf("Failed to create Kafka consumer: %v", err)
 		return nil, nil, err
 	}
-	producer, err := kafkacomm.GetKafkaProducer(bootstrapServers, topic)
+	producer, err := GetKafkaProducer(bootstrapServers, topic)
 	if err != nil {
 		log.Warnf("Failed to create Kafka producer: %v", err)
 		return nil, nil, err
@@ -194,7 +210,7 @@ func startKafkaConsAndProd() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer
 	return kc, producer, nil
 }
 
-func handleShutdown(kc *kafkacomm.KafkaConsumer, interruptChannel chan os.Signal, cancel context.CancelFunc) {
+func handleShutdown(kc *kafkacomm.KafkaConsumer, interruptChannel chan os.Signal, cancel context.CancelFunc, producer *kafkacomm.KafkaProducer) {
 
 myLoop:
 	for {
@@ -208,6 +224,8 @@ myLoop:
 	log.Debugf("Loop Exited and shutdown started")
 	signal.Stop(interruptChannel)
 
+	publisher.StopTicker()
+	producer.Close()
 	if kc == nil {
 		log.Debugf("kc is nil so skipping")
 		return
@@ -225,7 +243,6 @@ myLoop:
 	}
 
 	handler.SetShutdownFlag()
-	publisher.StopTicker()
 
 	time.Sleep(time.Duration(consts.SHUTDOWN_WAIT_TIME) * time.Second)
 }

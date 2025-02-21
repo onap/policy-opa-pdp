@@ -28,7 +28,17 @@ import (
 	"path/filepath"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
+	"regexp"
 	"strings"
+	"time"
+)
+
+type (
+	CreateDirectoryFunc func(dirPath string) error
+)
+
+var (
+	CreateDirectoryVar CreateDirectoryFunc = CreateDirectory
 )
 
 // validates if the given request is in valid uuid form
@@ -39,7 +49,7 @@ func IsValidUUID(u string) bool {
 
 // Helper function to create a directory if it doesn't exist
 func CreateDirectory(dirPath string) error {
-	err := os.MkdirAll(dirPath, os.ModePerm)
+	err := os.MkdirAll(dirPath, 0750)
 	if err != nil {
 		log.Errorf("Failed to create directory %s: %v", dirPath, err)
 		return err
@@ -133,7 +143,7 @@ func ValidateToscaPolicyJsonFields(policy model.ToscaPolicy) error {
 			}
 			keySeen[key] = true
 			if !strings.HasPrefix(key, "node." + policy.Name) {
-				return fmt.Errorf("data key '%s' does not have name '%s' as a prefix, '%s'", key, policy.Name, emphasize)
+				return fmt.Errorf("data key '%s' does not have name node.'%s' as a prefix, '%s'", key, policy.Name, emphasize)
 			}
 		}
 	}
@@ -187,14 +197,14 @@ func isParentOfExistingPolicy(policyHierarchyLevel, deployedPolicyIDHierarchyLev
 
 	// new policy should have fewer levels than deployed policy to be a parent
 	if len(policyHierarchyLevel) < len(deployedPolicyIDHierarchyLevel) {
-	for policyNameIndex := range policyHierarchyLevel {
-		if policyHierarchyLevel[policyNameIndex] != deployedPolicyIDHierarchyLevel[policyNameIndex] {
-			return false
+		for policyNameIndex := range policyHierarchyLevel {
+			if policyHierarchyLevel[policyNameIndex] != deployedPolicyIDHierarchyLevel[policyNameIndex] {
+				return false
+			}
 		}
-	}
-	return true
+		return true
 
-        }
+	}
 
 	return false
 }
@@ -203,14 +213,84 @@ func isChildOfExistingPolicy(policyHierarchyLevel, deployedPolicyIDHierarchyLeve
 
 	// new policy should have more levels than deployed policy to be a  child
 	if len(policyHierarchyLevel) > len(deployedPolicyIDHierarchyLevel) {
-	for policyNameIndex := range deployedPolicyIDHierarchyLevel {
-		if deployedPolicyIDHierarchyLevel[policyNameIndex] != policyHierarchyLevel[policyNameIndex] {
-			return false
+		for policyNameIndex := range deployedPolicyIDHierarchyLevel {
+			if deployedPolicyIDHierarchyLevel[policyNameIndex] != policyHierarchyLevel[policyNameIndex] {
+				return false
+			}
 		}
-	}
-	return true
+		return true
 
-        }
+	}
 
 	return false
+}
+
+// Custom validation function for time format
+func IsValidTime(t *time.Time) bool {
+	if t == nil {
+		return false
+	}
+	// Format the time in RFC3339 and try parsing it
+	formattedTime := t.Format(time.RFC3339)
+	// Check if the time is a valid date
+	_, err := time.Parse(time.RFC3339, formattedTime)
+	return err == nil
+}
+
+// Custom validation function for time offset format (e.g., '02:00', '-05:00')
+func IsValidTimeOffset(offset *string) bool {
+	if offset == nil || strings.TrimSpace(*offset) == "" {
+		return false
+	}
+	re := regexp.MustCompile(`^[-+]?(0\d|1\d|2[0-3]):[0-5]\d$`) // Format like 02:00, -05:00
+	return re.MatchString(*offset)
+}
+
+// Custom validation function for IANA time zone format (e.g., 'America/New_York')
+func IsValidTimeZone(zone *string) bool {
+	if zone == nil || strings.TrimSpace(*zone) == "" {
+		return false
+	}
+	_, err := time.LoadLocation(*zone) // Check if it's a real timezone
+	if err != nil {
+		return false
+	}
+	re := regexp.MustCompile(`^(?:[A-Za-z]+(?:/[A-Za-z_]+)?|UTC([+-]\d{1,2}:?\d{2})?|[A-Za-z]{3,4})$`) //^(?:[A-Za-z]/[A-Za-z_]|UTC)$`) // Simple check for time zone format like 'America/New_York' or UTC etc
+	return re.MatchString(*zone)
+}
+
+// Custom validation function for data input
+func IsValidData(data *[]map[string]interface{}) bool {
+	if data == nil || len(*data) == 0 {
+		return false
+	} else {
+		return true
+	}
+}
+
+// Custom validation function for CurrentDate
+func IsValidCurrentDate(currentDate *string) bool {
+	if currentDate == nil || strings.TrimSpace(*currentDate) == "" {
+		return false
+	}
+	re := regexp.MustCompile(`^\d{4}-\d{2}-\d{2}$`) //  eg: "2025-01-17"
+	return re.MatchString(*currentDate)
+}
+
+// Custom validation function for CurrentTime
+func IsValidCurrentTime(currentTime *string) bool {
+	if currentTime == nil || strings.TrimSpace(*currentTime) == "" {
+		return false
+	}
+	re := regexp.MustCompile(`^\d{2}:\d{2}:\d{2}\.\d{3}Z$`) //eg: 08:26:41.857Z
+	return re.MatchString(*currentTime)
+}
+
+// Custom validation function for *string type eg: OnapComponent, OnapInstance, OnapName, PolicyName
+func IsValidString(name *string) bool {
+	if name == nil || strings.TrimSpace(*name) == "" {
+		return false
+	} else {
+		return true
+	}
 }

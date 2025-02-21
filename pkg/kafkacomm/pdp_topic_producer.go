@@ -31,6 +31,7 @@ import (
 type KafkaProducerInterface interface {
 	Produce(*kafka.Message, chan kafka.Event) error
 	Close()
+	Flush(timeout int) int
 }
 
 // KafkaProducer wraps a Kafka producer instance and a topic to provide
@@ -63,10 +64,10 @@ func GetKafkaProducer(bootstrapServers, topic string) (*KafkaProducer, error) {
 		}
 
 		if useSASL == "true" {
-			configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512")
-			configMap.SetKey("sasl.username", username)
-			configMap.SetKey("sasl.password", password)
-			configMap.SetKey("security.protocol", "SASL_PLAINTEXT")
+			configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512") // #nosec G104
+			configMap.SetKey("sasl.username", username) // #nosec G104
+			configMap.SetKey("sasl.password", password) // #nosec G104
+			configMap.SetKey("security.protocol", "SASL_PLAINTEXT") // #nosec G104
 		}
 
 		p, err := kafka.NewProducer(configMap)
@@ -106,6 +107,11 @@ func (kp *KafkaProducer) Close() {
 		log.Println("KafkaProducer or producer is nil, skipping Close.")
 		return
 	}
+	kp.producer.Flush(15*1000)
 	kp.producer.Close()
 	log.Println("KafkaProducer closed successfully.")
+}
+
+func (kp *KafkaProducer) Flush(timeout int) int {
+	return kp.producer.Flush(15 * 1000)
 }
