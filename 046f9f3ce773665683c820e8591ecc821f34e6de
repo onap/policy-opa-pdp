@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e9f02bf_43608670",
+        "filename": "coverage.out",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-02-21T11:56:48Z",
+      "side": 1,
+      "message": "why this file is included",
+      "revId": "046f9f3ce773665683c820e8591ecc821f34e6de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
