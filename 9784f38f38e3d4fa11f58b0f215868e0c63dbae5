@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27615c9b_7c892eec",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-21T14:26:34Z",
+      "side": 1,
+      "message": "Remove this line",
+      "revId": "9784f38f38e3d4fa11f58b0f215868e0c63dbae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1680230_126e3b9a",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-21T14:26:34Z",
+      "side": 1,
+      "message": "un-comment this line",
+      "revId": "9784f38f38e3d4fa11f58b0f215868e0c63dbae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8076f999_67850591",
+        "filename": "pkg/healthcheck/healthcheck_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-21T14:26:34Z",
+      "side": 1,
+      "message": "Format (indentation) is not proper, looks like",
+      "revId": "9784f38f38e3d4fa11f58b0f215868e0c63dbae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "109cd35e_68028a25",
+        "filename": "pkg/kafkacomm/handler/pdp_update_deploy_policy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-21T14:26:34Z",
+      "side": 1,
+      "message": "Remove this line",
+      "revId": "9784f38f38e3d4fa11f58b0f215868e0c63dbae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cebe476a_7dfd754c",
+        "filename": "pkg/kafkacomm/handler/pdp_update_deploy_policy_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-21T14:26:34Z",
+      "side": 1,
+      "message": "Testn ? Remove the additional n",
+      "revId": "9784f38f38e3d4fa11f58b0f215868e0c63dbae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51a0918b_f4b49aae",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-21T14:26:34Z",
+      "side": 1,
+      "message": "We already have false positives for lines for gosec, this is not required",
+      "revId": "9784f38f38e3d4fa11f58b0f215868e0c63dbae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
