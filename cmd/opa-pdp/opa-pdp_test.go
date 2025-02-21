@@ -20,24 +20,20 @@
 package main
 
 import (
+
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
 	"os"
 	"os/exec"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
-	"policy-opa-pdp/pkg/kafkacomm/handler"
 	"policy-opa-pdp/pkg/kafkacomm/mocks"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
-	"reflect"
 	"testing"
 	"time"
-
-	"bou.ke/monkey"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
@@ -60,6 +56,25 @@ func (m *MockKafkaConsumerInterface) ReadMessage(kc *kafkacomm.KafkaConsumer) ([
 	args := m.Called(kc)
 	return args.Get(0).([]byte), args.Error(0)
 }
+
+type MockKafkaProducer struct {
+        mock.Mock
+}
+
+func (m *MockKafkaProducer) Produce(message *kafka.Message, evenchan chan kafka.Event) error {
+        args := m.Called(message)
+        return args.Error(0)
+}
+
+func (m *MockKafkaProducer) Close() {
+        m.Called()
+}
+
+func (m *MockKafkaProducer) Flush(timeout int) int {
+        m.Called(timeout)
+        return 0
+}
+
 
 type MockPdpStatusSender struct {
 	mock.Mock
@@ -91,10 +106,22 @@ func TestHandleShutdown(t *testing.T) {
 	mockConsumer := new(mocks.KafkaConsumerInterface)
 	mockConsumer.On("Unsubscribe").Return(nil)
 	mockConsumer.On("Close").Return(nil)
+	kafkaProducer := &kafkacomm.KafkaProducer{}
 
 	mockKafkaConsumer := &kafkacomm.KafkaConsumer{
 		Consumer: mockConsumer,
 	}
+	// Create the mock producer
+        mockProducer := new(MockKafkaProducer)
+
+        // Mock the Produce method to simulate success
+        mockProducer.On("Produce", mock.Anything).Return(nil)
+        //t.Fatalf("Inside Sender checking for producer , but got: %v", mockProducer)
+
+
+        // Create the RealPdpStatusSender with the mocked producer
+        kafkaProducer = &kafkacomm.KafkaProducer{}
+
 	interruptChannel := make(chan os.Signal, 1)
 	_, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -105,7 +132,7 @@ func TestHandleShutdown(t *testing.T) {
 	}()
 	done := make(chan bool)
 	go func() {
-		handleShutdown(mockKafkaConsumer, interruptChannel, cancel)
+		handleShutdown(mockKafkaConsumer, interruptChannel, cancel, kafkaProducer)
 		done <- true
 	}()
 
@@ -118,10 +145,15 @@ func TestHandleShutdown(t *testing.T) {
 	}
 }
 
+var  testServer *http.Server
+var kafkaConsumer *kafkacomm.KafkaConsumer
+var kafkaProducer *kafkacomm.KafkaProducer
 // Test the main function to ensure it's initialization, startup, and shutdown correctly.
-func TestMainFunction(t *testing.T) {
+func SetupMocks() {
 	// Mock dependencies and expected behavior
-
+        testServer = &http.Server{}
+	kafkaConsumer= &kafkacomm.KafkaConsumer{}
+	kafkaProducer= &kafkacomm.KafkaProducer{}
 	// Mock initializeHandlers
 	initializeHandlersFunc = func() {
 		log.Debug("Handlers initialized")
@@ -155,28 +187,32 @@ func TestMainFunction(t *testing.T) {
 		return nil // no error expected
 	}
 
-	// Mock startKafkaConsAndProd
-	kafkaConsumer := &kafkacomm.KafkaConsumer{} // use real or mock as appropriate
-	kafkaProducer := &kafkacomm.KafkaProducer{}
-	startKafkaConsAndProdFunc = func() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
-		return kafkaConsumer, kafkaProducer, nil // return mocked consumer and producer
-	}
 
 	registerPDPFunc = func(sender publisher.PdpStatusSender) bool {
 		// Simulate the registration logic here
-		return false // Simulate successful registration
+		return false// Simulate successful registration
 	}
 
-	handleMessagesFunc = func(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
-		return
-	}
+        handleMessagesFunc = func(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
+                return
+        }
 
 	// Mock handleShutdown
 	interruptChannel := make(chan os.Signal, 1)
-	handleShutdownFunc = func(kc *kafkacomm.KafkaConsumer, interruptChan chan os.Signal, cancel context.CancelFunc) {
+	handleShutdownFunc = func(kc *kafkacomm.KafkaConsumer, interruptChan chan os.Signal, cancel context.CancelFunc, kp *kafkacomm.KafkaProducer) {
 		interruptChannel <- os.Interrupt
 		cancel()
 	}
+}
+
+func TestKafkaConsumerInitializationFailure(t *testing.T){
+
+
+        SetupMocks()
+
+	startKafkaConsAndProdFunc = func() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
+                return nil, nil, assert.AnError // return mocked consumer and producer
+        }
 
 	// Run main function in a goroutine
 	done := make(chan struct{})
@@ -186,6 +222,7 @@ func TestMainFunction(t *testing.T) {
 	}()
 
 	// Simulate an interrupt to trigger shutdown
+	interruptChannel := make(chan os.Signal, 1)
 	interruptChannel <- os.Interrupt
 
 	// Wait for main to complete or timeout
@@ -200,6 +237,73 @@ func TestMainFunction(t *testing.T) {
 	// Verify assertions
 	assert.True(t, true, "main function executed successfully")
 }
+
+func TestKafkaConsumerInitializationSuccess(t *testing.T){
+
+
+        SetupMocks()
+
+        startKafkaConsAndProdFunc = func() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
+                return kafkaConsumer, kafkaProducer, nil  // return mocked consumer and producer
+        }
+
+        // Run main function in a goroutine
+        done := make(chan struct{})
+        go func() {
+                main()
+                close(done)
+        }()
+
+        // Simulate an interrupt to trigger shutdown
+        interruptChannel := make(chan os.Signal, 1)
+        interruptChannel <- os.Interrupt
+
+        // Wait for main to complete or timeout
+        select {
+        case <-done:
+                // Success, verify if mocks were called as expected
+                // mockServer.AssertCalled(t, "Shutdown")
+        case <-time.After(1 * time.Second):
+                // t.Error("main function timed out")
+        }
+
+        // Verify assertions
+        assert.True(t, true, "main function executed successfully")
+}
+
+func TestKafkaNilConsumerInitialization(t *testing.T){
+
+
+        SetupMocks()
+
+        startKafkaConsAndProdFunc = func() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
+                return nil, kafkaProducer, nil  // return mocked consumer and producer
+        }
+
+        // Run main function in a goroutine
+        done := make(chan struct{})
+        go func() {
+                main()
+                close(done)
+        }()
+
+        // Simulate an interrupt to trigger shutdown
+        interruptChannel := make(chan os.Signal, 1)
+        interruptChannel <- os.Interrupt
+
+        // Wait for main to complete or timeout
+        select {
+        case <-done:
+                // Success, verify if mocks were called as expected
+                // mockServer.AssertCalled(t, "Shutdown")
+        case <-time.After(1 * time.Second):
+                // t.Error("main function timed out")
+        }
+
+        // Verify assertions
+        assert.True(t, true, "main function executed successfully")
+}
+
 
 // Test to validate that the OPA bundle initialization process works as expected.
 func TestInitializeBundle(t *testing.T) {
@@ -222,6 +326,8 @@ func TestInitializeOPA(t *testing.T) {
 	err := initializeOPA()
 	assert.Error(t, err, "Expected error from initializeOPA")
 }
+
+
 
 // Test to ensure the application correctly waits for the server to be ready.
 func TestWaitForServer(t *testing.T) {
@@ -308,7 +414,7 @@ func TestHandleShutdown_ErrorScenario(t *testing.T) {
 	mockKafkaConsumer := &kafkacomm.KafkaConsumer{
 		Consumer: mockConsumer,
 	}
-
+	kafkaProducer := &kafkacomm.KafkaProducer{}
 	interruptChannel := make(chan os.Signal, 1)
 	_, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -320,7 +426,7 @@ func TestHandleShutdown_ErrorScenario(t *testing.T) {
 
 	done := make(chan bool)
 	go func() {
-		handleShutdown(mockKafkaConsumer, interruptChannel, cancel)
+		handleShutdown(mockKafkaConsumer, interruptChannel, cancel, kafkaProducer)
 		done <- true
 	}()
 
@@ -408,6 +514,7 @@ func TestHandleMessages(t *testing.T) {
 
 }
 
+
 // Test to simulate a failure during OPA bundle initialization in the main function.
 func TestMain_InitializeBundleFailure(t *testing.T) {
 	initializeBundleFunc = func(cmdFn func(string, ...string) *exec.Cmd) (string, error) {
@@ -449,7 +556,7 @@ func TestMain_KafkaInitializationFailure(t *testing.T) {
 
 // Test to validate the main function's handling of shutdown signals.
 func TestMain_HandleShutdownWithSignals(t *testing.T) {
-	handleShutdownFunc = func(kc *kafkacomm.KafkaConsumer, interruptChan chan os.Signal, cancel context.CancelFunc) {
+	handleShutdownFunc = func(kc *kafkacomm.KafkaConsumer, interruptChan chan os.Signal, cancel context.CancelFunc, producer *kafkacomm.KafkaProducer) {
 		go func() {
 			interruptChan <- os.Interrupt // Simulate SIGTERM
 		}()
@@ -476,17 +583,17 @@ var mockProducer = &kafkacomm.KafkaProducer{}
 // Test to simulate the scenario where starting the Kafka consumer fails
 func TestStartKafkaConsumerFailure(t *testing.T) {
 	t.Run("Kafka consumer creation failure", func(t *testing.T) {
-		// Monkey patch the NewKafkaConsumer function with the correct signature (no parameters)
-		monkey.Patch(kafkacomm.NewKafkaConsumer, func() (*kafkacomm.KafkaConsumer, error) {
-			fmt.Println("Monkey patched NewKafkaConsumer is called")
+		originalNewKafkaConsumer := NewKafkaConsumer
+		originalGetKafkaProducer := GetKafkaProducer
+		NewKafkaConsumer = func() (*kafkacomm.KafkaConsumer, error) {
 			return nil, errors.New("Kafka consumer creation error")
-		})
+		}
 
-		// Monkey patch the GetKafkaProducer function with the correct signature
-		monkey.Patch(kafkacomm.GetKafkaProducer, func(bootstrapServers, topic string) (*kafkacomm.KafkaProducer, error) {
-			fmt.Println("Monkey patched GetKafkaProducer is called with bootstrapServers:", bootstrapServers, "and topic:", topic)
+		GetKafkaProducer = func(bootstrapServers, topic string) (*kafkacomm.KafkaProducer, error) {
+			NewKafkaConsumer = originalNewKafkaConsumer
+			GetKafkaProducer = originalGetKafkaProducer
 			return mockProducer, nil
-		})
+		}
 
 		// Call the function under test
 		consumer, producer, err := startKafkaConsAndProd()
@@ -495,27 +602,23 @@ func TestStartKafkaConsumerFailure(t *testing.T) {
 		assert.Error(t, err, "Kafka consumer creation error")
 		assert.Nil(t, consumer)
 		assert.Nil(t, producer)
-
-		// Unpatch the functions
-		monkey.Unpatch(kafkacomm.NewKafkaConsumer)
-		monkey.Unpatch(kafkacomm.GetKafkaProducer)
+		NewKafkaConsumer = originalNewKafkaConsumer
+		GetKafkaProducer = originalGetKafkaProducer
 	})
 }
 
 // Test to simulate the scenario where starting the Kafka producer fails
 func TestStartKafkaProducerFailure(t *testing.T) {
 	t.Run("Kafka producer creation failure", func(t *testing.T) {
-		// Monkey patch the NewKafkaConsumer function
-		monkey.Patch(kafkacomm.NewKafkaConsumer, func() (*kafkacomm.KafkaConsumer, error) {
-			fmt.Println("Monkey patched NewKafkaConsumer is called")
+		originalNewKafkaConsumer := NewKafkaConsumer
+		originalGetKafkaProducer := GetKafkaProducer
+		NewKafkaConsumer = func() (*kafkacomm.KafkaConsumer, error) {
 			return mockConsumer, nil
-		})
+		}
 
-		// Monkey patch the GetKafkaProducer function
-		monkey.Patch(kafkacomm.GetKafkaProducer, func(bootstrapServers, topic string) (*kafkacomm.KafkaProducer, error) {
-			fmt.Println("Monkey patched GetKafkaProducer is called")
+		GetKafkaProducer = func(bootstrapServers, topic string) (*kafkacomm.KafkaProducer, error) {
 			return nil, errors.New("Kafka producer creation error")
-		})
+		}
 
 		// Call the function under test
 		consumer, producer, err := startKafkaConsAndProd()
@@ -525,26 +628,23 @@ func TestStartKafkaProducerFailure(t *testing.T) {
 		assert.Nil(t, consumer)
 		assert.Nil(t, producer)
 
-		// Unpatch the functions
-		monkey.Unpatch(kafkacomm.NewKafkaConsumer)
-		monkey.Unpatch(kafkacomm.GetKafkaProducer)
+
+		NewKafkaConsumer = originalNewKafkaConsumer
+		GetKafkaProducer = originalGetKafkaProducer
 	})
 }
 
 // Test to verify that both the Kafka consumer and producer start successfully
 func TestStartKafkaAndProdSuccess(t *testing.T) {
 	t.Run("Kafka consumer and producer creation success", func(t *testing.T) {
-		// Monkey patch the NewKafkaConsumer function
-		monkey.Patch(kafkacomm.NewKafkaConsumer, func() (*kafkacomm.KafkaConsumer, error) {
-			fmt.Println("Monkey patched NewKafkaConsumer is called")
+		originalNewKafkaConsumer := NewKafkaConsumer
+		originalGetKafkaProducer := GetKafkaProducer
+		NewKafkaConsumer = func() (*kafkacomm.KafkaConsumer, error) {
 			return mockConsumer, nil
-		})
-
-		// Monkey patch the GetKafkaProducer function
-		monkey.Patch(kafkacomm.GetKafkaProducer, func(bootstrapServers, topic string) (*kafkacomm.KafkaProducer, error) {
-			fmt.Println("Monkey patched GetKafkaProducer is called")
+		}
+		GetKafkaProducer = func(bootstrapServers, topic string) (*kafkacomm.KafkaProducer, error) {
 			return mockProducer, nil
-		})
+		}
 
 		// Call the function under test
 		consumer, producer, err := startKafkaConsAndProd()
@@ -554,9 +654,8 @@ func TestStartKafkaAndProdSuccess(t *testing.T) {
 		assert.NotNil(t, consumer)
 		assert.NotNil(t, producer)
 
-		// Unpatch the functions
-		monkey.Unpatch(kafkacomm.NewKafkaConsumer)
-		monkey.Unpatch(kafkacomm.GetKafkaProducer)
+		NewKafkaConsumer = originalNewKafkaConsumer
+		GetKafkaProducer = originalGetKafkaProducer
 	})
 }
 
@@ -565,17 +664,17 @@ func TestHandleShutdownWithNilConsumer(t *testing.T) {
 	consts.SHUTDOWN_WAIT_TIME = 0
 	interruptChannel := make(chan os.Signal, 1)
 	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
 
+	defer cancel()
+        kafkaProducer := &kafkacomm.KafkaProducer{}
 	// Simulate sending an interrupt signal
 	go func() {
 		time.Sleep(500 * time.Millisecond)
 		interruptChannel <- os.Interrupt
 	}()
-
 	done := make(chan bool)
 	go func() {
-		handleShutdown(nil, interruptChannel, cancel) // Pass nil as kc
+		handleShutdown(nil, interruptChannel, cancel, kafkaProducer) // Pass nil as kc
 		done <- true
 	}()
 
@@ -604,11 +703,10 @@ func TestHandleMessages_ErrorInPdpMessageHandler(t *testing.T) {
 		Consumer: mockKafkaConsumer,
 	}
 
-	// Patch the PdpMessageHandler to return an error
-	patch := monkey.Patch(handler.PdpMessageHandler, func(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string, p publisher.PdpStatusSender) error {
+	originalPdpMessageHandler := PdpMessageHandler
+		PdpMessageHandler = func(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string, p publisher.PdpStatusSender) error {
 		return errors.New("simulated error in PdpMessageHandler")
-	})
-	defer patch.Unpatch()
+	}
 
 	// Call handleMessages
 	ctx := context.Background()
@@ -616,6 +714,8 @@ func TestHandleMessages_ErrorInPdpMessageHandler(t *testing.T) {
 
 	// No crash means the error branch was executed.
 	assert.True(t, true, "handleMessages executed successfully")
+	PdpMessageHandler := originalPdpMessageHandler
+	assert.NotNil(t, PdpMessageHandler)
 }
 
 // Test to verify the behavior when the HTTP server shutdown encounters errors.
@@ -623,11 +723,9 @@ func TestShutdownHTTPServer_Errors(t *testing.T) {
 	// Create a mock server
 	server := &http.Server{}
 
-	// Patch the Shutdown method to return an error
-	patch := monkey.PatchInstanceMethod(reflect.TypeOf(server), "Shutdown", func(_ *http.Server, _ context.Context) error {
+	ShutdownServ = func(server *http.Server, ctx context.Context) error {
 		return errors.New("shutdown error")
-	})
-	defer patch.Unpatch()
+	}
 
 	// Call the function
 	shutdownHTTPServer(server)

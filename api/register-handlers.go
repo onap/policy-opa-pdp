@@ -25,8 +25,10 @@ import (
 	"net/http"
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/pkg/bundleserver"
+	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
+	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/metrics"
 	"policy-opa-pdp/pkg/opasdk"
 )
@@ -57,6 +59,9 @@ func RegisterHandlers() {
 	listPoliciesHandler := http.HandlerFunc(opasdk.ListPolicies)
 	http.Handle("/opa/listpolicies", listPoliciesHandler)
 
+	dataHandler := http.HandlerFunc(data.DataHandler)
+	http.Handle("/policy/pdpo/v1/data/", basicAuth(dataHandler))
+
 }
 
 // handles authentication
@@ -82,5 +87,8 @@ func validateCredentials(username, password string) bool {
 // handles readiness probe endpoint
 func readinessProbe(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(http.StatusOK)
-	res.Write([]byte("Ready"))
+	_, err := res.Write([]byte("Ready"))
+	if err != nil {
+		log.Errorf("Failed to write response: %v", err)
+	}
 }
