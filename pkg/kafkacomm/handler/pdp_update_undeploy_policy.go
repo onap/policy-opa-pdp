@@ -34,6 +34,32 @@ import (
 	"strings"
 )
 
+type (
+	HandlePolicyUndeploymentFunc func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string)
+)
+
+var (
+        handlePolicyUndeploymentVar HandlePolicyUndeploymentFunc = handlePolicyUndeployment
+
+        removeDirectoryFunc          = utils.RemoveDirectory
+
+        deleteDataSdkFunc            = opasdk.DeleteData
+
+        deletePolicySdkFunc          = opasdk.DeletePolicy
+
+        removeDataDirectoryFunc      = removeDataDirectory
+
+        removePolicyDirectoryFunc    = removePolicyDirectory
+
+	policyUndeploymentActionFunc = policyUndeploymentAction
+
+	removePolicyFromSdkandDirFunc= removePolicyFromSdkandDir
+
+	removeDataFromSdkandDirFunc  = removeDataFromSdkandDir
+
+)
+
+
 // processPoliciesTobeUndeployed handles the undeployment of policies
 func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]string, map[string]string) {
 	var failureMessages []string
@@ -51,7 +77,7 @@ func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]stri
 		matchedPolicy := findDeployedPolicy(policyID, policyVersion, deployedPolicies)
 		if matchedPolicy != nil {
 			// Handle undeployment for the policy
-			errs := policyUndeploymentAction(matchedPolicy)
+			errs := policyUndeploymentActionFunc(matchedPolicy)
 			if len(errs) > 0 {
 				metrics.IncrementUndeployFailureCount()
 				metrics.IncrementTotalErrorCount()
@@ -72,8 +98,8 @@ func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]stri
 		}
 	}
 
-        totalPolicies := policymap.GetTotalDeployedPoliciesCountFromMap()
-        metrics.SetTotalPoliciesCount(int64(totalPolicies))
+	totalPolicies := policymap.GetTotalDeployedPoliciesCountFromMap()
+	metrics.SetTotalPoliciesCount(int64(totalPolicies))
 
 	return failureMessages, successfullyUndeployedPolicies
 }
@@ -105,11 +131,11 @@ func policyUndeploymentAction(policy map[string]interface{}) []string {
 	var failureMessages []string
 
 	// Delete "policy" sdk and directories
-	policyErrors := removePolicyFromSdkandDir(policy)
+	policyErrors := removePolicyFromSdkandDirFunc(policy)
 	failureMessages = append(failureMessages, policyErrors...)
 
 	// Delete "data" sdk and directories
-	dataErrors := removeDataFromSdkandDir(policy)
+	dataErrors := removeDataFromSdkandDirFunc(policy)
 	failureMessages = append(failureMessages, dataErrors...)
 
 	return failureMessages
@@ -123,11 +149,11 @@ func removeDataFromSdkandDir(policy map[string]interface{}) []string {
 		for _, dataKey := range dataKeys {
 			keyPath := "/" + strings.Replace(dataKey.(string), ".", "/", -1)
 			log.Debugf("Deleting data from OPA at keypath: %s", keyPath)
-			if err := opasdk.DeleteData(context.Background(), keyPath); err != nil {
+			if err := deleteDataSdkFunc(context.Background(), keyPath); err != nil {
 				failureMessages = append(failureMessages, err.Error())
 				continue
 			}
-			if err := removeDataDirectory(keyPath); err != nil {
+			if err := removeDataDirectoryFunc(keyPath); err != nil {
 				failureMessages = append(failureMessages, err.Error())
 			}
 		}
@@ -145,11 +171,11 @@ func removePolicyFromSdkandDir(policy map[string]interface{}) []string {
 	if policyKeys, ok := policy["policy"].([]interface{}); ok {
 		for _, policyKey := range policyKeys {
 			keyPath := "/" + strings.Replace(policyKey.(string), ".", "/", -1)
-			if err := opasdk.DeletePolicy(context.Background(), policyKey.(string)); err != nil {
+			if err := deletePolicySdkFunc(context.Background(), policyKey.(string)); err != nil {
 				failureMessages = append(failureMessages, err.Error())
 				continue
 			}
-			if err := removePolicyDirectory(keyPath); err != nil {
+			if err := removePolicyDirectoryFunc(keyPath); err != nil {
 				failureMessages = append(failureMessages, err.Error())
 			}
 		}
@@ -164,7 +190,7 @@ func removePolicyFromSdkandDir(policy map[string]interface{}) []string {
 func removeDataDirectory(dataKey string) error {
 	dataPath := filepath.Join(consts.Data, dataKey)
 	log.Debugf("Removing data directory: %s", dataPath)
-	if err := utils.RemoveDirectory(dataPath); err != nil {
+	if err := removeDirectoryFunc(dataPath); err != nil {
 		return fmt.Errorf("Failed to handle directory for data %s: %v", dataPath, err)
 	}
 	return nil
@@ -174,7 +200,7 @@ func removeDataDirectory(dataKey string) error {
 func removePolicyDirectory(policyKey string) error {
 	policyPath := filepath.Join(consts.Policies, policyKey)
 	log.Debugf("Removing policy directory: %s", policyPath)
-	if err := utils.RemoveDirectory(policyPath); err != nil {
+	if err := removeDirectoryFunc(policyPath); err != nil {
 		return fmt.Errorf("Failed to handle directory for policy %s: %v", policyPath, err)
 	}
 	return nil

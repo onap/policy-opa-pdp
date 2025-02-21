@@ -24,6 +24,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
+	"policy-opa-pdp/pkg/policymap"
 	"testing"
 )
 
@@ -98,6 +99,46 @@ func TestSendPDPHeartBeat_Failure(t *testing.T) {
 	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Error producing message"))
 	err := sendPDPHeartBeat(mockSender)
 	assert.Error(t, err)
+}
+
+/*
+TestsendPDPHeartBeat_Success 3
+Description: Test sending a heartbeat successfully with some deployed policies.
+Input: Valid pdpStatus object
+Expected Output: Heartbeat message is sent successfully, and a debug log "Message sent successfully" is generated.
+*/
+func TestSendPDPHeartBeat_SuccessSomeDeployedPolicies(t *testing.T) {
+         // Setup mock Policymap
+        mockPolicymap := new(MockPolicymap)
+
+        mockSender := new(mocks.PdpStatusSender)
+        mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+
+        policymap.LastDeployedPolicies = "some-policies"
+        // Set mock behavior for policymap
+        mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
+        err := sendPDPHeartBeat(mockSender)
+        assert.NoError(t, err)
+}
+
+/*
+TestsendPDPHeartBeat_Success 4
+Description: Test sending a heartbeat successfully with no deployed policies.
+Input: Valid pdpStatus object
+Expected Output: Heartbeat message is sent successfully, and a debug log "Message sent successfully" is generated.
+*/
+func TestSendPDPHeartBeat_SuccessNoDeployedPolicies(t *testing.T) {
+         // Setup mock Policymap
+        mockPolicymap := new(MockPolicymap)
+
+        mockSender := new(mocks.PdpStatusSender)
+        mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+
+        policymap.LastDeployedPolicies = ""
+        // Set mock behavior for policymap
+        mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
+        err := sendPDPHeartBeat(mockSender)
+        assert.NoError(t, err)
 }
 
 /*
