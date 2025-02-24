@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f7c289c_36e17723",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-02-24T11:30:20Z",
+      "side": 1,
+      "message": "On the other context, please make sure to get the code coverage above 90% for every new changes. If less than 90% please raise a follow up review for addressing it. Thanks.",
+      "revId": "ab2e2e239684e150eee2e0b033efd361398bad44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da201c0e_184c23bb",
+        "filename": "cfg/config.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-02-24T11:30:20Z",
+      "side": 1,
+      "message": "No need to update license if the file has no changes",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "ab2e2e239684e150eee2e0b033efd361398bad44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc2dab0_e1c88afb",
+        "filename": "pkg/kafkacomm/mocks/kafkaproducerinterface.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-02-24T11:30:20Z",
+      "side": 1,
+      "message": "Is it safe to update this file manually?",
+      "range": {
+        "startLine": 1,
+        "startChar": 38,
+        "endLine": 1,
+        "endChar": 49
+      },
+      "revId": "ab2e2e239684e150eee2e0b033efd361398bad44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
