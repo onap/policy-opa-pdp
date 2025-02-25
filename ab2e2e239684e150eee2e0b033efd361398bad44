@@ -41,6 +41,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaac28cf_3bb9171d",
+        "filename": "cfg/config.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-02-25T05:08:49Z",
+      "side": 1,
+      "message": "Done, Removed 2025 from the license.",
+      "parentUuid": "da201c0e_184c23bb",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "ab2e2e239684e150eee2e0b033efd361398bad44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cc2dab0_e1c88afb",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-02-24T11:30:20Z",
       "side": 1,
       "message": "Is it safe to update this file manually?",
+      "range": {
+        "startLine": 1,
+        "startChar": 38,
+        "endLine": 1,
+        "endChar": 49
+      },
+      "revId": "ab2e2e239684e150eee2e0b033efd361398bad44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "802c2c49_67fee14d",
+        "filename": "pkg/kafkacomm/mocks/kafkaproducerinterface.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-02-25T05:08:49Z",
+      "side": 1,
+      "message": "This file is generated again as  part of unit test coverage as we have added a new function Flush() for KafkaProducer.",
+      "parentUuid": "3cc2dab0_e1c88afb",
       "range": {
         "startLine": 1,
         "startChar": 38,
