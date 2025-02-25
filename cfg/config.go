@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"github.com/google/uuid"
 )
 
 // LogLevel        - The log level for the application.
@@ -65,7 +66,7 @@ func init() {
 	LogLevel = getEnv("LOG_LEVEL", "info")
 	BootstrapServer = getEnv("KAFKA_URL", "kafka:9092")
 	Topic = getEnv("PAP_TOPIC", "policy-pdp-pap")
-	GroupId = getEnv("GROUPID", "opa-pdp")
+	GroupId = getEnv("GROUPID", "opa-pdp-" + uuid.New().String())
 	Username = getEnv("API_USER", "policyadmin")
 	Password = getEnv("API_PASSWORD", "zb!XztG34")
 	UseSASLForKAFKA = getEnv("UseSASLForKAFKA", "false")

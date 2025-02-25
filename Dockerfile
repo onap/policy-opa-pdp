@@ -29,48 +29,34 @@ COPY go.mod go.sum /app/
 
 COPY . .
 
-RUN mkdir /app/cfg
-ADD cfg /app/cfg
+RUN mkdir -p /app/cfg /app/consts /app/api /app/cmd /app/pkg /app/bundles
+COPY cfg /app/cfg
+COPY consts /app/consts
+COPY api /app/api
+COPY cmd /app/cmd
+COPY pkg /app/pkg
 
-RUN mkdir /app/consts
-ADD consts /app/consts
-
-RUN mkdir /app/api
-ADD api /app/api
-
-RUN mkdir /app/cmd
-ADD cmd /app/cmd
-
-RUN mkdir /app/pkg
-ADD pkg /app/pkg
-
-RUN mkdir /app/bundles
 
 WORKDIR /app
 
 # Build the binary
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/opa-pdp /app/cmd/opa-pdp/opa-pdp.go
-#COPY config.json /app/config.json
-#RUN chmod 644 /app/config.json
 
 FROM ubuntu
 
-RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y netcat-openbsd curl && rm -rf /var/lib/apt/lists/*\
+    && mkdir -p /app /opt/policies /opt/data /var/logs \
+    && chown -R ubuntu:ubuntu /app /opt/policies /opt/data /var/logs
 
-RUN apt-get update && apt-get install -y curl
-
-# Copy our static executable from compile stage
-RUN mkdir /app
 COPY --from=compile /app /app
-RUN chmod +x /app/opa-pdp
-
-RUN mkdir /opt/policies
-RUN mkdir /opt/data
-
-
 # Copy our opa executable from build stage
 COPY --from=build /tmp/opa /app/opa
-RUN chmod 755 /app/opa
+
+RUN chmod +x /app/opa-pdp && chmod 755 /app/opa
+
+
+# Switch to the non-root user and 1000 is for ubuntu
+USER 1000:1000
 
 WORKDIR /app
 EXPOSE 8282
