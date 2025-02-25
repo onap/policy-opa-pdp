@@ -66,15 +66,25 @@ RUN chmod +x /app/opa-pdp
 
 RUN mkdir /opt/policies
 RUN mkdir /opt/data
-
+RUN mkdir /var/logs
 
 # Copy our opa executable from build stage
 COPY --from=build /tmp/opa /app/opa
 RUN chmod 755 /app/opa
+
+# Create a non-root user and group
+RUN groupadd -g 1001 opa && useradd -r -u 1001 -g opa opa
+
+# Set ownership and permissions
+RUN chown -R 1001:1001 /app /opt/policies /opt/data /var/logs
+
+# Switch to the non-root user
+USER 1001:1001
 
 WORKDIR /app
 EXPOSE 8282
 
 # Command to run OPA with the policies
 CMD ["/app/opa-pdp"]
+
 
