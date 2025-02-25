@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a30a20e2_9a69bda6",
+        "filename": "pkg/opasdk/opasdk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-02-25T09:40:52Z",
+      "side": 1,
+      "message": "this needs to be moved to once Do func().",
+      "range": {
+        "startLine": 90,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 10
+      },
+      "revId": "c3f241a95495fa4a752b3049f4cb83eaf9fb1d45",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
