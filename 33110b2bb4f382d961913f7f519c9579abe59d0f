@@ -18,6 +18,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe91bb9e_2c05c1e8",
+        "filename": "Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-26T11:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72c87663_ff25e7c4",
+      "revId": "33110b2bb4f382d961913f7f519c9579abe59d0f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf5b1040_db761081",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-02-26T10:56:08Z",
       "side": 1,
       "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "33110b2bb4f382d961913f7f519c9579abe59d0f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b95ba75f_d0659f01",
+        "filename": "cfg/config.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-26T11:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf5b1040_db761081",
       "range": {
         "startLine": 3,
         "startChar": 19,
