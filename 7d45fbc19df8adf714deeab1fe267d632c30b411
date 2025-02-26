@@ -16,6 +16,24 @@
       "message": "You can condense all these run commands into:\n```\nRUN mkdir /app/cfg /app/consts /app/api /app/cmd /app/pkg /app/bundles\nCOPY cfg /app/cfg\nCOPY consts /app/consts\nCOPY api /app/api\nCOPY cmd /app/cmd\nCOPY pkg /app/pkg\n```",
       "revId": "7d45fbc19df8adf714deeab1fe267d632c30b411",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c6a4290_d654c5ae",
+        "filename": "Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-02-26T09:22:23Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "60c4a9fd_223baa96",
+      "revId": "7d45fbc19df8adf714deeab1fe267d632c30b411",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
