@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f326dad_d36a6fda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8049
+      },
+      "writtenOn": "2025-02-27T09:41:04Z",
+      "side": 1,
+      "message": "Tested here: https://github.com/os-climate/osc-github-devops/actions/runs/13563355690",
+      "revId": "3a4c06a93ba691648548ede8dbe8276ac2ec4c94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
