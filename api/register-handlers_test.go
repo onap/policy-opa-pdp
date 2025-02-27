@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"policy-opa-pdp/cfg"
-	"policy-opa-pdp/pkg/bundleserver"
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
 	"testing"
@@ -44,7 +43,6 @@ func TestRegisterHandlers(t *testing.T) {
 		statusCode int
 	}{
 		{"/policy/pdpo/v1/decision", decision.OpaDecision, http.StatusUnauthorized},
-		{"/opa/bundles/", bundleserver.GetBundle, http.StatusInternalServerError},
 		{"/ready", readinessProbe, http.StatusOK},
 		{"/policy/pdpo/v1/healthcheck", healthcheck.HealthCheckHandler, http.StatusUnauthorized},
 	}

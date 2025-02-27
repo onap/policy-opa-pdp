@@ -24,7 +24,6 @@ package api
 import (
 	"net/http"
 	"policy-opa-pdp/cfg"
-	"policy-opa-pdp/pkg/bundleserver"
 	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
@@ -39,10 +38,6 @@ func RegisterHandlers() {
 	// Handler for OPA decision making
 	opaDecisionHandler := http.HandlerFunc(decision.OpaDecision)
 	http.Handle("/policy/pdpo/v1/decision", basicAuth(opaDecisionHandler))
-
-	//This api is used internally by OPA-SDK
-	bundleServerHandler := http.HandlerFunc(bundleserver.GetBundle)
-	http.Handle("/opa/bundles/", bundleServerHandler)
 
 	// Handler for kubernetes readiness probe
 	readinessProbeHandler := http.HandlerFunc(readinessProbe)

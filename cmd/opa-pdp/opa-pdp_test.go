@@ -25,7 +25,6 @@ import (
 	"errors"
 	"net/http"
 	"os"
-	"os/exec"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/mocks"
@@ -157,11 +156,6 @@ func SetupMocks() {
 	// Mock initializeHandlers
 	initializeHandlersFunc = func() {
 		log.Debug("Handlers initialized")
-	}
-
-	// Mock initializeBundle
-	initializeBundleFunc = func(cmdFn func(string, ...string) *exec.Cmd) (string, error) {
-		return "", nil // no error expected
 	}
 
 	// Use an actual *http.Server instance for testing
@@ -302,16 +296,6 @@ func TestKafkaNilConsumerInitialization(t *testing.T){
 
         // Verify assertions
         assert.True(t, true, "main function executed successfully")
-}
-
-
-// Test to validate that the OPA bundle initialization process works as expected.
-func TestInitializeBundle(t *testing.T) {
-	mockExecCmd := func(name string, arg ...string) *exec.Cmd {
-		return exec.Command("echo")
-	}
-	output,err := initializeBundle(mockExecCmd)
-	assert.NoError(t, err, output)
 }
 
 // Test to verify that the HTTP server starts successfully.
@@ -512,26 +496,6 @@ func TestHandleMessages(t *testing.T) {
 	ctx := context.Background()
 	handleMessages(ctx, mockConsumer, mockSender)
 
-}
-
-
-// Test to simulate a failure during OPA bundle initialization in the main function.
-func TestMain_InitializeBundleFailure(t *testing.T) {
-	initializeBundleFunc = func(cmdFn func(string, ...string) *exec.Cmd) (string, error) {
-		return "Bundle Initialization Error", errors.New("bundle initialization error") // Simulate error
-	}
-
-	done := make(chan struct{})
-	go func() {
-		main()
-		close(done)
-	}()
-
-	select {
-	case <-done:
-	case <-time.After(1 * time.Second):
-		t.Error("main function timed out on initializeBundleFunc failure")
-	}
 }
 
 // Test to simulate a Kafka initialization failure in the main function.
