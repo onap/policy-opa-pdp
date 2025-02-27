@@ -24,7 +24,6 @@ import (
 	"fmt"
 	"os/exec"
 	"policy-opa-pdp/consts"
-	"policy-opa-pdp/pkg/bundleserver"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
@@ -138,7 +137,7 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 
 // build bundle tar file
 func createBundleFunc(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error) {
-	return bundleserver.BuildBundle(execCmd)
+	return utils.BuildBundle(execCmd)
 }
 
 func sendSuccessResponse(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage string) error {

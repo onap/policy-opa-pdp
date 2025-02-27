@@ -52,7 +52,7 @@ COPY --from=compile /app /app
 # Copy our opa executable from build stage
 COPY --from=build /tmp/opa /app/opa
 
-RUN chmod +x /app/opa-pdp && chmod 755 /app/opa
+RUN chmod +x /app/opa-pdp && chmod 755 /app/opa && chmod 777 /app/bundles
 
 
 # Switch to the non-root user and 1000 is for ubuntu

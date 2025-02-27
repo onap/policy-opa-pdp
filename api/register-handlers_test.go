@@ -23,7 +23,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"policy-opa-pdp/cfg"
-	"policy-opa-pdp/pkg/bundleserver"
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
 	"testing"
@@ -44,7 +43,6 @@ func TestRegisterHandlers(t *testing.T) {
 		statusCode int
 	}{
 		{"/policy/pdpo/v1/decision", decision.OpaDecision, http.StatusUnauthorized},
-		{"/opa/bundles/", bundleserver.GetBundle, http.StatusInternalServerError},
 		{"/ready", readinessProbe, http.StatusOK},
 		{"/policy/pdpo/v1/healthcheck", healthcheck.HealthCheckHandler, http.StatusUnauthorized},
 	}
