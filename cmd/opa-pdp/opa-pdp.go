@@ -25,12 +25,10 @@ import (
 	"context"
 	"net/http"
 	"os"
-	"os/exec"
 	"os/signal"
 	h "policy-opa-pdp/api"
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
-	"policy-opa-pdp/pkg/bundleserver"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/handler"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
@@ -48,7 +46,6 @@ var (
 // Declare function variables for dependency injection makes it more testable
 var (
 	initializeHandlersFunc    = initializeHandlers
-	initializeBundleFunc      = initializeBundle
 	startHTTPServerFunc       = startHTTPServer
 	shutdownHTTPServerFunc    = shutdownHTTPServer
 	waitForServerFunc         = waitForServer
@@ -68,10 +65,6 @@ func main() {
 
 	// Initialize Handlers and Build Bundle
 	initializeHandlersFunc()
-	if output, err := initializeBundleFunc(exec.Command); err != nil {
-		log.Warnf("Output %s", string(output))
-		log.Warnf("Failed to initialize bundle: %s", err)
-	}
 
 	// Start HTTP Server
 	server := startHTTPServerFunc()
@@ -142,11 +135,6 @@ func registerPDP(sender publisher.PdpStatusSender) bool {
 // Register Handlers
 func initializeHandlers() {
 	h.RegisterHandlers()
-}
-
-// build bundle tar file
-func initializeBundle(execCmd func(string, ...string) *exec.Cmd) (string, error) {
-	return bundleserver.BuildBundle(execCmd)
 }
 
 func startHTTPServer() *http.Server {
