@@ -50,6 +50,23 @@
       "message": "Comment removed by: Matthew Watkins; Reason: Wrong URL again",
       "revId": "6d7bb4805b571aa2699b4a4e27eea5dffcc745e9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5574536a_525ec0e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8049
+      },
+      "writtenOn": "2025-02-27T11:23:46Z",
+      "side": 1,
+      "message": "We might want to look at implementing both scan types:\nhttps://gerrit.onap.org/r/c/policy/opa-pdp/+/140316",
+      "revId": "6d7bb4805b571aa2699b4a4e27eea5dffcc745e9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
