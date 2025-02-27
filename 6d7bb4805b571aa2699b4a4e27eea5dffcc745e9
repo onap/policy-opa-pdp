@@ -67,6 +67,24 @@
       "message": "We might want to look at implementing both scan types:\nhttps://gerrit.onap.org/r/c/policy/opa-pdp/+/140316",
       "revId": "6d7bb4805b571aa2699b4a4e27eea5dffcc745e9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85b3ccc0_d69922d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-02-27T14:58:09Z",
+      "side": 1,
+      "message": "should we go ahead with the review https://gerrit.onap.org/r/c/policy/opa-pdp/+/140316 or wait on Kevin?",
+      "parentUuid": "11f580bf_43bc7bba",
+      "revId": "6d7bb4805b571aa2699b4a4e27eea5dffcc745e9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
