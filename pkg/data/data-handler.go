@@ -144,7 +144,7 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 		log.Errorf(errMsg)
 		return
 	}
-	path := strings.TrimPrefix(req.URL.Path, "/policy/pdpo/v1/data/")
+	path := strings.TrimPrefix(req.URL.Path, "/policy/pdpo/v1/data")
 	dirParts := strings.Split(path, "/")
 	dataDir := filepath.Join(dirParts...)
 	log.Infof("dataDir : %s", dataDir)
@@ -173,9 +173,9 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 		if err := patchData(dataDir, data, res); err != nil {
-                        // Handle the error, for example, log it or return an appropriate response
-                        log.Errorf("Error encoding JSON response: %s", err)
-                }
+			// Handle the error, for example, log it or return an appropriate response
+			log.Errorf("Error encoding JSON response: %s", err)
+		}
 	}
 }
 
@@ -386,7 +386,13 @@ func getDataInfo(res http.ResponseWriter, req *http.Request) {
 	constructResponseHeader(res, req)
 
 	urlPath := req.URL.Path
-	dataPath := strings.ReplaceAll(urlPath, "/policy/pdpo/v1/data", "")
+
+	dataPath := strings.TrimPrefix(urlPath, "/policy/pdpo/v1/data")
+
+	if len(strings.TrimSpace(dataPath)) == 0 {
+		// dataPath "/" is used to get entire data
+		dataPath = "/"
+	}
 	log.Debugf("datapath to get Data : %s\n", dataPath)
 
 	getData(res, dataPath)
@@ -420,7 +426,7 @@ func getData(res http.ResponseWriter, dataPath string) {
 	res.WriteHeader(http.StatusOK)
 
 	if err := json.NewEncoder(res).Encode(dataResponse); err != nil {
-                // Handle the error, for example, log it or return an appropriate response
-                log.Errorf("Error encoding JSON response: %s", err)
+		// Handle the error, for example, log it or return an appropriate response
+		log.Errorf("Error encoding JSON response: %s", err)
 	}
 }

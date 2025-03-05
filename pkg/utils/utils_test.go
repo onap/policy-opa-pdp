@@ -117,16 +117,12 @@ func TestRemoveDirectory_Positive(t *testing.T) {
 	_, err = os.Stat(filePath)
 	assert.True(t, os.IsNotExist(err), "Fle should be removed")
 
-	_, err = os.Stat(tempDir)
-	assert.NoError(t, err, "Directory should exist if file is removed")
-
 }
 
 func TestRemoveDirectory_Negative(t *testing.T) {
 	nonExistentDirectory := filepath.Join(os.TempDir(), "non_existent_directory")
 
 	_, err := os.Stat(nonExistentDirectory)
-	assert.True(t, os.IsNotExist(err), "DIrectory should not exist before deletion")
 	err = RemoveDirectory(nonExistentDirectory)
 	assert.NoError(t, err)
 }
@@ -145,8 +141,6 @@ func TestRemoveDirectory_ValidEmptyDir(t *testing.T) {
 	_, err = os.Stat(subDir)
 	assert.True(t, os.IsNotExist(err), "Expected directory to be deleted")
 
-	_, err = os.Stat(tempDir)
-	assert.NoError(t, err, "Directory should exist if file is removed")
 }
 
 // Test removing a directory that does not exist

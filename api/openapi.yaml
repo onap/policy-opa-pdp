@@ -441,13 +441,15 @@ components:
           items:
             type: string
         input:
-          type: object
-          additionalProperties: true
-          example:
+          anyOf:
+           - x-go-type: "interface{}"
+           - type: object
+             additionalProperties: true
+             example:
                     user: alice
                     action: read
                     object: id123
-                    type: dog
+                    type: dog          
       required:
       - policyName
       - policyFilter

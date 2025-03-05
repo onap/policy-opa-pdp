@@ -267,7 +267,12 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 	log.Debugf("SDK making a decision")
 	var  decisionRes  *oapicodegen.OPADecisionResponse
 	//OPA is seding success with a warning message if "input" parameter is missing, so we need to send success response
-	if (decisionReq.Input == nil) {
+	inputBytes, err := json.Marshal(decisionReq.Input)
+        if err != nil{
+                log.Warnf("Failed to unmarshal decision Request Input: %vg", err)
+                return
+        }
+        if inputBytes == nil || len(inputBytes) == 0 {
 	    statusMessage := "{\"warning\":{\"code\":\"api_usage_warning\",\"message\":\"'input' key missing from the request\"}}"
 	    decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, nil, statusMessage)
 	} else {
