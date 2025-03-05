@@ -365,11 +365,7 @@ func checkIfPolicyAlreadyDeployed(pdpUpdate model.PdpUpdate) []model.ToscaPolicy
 // verfies policy by creating bundle.
 func verifyPolicyByBundleCreation(policy model.ToscaPolicy) error {
 	// get directory name
-	dirNames := getDirName(policy)
-	if len(dirNames) == 0 {
-		log.Warnf("Unable to extract folder name from policy %s", policy.Name)
-		return fmt.Errorf("failed to extract folder name")
-	}
+	dirNames := []string{strings.ReplaceAll(consts.Data+"/"+policy.Name, ".", "/"), strings.ReplaceAll(consts.Policies+"/"+policy.Name, ".", "/")}
 	// create bundle
 	output, err := createBundleFuncVar(exec.Command, policy)
 	if err != nil {

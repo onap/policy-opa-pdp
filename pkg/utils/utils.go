@@ -75,30 +75,55 @@ func RemoveDirectory(dirPath string) error {
 
 	for _, entry := range entries {
 		entryPath := filepath.Join(dirPath, entry.Name())
-
-		if entry.IsDir() {
-			// Check if the subdirectory is empty and delete it
-			isEmpty, err := isDirEmpty(entryPath)
-			if err != nil {
-				return err
-			}
-			if isEmpty {
-				log.Debugf("Removing empty subdirectory: %s", entryPath)
-				if err := os.RemoveAll(entryPath); err != nil {
-					return fmt.Errorf("failed to remove directory: %s, error: %w", entryPath, err)
-				}
-			}
-		} else {
-			// Delete specific files in the parent directory
-			if entry.Name() == "data.json" || entry.Name() == "policy.rego" {
-				log.Debugf("Removing file: %s", entryPath)
-				if err := os.Remove(entryPath); err != nil {
-					return fmt.Errorf("failed to remove file: %s, error: %w", entryPath, err)
-				}
-			}
+		// Delete specific files in the parent directory
+		log.Debugf("Removing file: %s", entryPath)
+		if err := os.Remove(entryPath); err != nil {
+			return fmt.Errorf("failed to remove file: %s, error: %w", entryPath, err)
 		}
 	}
 
+	// Create a loop to check parent directories.
+	currentPath := dirPath
+	for {
+		log.Infof("Processig Parent dir : %s", currentPath)
+		// Check if we have reached the match path
+		if currentPath == consts.Data+"/node" || currentPath == consts.Policies {
+			return nil // Stop if we reach the match path
+		}
+
+		if currentPath == "/" || currentPath == "." {
+			log.Infof("Reached root orelative path: %s", currentPath)
+			return nil // Stop if we reach the match path
+		}
+
+		// Check if the parent directory exists before proceeding
+		if _, err := os.Stat(currentPath); os.IsNotExist(err) {
+			log.Debugf("directory does not exist: %s. Stopping iteration.", currentPath)
+			return nil // Stop if we can't find the parent path
+		}
+		// Clean the parent directory
+		err = isSubDirEmpty(currentPath)
+		if err != nil {
+			return err
+		}
+		// Trim the path to its parent directory.
+		currentPath = filepath.Dir(currentPath)
+	}
+
+}
+
+func isSubDirEmpty(entryPath string) error {
+
+	isEmpty, err := isDirEmpty(entryPath)
+	if err != nil {
+		return err
+	}
+	if isEmpty {
+		log.Debugf("Removing empty subdirectory: %s", entryPath)
+		if err := os.RemoveAll(entryPath); err != nil {
+			return fmt.Errorf("failed to remove directory: %s, error: %w", entryPath, err)
+		}
+	}
 	return nil
 }
 
@@ -144,7 +169,7 @@ func ValidateToscaPolicyJsonFields(policy model.ToscaPolicy) error {
 				return fmt.Errorf("duplicate data key '%s' found, '%s'", key, emphasize)
 			}
 			keySeen[key] = true
-			if !strings.HasPrefix(key, "node." + policy.Name) {
+			if !strings.HasPrefix(key, "node."+policy.Name) {
 				return fmt.Errorf("data key '%s' does not have name node.'%s' as a prefix, '%s'", key, policy.Name, emphasize)
 			}
 		}
@@ -298,15 +323,15 @@ func IsValidString(name *string) bool {
 }
 
 func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) (string, error) {
-     cmd := cmdFunc(
-         consts.Opa,
-         consts.BuildBundle,
-         consts.V1_COMPATIBLE,
-         consts.Policies,
-         consts.Data,
-         consts.Output,
-         consts.BundleTarGzFile,
-     )
+	cmd := cmdFunc(
+		consts.Opa,
+		consts.BuildBundle,
+		consts.V1_COMPATIBLE,
+		consts.Policies,
+		consts.Data,
+		consts.Output,
+		consts.BundleTarGzFile,
+	)
 	log.Debugf("Before calling combinedoutput")
 	output, err := cmd.CombinedOutput()
 

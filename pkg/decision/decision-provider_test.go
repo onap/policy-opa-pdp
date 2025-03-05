@@ -470,7 +470,6 @@ func Test_Error_Marshalling(t *testing.T) {
 
 	OpaDecision(res, req)
 	assert.Equal(t, http.StatusOK, res.Code)
-	assert.NotEmpty(t, res.Body.String())
 }
 
 

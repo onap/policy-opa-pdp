@@ -57,6 +57,8 @@ func RegisterHandlers() {
 	dataHandler := http.HandlerFunc(data.DataHandler)
 	http.Handle("/policy/pdpo/v1/data/", basicAuth(dataHandler))
 
+	http.Handle("/policy/pdpo/v1/data", basicAuth(dataHandler))
+
 }
 
 // handles authentication

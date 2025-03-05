@@ -39,26 +39,24 @@ type (
 )
 
 var (
-        handlePolicyUndeploymentVar HandlePolicyUndeploymentFunc = handlePolicyUndeployment
+	handlePolicyUndeploymentVar HandlePolicyUndeploymentFunc = handlePolicyUndeployment
 
-        removeDirectoryFunc          = utils.RemoveDirectory
+	removeDirectoryFunc = utils.RemoveDirectory
 
-        deleteDataSdkFunc            = opasdk.DeleteData
+	deleteDataSdkFunc = opasdk.DeleteData
 
-        deletePolicySdkFunc          = opasdk.DeletePolicy
+	deletePolicySdkFunc = opasdk.DeletePolicy
 
-        removeDataDirectoryFunc      = removeDataDirectory
+	removeDataDirectoryFunc = removeDataDirectory
 
-        removePolicyDirectoryFunc    = removePolicyDirectory
+	removePolicyDirectoryFunc = removePolicyDirectory
 
 	policyUndeploymentActionFunc = policyUndeploymentAction
 
-	removePolicyFromSdkandDirFunc= removePolicyFromSdkandDir
+	removePolicyFromSdkandDirFunc = removePolicyFromSdkandDir
 
-	removeDataFromSdkandDirFunc  = removeDataFromSdkandDir
-
+	removeDataFromSdkandDirFunc = removeDataFromSdkandDir
 )
-
 
 // processPoliciesTobeUndeployed handles the undeployment of policies
 func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]string, map[string]string) {
@@ -147,8 +145,9 @@ func removeDataFromSdkandDir(policy map[string]interface{}) []string {
 
 	if dataKeys, ok := policy["data"].([]interface{}); ok {
 		for _, dataKey := range dataKeys {
-			keyPath := "/" + strings.Replace(dataKey.(string), ".", "/", -1)
-			log.Debugf("Deleting data from OPA at keypath: %s", keyPath)
+			keyPath := dataKey.(string)
+			keyPath = "/" + strings.Replace(keyPath, ".", "/", -1)
+			log.Debugf("Deleting data from OPA : %s", keyPath)
 			if err := deleteDataSdkFunc(context.Background(), keyPath); err != nil {
 				failureMessages = append(failureMessages, err.Error())
 				continue
@@ -171,6 +170,7 @@ func removePolicyFromSdkandDir(policy map[string]interface{}) []string {
 	if policyKeys, ok := policy["policy"].([]interface{}); ok {
 		for _, policyKey := range policyKeys {
 			keyPath := "/" + strings.Replace(policyKey.(string), ".", "/", -1)
+			log.Debugf("Deleting Policy from OPA : %s", keyPath)
 			if err := deletePolicySdkFunc(context.Background(), policyKey.(string)); err != nil {
 				failureMessages = append(failureMessages, err.Error())
 				continue

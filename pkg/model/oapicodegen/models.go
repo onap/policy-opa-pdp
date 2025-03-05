@@ -84,21 +84,32 @@ type OPADataUpdateRequest struct {
 
 // OPADecisionRequest defines model for OPADecisionRequest.
 type OPADecisionRequest struct {
-	CurrentDate     *openapi_types.Date    `json:"currentDate,omitempty"`
-	CurrentDateTime *time.Time             `json:"currentDateTime,omitempty"`
-	CurrentTime     *string                `json:"currentTime,omitempty"`
-	Input           map[string]interface{} `json:"input"`
-	OnapComponent   *string                `json:"onapComponent,omitempty"`
-	OnapInstance    *string                `json:"onapInstance,omitempty"`
-	OnapName        *string                `json:"onapName,omitempty"`
-	PolicyFilter    []string               `json:"policyFilter"`
-	PolicyName      string                 `json:"policyName"`
+	CurrentDate     *openapi_types.Date      `json:"currentDate,omitempty"`
+	CurrentDateTime *time.Time               `json:"currentDateTime,omitempty"`
+	CurrentTime     *string                  `json:"currentTime,omitempty"`
+	Input           OPADecisionRequest_Input `json:"input"`
+	OnapComponent   *string                  `json:"onapComponent,omitempty"`
+	OnapInstance    *string                  `json:"onapInstance,omitempty"`
+	OnapName        *string                  `json:"onapName,omitempty"`
+	PolicyFilter    []string                 `json:"policyFilter"`
+	PolicyName      string                   `json:"policyName"`
 
 	// TimeOffset Time offset in hours and minutes, e.g., '+02:00' or '-05:00'
 	TimeOffset *string `json:"timeOffset,omitempty"`
 
 	// TimeZone Timezone in IANA format (e.g., 'America/NewYork', 'Europe/Paris', 'UTC')
 	TimeZone *string `json:"timeZone,omitempty"`
+}
+
+// OPADecisionRequestInput0 defines model for .
+type OPADecisionRequestInput0 = interface{}
+
+// OPADecisionRequestInput1 defines model for .
+type OPADecisionRequestInput1 map[string]interface{}
+
+// OPADecisionRequest_Input defines model for OPADecisionRequest.Input.
+type OPADecisionRequest_Input struct {
+	union json.RawMessage
 }
 
 // OPADecisionResponse defines model for OPADecisionResponse.
@@ -216,6 +227,68 @@ func (t OPADataResponse_Data) MarshalJSON() ([]byte, error) {
 }
 
 func (t *OPADataResponse_Data) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsOPADecisionRequestInput0 returns the union data inside the OPADecisionRequest_Input as a OPADecisionRequestInput0
+func (t OPADecisionRequest_Input) AsOPADecisionRequestInput0() (OPADecisionRequestInput0, error) {
+	var body OPADecisionRequestInput0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromOPADecisionRequestInput0 overwrites any union data inside the OPADecisionRequest_Input as the provided OPADecisionRequestInput0
+func (t *OPADecisionRequest_Input) FromOPADecisionRequestInput0(v OPADecisionRequestInput0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeOPADecisionRequestInput0 performs a merge with any union data inside the OPADecisionRequest_Input, using the provided OPADecisionRequestInput0
+func (t *OPADecisionRequest_Input) MergeOPADecisionRequestInput0(v OPADecisionRequestInput0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsOPADecisionRequestInput1 returns the union data inside the OPADecisionRequest_Input as a OPADecisionRequestInput1
+func (t OPADecisionRequest_Input) AsOPADecisionRequestInput1() (OPADecisionRequestInput1, error) {
+	var body OPADecisionRequestInput1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromOPADecisionRequestInput1 overwrites any union data inside the OPADecisionRequest_Input as the provided OPADecisionRequestInput1
+func (t *OPADecisionRequest_Input) FromOPADecisionRequestInput1(v OPADecisionRequestInput1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeOPADecisionRequestInput1 performs a merge with any union data inside the OPADecisionRequest_Input, using the provided OPADecisionRequestInput1
+func (t *OPADecisionRequest_Input) MergeOPADecisionRequestInput1(v OPADecisionRequestInput1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t OPADecisionRequest_Input) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *OPADecisionRequest_Input) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
