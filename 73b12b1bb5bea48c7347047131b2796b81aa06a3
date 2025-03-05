@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04eca6e9_b7e774db",
+        "filename": "pkg/utils/utils_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-05T10:20:33Z",
+      "side": 1,
+      "message": "any reason to keep the assert even though is not being executed?",
+      "range": {
+        "startLine": 126,
+        "startChar": 5,
+        "endLine": 126,
+        "endChar": 13
+      },
+      "revId": "73b12b1bb5bea48c7347047131b2796b81aa06a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fbbfc5f_23423fd9",
+        "filename": "pkg/utils/utils_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-05T10:20:33Z",
+      "side": 1,
+      "message": "any reason to keep the assert even though is not being executed?",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 146,
+        "endChar": 7
+      },
+      "revId": "73b12b1bb5bea48c7347047131b2796b81aa06a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
