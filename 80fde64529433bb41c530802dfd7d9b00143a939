@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7eb093c3_b3d60813",
+        "filename": "consts/constants.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-18T14:23:13Z",
+      "side": 1,
+      "message": "can we follow one notation as all other variables are not in caps...pls rename these also to follow same notation",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eee031cf_8ff8dcbd",
         "filename": "pkg/data/data-handler.go",
         "patchSetId": 1
