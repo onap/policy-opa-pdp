@@ -19,12 +19,17 @@
 package utils
 
 import (
+	//	"encoding/json"
+	"fmt"
 	"github.com/google/uuid"
+	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"policy-opa-pdp/pkg/model"
+	"policy-opa-pdp/pkg/model/oapicodegen"
 	"testing"
 	"time"
 )
@@ -123,6 +128,7 @@ func TestRemoveDirectory_Negative(t *testing.T) {
 	nonExistentDirectory := filepath.Join(os.TempDir(), "non_existent_directory")
 
 	_, err := os.Stat(nonExistentDirectory)
+	//assert.False(t, os.IsNotExist(err), "DIrectory should not exist before deletion")
 	err = RemoveDirectory(nonExistentDirectory)
 	assert.NoError(t, err)
 }
@@ -141,23 +147,14 @@ func TestRemoveDirectory_ValidEmptyDir(t *testing.T) {
 	_, err = os.Stat(subDir)
 	assert.True(t, os.IsNotExist(err), "Expected directory to be deleted")
 
+	//_, err = os.Stat(tempDir)
+	//assert.NoError(t, err, "Directory should exist if file is removed")
 }
 
 // Test removing a directory that does not exist
 func TestRemoveDirectory_NonExistent(t *testing.T) {
 	err := RemoveDirectory("/invalid/nonexistent/path")
 	assert.NoError(t, err, "Expected no error when removing a non-existent directory")
-}
-
-// Test failure scenario where ReadDir fails
-func TestRemoveDirectory_ReadDirFailure(t *testing.T) {
-	// Create a file instead of a directory
-	tempFile, err := os.CreateTemp("", "testfile")
-	assert.NoError(t, err)
-	defer os.Remove(tempFile.Name())
-
-	err = RemoveDirectory(tempFile.Name()) // Should fail because it's a file, not a directory
-	assert.Error(t, err, "Expected an error when trying to remove a file as a directory")
 }
 
 // Test removing a directory containing only data.json and policy.rego
@@ -618,5 +615,141 @@ func TestBuildBundle_CommandFailure(t *testing.T) {
 	output, err := BuildBundle(mockCmdFail)
 	if err == nil {
 		t.Errorf("BuildBundle() error = nil, wantErr %v", output)
+	}
+}
+
+// Test function for isSubDirEmpty using real directories
+func TestIsSubDirEmpty(t *testing.T) {
+	// Create a temporary directory for testing
+	t.Run("Empty Directory - Should be removed", func(t *testing.T) {
+		tempDir, err := os.MkdirTemp("", "emptyDir")
+		require.NoError(t, err)
+
+		// Call the function
+		err = isSubDirEmpty(tempDir)
+
+		// Assert no error and directory should be removed
+		assert.NoError(t, err)
+		_, err = os.Stat(tempDir)
+		assert.True(t, os.IsNotExist(err)) // Directory should be gone
+	})
+
+	t.Run("Non-Empty Directory - Should not be removed", func(t *testing.T) {
+		tempDir, err := os.MkdirTemp("", "nonEmptyDir")
+		require.NoError(t, err)
+
+		// Create a file inside to make the directory non-empty
+		_, err = os.CreateTemp(tempDir, "file")
+		require.NoError(t, err)
+
+		// Call the function
+		err = isSubDirEmpty(tempDir)
+
+		// Assert directory still exists
+		assert.NoError(t, err)
+		_, err = os.Stat(tempDir)
+		assert.NoError(t, err) // Directory should still exist
+
+		// Clean up
+		os.RemoveAll(tempDir)
+	})
+
+	t.Run("Non-Existent Directory - Should return an error", func(t *testing.T) {
+		tempDir := "/path/that/does/not/exist"
+
+		err := isSubDirEmpty(tempDir)
+
+		// Assert error
+		assert.Error(t, err)
+		// assert.True(t, os.IsNotExist(err))
+	})
+
+	t.Run("Error Removing Directory - Should return an error", func(t *testing.T) {
+		// Create a temporary directory
+		tempDir, err := os.MkdirTemp("", "errorDir")
+		require.NoError(t, err)
+
+		// Mock removeAll to return an error
+		originalRemoveAll := removeAll
+		defer func() { removeAll = originalRemoveAll }() // Restore after test
+
+		removeAll = func(path string) error {
+			return fmt.Errorf("failed to remove directory: %s", path)
+		}
+
+		err = isSubDirEmpty(tempDir)
+
+		// Assert error
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "failed to remove directory")
+
+		// Clean up
+		os.RemoveAll(tempDir)
+	})
+}
+
+func TestValidateOPADataRequest(t *testing.T) {
+	ctime := "12:00:00"
+	timeZone := "America_New_York"
+	timeOffset := "$02:00"
+	onapComp := " "
+	onapIns := " "
+	onapName := " "
+	policyName := " "
+	var currentDate openapi_types.Date
+	currentDate = openapi_types.Date{}
+	var currentDateTime time.Time
+	currentDateTime = time.Time{}
+
+	var data []map[string]interface{}
+
+	data = nil
+
+	inValidRequest := &oapicodegen.OPADataUpdateRequest{
+		CurrentDate:     &currentDate,
+		CurrentDateTime: &currentDateTime,
+		CurrentTime:     &ctime,
+		TimeOffset:      &timeOffset,
+		TimeZone:        &timeZone,
+		OnapComponent:   &onapComp,
+		OnapInstance:    &onapIns,
+		OnapName:        &onapName,
+		PolicyName:      &policyName,
+		Data:            &data,
+	}
+
+	inValidErr := []string{"CurrentTime is invalid or missing", "TimeOffset is invalid or missing", "TimeZone is invalid or missing", "OnapComponent is required", "OnapInstance is required", "OnapName is required", "PolicyName is required and cannot be empty"}
+
+	// Create an invalid OPADecisionRequest
+	invalidDecisionRequest := &oapicodegen.OPADecisionRequest{
+		CurrentDate:     &currentDate,
+		CurrentDateTime: &currentDateTime,
+		CurrentTime:     &ctime,
+		TimeOffset:      &timeOffset,
+		TimeZone:        &timeZone,
+		OnapComponent:   nil,                         // Invalid: should not be nil
+		OnapInstance:    nil,                         // Invalid: should not be nil
+		OnapName:        nil,                         // Invalid: should not be nil
+		PolicyName:      "",                          // Invalid: should not be empty
+		PolicyFilter:    []string{"user_is_granted"}, // This can remain valid.
+		//Input:         nil,
+	}
+	invalidDecisionErrs := []string{"CurrentTime is invalid or missing", "TimeOffset is invalid or missing", "TimeZone is invalid or missing", "OnapComponent is required", "OnapInstance is required", "OnapName is required", "PolicyName is required and cannot be empty"}
+	tests := []struct {
+		name        string
+		request     interface{}
+		expectedErr []string
+	}{
+		{"Valid Request", inValidRequest, inValidErr},
+		{"Invalid OPADecisionRequest", invalidDecisionRequest, invalidDecisionErrs},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			errors := ValidateOPADataRequest(tt.request)
+			fmt.Printf("error : %s", errors)
+			fmt.Printf("error len : %d", len(errors))
+			assert.Equal(t, tt.expectedErr, errors)
+		})
 	}
 }

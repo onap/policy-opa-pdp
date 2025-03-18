@@ -20,13 +20,14 @@
 package handler
 
 import (
-	// "encoding/json"
+	"encoding/json"
 	"context"
 	"errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/model"
+	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/policymap"
 	"testing"
 )
@@ -346,6 +347,18 @@ func TestRemoveDataFromSdkandDir(t *testing.T) {
 	}()
 
 	// Mock removeDataDirectoryFunc and deleteDataFunc to return errors for testing
+	opasdkGetData =func (ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error){
+		// Mock JSON data
+	mockedData := `{"mocked": {"success": "value", "error": "value"}}`
+	// Create an instance of OPADataResponse_Data
+	var response oapicodegen.OPADataResponse_Data
+	// Unmarshal into the OPADataResponse_Data struct
+	err = json.Unmarshal([]byte(mockedData), &response)
+	if err != nil {
+		return nil,errors.New("Error unmarshalling")
+	}
+	return &response, nil //
+}
 	removeDataDirectoryFunc = func(dataKey string) error {
 		if dataKey == "/mocked/error" {
 			return errors.New("mocked remove data directory error")
@@ -370,42 +383,40 @@ func TestRemoveDataFromSdkandDir(t *testing.T) {
 	assert.Contains(t, failures[0], "mocked delete data error")
 }
 
-
 func TestRemovePolicyFromSdkandDir(t *testing.T) {
-    // Backup original functions
-    originalRemovePolicyDirectory := removePolicyDirectoryFunc
-    originalDeletePolicy := deletePolicySdkFunc
-    defer func() {
-        removePolicyDirectoryFunc = originalRemovePolicyDirectory // Restore after test
-        deletePolicySdkFunc = originalDeletePolicy // Restore after test
-    }()
+	// Backup original functions
+	originalRemovePolicyDirectory := removePolicyDirectoryFunc
+	originalDeletePolicy := deletePolicySdkFunc
+	defer func() {
+		removePolicyDirectoryFunc = originalRemovePolicyDirectory // Restore after test
+		deletePolicySdkFunc = originalDeletePolicy                // Restore after test
+	}()
 
-    // Mock functions
-    removePolicyDirectoryFunc = func(policyKey string) error {
-        if policyKey == "/mocked/error" {
-            return errors.New("mocked remove policy directory error")
-        }
-        return nil
-    }
+	// Mock functions
+	removePolicyDirectoryFunc = func(policyKey string) error {
+		if policyKey == "/mocked/error" {
+			return errors.New("mocked remove policy directory error")
+		}
+		return nil
+	}
 
-    deletePolicySdkFunc = func(ctx context.Context, policyPath string) error {
-        if policyPath == "mocked.error" {
-            return errors.New("mocked delete policy error")
-        }
-        return nil
-    }
+	deletePolicySdkFunc = func(ctx context.Context, policyPath string) error {
+		if policyPath == "mocked.error" {
+			return errors.New("mocked delete policy error")
+		}
+		return nil
+	}
 
-    policy := map[string]interface{}{
-        "policy": []interface{}{"mocked.success", "mocked.error"}, // VALID policy key
-    }
+	policy := map[string]interface{}{
+		"policy": []interface{}{"mocked.success", "mocked.error"}, // VALID policy key
+	}
 
-    failures := removePolicyFromSdkandDir(policy)
+	failures := removePolicyFromSdkandDir(policy)
 
-    // Expecting 1 error message (for "mocked.error"), "mocked.success" should pass
-    assert.Len(t, failures, 1)
-    assert.Contains(t, failures[0], "mocked delete policy error")
+	// Expecting 1 error message (for "mocked.error"), "mocked.success" should pass
+	assert.Len(t, failures, 1)
+	assert.Contains(t, failures[0], "mocked delete policy error")
 }
-
 
 // Mocking the remove functions
 var (

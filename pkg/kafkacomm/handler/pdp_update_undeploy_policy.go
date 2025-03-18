@@ -21,6 +21,7 @@ package handler
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"policy-opa-pdp/consts"
@@ -28,14 +29,17 @@ import (
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/metrics"
 	"policy-opa-pdp/pkg/model"
+	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/policymap"
 	"policy-opa-pdp/pkg/utils"
+	"sort"
 	"strings"
 )
 
 type (
 	HandlePolicyUndeploymentFunc func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string)
+	opasdkGetDataFunc            func(ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error)
 )
 
 var (
@@ -46,6 +50,8 @@ var (
 	deleteDataSdkFunc = opasdk.DeleteData
 
 	deletePolicySdkFunc = opasdk.DeletePolicy
+
+	opasdkGetData opasdkGetDataFunc = opasdk.GetDataInfo
 
 	removeDataDirectoryFunc = removeDataDirectory
 
@@ -144,11 +150,29 @@ func removeDataFromSdkandDir(policy map[string]interface{}) []string {
 	var failureMessages []string
 
 	if dataKeys, ok := policy["data"].([]interface{}); ok {
+		var dataKeysSlice []string
 		for _, dataKey := range dataKeys {
-			keyPath := dataKey.(string)
+			if strKey, ok := dataKey.(string); ok {
+				dataKeysSlice = append(dataKeysSlice, strKey)
+			} else {
+				failureMessages = append(failureMessages, fmt.Sprintf("Invalid Key :%s", dataKey))
+			}
+		}
+		sort.Sort(utils.ByDotCount{Keys: dataKeysSlice, Ascend: false})
+
+		for _, keyPath := range dataKeysSlice {
 			keyPath = "/" + strings.Replace(keyPath, ".", "/", -1)
 			log.Debugf("Deleting data from OPA : %s", keyPath)
-			if err := deleteDataSdkFunc(context.Background(), keyPath); err != nil {
+			// Prepare to handle any errors
+			var err error
+			var dataPath string
+			// Fetch data first
+			// Call the function to check and Analyse empty parent nodes
+			if dataPath, err = analyseEmptyParentNodes(keyPath); err != nil {
+				failureMessages = append(failureMessages, err.Error())
+			}
+			if err := deleteDataSdkFunc(context.Background(), dataPath); err != nil {
+				log.Errorf("Error while deleting Data from SDK for path : %s , %v", keyPath, err.Error())
 				failureMessages = append(failureMessages, err.Error())
 				continue
 			}
@@ -219,4 +243,118 @@ func findDeployedPolicy(policyID, policyVersion string, deployedPolicies []map[s
 		}
 	}
 	return nil
+}
+
+// analyzeEmptyParentNodes constructs the parent path based on the provided dataPath.
+// It checks if any parent nodes become empty after the deletion of the last child key.
+// 
+// This function takes a JSON representation of parent data and a data path,
+// splits the path into segments, and determines the eligible paths for deletion.
+// 
+// If a parent node has only one child and that child is to be deleted, 
+// the full path up to that parent will be returned. If no eligible parents
+// are found by the time it reaches back to the root, the original path will be returned.
+func analyseEmptyParentNodes(dataPath string) (string, error) {
+	log.Debugf("Analyzing dataPath: %s", dataPath)
+	// Split the dataPath into segments
+	pathSegments := strings.Split(dataPath, "/")
+	log.Debugf("Path segments: %+v", pathSegments)
+	// If the path does not have at least 3 segments, treat it as a leaf node
+	if len(pathSegments) < consts.SingleHierarchy {
+		log.Debugf("Path doesn't have any parent-child hierarchy;so returning the original path: %s", dataPath)
+		return dataPath, nil // It's a leaf node or too short; return the original path
+	}
+	// Prepare the parent path which is derived from the second segment
+	parentKeyPath := "/" + pathSegments[1] // Assuming the immediate parent node
+	log.Debugf("Detected parent path: %s", parentKeyPath)
+	// Fetch the data for the detected parent path
+	parentData, err := opasdkGetData(context.Background(), parentKeyPath)
+	if err != nil {
+		return "", fmt.Errorf("failed to get data for parent path %s: %w", parentKeyPath, err)
+	}
+	// Unmarshal parent data JSON into a map for analysis
+	parentDataJson, err := json.Marshal(parentData)
+	if err != nil {
+		return "", fmt.Errorf("failed to marshal parent data: %w", err)
+	}
+	// Call the method to analyze the hierarchy
+	return analyzeHierarchy(parentDataJson, dataPath)
+}
+
+// analyzeHierarchy examines the provided data path against the JSON structure to determine
+// the last eligible path for deletion based on parent-child relationships.
+//
+// The function takes a JSON object in raw format and splits the data path into segments.
+// Starting from the last key, it checks each parent key to see if it has only one child.
+// If so, it marks the path up to that parent as the last eligible path for deletion.
+func analyzeHierarchy(parentDataJson json.RawMessage, dataPath string) (string, error) {
+	// Create a map to hold the parent data
+	parentMap := make(map[string]interface{})
+
+	// Unmarshal the fetched JSON data into the parentMap
+	if err := json.Unmarshal(parentDataJson, &parentMap); err != nil {
+		return "", fmt.Errorf("error unmarshalling parent data: %w", err)
+	}
+
+	// Count keys in the JSON structure
+	countMap := countChildKeysFromJSON(parentMap)
+	// Split keys and omit the first empty element
+	keys := strings.Split(dataPath, "/")[1:]
+	// Default to the input path
+	lastEligible := dataPath
+	// Traverse the path from the last key to the first key
+	// Start from the last segment and stop at the first parent
+	for indexfromKeyPath := len(keys) - 1; indexfromKeyPath >= 1; indexfromKeyPath-- {
+		// Identify the parent of the current path
+		currentPath := strings.Join(keys[:indexfromKeyPath], "/")
+		// Checking counts of the parent key
+		childCount := countMap[currentPath]
+		if childCount == 1 {
+			// If parent has only 1 child after deletion, it is eligible
+			lastEligible = "/" + currentPath // Store the path up to this parent
+		} else {
+			break
+		}
+	}
+
+	log.Debugf("lastEligible Path: %+v", lastEligible)
+	return lastEligible, nil
+
+}
+
+// countChildKeysFromJSON counts the number of child keys for each key in a JSON structure represented as a map.
+// 
+// This function traverses the provided JSON map iteratively using a stack, counting
+// the number of direct children for each key. The counts are stored in a map where
+// the keys represent the paths in the JSON hierarchy (using slash notation) and the
+// values indicate how many children each key has.
+func countChildKeysFromJSON(data map[string]interface{}) map[string]int {
+	countMap := make(map[string]int)
+
+	// Creating a stack for iterative traversal with paths
+	stack := []struct {
+		current map[string]interface{}
+		path    string
+	}{
+		{data, "node"}, // Start with the root node path
+	}
+
+	for len(stack) > 0 {
+		// Pop the current map from the stack
+		top := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		for key, value := range top.current {
+			//take the full path
+			currentPath := top.path + "/" + key
+			if childMap, ok := value.(map[string]interface{}); ok {
+				// Count the number of children for each key
+				countMap[currentPath] = len(childMap)
+				stack = append(stack, struct {
+					current map[string]interface{}
+					path    string
+				}{childMap, currentPath}) // Push children map into stack with full path
+			}
+		}
+	}
+	return countMap
 }

@@ -1,0 +1,18 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+  policies:
+    - blacklist:
+        type: onap.policies.native.opa
+        type_version: 1.0.0
+        properties:
+          data:
+            node.blacklist: ewogICAgImJsYWNrbGlzdCIgOiBbCiAgICAidGhlLXZmbW9kdWxlLXdoZXJlLXJvb3QtaXMtdHJ1ZSIsCiAgICAgImFub3RoZXItdmZtb2R1bGUtd2hlcmUtcm9vdC1pcy10cnVlIgpdCn0=
+          policy:
+            blacklist: 
+              cGFja2FnZSBibGFja2xpc3QKaW1wb3J0IGZ1dHVyZS5rZXl3b3Jkcy5pbgppbXBvcnQgcmVnby52MQoKIyBEZWZpbmUgYSBydWxlIHRvIGNoZWNrIGlmIHRoZSBvcGVyYXRpb24gc2hvdWxkIGJlIGFsbG93ZWQKbW9kdWxlX2FsbG93W21vZHVsZV0gOj0gZmFsc2UgaWYgewogICAgc29tZSBtb2R1bGUgaW4gaW5wdXQudmZtb2R1bGUKICAgIG5vdCB2YWxpZGF0ZShtb2R1bGUpCn0KCm1vZHVsZV9hbGxvd1ttb2R1bGVdIDo9IHRydWUgaWZ7CiAgICAgICAgc29tZSBtb2R1bGUgaW4gaW5wdXQudmZtb2R1bGUKICAgIHZhbGlkYXRlKG1vZHVsZSkKfQoKdmFsaWRhdGUobW9kdWxlKSBpZiB7CiAgICAgICAgbW9kdWxlIGluIGRhdGEubm9kZS5ibGFja2xpc3QuYmxhY2tsaXN0Cn0=
+        name: blacklist
+        version: 1.0.0
+        metadata:
+          policy-id: blacklist
+          policy-version: 1.0.0
+

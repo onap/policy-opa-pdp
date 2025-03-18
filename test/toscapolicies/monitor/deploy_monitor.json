@@ -1,0 +1,10 @@
+{
+   "policies": [
+           {
+                    "policy-id": "monitor",
+                    "policy-version": "1.0.0"
+
+           }
+   ]
+}
+

@@ -73,4 +73,5 @@ var (
 	HealtCheckStatus    = true
 	OkCode              = int32(200)
 	HealthCheckMessage  = "alive"
+	SingleHierarchy    = 4
 )

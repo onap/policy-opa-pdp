@@ -1,0 +1,10 @@
+{
+   "policies": [
+           {
+                    "policy-id": "access_method",
+                    "policy-version": "1.0.0"
+
+           }
+   ]
+}
+

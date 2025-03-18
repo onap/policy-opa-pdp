@@ -1,0 +1,15 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+  policies:
+    - access_method:
+        type: onap.policies.native.opa
+        type_version: 1.0.0
+        properties:
+          data: 
+          policy:
+            access_method: cGFja2FnZSBhY2Nlc3NfbWV0aG9kCmltcG9ydCByZWdvLnYxCmFsbG93IGlmIHsKICAgICAgICBpbnB1dC5wYXRoID09IFsidXNlcnMiXQogICAgICAgIGlucHV0Lm1ldGhvZCA9PSAiUE9TVCIKfQoKYWxsb3cgaWYgewogICAgICAgIGlucHV0LnBhdGggPT0gWyJ1c2VycyIsIGlucHV0LnVzZXJfaWRdCiAgICAgICAgaW5wdXQubWV0aG9kID09ICJHRVQiCn0KCg== 
+        name: access_method
+        version: 1.0.0
+        metadata:
+          policy-id: access_method
+          policy-version: 1.0.0
