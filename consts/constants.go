@@ -38,8 +38,8 @@ package consts
 //	PdpType             - The type of PDP.
 //	ServerPort          - The port on which the server listens.
 //	SERVER_WAIT_UP_TIME - The time to wait for the server to be up, in seconds.
-//	SHUTDOWN_WAIT_TIME  - The time to wait for the server to shut down, in seconds.
-//	V1_COMPATIBLE       - The flag for v1 compatibility.
+//	Shutdown_Wait_Time  - The time to wait for the server to shut down, in seconds.
+//	V1_Compatible       - The flag for v1 compatibility.
 //	LatestVersion       - The Version set in response for decision
 //	MinorVersion        - The Minor version set in response header for decision
 //	PatchVersion        - The Patch Version set in response header for decison
@@ -56,6 +56,7 @@ var (
 	BuildBundle      = "build"
 	Policies         = "/opt/policies"
 	Data             = "/opt/data"
+	DataNode         = "/opt/data/node"
 	Output           = "-o"
 	BundleTarGz      = "bundle.tar.gz"
 	BundleTarGzFile  = "/app/bundles/bundle.tar.gz"
@@ -63,9 +64,9 @@ var (
 	//This is a workaround as currently opa-pdp is not defined in the PapDB  defaultGroup configuration  and creating it manually overrides the existing configuration, so currently PdpGroup is opaGroup and it will be changed to defaultGroup once added in the configuration.
 	PdpType             = "opa"
 	ServerPort          = ":8282"
-	SERVER_WAIT_UP_TIME = 5
-	SHUTDOWN_WAIT_TIME  = 5
-	V1_COMPATIBLE       = "--v1-compatible"
+	Server_Wait_Up_Time = 5
+	Shutdown_Wait_Time  = 5
+	V1_Compatible       = "--v1-compatible"
 	LatestVersion       = "1.0.0"
 	MinorVersion        = "0"
 	PatchVersion        = "0"
@@ -73,4 +74,5 @@ var (
 	HealtCheckStatus    = true
 	OkCode              = int32(200)
 	HealthCheckMessage  = "alive"
+	SingleHierarchy     = 4
 )

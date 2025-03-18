@@ -57,7 +57,7 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 	}
 
 	if ticker != nil && intervalMs == currentInterval {
-		log.Debug("Ticker is already running")
+		log.Trace("Ticker is already running")
 		return
 	}
 

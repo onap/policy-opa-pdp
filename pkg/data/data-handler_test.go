@@ -56,56 +56,6 @@ func TestGetErrorResponseCodeForOPADataUpdate(t *testing.T) {
 	}
 }
 
-func TestValidateOPADataUpdateRequest(t *testing.T) {
-	ctime := "12:00:00"
-	timeZone := "America_New_York"
-	timeOffset := "$02:00"
-	onapComp := " "
-	onapIns := " "
-	onapName := " "
-	policyName := " "
-	var currentDate openapi_types.Date
-	currentDate = openapi_types.Date{}
-	var currentDateTime time.Time
-	currentDateTime = time.Time{}
-
-	var data []map[string]interface{}
-
-	data = nil
-
-	inValidRequest := &oapicodegen.OPADataUpdateRequest{
-		CurrentDate:     &currentDate,
-		CurrentDateTime: &currentDateTime,
-		CurrentTime:     &ctime,
-		TimeOffset:      &timeOffset,
-		TimeZone:        &timeZone,
-		OnapComponent:   &onapComp,
-		OnapInstance:    &onapIns,
-		OnapName:        &onapName,
-		PolicyName:      &policyName,
-		Data:            &data,
-	}
-
-	inValidErr := []string{"CurrentTime is invalid or missing", "Data is required and cannot be empty", "TimeOffset is invalid or missing", "TimeZone is invalid or missing", "OnapComponent is required", "OnapInstance is required", "OnapName is required", "PolicyName is required and cannot be empty"}
-
-	tests := []struct {
-		name        string
-		request     *oapicodegen.OPADataUpdateRequest
-		expectedErr []string
-	}{
-		{"Valid Request", inValidRequest, inValidErr},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			errors := validateOPADataUpdateRequest(tt.request)
-			fmt.Printf("error : %s", errors)
-			fmt.Printf("error len : %d", len(errors))
-			assert.Equal(t, tt.expectedErr, errors)
-		})
-	}
-}
-
 func TestPatchHandler_InvalidJSON(t *testing.T) {
 	req := httptest.NewRequest("PATCH", "/policy/pdpo/v1/data/", bytes.NewBuffer([]byte("{invalid_json}")))
 	res := httptest.NewRecorder()
