@@ -16,7 +16,7 @@
 //   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 
-// Package utils provides common  functionalities
+// Package provides common  functionalities
 
 package utils
 
@@ -30,6 +30,7 @@ import (
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
+	"policy-opa-pdp/pkg/model/oapicodegen"
 	"regexp"
 	"strings"
 	"time"
@@ -41,6 +42,7 @@ type (
 
 var (
 	CreateDirectoryVar CreateDirectoryFunc = CreateDirectory
+	removeAll                              = os.RemoveAll
 )
 
 // validates if the given request is in valid uuid form
@@ -63,31 +65,24 @@ func CreateDirectory(dirPath string) error {
 // Helper function to check and remove a directory
 func RemoveDirectory(dirPath string) error {
 
-	entries, err := os.ReadDir(dirPath)
+	fileDirPath := filepath.Clean(dirPath)
+	err := removeAll(fileDirPath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			log.Warnf("Directory does not exist: %s", dirPath)
+			log.Warnf("Directory does not exist: %s", fileDirPath)
 			// Directory does not exist, nothing to do
 			return nil
 		}
-		return fmt.Errorf("failed to read directory: %w", err)
-	}
+		return fmt.Errorf("failed to remove file: %s, error: %w", fileDirPath, err)
 
-	for _, entry := range entries {
-		entryPath := filepath.Join(dirPath, entry.Name())
-		// Delete specific files in the parent directory
-		log.Debugf("Removing file: %s", entryPath)
-		if err := os.Remove(entryPath); err != nil {
-			return fmt.Errorf("failed to remove file: %s, error: %w", entryPath, err)
-		}
 	}
 
 	// Create a loop to check parent directories.
-	currentPath := dirPath
+	// Move to the parent directory
+	currentPath := filepath.Clean(filepath.Dir(dirPath))
 	for {
-		log.Infof("Processig Parent dir : %s", currentPath)
 		// Check if we have reached the match path
-		if currentPath == consts.Data+"/node" || currentPath == consts.Policies {
+		if currentPath == filepath.Clean(consts.DataNode) || currentPath == filepath.Clean(consts.Policies) {
 			return nil // Stop if we reach the match path
 		}
 
@@ -95,7 +90,7 @@ func RemoveDirectory(dirPath string) error {
 			log.Infof("Reached root orelative path: %s", currentPath)
 			return nil // Stop if we reach the match path
 		}
-
+		log.Infof("Processig Parent dir : %s", currentPath)
 		// Check if the parent directory exists before proceeding
 		if _, err := os.Stat(currentPath); os.IsNotExist(err) {
 			log.Debugf("directory does not exist: %s. Stopping iteration.", currentPath)
@@ -106,10 +101,10 @@ func RemoveDirectory(dirPath string) error {
 		if err != nil {
 			return err
 		}
-		// Trim the path to its parent directory.
+
+		// Move to the parent directory
 		currentPath = filepath.Dir(currentPath)
 	}
-
 }
 
 func isSubDirEmpty(entryPath string) error {
@@ -120,7 +115,7 @@ func isSubDirEmpty(entryPath string) error {
 	}
 	if isEmpty {
 		log.Debugf("Removing empty subdirectory: %s", entryPath)
-		if err := os.RemoveAll(entryPath); err != nil {
+		if err := removeAll(entryPath); err != nil {
 			return fmt.Errorf("failed to remove directory: %s, error: %w", entryPath, err)
 		}
 	}
@@ -314,11 +309,14 @@ func IsValidCurrentTime(currentTime *string) bool {
 }
 
 // Custom validation function for *string type eg: OnapComponent, OnapInstance, OnapName, PolicyName
-func IsValidString(name *string) bool {
-	if name == nil || strings.TrimSpace(*name) == "" {
-		return false
-	} else {
-		return true
+func IsValidString(name interface{}) bool {
+	switch v := name.(type) {
+	case *string:
+		return v != nil && strings.TrimSpace(*v) != ""
+	case string:
+		return strings.TrimSpace(v) != ""
+	default:
+		return false // Handles cases where name is neither a string nor a *string
 	}
 }
 
@@ -326,7 +324,7 @@ func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) (string, error) {
 	cmd := cmdFunc(
 		consts.Opa,
 		consts.BuildBundle,
-		consts.V1_COMPATIBLE,
+		consts.V1_Compatible,
 		consts.Policies,
 		consts.Data,
 		consts.Output,
@@ -342,4 +340,99 @@ func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) (string, error) {
 	}
 	log.Debug("Bundle Built Sucessfully....")
 	return string(output), nil
+}
+
+// Validation function
+func ValidateOPADataRequest(request interface{}) []string {
+	var validationErrors []string
+	if updateRequest, ok := request.(*oapicodegen.OPADataUpdateRequest); ok {
+		// Check if required fields are populated
+		dateString := (updateRequest.CurrentDate).String()
+		if !(IsValidCurrentDate(&dateString)) {
+			validationErrors = append(validationErrors, "CurrentDate is required")
+		}
+
+		// Validate CurrentDateTime format
+		if !(IsValidTime(updateRequest.CurrentDateTime)) {
+			validationErrors = append(validationErrors, "CurrentDateTime is invalid or missing")
+		}
+
+		// Validate CurrentTime format
+		if !(IsValidCurrentTime(updateRequest.CurrentTime)) {
+			validationErrors = append(validationErrors, "CurrentTime is invalid or missing")
+		}
+
+		// Validate TimeOffset format (e.g., +02:00 or -05:00)
+		if !(IsValidTimeOffset(updateRequest.TimeOffset)) {
+			validationErrors = append(validationErrors, "TimeOffset is invalid or missing")
+		}
+
+		// Validate TimeZone format (e.g., 'America/New_York')
+		if !(IsValidTimeZone(updateRequest.TimeZone)) {
+			validationErrors = append(validationErrors, "TimeZone is invalid or missing")
+		}
+
+		// Optionally, check if 'OnapComponent', 'OnapInstance', 'OnapName', and 'PolicyName' are provided
+		if !(IsValidString(updateRequest.OnapComponent)) {
+			validationErrors = append(validationErrors, "OnapComponent is required")
+		}
+
+		if !(IsValidString(updateRequest.OnapInstance)) {
+			validationErrors = append(validationErrors, "OnapInstance is required")
+		}
+
+		if !(IsValidString(updateRequest.OnapName)) {
+			validationErrors = append(validationErrors, "OnapName is required")
+		}
+
+		if !(IsValidString(updateRequest.PolicyName)) {
+			validationErrors = append(validationErrors, "PolicyName is required and cannot be empty")
+		}
+	}
+
+	if decisionRequest, ok := request.(*oapicodegen.OPADecisionRequest); ok {
+		// Check if required fields are populated
+		dateString := (decisionRequest.CurrentDate).String()
+		if !(IsValidCurrentDate(&dateString)) {
+			validationErrors = append(validationErrors, "CurrentDate is required")
+		}
+
+		// Validate CurrentDateTime format
+		if !(IsValidTime(decisionRequest.CurrentDateTime)) {
+			validationErrors = append(validationErrors, "CurrentDateTime is invalid or missing")
+		}
+
+		// Validate CurrentTime format
+		if !(IsValidCurrentTime(decisionRequest.CurrentTime)) {
+			validationErrors = append(validationErrors, "CurrentTime is invalid or missing")
+		}
+
+		// Validate TimeOffset format (e.g., +02:00 or -05:00)
+		if !(IsValidTimeOffset(decisionRequest.TimeOffset)) {
+			validationErrors = append(validationErrors, "TimeOffset is invalid or missing")
+		}
+
+		// Validate TimeZone format (e.g., 'America/New_York')
+		if !(IsValidTimeZone(decisionRequest.TimeZone)) {
+			validationErrors = append(validationErrors, "TimeZone is invalid or missing")
+		}
+
+		// Optionally, check if 'OnapComponent', 'OnapInstance', 'OnapName', and 'PolicyName' are provided
+		if !(IsValidString(decisionRequest.OnapComponent)) {
+			validationErrors = append(validationErrors, "OnapComponent is required")
+		}
+
+		if !(IsValidString(decisionRequest.OnapInstance)) {
+			validationErrors = append(validationErrors, "OnapInstance is required")
+		}
+
+		if !(IsValidString(decisionRequest.OnapName)) {
+			validationErrors = append(validationErrors, "OnapName is required")
+		}
+
+		if !(IsValidString(decisionRequest.PolicyName)) {
+			validationErrors = append(validationErrors, "PolicyName is required and cannot be empty")
+		}
+	}
+	return validationErrors
 }

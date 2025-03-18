@@ -164,7 +164,7 @@ func shutdownHTTPServer(server *http.Server) {
 }
 
 func waitForServer() {
-	time.Sleep(time.Duration(consts.SERVER_WAIT_UP_TIME) * time.Second)
+	time.Sleep(time.Duration(consts.Server_Wait_Up_Time) * time.Second)
 }
 
 func initializeOPA() error {
@@ -232,6 +232,5 @@ myLoop:
 
 	handler.SetShutdownFlag()
 
-	time.Sleep(time.Duration(consts.SHUTDOWN_WAIT_TIME) * time.Second)
+	time.Sleep(time.Duration(consts.Shutdown_Wait_Time) * time.Second)
 }
-
