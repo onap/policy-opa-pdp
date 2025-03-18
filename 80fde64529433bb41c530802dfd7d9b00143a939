@@ -1,6 +1,69 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe79b515_05ca1e1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "mostly formatting.",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a622f84c_d892111d",
+        "filename": "consts/constants.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83cede27_504a975e",
+        "filename": "consts/constants.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "missing description of SingleHierarchy",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 1
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7eb093c3_b3d60813",
@@ -83,6 +146,730 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d71849b_473d5475",
+        "filename": "pkg/data/data-handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "change to tabs instead of spaces",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 1
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fe8b333_2b5db108",
+        "filename": "pkg/data/data-handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "wrong indentation - if brackets removed, so lines should go back 1 tab",
+      "range": {
+        "startLine": 298,
+        "startChar": 3,
+        "endLine": 301,
+        "endChar": 13
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a42a7133_2708469e",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "tab instead of space",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 26
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec88d4fa_debee78e",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "tab instead of space",
+      "range": {
+        "startLine": 83,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "105be9a9_e0d9f099",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "tab instead of space",
+      "range": {
+        "startLine": 88,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73640c84_7400c676",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "tab instead of space",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54ee8f2f_604a5ab6",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "tab instead of space",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09364fc_0c628f40",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "first line have wrong indentation\ntab instead of space",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "373af52a_43dce261",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 167,
+        "startChar": 1,
+        "endLine": 184,
+        "endChar": 0
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a37912e_4e9cd8ed",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 201,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "982dda70_6ec52440",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 0
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc64ddca_4ff52ccb",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef65285b_cf516449",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 516,
+        "startChar": 0,
+        "endLine": 532,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29a22328_015b877e",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 550,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daf67ad2_e23dc989",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 579,
+        "startChar": 0,
+        "endLine": 597,
+        "endChar": 0
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df3ca98e_5f1fc1f4",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 603,
+        "startChar": 0,
+        "endLine": 614,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9d25d0f_ff72bacf",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "delete extra lines",
+      "range": {
+        "startLine": 621,
+        "startChar": 0,
+        "endLine": 621,
+        "endChar": 0
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48d59986_4060a2a7",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "delete extra line",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a47962b_2e9d19d6",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "wrong indentation, also use tabs instead of spaces.",
+      "range": {
+        "startLine": 649,
+        "startChar": 0,
+        "endLine": 702,
+        "endChar": 49
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "224b18b2_cd2324b0",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 716,
+        "startChar": 0,
+        "endLine": 745,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a1cf0bb_9b84b18d",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove extra blank space",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2e04e15_c687899e",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove extra blank space",
+      "range": {
+        "startLine": 776,
+        "startChar": 0,
+        "endLine": 776,
+        "endChar": 1
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebb8bcb4_8f6e7115",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 777,
+        "startChar": 8,
+        "endLine": 777,
+        "endChar": 16
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2f4b7af_26cb6f07",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "wrong indentation, tabs in place of spaces.",
+      "range": {
+        "startLine": 792,
+        "startChar": 0,
+        "endLine": 821,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "812f84f8_7905b8c8",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove extra blank space",
+      "range": {
+        "startLine": 822,
+        "startChar": 0,
+        "endLine": 822,
+        "endChar": 2
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0c84ab9_d108cae0",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove extra blank space",
+      "range": {
+        "startLine": 834,
+        "startChar": 0,
+        "endLine": 834,
+        "endChar": 1
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69fba797_9b99bfea",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "tabs instead of spaces",
+      "range": {
+        "startLine": 843,
+        "startChar": 0,
+        "endLine": 843,
+        "endChar": 8
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e592be7_e206b955",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "use tabs instead of spaces. wrong indentation in some lines",
+      "range": {
+        "startLine": 854,
+        "startChar": 0,
+        "endLine": 883,
+        "endChar": 9
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae86d7b7_4868faf6",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove extra blank space",
+      "range": {
+        "startLine": 884,
+        "startChar": 0,
+        "endLine": 884,
+        "endChar": 2
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b480472_260f881d",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove extra blank space",
+      "range": {
+        "startLine": 909,
+        "startChar": 0,
+        "endLine": 909,
+        "endChar": 1
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f64a90ae_29ed8852",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 910,
+        "startChar": 0,
+        "endLine": 910,
+        "endChar": 8
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97f50ef9_e68220d6",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove assert if not used anymore",
+      "range": {
+        "startLine": 981,
+        "startChar": 10,
+        "endLine": 981,
+        "endChar": 15
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c14d3337_3f54c631",
         "filename": "pkg/kafkacomm/handler/pdp_update_deploy_policy.go",
         "patchSetId": 1
@@ -145,6 +932,282 @@
       "writtenOn": "2025-03-18T14:22:16Z",
       "side": 1,
       "message": "can we add some examples and explain",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce756220_092d5385",
+        "filename": "pkg/utils/sort.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "missing Copyright header.\nuse tabs instead of spaces.\nadd new line at the end of file.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bd70ba7_3d61d0b5",
+        "filename": "pkg/utils/utils_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove if not needed",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "550087a8_db3f8264",
+        "filename": "pkg/utils/utils_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove assert if not needed anymore",
+      "range": {
+        "startLine": 131,
+        "startChar": 40,
+        "endLine": 131,
+        "endChar": 49
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12b7bb4a_e77c8051",
+        "filename": "pkg/utils/utils_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove assert if not needed anymore",
+      "range": {
+        "startLine": 150,
+        "startChar": 6,
+        "endLine": 151,
+        "endChar": 15
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d6a41db_6c34e87c",
+        "filename": "test/data/cell/consistency/data.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "format the json to not have extra blank spaces",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 1,
+        "endChar": 4
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef394a2_1c6d587a",
+        "filename": "test/policies/access_method/policy.rego",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "can this file have the Copyright header?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00d0e78c_ff296ad4",
+        "filename": "test/policies/blacklist/policy.rego",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "can this file have the Copyright header?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "758a5690_66ba4bee",
+        "filename": "test/policies/cell/consistency/policy.rego",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "can this file have the Copyright header?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05f9b8f4_6fc1748b",
+        "filename": "test/policies/cell/consistency/topology/policy.rego",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "can this file have the Copyright header?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dd232b6_b8816661",
+        "filename": "test/policies/monitor/policy.rego",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "can this file have the Copyright header?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b14bf8b_d9e59e23",
+        "filename": "test/toscapolicies/access_method/policy_access_method.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove extra blank spaces",
+      "range": {
+        "startLine": 8,
+        "startChar": 15,
+        "endLine": 8,
+        "endChar": 16
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a49726b_257d1e86",
+        "filename": "test/toscapolicies/blacklist/policy_blacklist.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-18T14:45:53Z",
+      "side": 1,
+      "message": "remove extra blank spaces",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 23
+      },
       "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
