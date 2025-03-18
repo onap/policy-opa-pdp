@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ package consts
 //	BuildBundle         - The command to build the bundle.
 //	Policies            - The directory path for policies.
 //	Data                - The directory path for policy data.
+//	DataNode            - The directory path for policy data with node.
 //	Output              - The output flag for bundle commands.
 //	BundleTarGz         - The name of the bundle tar.gz file.
 //	BundleTarGzFile     - The file path for the bundle tar.gz file.
@@ -38,8 +39,8 @@ package consts
 //	PdpType             - The type of PDP.
 //	ServerPort          - The port on which the server listens.
 //	SERVER_WAIT_UP_TIME - The time to wait for the server to be up, in seconds.
-//	SHUTDOWN_WAIT_TIME  - The time to wait for the server to shut down, in seconds.
-//	V1_COMPATIBLE       - The flag for v1 compatibility.
+//	ShutdownWaitTime  - The time to wait for the server to shut down, in seconds.
+//	V1Compatible       - The flag for v1 compatibility.
 //	LatestVersion       - The Version set in response for decision
 //	MinorVersion        - The Minor version set in response header for decision
 //	PatchVersion        - The Patch Version set in response header for decison
@@ -47,6 +48,7 @@ package consts
 //	HealtCheckStatus    - The bool flag for Healthy field in HealtCheck response
 //	OkCode              - The Code for HealthCheck response
 //	HealthCheckMessage  - The Healtcheck Message
+//	SingleHierarchy     - The Counter indicates the length of datakey path
 var (
 	LogFilePath      = "/var/logs/logs.log"
 	LogMaxSize       = 10
@@ -56,6 +58,7 @@ var (
 	BuildBundle      = "build"
 	Policies         = "/opt/policies"
 	Data             = "/opt/data"
+	DataNode         = "/opt/data/node"
 	Output           = "-o"
 	BundleTarGz      = "bundle.tar.gz"
 	BundleTarGzFile  = "/app/bundles/bundle.tar.gz"
@@ -63,9 +66,9 @@ var (
 	//This is a workaround as currently opa-pdp is not defined in the PapDB  defaultGroup configuration  and creating it manually overrides the existing configuration, so currently PdpGroup is opaGroup and it will be changed to defaultGroup once added in the configuration.
 	PdpType             = "opa"
 	ServerPort          = ":8282"
-	SERVER_WAIT_UP_TIME = 5
-	SHUTDOWN_WAIT_TIME  = 5
-	V1_COMPATIBLE       = "--v1-compatible"
+	ServerWaitUpTime = 5
+	ShutdownWaitTime  = 5
+	V1Compatible       = "--v1-compatible"
 	LatestVersion       = "1.0.0"
 	MinorVersion        = "0"
 	PatchVersion        = "0"
@@ -73,4 +76,5 @@ var (
 	HealtCheckStatus    = true
 	OkCode              = int32(200)
 	HealthCheckMessage  = "alive"
+	SingleHierarchy     = 4
 )

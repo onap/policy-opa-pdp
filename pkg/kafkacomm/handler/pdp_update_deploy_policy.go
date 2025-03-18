@@ -36,6 +36,7 @@ import (
 	"policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/policymap"
 	"policy-opa-pdp/pkg/utils"
+	"sort"
 	"strings"
 )
 
@@ -228,7 +229,7 @@ func getDirName(policy model.ToscaPolicy) []string {
 
 	for key, _ := range policy.Properties.Data {
 
-		dirNames = append(dirNames, strings.ReplaceAll(consts.Data+"/"+key, ".", "/"))
+		dirNames = append(dirNames, strings.ReplaceAll(consts.DataNode+key, ".", "/"))
 
 	}
 	for key, _ := range policy.Properties.Policy {
@@ -258,13 +259,14 @@ func upsertPolicy(policy model.ToscaPolicy) error {
 // handles writing data to sdk.
 func upsertData(policy model.ToscaPolicy) error {
 	decodedDataContent, dataKeys, _ := extractAndDecodeDataVar(policy)
+	sort.Sort(utils.ByDotCount{Keys: dataKeys, Ascend: true})
 	for _, dataKey := range dataKeys {
 		dataContent := decodedDataContent[dataKey]
 		reader := bytes.NewReader([]byte(dataContent))
 		decoder := json.NewDecoder(reader)
 		decoder.UseNumber()
 
-		var wdata map[string]interface{}
+		var wdata interface{}
 		err := decoder.Decode(&wdata)
 		if err != nil {
 			log.Errorf("Failed to Insert Data: %s: %v", policy.Name, err)
@@ -365,7 +367,7 @@ func checkIfPolicyAlreadyDeployed(pdpUpdate model.PdpUpdate) []model.ToscaPolicy
 // verfies policy by creating bundle.
 func verifyPolicyByBundleCreation(policy model.ToscaPolicy) error {
 	// get directory name
-	dirNames := []string{strings.ReplaceAll(consts.Data+"/"+policy.Name, ".", "/"), strings.ReplaceAll(consts.Policies+"/"+policy.Name, ".", "/")}
+	dirNames := []string{strings.ReplaceAll(consts.DataNode+"/"+policy.Name, ".", "/"), strings.ReplaceAll(consts.Policies+"/"+policy.Name, ".", "/")}
 	// create bundle
 	output, err := createBundleFuncVar(exec.Command, policy)
 	if err != nil {

@@ -1,0 +1,10 @@
+{
+   "policies": [
+           {
+                    "policy-id": "cell.consistency",
+                    "policy-version": "1.0.0"
+
+           }
+   ]
+}
+

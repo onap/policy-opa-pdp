@@ -38,6 +38,7 @@ import (
 	"policy-opa-pdp/pkg/pdpstate"
 	"policy-opa-pdp/pkg/policymap"
 	"policy-opa-pdp/pkg/utils"
+	"sort"
 	"strings"
 )
 
@@ -77,8 +78,8 @@ func writeErrorJSONResponse(res http.ResponseWriter, status int, errorDescriptio
 // creates a success decision response
 func createSuccessDecisionResponse(policyName string, output map[string]interface{}) *oapicodegen.OPADecisionResponse {
 	return &oapicodegen.OPADecisionResponse{
-		PolicyName:    policyName,
-		Output:        output,
+		PolicyName: policyName,
+		Output:     output,
 	}
 }
 
@@ -135,17 +136,21 @@ func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls
 		return
 	}
 
-	if decisionReq.PolicyName == "" {
-		*errorDtls = "Policy Name is nil which is invalid."
-		*httpStatus = http.StatusBadRequest
-		return
-	}
+	// Validate the request body
+	validationErrors := utils.ValidateOPADataRequest(decisionReq)
 
 	if decisionReq.PolicyFilter == nil || len(decisionReq.PolicyFilter) == 0 {
-		*errorDtls = "Policy Filter is nil."
+		validationErrors = append(validationErrors, "PolicyFilter is required and cannot be empty")
+	}
+	if len(validationErrors) > 0 {
+		*errorDtls = strings.Join(validationErrors, ", ")
+		log.Errorf("Facing validation error in requestbody - %s", *errorDtls)
 		*httpStatus = http.StatusBadRequest
 		return
 	}
+	log.Debugf("Validation successful for request fields")
+	// If validation passes, handle the decision request
+
 	decisionReq.PolicyName = strings.ReplaceAll(decisionReq.PolicyName, ".", "/")
 	handlePolicyValidation(res, decisionReq, errorDtls, httpStatus, policyId)
 }
@@ -195,7 +200,7 @@ func policyExists(policyName string, extractedPolicies []model.ToscaConceptIdent
 	return false
 }
 
-//This function processes the request headers
+// This function processes the request headers
 func processRequestHeaders(req *http.Request, res http.ResponseWriter) (string, *oapicodegen.DecisionParams) {
 	requestId := req.Header.Get("X-ONAP-RequestID")
 	var parsedUUID *uuid.UUID
@@ -229,7 +234,7 @@ func isSystemActive() bool {
 	return pdpstate.GetCurrentState() == model.Active
 }
 
-//This method parses the body and checks whether it is properly formatted JSON or not
+// This method parses the body and checks whether it is properly formatted JSON or not
 func parseRequestBody(req *http.Request) (*oapicodegen.OPADecisionRequest, error) {
 	var decisionReq oapicodegen.OPADecisionRequest
 	if err := json.NewDecoder(req.Body).Decode(&decisionReq); err != nil {
@@ -238,7 +243,7 @@ func parseRequestBody(req *http.Request) (*oapicodegen.OPADecisionRequest, error
 	return &decisionReq, nil
 }
 
-//This function sends the error response
+// This function sends the error response
 func sendDecisionErrorResponse(msg string, res http.ResponseWriter, httpStatus int, policyName string) {
 	log.Warnf("%s", msg)
 	decisionExc := createDecisionExceptionResponse(httpStatus, msg, policyName)
@@ -247,34 +252,33 @@ func sendDecisionErrorResponse(msg string, res http.ResponseWriter, httpStatus i
 	writeErrorJSONResponse(res, httpStatus, msg, *decisionExc)
 }
 
-
 type OPASingletonInstanceFunc func() (*sdk.OPA, error)
+
 var OPASingletonInstance OPASingletonInstanceFunc = opasdk.GetOPASingletonInstance
 
-//This function returns the opasdk instance
+// This function returns the opasdk instance
 func getOpaInstance() (*sdk.OPA, error) {
 	return OPASingletonInstance()
 }
 
-
-
 type OPADecisionFunc func(opa *sdk.OPA, ctx context.Context, options sdk.DecisionOptions) (*sdk.DecisionResult, error)
+
 var OPADecision OPADecisionFunc = (*sdk.OPA).Decision
 
-//This function processes the OPA decision
+// This function processes the OPA decision
 func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapicodegen.OPADecisionRequest) {
 	ctx := context.Background()
 	log.Debugf("SDK making a decision")
-	var  decisionRes  *oapicodegen.OPADecisionResponse
+	var decisionRes *oapicodegen.OPADecisionResponse
 	//OPA is seding success with a warning message if "input" parameter is missing, so we need to send success response
 	inputBytes, err := json.Marshal(decisionReq.Input)
-        if err != nil{
-                log.Warnf("Failed to unmarshal decision Request Input: %vg", err)
-                return
-        }
-        if inputBytes == nil || len(inputBytes) == 0 {
-	    statusMessage := "{\"warning\":{\"code\":\"api_usage_warning\",\"message\":\"'input' key missing from the request\"}}"
-	    decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, nil, statusMessage)
+	if err != nil {
+		log.Warnf("Failed to unmarshal decision Request Input: %vg", err)
+		return
+	}
+	if inputBytes == nil || len(inputBytes) == 0 {
+		statusMessage := "{\"warning\":{\"code\":\"api_usage_warning\",\"message\":\"'input' key missing from the request\"}}"
+		decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, nil, statusMessage)
 	} else {
 		options := sdk.DecisionOptions{Path: decisionReq.PolicyName, Input: decisionReq.Input}
 		decisionResult, decisionErr := OPADecision(opa, ctx, options)
@@ -285,20 +289,22 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 		}
 		log.Debugf("RAW opa Decision output:\n%s\n", string(jsonOutput))
 
+		//while making decision . is replaced by /. reverting back.
+		decisionReq.PolicyName = strings.ReplaceAll(decisionReq.PolicyName, "/", ".")
+
 		if decisionErr != nil {
-			handleOpaDecisionError(res, decisionErr, decisionReq.PolicyName)
+			sendDecisionErrorResponse(decisionErr.Error(), res, http.StatusInternalServerError, decisionReq.PolicyName)
 			return
 		}
-
 		var policyFilter []string
 		if decisionReq.PolicyFilter != nil {
 			policyFilter = decisionReq.PolicyFilter
 		}
 		result, _ := decisionResult.Result.(map[string]interface{})
-		outputMap, unmatchedFilters := processPolicyFilter(result, policyFilter)
+		outputMap, unmatchedFilters, validPolicyFilters := processPolicyFilter(result, policyFilter)
 
 		if len(unmatchedFilters) > 0 {
-			message := fmt.Sprintf("Policy Filter(s) not matching: [%s]", strings.Join(unmatchedFilters, ", "))
+			message := fmt.Sprintf("Policy Filter(s) not matching, Valid Filter(s) are: [%s]", strings.Join(validPolicyFilters, ", "))
 			decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, outputMap, message)
 		} else {
 			decisionRes = createSuccessDecisionResponse(decisionReq.PolicyName, outputMap)
@@ -308,52 +314,73 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 	writeOpaJSONResponse(res, http.StatusOK, *decisionRes)
 }
 
-//This function validates the errors during decision process
-func handleOpaDecisionError(res http.ResponseWriter, err error, policyName string) {
-	//As per the opa documentation in https://www.openpolicyagent.org/docs/latest/rest-api/#get-a-document-with-input
-	//when the path refers to an undefined document it will return 200 with no result.
-	//opasdk is returning opa_undefined_error for such case, so need to give sucess for such case and
-	//for other cases we have to send error response
-	if strings.Contains(err.Error(), string(oapicodegen.OpaUndefinedError)) {
-		decisionExc := createSuccessDecisionResponse(policyName, nil)
-		metrics.IncrementDecisionSuccessCount()
-		writeOpaJSONResponse(res, http.StatusOK, *decisionExc)
-	} else {
-		sendDecisionErrorResponse(err.Error(), res, http.StatusInternalServerError, policyName)
-	}
-}
-
-//This function processes the policy filters
-func processPolicyFilter(result map[string]interface{}, policyFilter []string) (map[string]interface{}, []string) {
+// This function processes the policy filters
+func processPolicyFilter(result map[string]interface{}, policyFilter []string) (map[string]interface{}, []string, []string) {
 	if len(policyFilter) > 0 {
-		filteredResult, unmatchedFilters := applyPolicyFilter(result, policyFilter)
+		filteredResult, unmatchedFilters, validfilters := applyPolicyFilter(result, policyFilter)
 		if len(filteredResult) > 0 {
-			return filteredResult, unmatchedFilters
+			return filteredResult, unmatchedFilters, validfilters
 		}
 	}
-	return nil, policyFilter
+	return nil, policyFilter, getValidPolicyFilters(result)
 }
 
-// Function to apply policy filter to decision result
-func applyPolicyFilter(result map[string]interface{}, filters []string) (map[string]interface{}, []string) {
+// Get Valid Filters and collects unmatched filters
+func applyPolicyFilter(result map[string]interface{}, filters []string) (map[string]interface{}, []string, []string) {
 	filteredOutput := make(map[string]interface{})
-	unmatchedFilters := make(map[string]struct{})
+	unmatchedFilters := []string{}
+
+	validFilters := getValidPolicyFilters(result)
 	for _, filter := range filters {
-		unmatchedFilters[filter] = struct{}{}
-	}
-	for key, value := range result {
-		for _, filter := range filters {
-			if (key == filter || strings.TrimSpace(filter) == "") {
-				filteredOutput[key] = value
-				delete(unmatchedFilters, filter)
-	        }
-	    }
-	}
-
-	unmatchedList := make([]string, 0, len(unmatchedFilters))
-	for filter := range unmatchedFilters {
-		unmatchedList = append(unmatchedList, filter)
+		// Try to find the value in the result map
+		if value := findNestedValue(result, strings.Split(filter, "/")); value != nil {
+			filteredOutput[filter] = value // Store using full path
+		} else if value, exists := result[filter]; exists {
+			// Allow direct key match (for non-nested filters)
+			filteredOutput[filter] = value
+		} else {
+			unmatchedFilters = append(unmatchedFilters, filter) // Collect unmatched filters
+		}
 	}
 
-	return filteredOutput, unmatchedList
+	return filteredOutput, unmatchedFilters, validFilters
+}
+
+// handles the nested Policy Filters available when multiple rego files are included.
+func findNestedValue(opaSdkResult map[string]interface{}, keys []string) interface{} {
+	if len(keys) == 0 {
+		return nil
+	}
+	currentMap := opaSdkResult
+
+	for _, key := range keys {
+		value, exists := currentMap[key]
+		if !exists {
+			return nil // Key doesn't exist
+		}
+
+		// If it's a nested map, continue traversal
+		if nextNestedMap, ok := value.(map[string]interface{}); ok {
+			currentMap = nextNestedMap
+		} else {
+			return value // Return final value (non-map)
+		}
+	}
+	return currentMap
+}
+
+// returns the valid Policy Filters available
+func getValidPolicyFilters(opaSdkResult map[string]interface{}) []string {
+	keys := make([]string, 0)
+
+	for k, v := range opaSdkResult {
+		keys = append(keys, k)
+		if nestedMap, ok := v.(map[string]interface{}); ok {
+			for nestedKey := range nestedMap {
+				keys = append(keys, k+"/"+nestedKey)
+			}
+		}
+	}
+	sort.Strings(keys)
+	return keys
 }
