@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eee031cf_8ff8dcbd",
+        "filename": "pkg/data/data-handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-18T14:22:16Z",
+      "side": 1,
+      "message": "Pls add more comments on what below lines are doing",
+      "range": {
+        "startLine": 151,
+        "startChar": 14,
+        "endLine": 151,
+        "endChar": 18
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3fc2e7f_35599ae3",
+        "filename": "pkg/data/data-handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-18T14:22:16Z",
+      "side": 1,
+      "message": "remove all occurences to Println",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 48
+      },
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed94f99a_574d6836",
+        "filename": "pkg/data/data-handler.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-18T14:22:16Z",
+      "side": 1,
+      "message": "pls check for other data types also",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c14d3337_3f54c631",
+        "filename": "pkg/kafkacomm/handler/pdp_update_deploy_policy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-18T14:22:16Z",
+      "side": 1,
+      "message": "can we a const defined including /node ?",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0411c551_4674bed0",
+        "filename": "pkg/kafkacomm/handler/pdp_update_deploy_policy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-18T14:22:16Z",
+      "side": 1,
+      "message": "same comment as above",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2606520_88a36825",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-18T14:22:16Z",
+      "side": 1,
+      "message": "remove additional spaces here",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f034d11_04b8e25c",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-18T14:22:16Z",
+      "side": 1,
+      "message": "can we add some examples and explain",
+      "revId": "80fde64529433bb41c530802dfd7d9b00143a939",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
