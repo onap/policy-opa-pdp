@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8feae89c_84508184",
+        "filename": "cmd/opa-pdp/opa-pdp.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-19T07:20:59Z",
+      "side": 1,
+      "message": "can we remove the underscores and keep it consistent with naming used",
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d8d4655_83537ac5",
+        "filename": "cmd/opa-pdp/opa-pdp.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-03-19T07:20:59Z",
+      "side": 1,
+      "message": "same comment as above",
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
