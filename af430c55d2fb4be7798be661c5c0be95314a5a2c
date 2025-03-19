@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a7e1a86_186be9b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-19T08:58:38Z",
+      "side": 1,
+      "message": "needs a rebase as well.",
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8feae89c_84508184",
@@ -31,6 +48,75 @@
       "writtenOn": "2025-03-19T07:20:59Z",
       "side": 1,
       "message": "same comment as above",
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c22ba38e_d7f36def",
+        "filename": "cmd/opa-pdp/opa-pdp_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-19T08:58:38Z",
+      "side": 1,
+      "message": "this case seems to be doing nothing, as the code inside each condition is commented",
+      "range": {
+        "startLine": 251,
+        "startChar": 3,
+        "endLine": 257,
+        "endChar": 2
+      },
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "470db605_4b4c339e",
+        "filename": "cmd/opa-pdp/opa-pdp_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-19T08:58:38Z",
+      "side": 1,
+      "message": "this case seems to be doing nothing, as the code inside each condition is commented",
+      "range": {
+        "startLine": 283,
+        "startChar": 1,
+        "endLine": 289,
+        "endChar": 2
+      },
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a2e1242_6b017a1a",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-19T08:58:38Z",
+      "side": 1,
+      "message": "if assert is not valid anymore, remove it or change to a valid one.",
+      "range": {
+        "startLine": 972,
+        "startChar": 6,
+        "endLine": 972,
+        "endChar": 13
+      },
       "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
