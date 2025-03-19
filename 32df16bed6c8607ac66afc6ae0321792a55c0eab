@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc47ffa9_4646a87e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-03-19T09:35:52Z",
+      "side": 1,
+      "message": "Still the coverage is showing as 0%. https://sonarcloud.io/code?id\u003dpolicy-opa-pdp\n\nJust FYI : When we put this property \nsonar.go.coverage.reportPaths\u003dcoverage.out\nin sonar-project.properties, it was showing the coverage. It needs coverage.out to be present\n\nYou can verify here : https://sonarcloud.io/code?id\u003dsri-yan_policy-opa-pdp",
+      "revId": "32df16bed6c8607ac66afc6ae0321792a55c0eab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
