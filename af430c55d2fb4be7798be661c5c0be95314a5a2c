@@ -35,6 +35,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41f03b3c_8f77b3bb",
+        "filename": "cmd/opa-pdp/opa-pdp.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-03-19T10:00:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8feae89c_84508184",
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d8d4655_83537ac5",
@@ -52,6 +70,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a824323_c35f28d8",
+        "filename": "cmd/opa-pdp/opa-pdp.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-03-19T10:00:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d8d4655_83537ac5",
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c22ba38e_d7f36def",
@@ -65,6 +101,30 @@
       "writtenOn": "2025-03-19T08:58:38Z",
       "side": 1,
       "message": "this case seems to be doing nothing, as the code inside each condition is commented",
+      "range": {
+        "startLine": 251,
+        "startChar": 3,
+        "endLine": 257,
+        "endChar": 2
+      },
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0ca925f_42e47ad9",
+        "filename": "cmd/opa-pdp/opa-pdp_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-03-19T10:00:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c22ba38e_d7f36def",
       "range": {
         "startLine": 251,
         "startChar": 3,
@@ -98,6 +158,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88264e50_cd9df748",
+        "filename": "cmd/opa-pdp/opa-pdp_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-03-19T10:00:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "470db605_4b4c339e",
+      "range": {
+        "startLine": 283,
+        "startChar": 1,
+        "endLine": 289,
+        "endChar": 2
+      },
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a2e1242_6b017a1a",
@@ -111,6 +195,30 @@
       "writtenOn": "2025-03-19T08:58:38Z",
       "side": 1,
       "message": "if assert is not valid anymore, remove it or change to a valid one.",
+      "range": {
+        "startLine": 972,
+        "startChar": 6,
+        "endLine": 972,
+        "endChar": 13
+      },
+      "revId": "af430c55d2fb4be7798be661c5c0be95314a5a2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0844dff_a59c75a0",
+        "filename": "pkg/decision/decision-provider_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2025-03-19T10:00:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a2e1242_6b017a1a",
       "range": {
         "startLine": 972,
         "startChar": 6,
