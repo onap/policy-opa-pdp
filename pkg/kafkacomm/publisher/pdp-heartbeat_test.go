@@ -108,17 +108,17 @@ Input: Valid pdpStatus object
 Expected Output: Heartbeat message is sent successfully, and a debug log "Message sent successfully" is generated.
 */
 func TestSendPDPHeartBeat_SuccessSomeDeployedPolicies(t *testing.T) {
-         // Setup mock Policymap
-        mockPolicymap := new(MockPolicymap)
+	// Setup mock Policymap
+	mockPolicymap := new(MockPolicymap)
 
-        mockSender := new(mocks.PdpStatusSender)
-        mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender := new(mocks.PdpStatusSender)
+	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 
-        policymap.LastDeployedPolicies = "some-policies"
-        // Set mock behavior for policymap
-        mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
-        err := sendPDPHeartBeat(mockSender)
-        assert.NoError(t, err)
+	policymap.LastDeployedPolicies = "some-policies"
+	// Set mock behavior for policymap
+	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
+	err := sendPDPHeartBeat(mockSender)
+	assert.NoError(t, err)
 }
 
 /*
@@ -128,17 +128,17 @@ Input: Valid pdpStatus object
 Expected Output: Heartbeat message is sent successfully, and a debug log "Message sent successfully" is generated.
 */
 func TestSendPDPHeartBeat_SuccessNoDeployedPolicies(t *testing.T) {
-         // Setup mock Policymap
-        mockPolicymap := new(MockPolicymap)
+	// Setup mock Policymap
+	mockPolicymap := new(MockPolicymap)
 
-        mockSender := new(mocks.PdpStatusSender)
-        mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender := new(mocks.PdpStatusSender)
+	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 
-        policymap.LastDeployedPolicies = ""
-        // Set mock behavior for policymap
-        mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
-        err := sendPDPHeartBeat(mockSender)
-        assert.NoError(t, err)
+	policymap.LastDeployedPolicies = ""
+	// Set mock behavior for policymap
+	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
+	err := sendPDPHeartBeat(mockSender)
+	assert.NoError(t, err)
 }
 
 /*

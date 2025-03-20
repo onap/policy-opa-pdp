@@ -21,7 +21,7 @@ package kafkacomm
 
 import (
 	"errors"
-        "fmt"
+	"fmt"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -133,18 +133,18 @@ func TestKafkaConsumer_Close(t *testing.T) {
 }
 
 func TestKafkaConsumerClose_Error(t *testing.T) {
-        mockConsumer := new(mocks.KafkaConsumerInterface)
+	mockConsumer := new(mocks.KafkaConsumerInterface)
 
-        kc := &KafkaConsumer{Consumer: mockConsumer}
+	kc := &KafkaConsumer{Consumer: mockConsumer}
 
-        // Set up the mock for Close
-        mockConsumer.On("Close").Return(errors.New("close error"))
+	// Set up the mock for Close
+	mockConsumer.On("Close").Return(errors.New("close error"))
 
-        // Test Close method
-        kc.Close()
+	// Test Close method
+	kc.Close()
 
-        // Verify that Close was called
-        mockConsumer.AssertExpectations(t)
+	// Verify that Close was called
+	mockConsumer.AssertExpectations(t)
 }
 
 func TestKafkaConsumer_Unsubscribe(t *testing.T) {

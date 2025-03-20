@@ -44,16 +44,16 @@ import (
 
 // Define the structs
 var (
-	opaInstance *sdk.OPA  //A singleton instance of the OPA object
-	once        sync.Once //A sync.Once variable used to ensure that the OPA instance is initialized only once,
-	memStore    storage.Store
+	opaInstance     *sdk.OPA  //A singleton instance of the OPA object
+	once            sync.Once //A sync.Once variable used to ensure that the OPA instance is initialized only once,
+	memStore        storage.Store
 	UpsertPolicyVar UpsertPolicyFunc = UpsertPolicy
-        WriteDataVar    WriteDataFunc    = WriteData
+	WriteDataVar    WriteDataFunc    = WriteData
 )
 
 type (
-        UpsertPolicyFunc func(ctx context.Context, policyID string, policyContent []byte) error
-        WriteDataFunc    func(ctx context.Context, dataPath string, data interface{}) error
+	UpsertPolicyFunc func(ctx context.Context, policyID string, policyContent []byte) error
+	WriteDataFunc    func(ctx context.Context, dataPath string, data interface{}) error
 )
 
 type PatchImpl struct {
@@ -81,6 +81,7 @@ func getJSONReader(filePath string, openFunc func(string) (*os.File, error),
 }
 
 type NewSDKFunc func(ctx context.Context, options sdk.Options) (*sdk.OPA, error)
+
 var NewSDK NewSDKFunc = sdk.New
 
 // Returns a singleton instance of the OPA object. The initialization of the instance is
@@ -88,9 +89,9 @@ var NewSDK NewSDKFunc = sdk.New
 func GetOPASingletonInstance() (*sdk.OPA, error) {
 	var err error
 	once.Do(func() {
-	        var opaErr error
+		var opaErr error
 		memStore = inmem.New()
-	        opaInstance, opaErr = NewSDK(context.Background(), sdk.Options{
+		opaInstance, opaErr = NewSDK(context.Background(), sdk.Options{
 			// Configure your OPA instance here
 			V1Compatible: true,
 			Store:        memStore,
@@ -113,7 +114,7 @@ func GetOPASingletonInstance() (*sdk.OPA, error) {
 				Config: jsonReader,
 			})
 			if err != nil {
-			    log.Warnf("Failed to configure OPA: %v", err)
+				log.Warnf("Failed to configure OPA: %v", err)
 			}
 		}
 	})

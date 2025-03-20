@@ -346,9 +346,17 @@ func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) (string, error) {
 func ValidateOPADataRequest(request interface{}) []string {
 	var validationErrors []string
 	if updateRequest, ok := request.(*oapicodegen.OPADataUpdateRequest); ok {
+		if updateRequest == nil { // Check if updateRequest is nil
+			validationErrors = append(validationErrors, "OPADataUpdateRequest is nil")
+			return validationErrors // Return if the request is nil
+		}
 		// Check if required fields are populated
-		dateString := (updateRequest.CurrentDate).String()
-		if !(IsValidCurrentDate(&dateString)) {
+		if updateRequest.CurrentDate != nil {
+			dateString := updateRequest.CurrentDate.String()
+			if !IsValidCurrentDate(&dateString) {
+				validationErrors = append(validationErrors, "CurrentDate is invalid")
+			}
+		} else {
 			validationErrors = append(validationErrors, "CurrentDate is required")
 		}
 
@@ -391,42 +399,49 @@ func ValidateOPADataRequest(request interface{}) []string {
 	}
 
 	if decisionRequest, ok := request.(*oapicodegen.OPADecisionRequest); ok {
+
+		if decisionRequest == nil { // Check if decisionRequest is nil
+			validationErrors = append(validationErrors, "OPADecisionRequest is nil")
+			return validationErrors // Return if the request is nil
+		}
 		// Check if required fields are populated
-		dateString := (decisionRequest.CurrentDate).String()
-		if !(IsValidCurrentDate(&dateString)) {
-			validationErrors = append(validationErrors, "CurrentDate is required")
+		if decisionRequest.CurrentDate != nil {
+			dateString := decisionRequest.CurrentDate.String()
+			if !IsValidCurrentDate(&dateString) {
+				validationErrors = append(validationErrors, "CurrentDate is invalid")
+			}
 		}
 
 		// Validate CurrentDateTime format
-		if !(IsValidTime(decisionRequest.CurrentDateTime)) {
+		if (decisionRequest.CurrentDateTime != nil) && !(IsValidTime(decisionRequest.CurrentDateTime)) {
 			validationErrors = append(validationErrors, "CurrentDateTime is invalid or missing")
 		}
 
 		// Validate CurrentTime format
-		if !(IsValidCurrentTime(decisionRequest.CurrentTime)) {
+		if (decisionRequest.CurrentTime != nil) && !(IsValidCurrentTime(decisionRequest.CurrentTime)) {
 			validationErrors = append(validationErrors, "CurrentTime is invalid or missing")
 		}
 
 		// Validate TimeOffset format (e.g., +02:00 or -05:00)
-		if !(IsValidTimeOffset(decisionRequest.TimeOffset)) {
+		if (decisionRequest.TimeOffset != nil) && !(IsValidTimeOffset(decisionRequest.TimeOffset)) {
 			validationErrors = append(validationErrors, "TimeOffset is invalid or missing")
 		}
 
 		// Validate TimeZone format (e.g., 'America/New_York')
-		if !(IsValidTimeZone(decisionRequest.TimeZone)) {
+		if (decisionRequest.TimeZone != nil) && !(IsValidTimeZone(decisionRequest.TimeZone)) {
 			validationErrors = append(validationErrors, "TimeZone is invalid or missing")
 		}
 
 		// Optionally, check if 'OnapComponent', 'OnapInstance', 'OnapName', and 'PolicyName' are provided
-		if !(IsValidString(decisionRequest.OnapComponent)) {
+		if (decisionRequest.OnapComponent != nil) && !(IsValidString(decisionRequest.OnapComponent)) {
 			validationErrors = append(validationErrors, "OnapComponent is required")
 		}
 
-		if !(IsValidString(decisionRequest.OnapInstance)) {
+		if (decisionRequest.OnapInstance != nil) && !(IsValidString(decisionRequest.OnapInstance)) {
 			validationErrors = append(validationErrors, "OnapInstance is required")
 		}
 
-		if !(IsValidString(decisionRequest.OnapName)) {
+		if (decisionRequest.OnapName != nil) && !(IsValidString(decisionRequest.OnapName)) {
 			validationErrors = append(validationErrors, "OnapName is required")
 		}
 
