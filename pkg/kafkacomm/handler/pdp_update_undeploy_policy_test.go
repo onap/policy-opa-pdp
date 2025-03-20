@@ -20,8 +20,8 @@
 package handler
 
 import (
-	"encoding/json"
 	"context"
+	"encoding/json"
 	"errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -347,18 +347,18 @@ func TestRemoveDataFromSdkandDir(t *testing.T) {
 	}()
 
 	// Mock removeDataDirectoryFunc and deleteDataFunc to return errors for testing
-	opasdkGetData =func (ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error){
+	opasdkGetData = func(ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error) {
 		// Mock JSON data
-	mockedData := `{"mocked": {"success": "value", "error": "value"}}`
-	// Create an instance of OPADataResponse_Data
-	var response oapicodegen.OPADataResponse_Data
-	// Unmarshal into the OPADataResponse_Data struct
-	err = json.Unmarshal([]byte(mockedData), &response)
-	if err != nil {
-		return nil,errors.New("Error unmarshalling")
+		mockedData := `{"mocked": {"success": "value", "error": "value"}}`
+		// Create an instance of OPADataResponse_Data
+		var response oapicodegen.OPADataResponse_Data
+		// Unmarshal into the OPADataResponse_Data struct
+		err = json.Unmarshal([]byte(mockedData), &response)
+		if err != nil {
+			return nil, errors.New("Error unmarshalling")
+		}
+		return &response, nil //
 	}
-	return &response, nil //
-}
 	removeDataDirectoryFunc = func(dataKey string) error {
 		if dataKey == "/mocked/error" {
 			return errors.New("mocked remove data directory error")

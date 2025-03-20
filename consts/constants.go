@@ -64,17 +64,17 @@ var (
 	BundleTarGzFile  = "/app/bundles/bundle.tar.gz"
 	PdpGroup         = "opaGroup"
 	//This is a workaround as currently opa-pdp is not defined in the PapDB  defaultGroup configuration  and creating it manually overrides the existing configuration, so currently PdpGroup is opaGroup and it will be changed to defaultGroup once added in the configuration.
-	PdpType             = "opa"
-	ServerPort          = ":8282"
-	ServerWaitUpTime = 5
-	ShutdownWaitTime  = 5
+	PdpType            = "opa"
+	ServerPort         = ":8282"
+	ServerWaitUpTime   = 5
+	ShutdownWaitTime   = 5
 	V1Compatible       = "--v1-compatible"
-	LatestVersion       = "1.0.0"
-	MinorVersion        = "0"
-	PatchVersion        = "0"
-	OpaPdpUrl           = "self"
-	HealtCheckStatus    = true
-	OkCode              = int32(200)
-	HealthCheckMessage  = "alive"
-	SingleHierarchy     = 4
+	LatestVersion      = "1.0.0"
+	MinorVersion       = "0"
+	PatchVersion       = "0"
+	OpaPdpUrl          = "self"
+	HealtCheckStatus   = true
+	OkCode             = int32(200)
+	HealthCheckMessage = "alive"
+	SingleHierarchy    = 4
 )

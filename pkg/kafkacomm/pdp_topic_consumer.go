@@ -48,9 +48,9 @@ type KafkaConsumer struct {
 }
 
 // Close closes the KafkaConsumer
-func (kc *KafkaConsumer) Close() error{
+func (kc *KafkaConsumer) Close() error {
 	if kc.Consumer != nil {
-		if err := kc.Consumer.Close(); err != nil{
+		if err := kc.Consumer.Close(); err != nil {
 			return fmt.Errorf("failed to close consumer: %v", err)
 		}
 	}
@@ -72,9 +72,10 @@ func (kc *KafkaConsumer) Unsubscribe() error {
 }
 
 type KafkaNewConsumerFunc func(*kafka.ConfigMap) (*kafka.Consumer, error)
+
 var KafkaNewConsumer KafkaNewConsumerFunc = kafka.NewConsumer
 
-// NewKafkaConsumer creates a new Kafka consumer and returns 
+// NewKafkaConsumer creates a new Kafka consumer and returns
 func NewKafkaConsumer() (*KafkaConsumer, error) {
 	// Initialize the consumer instance only once
 	consumerOnce.Do(func() {
@@ -95,17 +96,17 @@ func NewKafkaConsumer() (*KafkaConsumer, error) {
 		fmt.Print(configMap)
 		// If SASL is enabled, add SASL properties
 		if useSASL == "true" {
-			configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512") // #nosec G104
-			configMap.SetKey("sasl.username", username) // #nosec G104
-			configMap.SetKey("sasl.password", password) // #nosec G104
-			configMap.SetKey("security.protocol", "SASL_PLAINTEXT") // #nosec G104
-			configMap.SetKey("fetch.max.bytes", 50*1024*1024) // #nosec G104
-			configMap.SetKey("max.partition.fetch.bytes",50*1024*1024) // #nosec G104
-                        configMap.SetKey("socket.receive.buffer.bytes", 50*1024*1024) // #nosec G104
-			configMap.SetKey("session.timeout.ms", "30000") // #nosec G104
-			configMap.SetKey("max.poll.interval.ms", "300000") // #nosec G104
-			configMap.SetKey("enable.partition.eof", true) // #nosec G104
-			configMap.SetKey("enable.auto.commit", true) // #nosec G104
+			configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512")           // #nosec G104
+			configMap.SetKey("sasl.username", username)                   // #nosec G104
+			configMap.SetKey("sasl.password", password)                   // #nosec G104
+			configMap.SetKey("security.protocol", "SASL_PLAINTEXT")       // #nosec G104
+			configMap.SetKey("fetch.max.bytes", 50*1024*1024)             // #nosec G104
+			configMap.SetKey("max.partition.fetch.bytes", 50*1024*1024)   // #nosec G104
+			configMap.SetKey("socket.receive.buffer.bytes", 50*1024*1024) // #nosec G104
+			configMap.SetKey("session.timeout.ms", "30000")               // #nosec G104
+			configMap.SetKey("max.poll.interval.ms", "300000")            // #nosec G104
+			configMap.SetKey("enable.partition.eof", true)                // #nosec G104
+			configMap.SetKey("enable.auto.commit", true)                  // #nosec G104
 			// configMap.SetKey("debug", "all") // Uncomment for debug
 		}
 

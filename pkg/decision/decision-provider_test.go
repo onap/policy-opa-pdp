@@ -159,7 +159,7 @@ func TestOpaDecision_MissingPolicyFilter(t *testing.T) {
 	OpaDecision(rec, req)
 
 	assert.Equal(t, http.StatusBadRequest, rec.Code)
-	assert.Contains(t, rec.Body.String(), "PolicyFilter is required and cannot be empty")
+	assert.Contains(t, rec.Body.String(), "PolicyFilter is required")
 }
 
 // Test for OPA Instance Error

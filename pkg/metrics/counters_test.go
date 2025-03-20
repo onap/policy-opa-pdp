@@ -85,8 +85,7 @@ func TestCounters(t *testing.T) {
 
 	assert.Equal(t, int64(3), *TotalDecisionFailureCountRef())
 
-
-// Test IncrementDeploySuccessCount and totalDeploySuccessCountRef
+	// Test IncrementDeploySuccessCount and totalDeploySuccessCountRef
 	DeploySuccessCount = 0
 	wg.Add(4)
 	for i := 0; i < 4; i++ {
@@ -98,7 +97,7 @@ func TestCounters(t *testing.T) {
 	wg.Wait()
 	assert.Equal(t, int64(4), *totalDeploySuccessCountRef())
 
-// Test IncrementDeployFailureCount and totalDeployFailureCountRef
+	// Test IncrementDeployFailureCount and totalDeployFailureCountRef
 	DeployFailureCount = 0
 	wg.Add(2)
 	for i := 0; i < 2; i++ {
@@ -110,7 +109,7 @@ func TestCounters(t *testing.T) {
 	wg.Wait()
 	assert.Equal(t, int64(2), *totalDeployFailureCountRef())
 
-// Test IncrementUndeploySuccessCount and totalUndeploySuccessCountRef
+	// Test IncrementUndeploySuccessCount and totalUndeploySuccessCountRef
 	UndeploySuccessCount = 0
 	wg.Add(6)
 	for i := 0; i < 6; i++ {
@@ -122,7 +121,7 @@ func TestCounters(t *testing.T) {
 	wg.Wait()
 	assert.Equal(t, int64(6), *totalUndeploySuccessCountRef())
 
-// Test IncrementUndeployFailureCount and totalUndeployFailureCountRef
+	// Test IncrementUndeployFailureCount and totalUndeployFailureCountRef
 	UndeployFailureCount = 0
 	wg.Add(1)
 	for i := 0; i < 1; i++ {
@@ -134,9 +133,8 @@ func TestCounters(t *testing.T) {
 	wg.Wait()
 	assert.Equal(t, int64(1), *totalUndeployFailureCountRef())
 
-// Test SetTotalPoliciesCount and totalPoliciesCountRef
+	// Test SetTotalPoliciesCount and totalPoliciesCountRef
 	SetTotalPoliciesCount(15)
 	assert.Equal(t, int64(15), *totalPoliciesCountRef())
-
 
 }

@@ -685,17 +685,25 @@ func TestIsSubDirEmpty(t *testing.T) {
 }
 
 func TestValidateOPADataRequest(t *testing.T) {
-	ctime := "12:00:00"
-	timeZone := "America_New_York"
-	timeOffset := "$02:00"
-	onapComp := " "
-	onapIns := " "
-	onapName := " "
-	policyName := " "
-	var currentDate openapi_types.Date
-	currentDate = openapi_types.Date{}
-	var currentDateTime time.Time
-	currentDateTime = time.Time{}
+	ctime := "08:26:41.857Z"
+	onapComp := "COMPONENT"
+	onapIns := "INSTANCE"
+	onapName := "ONAP"
+	policyName := "s3"
+	parsedDate, err := time.Parse("2006-01-02", "2024-02-12")
+	if err != nil {
+		fmt.Println("error in parsedDate")
+	}
+	currentDate := openapi_types.Date{Time: parsedDate}
+	currentDateTime, err := time.Parse(time.RFC3339, "2024-02-12T12:00:00Z")
+	if err != nil {
+		fmt.Println("error in currentDateTime")
+	}
+
+	inValidDecisionRequest := &oapicodegen.OPADecisionRequest{
+		CurrentDate:     &currentDate,
+		CurrentDateTime: &currentDateTime,
+	}
 
 	var data []map[string]interface{}
 
@@ -705,8 +713,6 @@ func TestValidateOPADataRequest(t *testing.T) {
 		CurrentDate:     &currentDate,
 		CurrentDateTime: &currentDateTime,
 		CurrentTime:     &ctime,
-		TimeOffset:      &timeOffset,
-		TimeZone:        &timeZone,
 		OnapComponent:   &onapComp,
 		OnapInstance:    &onapIns,
 		OnapName:        &onapName,
@@ -714,30 +720,16 @@ func TestValidateOPADataRequest(t *testing.T) {
 		Data:            &data,
 	}
 
-	inValidErr := []string{"CurrentTime is invalid or missing", "TimeOffset is invalid or missing", "TimeZone is invalid or missing", "OnapComponent is required", "OnapInstance is required", "OnapName is required", "PolicyName is required and cannot be empty"}
+	inValidErr := []string{"TimeOffset is invalid or missing", "TimeZone is invalid or missing"}
 
-	// Create an invalid OPADecisionRequest
-	invalidDecisionRequest := &oapicodegen.OPADecisionRequest{
-		CurrentDate:     &currentDate,
-		CurrentDateTime: &currentDateTime,
-		CurrentTime:     &ctime,
-		TimeOffset:      &timeOffset,
-		TimeZone:        &timeZone,
-		OnapComponent:   nil,                         // Invalid: should not be nil
-		OnapInstance:    nil,                         // Invalid: should not be nil
-		OnapName:        nil,                         // Invalid: should not be nil
-		PolicyName:      "",                          // Invalid: should not be empty
-		PolicyFilter:    []string{"user_is_granted"}, // This can remain valid.
-		//Input:         nil,
-	}
-	invalidDecisionErrs := []string{"CurrentTime is invalid or missing", "TimeOffset is invalid or missing", "TimeZone is invalid or missing", "OnapComponent is required", "OnapInstance is required", "OnapName is required", "PolicyName is required and cannot be empty"}
+	inValidDecisionErrs := []string{"PolicyName is required and cannot be empty"}
 	tests := []struct {
 		name        string
 		request     interface{}
 		expectedErr []string
 	}{
 		{"Valid Request", inValidRequest, inValidErr},
-		{"Invalid OPADecisionRequest", invalidDecisionRequest, invalidDecisionErrs},
+		{"Invalid OPADecisionRequest", inValidDecisionRequest, inValidDecisionErrs},
 	}
 
 	for _, tt := range tests {

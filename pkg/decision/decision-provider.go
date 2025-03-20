@@ -140,7 +140,7 @@ func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls
 	validationErrors := utils.ValidateOPADataRequest(decisionReq)
 
 	if decisionReq.PolicyFilter == nil || len(decisionReq.PolicyFilter) == 0 {
-		validationErrors = append(validationErrors, "PolicyFilter is required and cannot be empty")
+		validationErrors = append(validationErrors, "PolicyFilter is required")
 	}
 	if len(validationErrors) > 0 {
 		*errorDtls = strings.Join(validationErrors, ", ")
@@ -332,6 +332,9 @@ func applyPolicyFilter(result map[string]interface{}, filters []string) (map[str
 
 	validFilters := getValidPolicyFilters(result)
 	for _, filter := range filters {
+		if filter == "" {
+			return result, nil, validFilters
+		}
 		// Try to find the value in the result map
 		if value := findNestedValue(result, strings.Split(filter, "/")); value != nil {
 			filteredOutput[filter] = value // Store using full path
