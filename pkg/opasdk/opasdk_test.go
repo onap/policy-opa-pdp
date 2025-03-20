@@ -29,12 +29,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"io"
+	"net/http"
 	"net/http/httptest"
 	"os"
 	"policy-opa-pdp/consts"
 	"sync"
 	"testing"
-	"net/http"
 )
 
 // Mock for os.Open
@@ -560,8 +560,8 @@ func TestListPolicies_GetPolicySuccess(t *testing.T) {
 	res := httptest.NewRecorder()
 	ListPolicies(res, req)
 
-//	assert.Nil(t, err)
-//	assert.NoError(t, err)
+	//	assert.Nil(t, err)
+	//	assert.NoError(t, err)
 	mockMemStore.AssertExpectations(t)
 }
 
@@ -579,7 +579,7 @@ func TestListPolicies_Success(t *testing.T) {
 	res := httptest.NewRecorder()
 	ListPolicies(res, req)
 
-//	assert.NoError(t, err)
+	//	assert.NoError(t, err)
 	mockMemStore.AssertExpectations(t)
 }
 

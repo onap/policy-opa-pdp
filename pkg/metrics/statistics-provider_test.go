@@ -30,7 +30,7 @@ import (
 )
 
 func TestFetchCurrentStatistics(t *testing.T) {
-         TotalErrorCount = 0
+	TotalErrorCount = 0
 	DecisionSuccessCount = 0
 	DecisionFailureCount = 0
 	DeployFailureCount = 0
@@ -72,7 +72,7 @@ func TestFetchCurrentStatistics(t *testing.T) {
 }
 
 func TestFetchCurrentStatistics_ValidRequestID(t *testing.T) {
-        TotalErrorCount = 0
+	TotalErrorCount = 0
 	DecisionSuccessCount = 0
 	DecisionFailureCount = 0
 	DeployFailureCount = 0

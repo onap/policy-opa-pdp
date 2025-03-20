@@ -31,16 +31,16 @@ import (
 
 // Mock Policymap
 type MockPolicymap struct {
-    mock.Mock
+	mock.Mock
 }
 
 func (m *MockPolicymap) ExtractDeployedPolicies(policiesMap string) []model.ToscaConceptIdentifier {
-    args := m.Called(policiesMap)
-    return args.Get(0).([]model.ToscaConceptIdentifier)
+	args := m.Called(policiesMap)
+	return args.Get(0).([]model.ToscaConceptIdentifier)
 }
 
 func (m *MockPolicymap) SetLastDeployedPolicies(policiesMap string) {
-    m.Called(policiesMap)
+	m.Called(policiesMap)
 }
 
 // TestSendPdpUpdateResponse_Success tests SendPdpUpdateResponse for a successful response
@@ -74,88 +74,88 @@ func TestSendPdpUpdateResponse_Failure(t *testing.T) {
 func TestSendPdpUpdateResponse_Success_NoPolicies(t *testing.T) {
 	mockPolicymap := new(MockPolicymap)
 
-
-        mockSender := new(mocks.PdpStatusSender)
-        mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-        pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
+	mockSender := new(mocks.PdpStatusSender)
+	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
 	policymap.LastDeployedPolicies = ""
-        mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
+	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
 
-        err := SendPdpUpdateResponse(mockSender, pdpUpdate, "PDPUpdate Successful")
-        assert.NoError(t, err)
-        mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
+	err := SendPdpUpdateResponse(mockSender, pdpUpdate, "PDPUpdate Successful")
+	assert.NoError(t, err)
+	mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
 }
 
 // TestSendPdpUpdateResponse_Success tests SendPdpUpdateResponse for a successful response with some policies
 func TestSendPdpUpdateResponse_Success_SomeDeployedPolicies(t *testing.T) {
 	mockPolicymap := new(MockPolicymap)
-        mockSender := new(mocks.PdpStatusSender)
-        mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-        pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
-        policymap.LastDeployedPolicies = "some-policies"
-        mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
-        err := SendPdpUpdateResponse(mockSender, pdpUpdate, "PDPUpdate Successful")
-        assert.NoError(t, err)
-        mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
+	mockSender := new(mocks.PdpStatusSender)
+	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
+	policymap.LastDeployedPolicies = "some-policies"
+	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
+	err := SendPdpUpdateResponse(mockSender, pdpUpdate, "PDPUpdate Successful")
+	assert.NoError(t, err)
+	mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
 }
 
 // TestSendPdpUpdateErrorResponse_Success tests SendPdpUpdateResponse
 func TestSendPdpUpdateErrorResponse(t *testing.T) {
 
-        mockSender := new(mocks.PdpStatusSender)
-        mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Sending error response"))
+	mockSender := new(mocks.PdpStatusSender)
+	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Sending error response"))
 
-        pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
+	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
 
-        mockerr := errors.New("Sending Error response")
-        err := SendPdpUpdateErrorResponse(mockSender, pdpUpdate, mockerr)
+	mockerr := errors.New("Sending Error response")
+	err := SendPdpUpdateErrorResponse(mockSender, pdpUpdate, mockerr)
 
-        assert.Error(t, err)
+	assert.Error(t, err)
 
-        mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
+	mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
 }
 
 // TestSendPdpUpdateErrorResponse_Success tests SendPdpUpdateResponse for some policies
 func TestSendPdpUpdateErrorResponse_SomeDeployedPolicies(t *testing.T) {
-         // Setup mock Policymap
-        mockPolicymap := new(MockPolicymap)
+	// Setup mock Policymap
+	mockPolicymap := new(MockPolicymap)
 
-        mockSender := new(mocks.PdpStatusSender)
-        mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Sending error response"))
-        pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
+	mockSender := new(mocks.PdpStatusSender)
+	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Sending error response"))
+	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
 
-        policymap.LastDeployedPolicies = "some-policies"
-        // Set mock behavior for policymap
-        mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
-        mockerr := errors.New("Sending Error response")
-        err := SendPdpUpdateErrorResponse(mockSender, pdpUpdate, mockerr)
-        assert.Error(t, err)
-        //mockPolicymap.AssertExpectations(t)
-        mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
+	policymap.LastDeployedPolicies = "some-policies"
+	// Set mock behavior for policymap
+	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
+	mockerr := errors.New("Sending Error response")
+	err := SendPdpUpdateErrorResponse(mockSender, pdpUpdate, mockerr)
+	assert.Error(t, err)
+	//mockPolicymap.AssertExpectations(t)
+	mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
 }
 
 // TestSendPdpUpdateErrorResponse_Success tests SendPdpUpdateResponse for no policies
 func TestSendPdpUpdateErrorResponse_NoPolicies(t *testing.T) {
-         // Setup mock Policymap
-        mockPolicymap := new(MockPolicymap)
+	// Setup mock Policymap
+	mockPolicymap := new(MockPolicymap)
 
-        mockSender := new(mocks.PdpStatusSender)
-        mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Sending error response"))
-        pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
+	mockSender := new(mocks.PdpStatusSender)
+	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Sending error response"))
+	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
 
-        policymap.LastDeployedPolicies = ""
-        // Set mock behavior for policymap
-        mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
-        mockerr := errors.New("Sending Error response")
-        err := SendPdpUpdateErrorResponse(mockSender, pdpUpdate, mockerr)
-        assert.Error(t, err)
-        //mockPolicymap.AssertExpectations(t)
-        mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
+	policymap.LastDeployedPolicies = ""
+	// Set mock behavior for policymap
+	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
+	mockerr := errors.New("Sending Error response")
+	err := SendPdpUpdateErrorResponse(mockSender, pdpUpdate, mockerr)
+	assert.Error(t, err)
+	//mockPolicymap.AssertExpectations(t)
+	mockSender.AssertCalled(t, "SendPdpStatus", mock.Anything)
 }
+
 // TestSendStateChangeResponse_Success tests SendStateChangeResponse for a successful state change response
 func TestSendStateChangeResponse_Success(t *testing.T) {
 
-        mockSender := new(mocks.PdpStatusSender)
+	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 
 	pdpStateChange := &model.PdpStateChange{RequestId: "test-state-change-id"}
