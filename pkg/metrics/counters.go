@@ -78,40 +78,39 @@ func TotalDecisionFailureCountRef() *int64 {
 
 // Increment counter
 func IncrementDeploySuccessCount() {
-        mu.Lock()
-        DeploySuccessCount++
-        mu.Unlock()
+	mu.Lock()
+	DeploySuccessCount++
+	mu.Unlock()
 }
 
 // returns pointer to the counter
 
 func totalDeploySuccessCountRef() *int64 {
-        mu.Lock()
-        defer mu.Unlock()
-        return &DeploySuccessCount
+	mu.Lock()
+	defer mu.Unlock()
+	return &DeploySuccessCount
 
 }
 
 // Increment counter
 func IncrementDeployFailureCount() {
-        mu.Lock()
-        DeployFailureCount++
-        mu.Unlock()
+	mu.Lock()
+	DeployFailureCount++
+	mu.Unlock()
 }
 
 // returns pointer to the counter
 
 func totalDeployFailureCountRef() *int64 {
-        mu.Lock()
-        defer mu.Unlock()
-        return &DeployFailureCount
+	mu.Lock()
+	defer mu.Unlock()
+	return &DeployFailureCount
 
 }
 
-
 // Increment counter
 func IncrementUndeploySuccessCount() {
-        mu.Lock()
+	mu.Lock()
 	UndeploySuccessCount++
 	mu.Unlock()
 }
@@ -119,40 +118,39 @@ func IncrementUndeploySuccessCount() {
 // returns pointer to the counter
 
 func totalUndeploySuccessCountRef() *int64 {
-        mu.Lock()
-        defer mu.Unlock()
-        return &UndeploySuccessCount
+	mu.Lock()
+	defer mu.Unlock()
+	return &UndeploySuccessCount
 
 }
 
 // Increment counter
 func IncrementUndeployFailureCount() {
-        mu.Lock()
-        UndeployFailureCount++
-        mu.Unlock()
+	mu.Lock()
+	UndeployFailureCount++
+	mu.Unlock()
 }
 
 // returns pointer to the counter
 
 func totalUndeployFailureCountRef() *int64 {
-        mu.Lock()
-        defer mu.Unlock()
-        return &UndeployFailureCount
+	mu.Lock()
+	defer mu.Unlock()
+	return &UndeployFailureCount
 
 }
 
 // Increment counter
 func SetTotalPoliciesCount(newCount int64) {
-        mu.Lock()
-        TotalPoliciesCount = newCount
-        mu.Unlock()
+	mu.Lock()
+	TotalPoliciesCount = newCount
+	mu.Unlock()
 }
 
 // returns pointer to the counter
 
 func totalPoliciesCountRef() *int64 {
-        mu.Lock()
-        defer mu.Unlock()
-        return &TotalPoliciesCount
+	mu.Lock()
+	defer mu.Unlock()
+	return &TotalPoliciesCount
 }
-

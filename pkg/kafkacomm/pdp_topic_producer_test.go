@@ -113,7 +113,7 @@ func TestKafkaProducer_Close(t *testing.T) {
 		producer: mockProducer,
 	}
 
-        mockProducer.On("Flush", mock.AnythingOfType("int")).Return(0)
+	mockProducer.On("Flush", mock.AnythingOfType("int")).Return(0)
 
 	// Simulate successful close
 	mockProducer.On("Close").Return()
