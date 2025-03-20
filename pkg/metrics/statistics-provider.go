@@ -57,15 +57,14 @@ func FetchCurrentStatistics(res http.ResponseWriter, req *http.Request) {
 
 	var statReport oapicodegen.StatisticsReport
 
-
 	statReport.DecisionSuccessCount = totalDecisionSuccessCountRef()
 	statReport.DecisionFailureCount = TotalDecisionFailureCountRef()
-	statReport.TotalErrorCount      = totalErrorCountRef()
-	statReport.DeployFailureCount   = totalDeployFailureCountRef()
-        statReport.DeploySuccessCount   = totalDeploySuccessCountRef()
-        statReport.UndeployFailureCount = totalUndeployFailureCountRef() 
-        statReport.UndeploySuccessCount = totalUndeploySuccessCountRef()
-	statReport.TotalPoliciesCount   = totalPoliciesCountRef() 
+	statReport.TotalErrorCount = totalErrorCountRef()
+	statReport.DeployFailureCount = totalDeployFailureCountRef()
+	statReport.DeploySuccessCount = totalDeploySuccessCountRef()
+	statReport.UndeployFailureCount = totalUndeployFailureCountRef()
+	statReport.UndeploySuccessCount = totalUndeploySuccessCountRef()
+	statReport.TotalPoliciesCount = totalPoliciesCountRef()
 
 	// not implemented hardcoding the values to zero
 	// will be implemeneted in phase-2

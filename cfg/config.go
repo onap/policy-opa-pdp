@@ -24,11 +24,11 @@ package cfg
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"regexp"
 	"strconv"
-	"github.com/google/uuid"
 )
 
 // LogLevel        - The log level for the application.
@@ -66,7 +66,7 @@ func init() {
 	LogLevel = getEnv("LOG_LEVEL", "info")
 	BootstrapServer = getEnv("KAFKA_URL", "kafka:9092")
 	Topic = getEnv("PAP_TOPIC", "policy-pdp-pap")
-	GroupId = getEnv("GROUPID", "opa-pdp-" + uuid.New().String())
+	GroupId = getEnv("GROUPID", "opa-pdp-"+uuid.New().String())
 	Username = getEnv("API_USER", "policyadmin")
 	Password = getEnv("API_PASSWORD", "zb!XztG34")
 	UseSASLForKAFKA = getEnv("UseSASLForKAFKA", "false")

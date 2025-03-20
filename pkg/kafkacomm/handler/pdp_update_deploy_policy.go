@@ -169,7 +169,7 @@ func extractAndDecodePolicies(policy model.ToscaPolicy) (map[string]string, []st
 			return nil, nil, err
 		}
 
-		log.Debugf("Decoded policy content for key '%s': %s", key, decodedPolicy)
+		log.Tracef("Decoded policy content for key '%s': %s", key, decodedPolicy)
 	}
 
 	return decodedPolicies, keys, nil
