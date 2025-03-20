@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fe97d24_c527d097",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-20T15:31:39Z",
+      "side": 1,
+      "message": "can you guys raise a review stepping up the version after release?\nnew version should be 1.0.3-SNAPSHOT",
+      "revId": "7df85f3322d2d93f9489b7dee06757fcf94e69cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
