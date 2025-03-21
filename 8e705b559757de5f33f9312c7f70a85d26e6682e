@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac66f605_08eb9584",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-21T08:00:42Z",
+      "side": 1,
+      "message": "thanks for raising the review. you can rebase this one and I can merge after.",
+      "revId": "8e705b559757de5f33f9312c7f70a85d26e6682e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
