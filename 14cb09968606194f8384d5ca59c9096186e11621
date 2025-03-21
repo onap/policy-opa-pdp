@@ -1,0 +1,11 @@
+Code-Review+1: Srinivas Yanamadala <srinivas.yanamadala@techmahindra.com>
+Code-Review+1: guru raja <gb00566633@techmahindra.com>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-by: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-at: Fri, 21 Mar 2025 13:43:43 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/opa-pdp/+/140350
+Project: policy/opa-pdp
+Branch: refs/heads/master
