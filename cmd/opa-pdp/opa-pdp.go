@@ -34,6 +34,7 @@ import (
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/opasdk"
+	"policy-opa-pdp/pkg/pdpattributes"
 	"syscall"
 	"time"
 )
@@ -93,11 +94,8 @@ func main() {
 
 	time.Sleep(10 * time.Second)
 
-	// pdp registration
-	isRegistered := registerPDPFunc(sender)
-	if !isRegistered {
-		return
-	}
+	pdpattributes.SetPdpHeartbeatInterval(int64(consts.DefaultHeartbeatMS))
+	go publisher.StartHeartbeatIntervalTimer(pdpattributes.PdpHeartbeatInterval, sender)
 
 	time.Sleep(10 * time.Second)
 	log.Debugf("After registration successful delay")

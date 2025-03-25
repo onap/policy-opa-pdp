@@ -333,7 +333,6 @@ func applyPolicyFilter(result map[string]interface{}, filters []string) (map[str
 	validFilters := getValidPolicyFilters(result)
 	for _, filter := range filters {
 		if filter == "" {
-			// when filter is "" empty, the entire resultant data will be reported
 			return result, nil, validFilters
 		}
 		// Try to find the value in the result map

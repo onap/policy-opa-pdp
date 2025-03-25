@@ -79,7 +79,6 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 	log.Debugf("PDP_UPDATE Message received: %s", string(message))
 
 	pdpattributes.SetPdpSubgroup(pdpUpdate.PdpSubgroup)
-	pdpattributes.SetPdpHeartbeatInterval(pdpUpdate.PdpHeartbeatIntervalMs)
 
 	if len(pdpUpdate.PoliciesToBeDeployed) > 0 {
 		failureMessage, successfullyDeployedPolicies := handlePolicyDeploymentVar(pdpUpdate, p)
@@ -131,7 +130,15 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 		}
 	}
 	log.Infof("PDP_STATUS Message Sent Successfully")
-	go publisher.StartHeartbeatIntervalTimer(pdpattributes.PdpHeartbeatInterval, p)
+	log.Debug(pdpUpdate.PdpHeartbeatIntervalMs)
+
+	if pdpattributes.PdpHeartbeatInterval != pdpUpdate.PdpHeartbeatIntervalMs && pdpUpdate.PdpHeartbeatIntervalMs != 0 {
+		//restart the ticker.
+		publisher.StopTicker()
+		pdpattributes.SetPdpHeartbeatInterval(pdpUpdate.PdpHeartbeatIntervalMs)
+		go publisher.StartHeartbeatIntervalTimer(pdpattributes.PdpHeartbeatInterval, p)
+	}
+
 	return nil
 }
 
