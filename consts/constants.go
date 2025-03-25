@@ -49,6 +49,7 @@ package consts
 //	OkCode              - The Code for HealthCheck response
 //	HealthCheckMessage  - The Healtcheck Message
 //	SingleHierarchy     - The Counter indicates the length of datakey path
+//      DefaultHeartbeatMS  - The default interval for heartbeat signals in milliseconds.
 var (
 	LogFilePath      = "/var/logs/logs.log"
 	LogMaxSize       = 10
@@ -77,4 +78,5 @@ var (
 	OkCode             = int32(200)
 	HealthCheckMessage = "alive"
 	SingleHierarchy    = 4
+	DefaultHeartbeatMS = 60000
 )

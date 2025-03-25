@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -46,14 +46,14 @@ func TestSetPdpSubgroup_Success(t *testing.T) {
 	t.Run("ValidSubgroup", func(t *testing.T) {
 		expectedSubgroup := "subgroup1"
 		SetPdpSubgroup(expectedSubgroup)
-		assert.Equal(t, expectedSubgroup, getPdpSubgroup(), "Expected PDP subgroup to match set value")
+		assert.Equal(t, expectedSubgroup, GetPdpSubgroup(), "Expected PDP subgroup to match set value")
 	})
 }
 
 func TestSetPdpSubgroup_Failure(t *testing.T) {
 	t.Run("EmptySubgroup", func(t *testing.T) {
 		SetPdpSubgroup("")
-		assert.Equal(t, "", getPdpSubgroup(), "Expected PDP subgroup to be empty when set to empty string")
+		assert.Equal(t, "", GetPdpSubgroup(), "Expected PDP subgroup to be empty when set to empty string")
 	})
 
 	t.Run("LargeSubgroup", func(t *testing.T) {
@@ -62,7 +62,7 @@ func TestSetPdpSubgroup_Failure(t *testing.T) {
 			largeSubgroup[i] = 'a'
 		}
 		SetPdpSubgroup(string(largeSubgroup))
-		assert.Equal(t, string(largeSubgroup), getPdpSubgroup(), "Expected large PDP subgroup to match set value")
+		assert.Equal(t, string(largeSubgroup), GetPdpSubgroup(), "Expected large PDP subgroup to match set value")
 	})
 }
 

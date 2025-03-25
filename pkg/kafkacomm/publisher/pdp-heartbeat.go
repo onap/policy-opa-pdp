@@ -24,7 +24,6 @@ package publisher
 
 import (
 	"fmt"
-	"github.com/google/uuid"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
@@ -33,6 +32,7 @@ import (
 	"policy-opa-pdp/pkg/policymap"
 	"sync"
 	"time"
+	"github.com/google/uuid"
 )
 
 var (
@@ -40,6 +40,7 @@ var (
 	stopChan        chan bool
 	currentInterval int64
 	mu              sync.Mutex
+	wg              sync.WaitGroup
 )
 
 // Initializes a timer that sends periodic heartbeat messages to indicate the health and state of the PDP.
@@ -53,7 +54,6 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 		return
 	} else if intervalMs == 0 {
 		intervalMs = currentInterval
-
 	}
 
 	if ticker != nil && intervalMs == currentInterval {
@@ -61,16 +61,14 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 		return
 	}
 
-	if ticker != nil {
-		ticker.Stop()
-	}
-
 	currentInterval = intervalMs
 
 	ticker = time.NewTicker(time.Duration(intervalMs) * time.Millisecond)
-	log.Debugf("New Ticker %d", currentInterval)
+	log.Debugf("New Ticker started with interval %d", currentInterval)
 	stopChan = make(chan bool)
+	wg.Add(1)
 	go func() {
+		defer wg.Done()
 		for {
 			select {
 			case <-ticker.C:
@@ -78,6 +76,7 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 					log.Errorf("Failed to send PDP Heartbeat: %v", err)
 				}
 			case <-stopChan:
+				log.Debugf("Stopping ticker")
 				ticker.Stop()
 				return
 			}
@@ -111,6 +110,13 @@ func sendPDPHeartBeat(s PdpStatusSender) error {
 		}
 	}
 
+	pdpSubGroup := pdpattributes.GetPdpSubgroup()
+
+	if pdpSubGroup == "" || len(pdpSubGroup) == 0 {
+		pdpStatus.PdpSubgroup = nil
+		pdpStatus.Description = "Pdp Status Registration Message"
+	}
+
 	err := s.SendPdpStatus(pdpStatus)
 	log.Debugf("Sending Heartbeat ...")
 	if err != nil {
@@ -128,9 +134,9 @@ func StopTicker() {
 	if ticker != nil && stopChan != nil {
 		stopChan <- true
 		close(stopChan)
-		ticker.Stop()
-		ticker = nil
 		stopChan = nil
+		wg.Wait() //wait for the goroutine to finish
+		log.Debugf("goroutine finsihed ...")
 	} else {
 		log.Debugf("Ticker is not Running")
 	}

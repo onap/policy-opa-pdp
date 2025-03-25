@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@
 package pdpattributes
 
 import (
-	"github.com/google/uuid"
 	"policy-opa-pdp/pkg/log"
+	"github.com/google/uuid"
 )
 
 var (
@@ -48,7 +48,7 @@ func SetPdpSubgroup(pdpsubgroup string) {
 }
 
 // Retrieves the current PDP subgroup value.
-func getPdpSubgroup() string {
+func GetPdpSubgroup() string {
 	return PdpSubgroup
 }
 

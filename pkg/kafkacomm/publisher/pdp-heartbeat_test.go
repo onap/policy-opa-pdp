@@ -21,11 +21,11 @@ package publisher
 
 import (
 	"errors"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
 	"policy-opa-pdp/pkg/policymap"
 	"testing"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 /*
@@ -151,11 +151,11 @@ func TestStopTicker_Success(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 	StartHeartbeatIntervalTimer(1000, mockSender)
-
+	wg.Done()
 	StopTicker()
 	mu.Lock()
 	defer mu.Unlock()
-	if ticker != nil {
+	if stopChan != nil {
 		t.Errorf("Expected ticker to be nil")
 	}
 }
