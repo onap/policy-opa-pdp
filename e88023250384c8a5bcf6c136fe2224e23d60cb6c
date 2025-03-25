@@ -16,6 +16,24 @@
       "message": "revert this change...there is no openapi.yaml change",
       "revId": "e88023250384c8a5bcf6c136fe2224e23d60cb6c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f549ff9_02b0670c",
+        "filename": "api/openapi.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-03-25T13:36:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58f41a78_a15e7699",
+      "revId": "e88023250384c8a5bcf6c136fe2224e23d60cb6c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
