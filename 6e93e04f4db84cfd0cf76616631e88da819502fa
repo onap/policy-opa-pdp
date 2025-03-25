@@ -24,6 +24,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75398a51_618efabf",
+        "filename": "consts/constants.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 8217
+      },
+      "writtenOn": "2025-03-25T10:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bcfbb8a_795ee7c7",
+      "range": {
+        "startLine": 80,
+        "startChar": 1,
+        "endLine": 80,
+        "endChar": 19
+      },
+      "revId": "6e93e04f4db84cfd0cf76616631e88da819502fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd8f4fbc_5b91a28b",
@@ -41,6 +65,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e17b2a65_bc7f35f5",
+        "filename": "pkg/kafkacomm/publisher/pdp-heartbeat.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 8217
+      },
+      "writtenOn": "2025-03-25T10:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd8f4fbc_5b91a28b",
+      "revId": "6e93e04f4db84cfd0cf76616631e88da819502fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6c37374_5a72461d",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-03-25T09:54:56Z",
       "side": 1,
       "message": "remove extra line",
+      "revId": "6e93e04f4db84cfd0cf76616631e88da819502fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5db904bd_79089a23",
+        "filename": "pkg/kafkacomm/publisher/pdp-heartbeat_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 8217
+      },
+      "writtenOn": "2025-03-25T10:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6c37374_5a72461d",
       "revId": "6e93e04f4db84cfd0cf76616631e88da819502fa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
@@ -81,6 +141,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6af2d0ea_19de5f42",
+        "filename": "pkg/pdpattributes/pdpattributes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8217
+      },
+      "writtenOn": "2025-03-25T10:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eabbf9a6_9780862e",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "6e93e04f4db84cfd0cf76616631e88da819502fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e84ec572_27710539",
@@ -98,6 +182,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8899a895_e31c283a",
+        "filename": "pkg/pdpattributes/pdpattributes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 8217
+      },
+      "writtenOn": "2025-03-25T10:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e84ec572_27710539",
+      "revId": "6e93e04f4db84cfd0cf76616631e88da819502fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c019b0b7_b98f5b81",
@@ -111,6 +213,30 @@
       "writtenOn": "2025-03-25T09:54:56Z",
       "side": 1,
       "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "6e93e04f4db84cfd0cf76616631e88da819502fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0f2897a_8b7b74ef",
+        "filename": "pkg/pdpattributes/pdpattributes_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8217
+      },
+      "writtenOn": "2025-03-25T10:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c019b0b7_b98f5b81",
       "range": {
         "startLine": 3,
         "startChar": 19,
