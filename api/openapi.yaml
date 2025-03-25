@@ -20,7 +20,7 @@ openapi: 3.0.3
 info:
   title: "Policy OPA PDP Documentation"
   description: Policy OPA PDP Service
-  version: 1.0.3
+  version: 1.0.4
   x-component: Policy Framework
   x-planned-retirement-date: tbd
   contact:
