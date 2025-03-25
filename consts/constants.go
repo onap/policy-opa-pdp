@@ -77,4 +77,5 @@ var (
 	OkCode             = int32(200)
 	HealthCheckMessage = "alive"
 	SingleHierarchy    = 4
+	DefaultHeartbeatMS = 60000
 )

@@ -22,8 +22,9 @@
 package pdpattributes
 
 import (
-	"github.com/google/uuid"
 	"policy-opa-pdp/pkg/log"
+
+	"github.com/google/uuid"
 )
 
 var (
@@ -48,7 +49,7 @@ func SetPdpSubgroup(pdpsubgroup string) {
 }
 
 // Retrieves the current PDP subgroup value.
-func getPdpSubgroup() string {
+func GetPdpSubgroup() string {
 	return PdpSubgroup
 }
 
