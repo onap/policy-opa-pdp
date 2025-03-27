@@ -70,7 +70,7 @@ on:
   # Run everyday at 16:30 UTC
   schedule:
     - cron: '30 16 * * *'
- 
+
 jobs:
   run-s3p-tests:
     runs-on: ubuntu-22.04
@@ -80,7 +80,7 @@ jobs:
 
       - name: Run S3P script
         working-directory: ${{ github.workspace }}/testsuites
-        run: sudo bash ./run-s3p-test.sh run stability
+        run: sudo bash ./run-s3p-test.sh stability
 
       - name: Archive result jtl
         uses: actions/upload-artifact@v4
