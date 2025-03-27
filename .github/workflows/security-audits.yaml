@@ -37,7 +37,7 @@ jobs:
   sonarqube-cloud:
     name: "SonarQube Cloud"
     # yamllint disable-line rule:line-length
-    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonarqube-cloud.yaml@83e3ea0dcbfb1e8c707b0284ae7e7c376b0e27d4 # v0.2.7
+    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonarqube-cloud.yaml@ac846b1cfeaf3a7cac6f28413a5206afc9951464 # v0.2.11
     permissions:
       # Needed to upload the results to code-scanning dashboard.
       security-events: write
