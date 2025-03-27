@@ -26,18 +26,18 @@ on:
 permissions: {}
 
 jobs:
-  sonatype-lifecycle:
-    name: "Sonatype Lifecycle"
-    # yamllint disable-line rule:line-length
-    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonatype-lifecycle.yaml@83e3ea0dcbfb1e8c707b0284ae7e7c376b0e27d4 # v0.2.7
-    secrets:
-      NEXUS_IQ_PASSWORD: ${{ secrets.NEXUS_IQ_PASSWORD }}
+  #sonatype-lifecycle:
+  #  name: "Sonatype Lifecycle"
+  #  # yamllint disable-line rule:line-length
+  #  uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonatype-lifecycle.yaml@83e3ea0dcbfb1e8c707b0284ae7e7c376b0e27d4 # v0.2.7
+  #  secrets:
+  #    NEXUS_IQ_PASSWORD: ${{ secrets.NEXUS_IQ_PASSWORD }}
 
   # Scan results are found at: https://sonarcloud.io/login
   sonarqube-cloud:
     name: "SonarQube Cloud"
     # yamllint disable-line rule:line-length
-    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonarqube-cloud.yaml@83e3ea0dcbfb1e8c707b0284ae7e7c376b0e27d4 # v0.2.7
+    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonarqube-cloud.yaml@ac846b1cfeaf3a7cac6f28413a5206afc9951464 # v0.2.11
     permissions:
       # Needed to upload the results to code-scanning dashboard.
       security-events: write
@@ -48,3 +48,6 @@ jobs:
       # actions: read
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    with:
+      BUILD_WRAPPER_URL: https://raw.githubusercontent.com/onap/policy-opa-pdp/refs/heads/master/.github/scripts/prescan-go-coverage-ubuntu.sh
+      BUILD_WRAPPER_OUT_DIR: .
