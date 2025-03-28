@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "89af1e58_f4c4b386",
+        "filename": ".github/scripts/prescan-go-coverage-ubuntu.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7833
+      },
+      "writtenOn": "2025-03-28T18:08:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11c3fbf4_b9688068",
+      "range": {
+        "startLine": 1,
+        "startChar": 3,
+        "endLine": 1,
+        "endChar": 6
+      },
+      "revId": "47690e883f5f24c7ad6440024cca201b28a312e8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "87e6beb6_a1b0a8e3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
