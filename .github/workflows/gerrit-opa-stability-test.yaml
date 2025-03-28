@@ -85,12 +85,12 @@ jobs:
       - name: Archive result jtl
         uses: actions/upload-artifact@v4
         with:
-          name: policy-opa-s3p-results
+          name: policy-opa-s3p-results-jtl-stability
           path: ${{ github.workspace }}/testsuites/automate-s3p-test/s3pTestResults.jtl
 
       - name: Archive JMeter logs
         uses: actions/upload-artifact@v4
         with:
-          name: policy-opa-s3p-results
+          name: policy-opa-s3p-results-jmeter-stability
           path: ${{ github.workspace }}/testsuites/automate-s3p-test/jmeter.log
 
