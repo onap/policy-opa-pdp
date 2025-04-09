@@ -16,6 +16,24 @@
       "message": "remove a new line space",
       "revId": "16a80c01681fbf55c796f1ca08849c2fbeadaf42",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd05f0bd_9407d077",
+        "filename": "api/register-handlers_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-04-09T17:25:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa0fcc29_00246776",
+      "revId": "16a80c01681fbf55c796f1ca08849c2fbeadaf42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
