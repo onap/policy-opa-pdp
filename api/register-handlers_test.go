@@ -26,6 +26,8 @@ import (
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
 	"testing"
+	"time"
+	"github.com/stretchr/testify/assert"
 )
 
 // Mock configuration
@@ -111,4 +113,60 @@ func TestReadinessProbe(t *testing.T) {
 	if rr.Body.String() != expected {
 		t.Errorf("readinessProbe returned unexpected body: got %v want %v", rr.Body.String(), expected)
 	}
+}
+
+
+type mockObserver struct {
+	observedDuration float64
+}
+
+func (m *mockObserver) Observe(duration float64) {
+	m.observedDuration = duration
+}
+
+// Test trackDecisionResponseTime function
+func TestTrackDecisionResponseTime(t *testing.T) {
+	observer := &mockObserver{}
+	handler := trackDecisionResponseTime(func(res http.ResponseWriter, req *http.Request) {
+		time.Sleep(50 * time.Millisecond)
+		res.WriteHeader(http.StatusOK)
+	})
+
+	req := httptest.NewRequest("GET", "/decision", nil)
+	res := httptest.NewRecorder()
+
+	handler(res, req)
+
+	assert.NotNil(t, observer.observedDuration)
+}
+
+// Test trackDataResponseTime function
+func TestTrackDataResponseTime(t *testing.T) {
+	observer := &mockObserver{}
+	handler := trackDataResponseTime(func(res http.ResponseWriter, req *http.Request) {
+		time.Sleep(30 * time.Millisecond)
+		res.WriteHeader(http.StatusOK)
+	})
+
+	req := httptest.NewRequest("GET", "/data", nil)
+	res := httptest.NewRecorder()
+
+	handler(res, req)
+
+	assert.NotNil(t, observer.observedDuration)
+}
+
+// Test trackResponseTime function
+func TestTrackResponseTime(t *testing.T) {
+	observer := &mockObserver{}
+
+	handler := trackResponseTime(observer, func(res http.ResponseWriter, req *http.Request) {
+		time.Sleep(20 * time.Millisecond)
+		res.WriteHeader(http.StatusOK)
+	})
+
+	req := httptest.NewRequest("GET", "/response", nil)
+	res := httptest.NewRecorder()
+	handler(res, req)
+	assert.NotNil(t, observer.observedDuration)
 }

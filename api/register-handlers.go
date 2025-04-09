@@ -30,6 +30,9 @@ import (
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/metrics"
 	"policy-opa-pdp/pkg/opasdk"
+	"time"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // RegisterHandlers registers the HTTP handlers for the service.
@@ -37,7 +40,7 @@ func RegisterHandlers() {
 
 	// Handler for OPA decision making
 	opaDecisionHandler := http.HandlerFunc(decision.OpaDecision)
-	http.Handle("/policy/pdpo/v1/decision", basicAuth(opaDecisionHandler))
+	http.Handle("/policy/pdpo/v1/decision", basicAuth(trackDecisionResponseTime(opaDecisionHandler)))
 
 	// Handler for kubernetes readiness probe
 	readinessProbeHandler := http.HandlerFunc(readinessProbe)
@@ -55,10 +58,32 @@ func RegisterHandlers() {
 	http.Handle("/opa/listpolicies", listPoliciesHandler)
 
 	dataHandler := http.HandlerFunc(data.DataHandler)
-	http.Handle("/policy/pdpo/v1/data/", basicAuth(dataHandler))
+	http.Handle("/policy/pdpo/v1/data/", basicAuth(trackDataResponseTime(dataHandler)))
 
-	http.Handle("/policy/pdpo/v1/data", basicAuth(dataHandler))
+	http.Handle("/policy/pdpo/v1/data", basicAuth(trackDataResponseTime(dataHandler)))
 
+	//Handler for prometheus
+	http.Handle("/metrics", promhttp.Handler())
+
+}
+
+//Track Decision response time metrics
+func trackDecisionResponseTime(next http.HandlerFunc) http.HandlerFunc {
+	return trackResponseTime(metrics.DecisionResponseTime, next)
+}
+
+//Track Data response time metrics
+func trackDataResponseTime(next http.HandlerFunc) http.HandlerFunc {
+	return trackResponseTime(metrics.DataResponseTime, next)
+}
+
+func trackResponseTime(metricCollector prometheus.Observer, next http.HandlerFunc) http.HandlerFunc {
+	return func(res http.ResponseWriter, req *http.Request) {
+		start := time.Now()
+		next(res, req)
+		duration := time.Since(start).Seconds()
+		metricCollector.Observe(duration)
+	}
 }
 
 // handles authentication

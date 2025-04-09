@@ -19,8 +19,10 @@
 
 package metrics
 
-import "sync"
-
+import (
+        "sync"
+        "github.com/prometheus/client_golang/prometheus"
+)
 // global counter variables
 var TotalErrorCount int64
 var DecisionSuccessCount int64
@@ -31,6 +33,24 @@ var UndeployFailureCount int64
 var UndeploySuccessCount int64
 var TotalPoliciesCount int64
 var mu sync.Mutex
+
+//Decision and Data counters to be used in prometheus
+var (
+	DecisionResponseTime = prometheus.NewSummary(prometheus.SummaryOpts{
+		Name:    "opa_decision_response_time_seconds",
+		Help:    "Response time of OPA decision handler",
+	})
+	DataResponseTime = prometheus.NewSummary(prometheus.SummaryOpts{
+		Name:    "opa_data_response_time_seconds",
+		Help:    "Response time of OPA data handler",
+	})
+)
+
+//register counters in init
+func init() {
+	prometheus.MustRegister(DecisionResponseTime)
+	prometheus.MustRegister(DataResponseTime)
+}
 
 // Increment counter
 func IncrementTotalErrorCount() {
