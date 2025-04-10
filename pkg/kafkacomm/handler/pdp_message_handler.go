@@ -33,9 +33,16 @@ import (
 	"sync"
 )
 
+type (
+	pdpUpdateMessageHandlerFunc      func(message []byte, p publisher.PdpStatusSender) error
+	pdpStateChangeMessageHandlerFunc func(message []byte, p publisher.PdpStatusSender) error
+)
+
 var (
-	shutdownFlag bool
-	mu           sync.Mutex
+	shutdownFlag                    bool
+	mu                              sync.Mutex
+	pdpUpdateMessageHandlerVar      pdpUpdateMessageHandlerFunc      = pdpUpdateMessageHandler
+	pdpStateChangeMessageHandlerVar pdpStateChangeMessageHandlerFunc = pdpStateChangeMessageHandler
 )
 
 // SetShutdownFlag sets the shutdown flag
@@ -129,33 +136,37 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
 					continue
 				}
 
-				switch opaPdpMessage.MessageType {
-
-				case "PDP_UPDATE":
-					err = pdpUpdateMessageHandler(message, p)
-					if err != nil {
-						log.Warnf("Error processing Update Message: %v", err)
-					}
-
-				case "PDP_STATE_CHANGE":
-					err = pdpStateChangeMessageHandler(message, p)
-					if err != nil {
-						log.Warnf("Error processing Update Message: %v", err)
-					}
-
-				case "PDP_STATUS":
-					log.Debugf("discarding event of type PDP_STATUS")
-					continue
-				default:
-					log.Errorf("This is not a valid Message Type: %s", opaPdpMessage.MessageType)
-					continue
-
-				}
-
+				handlePdpMessageTypes(opaPdpMessage.MessageType, message, p)
 			}
 		}
 
 	}
 	return nil
 
+}
+
+func handlePdpMessageTypes(messageType string, message []byte, p publisher.PdpStatusSender) {
+	log.Debugf("messageType: %s", messageType)
+	var err error
+	switch messageType {
+
+	case "PDP_UPDATE":
+		err = pdpUpdateMessageHandlerVar(message, p)
+		if err != nil {
+			log.Warnf("Error processing Update Message: %v", err)
+		}
+
+	case "PDP_STATE_CHANGE":
+		err = pdpStateChangeMessageHandlerVar(message, p)
+		if err != nil {
+			log.Warnf("Error processing Update Message: %v", err)
+		}
+
+	case "PDP_STATUS":
+		log.Debugf("discarding event of type PDP_STATUS")
+		break
+	default:
+		log.Errorf("This is not a valid Message Type: %s", messageType)
+
+	}
 }

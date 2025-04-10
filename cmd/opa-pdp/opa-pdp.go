@@ -52,7 +52,6 @@ var (
 	waitForServerFunc         = waitForServer
 	initializeOPAFunc         = initializeOPA
 	startKafkaConsAndProdFunc = startKafkaConsAndProd
-	registerPDPFunc           = registerPDP
 	handleMessagesFunc        = handleMessages
 	handleShutdownFunc        = handleShutdown
 )
@@ -118,16 +117,6 @@ func handleMessages(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *pu
 			log.Warnf("Erro in PdpUpdate Message Handler: %v", err)
 		}
 	}()
-}
-
-// register pdp with PAP
-func registerPDP(sender publisher.PdpStatusSender) bool {
-	if err := publisher.SendPdpPapRegistration(sender); err != nil {
-		log.Warnf("Failed PDP PAP registration: %v", err)
-		return false
-	}
-	log.Debugf("PDP PAP registration successful")
-	return true
 }
 
 // Register Handlers

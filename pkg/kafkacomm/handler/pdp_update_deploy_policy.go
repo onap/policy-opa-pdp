@@ -221,25 +221,6 @@ func extractAndDecodeData(policy model.ToscaPolicy) (map[string]string, []string
 	return decodedData, keys, nil
 }
 
-// Function to extract folder name based on policy
-func getDirName(policy model.ToscaPolicy) []string {
-	// Split the policy name to identify the folder part (i.e., the first part before ".")
-
-	var dirNames []string
-
-	for key, _ := range policy.Properties.Data {
-
-		dirNames = append(dirNames, strings.ReplaceAll(consts.DataNode+key, ".", "/"))
-
-	}
-	for key, _ := range policy.Properties.Policy {
-
-		dirNames = append(dirNames, strings.ReplaceAll(consts.Policies+"/"+key, ".", "/"))
-
-	}
-
-	return dirNames
-}
 
 // upsert policy to sdk.
 func upsertPolicy(policy model.ToscaPolicy) error {
@@ -294,58 +275,13 @@ func handlePolicyDeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSend
 	pdpUpdate.PoliciesToBeDeployed = checkIfPolicyAlreadyDeployed(pdpUpdate)
 
 	for _, policy := range pdpUpdate.PoliciesToBeDeployed {
-		// Validate the policy
-
-		policyAllowed, err := validateParentPolicyVar(policy)
-		if err != nil {
-			log.Warnf("Tosca Policy Id validation failed for policy nameas it is a parent folder:%s, %v", policy.Name, err)
-			failureMessages = append(failureMessages, fmt.Sprintf("%s, %v", policy.Name, err))
-			metrics.IncrementDeployFailureCount()
-			metrics.IncrementTotalErrorCount()
+		if err := validateAndPreparePolicy(policy, &failureMessages); err != nil {
 			continue
 		}
-		if policyAllowed {
-			log.Debugf("Policy Is Allowed: %s", policy.Name)
-		}
-
-		if err := utils.ValidateToscaPolicyJsonFields(policy); err != nil {
-			log.Debugf("Tosca Policy Validation Failed for policy Name: %s, %v", policy.Name, err)
-			failureMessages = append(failureMessages, fmt.Sprintf("Tosca Policy Validation failed for Policy: %s: %v", policy.Name, err))
-			metrics.IncrementDeployFailureCount()
-			metrics.IncrementTotalErrorCount()
-			continue
-		}
-
-		// Create and store policy data
-		if err := createAndStorePolicyDataVar(policy); err != nil {
-			failureMessages = append(failureMessages, fmt.Sprintf("%s: %v", policy.Name, err))
-			metrics.IncrementDeployFailureCount()
-			metrics.IncrementTotalErrorCount()
-			continue
-		}
-
-		// Build the bundle
-		if err := verifyPolicyByBundleCreation(policy); err != nil {
-			failureMessages = append(failureMessages, fmt.Sprintf("Failed to build Rego File for %s: %v", policy.Name, err))
-			metrics.IncrementDeployFailureCount()
-			metrics.IncrementTotalErrorCount()
-			continue
-		}
-
-		// Upsert policy and data
-		if err := upsertPolicyAndData(policy, successPolicies); err != nil {
+		if err := deployPolicyAndData(policy, successPolicies); err != nil {
 			failureMessages = append(failureMessages, err.Error())
-			metrics.IncrementDeployFailureCount()
-			metrics.IncrementTotalErrorCount()
 			continue
-		} else {
-			successPolicies[policy.Name] = policy.Version
-			if _, err := policymap.UpdateDeployedPoliciesinMap(policy); err != nil {
-				log.Warnf("Failed to store policy data map after deploying policy %s: %v", policy.Name, err)
-			}
 		}
-		metrics.IncrementDeploySuccessCount()
-		log.Debugf("Loaded Policy: %s", policy.Name)
 
 	}
 
@@ -353,6 +289,71 @@ func handlePolicyDeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSend
 	metrics.SetTotalPoliciesCount(int64(totalPolicies))
 
 	return failureMessages, successPolicies
+
+}
+
+func validateAndPreparePolicy(policy model.ToscaPolicy, failureMessages *[]string) error {
+	// Validate the policy
+
+	policyAllowed, err := validateParentPolicyVar(policy)
+	if err != nil {
+		log.Warnf("Tosca Policy Id validation failed for policy nameas it is a parent folder:%s, %v", policy.Name, err)
+		*failureMessages = append(*failureMessages, fmt.Sprintf("%s, %v", policy.Name, err))
+		metrics.IncrementDeployFailureCount()
+		metrics.IncrementTotalErrorCount()
+		return err
+	}
+	if policyAllowed {
+		log.Debugf("Policy Is Allowed: %s", policy.Name)
+	} else {
+		return fmt.Errorf("policy not Allowed")
+	}
+
+	if err := utils.ValidateToscaPolicyJsonFields(policy); err != nil {
+		log.Debugf("Tosca Policy Validation Failed for policy Name: %s, %v", policy.Name, err)
+		*failureMessages = append(*failureMessages, fmt.Sprintf("Tosca Policy Validation failed for Policy: %s: %v", policy.Name, err))
+		metrics.IncrementDeployFailureCount()
+		metrics.IncrementTotalErrorCount()
+		return err
+	}
+
+	// Create and store policy data
+	if err := createAndStorePolicyDataVar(policy); err != nil {
+		*failureMessages = append(*failureMessages, fmt.Sprintf("%s: %v", policy.Name, err))
+		metrics.IncrementDeployFailureCount()
+		metrics.IncrementTotalErrorCount()
+		return err
+	}
+	return nil
+
+}
+
+func deployPolicyAndData(policy model.ToscaPolicy, successPolicies map[string]string) error {
+
+	// Build the bundle
+	if output, err := verifyPolicyByBundleCreation(policy); err != nil {
+		if len(output) > consts.MaxOutputResponseLength {
+			output = output[:consts.MaxOutputResponseLength] + "..."
+		}
+		metrics.IncrementDeployFailureCount()
+		metrics.IncrementTotalErrorCount()
+		return fmt.Errorf("Failed to build Rego File for %s: %v", policy.Name, string(output))
+	}
+
+	// Upsert policy and data
+	if err := upsertPolicyAndData(policy, successPolicies); err != nil {
+		metrics.IncrementDeployFailureCount()
+		metrics.IncrementTotalErrorCount()
+		return err
+	} else {
+		successPolicies[policy.Name] = policy.Version
+		if _, err := policymap.UpdateDeployedPoliciesinMap(policy); err != nil {
+			log.Warnf("Failed to store policy data map after deploying policy %s: %v", policy.Name, err)
+		}
+	}
+	metrics.IncrementDeploySuccessCount()
+	log.Debugf("Loaded Policy: %s", policy.Name)
+	return nil
 }
 
 // checks if policy exists in the map.
@@ -365,7 +366,7 @@ func checkIfPolicyAlreadyDeployed(pdpUpdate model.PdpUpdate) []model.ToscaPolicy
 }
 
 // verfies policy by creating bundle.
-func verifyPolicyByBundleCreation(policy model.ToscaPolicy) error {
+func verifyPolicyByBundleCreation(policy model.ToscaPolicy) (string, error) {
 	// get directory name
 	dirNames := []string{strings.ReplaceAll(consts.DataNode+"/"+policy.Name, ".", "/"), strings.ReplaceAll(consts.Policies+"/"+policy.Name, ".", "/")}
 	// create bundle
@@ -378,9 +379,9 @@ func verifyPolicyByBundleCreation(policy model.ToscaPolicy) error {
 			}
 		}
 		log.Debugf("Directory cleanup as bundle creation failed")
-		return fmt.Errorf("failed to build bundle: %v", err)
+		return output, fmt.Errorf("failed to build bundle: %v", err)
 	}
-	return nil
+	return output, nil
 }
 
 // handles Upsert func for policy and data
