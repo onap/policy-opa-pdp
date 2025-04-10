@@ -23,33 +23,35 @@ package consts
 
 // Variables:
 //
-//	LogFilePath         - The file path for the log file.
-//	LogMaxSize          - The maximum size of the log file in megabytes.
-//	LogMaxBackups       - The maximum number of backup log files to retain.
-//	OpasdkConfigPath    - The file path for the OPA SDK configuration.
-//	Opa                 - The file path for the OPA binary.
-//	BuildBundle         - The command to build the bundle.
-//	Policies            - The directory path for policies.
-//	Data                - The directory path for policy data.
-//	DataNode            - The directory path for policy data with node.
-//	Output              - The output flag for bundle commands.
-//	BundleTarGz         - The name of the bundle tar.gz file.
-//	BundleTarGzFile     - The file path for the bundle tar.gz file.
-//	PdpGroup            - The default PDP group.
-//	PdpType             - The type of PDP.
-//	ServerPort          - The port on which the server listens.
-//	SERVER_WAIT_UP_TIME - The time to wait for the server to be up, in seconds.
-//	ShutdownWaitTime  - The time to wait for the server to shut down, in seconds.
-//	V1Compatible       - The flag for v1 compatibility.
-//	LatestVersion       - The Version set in response for decision
-//	MinorVersion        - The Minor version set in response header for decision
-//	PatchVersion        - The Patch Version set in response header for decison
-//	OpaPdpUrl           - The Healthcheck url for response
-//	HealtCheckStatus    - The bool flag for Healthy field in HealtCheck response
-//	OkCode              - The Code for HealthCheck response
-//	HealthCheckMessage  - The Healtcheck Message
-//	SingleHierarchy     - The Counter indicates the length of datakey path
-//      DefaultHeartbeatMS  - The default interval for heartbeat signals in milliseconds.
+//		LogFilePath         - The file path for the log file.
+//		LogMaxSize          - The maximum size of the log file in megabytes.
+//		LogMaxBackups       - The maximum number of backup log files to retain.
+//		OpasdkConfigPath    - The file path for the OPA SDK configuration.
+//		Opa                 - The file path for the OPA binary.
+//		BuildBundle         - The command to build the bundle.
+//		Policies            - The directory path for policies.
+//		Data                - The directory path for policy data.
+//		DataNode            - The directory path for policy data with node.
+//		Output              - The output flag for bundle commands.
+//		BundleTarGz         - The name of the bundle tar.gz file.
+//		BundleTarGzFile     - The file path for the bundle tar.gz file.
+//		PdpGroup            - The default PDP group.
+//		PdpType             - The type of PDP.
+//		ServerPort          - The port on which the server listens.
+//		SERVER_WAIT_UP_TIME - The time to wait for the server to be up, in seconds.
+//		ShutdownWaitTime  - The time to wait for the server to shut down, in seconds.
+//		V1Compatible       - The flag for v1 compatibility.
+//		LatestVersion       - The Version set in response for decision
+//		MinorVersion        - The Minor version set in response header for decision
+//		PatchVersion        - The Patch Version set in response header for decison
+//		OpaPdpUrl           - The Healthcheck url for response
+//		HealtCheckStatus    - The bool flag for Healthy field in HealtCheck response
+//		OkCode              - The Code for HealthCheck response
+//		HealthCheckMessage  - The Healtcheck Message
+//		SingleHierarchy     - The Counter indicates the length of datakey path
+//	     PolicyVersion       - constant declared for policy-version
+//	     PolicyID            - constant declared for policy-id
+//	     REQUESTID           - constant declared for ONAP Request-ID
 var (
 	LogFilePath      = "/var/logs/logs.log"
 	LogMaxSize       = 10
@@ -65,18 +67,22 @@ var (
 	BundleTarGzFile  = "/app/bundles/bundle.tar.gz"
 	PdpGroup         = "opaGroup"
 	//This is a workaround as currently opa-pdp is not defined in the PapDB  defaultGroup configuration  and creating it manually overrides the existing configuration, so currently PdpGroup is opaGroup and it will be changed to defaultGroup once added in the configuration.
-	PdpType            = "opa"
-	ServerPort         = ":8282"
-	ServerWaitUpTime   = 5
-	ShutdownWaitTime   = 5
+	PdpType             = "opa"
+	ServerPort          = ":8282"
+	ServerWaitUpTime    = 5
+	ShutdownWaitTime    = 5
 	V1Compatible       = "--v1-compatible"
-	LatestVersion      = "1.0.0"
-	MinorVersion       = "0"
-	PatchVersion       = "0"
-	OpaPdpUrl          = "self"
-	HealtCheckStatus   = true
-	OkCode             = int32(200)
-	HealthCheckMessage = "alive"
-	SingleHierarchy    = 4
-	DefaultHeartbeatMS = 60000
+	LatestVersion       = "1.0.0"
+	MinorVersion        = "0"
+	PatchVersion        = "0"
+	OpaPdpUrl           = "self"
+	HealtCheckStatus    = true
+	OkCode              = int32(200)
+	HealthCheckMessage  = "alive"
+        DefaultHeartbeatMS  = 60000
+	SingleHierarchy     = 4
+	PolicyVersion       = "policy-version"
+	PolicyId            = "policy-id"
+	RequestId          = "X-ONAP-RequestID"
+	MaxOutputResponseLength = 200
 )

@@ -37,12 +37,14 @@ import (
 )
 
 type (
-	CreateDirectoryFunc func(dirPath string) error
+        CreateDirectoryFunc func(dirPath string) error
+        ValidateFieldsStructsFunc func(pdpUpdate model.PdpUpdate) error
 )
 
 var (
-	CreateDirectoryVar CreateDirectoryFunc = CreateDirectory
-	removeAll                              = os.RemoveAll
+        CreateDirectoryVar CreateDirectoryFunc = CreateDirectory
+        removeAll                              = os.RemoveAll
+        ValidateFieldsStructsVar ValidateFieldsStructsFunc = ValidateFieldsStructs
 )
 
 // validates if the given request is in valid uuid form
@@ -157,29 +159,46 @@ func ValidateToscaPolicyJsonFields(policy model.ToscaPolicy) error {
 	}
 
 	if policy.Properties.Data != nil {
-		// 2. Validate that Name is a suffix for keys in Properties.Data and Properties.Policy.
-		keySeen := make(map[string]bool)
-		for key := range policy.Properties.Data {
-			if keySeen[key] {
-				return fmt.Errorf("duplicate data key '%s' found, '%s'", key, emphasize)
-			}
-			keySeen[key] = true
-			if !strings.HasPrefix(key, "node."+policy.Name) {
-				return fmt.Errorf("data key '%s' does not have name node.'%s' as a prefix, '%s'", key, policy.Name, emphasize)
-			}
-		}
-	}
-	keySeen := make(map[string]bool)
-	for key := range policy.Properties.Policy {
-		if keySeen[key] {
-			return fmt.Errorf("duplicate policy key '%s' found, '%s'", key, emphasize)
-		}
-		keySeen[key] = true
-		if !strings.HasPrefix(key, policy.Name) {
-			return fmt.Errorf("policy key '%s' does not have name '%s' as a prefix, '%s'", key, policy.Name, emphasize)
+		log.Debugf("Validating properties data for policy: %s", policy.Name)
+		if err := validateDataKeys(policy.Properties.Data, "node."+policy.Name, "data", emphasize); err != nil {
+			return err
 		}
 	}
 
+	log.Debugf("Validating properties policy for policy: %s", policy.Name)
+	if err := validatePolicyKeys(policy.Properties.Policy, policy.Name, "policy", emphasize); err != nil {
+		return err
+	}
+
+	log.Infof("Validation successful for policy: %s", policy.Name)
+	return nil
+}
+
+func validatePolicyKeys(policy map[string]string, prefix, propertyType, emphasize string) error {
+	keySeen := make(map[string]bool)
+	for key := range policy {
+		if keySeen[key] {
+			return fmt.Errorf("duplicate %s key '%s' found, '%s'", propertyType, key, emphasize)
+		}
+		keySeen[key] = true
+		if !strings.HasPrefix(key, prefix) {
+			return fmt.Errorf("%s key '%s' does not have name '%s' as a prefix, '%s'", propertyType, key, prefix, emphasize)
+		}
+	}
+	return nil
+}
+
+func validateDataKeys(data map[string]string, prefix, propertyType, emphasize string) error {
+	keySeen := make(map[string]bool)
+	for key := range data {
+		if keySeen[key] {
+			return fmt.Errorf("duplicate %s key '%s' found, '%s'", propertyType, key, emphasize)
+		}
+		keySeen[key] = true
+		if !strings.HasPrefix(key, prefix) {
+			return fmt.Errorf("data key '%s' does not have name '%s' as a prefix", key, prefix)
+		}
+	}
 	return nil
 }
 
@@ -342,112 +361,113 @@ func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) (string, error) {
 	return string(output), nil
 }
 
-// Validation function
+
+type CommonFields struct {
+	CurrentDate     *string
+	CurrentDateTime *time.Time
+	CurrentTime     *string
+	TimeOffset      *string
+	TimeZone        *string
+	OnapComponent   *string
+	OnapInstance    *string
+	OnapName        *string
+	PolicyName      string
+}
+
 func ValidateOPADataRequest(request interface{}) []string {
+	//	var validationErrors []string
+
+	if request == nil {
+		return []string{"Request is nil"}
+	}
+
+	// Handle OPADataUpdateRequest validation
+	if updateReq, ok := request.(*oapicodegen.OPADataUpdateRequest); ok {
+		currentDate := ""
+		if updateReq.CurrentDate != nil {
+			currentDate = updateReq.CurrentDate.String()
+		}
+
+		commonFields := CommonFields{
+                        CurrentDate: &currentDate, 
+			CurrentDateTime: updateReq.CurrentDateTime, 
+			CurrentTime: updateReq.CurrentTime, 
+			TimeOffset: updateReq.TimeOffset, 
+			TimeZone: updateReq.TimeZone, 
+			OnapComponent: updateReq.OnapComponent, 
+			OnapInstance: updateReq.OnapInstance, 
+			OnapName: updateReq.OnapName, 
+			PolicyName: convertPtrToString(updateReq.PolicyName),
+
+		}
+                return validateCommonFields(commonFields)
+
+	}
+
+	// Handle OPADecisionRequest validation
+	if decisionReq, ok := request.(*oapicodegen.OPADecisionRequest); ok {
+		currentDate := ""
+		if decisionReq.CurrentDate != nil {
+			currentDate = decisionReq.CurrentDate.String()
+		}
+
+		commonFields := CommonFields{
+                        CurrentDate: &currentDate,
+                        CurrentDateTime: decisionReq.CurrentDateTime,
+                        CurrentTime: decisionReq.CurrentTime,
+                        TimeOffset: decisionReq.TimeOffset,
+                        TimeZone: decisionReq.TimeZone,
+                        OnapComponent: decisionReq.OnapComponent,
+                        OnapInstance: decisionReq.OnapInstance,
+                        OnapName: decisionReq.OnapName,
+                        PolicyName: decisionReq.PolicyName,
+		}
+		return validateCommonFields(commonFields)
+
+	}
+	return []string{"Invalid request type"}
+}
+
+func convertPtrToString(stringPtr *string) string {
+	if stringPtr != nil {
+		return *stringPtr
+	}
+	return ""
+
+}
+
+// Helper function to validate common fields
+func validateCommonFields(fields CommonFields) []string {
+
 	var validationErrors []string
-	if updateRequest, ok := request.(*oapicodegen.OPADataUpdateRequest); ok {
-		if updateRequest == nil { // Check if updateRequest is nil
-			validationErrors = append(validationErrors, "OPADataUpdateRequest is nil")
-			return validationErrors // Return if the request is nil
-		}
-		// Check if required fields are populated
-		if updateRequest.CurrentDate != nil {
-			dateString := updateRequest.CurrentDate.String()
-			if !IsValidCurrentDate(&dateString) {
-				validationErrors = append(validationErrors, "CurrentDate is invalid")
-			}
-		} else {
-			validationErrors = append(validationErrors, "CurrentDate is required")
-		}
 
-		// Validate CurrentDateTime format
-		if !(IsValidTime(updateRequest.CurrentDateTime)) {
-			validationErrors = append(validationErrors, "CurrentDateTime is invalid or missing")
-		}
-
-		// Validate CurrentTime format
-		if !(IsValidCurrentTime(updateRequest.CurrentTime)) {
-			validationErrors = append(validationErrors, "CurrentTime is invalid or missing")
-		}
-
-		// Validate TimeOffset format (e.g., +02:00 or -05:00)
-		if !(IsValidTimeOffset(updateRequest.TimeOffset)) {
-			validationErrors = append(validationErrors, "TimeOffset is invalid or missing")
-		}
-
-		// Validate TimeZone format (e.g., 'America/New_York')
-		if !(IsValidTimeZone(updateRequest.TimeZone)) {
-			validationErrors = append(validationErrors, "TimeZone is invalid or missing")
-		}
-
-		// Optionally, check if 'OnapComponent', 'OnapInstance', 'OnapName', and 'PolicyName' are provided
-		if !(IsValidString(updateRequest.OnapComponent)) {
-			validationErrors = append(validationErrors, "OnapComponent is required")
-		}
-
-		if !(IsValidString(updateRequest.OnapInstance)) {
-			validationErrors = append(validationErrors, "OnapInstance is required")
-		}
-
-		if !(IsValidString(updateRequest.OnapName)) {
-			validationErrors = append(validationErrors, "OnapName is required")
-		}
-
-		if !(IsValidString(updateRequest.PolicyName)) {
-			validationErrors = append(validationErrors, "PolicyName is required and cannot be empty")
-		}
+	if fields.CurrentDate == nil || !IsValidCurrentDate(fields.CurrentDate) {
+		validationErrors = append(validationErrors, "CurrentDate is invalid or missing")
+	}
+	if fields.CurrentDateTime == nil || !IsValidTime(fields.CurrentDateTime) {
+		validationErrors = append(validationErrors, "CurrentDateTime is invalid or missing")
+	}
+	if fields.CurrentTime == nil || !IsValidCurrentTime(fields.CurrentTime) {
+		validationErrors = append(validationErrors, "CurrentTime is invalid or missing")
+	}
+	if fields.TimeOffset == nil || !IsValidTimeOffset(fields.TimeOffset) {
+		validationErrors = append(validationErrors, "TimeOffset is invalid or missing")
+	}
+	if fields.TimeZone == nil || !IsValidTimeZone(fields.TimeZone) {
+		validationErrors = append(validationErrors, "TimeZone is invalid or missing")
+	}
+	if !IsValidString(fields.OnapComponent) {
+		validationErrors = append(validationErrors, "OnapComponent is required")
+	}
+	if !IsValidString(fields.OnapInstance) {
+		validationErrors = append(validationErrors, "OnapInstance is required")
+	}
+	if !IsValidString(fields.OnapName) {
+		validationErrors = append(validationErrors, "OnapName is required")
+	}
+	if !IsValidString(fields.PolicyName) {
+		validationErrors = append(validationErrors, "PolicyName is required and cannot be empty")
 	}
 
-	if decisionRequest, ok := request.(*oapicodegen.OPADecisionRequest); ok {
-
-		if decisionRequest == nil { // Check if decisionRequest is nil
-			validationErrors = append(validationErrors, "OPADecisionRequest is nil")
-			return validationErrors // Return if the request is nil
-		}
-		// Check if required fields are populated
-		if decisionRequest.CurrentDate != nil {
-			dateString := decisionRequest.CurrentDate.String()
-			if !IsValidCurrentDate(&dateString) {
-				validationErrors = append(validationErrors, "CurrentDate is invalid")
-			}
-		}
-
-		// Validate CurrentDateTime format
-		if (decisionRequest.CurrentDateTime != nil) && !(IsValidTime(decisionRequest.CurrentDateTime)) {
-			validationErrors = append(validationErrors, "CurrentDateTime is invalid or missing")
-		}
-
-		// Validate CurrentTime format
-		if (decisionRequest.CurrentTime != nil) && !(IsValidCurrentTime(decisionRequest.CurrentTime)) {
-			validationErrors = append(validationErrors, "CurrentTime is invalid or missing")
-		}
-
-		// Validate TimeOffset format (e.g., +02:00 or -05:00)
-		if (decisionRequest.TimeOffset != nil) && !(IsValidTimeOffset(decisionRequest.TimeOffset)) {
-			validationErrors = append(validationErrors, "TimeOffset is invalid or missing")
-		}
-
-		// Validate TimeZone format (e.g., 'America/New_York')
-		if (decisionRequest.TimeZone != nil) && !(IsValidTimeZone(decisionRequest.TimeZone)) {
-			validationErrors = append(validationErrors, "TimeZone is invalid or missing")
-		}
-
-		// Optionally, check if 'OnapComponent', 'OnapInstance', 'OnapName', and 'PolicyName' are provided
-		if (decisionRequest.OnapComponent != nil) && !(IsValidString(decisionRequest.OnapComponent)) {
-			validationErrors = append(validationErrors, "OnapComponent is required")
-		}
-
-		if (decisionRequest.OnapInstance != nil) && !(IsValidString(decisionRequest.OnapInstance)) {
-			validationErrors = append(validationErrors, "OnapInstance is required")
-		}
-
-		if (decisionRequest.OnapName != nil) && !(IsValidString(decisionRequest.OnapName)) {
-			validationErrors = append(validationErrors, "OnapName is required")
-		}
-
-		if !(IsValidString(decisionRequest.PolicyName)) {
-			validationErrors = append(validationErrors, "PolicyName is required and cannot be empty")
-		}
-	}
 	return validationErrors
 }

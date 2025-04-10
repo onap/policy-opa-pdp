@@ -325,8 +325,11 @@ func handlePolicyDeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSend
 		}
 
 		// Build the bundle
-		if err := verifyPolicyByBundleCreation(policy); err != nil {
-			failureMessages = append(failureMessages, fmt.Sprintf("Failed to build Rego File for %s: %v", policy.Name, err))
+		if output, err := verifyPolicyByBundleCreation(policy); err != nil {
+			if len(output) > consts.MaxOutputResponseLength {
+				output = output[:consts.MaxOutputResponseLength] + "..."
+			}
+			failureMessages = append(failureMessages, fmt.Sprintf("Failed to build Rego File for %s: %v", policy.Name, string(output)))
 			metrics.IncrementDeployFailureCount()
 			metrics.IncrementTotalErrorCount()
 			continue
@@ -365,7 +368,7 @@ func checkIfPolicyAlreadyDeployed(pdpUpdate model.PdpUpdate) []model.ToscaPolicy
 }
 
 // verfies policy by creating bundle.
-func verifyPolicyByBundleCreation(policy model.ToscaPolicy) error {
+func verifyPolicyByBundleCreation(policy model.ToscaPolicy) (string, error) {
 	// get directory name
 	dirNames := []string{strings.ReplaceAll(consts.DataNode+"/"+policy.Name, ".", "/"), strings.ReplaceAll(consts.Policies+"/"+policy.Name, ".", "/")}
 	// create bundle
@@ -378,9 +381,9 @@ func verifyPolicyByBundleCreation(policy model.ToscaPolicy) error {
 			}
 		}
 		log.Debugf("Directory cleanup as bundle creation failed")
-		return fmt.Errorf("failed to build bundle: %v", err)
+		return output, fmt.Errorf("failed to build bundle: %v", err)
 	}
-	return nil
+	return output, nil
 }
 
 // handles Upsert func for policy and data
