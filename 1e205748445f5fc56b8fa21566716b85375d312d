@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee2cf7f_031d2c0e",
+        "filename": "build/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-04-10T15:56:38Z",
+      "side": 1,
+      "message": "This file is not needed, you can remove",
+      "revId": "1e205748445f5fc56b8fa21566716b85375d312d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bc1f6fc_c33fd375",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-04-10T15:56:38Z",
+      "side": 1,
+      "message": "Remove this line",
+      "revId": "1e205748445f5fc56b8fa21566716b85375d312d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd16f95_83062eeb",
+        "filename": "pkg/kafkacomm/publisher/pdp-heartbeat_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-04-10T15:56:38Z",
+      "side": 1,
+      "message": "Remove this empty line",
+      "revId": "1e205748445f5fc56b8fa21566716b85375d312d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdb6a5cd_0e4cc7f7",
+        "filename": "pkg/pdpattributes/pdpattributes_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-04-10T15:56:38Z",
+      "side": 1,
+      "message": "Remove this empty line",
+      "revId": "1e205748445f5fc56b8fa21566716b85375d312d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
