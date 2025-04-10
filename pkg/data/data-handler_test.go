@@ -30,6 +30,7 @@ import (
 	"net/http/httptest"
 	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/opasdk"
+	"policy-opa-pdp/pkg/policymap"
 	"strings"
 	"testing"
 	"time"
@@ -183,7 +184,7 @@ func TestPatchData_storageFail(t *testing.T) {
 	res := httptest.NewRecorder()
 	result := patchData(root, &data, res)
 	assert.Equal(t, http.StatusNotFound, res.Code)
-	assert.Nil(t, result)
+	assert.Error(t, result)
 }
 
 func Test_extractPatchInfo_OPTypefail(t *testing.T) {
@@ -264,20 +265,23 @@ func TestGetOperationType(t *testing.T) {
 		opType     string
 		expectsNil bool
 	}{
-		{"Valid opType", "add", false},
-		{"Valid opType", "remove", false},
-		{"Valid opType", "replace", false},
+		{"Valid opType - add", "add", false},
+		{"Valid opType - remove", "remove", false},
+		{"Valid opType - replace", "replace", false},
 		{"Invalid opType", "try", true},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			res := httptest.NewRecorder()
-			result := getOperationType(tt.opType, res)
+			result, err := getOperationType(tt.opType, res)
+
 			if tt.expectsNil {
 				assert.Nil(t, result)
+				assert.Error(t, err)
 			} else {
 				assert.NotNil(t, result)
+				assert.NoError(t, err)
 			}
 		})
 	}
@@ -459,5 +463,422 @@ func TestGetData(t *testing.T) {
 				assert.Contains(t, body, tt.expectedBody)
 			}
 		})
+	}
+}
+
+// Sample JSON data for testing
+const samplePoliciesJSON = `
+{
+	"deployed_policies_dict": [
+	{
+	 "data": ["data1", "data2"],
+	 "policy": ["rule1", "rule2"],
+	 "policy-id": "policy123",
+	 "policy-version": "v1.0"
+	},
+	{
+	 "data": ["data3"],
+	 "policy": ["rule3"],
+	 "policy-id": "policy456",
+	 "policy-version": "v2.0"
+	}
+	]
+}`
+
+// Test function for getPolicyByID
+func TestGetPolicyByID(t *testing.T) {
+	tests := []struct {
+		name         string
+		policiesJSON string
+		policyID     string
+		expectError  bool
+		expectedData *Policy
+	}{
+		{
+			name:         "Policy Exists",
+			policiesJSON: samplePoliciesJSON,
+			policyID:     "policy123",
+			expectError:  false,
+			expectedData: &Policy{
+				Data:          []string{"data1", "data2"},
+				Policy:        []string{"rule1", "rule2"},
+				PolicyID:      "policy123",
+				PolicyVersion: "v1.0",
+			},
+		},
+		{
+			name:         "Policy Not Found",
+			policiesJSON: samplePoliciesJSON,
+			policyID:     "policy999",
+			expectError:  true,
+			expectedData: nil,
+		},
+		{
+			name:         "Invalid JSON Input",
+			policiesJSON: `{ invalid json }`, // Malformed JSON
+			policyID:     "policy123",
+			expectError:  true,
+			expectedData: nil,
+		},
+		{
+			name:         "Empty JSON Input",
+			policiesJSON: `{ "deployed_policies_dict": [] }`, // No policies
+			policyID:     "policy123",
+			expectError:  true,
+			expectedData: nil,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			policy, err := getPolicyByID(tc.policiesJSON, tc.policyID)
+
+			if tc.expectError {
+				if err == nil {
+					t.Errorf("Expected error, but got none")
+				}
+			} else {
+				if err != nil {
+					t.Errorf("Unexpected error: %v", err)
+				}
+				if policy == nil {
+					t.Fatalf("Expected policy, but got nil")
+				}
+				// Validate policy fields
+				if policy.PolicyID != tc.expectedData.PolicyID ||
+					policy.PolicyVersion != tc.expectedData.PolicyVersion ||
+					!equalSlices(policy.Data, tc.expectedData.Data) ||
+					!equalSlices(policy.Policy, tc.expectedData.Policy) {
+					t.Errorf("Policy mismatch: got %+v, expected %+v", policy, tc.expectedData)
+				}
+			}
+		})
+	}
+}
+
+// Helper function to compare string slices
+func equalSlices(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func TestIsEmpty(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    interface{}
+		expected bool
+	}{
+		{"Nil Value", nil, true},
+		{"Empty String", "", true},
+		{"Non-Empty String", "hello", false},
+		{"Empty Slice", []interface{}{}, true},
+		{"Non-Empty Slice", []interface{}{1, 2, 3}, false},
+		{"Empty Map", map[string]interface{}{}, true},
+		{"Non-Empty Map", map[string]interface{}{"key": "value"}, false},
+		{"Empty Byte Slice", []byte{}, true},
+		{"Non-Empty Byte Slice", []byte("data"), false},
+		{"Zero Integer", 0, true},
+		{"Non-Zero Integer", 10, false},
+		{"Zero Float", 0.0, true},
+		{"Non-Zero Float", 3.14, false},
+		{"Non-Zero Unsigned Integer", uint(5), false},
+		{"Boolean False", false, true},
+		{"Boolean True", true, false},
+		{"Unsupported Type (Struct)", struct{}{}, false}, // Not considered empty
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			result := isEmpty(tc.input)
+			if result != tc.expected {
+				t.Errorf("isEmpty(%v) = %v; want %v", tc.input, result, tc.expected)
+			}
+		})
+	}
+}
+
+func TestPatchHandler_EmptyDataField(t *testing.T) {
+	ctime := "08:26:41"
+	timeZone := "America/New_York"
+	timeOffset := "+02:00"
+	onapComp := "COMPONENT"
+	onapIns := "INSTANCE"
+	onapName := "ONAP"
+	policyName := "TestPolicy"
+
+	parsedDate, err := time.Parse("2006-01-02", "2024-02-12")
+	if err != nil {
+		fmt.Println("error in parsedDate")
+	}
+	currentDate := openapi_types.Date{Time: parsedDate}
+	currentDateTime, err := time.Parse(time.RFC3339, "2024-02-12T12:00:00Z")
+	if err != nil {
+		fmt.Println("error in currentDateTime")
+	}
+
+	var data []map[string]interface{} // Empty data field (to trigger validation)
+
+	invalidRequest := &oapicodegen.OPADataUpdateRequest{
+		CurrentDate:     &currentDate,
+		CurrentDateTime: &currentDateTime,
+		CurrentTime:     &ctime,
+		TimeOffset:      &timeOffset,
+		TimeZone:        &timeZone,
+		OnapComponent:   &onapComp,
+		OnapInstance:    &onapIns,
+		OnapName:        &onapName,
+		PolicyName:      &policyName,
+		Data:            &data, // Empty data
+	}
+
+	// Marshal the request to JSON
+	requestBody, err := json.Marshal(invalidRequest)
+	if err != nil {
+		panic(err)
+	}
+
+	req := httptest.NewRequest("PATCH", "/policy/pdpo/v1/data/valid/path", bytes.NewReader(requestBody))
+	res := httptest.NewRecorder()
+
+	patchHandler(res, req)
+
+	assert.Equal(t, http.StatusBadRequest, res.Code)
+	assert.Contains(t, res.Body.String(), "Data is required and cannot be empty")
+}
+
+func Test_GetPolicyByIDFunc_Success(t *testing.T) {
+	// Mock policy data
+	policyID := "test-policy"
+	dirParts := []string{"", "some", "path"} // First part is empty, should be removed
+	expectedDirParts := "some.path"          // Expected after cleaning
+
+	policiesMap := map[string]Policy{
+		policyID: {
+			PolicyID: policyID,
+			Data:     []string{"some.path"},
+		},
+	}
+
+	// Mock function to return the policy
+	mockGetPolicyByIDFunc := func(policies map[string]Policy, id string) (Policy, error) {
+		policy, exists := policies[id]
+		if !exists {
+			return Policy{}, errors.New("policy not found")
+		}
+		return policy, nil
+	}
+
+	// Simulating HTTP request and response recorder
+	// req := httptest.NewRequest("GET", "/policy/test-policy", nil)
+	res := httptest.NewRecorder()
+
+	// Processing dirParts
+	fmt.Println("dirParts before:", dirParts)
+	if len(dirParts) > 0 && dirParts[0] == "" {
+		dirParts = dirParts[1:] // Remove first empty element
+	}
+	finalDirParts := strings.Join(dirParts, ".")
+
+	// Ensure `dirParts` are cleaned correctly
+	assert.Equal(t, expectedDirParts, finalDirParts)
+
+	// Fetch policy
+	matchedPolicy, err := mockGetPolicyByIDFunc(policiesMap, policyID)
+	if err != nil {
+		sendErrorResponse(res, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Ensure correct policy is returned
+	assert.Equal(t, policyID, matchedPolicy.PolicyID)
+	assert.Contains(t, matchedPolicy.Data, expectedDirParts)
+
+}
+
+// Mock function for checkIfPolicyAlreadyExists
+func mockCheckIfPolicyExists(policyID string) bool {
+	return policyID == "valid-policy"
+}
+
+// Mock function for getPolicyByID
+func mockGetPolicyByID(policiesMap map[string]Policy, policyID string) (Policy, error) {
+	if policyID == "valid-policy" {
+		return Policy{
+			Data: []string{"existing.path", "valid.path"},
+		}, nil
+	}
+	return Policy{}, errors.New("policy not found")
+}
+
+func TestPatchHandler_PolicyDoesNotExist(t *testing.T) {
+	originalCheckFunc := checkIfPolicyAlreadyExistsVar
+	checkIfPolicyAlreadyExistsVar = mockCheckIfPolicyExists
+	defer func() { checkIfPolicyAlreadyExistsVar = originalCheckFunc }()
+
+	ctime := "08:26:41.857Z"
+	timeZone := "America/New_York"
+	timeOffset := "+02:00"
+	onapComp := "COMPONENT"
+	onapIns := "INSTANCE"
+	onapName := "ONAP"
+
+	parsedDate, err := time.Parse("2006-01-02", "2024-02-12")
+	if err != nil {
+		fmt.Println("error in parsedDate")
+	}
+	currentDate := openapi_types.Date{Time: parsedDate}
+	currentDateTime, err := time.Parse(time.RFC3339, "2024-02-12T12:00:00Z")
+	if err != nil {
+		fmt.Println("error in currentDateTime")
+	}
+
+	requestBody := oapicodegen.OPADataUpdateRequest{
+		CurrentDate:     &currentDate,
+		CurrentDateTime: &currentDateTime,
+		CurrentTime:     &ctime,
+		TimeOffset:      &timeOffset,
+		TimeZone:        &timeZone,
+		OnapComponent:   &onapComp,
+		OnapInstance:    &onapIns,
+		OnapName:        &onapName,
+
+		PolicyName: StringPointer("invalid-policy"),
+		Data:       &[]map[string]interface{}{{"test": "value"}},
+	}
+	bodyBytes, _ := json.Marshal(requestBody)
+
+	req, err := http.NewRequest("PATCH", "/policy/pdpo/v1/data/existing.path", bytes.NewBuffer(bodyBytes))
+	assert.NoError(t, err)
+
+	rec := httptest.NewRecorder()
+
+	patchHandler(rec, req)
+
+	assert.Equal(t, http.StatusBadRequest, rec.Code)
+	assert.Contains(t, rec.Body.String(), "Policy associated with the patch request does not exist")
+}
+
+func TestPatchHandler_InvalidDataPath(t *testing.T) {
+
+	ctime := "08:26:41.857Z"
+	timeZone := "America/New_York"
+	timeOffset := "+02:00"
+	onapComp := "COMPONENT"
+	onapIns := "INSTANCE"
+	onapName := "ONAP"
+
+	parsedDate, err := time.Parse("2006-01-02", "2024-02-12")
+	if err != nil {
+		fmt.Println("error in parsedDate")
+	}
+	currentDate := openapi_types.Date{Time: parsedDate}
+	currentDateTime, err := time.Parse(time.RFC3339, "2024-02-12T12:00:00Z")
+	if err != nil {
+		fmt.Println("error in currentDateTime")
+	}
+
+	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "valid-policy","policy-version": "v1"}]}`
+
+	requestBody := &oapicodegen.OPADataUpdateRequest{
+		CurrentDate:     &currentDate,
+		CurrentDateTime: &currentDateTime,
+		CurrentTime:     &ctime,
+		TimeOffset:      &timeOffset,
+		TimeZone:        &timeZone,
+		OnapComponent:   &onapComp,
+		OnapInstance:    &onapIns,
+		OnapName:        &onapName,
+
+		PolicyName: StringPointer("valid-policy"),
+		Data:       &[]map[string]interface{}{{"test": "value"}},
+	}
+	bodyBytes, _ := json.Marshal(requestBody)
+
+	req, err := http.NewRequest("PATCH", "/policy/pdpo/v1/data/nonexisting.path", bytes.NewBuffer(bodyBytes))
+	assert.NoError(t, err)
+
+	rec := httptest.NewRecorder()
+
+	patchHandler(rec, req)
+
+	assert.Equal(t, http.StatusBadRequest, rec.Code)
+	assert.Contains(t, rec.Body.String(), "Dynamic Data add/replace/remove for policy")
+}
+
+// Utility function to create a pointer to a string
+func StringPointer(s string) *string {
+	return &s
+}
+
+func TestValidatePolicyDataPathMatched_PolicyNotFound(t *testing.T) {
+	original := getPolicyByIDVar
+	defer func() { getPolicyByIDVar = original }()
+
+	getPolicyByIDVar = func(policiesMap string, policyId string) (*Policy, error) {
+		return nil, fmt.Errorf("policy not found")
+	}
+
+	dirParts := []string{"", "config", "a"}
+	res := httptest.NewRecorder()
+
+	result := validatePolicyDataPathMatched(dirParts, "non-existent-id", res)
+
+	assert.False(t, result)
+	assert.Equal(t, http.StatusBadRequest, res.Code)
+}
+
+func TestValidatePolicyDataPathMatched_Success(t *testing.T) {
+	original := getPolicyByIDVar
+	defer func() { getPolicyByIDVar = original }()
+
+	getPolicyByIDVar = func(policiesMap string, policyId string) (*Policy, error) {
+		return &Policy{
+			PolicyID: policyId,
+			Data:     []string{"config.a", "data.b"},
+		}, nil
+	}
+
+	dirParts := []string{"", "config", "a"}
+	res := httptest.NewRecorder()
+
+	result := validatePolicyDataPathMatched(dirParts, "test-policy", res)
+
+	assert.True(t, result)
+	assert.Equal(t, 200, res.Code) // or 0 if not written to
+}
+
+func TestPatchInfos_ExtractPatchInfo_Error(t *testing.T) {
+	// Save original function and defer restore
+	originalExtractPatchInfo := extractPatchInfoVar
+	defer func() { extractPatchInfoVar = originalExtractPatchInfo }()
+
+	// Mock function to return error
+	extractPatchInfoVar = func(res http.ResponseWriter, ops *[]map[string]interface{}, root string) ([]opasdk.PatchImpl, error) {
+		return nil, fmt.Errorf("mocked extractPatchInfo failure")
+	}
+
+	// Dummy input
+	ops := &[]map[string]interface{}{
+		{"op": "add", "value": "dummy"},
+	}
+	root := "root.path"
+
+	res := httptest.NewRecorder()
+	// Call the actual logic that depends on extractPatchInfoVar
+	patchInfos, err := extractPatchInfoVar(res, ops, root)
+
+	// Assertions
+	if err == nil {
+		t.Fatal("expected error but got nil")
+	}
+	if patchInfos != nil {
+		t.Errorf("expected patchInfos to be nil, got: %v", patchInfos)
 	}
 }

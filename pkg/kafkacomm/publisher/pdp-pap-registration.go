@@ -25,11 +25,9 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/google/uuid"
 	"policy-opa-pdp/cfg"
-	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
-	"policy-opa-pdp/pkg/pdpattributes"
 	"time"
 )
 
@@ -72,30 +70,4 @@ func (s *RealPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
 	}
 
 	return nil
-}
-
-// sends the registartion message to topic using SendPdpStatus(pdpStatus)
-func SendPdpPapRegistration(s PdpStatusSender) error {
-
-	var pdpStatus = model.PdpStatus{
-		MessageType: model.PDP_STATUS,
-		PdpType:     consts.PdpType,
-		State:       model.Passive,
-		Healthy:     model.Healthy,
-		Policies:    nil,
-		PdpResponse: nil,
-		Name:        pdpattributes.PdpName,
-		Description: "Pdp Status Registration Message",
-		PdpGroup:    consts.PdpGroup,
-	}
-
-	log.Debugf("Sending PDP PAP Registration Message")
-
-	err := s.SendPdpStatus(pdpStatus)
-	if err != nil {
-		log.Warnf("Error producing message: %v\n", err)
-		return err
-	}
-	return nil
-
 }

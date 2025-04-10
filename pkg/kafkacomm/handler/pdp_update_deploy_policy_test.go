@@ -35,6 +35,7 @@ import (
 	"policy-opa-pdp/pkg/utils"
 	"strings"
 	"testing"
+	"fmt"
 )
 
 func TestValidatePackageName(t *testing.T) {
@@ -370,7 +371,7 @@ func TestVerifyPolicyByBundleCreation(t *testing.T) {
 	createBundleFuncVar = func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error) {
 		return "", nil
 	}
-	err := verifyPolicyByBundleCreation(policy)
+	_, err := verifyPolicyByBundleCreation(policy)
 	assert.NoError(t, err)
 
 }
@@ -385,7 +386,7 @@ func TestVerifyPolicyByBundleCreation_getDirEmpty(t *testing.T) {
 	}
 
 	//Mocking the CreateBundle
-	err := verifyPolicyByBundleCreation(policy)
+	_, err := verifyPolicyByBundleCreation(policy)
 	assert.NoError(t, err)
 
 }
@@ -403,7 +404,7 @@ func TestVerifyPolicyByBundleCreation_BundleFailure(t *testing.T) {
 	createBundleFuncVar = func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error) {
 		return "", errors.New("Fail to Initialize Bundle")
 	}
-	err := verifyPolicyByBundleCreation(policy)
+	_, err := verifyPolicyByBundleCreation(policy)
 	assert.Error(t, err)
 
 }
@@ -745,7 +746,8 @@ func TestHandlePolicyDeployment_VerifyBundleFailure(t *testing.T) {
 	err, _ := handlePolicyDeployment(pdpUpdate, mockSender)
 	found := false
 	for _, message := range err {
-		if strings.Contains(message, "Failed to Bundle") {
+		fmt.Println(message)
+		if strings.Contains(message, "Failed to build Rego File for") {
 			found = true
 			break
 		}

@@ -35,6 +35,14 @@ import (
 	"github.com/google/uuid"
 )
 
+type(
+	SendPdpUpdateResponseFunc func(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMessage string) error
+)
+
+var (
+	SendPdpUpdateResponseVar SendPdpUpdateResponseFunc = SendPdpUpdateResponse
+)
+
 // Sends a PDP_STATUS message to indicate the successful processing of a PDP_UPDATE request
 // received from the Policy Administration Point (PAP).
 func SendPdpUpdateResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMessage string) error {
@@ -123,7 +131,7 @@ func SendPdpUpdateErrorResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, e
 
 	err = s.SendPdpStatus(pdpStatus)
 	if err != nil {
-		log.Warnf("Failed to send PDP Update Message : %v", err)
+		log.Warnf("Failed to send PDP Update Error Message : %v", err)
 		return err
 	}
 
@@ -160,7 +168,7 @@ func SendStateChangeResponse(s PdpStatusSender, pdpStateChange *model.PdpStateCh
 
 	err := s.SendPdpStatus(pdpStatus)
 	if err != nil {
-		log.Warnf("Failed to send PDP Update Message : %v", err)
+		log.Warnf("Failed to send PDP State Change Message : %v", err)
 		return err
 	}
 
