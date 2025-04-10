@@ -38,8 +38,10 @@ import (
 )
 
 type (
-	HandlePolicyUndeploymentFunc func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string)
-	opasdkGetDataFunc            func(ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error)
+	HandlePolicyUndeploymentFunc        func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string)
+	opasdkGetDataFunc                   func(ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error)
+	policyUndeploymentActionFunc        func(policy map[string]interface{}) []string
+	removeUndeployedPoliciesfromMapFunc func(undeployedPolicy map[string]interface{}) (string, error)
 )
 
 var (
@@ -57,19 +59,25 @@ var (
 
 	removePolicyDirectoryFunc = removePolicyDirectory
 
-	policyUndeploymentActionFunc = policyUndeploymentAction
+	policyUndeploymentActionVar policyUndeploymentActionFunc = policyUndeploymentAction
+
+	removeUndeployedPoliciesfromMapVar removeUndeployedPoliciesfromMapFunc = policymap.RemoveUndeployedPoliciesfromMap
 
 	removePolicyFromSdkandDirFunc = removePolicyFromSdkandDir
 
 	removeDataFromSdkandDirFunc = removeDataFromSdkandDir
+
+	analyseEmptyParentNodesFunc = analyseEmptyParentNodes
+
+	processDataDeletionFromSdkAndDirFunc = processDataDeletionFromSdkAndDir
 )
 
 // processPoliciesTobeUndeployed handles the undeployment of policies
 func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]string, map[string]string) {
 	var failureMessages []string
+	hasFailure := false
 
 	successfullyUndeployedPolicies := make(map[string]string)
-
 	// Unmarshal the last known policies
 	deployedPolicies, err := policymap.UnmarshalLastDeployedPolicies(policymap.LastDeployedPolicies)
 	if err != nil {
@@ -81,20 +89,23 @@ func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]stri
 		matchedPolicy := findDeployedPolicy(policyID, policyVersion, deployedPolicies)
 		if matchedPolicy != nil {
 			// Handle undeployment for the policy
-			errs := policyUndeploymentActionFunc(matchedPolicy)
+			errs := policyUndeploymentActionVar(matchedPolicy)
 			if len(errs) > 0 {
+				hasFailure = true
 				metrics.IncrementUndeployFailureCount()
 				metrics.IncrementTotalErrorCount()
 				failureMessages = append(failureMessages, errs...)
 			}
-			deployedPoliciesMap, err := policymap.RemoveUndeployedPoliciesfromMap(matchedPolicy)
+			deployedPoliciesMap, err := removeUndeployedPoliciesfromMapVar(matchedPolicy)
 			if err != nil {
 				log.Warnf("Policy Name: %s, Version: %s is not removed from LastDeployedPolicies", policyID, policyVersion)
 				failureMessages = append(failureMessages, "Error in removing from LastDeployedPolicies")
 			}
 			log.Debugf("Policies Map After Undeployment : %s", deployedPoliciesMap)
-			metrics.IncrementUndeploySuccessCount()
-			successfullyUndeployedPolicies[policyID] = policyVersion
+			if !hasFailure {
+				metrics.IncrementUndeploySuccessCount()
+				successfullyUndeployedPolicies[policyID] = policyVersion
+			}
 		} else {
 			// Log failure if no match is found
 			log.Debugf("Policy Name: %s, Version: %s is marked for undeployment but was not deployed", policyID, policyVersion)
@@ -155,7 +166,7 @@ func removeDataFromSdkandDir(policy map[string]interface{}) []string {
 			if strKey, ok := dataKey.(string); ok {
 				dataKeysSlice = append(dataKeysSlice, strKey)
 			} else {
-				failureMessages = append(failureMessages, fmt.Sprintf("Invalid Key :%s", dataKey))
+				failureMessages = append(failureMessages, fmt.Sprintf("Invalid Key :%v", dataKey))
 			}
 		}
 		sort.Sort(utils.ByDotCount{Keys: dataKeysSlice, Ascend: false})
@@ -163,28 +174,37 @@ func removeDataFromSdkandDir(policy map[string]interface{}) []string {
 		for _, keyPath := range dataKeysSlice {
 			keyPath = "/" + strings.Replace(keyPath, ".", "/", -1)
 			log.Debugf("Deleting data from OPA : %s", keyPath)
-			// Prepare to handle any errors
-			var err error
-			var dataPath string
-			// Fetch data first
-			// Call the function to check and Analyse empty parent nodes
-			if dataPath, err = analyseEmptyParentNodes(keyPath); err != nil {
-				failureMessages = append(failureMessages, err.Error())
-			}
-			if err := deleteDataSdkFunc(context.Background(), dataPath); err != nil {
-				log.Errorf("Error while deleting Data from SDK for path : %s , %v", keyPath, err.Error())
-				failureMessages = append(failureMessages, err.Error())
-				continue
-			}
-			if err := removeDataDirectoryFunc(keyPath); err != nil {
-				failureMessages = append(failureMessages, err.Error())
-			}
+			errs := processDataDeletionFromSdkAndDirFunc(keyPath)
+			failureMessages = append(failureMessages, errs...)
 		}
 	} else {
-		failureMessages = append(failureMessages, fmt.Sprintf("%s:%s Invalid JSON structure: 'data' is missing or not an array", policy["policy-id"], policy["policy-version"]))
+		policyID, _ := policy[consts.PolicyId].(string)
+		policyVersion, _ := policy[consts.PolicyVersion].(string)
+		failureMessages = append(failureMessages, fmt.Sprintf("%v:%v Invalid JSON structure: 'data' is missing or not an array", policyID, policyVersion))
 	}
 
 	return failureMessages
+}
+
+func processDataDeletionFromSdkAndDir(keyPath string) []string {
+	var failureMessages []string
+	var dataPath string
+	var err error
+	// Fetch data first
+	// Call the function to check and Analyse empty parent nodes
+	if dataPath, err = analyseEmptyParentNodesFunc(keyPath); err != nil {
+		failureMessages = append(failureMessages, err.Error())
+	}
+	if err := deleteDataSdkFunc(context.Background(), dataPath); err != nil {
+		log.Errorf("Error while deleting Data from SDK for path : %s , %v", keyPath, err.Error())
+		failureMessages = append(failureMessages, err.Error())
+	}
+	if err := removeDataDirectoryFunc(keyPath); err != nil {
+		failureMessages = append(failureMessages, err.Error())
+	}
+
+	return failureMessages
+
 }
 
 // removePolicyFromSdkandDir handles the "policy" directories in the policy
@@ -204,7 +224,7 @@ func removePolicyFromSdkandDir(policy map[string]interface{}) []string {
 			}
 		}
 	} else {
-		failureMessages = append(failureMessages, fmt.Sprintf("%s:%s Invalid JSON structure: 'policy' is missing or not an array", policy["policy-id"], policy["policy-version"]))
+		failureMessages = append(failureMessages, fmt.Sprintf("%s:%s Invalid JSON structure: 'policy' is missing or not an array", policy[consts.PolicyId], policy[consts.PolicyVersion]))
 	}
 
 	return failureMessages
@@ -234,8 +254,8 @@ func removePolicyDirectory(policyKey string) error {
 func findDeployedPolicy(policyID, policyVersion string, deployedPolicies []map[string]interface{}) map[string]interface{} {
 	for _, policy := range deployedPolicies {
 		// Extract policy-id and policy-version from the deployed policy
-		id, idOk := policy["policy-id"].(string)
-		version, versionOk := policy["policy-version"].(string)
+		id, idOk := policy[consts.PolicyId].(string)
+		version, versionOk := policy[consts.PolicyVersion].(string)
 
 		// Check if the deployed policy matches the undeployed policy
 		if idOk && versionOk && id == policyID && version == policyVersion {

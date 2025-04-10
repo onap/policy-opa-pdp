@@ -21,6 +21,7 @@ package metrics
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"policy-opa-pdp/pkg/model/oapicodegen"
@@ -97,4 +98,26 @@ func TestFetchCurrentStatistics_ValidRequestID(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, res.Code)
 
+}
+
+type FailingResponseWriter struct {
+	http.ResponseWriter
+}
+
+func (w *FailingResponseWriter) Write(b []byte) (int, error) {
+	return 0, fmt.Errorf("forced encoding failure")
+}
+
+func TestFetchCurrentStatistics_JSONEncodingFailure(t *testing.T) {
+	req := httptest.NewRequest("GET", "/statistics", nil)
+	w := httptest.NewRecorder()
+
+	// Wrap the ResponseWriter to force an error
+	failingWriter := &FailingResponseWriter{w}
+
+	FetchCurrentStatistics(failingWriter, req)
+	resp := w.Result()
+	defer resp.Body.Close()
+
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
 }

@@ -29,6 +29,7 @@ import (
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/mocks"
 	"policy-opa-pdp/pkg/pdpattributes"
+	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"testing"
 	"time"
 )
@@ -55,7 +56,7 @@ func (m *MockKafkaConsumer) ReadMessage(kc *kafkacomm.KafkaConsumer) ([]byte, er
 	return args.Get(0).([]byte), args.Error(0)
 }
 
-func (m *MockKafkaConsumer) PdpUpdateMessageHandler(msg string) error {
+func (m *MockKafkaConsumer) pdpUpdateMessageHandler(msg string) error {
 	args := m.Called(msg)
 	return args.Error(0)
 }
@@ -576,4 +577,57 @@ func TestPdpMessageHandler_jsonunmarshallOPAPdpStateChangemessage(t *testing.T) 
 		assert.Nil(t, err, "Expected no error processing Invalid OPA PDP State Change message")
 
 	})
+}
+
+func TestHandlePdpMessageTypes_Update(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+
+	pdpUpdateMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+		assert.Equal(t, "update-message", string(msg))
+		return nil
+	}
+
+	handlePdpMessageTypes("PDP_UPDATE", []byte("update-message"), mockSender)
+	// Add assertions on log output if needed
+}
+
+func TestHandlePdpMessageTypes_Update_Error(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+
+	pdpUpdateMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+		return errors.New("mock update error")
+	}
+
+	handlePdpMessageTypes("PDP_UPDATE", []byte("bad-message"), mockSender)
+}
+
+func TestHandlePdpMessageTypes_StateChange(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+
+	pdpStateChangeMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+		assert.Equal(t, "state-change", string(msg))
+		return nil
+	}
+
+	handlePdpMessageTypes("PDP_STATE_CHANGE", []byte("state-change"), mockSender)
+}
+
+func TestHandlePdpMessageTypes_StateChange_Error(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+
+	pdpStateChangeMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+		return errors.New("mock state change error")
+	}
+
+	handlePdpMessageTypes("PDP_STATE_CHANGE", []byte("bad-state"), mockSender)
+}
+
+func TestHandlePdpMessageTypes_Status(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+	handlePdpMessageTypes("PDP_STATUS", []byte("ignore"), mockSender)
+}
+
+func TestHandlePdpMessageTypes_Invalid(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+	handlePdpMessageTypes("INVALID_TYPE", []byte("invalid"), mockSender)
 }
