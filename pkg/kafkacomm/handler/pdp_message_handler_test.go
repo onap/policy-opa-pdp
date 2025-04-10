@@ -28,6 +28,7 @@ import (
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/mocks"
+	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/pdpattributes"
 	"testing"
 	"time"
@@ -55,7 +56,7 @@ func (m *MockKafkaConsumer) ReadMessage(kc *kafkacomm.KafkaConsumer) ([]byte, er
 	return args.Get(0).([]byte), args.Error(0)
 }
 
-func (m *MockKafkaConsumer) PdpUpdateMessageHandler(msg string) error {
+func (m *MockKafkaConsumer) pdpUpdateMessageHandler(msg string) error {
 	args := m.Called(msg)
 	return args.Error(0)
 }
@@ -228,17 +229,17 @@ func TestSetAndCheckShutdownFlag(t *testing.T) {
 func TestPdpMessageHandler_ValidPDPUpdate(t *testing.T) {
 	t.Run("Process PDP_UPDATE Message", func(t *testing.T) {
 		message := `{
-                "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
-                "pdpHeartbeatIntervalMs":120000,
-                "policiesToBeDeployed":[],
-                "policiesToBeUndeployed":[],
-                "messageName":"PDP_UPDATE",
-                "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
-                "timestampMs":1730722305297,
-                "name":"",
-                "pdpGroup":"opaGroup",
-                "pdpSubgroup":"opa"
-                 }`
+	        "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
+	        "pdpHeartbeatIntervalMs":120000,
+	        "policiesToBeDeployed":[],
+	        "policiesToBeUndeployed":[],
+	        "messageName":"PDP_UPDATE",
+	        "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
+	        "timestampMs":1730722305297,
+	        "name":"",
+	        "pdpGroup":"opaGroup",
+	        "pdpSubgroup":"opa"
+	         }`
 
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
 		defer cancel() // cancel is called to release resources
@@ -273,17 +274,17 @@ func TestPdpMessageHandler_ValidPDPUpdate(t *testing.T) {
 func TestPdpMessageHandler_ValidPdpStateChange(t *testing.T) {
 	t.Run("Process PDP STATE CHANGE Message Handler", func(t *testing.T) {
 		message := `{
-                "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
-                "pdpHeartbeatIntervalMs":120000,
-                "policiesToBeDeployed":[],
-                "policiesToBeUndeployed":[],
-                "messageName": "PDP_STATE_CHANGE",
-                "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
-                "timestampMs":1730722305297,
-                "name":"",
-                "pdpGroup":"opaGroup",
-                "pdpSubgroup":"opa"
-                 }`
+	        "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
+	        "pdpHeartbeatIntervalMs":120000,
+	        "policiesToBeDeployed":[],
+	        "policiesToBeUndeployed":[],
+	        "messageName": "PDP_STATE_CHANGE",
+	        "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
+	        "timestampMs":1730722305297,
+	        "name":"",
+	        "pdpGroup":"opaGroup",
+	        "pdpSubgroup":"opa"
+	         }`
 
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
 		defer cancel()
@@ -318,17 +319,17 @@ func TestPdpMessageHandler_ValidPdpStateChange(t *testing.T) {
 func TestPdpMessageHandler_DiscardPdpStatus(t *testing.T) {
 	t.Run("Process PDP STATUS Message Handler", func(t *testing.T) {
 		message := `{
-                "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
-                "pdpHeartbeatIntervalMs":120000,
-                "policiesToBeDeployed":[],
-                "policiesToBeUndeployed":[],
-                "messageName":"PDP_STATUS",
-                "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
-                "timestampMs":1730722305297,
-                "name":"",
-                "pdpGroup":"opaGroup",
-                "pdpSubgroup":"opa"
-                 }`
+	        "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
+	        "pdpHeartbeatIntervalMs":120000,
+	        "policiesToBeDeployed":[],
+	        "policiesToBeUndeployed":[],
+	        "messageName":"PDP_STATUS",
+	        "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
+	        "timestampMs":1730722305297,
+	        "name":"",
+	        "pdpGroup":"opaGroup",
+	        "pdpSubgroup":"opa"
+	         }`
 
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
 		defer cancel()
@@ -363,17 +364,17 @@ func TestPdpMessageHandler_DiscardPdpStatus(t *testing.T) {
 func TestPdpMessageHandler_InvalidMessage(t *testing.T) {
 	t.Run("Process Invalid PDP Message Handler", func(t *testing.T) {
 		message := `{
-                "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
-                "pdpHeartbeatIntervalMs":120000,
-                "policiesToBeDeployed":[],
-                "policiesToBeUndeployed":[],
-                "messageName":"PDP_INVALID",
-                "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
-                "timestampMs":1730722305297,
-                "name":"",
-                "pdpGroup":"opaGroup",
-                                "pdpSubgroup":"opa"
-                 }`
+	        "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
+	        "pdpHeartbeatIntervalMs":120000,
+	        "policiesToBeDeployed":[],
+	        "policiesToBeUndeployed":[],
+	        "messageName":"PDP_INVALID",
+	        "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
+	        "timestampMs":1730722305297,
+	        "name":"",
+	        "pdpGroup":"opaGroup",
+	                        "pdpSubgroup":"opa"
+	         }`
 
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
 		defer cancel()
@@ -408,17 +409,17 @@ func TestPdpMessageHandler_InvalidMessage(t *testing.T) {
 func TestPdpMessageHandler_ContextCancelled(t *testing.T) {
 	t.Run("Context is canceled", func(t *testing.T) {
 		message := `{
-                "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
-                "pdpHeartbeatIntervalMs":120000,
-                "policiesToBeDeployed":[],
-                "policiesToBeUndeployed":[],
-                "messageName":"PDP_INVALID",
-                "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
-                "timestampMs":1730722305297,
-                "name":"",
-                "pdpGroup":"opaGroup",
-                "pdpSubgroup":"opa"
-                 }`
+	        "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
+	        "pdpHeartbeatIntervalMs":120000,
+	        "policiesToBeDeployed":[],
+	        "policiesToBeUndeployed":[],
+	        "messageName":"PDP_INVALID",
+	        "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
+	        "timestampMs":1730722305297,
+	        "name":"",
+	        "pdpGroup":"opaGroup",
+	        "pdpSubgroup":"opa"
+	         }`
 		ctx, cancel := context.WithCancel(context.Background())
 		cancel() // Immediately cancel the context
 
@@ -452,17 +453,17 @@ func TestPdpMessageHandler_ContextCancelled(t *testing.T) {
 func TestPdpMessageHandler_InvalidOPAPdpmessage(t *testing.T) {
 	t.Run("Invalid OPA PDP message", func(t *testing.T) {
 		message := `{
-                "":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
-                "pdpHeartbeatIntervalMs":120000,
-                "policiesToBeDeployed":[],
-                "policiesToBeUndeployed":[],
-                "messageName":"PDP_UPDATE",
-                "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
-                "timestampMs":1730722305297,
-                "name":"",
-                "pdpGroup":"opaGroup",
-                "pdpSubgroup":"opa"
-                 }`
+	        "":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
+	        "pdpHeartbeatIntervalMs":120000,
+	        "policiesToBeDeployed":[],
+	        "policiesToBeUndeployed":[],
+	        "messageName":"PDP_UPDATE",
+	        "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
+	        "timestampMs":1730722305297,
+	        "name":"",
+	        "pdpGroup":"opaGroup",
+	        "pdpSubgroup":"opa"
+	         }`
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
 		defer cancel() // cancel is called to release resources
 
@@ -495,17 +496,17 @@ func TestPdpMessageHandler_InvalidOPAPdpmessage(t *testing.T) {
 func TestPdpMessageHandler_InvalidOPAPdpStateChangemessage(t *testing.T) {
 	t.Run("Invalid OPA PDP State Change message", func(t *testing.T) {
 		message := `{
-                "sourc":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
-                "pdpHeartbeatIntervalMs":120000,
-                "policiesToBeDeployed":[],
-                "policiesToBeUndeployed":[],
-                "messageName":"PDP_STATE_CHANGE",
-                "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
-                "timestampMs":1730722305297,
-                "name":"",
-                "pdpGroup":"opaGroup",
-                "pdpSubgroup":"opa"
-                 }`
+	        "sourc":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
+	        "pdpHeartbeatIntervalMs":120000,
+	        "policiesToBeDeployed":[],
+	        "policiesToBeUndeployed":[],
+	        "messageName":"PDP_STATE_CHANGE",
+	        "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
+	        "timestampMs":1730722305297,
+	        "name":"",
+	        "pdpGroup":"opaGroup",
+	        "pdpSubgroup":"opa"
+	         }`
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
 		defer cancel()
 
@@ -538,17 +539,17 @@ func TestPdpMessageHandler_InvalidOPAPdpStateChangemessage(t *testing.T) {
 func TestPdpMessageHandler_jsonunmarshallOPAPdpStateChangemessage(t *testing.T) {
 	t.Run("Invalid OPA PDP State Change message", func(t *testing.T) {
 		message := `{
-                "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
-                "pdpHeartbeatIntervalMs":120000,
-                "policiesToBeDeployed":[],
-                "policiesToBeUndeployed":[],
-                "messageName":"PDP_STATE_CHANGE"
-                "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
-                "timestampMs":1730722305297,
-                "name":"",
-                "pdpGroup":"opaGroup",
-                "pdpSubgroup":"opa"
-                 }`
+	        "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
+	        "pdpHeartbeatIntervalMs":120000,
+	        "policiesToBeDeployed":[],
+	        "policiesToBeUndeployed":[],
+	        "messageName":"PDP_STATE_CHANGE"
+	        "requestId":"41c117db-49a0-40b0-8586-5580d042d0a1",
+	        "timestampMs":1730722305297,
+	        "name":"",
+	        "pdpGroup":"opaGroup",
+	        "pdpSubgroup":"opa"
+	         }`
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
 		defer cancel()
 
@@ -576,4 +577,57 @@ func TestPdpMessageHandler_jsonunmarshallOPAPdpStateChangemessage(t *testing.T) 
 		assert.Nil(t, err, "Expected no error processing Invalid OPA PDP State Change message")
 
 	})
+}
+
+func TestHandlePdpMessageTypes_Update(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+
+	pdpUpdateMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+		assert.Equal(t, "update-message", string(msg))
+		return nil
+	}
+
+	handlePdpMessageTypes("PDP_UPDATE", []byte("update-message"), mockSender)
+	// Add assertions on log output if needed
+}
+
+func TestHandlePdpMessageTypes_Update_Error(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+
+	pdpUpdateMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+		return errors.New("mock update error")
+	}
+
+	handlePdpMessageTypes("PDP_UPDATE", []byte("bad-message"), mockSender)
+}
+
+func TestHandlePdpMessageTypes_StateChange(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+
+	pdpStateChangeMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+		assert.Equal(t, "state-change", string(msg))
+		return nil
+	}
+
+	handlePdpMessageTypes("PDP_STATE_CHANGE", []byte("state-change"), mockSender)
+}
+
+func TestHandlePdpMessageTypes_StateChange_Error(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+
+	pdpStateChangeMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+		return errors.New("mock state change error")
+	}
+
+	handlePdpMessageTypes("PDP_STATE_CHANGE", []byte("bad-state"), mockSender)
+}
+
+func TestHandlePdpMessageTypes_Status(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+	handlePdpMessageTypes("PDP_STATUS", []byte("ignore"), mockSender)
+}
+
+func TestHandlePdpMessageTypes_Invalid(t *testing.T) {
+	mockSender := new(MockPdpStatusSender)
+	handlePdpMessageTypes("INVALID_TYPE", []byte("invalid"), mockSender)
 }

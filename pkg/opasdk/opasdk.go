@@ -124,7 +124,7 @@ func GetOPASingletonInstance() (*sdk.OPA, error) {
 func UpsertPolicy(ctx context.Context, policyID string, policyContent []byte) error {
 	txn, err := memStore.NewTransaction(ctx, storage.WriteParams)
 	if err != nil {
-		log.Warnf("Error creating transaction: %s", err)
+		log.Warnf("Error creating transaction While Upsert Policy: %s", err)
 		memStore.Abort(ctx, txn)
 		return err
 	}
@@ -136,7 +136,7 @@ func UpsertPolicy(ctx context.Context, policyID string, policyContent []byte) er
 	}
 	err = memStore.Commit(ctx, txn)
 	if err != nil {
-		log.Warnf("Error commiting the transaction: %s", err)
+		log.Warnf("Error commiting the transaction while upsert policy: %s", err)
 		memStore.Abort(ctx, txn)
 		return err
 	}
@@ -146,7 +146,7 @@ func UpsertPolicy(ctx context.Context, policyID string, policyContent []byte) er
 func DeletePolicy(ctx context.Context, policyID string) error {
 	txn, err := memStore.NewTransaction(ctx, storage.WriteParams)
 	if err != nil {
-		log.Warnf("Error creating transaction: %s", err)
+		log.Warnf("Error creating transaction while delete policy: %s", err)
 		memStore.Abort(ctx, txn)
 		return err
 	}
@@ -158,7 +158,7 @@ func DeletePolicy(ctx context.Context, policyID string) error {
 	}
 	err = memStore.Commit(ctx, txn)
 	if err != nil {
-		log.Warnf("Error commiting the transaction: %s", err)
+		log.Warnf("Error commiting the transaction while delete policy: %s", err)
 		memStore.Abort(ctx, txn)
 		return err
 	}
@@ -168,7 +168,7 @@ func DeletePolicy(ctx context.Context, policyID string) error {
 func WriteData(ctx context.Context, dataPath string, data interface{}) error {
 	txn, err := memStore.NewTransaction(ctx, storage.WriteParams)
 	if err != nil {
-		log.Warnf("Error creating transaction: %s", err)
+		log.Warnf("Error creating transaction while write data: %s", err)
 		memStore.Abort(ctx, txn)
 		return err
 	}
@@ -190,7 +190,7 @@ func WriteData(ctx context.Context, dataPath string, data interface{}) error {
 	}
 	err = memStore.Commit(ctx, txn)
 	if err != nil {
-		log.Warnf("Error commiting the transaction: %s", err)
+		log.Warnf("Error commiting the transaction while write data: %s", err)
 		memStore.Abort(ctx, txn)
 		return err
 	}
@@ -201,7 +201,7 @@ func WriteData(ctx context.Context, dataPath string, data interface{}) error {
 func DeleteData(ctx context.Context, dataPath string) error {
 	txn, err := memStore.NewTransaction(ctx, storage.WriteParams)
 	if err != nil {
-		log.Warnf("Error creating transaction: %s", err)
+		log.Warnf("Error creating transaction while Delete Data: %s", err)
 		memStore.Abort(ctx, txn)
 		return err
 	}
@@ -213,7 +213,7 @@ func DeleteData(ctx context.Context, dataPath string) error {
 	}
 	err = memStore.Commit(ctx, txn)
 	if err != nil {
-		log.Warnf("Error commiting the transaction: %s", err)
+		log.Warnf("Error commiting the transaction while Delete Data: %s", err)
 		memStore.Abort(ctx, txn)
 		return err
 	}
@@ -225,7 +225,7 @@ func ListPolicies(res http.ResponseWriter, req *http.Request) {
 	ctx := context.Background()
 	rtxn, err := memStore.NewTransaction(ctx, storage.TransactionParams{Write: false})
 	if err != nil {
-		log.Warnf("Error creating transaction %s", err)
+		log.Warnf("Error creating transaction  while listing policies: %s", err)
 		memStore.Abort(ctx, rtxn)
 		http.Error(res, err.Error(), http.StatusInternalServerError)
 		return
@@ -280,7 +280,7 @@ func initializePath(ctx context.Context, txn storage.Transaction, path string) e
 func PatchData(ctx context.Context, patches []PatchImpl) error {
 	txn, err := memStore.NewTransaction(ctx, storage.WriteParams)
 	if err != nil {
-		log.Warnf("Error in creating transaction: %s", err)
+		log.Warnf("Error in creating transaction while Patch Data: %s", err)
 		memStore.Abort(ctx, txn)
 		return err
 	}
