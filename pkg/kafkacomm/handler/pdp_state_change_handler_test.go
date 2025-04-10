@@ -78,9 +78,23 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 			expectError:   false,
 			checkNotEqual: false,
 		},
+		"Empty SendStateChangeResponse": {
+			message:       []byte(`{"state":"Hello"}`),
+			expectedState: "PASSIVE",
+			mockError:     assert.AnError,
+			expectError:   true,
+			checkNotEqual: false,
+		},
+		"Empty SendStateChangeJson": {
+			message:       []byte(`{}`),
+			expectedState: "PASSIVE",
+			mockError:     assert.AnError,
+			expectError:   false,
+			checkNotEqual: false,
+		},
 	}
 
-	orderedKeys := []string{"Valid state change", "Invalid JSON", "Error in SendStateChangeResponse"}
+	orderedKeys := []string{"Valid state change", "Invalid JSON", "Error in SendStateChangeResponse", "Empty SendStateChangeResponse", "Empty SendStateChangeJson"}
 
 	for _, name := range orderedKeys {
 		tt := tests[name]

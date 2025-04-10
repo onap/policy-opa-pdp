@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -33,6 +33,14 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+)
+
+type(
+	SendPdpUpdateResponseFunc func(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMessage string) error
+)
+
+var (
+	SendPdpUpdateResponseVar SendPdpUpdateResponseFunc = SendPdpUpdateResponse
 )
 
 // Sends a PDP_STATUS message to indicate the successful processing of a PDP_UPDATE request
@@ -123,7 +131,7 @@ func SendPdpUpdateErrorResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, e
 
 	err = s.SendPdpStatus(pdpStatus)
 	if err != nil {
-		log.Warnf("Failed to send PDP Update Message : %v", err)
+		log.Warnf("Failed to send PDP Update Error Message : %v", err)
 		return err
 	}
 
@@ -160,7 +168,7 @@ func SendStateChangeResponse(s PdpStatusSender, pdpStateChange *model.PdpStateCh
 
 	err := s.SendPdpStatus(pdpStatus)
 	if err != nil {
-		log.Warnf("Failed to send PDP Update Message : %v", err)
+		log.Warnf("Failed to send PDP State Change Message : %v", err)
 		return err
 	}
 

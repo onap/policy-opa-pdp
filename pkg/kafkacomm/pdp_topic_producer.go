@@ -50,6 +50,8 @@ var (
 // It configures the Kafka producer with the given bootstrap servers and topic.
 // If SASL authentication is enabled via the configuration, the necessary credentials
 // are set in the producer configuration.
+//
+//nolint:gosec
 func GetKafkaProducer(bootstrapServers, topic string) (*KafkaProducer, error) {
 	var err error
 	once.Do(func() {
