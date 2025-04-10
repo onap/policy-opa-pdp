@@ -22,12 +22,18 @@ package policymap
 import (
 	"encoding/json"
 	"fmt"
+	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
 )
 
+type (
+	FormatMapOfAnyTypeFunc[T any] func(mapOfAnyType T) (string, error)
+)
+
 var (
-	LastDeployedPolicies string
+	LastDeployedPolicies  string
+	FormatMapOfAnyTypeVar FormatMapOfAnyTypeFunc[interface{}] = FormatMapofAnyType
 )
 
 func formatPolicyAndDataMap(deployedPolicies []map[string]interface{}) (string, error) {
@@ -38,7 +44,7 @@ func formatPolicyAndDataMap(deployedPolicies []map[string]interface{}) (string, 
 	}
 
 	// Marshal the final map into JSON
-	policyDataJSON, err := FormatMapofAnyType(finalMap)
+	policyDataJSON, err := FormatMapOfAnyTypeVar(finalMap)
 	if err != nil {
 		return "", fmt.Errorf("failed to format json: %v", err)
 	}
@@ -82,7 +88,7 @@ func UpdateDeployedPoliciesinMap(policy model.ToscaPolicy) (string, error) {
 	// Unmarshal the last known policies
 	deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
 	if err != nil {
-		log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
+		log.Warnf("Failed to unmarshal LastDeployedPolicies While Updating Deployed Policies: %v", err)
 	}
 
 	dataKeys := make([]string, 0, len(policy.Properties.Data))
@@ -97,10 +103,10 @@ func UpdateDeployedPoliciesinMap(policy model.ToscaPolicy) (string, error) {
 	}
 
 	directoryMap := map[string]interface{}{
-		"policy-id":      policy.Metadata.PolicyID,
-		"policy-version": policy.Metadata.PolicyVersion,
-		"data":           dataKeys,
-		"policy":         policyKeys,
+		consts.PolicyId:      policy.Metadata.PolicyID,
+		consts.PolicyVersion: policy.Metadata.PolicyVersion,
+		"data":               dataKeys,
+		"policy":             policyKeys,
 	}
 	deployedPolicies = append(deployedPolicies, directoryMap)
 	return formatPolicyAndDataMap(deployedPolicies)
@@ -111,14 +117,14 @@ func RemoveUndeployedPoliciesfromMap(undeployedPolicy map[string]interface{}) (s
 	// Unmarshal the last known policies
 	deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
 	if err != nil {
-		log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
+		log.Warnf("Failed to unmarshal LastDeployedPolicies While Removing Undeployed Policies From Map: %v", err)
 	}
 
 	remainingPolicies := []map[string]interface{}{}
 
 	for _, policy := range deployedPolicies {
 		shouldRetain := true
-		if policy["policy-id"] == undeployedPolicy["policy-id"] && policy["policy-version"] == undeployedPolicy["policy-version"] {
+		if policy[consts.PolicyId] == undeployedPolicy[consts.PolicyId] && policy[consts.PolicyVersion] == undeployedPolicy[consts.PolicyVersion] {
 			shouldRetain = false
 		}
 		if shouldRetain {
@@ -137,7 +143,7 @@ func VerifyAndReturnPoliciesToBeDeployed(lastdeployedPoliciesMap string, pdpUpda
 	var policiesMap PoliciesMap
 	err := json.Unmarshal([]byte(lastdeployedPoliciesMap), &policiesMap)
 	if err != nil {
-		log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
+		log.Warnf("Failed to unmarshal LastDeployedPolicies While Verifying Policies to be deployed: %v", err)
 		return pdpUpdate.PoliciesToBeDeployed
 	}
 
@@ -147,7 +153,7 @@ func VerifyAndReturnPoliciesToBeDeployed(lastdeployedPoliciesMap string, pdpUpda
 	for _, deployingPolicy := range pdpUpdate.PoliciesToBeDeployed {
 		shouldDeploy := true
 		for _, deployedPolicy := range deployedPolicies {
-			if deployedPolicy["policy-id"] == deployingPolicy.Name && deployedPolicy["policy-version"] == deployingPolicy.Version {
+			if deployedPolicy[consts.PolicyId] == deployingPolicy.Name && deployedPolicy[consts.PolicyVersion] == deployingPolicy.Version {
 				log.Infof("Policy Previously deployed: %v %v, skipping", deployingPolicy.Name, deployingPolicy.Version)
 				shouldDeploy = false
 				break
@@ -169,7 +175,7 @@ func ExtractDeployedPolicies(policiesMap string) []model.ToscaConceptIdentifier 
 	// Unmarshal the last known policies
 	deployedPolicies, err := UnmarshalLastDeployedPolicies(policiesMap)
 	if err != nil {
-		log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
+		log.Warnf("Failed to unmarshal LastDeployedPolicies While Extracting Deployed Policies: %v", err)
 	}
 
 	pdpstatus := model.PdpStatus{
@@ -179,8 +185,8 @@ func ExtractDeployedPolicies(policiesMap string) []model.ToscaConceptIdentifier 
 	for _, policy := range deployedPolicies {
 
 		// Extract policy-id and policy-version
-		policyID, idOk := policy["policy-id"].(string)
-		policyVersion, versionOk := policy["policy-version"].(string)
+		policyID, idOk := policy[consts.PolicyId].(string)
+		policyVersion, versionOk := policy[consts.PolicyVersion].(string)
 		if !idOk || !versionOk {
 			log.Warnf("Missing or invalid policy-id or policy-version")
 			return nil
@@ -199,13 +205,13 @@ func CheckIfPolicyAlreadyExists(policyId string) bool {
 		// Unmarshal the last known policies
 		deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
 		if err != nil {
-			log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
+			log.Warnf("Failed to unmarshal LastDeployedPolicies While Checking if Policy Already Exists: %v", err)
 		}
 
 		log.Debugf("deployedPolicies %s", deployedPolicies)
 
 		for _, policy := range deployedPolicies {
-			if policy["policy-id"] == policyId {
+			if policy[consts.PolicyId] == policyId {
 				return true
 			}
 		}
@@ -216,7 +222,7 @@ func CheckIfPolicyAlreadyExists(policyId string) bool {
 func GetTotalDeployedPoliciesCountFromMap() int {
 	deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
 	if err != nil {
-		log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
+		log.Warnf("Failed to unmarshal LastDeployedPolicies While Getting TotalDeployedPoliciesCountFromMap: %v", err)
 		return 0
 	}
 	return len(deployedPolicies)

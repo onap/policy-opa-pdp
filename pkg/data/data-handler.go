@@ -37,10 +37,15 @@ import (
 	"strings"
 )
 
+type (
+	checkIfPolicyAlreadyExistsFunc func(policyId string) bool
+)
+
 var (
 	addOp     storage.PatchOp = 0
 	removeOp  storage.PatchOp = 1
 	replaceOp storage.PatchOp = 2
+	checkIfPolicyAlreadyExistsVar checkIfPolicyAlreadyExistsFunc = policymap.CheckIfPolicyAlreadyExists
 )
 
 // creates a response code map to OPADataUpdateResponse
@@ -140,7 +145,7 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 		log.Infof("data : %s", data)
 		policyId := requestBody.PolicyName
 		log.Infof("policy name : %s", *policyId)
-		isExists := policymap.CheckIfPolicyAlreadyExists(*policyId)
+		isExists := checkIfPolicyAlreadyExistsVar(*policyId)
 		if !isExists {
 			errMsg := "Policy associated with the patch request does not exists"
 			sendErrorResponse(res, errMsg, http.StatusBadRequest)
@@ -392,7 +397,7 @@ func invalidMethodHandler(res http.ResponseWriter, method string) {
 }
 
 func constructResponseHeader(res http.ResponseWriter, req *http.Request) {
-	requestId := req.Header.Get("X-ONAP-RequestID")
+	requestId := req.Header.Get(consts.RequestId)
 	var parsedUUID *uuid.UUID
 	var decisionParams *oapicodegen.DecisionParams
 
@@ -405,11 +410,11 @@ func constructResponseHeader(res http.ResponseWriter, req *http.Request) {
 			decisionParams = &oapicodegen.DecisionParams{
 				XONAPRequestID: (*openapi_types.UUID)(parsedUUID),
 			}
-			res.Header().Set("X-ONAP-RequestID", decisionParams.XONAPRequestID.String())
+			res.Header().Set(consts.RequestId, decisionParams.XONAPRequestID.String())
 		}
 	} else {
 		requestId = "Unknown"
-		res.Header().Set("X-ONAP-RequestID", requestId)
+		res.Header().Set(consts.RequestId, requestId)
 	}
 
 	res.Header().Set("X-LatestVersion", consts.LatestVersion)

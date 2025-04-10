@@ -17,6 +17,7 @@
 //   ========================LICENSE_END===================================
 
 // will process the update message from pap and send the pdp status response.
+
 package handler
 
 import (
@@ -29,6 +30,7 @@ import (
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/policymap"
+	"reflect"
 	"testing"
 )
 
@@ -142,24 +144,6 @@ func TestProcessPoliciesTobeUndeployed_Success(t *testing.T) {
 	assert.Equal(t, "", success["test-policy"])
 }
 
-// Failure case: Policy undeployment fails due to missing policy
-func TestProcessPoliciesTobeUndeployed_Failure_NoMatch(t *testing.T) {
-	undeployedPolicies := map[string]string{"non-existent-policy": "v1"}
-
-	// Mock deployed policies (empty list)
-	deployedPolicies := []map[string]interface{}{}
-
-	mockPolicyMap := new(MockPolicyMap)
-	mockPolicyMap.On("UnmarshalLastDeployedPolicies", mock.Anything).Return(deployedPolicies, nil)
-
-	policymap.LastDeployedPolicies = `{"test-policy": "v1"}`
-
-	failures, success := processPoliciesTobeUndeployed(undeployedPolicies)
-
-	assert.Empty(t, success, "Expected no policies to be successfully undeployed")
-	assert.Empty(t, failures, "Expected no failure messages")
-}
-
 func TestProcessPoliciesTobeUndeployed_Failure_UnmarshalError(t *testing.T) {
 	undeployedPolicies := map[string]string{"test-policy": "v1"}
 
@@ -172,104 +156,6 @@ func TestProcessPoliciesTobeUndeployed_Failure_UnmarshalError(t *testing.T) {
 
 	assert.Empty(t, success, "Expected no successful undeployments")
 	assert.Empty(t, failures, "Expected failure messages due to unmarshal error")
-}
-
-func TestProcessPoliciesTobeUndeployed_Failure_PolicyNotFound(t *testing.T) {
-	undeployedPolicies := map[string]string{"non-existent-policy": "v1"}
-	mockPolicyMap := new(MockPolicyMap)
-	mockPolicyMap.On("UnmarshalLastDeployedPolicies", mock.Anything).Return([]map[string]interface{}{}, nil)
-
-	failures, success := processPoliciesTobeUndeployed(undeployedPolicies)
-
-	assert.Empty(t, success, "Expected no successful undeployments since policy doesn't exist")
-	assert.Empty(t, failures, "Failures list should be empty since policy wasn't found")
-}
-
-func TestProcessPoliciesTobeUndeployed_FailureInUndeployment(t *testing.T) {
-	// Backup original function
-	originalFunc := policyUndeploymentActionFunc
-	defer func() { policyUndeploymentActionFunc = originalFunc }()
-
-	// Mock policy undeployment action to fail
-	policyUndeploymentActionFunc = func(policy map[string]interface{}) []string {
-		return []string{"Failed to undeploy"}
-	}
-
-	mockPolicyMap := new(MockPolicyMap)
-	undeployedPolicies := map[string]string{
-		"policy2": "v1",
-	}
-
-	mockPolicy := map[string]interface{}{
-		"policyID":      "policy2",
-		"policyVersion": "v1",
-	}
-
-	mockPolicyMap.On("UnmarshalLastDeployedPolicies", mock.Anything).Return([]map[string]interface{}{mockPolicy}, nil)
-	mockPolicyMap.On("RemoveUndeployedPoliciesfromMap", mockPolicy).Return("{}", nil)
-
-	// Run function
-	failureMessages, successPolicies := processPoliciesTobeUndeployed(undeployedPolicies)
-
-	// Assertions
-	assert.Empty(t, failureMessages)
-	assert.Empty(t, successPolicies)
-}
-
-func TestProcessPoliciesTobeUndeployed_PolicyNotDeployed(t *testing.T) {
-	// Backup original function
-	originalFunc := policyUndeploymentActionFunc
-	defer func() { policyUndeploymentActionFunc = originalFunc }()
-
-	// Mock policy undeployment action to succeed
-	policyUndeploymentActionFunc = func(policy map[string]interface{}) []string {
-		return nil
-	}
-
-	mockPolicyMap := new(MockPolicyMap)
-	undeployedPolicies := map[string]string{
-		"policy3": "v1",
-	}
-
-	mockPolicyMap.On("UnmarshalLastDeployedPolicies", mock.Anything).Return([]map[string]interface{}{}, nil)
-
-	// Run function
-	failureMessages, successPolicies := processPoliciesTobeUndeployed(undeployedPolicies)
-
-	// Assertions
-	assert.Empty(t, failureMessages)
-	assert.Empty(t, successPolicies)
-}
-
-func TestProcessPoliciesTobeUndeployed_ErrorInRemoveFromMap(t *testing.T) {
-	// Backup original function
-	originalFunc := policyUndeploymentActionFunc
-	defer func() { policyUndeploymentActionFunc = originalFunc }()
-
-	// Mock policy undeployment action to succeed
-	policyUndeploymentActionFunc = func(policy map[string]interface{}) []string {
-		return nil
-	}
-
-	mockPolicyMap := new(MockPolicyMap)
-	undeployedPolicies := map[string]string{
-		"policy4": "v1",
-	}
-
-	mockPolicy := map[string]interface{}{
-		"policyID":      "policy4",
-		"policyVersion": "v1",
-	}
-
-	mockPolicyMap.On("UnmarshalLastDeployedPolicies", mock.Anything).Return([]map[string]interface{}{mockPolicy}, nil)
-	mockPolicyMap.On("RemoveUndeployedPoliciesfromMap", mockPolicy).Return("", errors.New("removal error"))
-
-	// Run function
-	failureMessages, successPolicies := processPoliciesTobeUndeployed(undeployedPolicies)
-
-	// Assertions
-	assert.Empty(t, failureMessages)
-	assert.Empty(t, successPolicies)
 }
 
 func TestRemoveDataDirectory(t *testing.T) {
@@ -334,53 +220,6 @@ func TestRemovePolicyDirectory(t *testing.T) {
 	err = removePolicyDirectory("testpolicy")
 	expectedError := "Failed to handle directory for policy /mock/policies/testpolicy: mocked error"
 	assert.Equal(t, expectedError, err.Error())
-}
-
-// Test function for removeDataFromSdkandDir
-func TestRemoveDataFromSdkandDir(t *testing.T) {
-	// Backup original functions
-	originalRemoveDataDirectory := removeDataDirectoryFunc
-	originalDeleteData := deleteDataSdkFunc
-	defer func() {
-		removeDataDirectoryFunc = originalRemoveDataDirectory // Restore after test
-		deleteDataSdkFunc = originalDeleteData                // Restore after test
-	}()
-
-	// Mock removeDataDirectoryFunc and deleteDataFunc to return errors for testing
-	opasdkGetData = func(ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error) {
-		// Mock JSON data
-		mockedData := `{"mocked": {"success": "value", "error": "value"}}`
-		// Create an instance of OPADataResponse_Data
-		var response oapicodegen.OPADataResponse_Data
-		// Unmarshal into the OPADataResponse_Data struct
-		err = json.Unmarshal([]byte(mockedData), &response)
-		if err != nil {
-			return nil, errors.New("Error unmarshalling")
-		}
-		return &response, nil //
-	}
-	removeDataDirectoryFunc = func(dataKey string) error {
-		if dataKey == "/mocked/error" {
-			return errors.New("mocked remove data directory error")
-		}
-		return nil
-	}
-
-	deleteDataSdkFunc = func(ctx context.Context, keyPath string) error {
-		if keyPath == "/mocked/error" {
-			return errors.New("mocked delete data error")
-		}
-		return nil
-	}
-
-	policy := map[string]interface{}{
-		"data": []interface{}{"mocked.success", "mocked.error"},
-	}
-
-	failures := removeDataFromSdkandDir(policy)
-
-	assert.Len(t, failures, 1) // We expect two errors
-	assert.Contains(t, failures[0], "mocked delete data error")
 }
 
 func TestRemovePolicyFromSdkandDir(t *testing.T) {
@@ -481,10 +320,10 @@ func TestPolicyUndeploymentAction(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// Set mock behavior
 			removePolicyFromSdkandDirFunc = func(policy map[string]interface{}) []string {
-				return tt.mockPolicyErrors
+	return tt.mockPolicyErrors
 			}
 			removeDataFromSdkandDirFunc = func(policy map[string]interface{}) []string {
-				return tt.mockDataErrors
+	return tt.mockDataErrors
 			}
 
 			// Call the function under test
@@ -492,6 +331,432 @@ func TestPolicyUndeploymentAction(t *testing.T) {
 
 			// Validate output
 			assert.Equal(t, tt.expectedFailures, failureMessages)
+		})
+	}
+}
+
+func TestProcessPoliciesTobeUndeployed_FailureInUndeployment(t *testing.T) {
+
+	// Create a mock policy map
+	mockPolicyMap := new(MockPolicyMap)
+
+	// Define undeployed policies
+	undeployedPolicies := map[string]string{"policy2": "1.0.0"}
+
+	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "policy2","policy-version": "1.0.0"}]}`
+
+	// Override policyUndeploymentActionFunc to return a failure
+	policyUndeploymentActionVar = func(policy map[string]interface{}) []string {
+		return []string{"Failed to undeploy"}
+	}
+
+	// Run the function
+	failureMessages, successPolicies := processPoliciesTobeUndeployed(undeployedPolicies)
+
+	// Assertions
+	assert.Equal(t, []string{"Failed to undeploy"}, failureMessages, "Expected failure message for undeployment failure")
+	assert.Empty(t, successPolicies, "No policies should be successfully undeployed")
+
+	// Ensure all expectations on the mock were met
+	mockPolicyMap.AssertExpectations(t)
+}
+
+func TestProcessPoliciesTobeUndeployed_ErrorInRemoveFromMap(t *testing.T) {
+	// Backup original function
+	policyUndeploymentActionVar = func(policy map[string]interface{}) []string {
+		return nil
+	}
+
+	undeployedPolicies := map[string]string{
+		"policy4": "v1",
+	}
+
+	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "policy4","policy-version": "v1"}]}`
+	removeUndeployedPoliciesfromMapVar = func(undeployedPolicies map[string]interface{}) (string, error) {
+		return "", errors.New("removal error")
+	}
+
+	// Run function
+	failureMessages, successPolicies := processPoliciesTobeUndeployed(undeployedPolicies)
+
+	// Assertions
+	assert.Equal(t, []string{"Error in removing from LastDeployedPolicies"}, failureMessages, "Expected failure message for undeployment failure")
+	assert.NotEmpty(t, successPolicies)
+}
+
+// Test cases for countChildKeysFromJSON
+func TestCountChildKeysFromJSON(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    map[string]interface{}
+		expected map[string]int
+	}{
+		{
+			name:     "Empty JSON",
+			input:    map[string]interface{}{},
+			expected: map[string]int{
+	// No child nodes
+			},
+		},
+		{
+			name: "Single Level JSON",
+			input: map[string]interface{}{
+	"key1": map[string]interface{}{
+		"child1": "value1",
+		"child2": "value2",
+	},
+	"key2": map[string]interface{}{
+		"childA": "valueA",
+	},
+			},
+			expected: map[string]int{
+	"node/key1": 2, // key1 has 2 children
+	"node/key2": 1, // key2 has 1 child
+			},
+		},
+		{
+			name: "Nested JSON",
+			input: map[string]interface{}{
+	"root": map[string]interface{}{
+		"level1": map[string]interface{}{
+			"level2": map[string]interface{}{
+				"child1": "value1",
+				"child2": "value2",
+			},
+		},
+	},
+			},
+			expected: map[string]int{
+	"node/root":               1, // root has 1 child (level1)
+	"node/root/level1":        1, // level1 has 1 child (level2)
+	"node/root/level1/level2": 2, // level2 has 2 children
+			},
+		},
+		{
+			name: "Mixed Data Types",
+			input: map[string]interface{}{
+	"parent": map[string]interface{}{
+		"child1": "string",
+		"child2": 42,
+		"child3": map[string]interface{}{
+			"subchild1": true,
+			"subchild2": nil,
+		},
+	},
+			},
+			expected: map[string]int{
+	"node/parent":        3, // parent has 3 children
+	"node/parent/child3": 2, // child3 has 2 children
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := countChildKeysFromJSON(tt.input)
+			if !reflect.DeepEqual(got, tt.expected) {
+	t.Errorf("countChildKeysFromJSON() = %v, expected %v", got, tt.expected)
+			}
+		})
+	}
+}
+
+func TestAnalyzeHierarchy(t *testing.T) {
+	tests := []struct {
+		name           string
+		parentDataJson json.RawMessage
+		dataPath       string
+		expectedPath   string
+		expectedErr    bool
+	}{
+		{
+			name: "Valid hierarchy with multiple children",
+			parentDataJson: json.RawMessage(`{
+"root": {
+"parent1": {
+"child1": {},
+"child2": {}
+},
+"parent2": {
+"child3": {}
+}
+}
+}`),
+			dataPath:     "/root/parent1/child1",
+			expectedPath: "/root/parent1/child1",
+			expectedErr:  false,
+		},
+		{
+			name: "Hierarchy with only one child, eligible parent",
+			parentDataJson: json.RawMessage(`{
+"root": {
+"parent1": {
+"child1": {}
+}
+}
+}`),
+			dataPath:     "/root/parent1/child1",
+			expectedPath: "/root/parent1/child1",
+			expectedErr:  false,
+		},
+		{
+			name: "Invalid JSON structure",
+			parentDataJson: json.RawMessage(`{
+"root": { "parent1": "child1" `), // Malformed JSON
+			dataPath:     "/root/parent1/child1",
+			expectedPath: "",
+			expectedErr:  true,
+		},
+		{
+			name: "Path does not exist in JSON",
+			parentDataJson: json.RawMessage(`{
+"root": {
+"parent1": {
+"child1": {}
+}
+}
+}`),
+			dataPath:     "/root/parent2/child3",
+			expectedPath: "/root/parent2/child3",
+			expectedErr:  false,
+		},
+		{
+			name: "Root path case",
+			parentDataJson: json.RawMessage(`{
+"root": {}
+}`),
+			dataPath:     "/root",
+			expectedPath: "/root",
+			expectedErr:  false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result, err := analyzeHierarchy(tt.parentDataJson, tt.dataPath)
+
+			if tt.expectedErr {
+	assert.Error(t, err)
+			} else {
+	assert.NoError(t, err)
+	assert.Equal(t, tt.expectedPath, result)
+			}
+		})
+	}
+}
+
+// Mock function variable for opasdkGetData
+var mockGetData func(ctx context.Context, dataPath string) (*oapicodegen.OPADataResponse_Data, error)
+
+func TestAnalyseEmptyParentNodes(t *testing.T) {
+	// Backup the original function
+	originalOpaSDKGetData := opasdkGetData
+	opasdkGetData = func(ctx context.Context, dataPath string) (*oapicodegen.OPADataResponse_Data, error) {
+		return mockGetData(ctx, dataPath)
+	}
+	defer func() {
+		opasdkGetData = originalOpaSDKGetData // Restore after test
+	}()
+
+	tests := []struct {
+		name           string
+		inputPath      string
+		mockResponse   interface{}
+		mockError      error
+		expectedOutput string
+		expectError    bool
+	}{
+		// Case 1: Leaf node (no parent hierarchy)
+		{
+			name:           "Leaf Node - No Parent",
+			inputPath:      "/singleSegment",
+			mockResponse:   nil,
+			mockError:      nil,
+			expectedOutput: "/singleSegment",
+			expectError:    false,
+		},
+		// Case 2: Parent exists with valid data
+		{
+			name:      "Success - Valid Parent Data Exists",
+			inputPath: "/parent/child",
+			mockResponse: map[string]interface{}{
+	"child": "data",
+			},
+			mockError:      nil,
+			expectedOutput: "/parent/child",
+			expectError:    false,
+		},
+		// Case 3: Parent exists but is empty
+		{
+			name:           "Parent Exists but is Empty",
+			inputPath:      "/parent/child",
+			mockResponse:   map[string]interface{}{},
+			mockError:      nil,
+			expectedOutput: "/parent/child",
+			expectError:    false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Mock function behavior
+			opasdkGetData = func(ctx context.Context, dataPath string) (*oapicodegen.OPADataResponse_Data, error) {
+	if tt.mockResponse != nil {
+		jsonData, _ := json.Marshal(tt.mockResponse)
+		var resData oapicodegen.OPADataResponse_Data
+		_ = json.Unmarshal(jsonData, &resData)
+		return &resData, tt.mockError
+	}
+	return nil, tt.mockError
+			}
+
+			// Call function
+			output, err := analyseEmptyParentNodes(tt.inputPath)
+
+			// Validate results
+			if tt.expectError {
+	assert.Error(t, err, "Expected error but got none")
+			} else {
+	assert.NoError(t, err, "Expected no error but got one")
+	assert.Equal(t, tt.expectedOutput, output, "Unexpected output")
+			}
+		})
+	}
+}
+
+func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
+	tests := []struct {
+		name             string
+		inputKeyPath     string
+		mockAnalyseErr   error
+		mockDeleteErr    error
+		mockRemoveErr    error
+		expectedFailures []string
+	}{
+		{
+			name:             "Success - No errors",
+			inputKeyPath:     "/valid/path",
+			mockAnalyseErr:   nil,
+			mockDeleteErr:    nil,
+			mockRemoveErr:    nil,
+			expectedFailures: []string{},
+		},
+		{
+			name:             "Failure - analyseEmptyParentNodes error",
+			inputKeyPath:     "/error/path",
+			mockAnalyseErr:   errors.New("failed to analyze"),
+			mockDeleteErr:    nil,
+			mockRemoveErr:    nil,
+			expectedFailures: []string{"failed to analyze"},
+		},
+		{
+			name:             "Failure - deleteDataSdkFunc error",
+			inputKeyPath:     "/delete/error",
+			mockAnalyseErr:   nil,
+			mockDeleteErr:    errors.New("delete failed"),
+			mockRemoveErr:    nil,
+			expectedFailures: []string{"delete failed"},
+		},
+		{
+			name:             "Failure - removeDataDirectoryFunc error",
+			inputKeyPath:     "/remove/error",
+			mockAnalyseErr:   nil,
+			mockDeleteErr:    nil,
+			mockRemoveErr:    errors.New("remove failed"),
+			expectedFailures: []string{"remove failed"},
+		},
+		{
+			name:             "Failure - Multiple errors",
+			inputKeyPath:     "/multiple/errors",
+			mockAnalyseErr:   errors.New("analyse failed"),
+			mockDeleteErr:    errors.New("delete failed"),
+			mockRemoveErr:    errors.New("remove failed"),
+			expectedFailures: []string{"analyse failed", "delete failed", "remove failed"},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Mock function variables
+			analyseEmptyParentNodesFunc = func(dataPath string) (string, error) {
+	return dataPath, tt.mockAnalyseErr
+			}
+			deleteDataSdkFunc = func(ctx context.Context, dataPath string) error {
+	return tt.mockDeleteErr
+			}
+			removeDataDirectoryFunc = func(keyPath string) error {
+	return tt.mockRemoveErr
+			}
+
+			// Call function
+			failureMessages := processDataDeletionFromSdkAndDir(tt.inputKeyPath)
+
+			// Normalize nil vs empty slice
+			if failureMessages == nil {
+	failureMessages = []string{}
+			}
+
+			// Validate results
+			assert.Equal(t, tt.expectedFailures, failureMessages, "Unexpected failure messages")
+		})
+	}
+}
+
+// Mock function for testing
+func mockProcessDataDeletion(keyPath string) []string {
+	if keyPath == "/invalid/path" {
+		return []string{"Failed to delete: " + keyPath}
+	}
+	return nil // Simulate successful deletion
+}
+
+func TestRemoveDataFromSdkandDir(t *testing.T) {
+	// Mock the function globally
+	originalProcessDataDeletion := processDataDeletionFromSdkAndDirFunc
+	processDataDeletionFromSdkAndDirFunc = mockProcessDataDeletion
+	defer func() { processDataDeletionFromSdkAndDirFunc = originalProcessDataDeletion }() // Restore after test
+
+	tests := []struct {
+		name             string
+		policy           map[string]interface{}
+		expectedFailures []string
+	}{
+		{
+			name: "Valid data keys",
+			policy: map[string]interface{}{
+	"data": []interface{}{"policy.rule1", "policy.rule2"},
+			},
+			expectedFailures: nil,
+		},
+		{
+			name: "Invalid data key type",
+			policy: map[string]interface{}{
+	"data": []interface{}{"policy.rule1", 123}, // Invalid integer key
+			},
+			expectedFailures: []string{"Invalid Key :123"},
+		},
+		{
+			name: "Invalid JSON structure",
+			policy: map[string]interface{}{
+	"policyId":      "test-policy",
+	"policyVersion": "1.0",
+			},
+			expectedFailures: []string{": Invalid JSON structure: 'data' is missing or not an array"},
+		},
+
+		{
+			name: "Deletion failure",
+			policy: map[string]interface{}{
+	"data": []interface{}{"invalid.path"},
+			},
+			expectedFailures: []string{"Failed to delete: /invalid/path"},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := removeDataFromSdkandDir(tt.policy)
+			assert.ElementsMatch(t, tt.expectedFailures, result)
 		})
 	}
 }

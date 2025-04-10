@@ -534,7 +534,8 @@ func TestListPolicies_GetPolicyError(t *testing.T) {
 	txn := new(storage.Transaction)
 
 	mockMemStore.On("NewTransaction", ctx, mock.Anything).Return(txn, nil)
-	mockMemStore.On("ListPolicies", ctx, mock.AnythingOfType("*opasdk.MockTransaction")).Return([]string{}, errors.New("GetPolicy error"))
+	mockMemStore.On("ListPolicies", ctx, mock.AnythingOfType("*opasdk.MockTransaction")).Return([]string{"policyId"}, nil)
+	mockMemStore.On("GetPolicy", ctx, mock.AnythingOfType("*opasdk.MockTransaction"), "policyId").Return([]byte{}, errors.New("GetPolicy error"))
 	mockMemStore.On("Abort", ctx, mock.AnythingOfType("*opasdk.MockTransaction")).Return(nil)
 
 	req := httptest.NewRequest("GET", "/opa/listpolicies", nil)

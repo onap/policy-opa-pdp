@@ -37,7 +37,7 @@ import (
 // handles HTTP requests for health checks and responds with the health status of the service.
 func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
-	requestId := r.Header.Get("X-ONAP-RequestID")
+	requestId := r.Header.Get(consts.RequestId)
 	var parsedUUID *uuid.UUID
 	var healthCheckParams *oapicodegen.HealthcheckParams
 
@@ -50,12 +50,12 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 			healthCheckParams = &oapicodegen.HealthcheckParams{
 				XONAPRequestID: (*openapi_types.UUID)(parsedUUID),
 			}
-			w.Header().Set("X-ONAP-RequestID", healthCheckParams.XONAPRequestID.String())
+			w.Header().Set(consts.RequestId, healthCheckParams.XONAPRequestID.String())
 		}
 	} else {
 		log.Warnf("Invalid or Missing  Request ID")
 		requestId = "000000000000"
-		w.Header().Set("X-ONAP-RequestID", requestId)
+		w.Header().Set(consts.RequestId, requestId)
 	}
 	w.Header().Set("X-LatestVersion", consts.LatestVersion)
 	w.Header().Set("X-PatchVersion", consts.PatchVersion)

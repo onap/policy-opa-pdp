@@ -27,14 +27,14 @@ import (
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/utils"
-
+	"policy-opa-pdp/consts"
 	"github.com/google/uuid"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 func FetchCurrentStatistics(res http.ResponseWriter, req *http.Request) {
 
-	requestId := req.Header.Get("X-ONAP-RequestID")
+	requestId := req.Header.Get(consts.RequestId)
 	var parsedUUID *uuid.UUID
 	var statisticsParams *oapicodegen.StatisticsParams
 
@@ -47,12 +47,12 @@ func FetchCurrentStatistics(res http.ResponseWriter, req *http.Request) {
 			statisticsParams = &oapicodegen.StatisticsParams{
 				XONAPRequestID: (*openapi_types.UUID)(parsedUUID),
 			}
-			res.Header().Set("X-ONAP-RequestID", statisticsParams.XONAPRequestID.String())
+			res.Header().Set(consts.RequestId, statisticsParams.XONAPRequestID.String())
 		}
 	} else {
 		log.Warnf("Invalid or Missing  Request ID")
 		requestId = "000000000000"
-		res.Header().Set("X-ONAP-RequestID", requestId)
+		res.Header().Set(consts.RequestId, requestId)
 	}
 
 	var statReport oapicodegen.StatisticsReport
