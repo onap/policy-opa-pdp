@@ -179,11 +179,6 @@ func SetupMocks() {
 		return nil // no error expected
 	}
 
-	registerPDPFunc = func(sender publisher.PdpStatusSender) bool {
-		// Simulate the registration logic here
-		return false // Simulate successful registration
-	}
-
 	handleMessagesFunc = func(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
 		return
 	}
@@ -294,28 +289,6 @@ func TestInitializeHandlers(t *testing.T) {
 	}
 
 	initializeHandlers()
-}
-
-// Test to simulate the successful registration of a PDP
-func TestRegisterPDP_Success(t *testing.T) {
-	mockSender := new(MockPdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-
-	result := registerPDP(mockSender)
-
-	assert.True(t, result)
-	mockSender.AssertExpectations(t)
-}
-
-// Test to simulate a failure scenario during the registration of a PDP.
-func TestRegisterPDP_Failure(t *testing.T) {
-	mockSender := new(MockPdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(assert.AnError)
-
-	result := registerPDP(mockSender)
-
-	assert.False(t, result)
-	mockSender.AssertExpectations(t)
 }
 
 // Test to verify that the HTTP Server starts successfully and can be shut down gracefully.

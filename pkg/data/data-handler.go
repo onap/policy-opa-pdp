@@ -21,6 +21,7 @@ package data
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/google/uuid"
 	openapi_types "github.com/oapi-codegen/runtime/types"
@@ -37,10 +38,17 @@ import (
 	"strings"
 )
 
+type (
+	checkIfPolicyAlreadyExistsFunc func(policyId string) bool
+)
+
 var (
-	addOp     storage.PatchOp = 0
-	removeOp  storage.PatchOp = 1
-	replaceOp storage.PatchOp = 2
+	addOp                         storage.PatchOp                = 0
+	removeOp                      storage.PatchOp                = 1
+	replaceOp                     storage.PatchOp                = 2
+	checkIfPolicyAlreadyExistsVar checkIfPolicyAlreadyExistsFunc = policymap.CheckIfPolicyAlreadyExists
+	getPolicyByIDVar                                             = getPolicyByID
+	extractPatchInfoVar                                          = extractPatchInfo
 )
 
 // creates a response code map to OPADataUpdateResponse
@@ -139,6 +147,11 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 		data := requestBody.Data
 		log.Infof("data : %s", data)
 		policyId := requestBody.PolicyName
+		if policyId == nil {
+			errMsg := "Policy Id is nil"
+			sendErrorResponse(res, errMsg, http.StatusBadRequest)
+			return
+		}
 		log.Infof("policy name : %s", *policyId)
 		isExists := policymap.CheckIfPolicyAlreadyExists(*policyId)
 		if !isExists {
@@ -148,44 +161,13 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		// Checking if the data operation is performed for a deployed policy with policymap.CheckIfPolicyAlreadyExists and getPolicyByID
-		// if a match is found, we will join the url path with dots and check for the data key from the policiesMap whether utl path is a
-		// prefix of data key. we will proceed for Patch Operation if this matches, else return error
-		if len(dirParts) > 0 && dirParts[0] == "" {
-			dirParts = dirParts[1:]
-		}
-		finalDirParts := strings.Join(dirParts, ".")
+		matchFound := validatePolicyDataPathMatched(dirParts, *policyId, res)
 
-		policiesMap := policymap.LastDeployedPolicies
-
-		matchedPolicy, err := getPolicyByID(policiesMap, *policyId)
-		if err != nil {
-			sendErrorResponse(res, err.Error(), http.StatusBadRequest)
-			log.Errorf(err.Error())
-			return
-		}
-
-		log.Infof("Matched policy: %+v", matchedPolicy)
-
-		// Check if finalDirParts starts with any data key
-		matchFound := false
-		for _, dataKey := range matchedPolicy.Data {
-			if strings.HasPrefix(finalDirParts, dataKey) {
-				matchFound = true
-				break
+		if matchFound {
+			if err := patchData(dataDir, data, res); err != nil {
+				// Handle the error, for example, log it or return an appropriate response
+				log.Errorf("Error encoding JSON response: %s", err)
 			}
-		}
-
-		if !matchFound {
-			errMsg := fmt.Sprintf("Dynamic Data add/replace/remove for policy '%s' expected under url path '%v'", *policyId, matchedPolicy.Data)
-			sendErrorResponse(res, errMsg, http.StatusBadRequest)
-			log.Errorf(errMsg)
-			return
-		}
-
-		if err := patchData(dataDir, data, res); err != nil {
-			// Handle the error, for example, log it or return an appropriate response
-			log.Errorf("Error encoding JSON response: %s", err)
 		}
 	}
 }
@@ -202,56 +184,62 @@ func DataHandler(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func extractPatchInfo(res http.ResponseWriter, ops *[]map[string]interface{}, root string) (result []opasdk.PatchImpl) {
+func extractPatchInfo(res http.ResponseWriter, ops *[]map[string]interface{}, root string) ([]opasdk.PatchImpl, error) {
+	var result []opasdk.PatchImpl
 	for _, op := range *ops {
-		// Extract the operation, path, and value from the map
+
 		optypeString, opTypeErr := op["op"].(string)
 		if !opTypeErr {
 			opTypeErrMsg := "Error in getting op type. Op type is not given in request body"
 			sendErrorResponse(res, opTypeErrMsg, http.StatusInternalServerError)
 			log.Errorf(opTypeErrMsg)
-			return nil
+			return nil, fmt.Errorf("Error in getting op type. Op type is not given in request body")
 		}
-		opType := getOperationType(optypeString, res)
+		opType, err := getOperationType(optypeString, res)
 
-		if opType == nil {
-			return nil
+		if err != nil {
+			log.Warnf("Error in getting opType: %v", err)
+			return nil, fmt.Errorf("Error in getting operation type")
 		}
+		if opType == nil {
+			return nil, fmt.Errorf("Error in getting operation Type as opType is Missing")
+		}
+
 		impl := opasdk.PatchImpl{
 			Op: *opType,
 		}
 
 		var value interface{}
-		var valueErr bool
 		// PATCH request with add or replace opType, MUST contain a "value" member whose content specifies the value to be added / replaced. For remove opType, value does not required
 		if optypeString == "add" || optypeString == "replace" {
-			value, valueErr = op["value"]
-			if !valueErr || isEmpty(value) {
-				valueErrMsg := "Error in getting data value. Value is not given in request body"
-				sendErrorResponse(res, valueErrMsg, http.StatusInternalServerError)
-				log.Errorf(valueErrMsg)
-				return nil
+			value, err = getPatchValue(op, res)
+			if err != nil {
+				return nil, fmt.Errorf("Error in gatting Value, Value not found")
 			}
 		}
 		impl.Value = value
-
-		opPath, opPathErr := op["path"].(string)
-		if !opPathErr || len(opPath) == 0 {
-			opPathErrMsg := "Error in getting data path. Path is not given in request body"
-			sendErrorResponse(res, opPathErrMsg, http.StatusInternalServerError)
-			log.Errorf(opPathErrMsg)
-			return nil
-		}
-		storagePath := constructPath(opPath, optypeString, root, res)
+		storagePath := constructOpStoragePath(op, root, res)
 		if storagePath == nil {
-			return nil
+			return nil, fmt.Errorf("Failed to construct op Storage Path")
 		}
 		impl.Path = storagePath
 
 		result = append(result, impl)
 	}
-	//log.Debugf("result : %s", result)
-	return result
+	return result, nil
+}
+
+func getPatchValue(op map[string]interface{}, res http.ResponseWriter) (interface{}, error) {
+	var value interface{}
+	var valueErr bool
+	value, valueErr = op["value"]
+	if !valueErr || isEmpty(value) {
+		valueErrMsg := "Error in getting data value. Value is not given in request body"
+		sendErrorResponse(res, valueErrMsg, http.StatusInternalServerError)
+		log.Errorf(valueErrMsg)
+		return nil, fmt.Errorf("Error in getting data value. Value is not given in request body")
+	}
+	return value, nil
 }
 
 func isEmpty(data interface{}) bool {
@@ -328,7 +316,56 @@ func constructPath(opPath string, opType string, root string, res http.ResponseW
 	return storagePath
 }
 
-func getOperationType(opType string, res http.ResponseWriter) *storage.PatchOp {
+func validatePolicyDataPathMatched(dirParts []string, policyId string, res http.ResponseWriter) bool {
+	matchFound := false
+	// Check if all dirParts exist in the matched policy's data key
+	log.Debugf("dirParts : %s", dirParts)
+	if len(dirParts) > 0 && dirParts[0] == "" {
+		dirParts = dirParts[1:]
+	}
+	finalDirParts := strings.Join(dirParts, ".")
+	policiesMap := policymap.LastDeployedPolicies
+	matchedPolicy, err := getPolicyByIDVar(policiesMap, policyId)
+	if err != nil {
+		sendErrorResponse(res, err.Error(), http.StatusBadRequest)
+		log.Errorf("Error getting Policy By Id: %v", err.Error())
+		return matchFound
+	}
+
+	log.Infof("Matched policy: %+v", matchedPolicy)
+
+	// Check if finalDirParts starts with any data key
+	for _, dataKey := range matchedPolicy.Data {
+		if strings.HasPrefix(finalDirParts, dataKey) {
+			matchFound = true
+			break
+		}
+	}
+	if !matchFound {
+		errMsg := fmt.Sprintf("Dynamic Data add/replace/remove for policy '%s' expected under url path '%v'", policyId, matchedPolicy.Data)
+		sendErrorResponse(res, errMsg, http.StatusBadRequest)
+		log.Errorf(errMsg)
+		return false
+	}
+
+	return matchFound
+}
+
+func constructOpStoragePath(op map[string]interface{}, root string, res http.ResponseWriter) storage.Path {
+	opPath, opPathErr := op["path"].(string)
+	if !opPathErr || len(opPath) == 0 {
+		opPathErrMsg := "Error in getting data path. Path is not given in request body"
+		sendErrorResponse(res, opPathErrMsg, http.StatusInternalServerError)
+		log.Errorf(opPathErrMsg)
+		return nil
+	}
+	optypeString := op["op"].(string)
+	storagePath := constructPath(opPath, optypeString, root, res)
+	return storagePath
+}
+
+func getOperationType(opType string, res http.ResponseWriter) (*storage.PatchOp, error) {
+
 	var op *storage.PatchOp
 	switch opType {
 	case "add":
@@ -342,10 +379,10 @@ func getOperationType(opType string, res http.ResponseWriter) *storage.PatchOp {
 			errMsg := "Error in getting op type : Invalid operation type (" + opType + ") is used. Only add, remove and replace operation types are supported"
 			sendErrorResponse(res, errMsg, http.StatusBadRequest)
 			log.Errorf(errMsg)
-			return nil
+			return nil, errors.New(errMsg)
 		}
 	}
-	return op
+	return op, nil
 }
 
 type NewOpaSDKPatchFunc func(ctx context.Context, patches []opasdk.PatchImpl) error
@@ -354,7 +391,11 @@ var NewOpaSDKPatch NewOpaSDKPatchFunc = opasdk.PatchData
 
 func patchData(root string, ops *[]map[string]interface{}, res http.ResponseWriter) (err error) {
 	root = "/" + strings.Trim(root, "/")
-	patchInfos := extractPatchInfo(res, ops, root)
+	patchInfos, err := extractPatchInfoVar(res, ops, root)
+	if err != nil {
+		log.Warnf("Failed to extarct Patch Info")
+		return err
+	}
 
 	if patchInfos != nil {
 		patchErr := NewOpaSDKPatch(context.Background(), patchInfos)
@@ -367,7 +408,7 @@ func patchData(root string, ops *[]map[string]interface{}, res http.ResponseWrit
 			errMsg := "Error in updating data - " + patchErr.Error()
 			sendErrorResponse(res, errMsg, errCode)
 			log.Errorf(errMsg)
-			return
+			return patchErr
 		}
 		log.Infof("Updated the data in the corresponding path successfully\n")
 		res.WriteHeader(http.StatusNoContent)
@@ -392,7 +433,7 @@ func invalidMethodHandler(res http.ResponseWriter, method string) {
 }
 
 func constructResponseHeader(res http.ResponseWriter, req *http.Request) {
-	requestId := req.Header.Get("X-ONAP-RequestID")
+	requestId := req.Header.Get(consts.RequestId)
 	var parsedUUID *uuid.UUID
 	var decisionParams *oapicodegen.DecisionParams
 
@@ -405,11 +446,11 @@ func constructResponseHeader(res http.ResponseWriter, req *http.Request) {
 			decisionParams = &oapicodegen.DecisionParams{
 				XONAPRequestID: (*openapi_types.UUID)(parsedUUID),
 			}
-			res.Header().Set("X-ONAP-RequestID", decisionParams.XONAPRequestID.String())
+			res.Header().Set(consts.RequestId, decisionParams.XONAPRequestID.String())
 		}
 	} else {
 		requestId = "Unknown"
-		res.Header().Set("X-ONAP-RequestID", requestId)
+		res.Header().Set(consts.RequestId, requestId)
 	}
 
 	res.Header().Set("X-LatestVersion", consts.LatestVersion)

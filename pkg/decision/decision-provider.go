@@ -202,7 +202,7 @@ func policyExists(policyName string, extractedPolicies []model.ToscaConceptIdent
 
 // This function processes the request headers
 func processRequestHeaders(req *http.Request, res http.ResponseWriter) (string, *oapicodegen.DecisionParams) {
-	requestId := req.Header.Get("X-ONAP-RequestID")
+	requestId := req.Header.Get(consts.RequestId)
 	var parsedUUID *uuid.UUID
 	var decisionParams *oapicodegen.DecisionParams
 
@@ -213,13 +213,13 @@ func processRequestHeaders(req *http.Request, res http.ResponseWriter) (string, 
 			decisionParams = &oapicodegen.DecisionParams{
 				XONAPRequestID: (*openapi_types.UUID)(parsedUUID),
 			}
-			res.Header().Set("X-ONAP-RequestID", decisionParams.XONAPRequestID.String())
+			res.Header().Set(consts.RequestId, decisionParams.XONAPRequestID.String())
 		} else {
 			log.Warnf("Error Parsing the requestID: %v", err)
 		}
 	} else {
 		requestId = "Unknown"
-		res.Header().Set("X-ONAP-RequestID", requestId)
+		res.Header().Set(consts.RequestId, requestId)
 	}
 
 	res.Header().Set("X-LatestVersion", consts.LatestVersion)
