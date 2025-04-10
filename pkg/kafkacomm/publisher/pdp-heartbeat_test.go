@@ -174,4 +174,3 @@ func TestStartHeartbeatIntervalTimer_TickerAlreadyRunning_Case2(t *testing.T) {
 	StartHeartbeatIntervalTimer(int64(201), mockSender)
 	assert.NotNil(t, ticker, "Expected ticker to be running but it is nil")
 }
-

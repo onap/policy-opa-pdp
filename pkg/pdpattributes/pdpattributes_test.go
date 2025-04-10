@@ -86,4 +86,3 @@ func TestSetPdpHeartbeatInterval_Failure(t *testing.T) {
 		assert.Equal(t, largeInterval, getPdpHeartbeatInterval(), "Expected PDP heartbeat interval to handle large values")
 	})
 }
-
