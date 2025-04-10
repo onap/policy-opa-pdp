@@ -106,6 +106,31 @@ func TestKafkaProducer_Produce_Error(t *testing.T) {
 	mockProducer.AssertExpectations(t)
 }
 
+func TestKafkaProducer_Produce_NilTopic(t *testing.T) {
+	// Arrange
+	mockProducer := new(mocks.KafkaProducerInterface)
+	topic := "test-topic"
+	kp := &KafkaProducer{
+		producer: mockProducer,
+		topic:    topic,
+	}
+
+	msg := &kafka.Message{
+		TopicPartition: kafka.TopicPartition{
+			Topic:     nil,
+			Partition: kafka.PartitionAny,
+		},
+	}
+
+	mockProducer.On("Produce", mock.Anything, mock.Anything).Return(nil)
+
+	err := kp.Produce(msg, nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, msg.TopicPartition.Topic)
+	assert.Equal(t, topic, *msg.TopicPartition.Topic)
+	mockProducer.AssertExpectations(t)
+}
+
 func TestKafkaProducer_Close(t *testing.T) {
 	// Arrange
 	mockProducer := new(mocks.KafkaProducerInterface)
@@ -158,6 +183,12 @@ func (m *MockKafkaProducer) Close() {
 	m.Called()
 }
 
+func (m *MockKafkaProducer) Flush(timeout int) int {
+
+	args := m.Called(timeout)
+	return args.Int(0)
+}
+
 func mockKafkaNewProducer(conf *kafka.ConfigMap) (*kafka.Producer, error) {
 	// Return a mock *kafka.Producer (it doesn't have to be functional)
 	mockProducer := new(MockKafkaProducer)
@@ -203,4 +234,21 @@ func TestKafkaProducer_Close_NilProducer(t *testing.T) {
 
 	logOutput := buf.String()
 	assert.Contains(t, logOutput, "KafkaProducer or producer is nil, skipping Close.")
+}
+
+func TestKafkaProducer_Flush(t *testing.T) {
+	// Arrange
+	mockProducer := new(mocks.KafkaProducerInterface)
+	kp := &KafkaProducer{
+		producer: mockProducer,
+	}
+
+	mockProducer.On("Flush", 15*1000).Return(1)
+
+	// Act
+	result := kp.Flush(15 * 1000)
+
+	// Assert
+	assert.Equal(t, 1, result, "Flush should return expected value")
+	mockProducer.AssertExpectations(t)
 }

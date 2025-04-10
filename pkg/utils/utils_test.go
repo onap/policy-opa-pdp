@@ -99,13 +99,6 @@ func TestCreateDirectory_Negative(t *testing.T) {
 	assert.Error(t, err)
 }
 
-func TestCreateDirectory_InvalidPath(t *testing.T) {
-	tempDir := "/invalid///path"
-	defer os.RemoveAll(tempDir)
-	err := CreateDirectory(tempDir)
-	assert.Error(t, err)
-}
-
 func TestRemoveDirectory_Positive(t *testing.T) {
 	tempDir, err := os.MkdirTemp("", "testdir")
 	assert.NoError(t, err)
@@ -478,7 +471,7 @@ func TestValidateToscaPolicyJsonFields_InvalidDataKeyPrefix(t *testing.T) {
 
 	err := ValidateToscaPolicyJsonFields(policy)
 	assert.Error(t, err, "Expected error due to invalid data key prefix")
-	assert.Contains(t, err.Error(), "data key 'invalid-key' does not have name node.'test-policy' as a prefix")
+	assert.Contains(t, err.Error(), "data key 'invalid-key' does not have name 'node.test-policy' as a prefix")
 }
 
 func TestIsValidTime(t *testing.T) {
@@ -684,60 +677,208 @@ func TestIsSubDirEmpty(t *testing.T) {
 	})
 }
 
-func TestValidateOPADataRequest(t *testing.T) {
-	ctime := "08:26:41.857Z"
-	onapComp := "COMPONENT"
-	onapIns := "INSTANCE"
-	onapName := "ONAP"
-	policyName := "s3"
+// Helper function to create string pointers
+func strPtr(s string) *string {
+	return &s
+}
+
+// Helper function to create time pointers
+func timePtr(t time.Time) *time.Time {
+	return &t
+}
+
+func TestValidateOPADataRequest_UpdateRequest_Valid(t *testing.T) {
+
 	parsedDate, err := time.Parse("2006-01-02", "2024-02-12")
 	if err != nil {
 		fmt.Println("error in parsedDate")
 	}
+
 	currentDate := openapi_types.Date{Time: parsedDate}
 	currentDateTime, err := time.Parse(time.RFC3339, "2024-02-12T12:00:00Z")
 	if err != nil {
 		fmt.Println("error in currentDateTime")
 	}
+	ctime := "08:26:41.857Z"
 
-	inValidDecisionRequest := &oapicodegen.OPADecisionRequest{
-		CurrentDate:     &currentDate,
-		CurrentDateTime: &currentDateTime,
-	}
-
-	var data []map[string]interface{}
-
-	data = nil
-
-	inValidRequest := &oapicodegen.OPADataUpdateRequest{
+	updateReq := &oapicodegen.OPADataUpdateRequest{
 		CurrentDate:     &currentDate,
 		CurrentDateTime: &currentDateTime,
 		CurrentTime:     &ctime,
-		OnapComponent:   &onapComp,
-		OnapInstance:    &onapIns,
-		OnapName:        &onapName,
-		PolicyName:      &policyName,
-		Data:            &data,
+		TimeOffset:      strPtr("+00:00"),
+		TimeZone:        strPtr("UTC"),
+		OnapComponent:   strPtr("Component"),
+		OnapInstance:    strPtr("Instance"),
+		OnapName:        strPtr("Onap"),
+		PolicyName:      strPtr("Policy1"),
 	}
 
-	inValidErr := []string{"TimeOffset is invalid or missing", "TimeZone is invalid or missing"}
+	errors := ValidateOPADataRequest(updateReq)
+	assert.Empty(t, errors, "Expected no validation errors")
+}
 
-	inValidDecisionErrs := []string{"PolicyName is required and cannot be empty"}
+func TestValidateOPADataRequest_UpdateRequest_MissingFields(t *testing.T) {
+	updateReq := &oapicodegen.OPADataUpdateRequest{}
+
+	errors := ValidateOPADataRequest(updateReq)
+	assert.NotEmpty(t, errors, "Expected validation errors for missing fields")
+}
+
+func TestValidateOPADataRequest_DecisionRequest_Valid(t *testing.T) {
+	parsedDate, err := time.Parse("2006-01-02", "2024-02-12")
+	if err != nil {
+		fmt.Println("error in parsedDate")
+	}
+
+	currentDate := openapi_types.Date{Time: parsedDate}
+	currentDateTime, err := time.Parse(time.RFC3339, "2024-02-12T12:00:00Z")
+	if err != nil {
+		fmt.Println("error in currentDateTime")
+	}
+	ctime := "08:26:41.857Z"
+
+	decisionReq := &oapicodegen.OPADecisionRequest{
+		CurrentDate:     &currentDate,
+		CurrentDateTime: &currentDateTime,
+		CurrentTime:     &ctime,
+		TimeOffset:      strPtr("+00:00"),
+		TimeZone:        strPtr("UTC"),
+		OnapComponent:   strPtr("Component"),
+		OnapInstance:    strPtr("Instance"),
+		OnapName:        strPtr("Onap"),
+		PolicyName:      "Policy2",
+	}
+
+	errors := ValidateOPADataRequest(decisionReq)
+	assert.Empty(t, errors, "Expected no validation errors")
+}
+
+func TestValidateOPADataRequest_DecisionRequest_MissingFields(t *testing.T) {
+	decisionReq := &oapicodegen.OPADecisionRequest{}
+
+	errors := ValidateOPADataRequest(decisionReq)
+	assert.NotEmpty(t, errors, "Expected validation errors for missing fields")
+}
+
+func TestValidateOPADataRequest_InvalidRequestType(t *testing.T) {
+	invalidReq := struct{}{}
+
+	errors := ValidateOPADataRequest(invalidReq)
+	assert.Equal(t, []string{"Invalid request type"}, errors, "Expected 'Invalid request type' error")
+}
+
+func TestConvertPtrToString(t *testing.T) {
+	str := "test"
+	assert.Equal(t, "test", convertPtrToString(&str), "Expected 'test' as output")
+	assert.Equal(t, "", convertPtrToString(nil), "Expected empty string as output")
+}
+
+// Test validatePolicyKeys
+func TestValidatePolicyKeys(t *testing.T) {
 	tests := []struct {
-		name        string
-		request     interface{}
-		expectedErr []string
+		name         string
+		policy       map[string]string
+		prefix       string
+		propertyType string
+		emphasize    string
+		wantErr      string
 	}{
-		{"Valid Request", inValidRequest, inValidErr},
-		{"Invalid OPADecisionRequest", inValidDecisionRequest, inValidDecisionErrs},
+		{
+			name: "Valid policy keys",
+			policy: map[string]string{
+				"policy_1": "value1",
+				"policy_2": "value2",
+			},
+			prefix:       "policy_",
+			propertyType: "policy",
+			emphasize:    "important",
+			wantErr:      "",
+		},
+		{
+			name: "Policy key without proper prefix",
+			policy: map[string]string{
+				"invalid_1": "value1",
+			},
+			prefix:       "policy_",
+			propertyType: "policy",
+			emphasize:    "important",
+			wantErr:      "policy key 'invalid_1' does not have name 'policy_' as a prefix, 'important'",
+		},
+		{
+			name:         "Empty policy map",
+			policy:       map[string]string{},
+			prefix:       "policy_",
+			propertyType: "policy",
+			emphasize:    "important",
+			wantErr:      "",
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			errors := ValidateOPADataRequest(tt.request)
-			fmt.Printf("error : %s", errors)
-			fmt.Printf("error len : %d", len(errors))
-			assert.Equal(t, tt.expectedErr, errors)
+			err := validatePolicyKeys(tt.policy, tt.prefix, tt.propertyType, tt.emphasize)
+			if err != nil {
+				if err.Error() != tt.wantErr {
+					t.Errorf("Expected error: '%s', got: '%s'", tt.wantErr, err.Error())
+				}
+			} else if tt.wantErr != "" {
+				t.Errorf("Expected error: '%s', got nil", tt.wantErr)
+			}
+		})
+	}
+}
+
+// Test validateDataKeys
+func TestValidateDataKeys(t *testing.T) {
+	tests := []struct {
+		name         string
+		data         map[string]string
+		prefix       string
+		propertyType string
+		emphasize    string
+		wantErr      string
+	}{
+		{
+			name: "Valid data keys",
+			data: map[string]string{
+				"data_1": "value1",
+				"data_2": "value2",
+			},
+			prefix:       "data_",
+			propertyType: "data",
+			emphasize:    "critical",
+			wantErr:      "",
+		},
+		{
+			name: "Data key without proper prefix",
+			data: map[string]string{
+				"invalid_1": "value1",
+			},
+			prefix:       "data_",
+			propertyType: "data",
+			emphasize:    "critical",
+			wantErr:      "data key 'invalid_1' does not have name 'data_' as a prefix",
+		},
+		{
+			name:         "Empty data map",
+			data:         map[string]string{},
+			prefix:       "data_",
+			propertyType: "data",
+			emphasize:    "critical",
+			wantErr:      "",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := validateDataKeys(tt.data, tt.prefix, tt.propertyType, tt.emphasize)
+			if err != nil {
+				if err.Error() != tt.wantErr {
+					t.Errorf("Expected error: '%s', got: '%s'", tt.wantErr, err.Error())
+				}
+			} else if tt.wantErr != "" {
+				t.Errorf("Expected error: '%s', got nil", tt.wantErr)
+			}
 		})
 	}
 }

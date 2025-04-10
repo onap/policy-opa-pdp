@@ -16,9 +16,7 @@
 //   SPDX-License-Identifier: Apache-2.0
 //   ========================LICENSE_END===================================
 //
-
 package publisher
-
 import (
 	"errors"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
@@ -27,7 +25,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
-
 /*
 Success Case 1
 TestStartHeartbeatIntervalTimer_ValidInterval
@@ -36,11 +33,9 @@ Input: intervalMs = 1000
 Expected Output: The ticker starts with an interval of 1000 milliseconds, and heartbeat messages are sent at this interval.
 */
 func TestStartHeartbeatIntervalTimer_ValidInterval(t *testing.T) {
-
 	intervalMs := int64(1000)
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
 	mu.Lock()
 	defer mu.Unlock()
@@ -51,7 +46,6 @@ func TestStartHeartbeatIntervalTimer_ValidInterval(t *testing.T) {
 		t.Errorf("Expected currentInterval to be %d, got %d", intervalMs, currentInterval)
 	}
 }
-
 /*
 Failure Case 1
 TestStartHeartbeatIntervalTimer_InvalidInterval
@@ -63,16 +57,13 @@ func TestStartHeartbeatIntervalTimer_InvalidInterval(t *testing.T) {
 	intervalMs := int64(-1000)
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
 	mu.Lock()
 	defer mu.Unlock()
-
 	if ticker != nil {
 		t.Log("Expected ticker to be nil for invalid interval")
 	}
 }
-
 /*
 TestSendPDPHeartBeat_Success 2
 Description: Test sending a heartbeat successfully.
@@ -80,13 +71,11 @@ Input: Valid pdpStatus object
 Expected Output: Heartbeat message is sent successfully, and a debug log "Message sent successfully" is generated.
 */
 func TestSendPDPHeartBeat_Success(t *testing.T) {
-
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 	err := sendPDPHeartBeat(mockSender)
 	assert.NoError(t, err)
 }
-
 /*
 TestSendPDPHeartBeat_Failure 2
 Description: Test failing to send a heartbeat.
@@ -100,7 +89,6 @@ func TestSendPDPHeartBeat_Failure(t *testing.T) {
 	err := sendPDPHeartBeat(mockSender)
 	assert.Error(t, err)
 }
-
 /*
 TestsendPDPHeartBeat_Success 3
 Description: Test sending a heartbeat successfully with some deployed policies.
@@ -110,17 +98,14 @@ Expected Output: Heartbeat message is sent successfully, and a debug log "Messag
 func TestSendPDPHeartBeat_SuccessSomeDeployedPolicies(t *testing.T) {
 	// Setup mock Policymap
 	mockPolicymap := new(MockPolicymap)
-
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-
 	policymap.LastDeployedPolicies = "some-policies"
 	// Set mock behavior for policymap
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
 	err := sendPDPHeartBeat(mockSender)
 	assert.NoError(t, err)
 }
-
 /*
 TestsendPDPHeartBeat_Success 4
 Description: Test sending a heartbeat successfully with no deployed policies.
@@ -130,17 +115,14 @@ Expected Output: Heartbeat message is sent successfully, and a debug log "Messag
 func TestSendPDPHeartBeat_SuccessNoDeployedPolicies(t *testing.T) {
 	// Setup mock Policymap
 	mockPolicymap := new(MockPolicymap)
-
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-
 	policymap.LastDeployedPolicies = ""
 	// Set mock behavior for policymap
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
 	err := sendPDPHeartBeat(mockSender)
 	assert.NoError(t, err)
 }
-
 /*
 TestStopTicker_Success 3
 Description: Test stopping the ticker.
@@ -159,7 +141,6 @@ func TestStopTicker_Success(t *testing.T) {
 		t.Errorf("Expected ticker to be nil")
 	}
 }
-
 /*
 TestStopTicker_NotRunning 3
 Description: Test stopping the ticker when it is not running.
@@ -171,36 +152,26 @@ func TestStopTicker_NotRunning(t *testing.T) {
 	mu.Lock()
 	defer mu.Unlock()
 }
-
 func TestStartHeartbeatIntervalTimer_TickerAlreadyRunning(t *testing.T) {
 	intervalMs := int64(1000)
-
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-
 	// Start the ticker for the first time
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
-
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
-
 	if currentInterval != intervalMs {
 		t.Errorf("Expected ticker to not restart, currentInterval is %d, expected %d", currentInterval, intervalMs)
 	}
-
 	assert.NotNil(t, ticker, "Expected ticker to be running but it is nil")
 }
-
 func TestStartHeartbeatIntervalTimer_TickerAlreadyRunning_Case2(t *testing.T) {
 	intervalMs := int64(1000)
-
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-
 	// Start the ticker for the first time
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
-
 	// Start it again
 	StartHeartbeatIntervalTimer(int64(201), mockSender)
-
 	assert.NotNil(t, ticker, "Expected ticker to be running but it is nil")
 }
+
