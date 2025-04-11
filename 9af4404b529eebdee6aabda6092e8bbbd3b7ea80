@@ -1,0 +1,464 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e48f5fd8_4ac59f9b",
+        "filename": "consts/constants.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "any reason for the different indent?",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 11
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9f5d28a_1387d8a1",
+        "filename": "consts/constants.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "opa-pdp has been added there now, has anything changed?",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 72
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "588b0b63_2ccaff9c",
+        "filename": "pkg/data/data-handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "change to tab",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6a2562c_3ab9671c",
+        "filename": "pkg/data/data-handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "tab instead of space.",
+      "range": {
+        "startLine": 467,
+        "startChar": 0,
+        "endLine": 483,
+        "endChar": 2
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5866f98_fa2ffa02",
+        "filename": "pkg/data/data-handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "avoid leaving big chunks of commented code. if it\u0027s no useful, just remove.",
+      "range": {
+        "startLine": 717,
+        "startChar": 1,
+        "endLine": 717,
+        "endChar": 9
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff52e85d_317fdb1b",
+        "filename": "pkg/kafkacomm/handler/pdp_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 8
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8893468a_7b55fc6f",
+        "filename": "pkg/kafkacomm/handler/pdp_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "malformated. use tabs to all lines with correct length",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 1
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "399b216e_64b48d58",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "use tab",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 0
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e787ad54_9844fb62",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "use tab",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 10
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7a63aae_04b7850f",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "remove commented code",
+      "range": {
+        "startLine": 58,
+        "startChar": 16,
+        "endLine": 58,
+        "endChar": 20
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82b6217_5b232220",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "malformated. use tabs",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 0
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7a00ac1_117f6636",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "undeployment?",
+      "range": {
+        "startLine": 381,
+        "startChar": 19,
+        "endLine": 381,
+        "endChar": 26
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70dcb50f_3e73c1fe",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "remove commented code",
+      "range": {
+        "startLine": 370,
+        "startChar": 25,
+        "endLine": 370,
+        "endChar": 38
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31c18394_89d96ad4",
+        "filename": "pkg/kafkacomm/publisher/pdp-status-publisher.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f112907_199949e7",
+        "filename": "pkg/kafkacomm/publisher/pdp-status-publisher.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 0
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abe4ad91_42d9ff91",
+        "filename": "pkg/metrics/statistics-provider.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6248a3e2_e34bb5fa",
+        "filename": "pkg/utils/sort_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "new file has only current year - 2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18c691c1_d2f00caf",
+        "filename": "pkg/utils/sort_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "remove extra space",
+      "range": {
+        "startLine": 19,
+        "startChar": 44,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cca79f9d_1a8a3a78",
+        "filename": "pkg/utils/utils.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a5257f3_adad69eb",
+        "filename": "pkg/utils/utils.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-11T08:46:06Z",
+      "side": 1,
+      "message": "tabs",
+      "range": {
+        "startLine": 45,
+        "startChar": 5,
+        "endLine": 47,
+        "endChar": 9
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
