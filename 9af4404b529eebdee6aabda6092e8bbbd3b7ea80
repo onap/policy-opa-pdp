@@ -24,6 +24,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "809e4386_18603a28",
+        "filename": "consts/constants.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e48f5fd8_4ac59f9b",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 11
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9f5d28a_1387d8a1",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "opa-pdp has been added there now, has anything changed?",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 72
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f7693f_94dd3aa2",
+        "filename": "consts/constants.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9f5d28a_1387d8a1",
       "range": {
         "startLine": 69,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b61923b_5a18fedc",
+        "filename": "pkg/data/data-handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "588b0b63_2ccaff9c",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 9
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6a2562c_3ab9671c",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "tab instead of space.",
+      "range": {
+        "startLine": 467,
+        "startChar": 0,
+        "endLine": 483,
+        "endChar": 2
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c25572bf_23a763fb",
+        "filename": "pkg/data/data-handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6a2562c_3ab9671c",
       "range": {
         "startLine": 467,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7506fa5e_02590333",
+        "filename": "pkg/data/data-handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5866f98_fa2ffa02",
+      "range": {
+        "startLine": 717,
+        "startChar": 1,
+        "endLine": 717,
+        "endChar": 9
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff52e85d_317fdb1b",
@@ -129,6 +249,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "tab",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 8
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a564dfec_e79b190a",
+        "filename": "pkg/kafkacomm/handler/pdp_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff52e85d_317fdb1b",
       "range": {
         "startLine": 37,
         "startChar": 0,
@@ -162,6 +306,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70fad98b_2cbacb51",
+        "filename": "pkg/kafkacomm/handler/pdp_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8893468a_7b55fc6f",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 1
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "399b216e_64b48d58",
@@ -175,6 +343,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "use tab",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 0
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "644492ec_f3432d09",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "399b216e_64b48d58",
       "range": {
         "startLine": 37,
         "startChar": 1,
@@ -208,6 +400,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "973e46bb_c59b1e44",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e787ad54_9844fb62",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 10
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7a63aae_04b7850f",
@@ -221,6 +437,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "remove commented code",
+      "range": {
+        "startLine": 58,
+        "startChar": 16,
+        "endLine": 58,
+        "endChar": 20
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfb0f3a6_b807d541",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7a63aae_04b7850f",
       "range": {
         "startLine": 58,
         "startChar": 16,
@@ -254,6 +494,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39e516e7_5340bfc0",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e82b6217_5b232220",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 0
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7a00ac1_117f6636",
@@ -267,6 +531,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "undeployment?",
+      "range": {
+        "startLine": 381,
+        "startChar": 19,
+        "endLine": 381,
+        "endChar": 26
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b3b2c5d_3da9c281",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7a00ac1_117f6636",
       "range": {
         "startLine": 381,
         "startChar": 19,
@@ -300,6 +588,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55d3c69d_029e243f",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70dcb50f_3e73c1fe",
+      "range": {
+        "startLine": 370,
+        "startChar": 25,
+        "endLine": 370,
+        "endChar": 38
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31c18394_89d96ad4",
@@ -313,6 +625,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fb3f490_3c3b36f1",
+        "filename": "pkg/kafkacomm/publisher/pdp-status-publisher.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31c18394_89d96ad4",
       "range": {
         "startLine": 3,
         "startChar": 19,
@@ -346,6 +682,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e663e67b_3df5a744",
+        "filename": "pkg/kafkacomm/publisher/pdp-status-publisher.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f112907_199949e7",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 0
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abe4ad91_42d9ff91",
@@ -359,6 +719,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "tab",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89f23f7b_cf7afd78",
+        "filename": "pkg/metrics/statistics-provider.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abe4ad91_42d9ff91",
       "range": {
         "startLine": 30,
         "startChar": 0,
@@ -392,6 +776,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc26ecbf_34f8f0cd",
+        "filename": "pkg/utils/sort_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6248a3e2_e34bb5fa",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18c691c1_d2f00caf",
@@ -405,6 +813,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "remove extra space",
+      "range": {
+        "startLine": 19,
+        "startChar": 44,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da2d1473_57fff7c3",
+        "filename": "pkg/utils/sort_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18c691c1_d2f00caf",
       "range": {
         "startLine": 19,
         "startChar": 44,
@@ -438,6 +870,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da6dfdf3_81f62945",
+        "filename": "pkg/utils/utils.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cca79f9d_1a8a3a78",
+      "range": {
+        "startLine": 40,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a5257f3_adad69eb",
@@ -451,6 +907,30 @@
       "writtenOn": "2025-04-11T08:46:06Z",
       "side": 1,
       "message": "tabs",
+      "range": {
+        "startLine": 45,
+        "startChar": 5,
+        "endLine": 47,
+        "endChar": 9
+      },
+      "revId": "9af4404b529eebdee6aabda6092e8bbbd3b7ea80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3988ccf3_1dafcf2f",
+        "filename": "pkg/utils/utils.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 8480
+      },
+      "writtenOn": "2025-04-14T06:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a5257f3_adad69eb",
       "range": {
         "startLine": 45,
         "startChar": 5,
