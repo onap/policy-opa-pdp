@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb6a6ea_04e22bc4",
+        "filename": "consts/constants.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-04-16T14:28:56Z",
+      "side": 1,
+      "message": "DefaultHeartbeatMS description was removed,  but the field still exists at line 81",
+      "range": {
+        "startLine": 52,
+        "startChar": 11,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "6df450f345583f08bf7604b6e411fdb779b54468",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
