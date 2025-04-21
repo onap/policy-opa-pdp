@@ -27,7 +27,6 @@ import (
 	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
-	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/metrics"
 	"policy-opa-pdp/pkg/opasdk"
 	"time"
@@ -42,10 +41,6 @@ func RegisterHandlers() {
 	opaDecisionHandler := http.HandlerFunc(decision.OpaDecision)
 	http.Handle("/policy/pdpo/v1/decision", basicAuth(trackDecisionResponseTime(opaDecisionHandler)))
 
-	// Handler for kubernetes readiness probe
-	readinessProbeHandler := http.HandlerFunc(readinessProbe)
-	http.Handle("/ready", readinessProbeHandler)
-
 	// Handler for health checks
 	healthCheckHandler := http.HandlerFunc(healthcheck.HealthCheckHandler)
 	http.HandleFunc("/policy/pdpo/v1/healthcheck", basicAuth(healthCheckHandler))
@@ -55,16 +50,20 @@ func RegisterHandlers() {
 	http.HandleFunc("/policy/pdpo/v1/statistics", basicAuth(statisticsReportHandler))
 
 	listPoliciesHandler := http.HandlerFunc(opasdk.ListPolicies)
-	http.Handle("/opa/listpolicies", listPoliciesHandler)
+	http.Handle("/opa/listpolicies", basicAuth(listPoliciesHandler))
 
 	dataHandler := http.HandlerFunc(data.DataHandler)
 	http.Handle("/policy/pdpo/v1/data/", basicAuth(trackDataResponseTime(dataHandler)))
 
 	http.Handle("/policy/pdpo/v1/data", basicAuth(trackDataResponseTime(dataHandler)))
 
-	//Handler for prometheus
-	http.Handle("/metrics", promhttp.Handler())
+        http.Handle("/metrics", basicAuth(http.HandlerFunc(metricsHandler)))
 
+}
+
+// Define the metrics handler function
+func metricsHandler(w http.ResponseWriter, r *http.Request) {
+	promhttp.Handler().ServeHTTP(w, r)
 }
 
 //Track Decision response time metrics
@@ -104,13 +103,4 @@ func validateCredentials(username, password string) bool {
 	validUser := cfg.Username
 	validPass := cfg.Password
 	return username == validUser && password == validPass
-}
-
-// handles readiness probe endpoint
-func readinessProbe(res http.ResponseWriter, req *http.Request) {
-	res.WriteHeader(http.StatusOK)
-	_, err := res.Write([]byte("Ready"))
-	if err != nil {
-		log.Errorf("Failed to write response: %v", err)
-	}
 }

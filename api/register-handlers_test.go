@@ -45,7 +45,6 @@ func TestRegisterHandlers(t *testing.T) {
 		statusCode int
 	}{
 		{"/policy/pdpo/v1/decision", decision.OpaDecision, http.StatusUnauthorized},
-		{"/ready", readinessProbe, http.StatusOK},
 		{"/policy/pdpo/v1/healthcheck", healthcheck.HealthCheckHandler, http.StatusUnauthorized},
 	}
 
@@ -92,26 +91,6 @@ func TestBasicAuth(t *testing.T) {
 		if status := rr.Code; status != tt.statusCode {
 			t.Errorf("basicAuth returned wrong status code: got %v want %v", status, tt.statusCode)
 		}
-	}
-}
-
-func TestReadinessProbe(t *testing.T) {
-	req, err := http.NewRequest("GET", "/ready", nil)
-	if err != nil {
-		t.Fatalf("Failed to create request: %v", err)
-	}
-
-	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(readinessProbe)
-	handler.ServeHTTP(rr, req)
-
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("readinessProbe returned wrong status code: got %v want %v", status, http.StatusOK)
-	}
-
-	expected := "Ready"
-	if rr.Body.String() != expected {
-		t.Errorf("readinessProbe returned unexpected body: got %v want %v", rr.Body.String(), expected)
 	}
 }
 
