@@ -27,7 +27,6 @@ import (
 	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/pkg/kafkacomm/mocks"
-	"sync"
 	"testing"
 )
 
@@ -58,7 +57,7 @@ func TestNewKafkaConsumer_SASLTest(t *testing.T) {
 
 	mockConsumer := new(MockKafkaConsumer)
 
-	consumer, err := NewKafkaConsumer()
+	consumer, err := NewKafkaConsumer(cfg.Topic,cfg.GroupId)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, consumer)
@@ -69,7 +68,7 @@ func TestNewKafkaConsumer(t *testing.T) {
 	// Assuming configuration is correctly loaded from cfg package
 	// You can mock or override cfg values here if needed
 
-	consumer, err := NewKafkaConsumer()
+	consumer, err := NewKafkaConsumer(cfg.Topic, cfg.GroupId)
 	assert.NoError(t, err, "Expected no error when creating Kafka consumer")
 	assert.NotNil(t, consumer, "Expected a non-nil KafkaConsumer")
 
@@ -191,7 +190,6 @@ func TestKafkaConsumer_Unsubscribe_Nil_Error(t *testing.T) {
 
 // Helper function to reset
 func resetKafkaConsumerSingleton() {
-	consumerOnce = sync.Once{}
 	consumerInstance = nil
 }
 
@@ -203,9 +201,9 @@ func TestNewKafkaConsumer_ErrorCreatingConsumer(t *testing.T) {
 		return nil, fmt.Errorf("mock error creating consumer")
 	}
 
-	consumer, err := NewKafkaConsumer()
+	consumer, err := NewKafkaConsumer(cfg.Topic, cfg.GroupId)
 	assert.Nil(t, consumer)
-	assert.EqualError(t, err, "Kafka Consumer instance not created")
+	assert.EqualError(t, err, "error creating consumer: mock error creating consumer")
 	KafkaNewConsumer = originalNewKafkaConsumer
 }
 
@@ -217,8 +215,8 @@ func TestNewKafkaConsumer_NilConsumer(t *testing.T) {
 		return nil, nil
 	}
 
-	consumer, err := NewKafkaConsumer()
+	consumer, err := NewKafkaConsumer(cfg.Topic, cfg.GroupId)
 	assert.Nil(t, consumer)
-	assert.EqualError(t, err, "Kafka Consumer instance not created")
+	assert.EqualError(t, err, "Kafka Consumer is nil after creation")
 	KafkaNewConsumer = originalNewKafkaConsumer
 }

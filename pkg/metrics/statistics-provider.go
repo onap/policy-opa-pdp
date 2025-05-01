@@ -65,6 +65,8 @@ func FetchCurrentStatistics(res http.ResponseWriter, req *http.Request) {
 	statReport.UndeployFailureCount = totalUndeployFailureCountRef()
 	statReport.UndeploySuccessCount = totalUndeploySuccessCountRef()
 	statReport.TotalPoliciesCount = totalPoliciesCountRef()
+	statReport.DynamicDataUpdateFailureCount = totalDynamicDataUpdateFailureCountRef()
+	statReport.DynamicDataUpdateSuccessCount = totalDynamicDataUpdateSuccessCountRef()
 
 	// not implemented hardcoding the values to zero
 	// will be implemeneted in phase-2

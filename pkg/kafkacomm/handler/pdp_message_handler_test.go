@@ -35,7 +35,7 @@ import (
 )
 
 type KafkaConsumerInterface interface {
-	ReadMessage() ([]byte, error)
+	ReadMessage(time.Duration) ([]byte, error)
 	ReadKafkaMessages() ([]byte, error)
 }
 
@@ -43,17 +43,23 @@ type MockKafkaConsumer struct {
 	mock.Mock
 }
 
-func (m *MockKafkaConsumer) Unsubscribe() {
-	m.Called()
+func (m *MockKafkaConsumer) Unsubscribe() error {
+	args := m.Called()
+	return args.Error(0)
 }
 
-func (m *MockKafkaConsumer) Close() {
-	m.Called()
+func (m *MockKafkaConsumer) Close() error{
+	args:= m.Called()
+	return args.Error(0)
 }
 
-func (m *MockKafkaConsumer) ReadMessage(kc *kafkacomm.KafkaConsumer) ([]byte, error) {
-	args := m.Called(kc)
-	return args.Get(0).([]byte), args.Error(0)
+func (m *MockKafkaConsumer) ReadMessage(timeout time.Duration) (*kafka.Message, error) {
+args := m.Called(timeout)
+msg := args.Get(0)
+if msg == nil {
+return nil, args.Error(1)
+}
+return msg.(*kafka.Message), args.Error(1)
 }
 
 func (m *MockKafkaConsumer) pdpUpdateMessageHandler(msg string) error {

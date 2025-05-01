@@ -222,6 +222,7 @@ func TestGetKafkaProducer_WithSASL(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+
 func TestKafkaProducer_Close_NilProducer(t *testing.T) {
 	kp := &KafkaProducer{
 		producer: nil, // Simulate the nil producer

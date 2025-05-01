@@ -25,8 +25,8 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"log"
 	"policy-opa-pdp/cfg"
-	"sync"
 )
+
 
 type KafkaProducerInterface interface {
 	Produce(*kafka.Message, chan kafka.Event) error
@@ -43,7 +43,6 @@ type KafkaProducer struct {
 
 var (
 	instance *KafkaProducer
-	once     sync.Once
 )
 
 // GetKafkaProducer initializes and returns a KafkaProducer instance which is a singleton.
@@ -51,43 +50,47 @@ var (
 // If SASL authentication is enabled via the configuration, the necessary credentials
 // are set in the producer configuration.
 //
-//nolint:gosec
+
 func GetKafkaProducer(bootstrapServers, topic string) (*KafkaProducer, error) {
 	var err error
-	once.Do(func() {
-		brokers := cfg.BootstrapServer
-		useSASL := cfg.UseSASLForKAFKA
-		username := cfg.KAFKA_USERNAME
-		password := cfg.KAFKA_PASSWORD
-
-		// Add Kafka Connection Properties ....
-		configMap := &kafka.ConfigMap{
-			"bootstrap.servers": brokers,
-		}
-
-		if useSASL == "true" {
-			configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512")     // #nosec G104
-			configMap.SetKey("sasl.username", username)             // #nosec G104
-			configMap.SetKey("sasl.password", password)             // #nosec G104
-			configMap.SetKey("security.protocol", "SASL_PLAINTEXT") // #nosec G104
-		}
-
-		p, err := kafka.NewProducer(configMap)
-		if err != nil {
-			return
-		}
-		instance = &KafkaProducer{
-			producer: p,
-			topic:    topic,
-		}
-
-	})
+	instance, err = initializeKafkaProducer(topic)
 	return instance, err
+}
+
+
+//nolint:gosec
+func initializeKafkaProducer(topic string) (*KafkaProducer, error) {
+	brokers := cfg.BootstrapServer
+	useSASL := cfg.UseSASLForKAFKA
+	username := cfg.KAFKA_USERNAME
+	password := cfg.KAFKA_PASSWORD
+
+	configMap := &kafka.ConfigMap{
+		"bootstrap.servers": brokers,
+	}
+
+	if useSASL == "true" {
+		configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512")     // #nosec G104
+		configMap.SetKey("sasl.username", username)             // #nosec G104
+		configMap.SetKey("sasl.password", password)             // #nosec G104
+		configMap.SetKey("security.protocol", "SASL_PLAINTEXT") // #nosec G104
+	}
+
+	p, err := kafka.NewProducer(configMap)
+	if err != nil {
+		return nil, err
+	}
+
+	return &KafkaProducer{
+		producer: p,
+		topic:    topic,
+	}, nil
 }
 
 // Produce sends a message to the configured Kafka topic.
 // It takes the message payload as a byte slice and returns any errors
 func (kp *KafkaProducer) Produce(kafkaMessage *kafka.Message, eventChan chan kafka.Event) error {
+	log.Println("KafkaProducer or producer produce message")
 	if kafkaMessage.TopicPartition.Topic == nil {
 		kafkaMessage.TopicPartition = kafka.TopicPartition{
 			Topic:     &kp.topic,

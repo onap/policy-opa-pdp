@@ -24,6 +24,7 @@ package api
 import (
 	"net/http"
 	"policy-opa-pdp/cfg"
+	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
@@ -63,17 +64,17 @@ func RegisterHandlers() {
 
 // Define the metrics handler function
 func metricsHandler(w http.ResponseWriter, r *http.Request) {
-	promhttp.Handler().ServeHTTP(w, r)
+    promhttp.Handler().ServeHTTP(w, r)
 }
 
 //Track Decision response time metrics
 func trackDecisionResponseTime(next http.HandlerFunc) http.HandlerFunc {
-	return trackResponseTime(metrics.DecisionResponseTime, next)
+	return trackResponseTime(metrics.DecisionResponseTime_Prom, next)
 }
 
 //Track Data response time metrics
 func trackDataResponseTime(next http.HandlerFunc) http.HandlerFunc {
-	return trackResponseTime(metrics.DataResponseTime, next)
+	return trackResponseTime(metrics.DataResponseTime_Prom, next)
 }
 
 func trackResponseTime(metricCollector prometheus.Observer, next http.HandlerFunc) http.HandlerFunc {
@@ -104,3 +105,13 @@ func validateCredentials(username, password string) bool {
 	validPass := cfg.Password
 	return username == validUser && password == validPass
 }
+
+// handles readiness probe endpoint
+func readinessProbe(res http.ResponseWriter, req *http.Request) {
+	res.WriteHeader(http.StatusOK)
+	_, err := res.Write([]byte("Ready"))
+	if err != nil {
+		log.Errorf("Failed to write response: %v", err)
+	}
+}
+

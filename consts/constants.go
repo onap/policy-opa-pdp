@@ -48,12 +48,13 @@ package consts
 //		HealtCheckStatus    - The bool flag for Healthy field in HealtCheck response
 //		OkCode              - The Code for HealthCheck response
 //		HealthCheckMessage  - The Healtcheck Message
-//              DefaultHeartbeatMS  - The default interval for heartbeat signals in milliseconds.
+//	        DefaultHeartbeatMS  - The default interval for heartbeat signals in milliseconds.
 //		SingleHierarchy     - The Counter indicates the length of datakey path
 //	        PolicyVersion       - constant declared for policy-version
 //	        PolicyID            - constant declared for policy-id
 //	        RequestId           - constant declared for ONAP Request-ID
 //              MaxOutputResponseLength - constant declared for maximum length of output in response message
+//              ContentType              - constant for response Content Type
 var (
 	LogFilePath      = "/var/logs/logs.log"
 	LogMaxSize       = 10
@@ -86,4 +87,6 @@ var (
 	PolicyId            = "policy-id"
 	RequestId          = "X-ONAP-RequestID"
 	MaxOutputResponseLength = 200
+	ContentType             = "Content-Type" 
+	ApplicationJson         = "application/json"
 )

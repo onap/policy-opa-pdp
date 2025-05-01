@@ -29,6 +29,7 @@ import (
 	h "policy-opa-pdp/api"
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
+	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/handler"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
@@ -42,22 +43,30 @@ import (
 var (
 	bootstrapServers = cfg.BootstrapServer //The Kafka bootstrap server address.
 	topic            = cfg.Topic           //The Kafka topic to subscribe to.
+	patchTopic       = cfg.PatchTopic
+	patchMsgProducer *kafkacomm.KafkaProducer
+	patchMsgConsumer *kafkacomm.KafkaConsumer
+	groupId          = cfg.GroupId
+        patchGroupId     = cfg.PatchGroupId
 )
 
 // Declare function variables for dependency injection makes it more testable
 var (
-	initializeHandlersFunc    = initializeHandlers
-	startHTTPServerFunc       = startHTTPServer
-	shutdownHTTPServerFunc    = shutdownHTTPServer
-	waitForServerFunc         = waitForServer
-	initializeOPAFunc         = initializeOPA
-	startKafkaConsAndProdFunc = startKafkaConsAndProd
-	handleMessagesFunc        = handleMessages
-	handleShutdownFunc        = handleShutdown
+	initializeHandlersFunc         = initializeHandlers
+	startHTTPServerFunc            = startHTTPServer
+	shutdownHTTPServerFunc         = shutdownHTTPServer
+	waitForServerFunc              = waitForServer
+	initializeOPAFunc              = initializeOPA
+	startKafkaConsAndProdFunc      = startKafkaConsAndProd
+	handleMessagesFunc             = handleMessages
+	handleShutdownFunc             = handleShutdown
+	startPatchKafkaConsAndProdFunc = startPatchKafkaConsAndProd
+	handlePatchMessagesFunc        = handlePatchMessages
 )
 
 // main function
 func main() {
+	var useKafkaForPatch = cfg.UseKafkaForPatch
 	log.Debugf("Starting OPA PDP Service")
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -91,6 +100,16 @@ func main() {
 	// start pdp message handler in a seperate routine
 	handleMessagesFunc(ctx, kc, sender)
 
+	if useKafkaForPatch {
+		patchMsgConsumer, patchMsgProducer, err := startPatchKafkaConsAndProdFunc()
+		if err != nil || patchMsgConsumer == nil {
+			log.Warnf("Kafka consumer initialization failed: %v", err)
+		}
+		log.Debugf("Producer initialized is: %v", patchMsgProducer)
+		// start patch message handler in a seperate routine
+		handlePatchMessagesFunc(ctx, patchMsgConsumer)
+	}
+
 	time.Sleep(10 * time.Second)
 
 	pdpattributes.SetPdpHeartbeatInterval(int64(consts.DefaultHeartbeatMS))
@@ -101,7 +120,9 @@ func main() {
 	// Handle OS Interrupts and Graceful Shutdown
 	interruptChannel := make(chan os.Signal, 1)
 	signal.Notify(interruptChannel, os.Interrupt, syscall.SIGTERM, syscall.SIGINT, syscall.SIGHUP)
-	handleShutdownFunc(kc, interruptChannel, cancel, producer)
+	consumers := []*kafkacomm.KafkaConsumer{kc, patchMsgConsumer}
+	producers := []*kafkacomm.KafkaProducer{producer, patchMsgProducer}
+	handleShutdownFunc(consumers, interruptChannel, cancel, producers)
 }
 
 type PdpMessageHandlerFunc func(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string, p publisher.PdpStatusSender) error
@@ -115,6 +136,21 @@ func handleMessages(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *pu
 		err := PdpMessageHandler(ctx, kc, topic, sender)
 		if err != nil {
 			log.Warnf("Erro in PdpUpdate Message Handler: %v", err)
+		}
+	}()
+}
+
+type PatchMessageHandlerFunc func(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string) error
+
+var PatchMessageHandler PatchMessageHandlerFunc = handler.PatchMessageHandler
+
+// starts patchMessage Handler in a seperate routine which handles incoming messages on Kfka topic
+func handlePatchMessages(ctx context.Context, kc *kafkacomm.KafkaConsumer) {
+
+	go func() {
+		err := PatchMessageHandler(ctx, kc, patchTopic)
+		if err != nil {
+			log.Warnf("Erro in Patch Message Handler: %v", err)
 		}
 	}()
 }
@@ -163,7 +199,7 @@ func initializeOPA() error {
 	return nil
 }
 
-type NewKafkaConsumerFunc func() (*kafkacomm.KafkaConsumer, error)
+type NewKafkaConsumerFunc func(topic string, groupid string) (*kafkacomm.KafkaConsumer, error)
 
 var NewKafkaConsumer NewKafkaConsumerFunc = kafkacomm.NewKafkaConsumer
 
@@ -172,7 +208,8 @@ type GetKafkaProducerFunc func(bootstrapServers string, topic string) (*kafkacom
 var GetKafkaProducer GetKafkaProducerFunc = kafkacomm.GetKafkaProducer
 
 func startKafkaConsAndProd() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
-	kc, err := NewKafkaConsumer()
+	log.Debugf("Topic start :::: %s", topic)
+	kc, err := NewKafkaConsumer(topic, groupId)
 	if err != nil {
 		log.Warnf("Failed to create Kafka consumer: %v", err)
 		return nil, nil, err
@@ -185,7 +222,24 @@ func startKafkaConsAndProd() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer
 	return kc, producer, nil
 }
 
-func handleShutdown(kc *kafkacomm.KafkaConsumer, interruptChannel chan os.Signal, cancel context.CancelFunc, producer *kafkacomm.KafkaProducer) {
+
+func startPatchKafkaConsAndProd() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
+	log.Debugf("Topic start :::: %s", patchTopic)
+	kc, err := NewKafkaConsumer(patchTopic, patchGroupId)
+	if err != nil {
+		log.Warnf("Failed to create Kafka consumer: %v", err)
+		return nil, nil, err
+	}
+	PatchProducer, err := GetKafkaProducer(bootstrapServers, patchTopic)
+	if err != nil {
+		log.Warnf("Failed to create Kafka producer: %v", err)
+		return nil, nil, err
+	}
+	data.PatchProducer = PatchProducer
+	return kc, PatchProducer, nil
+}
+
+func handleShutdown(consumers []*kafkacomm.KafkaConsumer, interruptChannel chan os.Signal, cancel context.CancelFunc, producers []*kafkacomm.KafkaProducer) {
 
 myLoop:
 	for {
@@ -200,21 +254,28 @@ myLoop:
 	signal.Stop(interruptChannel)
 
 	publisher.StopTicker()
-	producer.Close()
-	if kc == nil {
-		log.Debugf("kc is nil so skipping")
-		return
+	for _, producer := range producers {
+		if producer != nil {
+			producer.Close()
+		}
 	}
 
-	if err := kc.Consumer.Unsubscribe(); err != nil {
-		log.Warnf("Failed to unsubscribe consumer: %v", err)
-	} else {
-		log.Debugf("Consumer Unsubscribed....")
-	}
-	if err := kc.Consumer.Close(); err != nil {
-		log.Debug("Failed to close consumer......")
-	} else {
-		log.Debugf("Consumer closed....")
+	for _, consumer := range consumers {
+		if consumer == nil {
+			log.Debugf("kc is nil so skipping")
+			continue
+		}
+
+		if err := consumer.Consumer.Unsubscribe(); err != nil {
+			log.Warnf("Failed to unsubscribe consumer: %v", err)
+		} else {
+			log.Debugf("Consumer Unsubscribed....")
+		}
+		if err := consumer.Consumer.Close(); err != nil {
+			log.Debug("Failed to close consumer......")
+		} else {
+			log.Debugf("Consumer closed....")
+		}
 	}
 
 	handler.SetShutdownFlag()
