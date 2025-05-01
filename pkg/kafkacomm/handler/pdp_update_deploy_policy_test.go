@@ -22,6 +22,7 @@ import (
 	"context"
 	"encoding/base64"
 	"errors"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -35,7 +36,6 @@ import (
 	"policy-opa-pdp/pkg/utils"
 	"strings"
 	"testing"
-	"fmt"
 )
 
 func TestValidatePackageName(t *testing.T) {

@@ -112,7 +112,7 @@ paths:
       - basicAuth: []
       x-interface info:
         last-mod-release: Paris
-        pdpo-version: 1.0.0
+        pdpo-version: 1.0.3
       x-codegen-request-body-name: body
   /healthcheck:
     get:
@@ -172,7 +172,7 @@ paths:
       - basicAuth: []
       x-interface info:
         last-mod-release: Paris
-        pdpo-version: 1.0.0
+        pdpo-version: 1.0.3
   /statistics:
     get:
       tags:
@@ -231,7 +231,7 @@ paths:
       - basicAuth: []
       x-interface info:
         last-mod-release: Paris
-        pdpo-version: 1.0.0
+        pdpo-version: 1.0.3
   /data/{path}:
     patch:
       tags:
@@ -325,7 +325,7 @@ paths:
       - basicAuth: []
       x-interface info:
         last-mod-release: Paris
-        pdpo-version: 1.0.0
+        pdpo-version: 1.0.3
       x-codegen-request-body-name: body
     get:
       tags:
@@ -387,6 +387,11 @@ paths:
         500:
           description: Internal Server Error
           content: {}
+      security:
+        - basicAuth: []
+      x-interface info:
+        last-mod-release: Paris
+        pdpo-version: 1.0.3
 components:
   schemas:
     ErrorResponse:
@@ -552,6 +557,12 @@ components:
         decisionFailureCount:
           type: integer
           format: int64
+        dynamicDataUpdateSuccessCount:
+          type: integer
+          format: int64
+        dynamicDataUpdateFailureCount:
+          type: integer
+          format: int64
     OPADataResponse:
       type: object
       properties:
@@ -565,4 +576,3 @@ components:
       type: http
       description: ""
       scheme: basic
-

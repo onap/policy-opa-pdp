@@ -24,6 +24,7 @@ package publisher
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
@@ -32,7 +33,6 @@ import (
 	"policy-opa-pdp/pkg/policymap"
 	"sync"
 	"time"
-	"github.com/google/uuid"
 )
 
 var (

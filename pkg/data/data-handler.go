@@ -28,7 +28,10 @@ import (
 	"github.com/open-policy-agent/opa/storage"
 	"net/http"
 	"path/filepath"
+	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
+	"policy-opa-pdp/pkg/kafkacomm"
+	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/metrics"
 	"policy-opa-pdp/pkg/model/oapicodegen"
@@ -40,6 +43,7 @@ import (
 
 type (
 	checkIfPolicyAlreadyExistsFunc func(policyId string) bool
+	validateRequestFunc            func(requestBody *oapicodegen.OPADataUpdateRequest) error
 )
 
 var (
@@ -49,6 +53,11 @@ var (
 	checkIfPolicyAlreadyExistsVar checkIfPolicyAlreadyExistsFunc = policymap.CheckIfPolicyAlreadyExists
 	getPolicyByIDVar                                             = getPolicyByID
 	extractPatchInfoVar                                          = extractPatchInfo
+	bootstrapServers                                             = cfg.BootstrapServer //The Kafka bootstrap server address.
+	PatchProducer                 kafkacomm.KafkaProducerInterface
+	patchTopic                    = cfg.PatchTopic
+	PatchDataVar                  = PatchData
+	getOperationTypeVar           = getOperationType
 )
 
 // creates a response code map to OPADataUpdateResponse
@@ -69,7 +78,7 @@ func getErrorResponseCodeForOPADataUpdate(httpStatus int) oapicodegen.ErrorRespo
 
 // writes a Error JSON response to the HTTP response writer for OPADataUpdate
 func writeOPADataUpdateErrorJSONResponse(res http.ResponseWriter, status int, errorDescription string, dataErrorRes oapicodegen.ErrorResponse) {
-	res.Header().Set("Content-Type", "application/json")
+	res.Header().Set(consts.ContentType, consts.ApplicationJson)
 	res.WriteHeader(status)
 	if err := json.NewEncoder(res).Encode(dataErrorRes); err != nil {
 		http.Error(res, err.Error(), status)
@@ -113,63 +122,125 @@ func getPolicyByID(policiesMap string, policyId string) (*Policy, error) {
 }
 
 func patchHandler(res http.ResponseWriter, req *http.Request) {
+	var useKafkaForPatch = cfg.UseKafkaForPatch
 	log.Infof("PDP received a request to update data through API")
 	constructResponseHeader(res, req)
 	var requestBody oapicodegen.OPADataUpdateRequest
-	if err := json.NewDecoder(req.Body).Decode(&requestBody); err != nil {
-		errMsg := "Error in decoding the request data - " + err.Error()
+
+	requestBody, err := decodeRequest(req)
+	if err != nil {
+		sendErrorResponse(res, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	dataDir, dirParts := extractDataDir(req)
+
+	if err := validateRequest(&requestBody); err != nil {
+		sendErrorResponse(res, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Debug("All fields are valid!")
+	// Access the data part
+	data := requestBody.Data
+	log.Infof("data : %s", data)
+	policyId := requestBody.PolicyName
+	if policyId == nil {
+		errMsg := "Policy Id is nil"
+		sendErrorResponse(res, errMsg, http.StatusBadRequest)
+		return
+	}
+	log.Infof("policy name : %s", *policyId)
+	isExists := policymap.CheckIfPolicyAlreadyExists(*policyId)
+	if !isExists {
+		errMsg := "Policy associated with the patch request does not exists"
 		sendErrorResponse(res, errMsg, http.StatusBadRequest)
 		log.Errorf(errMsg)
 		return
 	}
+
+	matchFound := validatePolicyDataPathMatched(dirParts, *policyId, res)
+	if !matchFound {
+		return
+	}
+
+	patchInfos, err := getPatchInfo(requestBody.Data, dataDir, res)
+	if err != nil {
+		log.Warnf("Failed to get Patch Info : %v", err)
+		return
+	}
+
+	if useKafkaForPatch {
+		err := handleDynamicUpdateRequestWithKafka(patchInfos, res)
+		if err != nil {
+			log.Warnf("Error in handling dynamic update request wit kafka: %v", err)
+			return
+		}
+		res.Header().Set(consts.ContentType, consts.ApplicationJson)
+		res.WriteHeader(http.StatusAccepted)
+		_, _ = res.Write([]byte(`{"message": "Patch request accepted for processing via kafka and Use the get data url to fetch the latest data. In case of errors, Check logs."uri":"/policy/pdpo/v1/data/""}`))
+		metrics.IncrementDynamicDataUpdateSuccessCount()
+		return
+	}
+	if err := PatchData(patchInfos, res); err != nil {
+		// Handle the error, for example, log it or return an appropriate response
+		log.Errorf("Error encoding JSON response: %s", err)
+		return
+
+	}
+	metrics.IncrementDynamicDataUpdateSuccessCount()
+
+}
+
+func decodeRequest(req *http.Request) (oapicodegen.OPADataUpdateRequest, error) {
+	var requestBody oapicodegen.OPADataUpdateRequest
+	if err := json.NewDecoder(req.Body).Decode(&requestBody); err != nil {
+		return requestBody, fmt.Errorf("Error in decoding request data: %v", err)
+	}
+	return requestBody, nil
+}
+
+func extractDataDir(req *http.Request) (string, []string) {
 	path := strings.TrimPrefix(req.URL.Path, "/policy/pdpo/v1/data")
 	dirParts := strings.Split(path, "/")
-	dataDir := filepath.Join(dirParts...)
-	log.Infof("dataDir : %s", dataDir)
+	return filepath.Join(dirParts...), dirParts
+}
 
-	// Validate the request
-	validationErrors := utils.ValidateOPADataRequest(&requestBody)
-
-	// Validate Data field (ensure it's not nil and has items)
-	if !(utils.IsValidData(requestBody.Data)) {
+func validateRequest(requestBody *oapicodegen.OPADataUpdateRequest) error {
+	validationErrors := utils.ValidateOPADataRequest(requestBody)
+	if !utils.IsValidData(requestBody.Data) {
 		validationErrors = append(validationErrors, "Data is required and cannot be empty")
 	}
-
-	// Print validation errors
 	if len(validationErrors) > 0 {
-		errMsg := strings.Join(validationErrors, ", ")
-		log.Errorf("Facing validation error in requestbody - %s", errMsg)
-		sendErrorResponse(res, errMsg, http.StatusBadRequest)
-		return
-	} else {
-		log.Debug("All fields are valid!")
-		// Access the data part
-		data := requestBody.Data
-		log.Infof("data : %s", data)
-		policyId := requestBody.PolicyName
-		if policyId == nil {
-			errMsg := "Policy Id is nil"
-			sendErrorResponse(res, errMsg, http.StatusBadRequest)
-			return
-		}
-		log.Infof("policy name : %s", *policyId)
-		isExists := policymap.CheckIfPolicyAlreadyExists(*policyId)
-		if !isExists {
-			errMsg := "Policy associated with the patch request does not exists"
-			sendErrorResponse(res, errMsg, http.StatusBadRequest)
-			log.Errorf(errMsg)
-			return
-		}
-
-		matchFound := validatePolicyDataPathMatched(dirParts, *policyId, res)
-
-		if matchFound {
-			if err := patchData(dataDir, data, res); err != nil {
-				// Handle the error, for example, log it or return an appropriate response
-				log.Errorf("Error encoding JSON response: %s", err)
-			}
-		}
+		return fmt.Errorf(strings.Join(validationErrors, ", "))
 	}
+	return nil
+}
+
+func getPatchInfo(data *[]map[string]interface{}, dataDir string, res http.ResponseWriter) ([]opasdk.PatchImpl, error) {
+	root := "/" + strings.Trim(dataDir, "/")
+	patchInfos, err := extractPatchInfoVar(res, data, root)
+	if patchInfos == nil || err != nil {
+		return nil, fmt.Errorf("Error in extracting Patch Info : %v", err)
+	}
+	return patchInfos, nil
+}
+
+func handleDynamicUpdateRequestWithKafka(patchInfos []opasdk.PatchImpl, res http.ResponseWriter) error {
+
+	if PatchProducer == nil {
+		log.Warnf("Failed to initialize Kafka producer")
+		return fmt.Errorf("Failed to initialize Kafka producer")
+
+	}
+	sender := &publisher.RealPatchSender{
+		Producer: PatchProducer,
+	}
+	if err := sender.SendPatchMessage(patchInfos); err != nil {
+		log.Warnf("Failed to send Patch Messge, %v", err)
+		return err
+	}
+
+	return nil
 }
 
 func DataHandler(res http.ResponseWriter, req *http.Request) {
@@ -191,11 +262,11 @@ func extractPatchInfo(res http.ResponseWriter, ops *[]map[string]interface{}, ro
 		optypeString, opTypeErr := op["op"].(string)
 		if !opTypeErr {
 			opTypeErrMsg := "Error in getting op type. Op type is not given in request body"
-			sendErrorResponse(res, opTypeErrMsg, http.StatusInternalServerError)
+			sendErrorResponse(res, opTypeErrMsg, http.StatusBadRequest)
 			log.Errorf(opTypeErrMsg)
 			return nil, fmt.Errorf("Error in getting op type. Op type is not given in request body")
 		}
-		opType, err := getOperationType(optypeString, res)
+		opType, err := getOperationTypeVar(optypeString, res)
 
 		if err != nil {
 			log.Warnf("Error in getting opType: %v", err)
@@ -235,7 +306,7 @@ func getPatchValue(op map[string]interface{}, res http.ResponseWriter) (interfac
 	value, valueErr = op["value"]
 	if !valueErr || isEmpty(value) {
 		valueErrMsg := "Error in getting data value. Value is not given in request body"
-		sendErrorResponse(res, valueErrMsg, http.StatusInternalServerError)
+		sendErrorResponse(res, valueErrMsg, http.StatusBadRequest)
 		log.Errorf(valueErrMsg)
 		return nil, fmt.Errorf("Error in getting data value. Value is not given in request body")
 	}
@@ -298,7 +369,7 @@ func constructPath(opPath string, opType string, root string, res http.ResponseW
 		}
 	} else {
 		valueErrMsg := "Error in getting data path - Invalid path (/) is used."
-		sendErrorResponse(res, valueErrMsg, http.StatusInternalServerError)
+		sendErrorResponse(res, valueErrMsg, http.StatusBadRequest)
 		log.Errorf(valueErrMsg)
 		return nil
 	}
@@ -355,7 +426,7 @@ func constructOpStoragePath(op map[string]interface{}, root string, res http.Res
 	opPath, opPathErr := op["path"].(string)
 	if !opPathErr || len(opPath) == 0 {
 		opPathErrMsg := "Error in getting data path. Path is not given in request body"
-		sendErrorResponse(res, opPathErrMsg, http.StatusInternalServerError)
+		sendErrorResponse(res, opPathErrMsg, http.StatusBadRequest)
 		log.Errorf(opPathErrMsg)
 		return nil
 	}
@@ -389,14 +460,7 @@ type NewOpaSDKPatchFunc func(ctx context.Context, patches []opasdk.PatchImpl) er
 
 var NewOpaSDKPatch NewOpaSDKPatchFunc = opasdk.PatchData
 
-func patchData(root string, ops *[]map[string]interface{}, res http.ResponseWriter) (err error) {
-	root = "/" + strings.Trim(root, "/")
-	patchInfos, err := extractPatchInfoVar(res, ops, root)
-	if err != nil {
-		log.Warnf("Failed to extarct Patch Info")
-		return err
-	}
-
+func PatchData(patchInfos []opasdk.PatchImpl, res http.ResponseWriter) (err error) {
 	if patchInfos != nil {
 		patchErr := NewOpaSDKPatch(context.Background(), patchInfos)
 		if patchErr != nil {
@@ -406,12 +470,16 @@ func patchData(root string, ops *[]map[string]interface{}, res http.ResponseWrit
 				errCode = http.StatusNotFound
 			}
 			errMsg := "Error in updating data - " + patchErr.Error()
-			sendErrorResponse(res, errMsg, errCode)
+			if res != nil {
+				sendErrorResponse(res, errMsg, errCode)
+			}
 			log.Errorf(errMsg)
 			return patchErr
 		}
 		log.Infof("Updated the data in the corresponding path successfully\n")
-		res.WriteHeader(http.StatusNoContent)
+		if res != nil {
+			res.WriteHeader(http.StatusNoContent)
+		}
 	}
 	// handled all error scenarios in extractPatchInfo method
 	return nil
@@ -419,6 +487,7 @@ func patchData(root string, ops *[]map[string]interface{}, res http.ResponseWrit
 
 func sendErrorResponse(res http.ResponseWriter, errMsg string, statusCode int) {
 	dataExc := createOPADataUpdateExceptionResponse(statusCode, errMsg, "")
+	metrics.IncrementDynamicDataUpdateFailureCount()
 	metrics.IncrementTotalErrorCount()
 	writeOPADataUpdateErrorJSONResponse(res, statusCode, errMsg, *dataExc)
 }
@@ -500,7 +569,7 @@ func getData(res http.ResponseWriter, dataPath string) {
 		dataResponse.Data = data
 	}
 
-	res.Header().Set("Content-Type", "application/json")
+	res.Header().Set(consts.ContentType, consts.ApplicationJson)
 	res.WriteHeader(http.StatusOK)
 
 	if err := json.NewEncoder(res).Encode(dataResponse); err != nil {

@@ -320,10 +320,10 @@ func TestPolicyUndeploymentAction(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// Set mock behavior
 			removePolicyFromSdkandDirFunc = func(policy map[string]interface{}) []string {
-	return tt.mockPolicyErrors
+				return tt.mockPolicyErrors
 			}
 			removeDataFromSdkandDirFunc = func(policy map[string]interface{}) []string {
-	return tt.mockDataErrors
+				return tt.mockDataErrors
 			}
 
 			// Call the function under test
@@ -395,58 +395,58 @@ func TestCountChildKeysFromJSON(t *testing.T) {
 			name:     "Empty JSON",
 			input:    map[string]interface{}{},
 			expected: map[string]int{
-	// No child nodes
+				// No child nodes
 			},
 		},
 		{
 			name: "Single Level JSON",
 			input: map[string]interface{}{
-	"key1": map[string]interface{}{
-		"child1": "value1",
-		"child2": "value2",
-	},
-	"key2": map[string]interface{}{
-		"childA": "valueA",
-	},
+				"key1": map[string]interface{}{
+					"child1": "value1",
+					"child2": "value2",
+				},
+				"key2": map[string]interface{}{
+					"childA": "valueA",
+				},
 			},
 			expected: map[string]int{
-	"node/key1": 2, // key1 has 2 children
-	"node/key2": 1, // key2 has 1 child
+				"node/key1": 2, // key1 has 2 children
+				"node/key2": 1, // key2 has 1 child
 			},
 		},
 		{
 			name: "Nested JSON",
 			input: map[string]interface{}{
-	"root": map[string]interface{}{
-		"level1": map[string]interface{}{
-			"level2": map[string]interface{}{
-				"child1": "value1",
-				"child2": "value2",
-			},
-		},
-	},
+				"root": map[string]interface{}{
+					"level1": map[string]interface{}{
+						"level2": map[string]interface{}{
+							"child1": "value1",
+							"child2": "value2",
+						},
+					},
+				},
 			},
 			expected: map[string]int{
-	"node/root":               1, // root has 1 child (level1)
-	"node/root/level1":        1, // level1 has 1 child (level2)
-	"node/root/level1/level2": 2, // level2 has 2 children
+				"node/root":               1, // root has 1 child (level1)
+				"node/root/level1":        1, // level1 has 1 child (level2)
+				"node/root/level1/level2": 2, // level2 has 2 children
 			},
 		},
 		{
 			name: "Mixed Data Types",
 			input: map[string]interface{}{
-	"parent": map[string]interface{}{
-		"child1": "string",
-		"child2": 42,
-		"child3": map[string]interface{}{
-			"subchild1": true,
-			"subchild2": nil,
-		},
-	},
+				"parent": map[string]interface{}{
+					"child1": "string",
+					"child2": 42,
+					"child3": map[string]interface{}{
+						"subchild1": true,
+						"subchild2": nil,
+					},
+				},
 			},
 			expected: map[string]int{
-	"node/parent":        3, // parent has 3 children
-	"node/parent/child3": 2, // child3 has 2 children
+				"node/parent":        3, // parent has 3 children
+				"node/parent/child3": 2, // child3 has 2 children
 			},
 		},
 	}
@@ -455,7 +455,7 @@ func TestCountChildKeysFromJSON(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := countChildKeysFromJSON(tt.input)
 			if !reflect.DeepEqual(got, tt.expected) {
-	t.Errorf("countChildKeysFromJSON() = %v, expected %v", got, tt.expected)
+				t.Errorf("countChildKeysFromJSON() = %v, expected %v", got, tt.expected)
 			}
 		})
 	}
@@ -536,10 +536,10 @@ func TestAnalyzeHierarchy(t *testing.T) {
 			result, err := analyzeHierarchy(tt.parentDataJson, tt.dataPath)
 
 			if tt.expectedErr {
-	assert.Error(t, err)
+				assert.Error(t, err)
 			} else {
-	assert.NoError(t, err)
-	assert.Equal(t, tt.expectedPath, result)
+				assert.NoError(t, err)
+				assert.Equal(t, tt.expectedPath, result)
 			}
 		})
 	}
@@ -580,7 +580,7 @@ func TestAnalyseEmptyParentNodes(t *testing.T) {
 			name:      "Success - Valid Parent Data Exists",
 			inputPath: "/parent/child",
 			mockResponse: map[string]interface{}{
-	"child": "data",
+				"child": "data",
 			},
 			mockError:      nil,
 			expectedOutput: "/parent/child",
@@ -601,13 +601,13 @@ func TestAnalyseEmptyParentNodes(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// Mock function behavior
 			opasdkGetData = func(ctx context.Context, dataPath string) (*oapicodegen.OPADataResponse_Data, error) {
-	if tt.mockResponse != nil {
-		jsonData, _ := json.Marshal(tt.mockResponse)
-		var resData oapicodegen.OPADataResponse_Data
-		_ = json.Unmarshal(jsonData, &resData)
-		return &resData, tt.mockError
-	}
-	return nil, tt.mockError
+				if tt.mockResponse != nil {
+					jsonData, _ := json.Marshal(tt.mockResponse)
+					var resData oapicodegen.OPADataResponse_Data
+					_ = json.Unmarshal(jsonData, &resData)
+					return &resData, tt.mockError
+				}
+				return nil, tt.mockError
 			}
 
 			// Call function
@@ -615,10 +615,10 @@ func TestAnalyseEmptyParentNodes(t *testing.T) {
 
 			// Validate results
 			if tt.expectError {
-	assert.Error(t, err, "Expected error but got none")
+				assert.Error(t, err, "Expected error but got none")
 			} else {
-	assert.NoError(t, err, "Expected no error but got one")
-	assert.Equal(t, tt.expectedOutput, output, "Unexpected output")
+				assert.NoError(t, err, "Expected no error but got one")
+				assert.Equal(t, tt.expectedOutput, output, "Unexpected output")
 			}
 		})
 	}
@@ -679,13 +679,13 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// Mock function variables
 			analyseEmptyParentNodesFunc = func(dataPath string) (string, error) {
-	return dataPath, tt.mockAnalyseErr
+				return dataPath, tt.mockAnalyseErr
 			}
 			deleteDataSdkFunc = func(ctx context.Context, dataPath string) error {
-	return tt.mockDeleteErr
+				return tt.mockDeleteErr
 			}
 			removeDataDirectoryFunc = func(keyPath string) error {
-	return tt.mockRemoveErr
+				return tt.mockRemoveErr
 			}
 
 			// Call function
@@ -693,7 +693,7 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 
 			// Normalize nil vs empty slice
 			if failureMessages == nil {
-	failureMessages = []string{}
+				failureMessages = []string{}
 			}
 
 			// Validate results
@@ -724,22 +724,22 @@ func TestRemoveDataFromSdkandDir(t *testing.T) {
 		{
 			name: "Valid data keys",
 			policy: map[string]interface{}{
-	"data": []interface{}{"policy.rule1", "policy.rule2"},
+				"data": []interface{}{"policy.rule1", "policy.rule2"},
 			},
 			expectedFailures: nil,
 		},
 		{
 			name: "Invalid data key type",
 			policy: map[string]interface{}{
-	"data": []interface{}{"policy.rule1", 123}, // Invalid integer key
+				"data": []interface{}{"policy.rule1", 123}, // Invalid integer key
 			},
 			expectedFailures: []string{"Invalid Key :123"},
 		},
 		{
 			name: "Invalid JSON structure",
 			policy: map[string]interface{}{
-	"policyId":      "test-policy",
-	"policyVersion": "1.0",
+				"policyId":      "test-policy",
+				"policyVersion": "1.0",
 			},
 			expectedFailures: []string{": Invalid JSON structure: 'data' is missing or not an array"},
 		},
@@ -747,7 +747,7 @@ func TestRemoveDataFromSdkandDir(t *testing.T) {
 		{
 			name: "Deletion failure",
 			policy: map[string]interface{}{
-	"data": []interface{}{"invalid.path"},
+				"data": []interface{}{"invalid.path"},
 			},
 			expectedFailures: []string{"Failed to delete: /invalid/path"},
 		},

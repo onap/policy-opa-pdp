@@ -37,13 +37,13 @@ import (
 )
 
 type (
-	CreateDirectoryFunc func(dirPath string) error
+	CreateDirectoryFunc       func(dirPath string) error
 	ValidateFieldsStructsFunc func(pdpUpdate model.PdpUpdate) error
 )
 
 var (
-	CreateDirectoryVar CreateDirectoryFunc = CreateDirectory
-	removeAll                              = os.RemoveAll
+	CreateDirectoryVar       CreateDirectoryFunc       = CreateDirectory
+	removeAll                                          = os.RemoveAll
 	ValidateFieldsStructsVar ValidateFieldsStructsFunc = ValidateFieldsStructs
 )
 
@@ -361,7 +361,6 @@ func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) (string, error) {
 	return string(output), nil
 }
 
-
 type CommonFields struct {
 	CurrentDate     *string
 	CurrentDateTime *time.Time
@@ -389,18 +388,17 @@ func ValidateOPADataRequest(request interface{}) []string {
 		}
 
 		commonFields := CommonFields{
-	                CurrentDate: &currentDate, 
-			CurrentDateTime: updateReq.CurrentDateTime, 
-			CurrentTime: updateReq.CurrentTime, 
-			TimeOffset: updateReq.TimeOffset, 
-			TimeZone: updateReq.TimeZone, 
-			OnapComponent: updateReq.OnapComponent, 
-			OnapInstance: updateReq.OnapInstance, 
-			OnapName: updateReq.OnapName, 
-			PolicyName: convertPtrToString(updateReq.PolicyName),
-
+			CurrentDate:     &currentDate,
+			CurrentDateTime: updateReq.CurrentDateTime,
+			CurrentTime:     updateReq.CurrentTime,
+			TimeOffset:      updateReq.TimeOffset,
+			TimeZone:        updateReq.TimeZone,
+			OnapComponent:   updateReq.OnapComponent,
+			OnapInstance:    updateReq.OnapInstance,
+			OnapName:        updateReq.OnapName,
+			PolicyName:      convertPtrToString(updateReq.PolicyName),
 		}
-	        return validateCommonFields(commonFields)
+		return validateCommonFields(commonFields)
 
 	}
 
@@ -412,15 +410,15 @@ func ValidateOPADataRequest(request interface{}) []string {
 		}
 
 		commonFields := CommonFields{
-	                CurrentDate: &currentDate,
-	                CurrentDateTime: decisionReq.CurrentDateTime,
-	                CurrentTime: decisionReq.CurrentTime,
-	                TimeOffset: decisionReq.TimeOffset,
-	                TimeZone: decisionReq.TimeZone,
-	                OnapComponent: decisionReq.OnapComponent,
-	                OnapInstance: decisionReq.OnapInstance,
-	                OnapName: decisionReq.OnapName,
-	                PolicyName: decisionReq.PolicyName,
+			CurrentDate:     &currentDate,
+			CurrentDateTime: decisionReq.CurrentDateTime,
+			CurrentTime:     decisionReq.CurrentTime,
+			TimeOffset:      decisionReq.TimeOffset,
+			TimeZone:        decisionReq.TimeZone,
+			OnapComponent:   decisionReq.OnapComponent,
+			OnapInstance:    decisionReq.OnapInstance,
+			OnapName:        decisionReq.OnapName,
+			PolicyName:      decisionReq.PolicyName,
 		}
 		return validateCommonFields(commonFields)
 

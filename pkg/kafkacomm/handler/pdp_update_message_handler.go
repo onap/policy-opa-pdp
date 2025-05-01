@@ -52,7 +52,6 @@ var (
 	handlePdpUpdateDeploymentVar   handlePdpUpdateDeploymentFunc   = handlePdpUpdateDeployment
 	handlePdpUpdateUndeploymentVar handlePdpUpdateUndeploymentFunc = handlePdpUpdateUndeployment
 	sendPDPStatusResponseFunc                                      = sendPDPStatusResponse
-
 )
 
 // Handles messages of type PDP_UPDATE sent from the Policy Administration Point (PAP).
@@ -140,8 +139,8 @@ func handlePdpUpdateDeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusS
 			failureMessages = append(failureMessages, "|Internal Map Error:"+err.Error()+"|")
 			resMessage := fmt.Errorf("PDP Update Failed as failed to format successfullyDeployedPolicies json %v", failureMessages)
 			if err = sendFailureResponseVar(p, &pdpUpdate, resMessage); err != nil {
-	log.Debugf("Failed to send update internal map  error response: %v", err)
-	return "", err, failureMessages
+				log.Debugf("Failed to send update internal map  error response: %v", err)
+				return "", err, failureMessages
 			}
 		}
 
@@ -167,8 +166,8 @@ func handlePdpUpdateUndeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatu
 			failureMessages = append(failureMessages, "|Internal Map Error:"+err.Error()+"|")
 			resMessage := fmt.Errorf("PDP Update Failed as failed to format successfullyUnDeployedPolicies json %v", failureMessages)
 			if err = sendFailureResponseVar(p, &pdpUpdate, resMessage); err != nil {
-	                        log.Debugf("Failed to send update error response: %v", err)
-	                        return "", err, failureMessages
+				log.Debugf("Failed to send update error response: %v", err)
+				return "", err, failureMessages
 			}
 		}
 	}

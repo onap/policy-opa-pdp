@@ -41,16 +41,19 @@ import (
 // KAFKA_USERNAME  - The Kafka username for SASL authentication.
 // KAFKA_PASSWORD  - The Kafka password for SASL authentication.
 var (
-	LogLevel        string
-	BootstrapServer string
-	Topic           string
-	GroupId         string
-	Username        string
-	Password        string
-	UseSASLForKAFKA string
-	KAFKA_USERNAME  string
-	KAFKA_PASSWORD  string
-	JAASLOGIN       string
+	LogLevel         string
+	BootstrapServer  string
+	Topic            string
+	PatchTopic       string
+	GroupId          string
+	Username         string
+	Password         string
+	UseSASLForKAFKA  string
+	KAFKA_USERNAME   string
+	KAFKA_PASSWORD   string
+	JAASLOGIN        string
+	UseKafkaForPatch bool
+	PatchGroupId     string
 )
 
 // Initializes the configuration settings.
@@ -66,14 +69,16 @@ func init() {
 	LogLevel = getEnv("LOG_LEVEL", "info")
 	BootstrapServer = getEnv("KAFKA_URL", "kafka:9092")
 	Topic = getEnv("PAP_TOPIC", "policy-pdp-pap")
+	PatchTopic = getEnv("PATCH_TOPIC", "opa-pdp-data")
 	GroupId = getEnv("GROUPID", "opa-pdp-"+uuid.New().String())
+	PatchGroupId = getEnv("PATCH_GROUPID", "opa-pdp-data-"+uuid.New().String())
 	Username = getEnv("API_USER", "policyadmin")
 	Password = getEnv("API_PASSWORD", "zb!XztG34")
 	UseSASLForKAFKA = getEnv("UseSASLForKAFKA", "false")
 	KAFKA_USERNAME, KAFKA_PASSWORD = getSaslJAASLOGINFromEnv(JAASLOGIN)
 	log.Debugf("Username: %s", KAFKA_USERNAME)
 	log.Debugf("Password: %s", KAFKA_PASSWORD)
-
+	UseKafkaForPatch = getEnvAsBool("USE_KAFKA_FOR_PATCH", true)
 	log.Debug("Configuration module: environment initialised")
 }
 
@@ -107,6 +112,19 @@ func getLogLevel(key string, defaultVal string) log.Level {
 		log.Warnf("Invalid log level: %v. Log level will be Info!", logLevelStr)
 		return log.DebugLevel
 	}
+}
+
+func getEnvAsBool(key string, defaultVal bool) bool {
+	if value, exists := os.LookupEnv(key); exists {
+		parsed, err := strconv.ParseBool(value)
+		if err != nil {
+			log.Warnf("%v is set but not a valid bool (%v), using default: %v", key, value, defaultVal)
+			return defaultVal
+		}
+		return parsed
+	}
+	log.Warnf("%v not defined, using default value: %v", key, defaultVal)
+	return defaultVal
 }
 
 func getSaslJAASLOGINFromEnv(JAASLOGIN string) (string, string) {

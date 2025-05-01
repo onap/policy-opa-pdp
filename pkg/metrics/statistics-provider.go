@@ -23,13 +23,13 @@ package metrics
 
 import (
 	"encoding/json"
+	"github.com/google/uuid"
+	openapi_types "github.com/oapi-codegen/runtime/types"
 	"net/http"
+	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/utils"
-	"policy-opa-pdp/consts"
-	"github.com/google/uuid"
-	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 func FetchCurrentStatistics(res http.ResponseWriter, req *http.Request) {
@@ -65,6 +65,8 @@ func FetchCurrentStatistics(res http.ResponseWriter, req *http.Request) {
 	statReport.UndeployFailureCount = totalUndeployFailureCountRef()
 	statReport.UndeploySuccessCount = totalUndeploySuccessCountRef()
 	statReport.TotalPoliciesCount = totalPoliciesCountRef()
+	statReport.DynamicDataUpdateFailureCount = totalDynamicDataUpdateFailureCountRef()
+	statReport.DynamicDataUpdateSuccessCount = totalDynamicDataUpdateSuccessCountRef()
 
 	// not implemented hardcoding the values to zero
 	// will be implemeneted in phase-2

@@ -131,3 +131,36 @@ func TestGetSaslJAASLOGINFromEnv_MissingEnv(t *testing.T) {
 	assert.Empty(t, username, "Expected username to be empty for missing environment variable")
 	assert.Empty(t, password, "Expected password to be empty for missing environment variable")
 }
+
+func TestGetEnvAsBool(t *testing.T) {
+	t.Run("valid boolean true", func(t *testing.T) {
+		os.Setenv("USE_KAFKA_FOR_PATCH", "true")
+		defer os.Unsetenv("USE_KAFKA_FOR_PATCH")
+
+		result := getEnvAsBool("USE_KAFKA_FOR_PATCH", false)
+		assert.True(t, result)
+	})
+
+	t.Run("valid boolean false", func(t *testing.T) {
+		os.Setenv("USE_KAFKA_FOR_PATCH", "false")
+		defer os.Unsetenv("USE_KAFKA_FOR_PATCH")
+
+		result := getEnvAsBool("USE_KAFKA_FOR_PATCH", true)
+		assert.False(t, result)
+	})
+
+	t.Run("invalid boolean value", func(t *testing.T) {
+		os.Setenv("USE_KAFKA_FOR_PATCH", "notabool")
+		defer os.Unsetenv("USE_KAFKA_FOR_PATCH")
+
+		result := getEnvAsBool("USE_KAFKA_FOR_PATCH", true)
+		assert.True(t, result) // should return default (true) because parsing fails
+	})
+
+	t.Run("missing env variable", func(t *testing.T) {
+		os.Unsetenv("USE_KAFKA_FOR_PATCH") // ensure it's not set
+
+		result := getEnvAsBool("USE_KAFKA_FOR_PATCH", false)
+		assert.False(t, result) // should return default (false)
+	})
+}

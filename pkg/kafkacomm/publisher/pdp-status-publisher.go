@@ -35,7 +35,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type(
+type (
 	SendPdpUpdateResponseFunc func(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMessage string) error
 )
 
