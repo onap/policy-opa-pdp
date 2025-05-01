@@ -22,8 +22,8 @@
 package pdpattributes
 
 import (
-	"policy-opa-pdp/pkg/log"
 	"github.com/google/uuid"
+	"policy-opa-pdp/pkg/log"
 )
 
 var (

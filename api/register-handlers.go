@@ -22,16 +22,17 @@
 package api
 
 import (
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http"
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
+	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/metrics"
 	"policy-opa-pdp/pkg/opasdk"
 	"time"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // RegisterHandlers registers the HTTP handlers for the service.
@@ -57,7 +58,7 @@ func RegisterHandlers() {
 
 	http.Handle("/policy/pdpo/v1/data", basicAuth(trackDataResponseTime(dataHandler)))
 
-        http.Handle("/metrics", basicAuth(http.HandlerFunc(metricsHandler)))
+	http.Handle("/metrics", basicAuth(http.HandlerFunc(metricsHandler)))
 
 }
 
@@ -66,14 +67,14 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 	promhttp.Handler().ServeHTTP(w, r)
 }
 
-//Track Decision response time metrics
+// Track Decision response time metrics
 func trackDecisionResponseTime(next http.HandlerFunc) http.HandlerFunc {
-	return trackResponseTime(metrics.DecisionResponseTime, next)
+	return trackResponseTime(metrics.DecisionResponseTime_Prom, next)
 }
 
-//Track Data response time metrics
+// Track Data response time metrics
 func trackDataResponseTime(next http.HandlerFunc) http.HandlerFunc {
-	return trackResponseTime(metrics.DataResponseTime, next)
+	return trackResponseTime(metrics.DataResponseTime_Prom, next)
 }
 
 func trackResponseTime(metricCollector prometheus.Observer, next http.HandlerFunc) http.HandlerFunc {
@@ -103,4 +104,13 @@ func validateCredentials(username, password string) bool {
 	validUser := cfg.Username
 	validPass := cfg.Password
 	return username == validUser && password == validPass
+}
+
+// handles readiness probe endpoint
+func readinessProbe(res http.ResponseWriter, req *http.Request) {
+	res.WriteHeader(http.StatusOK)
+	_, err := res.Write([]byte("Ready"))
+	if err != nil {
+		log.Errorf("Failed to write response: %v", err)
+	}
 }

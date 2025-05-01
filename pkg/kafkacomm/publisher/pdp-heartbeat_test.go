@@ -1,30 +1,32 @@
 // -
-//   ========================LICENSE_START=================================
-//   Copyright (C) 2024-2025: Deutsche Telekom
 //
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   you may not use this file except in compliance with the License.
-//   You may obtain a copy of the License at
+//	========================LICENSE_START=================================
+//	Copyright (C) 2024-2025: Deutsche Telekom
 //
-//        http://www.apache.org/licenses/LICENSE-2.0
+//	Licensed under the Apache License, Version 2.0 (the "License");
+//	you may not use this file except in compliance with the License.
+//	You may obtain a copy of the License at
 //
-//   Unless required by applicable law or agreed to in writing, software
-//   distributed under the License is distributed on an "AS IS" BASIS,
-//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//   See the License for the specific language governing permissions and
-//   limitations under the License.
-//   SPDX-License-Identifier: Apache-2.0
-//   ========================LICENSE_END===================================
+//	     http://www.apache.org/licenses/LICENSE-2.0
 //
+//	Unless required by applicable law or agreed to in writing, software
+//	distributed under the License is distributed on an "AS IS" BASIS,
+//	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//	See the License for the specific language governing permissions and
+//	limitations under the License.
+//	SPDX-License-Identifier: Apache-2.0
+//	========================LICENSE_END===================================
 package publisher
+
 import (
 	"errors"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
 	"policy-opa-pdp/pkg/policymap"
 	"testing"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
+
 /*
 Success Case 1
 TestStartHeartbeatIntervalTimer_ValidInterval
@@ -46,6 +48,7 @@ func TestStartHeartbeatIntervalTimer_ValidInterval(t *testing.T) {
 		t.Errorf("Expected currentInterval to be %d, got %d", intervalMs, currentInterval)
 	}
 }
+
 /*
 Failure Case 1
 TestStartHeartbeatIntervalTimer_InvalidInterval
@@ -64,6 +67,7 @@ func TestStartHeartbeatIntervalTimer_InvalidInterval(t *testing.T) {
 		t.Log("Expected ticker to be nil for invalid interval")
 	}
 }
+
 /*
 TestSendPDPHeartBeat_Success 2
 Description: Test sending a heartbeat successfully.
@@ -76,6 +80,7 @@ func TestSendPDPHeartBeat_Success(t *testing.T) {
 	err := sendPDPHeartBeat(mockSender)
 	assert.NoError(t, err)
 }
+
 /*
 TestSendPDPHeartBeat_Failure 2
 Description: Test failing to send a heartbeat.
@@ -89,6 +94,7 @@ func TestSendPDPHeartBeat_Failure(t *testing.T) {
 	err := sendPDPHeartBeat(mockSender)
 	assert.Error(t, err)
 }
+
 /*
 TestsendPDPHeartBeat_Success 3
 Description: Test sending a heartbeat successfully with some deployed policies.
@@ -106,6 +112,7 @@ func TestSendPDPHeartBeat_SuccessSomeDeployedPolicies(t *testing.T) {
 	err := sendPDPHeartBeat(mockSender)
 	assert.NoError(t, err)
 }
+
 /*
 TestsendPDPHeartBeat_Success 4
 Description: Test sending a heartbeat successfully with no deployed policies.
@@ -123,6 +130,7 @@ func TestSendPDPHeartBeat_SuccessNoDeployedPolicies(t *testing.T) {
 	err := sendPDPHeartBeat(mockSender)
 	assert.NoError(t, err)
 }
+
 /*
 TestStopTicker_Success 3
 Description: Test stopping the ticker.
@@ -141,6 +149,7 @@ func TestStopTicker_Success(t *testing.T) {
 		t.Errorf("Expected ticker to be nil")
 	}
 }
+
 /*
 TestStopTicker_NotRunning 3
 Description: Test stopping the ticker when it is not running.

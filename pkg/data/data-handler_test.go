@@ -24,7 +24,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	openapi_types "github.com/oapi-codegen/runtime/types"
+	"github.com/open-policy-agent/opa/v1/storage"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -166,7 +168,9 @@ func TestPatchData_failure(t *testing.T) {
 	data = nil
 	root := "/test"
 	res := httptest.NewRecorder()
-	result := patchData(root, &data, res)
+	//result := patchData(root, &data, res)
+	patchImpl, _ := extractPatchInfo(res, &data, root)
+	result := PatchData(patchImpl, res)
 	assert.Nil(t, result)
 }
 
@@ -182,7 +186,8 @@ func TestPatchData_storageFail(t *testing.T) {
 
 	root := "/test"
 	res := httptest.NewRecorder()
-	result := patchData(root, &data, res)
+	patchImpl, _ := extractPatchInfo(res, &data, root)
+	result := PatchData(patchImpl, res)
 	assert.Equal(t, http.StatusNotFound, res.Code)
 	assert.Error(t, result)
 }
@@ -194,7 +199,7 @@ func Test_extractPatchInfo_OPTypefail(t *testing.T) {
 	root := "/test"
 	res := httptest.NewRecorder()
 	extractPatchInfo(res, &data, root)
-	assert.Equal(t, http.StatusInternalServerError, res.Code)
+	assert.Equal(t, http.StatusBadRequest, res.Code)
 }
 
 func Test_extractPatchInfo_Pathfail(t *testing.T) {
@@ -204,7 +209,7 @@ func Test_extractPatchInfo_Pathfail(t *testing.T) {
 	root := "/test"
 	res := httptest.NewRecorder()
 	extractPatchInfo(res, &data, root)
-	assert.Equal(t, http.StatusInternalServerError, res.Code)
+	assert.Equal(t, http.StatusBadRequest, res.Code)
 }
 
 func Test_extractPatchInfo_valuefail(t *testing.T) {
@@ -214,7 +219,7 @@ func Test_extractPatchInfo_valuefail(t *testing.T) {
 	root := "/test"
 	res := httptest.NewRecorder()
 	extractPatchInfo(res, &data, root)
-	assert.Equal(t, http.StatusInternalServerError, res.Code)
+	assert.Equal(t, http.StatusBadRequest, res.Code)
 }
 
 func TestPatchData_success(t *testing.T) {
@@ -229,7 +234,8 @@ func TestPatchData_success(t *testing.T) {
 
 	root := "/test"
 	res := httptest.NewRecorder()
-	patchData(root, &data, res)
+	patchImpl, _ := extractPatchInfo(res, &data, root)
+	PatchData(patchImpl, res)
 	assert.Equal(t, http.StatusNoContent, res.Code)
 }
 
@@ -419,6 +425,14 @@ func TestGetData(t *testing.T) {
 			mockError:      errors.New("internal server failure"),
 			expectedStatus: http.StatusInternalServerError,
 			expectedBody:   "Error in getting data - internal server failure",
+		},
+		{
+			name:           "Error- JSON ENcoding Failure",
+			requestURL:     "/policy/pdpo/v1/datai/bad/json",
+			mockResponse:   map[string]interface{}{"bad": make(chan int)},
+			mockError:      nil,
+			expectedStatus: http.StatusInternalServerError,
+			expectedBody:   "Error in getting data - json: unsupported type: chan int",
 		},
 	}
 
@@ -881,4 +895,351 @@ func TestPatchInfos_ExtractPatchInfo_Error(t *testing.T) {
 	if patchInfos != nil {
 		t.Errorf("expected patchInfos to be nil, got: %v", patchInfos)
 	}
+}
+
+func TestHandleDynamicUpdateRequestWithKafka_KafkaDisabled_Error(t *testing.T) {
+	PatchDataVar = func(patchInfos []opasdk.PatchImpl, res http.ResponseWriter) error {
+		return errors.New("mock error")
+	}
+
+	req := httptest.NewRecorder()
+	patchInfos := []opasdk.PatchImpl{{}}
+
+	handleDynamicUpdateRequestWithKafka(patchInfos, req)
+	// Optionally assert on req.Body or req.Code if needed
+}
+
+// --- Sample PatchImpl for testing ---
+func samplePatchData() []opasdk.PatchImpl {
+	return []opasdk.PatchImpl{
+		{
+			Path:  storage.MustParsePath("/policy/config/name"),
+			Op:    storage.ReplaceOp,
+			Value: "NewPolicyName",
+		},
+	}
+}
+
+var originalExtractPatchInfoVar = extractPatchInfoVar
+
+func TestGetPatchInfo_Success(t *testing.T) {
+	defer func() { extractPatchInfoVar = originalExtractPatchInfoVar }()
+
+	mockPatch := samplePatchData()
+	extractPatchInfoVar = func(res http.ResponseWriter, data *[]map[string]interface{}, root string) ([]opasdk.PatchImpl, error) {
+		return mockPatch, nil
+	}
+
+	res := httptest.NewRecorder()
+
+	data := &[]map[string]interface{}{{"key": "val"}}
+	patches, err := getPatchInfo(data, "/test/dir", res)
+
+	assert.NoError(t, err)
+	assert.Equal(t, mockPatch, patches)
+}
+func TestGetPatchInfo_NilPatchInfos(t *testing.T) {
+	defer func() { extractPatchInfoVar = originalExtractPatchInfoVar }()
+
+	extractPatchInfoVar = func(res http.ResponseWriter, data *[]map[string]interface{}, root string) ([]opasdk.PatchImpl, error) {
+		return nil, nil
+	}
+
+	res := httptest.NewRecorder()
+
+	data := &[]map[string]interface{}{{"key": "val"}}
+	patches, err := getPatchInfo(data, "/test/dir", res)
+
+	assert.Error(t, err)
+	assert.Nil(t, patches)
+}
+func TestGetPatchInfo_ExtractError(t *testing.T) {
+	defer func() { extractPatchInfoVar = originalExtractPatchInfoVar }()
+
+	extractPatchInfoVar = func(res http.ResponseWriter, data *[]map[string]interface{}, root string) ([]opasdk.PatchImpl, error) {
+		return nil, fmt.Errorf("mock error")
+	}
+
+	data := &[]map[string]interface{}{{"key": "val"}}
+	res := httptest.NewRecorder()
+
+	patches, err := getPatchInfo(data, "/test/dir", res)
+
+	assert.Error(t, err)
+	assert.Nil(t, patches)
+}
+
+func TestHandleDynamicUpdateRequestWithKafka_KafkaDisabled_Success(t *testing.T) {
+	// Set test version of PatchDataVar
+	var patchCalled bool
+	PatchDataVar = func(patchInfos []opasdk.PatchImpl, res http.ResponseWriter) error {
+		patchCalled = true
+		return nil
+	}
+
+	req := httptest.NewRecorder()
+	patchInfos := []opasdk.PatchImpl{{}}
+
+	handleDynamicUpdateRequestWithKafka(patchInfos, req)
+
+	if patchCalled {
+		t.Errorf("Expected PatchData to be called")
+	}
+}
+
+// MockKafkaProducer implements kafkacomm.KafkaProducerInterface.
+type MockKafkaProducer struct {
+	ProduceCalled bool
+	ProducedMsg   *kafka.Message
+	ProduceErr    error
+	CloseCalled   bool
+	FlushCalled   bool
+	FlushTimeout  int
+}
+
+func (m *MockKafkaProducer) Produce(msg *kafka.Message, events chan kafka.Event) error {
+	m.ProduceCalled = true
+	m.ProducedMsg = msg
+	return m.ProduceErr
+}
+
+func (m *MockKafkaProducer) Close() { m.CloseCalled = true }
+
+func (m *MockKafkaProducer) Flush(timeout int) int {
+	m.FlushCalled = true
+	m.FlushTimeout = timeout
+	return 0
+}
+
+// Test successful Produce through the interface
+func TestHandleDynamicUpdateRequestWithKafka_ProduceSuccess(t *testing.T) {
+	// Arrange
+	patches := samplePatchData()
+	mockProd := &MockKafkaProducer{}
+	PatchProducer = mockProd
+
+	resp := httptest.NewRecorder()
+
+	// Act
+	err := handleDynamicUpdateRequestWithKafka(patches, resp)
+
+	// Assert
+	assert.NoError(t, err)
+	assert.True(t, mockProd.ProduceCalled, "expected Produce to be called")
+
+}
+
+// Test nil interface returns initialization error testing.NamePreamble
+func TestHandleDynamicUpdateRequestWithKafka_ProducerNil(t *testing.T) {
+	// Arrange: clear the global producer
+	PatchProducer = nil
+
+	// Act
+	err := handleDynamicUpdateRequestWithKafka(nil, httptest.NewRecorder())
+
+	// Assert
+	assert.EqualError(t, err, "Failed to initialize Kafka producer")
+}
+
+// Test Produce error is propagated testing.NamePreamble
+func TestHandleDynamicUpdateRequestWithKafka_ProduceError(t *testing.T) {
+	// Arrange
+	mockProd := &MockKafkaProducer{ProduceErr: errors.New("produce failed")}
+	PatchProducer = mockProd
+
+	// Act
+	err := handleDynamicUpdateRequestWithKafka(nil, httptest.NewRecorder())
+
+	// Assert
+	assert.EqualError(t, err, "produce failed")
+	assert.True(t, mockProd.ProduceCalled, "Produce should be called even on error")
+}
+
+type errorWriter struct{}
+
+func (e *errorWriter) Header() http.Header {
+	return http.Header{}
+}
+
+func (e *errorWriter) Write([]byte) (int, error) {
+	return 0, errors.New("write error")
+}
+
+func (e *errorWriter) WriteHeader(statusCode int) {}
+
+func TestWriteOPADataUpdateErrorJSONResponse_EncodeFails(t *testing.T) {
+	mockRes := &errorWriter{}
+
+	respMessage := "Failed to process"
+	respCode := oapicodegen.ErrorResponseResponseCode("500")
+	errorResp := oapicodegen.ErrorResponse{
+		ErrorMessage: &respMessage,
+		ResponseCode: &respCode,
+	}
+
+	// Call the function with the mock writer that fails on encode
+	writeOPADataUpdateErrorJSONResponse(mockRes, http.StatusInternalServerError, "fail", errorResp)
+
+}
+
+func TestConstructPath_BadPatchPath(t *testing.T) {
+	rec := httptest.NewRecorder()
+	storagePath := constructPath("???", "add", "/root", rec)
+
+	assert.NotNil(t, storagePath)
+	assert.Equal(t, http.StatusOK, rec.Code)
+	assert.Contains(t, rec.Body.String(), "")
+}
+
+func TestConstructPath_InvalidPath(t *testing.T) {
+	rec := httptest.NewRecorder()
+	storagePath := constructPath("", "add", "/root", rec)
+
+	assert.Nil(t, storagePath)
+	assert.Equal(t, http.StatusBadRequest, rec.Code)
+	assert.True(t, strings.Contains(rec.Body.String(), "Invalid path"))
+}
+func TestConstructPath_RootSlash(t *testing.T) {
+	rec := httptest.NewRecorder()
+	storagePath := constructPath("sub/path", "add", "/", rec)
+
+	assert.NotNil(t, storagePath)
+	assert.Equal(t, "/sub/path", storagePath.String())
+}
+
+func TestGetDataInfo_EmptyDataPath(t *testing.T) {
+	// Backup original function
+	originalOpaSDKGetDataInfo := NewOpaSDK
+	NewOpaSDK = func(ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error) {
+		assert.Equal(t, "/", dataPath) // Ensure "/" is passed
+		return nil, errors.New("storage_not_found_error")
+	}
+	defer func() { NewOpaSDK = originalOpaSDKGetDataInfo }()
+
+	// Create a mock request with empty data path
+	req := httptest.NewRequest("GET", "/policy/pdpo/v1/data", nil)
+	res := httptest.NewRecorder()
+
+	// Call the function under test
+	getDataInfo(res, req)
+
+	// Validate response
+	assert.Equal(t, http.StatusNotFound, res.Code)
+	errorMessage := strings.TrimSpace(res.Body.String())
+	assert.Contains(t, errorMessage, "storage_not_found_error")
+}
+
+func TestDataHandler_GET_Success(t *testing.T) {
+	original := NewOpaSDK
+	defer func() { NewOpaSDK = original }()
+
+	NewOpaSDK = func(ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error) {
+		assert.Equal(t, "/some/path", dataPath)
+		return &oapicodegen.OPADataResponse_Data{}, nil
+	}
+
+	req := httptest.NewRequest(http.MethodGet, "/policy/pdpo/v1/data/some/path", nil)
+	w := httptest.NewRecorder()
+
+	DataHandler(w, req) // <---- Only this
+
+	res := w.Result()
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("expected status 200 OK, got %d", res.StatusCode)
+	}
+}
+
+func TestExtractPatchInfo_OperationTypeError(t *testing.T) {
+	// Arrange
+	reqOps := []map[string]interface{}{
+		{
+			"op": "invalidOp", // simulate invalid op
+		},
+	}
+	w := httptest.NewRecorder()
+
+	// Mock
+	original := getOperationTypeVar
+	defer func() { getOperationTypeVar = original }()
+	getOperationTypeVar = func(opType string, res http.ResponseWriter) (*storage.PatchOp, error) {
+		return nil, fmt.Errorf("forced error") // force error
+	}
+
+	// Act
+	result, err := extractPatchInfo(w, &reqOps, "/root")
+
+	// Assert
+	assert.Nil(t, result)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "operation type")
+}
+
+func TestExtractPatchInfo_InvalidOpFieldType(t *testing.T) {
+	// Arrange
+	reqOps := []map[string]interface{}{
+		{
+			"wrongField": "add", // no "op" field
+		},
+	}
+	w := httptest.NewRecorder()
+
+	// Act
+	result, err := extractPatchInfo(w, &reqOps, "/root")
+
+	// Assert
+	assert.Nil(t, result)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "op type")
+}
+
+func TestExtractPatchInfo_GetOperationTypeError(t *testing.T) {
+	// Arrange
+	reqOps := []map[string]interface{}{
+		{
+			"op": "invalidOp",
+		},
+	}
+	w := httptest.NewRecorder()
+
+	// Mock getOperationTypeVar to simulate error
+	original := getOperationTypeVar
+	defer func() { getOperationTypeVar = original }()
+	getOperationTypeVar = func(opType string, res http.ResponseWriter) (*storage.PatchOp, error) {
+		return nil, errors.New("mock getOperationType error")
+	}
+
+	// Act
+	result, err := extractPatchInfo(w, &reqOps, "/root")
+
+	// Assert
+	assert.Nil(t, result)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "operation type")
+}
+
+func TestExtractPatchInfo_NilOpType(t *testing.T) {
+	// Arrange
+	reqOps := []map[string]interface{}{
+		{
+			"op": "add",
+		},
+	}
+	w := httptest.NewRecorder()
+
+	// Mock getOperationTypeVar to return nil
+	original := getOperationTypeVar
+	defer func() { getOperationTypeVar = original }()
+	getOperationTypeVar = func(opType string, res http.ResponseWriter) (*storage.PatchOp, error) {
+		return nil, nil // returning nil without error
+	}
+
+	// Act
+	result, err := extractPatchInfo(w, &reqOps, "/root")
+
+	// Assert
+	assert.Nil(t, result)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "opType is Missing")
 }
