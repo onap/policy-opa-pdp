@@ -20,6 +20,7 @@
 package api
 
 import (
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"policy-opa-pdp/cfg"
@@ -27,7 +28,6 @@ import (
 	"policy-opa-pdp/pkg/healthcheck"
 	"testing"
 	"time"
-	"github.com/stretchr/testify/assert"
 )
 
 // Mock configuration
@@ -94,7 +94,6 @@ func TestBasicAuth(t *testing.T) {
 	}
 }
 
-
 type mockObserver struct {
 	observedDuration float64
 }
@@ -148,4 +147,35 @@ func TestTrackResponseTime(t *testing.T) {
 	res := httptest.NewRecorder()
 	handler(res, req)
 	assert.NotNil(t, observer.observedDuration)
+}
+
+func TestMetricsHandler(t *testing.T) {
+	req := httptest.NewRequest(http.MethodGet, "/metrics", nil)
+	rr := httptest.NewRecorder()
+
+	metricsHandler(rr, req)
+
+	resp := rr.Result()
+	defer resp.Body.Close()
+
+	assert.Equal(t, http.StatusOK, resp.StatusCode, "expected status OK")
+
+	contentType := resp.Header.Get("Content-Type")
+	assert.Contains(t, contentType, "text/plain", "expected Prometheus content type")
+
+}
+
+func TestReadinessProbe(t *testing.T) {
+	req := httptest.NewRequest(http.MethodGet, "/ready", nil)
+	rr := httptest.NewRecorder()
+
+	readinessProbe(rr, req)
+
+	resp := rr.Result()
+	defer resp.Body.Close()
+
+	assert.Equal(t, http.StatusOK, resp.StatusCode, "expected HTTP 200 OK")
+
+	body := rr.Body.String()
+	assert.Equal(t, "Ready", body, "expected response body to be 'Ready'")
 }

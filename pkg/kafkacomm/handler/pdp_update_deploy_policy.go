@@ -221,7 +221,6 @@ func extractAndDecodeData(policy model.ToscaPolicy) (map[string]string, []string
 	return decodedData, keys, nil
 }
 
-
 // upsert policy to sdk.
 func upsertPolicy(policy model.ToscaPolicy) error {
 	decodedContent, keys, _ := extractAndDecodePoliciesVar(policy)

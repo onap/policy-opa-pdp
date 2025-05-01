@@ -121,16 +121,18 @@ type OPADecisionResponse struct {
 
 // StatisticsReport defines model for StatisticsReport.
 type StatisticsReport struct {
-	Code                  *int32 `json:"code,omitempty"`
-	DecisionFailureCount  *int64 `json:"decisionFailureCount,omitempty"`
-	DecisionSuccessCount  *int64 `json:"decisionSuccessCount,omitempty"`
-	DeployFailureCount    *int64 `json:"deployFailureCount,omitempty"`
-	DeploySuccessCount    *int64 `json:"deploySuccessCount,omitempty"`
-	TotalErrorCount       *int64 `json:"totalErrorCount,omitempty"`
-	TotalPoliciesCount    *int64 `json:"totalPoliciesCount,omitempty"`
-	TotalPolicyTypesCount *int64 `json:"totalPolicyTypesCount,omitempty"`
-	UndeployFailureCount  *int64 `json:"undeployFailureCount,omitempty"`
-	UndeploySuccessCount  *int64 `json:"undeploySuccessCount,omitempty"`
+	Code                          *int32 `json:"code,omitempty"`
+	DecisionFailureCount          *int64 `json:"decisionFailureCount,omitempty"`
+	DecisionSuccessCount          *int64 `json:"decisionSuccessCount,omitempty"`
+	DeployFailureCount            *int64 `json:"deployFailureCount,omitempty"`
+	DeploySuccessCount            *int64 `json:"deploySuccessCount,omitempty"`
+	DynamicDataUpdateFailureCount *int64 `json:"dynamicDataUpdateFailureCount,omitempty"`
+	DynamicDataUpdateSuccessCount *int64 `json:"dynamicDataUpdateSuccessCount,omitempty"`
+	TotalErrorCount               *int64 `json:"totalErrorCount,omitempty"`
+	TotalPoliciesCount            *int64 `json:"totalPoliciesCount,omitempty"`
+	TotalPolicyTypesCount         *int64 `json:"totalPolicyTypesCount,omitempty"`
+	UndeployFailureCount          *int64 `json:"undeployFailureCount,omitempty"`
+	UndeploySuccessCount          *int64 `json:"undeploySuccessCount,omitempty"`
 }
 
 // DataGetParams defines parameters for DataGet.
