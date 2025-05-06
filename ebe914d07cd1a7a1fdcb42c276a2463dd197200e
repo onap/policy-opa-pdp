@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94712d57_4362c13e",
+        "filename": "cfg/config_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de688e32_66e62b54",
+        "filename": "consts/constants.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "wrong tab format and distance from the rest of the variables.",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fcefe32_55a185bc",
+        "filename": "pkg/data/data-handler_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "remove unused code",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 171,
+        "endChar": 13
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a18c153a_a4e11712",
+        "filename": "pkg/kafkacomm/handler/patch_message_handler.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "missing copyright headers",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 15
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09d7d4f6_b66577cf",
+        "filename": "pkg/kafkacomm/handler/patch_message_handler_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "new file adds only current year.",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb764374_f22840d5",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "remove unused code",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 10
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd52b7ba_deccd0ed",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "remove unused code",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 10
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a98d91dc_6a5868ab",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "remove unused code",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 10
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db9ab2e6_84b5198c",
+        "filename": "pkg/kafkacomm/publisher/patch_message_publisher.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "missing copyright headers",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6daa967b_ba920d20",
+        "filename": "pkg/kafkacomm/publisher/patch_message_publisher_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "new file adds only current year",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ef3c4b1_f2468f01",
+        "filename": "pkg/kafkacomm/publisher/pdp-status-publisher.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T07:53:31Z",
+      "side": 1,
+      "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "ebe914d07cd1a7a1fdcb42c276a2463dd197200e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
