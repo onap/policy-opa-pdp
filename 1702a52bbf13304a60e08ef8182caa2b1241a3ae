@@ -1,0 +1,412 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a07a42b1_bf8beb1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "tabs (showing the \u003e\u003e sign) was defined as the default indentention by the OPA team. so the formatting should follow that. maybe configure your IDE to that because a lot of the new patch removed the tabs or changed it to spaces.",
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2f28f5a_74fc3f7e",
+        "filename": "api/register-handlers.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "use tab instead of space",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 4
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35e191c4_3b5d87e4",
+        "filename": "cfg/config_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 2
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "212c5e77_92ec7175",
+        "filename": "cmd/opa-pdp/opa-pdp.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 8
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ea18849_c821e484",
+        "filename": "cmd/opa-pdp/opa-pdp_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 441,
+        "startChar": 2,
+        "endLine": 455,
+        "endChar": 0
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89769237_93cea79a",
+        "filename": "pkg/kafkacomm/handler/patch_message_handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 13
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbcfe9fd_f2047586",
+        "filename": "pkg/kafkacomm/handler/patch_message_handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 1
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82c7c1f_6b2f3d84",
+        "filename": "pkg/kafkacomm/handler/patch_message_handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 1
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e97443a3_fcaab44a",
+        "filename": "pkg/kafkacomm/handler/pdp_message_handler_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 8
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9a2f059_1038f3a5",
+        "filename": "pkg/kafkacomm/handler/pdp_update_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 170,
+        "startChar": 22,
+        "endLine": 171,
+        "endChar": 26
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa6902ce_f579d973",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 323,
+        "startChar": 11,
+        "endLine": 327,
+        "endChar": 4
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1465094_8781ad84",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 604,
+        "startChar": 14,
+        "endLine": 610,
+        "endChar": 25
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c99d239_8accb731",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 618,
+        "startChar": 11,
+        "endLine": 621,
+        "endChar": 21
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90be731a_bb16371b",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 682,
+        "startChar": 24,
+        "endLine": 696,
+        "endChar": 29
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc8d260f_a91e57b0",
+        "filename": "pkg/kafkacomm/handler/pdp_update_undeploy_policy_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 727,
+        "startChar": 22,
+        "endLine": 750,
+        "endChar": 39
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c42ab480_d9a64cce",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "the previous indentention was correct.",
+      "range": {
+        "startLine": 78,
+        "startChar": 15,
+        "endLine": 130,
+        "endChar": 0
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8483c861_e66db6f7",
+        "filename": "pkg/kafkacomm/publisher/patch_message_publisher_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "for the whole file: the previous indentention was correct.",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 2
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf993ec6_3f63e552",
+        "filename": "pkg/metrics/counters.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-06T09:48:15Z",
+      "side": 1,
+      "message": "for the whole file: the previous indentention was correct.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 8
+      },
+      "revId": "1702a52bbf13304a60e08ef8182caa2b1241a3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
