@@ -63,8 +63,8 @@ COPY --from=compile /app /app
 # Copy our opa executable from build stage
 COPY --from=build /tmp/opa /app/opa
 
-RUN chown 1000:1000 /app/opa-pdp && chown 1000:1000 /app/opa && chown 1000:1000 /app/bundles
-RUN chmod u+x /app/opa-pdp && chmod u+x /app/opa && chmod u+x /app/bundles
+RUN chown 1000:1000 /app/opa-pdp && chown 1000:1000 /app/opa && chown 1000:1000 /app/bundles\
+    && chmod u+x /app/opa-pdp && chmod u+x /app/opa && chmod u+x /app/bundles
 
 
 # Switch to the non-root user and 1000 is for ubuntu
