@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b041610c_8fd7a06f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-05-09T11:41:01Z",
+      "side": 1,
+      "message": "Can we get a +1 from opa-pdp team? Thanks",
+      "revId": "995735dc376313e098074b134a12cb484370c954",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
