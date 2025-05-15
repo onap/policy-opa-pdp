@@ -19,6 +19,7 @@
 
 package handler
 
+
 import (
 	"context"
 	"encoding/json"
@@ -26,23 +27,29 @@ import (
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/opasdk"
+	"policy-opa-pdp/pkg/model"
 )
 
-type PatchMessage struct {
-	PatchInfos []opasdk.PatchImpl `json:"patchInfos"`
+
+type LocalHeader struct {
+	MessageType string `json:"messageName"`
+	SourceID    string `json:"source-id"`
 }
+
+type PatchMessage struct {
+	Header     LocalHeader         `json:"header"`
+	PatchInfos []opasdk.PatchImpl  `json:"patchInfos"`
+}
+
 
 // This function handles the incoming kafka messages and dispatches them futher for data patch processing.
 func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string) error {
-
 	log.Debug("Starting Patch Message Listener.....")
-	var stopConsuming bool
-	for !stopConsuming {
+	for {
 		select {
 		case <-ctx.Done():
 			log.Debug("Stopping PDP Listener.....")
 			return nil
-			stopConsuming = true ///Loop Exits
 		default:
 			message, err := kafkacomm.ReadKafkaMessages(kc)
 			if err != nil {
@@ -54,10 +61,18 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 				var patchMsg PatchMessage
 				err = json.Unmarshal(message, &patchMsg)
 				if err != nil {
-					log.Warnf("Failed to UnMarshal Messages: %v\n", err)
+					log.Warnf("Failed to UnMarshal PatchMessage: %v\n", err)
 					continue
 				}
 				log.Debugf("Received patch request")
+
+				// check message type
+				if patchMsg.Header.MessageType != model.OPA_PDP_DATA_PATCH_SYNC.String() {
+					log.Warnf("Ignoring message with unexpected type: %s", patchMsg.Header.MessageType)
+					continue
+				}
+
+				log.Debugf("Received patch request from source: %s", patchMsg.Header.SourceID)
 
 				if err := data.PatchDataVar(patchMsg.PatchInfos, nil); err != nil {
 					log.Debugf("patchData failed: %v", err)
@@ -66,8 +81,6 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 				}
 			}
 		}
-
 	}
-	return nil
-
 }
+

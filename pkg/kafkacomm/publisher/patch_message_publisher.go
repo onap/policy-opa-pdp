@@ -25,22 +25,35 @@ import (
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/log"
+	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/opasdk"
+	"policy-opa-pdp/pkg/pdpattributes"
 )
 
 type RealPatchSender struct {
 	Producer kafkacomm.KafkaProducerInterface
 }
 
+// Define header structure
+type LocalHeader struct {
+	MessageType model.PdpMessageType `json:"messageName"`
+	SourceID    string               `json:"source-id"`
+}
+
+// Updated message structure to match the consumer
 type PatchKafkaPayload struct {
-	PatchInfos []opasdk.PatchImpl `json:"patchInfos"`
+	Header     LocalHeader         `json:"header"`
+	PatchInfos []opasdk.PatchImpl  `json:"patchInfos"`
 }
 
 func (s *RealPatchSender) SendPatchMessage(patchInfos []opasdk.PatchImpl) error {
 	log.Debugf("In SendPatchMessage")
-	var topic string
-	topic = cfg.PatchTopic
+
 	kafkaPayload := PatchKafkaPayload{
+		Header: LocalHeader{
+			MessageType: model.OPA_PDP_DATA_PATCH_SYNC,
+			SourceID:    pdpattributes.PdpName,
+		},
 		PatchInfos: patchInfos,
 	}
 
@@ -50,6 +63,7 @@ func (s *RealPatchSender) SendPatchMessage(patchInfos []opasdk.PatchImpl) error 
 		return err
 	}
 
+	topic := cfg.PatchTopic
 	kafkaMessage := &kafka.Message{
 		TopicPartition: kafka.TopicPartition{
 			Topic:     &topic,
@@ -57,14 +71,14 @@ func (s *RealPatchSender) SendPatchMessage(patchInfos []opasdk.PatchImpl) error 
 		},
 		Value: jsonMessage,
 	}
+
 	var eventChan chan kafka.Event = nil
 	err = s.Producer.Produce(kafkaMessage, eventChan)
 	if err != nil {
-		log.Warnf("Error producing message: %v\n", err)
+		log.Warnf("Error producing message: %v", err)
 		return err
-	} else {
-		log.Debugf("[OUT|KAFKA|%s]\n%s", topic, string(jsonMessage))
 	}
 
+	log.Debugf("[OUT|KAFKA|%s]\n%s", topic, string(jsonMessage))
 	return nil
 }

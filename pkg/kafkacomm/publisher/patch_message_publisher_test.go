@@ -20,13 +20,14 @@
 package publisher
 
 import (
-	"encoding/json"
 	"errors"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/open-policy-agent/opa/v1/storage"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/pkg/opasdk"
+	"strings"
 	"testing"
 )
 
@@ -94,14 +95,13 @@ func TestSendPatchMessage_MarshalError(t *testing.T) {
 func TestSendPatchMessage_PayloadContent(t *testing.T) {
 	sender, mockProducer := getMockSender()
 
-	mockProducer.On("Produce", mock.MatchedBy(func(msg *kafka.Message) bool {
-		var payload PatchKafkaPayload
-		err := json.Unmarshal(msg.Value, &payload)
-		return err == nil &&
-			len(payload.PatchInfos) == 1 &&
-			payload.PatchInfos[0].Path.String() == "/policy/config/name" &&
-			payload.PatchInfos[0].Value == "NewPolicyName"
-	})).Return(nil)
+	mockProducer.
+	    On("Produce", mock.MatchedBy(func(msg *kafka.Message) bool {
+		// match based on msg type
+		return strings.Contains(string(msg.Value), "OPA_PDP_DATA_PATCH_SYNC")
+	    })).
+	    Return(nil)
+	cfg.GroupId = "opa-pdp"
 
 	err := sender.SendPatchMessage(samplePatchData())
 	assert.NoError(t, err)

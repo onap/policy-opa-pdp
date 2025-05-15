@@ -38,6 +38,7 @@ const (
 	PDP_STATE_CHANGE
 	PDP_HEALTH_CHECK
 	PDP_TOPIC_CHECK
+	OPA_PDP_DATA_PATCH_SYNC
 )
 
 // String representation of PdpMessageType
@@ -53,6 +54,8 @@ func (msgType PdpMessageType) String() string {
 		return "PDP_HEALTH_CHECK"
 	case PDP_TOPIC_CHECK:
 		return "PDP_TOPIC_CHECK"
+	case OPA_PDP_DATA_PATCH_SYNC:
+		return "OPA_PDP_DATA_PATCH_SYNC"
 	default:
 		return fmt.Sprintf("Unknown PdpMessageType: %d", msgType)
 	}
