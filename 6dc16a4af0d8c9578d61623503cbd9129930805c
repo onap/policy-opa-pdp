@@ -18,6 +18,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92725942_66096a31",
+        "filename": "pkg/kafkacomm/publisher/patch_message_publisher.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-05-16T11:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51fdde86_07e7aed6",
+      "revId": "6dc16a4af0d8c9578d61623503cbd9129930805c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32568e22_201492dd",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-05-16T10:52:30Z",
       "side": 1,
       "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "6dc16a4af0d8c9578d61623503cbd9129930805c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "682f8970_18ea193e",
+        "filename": "pkg/model/mesages.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-05-16T11:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32568e22_201492dd",
       "range": {
         "startLine": 3,
         "startChar": 19,
@@ -58,6 +100,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9583cab_f69505e1",
+        "filename": "pkg/model/mesages.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-05-16T11:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bc3048b_0341293a",
+      "revId": "6dc16a4af0d8c9578d61623503cbd9129930805c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69e534c3_9b5596b6",
@@ -71,6 +131,24 @@
       "writtenOn": "2025-05-16T10:52:30Z",
       "side": 1,
       "message": "remove extra empty line",
+      "revId": "6dc16a4af0d8c9578d61623503cbd9129930805c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b006a04b_a359ba80",
+        "filename": "pkg/model/mesages.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2025-05-16T11:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69e534c3_9b5596b6",
       "revId": "6dc16a4af0d8c9578d61623503cbd9129930805c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
