@@ -30,6 +30,7 @@ import (
 	"net/http"
 	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/kafkacomm"
+	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/opasdk"
 	"testing"
 	"time"
@@ -56,7 +57,7 @@ func TestPatchMessageHandler_Success(t *testing.T) {
 		return nil
 	}
 
-	msgBytes, _ := json.Marshal(PatchMessage{PatchInfos: samplePatchData()})
+	msgBytes, _ := json.Marshal(model.PatchMessage{PatchInfos: samplePatchData()})
 
 	mockKafkaMessage := &kafka.Message{
 		Value: []byte(msgBytes),
@@ -83,7 +84,7 @@ func TestPatchMessageHandler_PatchFail(t *testing.T) {
 		return errors.New("mock failure")
 	}
 
-	msgBytes, _ := json.Marshal(PatchMessage{PatchInfos: samplePatchData()})
+	msgBytes, _ := json.Marshal(model.PatchMessage{PatchInfos: samplePatchData()})
 
 	mockKafkaMessage := &kafka.Message{
 		Value: []byte(msgBytes),
