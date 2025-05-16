@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51fdde86_07e7aed6",
+        "filename": "pkg/kafkacomm/publisher/patch_message_publisher.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-16T10:52:30Z",
+      "side": 1,
+      "message": "remove extra empty line",
+      "revId": "6dc16a4af0d8c9578d61623503cbd9129930805c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32568e22_201492dd",
+        "filename": "pkg/model/mesages.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-16T10:52:30Z",
+      "side": 1,
+      "message": "2024-2025",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "6dc16a4af0d8c9578d61623503cbd9129930805c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bc3048b_0341293a",
+        "filename": "pkg/model/mesages.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-16T10:52:30Z",
+      "side": 1,
+      "message": "remove extra empty line",
+      "revId": "6dc16a4af0d8c9578d61623503cbd9129930805c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69e534c3_9b5596b6",
+        "filename": "pkg/model/mesages.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-16T10:52:30Z",
+      "side": 1,
+      "message": "remove extra empty line",
+      "revId": "6dc16a4af0d8c9578d61623503cbd9129930805c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
