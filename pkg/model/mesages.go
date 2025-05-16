@@ -24,6 +24,7 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+	"policy-opa-pdp/pkg/opasdk"
 )
 
 // PdpMessageType represents the type of PDP message.
@@ -64,6 +65,18 @@ func (msgType PdpMessageType) String() string {
 func (p PdpMessageType) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p.String())
 }
+
+
+type Header struct {
+	MessageType string `json:"messageName"`
+	SourceID    string `json:"source-id"`
+}
+
+type PatchMessage struct {
+	Header     Header         `json:"header"`
+	PatchInfos []opasdk.PatchImpl  `json:"patchInfos"`
+}
+
 
 // PdpStatus represents the PDP_STATUS message sent from PDP to PAP.
 // https://github.com/onap/policy-models

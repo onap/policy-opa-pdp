@@ -20,134 +20,140 @@
 package handler
 
 import (
-	"context"
-	"encoding/json"
-	"errors"
+        "context"
+        "errors"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
-	"github.com/open-policy-agent/opa/v1/storage"
-	"github.com/stretchr/testify/assert"
+        "github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"net/http"
+	"github.com/open-policy-agent/opa/v1/storage"
+        "policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/kafkacomm"
-	"policy-opa-pdp/pkg/opasdk"
-	"testing"
-	"time"
+	"policy-opa-pdp/pkg/model"
+	"net/http"
+	"encoding/json"
+        "testing"
+        "time"
 )
 
 // --- Sample PatchImpl for testing ---
 func samplePatchData() []opasdk.PatchImpl {
-	return []opasdk.PatchImpl{
-		{
-			Path:  storage.MustParsePath("/policy/config/name"),
-			Op:    storage.ReplaceOp,
-			Value: "NewPolicyName",
-		},
-	}
+return []opasdk.PatchImpl{
+{
+Path:  storage.MustParsePath("/policy/config/name"),
+Op:    storage.ReplaceOp,
+Value: "NewPolicyName",
+},
+}
 }
 
 var originalPatchDataVar = data.PatchDataVar
 
 func TestPatchMessageHandler_Success(t *testing.T) {
-	defer func() { data.PatchDataVar = originalPatchDataVar }()
+    defer func() { data.PatchDataVar = originalPatchDataVar }()
 
-	// Mock PatchDataVar to simulate success
-	data.PatchDataVar = func(patchInfos []opasdk.PatchImpl, _ http.ResponseWriter) error {
-		return nil
-	}
+    // Mock PatchDataVar to simulate success
+    data.PatchDataVar = func(patchInfos []opasdk.PatchImpl, _ http.ResponseWriter) error {
+        return nil
+    }
 
-	msgBytes, _ := json.Marshal(PatchMessage{PatchInfos: samplePatchData()})
+    msgBytes, _ := json.Marshal(model.PatchMessage{PatchInfos: samplePatchData()})
+    
+    mockKafkaMessage := &kafka.Message{
+	    Value: []byte(msgBytes),
+    }
+    mockConsumer := new(MockKafkaConsumer)
+    mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(mockKafkaMessage, nil)
 
-	mockKafkaMessage := &kafka.Message{
-		Value: []byte(msgBytes),
-	}
-	mockConsumer := new(MockKafkaConsumer)
-	mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(mockKafkaMessage, nil)
+     mockKafkaConsumer := &kafkacomm.KafkaConsumer{
+                        Consumer: mockConsumer,
+                }
 
-	mockKafkaConsumer := &kafkacomm.KafkaConsumer{
-		Consumer: mockConsumer,
-	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
-	defer cancel()
+    ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+    defer cancel()
 
-	err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
-	assert.NoError(t, err)
-	mockConsumer.AssertExpectations(t)
+    err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
+    assert.NoError(t, err)
+    mockConsumer.AssertExpectations(t)
 }
 
+
 func TestPatchMessageHandler_PatchFail(t *testing.T) {
-	defer func() { data.PatchDataVar = originalPatchDataVar }()
+    defer func() { data.PatchDataVar = originalPatchDataVar }()
 
-	data.PatchDataVar = func(patchInfos []opasdk.PatchImpl, _ http.ResponseWriter) error {
-		return errors.New("mock failure")
-	}
+    data.PatchDataVar = func(patchInfos []opasdk.PatchImpl, _ http.ResponseWriter) error {
+        return errors.New("mock failure")
+    }
 
-	msgBytes, _ := json.Marshal(PatchMessage{PatchInfos: samplePatchData()})
+    msgBytes, _ := json.Marshal(model.PatchMessage{PatchInfos: samplePatchData()})
 
-	mockKafkaMessage := &kafka.Message{
-		Value: []byte(msgBytes),
-	}
+    mockKafkaMessage := &kafka.Message{
+            Value: []byte(msgBytes),
+    }
 
-	mockConsumer := new(MockKafkaConsumer)
-	mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(mockKafkaMessage, nil)
+    mockConsumer := new(MockKafkaConsumer)
+    mockConsumer.On("ReadMessage",  mock.AnythingOfType("time.Duration")).Return(mockKafkaMessage, nil)
 
-	mockKafkaConsumer := &kafkacomm.KafkaConsumer{
-		Consumer: mockConsumer,
-	}
+     mockKafkaConsumer := &kafkacomm.KafkaConsumer{
+                        Consumer: mockConsumer,
+                }
 
-	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
-	defer cancel()
 
-	err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
-	assert.NoError(t, err)
-	mockConsumer.AssertExpectations(t)
+    ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+    defer cancel()
+
+    err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
+    assert.NoError(t, err)
+    mockConsumer.AssertExpectations(t)
 }
 
 func TestPatchMessageHandler_ReadError(t *testing.T) {
-	defer func() { data.PatchDataVar = originalPatchDataVar }()
+defer func() { data.PatchDataVar = originalPatchDataVar }()
 
-	mockConsumer := new(MockKafkaConsumer)
-	mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).
-		Return(nil, errors.New("read error"))
+mockConsumer := new(MockKafkaConsumer)
+mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).
+Return(nil, errors.New("read error"))
 
-	mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
+mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
-	defer cancel()
+ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+defer cancel()
 
-	err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
-	assert.NoError(t, err)
-	mockConsumer.AssertExpectations(t)
+err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
+assert.NoError(t, err)
+mockConsumer.AssertExpectations(t)
 }
 
 func TestPatchMessageHandler_UnmarshalFail(t *testing.T) {
-	defer func() { data.PatchDataVar = originalPatchDataVar }()
+defer func() { data.PatchDataVar = originalPatchDataVar }()
 
-	invalidJSON := []byte(`invalid json`)
-	mockKafkaMessage := &kafka.Message{Value: invalidJSON}
+invalidJSON := []byte(`invalid json`)
+mockKafkaMessage := &kafka.Message{Value: invalidJSON}
 
-	mockConsumer := new(MockKafkaConsumer)
-	mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(mockKafkaMessage, nil)
+mockConsumer := new(MockKafkaConsumer)
+mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(mockKafkaMessage, nil)
 
-	mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
+mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
-	defer cancel()
+ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+defer cancel()
 
-	err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
-	assert.NoError(t, err)
-	mockConsumer.AssertExpectations(t)
+err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
+assert.NoError(t, err)
+mockConsumer.AssertExpectations(t)
 }
 
 func TestPatchMessageHandler_ContextDone(t *testing.T) {
-	mockConsumer := new(MockKafkaConsumer)
-	mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
+mockConsumer := new(MockKafkaConsumer)
+mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
 
-	// Context is cancelled immediately
-	ctx, cancel := context.WithCancel(context.Background())
-	cancel()
+// Context is cancelled immediately
+ctx, cancel := context.WithCancel(context.Background())
+cancel()
 
-	err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
-	assert.NoError(t, err)
+err := PatchMessageHandler(ctx, mockKafkaConsumer, "patch-topic")
+assert.NoError(t, err)
 }
+
+

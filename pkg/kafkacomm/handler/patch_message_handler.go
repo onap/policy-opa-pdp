@@ -26,20 +26,8 @@ import (
 	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/log"
-	"policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/model"
 )
-
-
-type LocalHeader struct {
-	MessageType string `json:"messageName"`
-	SourceID    string `json:"source-id"`
-}
-
-type PatchMessage struct {
-	Header     LocalHeader         `json:"header"`
-	PatchInfos []opasdk.PatchImpl  `json:"patchInfos"`
-}
 
 
 // This function handles the incoming kafka messages and dispatches them futher for data patch processing.
@@ -58,7 +46,7 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 			log.Debugf("[IN|KAFKA|%s]\n%s", topic, string(message))
 
 			if message != nil {
-				var patchMsg PatchMessage
+				var patchMsg model.PatchMessage
 				err = json.Unmarshal(message, &patchMsg)
 				if err != nil {
 					log.Warnf("Failed to UnMarshal PatchMessage: %v\n", err)
