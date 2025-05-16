@@ -34,24 +34,12 @@ type RealPatchSender struct {
 	Producer kafkacomm.KafkaProducerInterface
 }
 
-// Define header structure
-type LocalHeader struct {
-	MessageType model.PdpMessageType `json:"messageName"`
-	SourceID    string               `json:"source-id"`
-}
-
-// Updated message structure to match the consumer
-type PatchKafkaPayload struct {
-	Header     LocalHeader         `json:"header"`
-	PatchInfos []opasdk.PatchImpl  `json:"patchInfos"`
-}
-
 func (s *RealPatchSender) SendPatchMessage(patchInfos []opasdk.PatchImpl) error {
 	log.Debugf("In SendPatchMessage")
 
-	kafkaPayload := PatchKafkaPayload{
-		Header: LocalHeader{
-			MessageType: model.OPA_PDP_DATA_PATCH_SYNC,
+	kafkaPayload := model.PatchMessage{
+		Header: model.Header{
+			MessageType: model.OPA_PDP_DATA_PATCH_SYNC.String(),
 			SourceID:    pdpattributes.PdpName,
 		},
 		PatchInfos: patchInfos,

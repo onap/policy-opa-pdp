@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024: Deutsche Telekom
+//   Copyright (C) 2024-2025: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+	"policy-opa-pdp/pkg/opasdk"
 )
 
 // PdpMessageType represents the type of PDP message.
@@ -63,6 +64,16 @@ func (msgType PdpMessageType) String() string {
 
 func (p PdpMessageType) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p.String())
+}
+
+type Header struct {
+	MessageType string `json:"messageName"`
+	SourceID    string `json:"source-id"`
+}
+
+type PatchMessage struct {
+	Header     Header         `json:"header"`
+	PatchInfos []opasdk.PatchImpl  `json:"patchInfos"`
 }
 
 // PdpStatus represents the PDP_STATUS message sent from PDP to PAP.
