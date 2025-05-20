@@ -16,6 +16,29 @@
       "message": "recheck",
       "revId": "ba5e2b971c48e172a27969f4ec648360ea8ea5ce",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b6c44e4_fee6920d",
+        "filename": "releases/1.0.5-container.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-20T09:19:45Z",
+      "side": 1,
+      "message": "you have to generate a new log_dir that contains version 1.0.5\nthat was used for version 1.0.4\ncontact someone from your team that did the previous release to see how it\u0027s done.",
+      "range": {
+        "startLine": 4,
+        "startChar": 10,
+        "endLine": 4,
+        "endChar": 47
+      },
+      "revId": "ba5e2b971c48e172a27969f4ec648360ea8ea5ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
