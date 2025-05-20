@@ -1,0 +1,10 @@
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Adheli Tavares <adheli.tavares@est.tech>
+Code-Review+1: guru raja <gb00566633@techmahindra.com>
+Submitted-by: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-at: Tue, 20 May 2025 10:48:14 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/opa-pdp/+/140932
+Project: policy/opa-pdp
+Branch: refs/heads/master
