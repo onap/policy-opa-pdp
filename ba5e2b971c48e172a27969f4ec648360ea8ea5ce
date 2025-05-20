@@ -63,6 +63,30 @@
       },
       "revId": "ba5e2b971c48e172a27969f4ec648360ea8ea5ce",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d804896_eec7967a",
+        "filename": "releases/1.0.5-container.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-20T10:47:46Z",
+      "side": 1,
+      "message": "you were using #19. now it\u0027s working with #40. thanks",
+      "parentUuid": "b46620a6_7fdac0a0",
+      "range": {
+        "startLine": 4,
+        "startChar": 10,
+        "endLine": 4,
+        "endChar": 47
+      },
+      "revId": "ba5e2b971c48e172a27969f4ec648360ea8ea5ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
