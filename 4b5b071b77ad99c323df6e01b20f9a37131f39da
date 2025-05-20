@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2047581a_e4d3fb0d",
+        "filename": "releases/1.0.5-container.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-05-20T08:34:00Z",
+      "side": 1,
+      "message": "can you double check if this is correct? the tag here is 1.0.4 and you added as releasing 1.0.5",
+      "range": {
+        "startLine": 2,
+        "startChar": 24,
+        "endLine": 2,
+        "endChar": 29
+      },
+      "revId": "4b5b071b77ad99c323df6e01b20f9a37131f39da",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
