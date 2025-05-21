@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bom xmlns="http://cyclonedx.org/schema/bom/1.4" serialNumber="urn:uuid:53433884-5df3-4c69-ae43-958da7537698" version="1">
+<bom xmlns="http://cyclonedx.org/schema/bom/1.4" serialNumber="urn:uuid:974dbbda-eb4d-4cdc-94b6-0cfcd2ac1e2c" version="1">
   <metadata>
-    <timestamp>2025-05-20T15:58:11-06:00</timestamp>
+    <timestamp>2025-05-21T08:35:25-06:00</timestamp>
     <tools>
       <tool>
         <vendor>CycloneDX</vendor>
@@ -24,10 +24,10 @@
         </externalReferences>
       </tool>
     </tools>
-    <component bom-ref="pkg:golang/policy-opa-pdp@v0.0.0-20250514225220-54636c761f65?type=module" type="application">
+    <component bom-ref="pkg:golang/policy-opa-pdp@v0.0.0-20250521135736-cf091e9cdd8d?type=module" type="application">
       <name>policy-opa-pdp</name>
-      <version>v0.0.0-20250514225220-54636c761f65</version>
-      <purl>pkg:golang/policy-opa-pdp@v0.0.0-20250514225220-54636c761f65?type=module&amp;goos=darwin&amp;goarch=amd64</purl>
+      <version>v0.0.0-20250521135736-cf091e9cdd8d</version>
+      <purl>pkg:golang/policy-opa-pdp@v0.0.0-20250521135736-cf091e9cdd8d?type=module&amp;goos=darwin&amp;goarch=amd64</purl>
     </component>
   </metadata>
   <components>
@@ -858,7 +858,7 @@
     </component>
   </components>
   <dependencies>
-    <dependency ref="pkg:golang/policy-opa-pdp@v0.0.0-20250514225220-54636c761f65?type=module">
+    <dependency ref="pkg:golang/policy-opa-pdp@v0.0.0-20250521135736-cf091e9cdd8d?type=module">
       <dependency ref="pkg:golang/github.com/confluentinc/confluent-kafka-go/v2@v2.8.0?type=module"></dependency>
       <dependency ref="pkg:golang/github.com/go-playground/validator/v10@v10.25.0?type=module"></dependency>
       <dependency ref="pkg:golang/github.com/google/uuid@v1.6.0?type=module"></dependency>
