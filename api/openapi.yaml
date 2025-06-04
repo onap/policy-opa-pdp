@@ -178,7 +178,7 @@ paths:
       tags:
       - Statistics
       summary: Fetch current statistics
-      description: Provides current statistics of the Policy OPA PDP component 
+      description: Provides current statistics of the Policy OPA PDP component
       operationId: statistics
       parameters:
       - name: X-ONAP-RequestID
@@ -454,7 +454,7 @@ components:
                     user: alice
                     action: read
                     object: id123
-                    type: dog          
+                    type: human
       required:
       - policyName
       - policyFilter
@@ -495,7 +495,10 @@ components:
                     user: alice
                     action: read
                     object: id123
-                    type: dog
+                    type: human
+      required:
+      - policyName
+      - data
     HealthCheckReport:
       type: object
       properties:
@@ -520,10 +523,6 @@ components:
         output:
           type: object
           additionalProperties: true
-      required:
-      - policyName
-      - output
-
     StatisticsReport:
       type: object
       properties:

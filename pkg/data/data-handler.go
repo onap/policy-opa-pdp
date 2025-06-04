@@ -43,7 +43,7 @@ import (
 
 type (
 	checkIfPolicyAlreadyExistsFunc func(policyId string) bool
-	validateRequestFunc            func(requestBody *oapicodegen.OPADataUpdateRequest) error
+	validateRequestFunc  func(requestBody *oapicodegen.OPADataUpdateRequest) error
 )
 
 var (
@@ -56,8 +56,8 @@ var (
 	bootstrapServers                                             = cfg.BootstrapServer //The Kafka bootstrap server address.
 	PatchProducer                 kafkacomm.KafkaProducerInterface
 	patchTopic                    = cfg.PatchTopic
-	PatchDataVar                  = PatchData
-	getOperationTypeVar           = getOperationType
+	PatchDataVar = PatchData
+	getOperationTypeVar  = getOperationType
 )
 
 // creates a response code map to OPADataUpdateResponse
@@ -144,13 +144,13 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 	data := requestBody.Data
 	log.Infof("data : %s", data)
 	policyId := requestBody.PolicyName
-	if policyId == nil {
+	if policyId == ""{
 		errMsg := "Policy Id is nil"
 		sendErrorResponse(res, errMsg, http.StatusBadRequest)
 		return
 	}
-	log.Infof("policy name : %s", *policyId)
-	isExists := policymap.CheckIfPolicyAlreadyExists(*policyId)
+	log.Infof("policy name : %s", policyId)
+	isExists := policymap.CheckIfPolicyAlreadyExists(policyId)
 	if !isExists {
 		errMsg := "Policy associated with the patch request does not exists"
 		sendErrorResponse(res, errMsg, http.StatusBadRequest)
@@ -158,12 +158,12 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	matchFound := validatePolicyDataPathMatched(dirParts, *policyId, res)
+	matchFound := validatePolicyDataPathMatched(dirParts, policyId, res)
 	if !matchFound {
 		return
 	}
 
-	patchInfos, err := getPatchInfo(requestBody.Data, dataDir, res)
+	patchInfos, err := getPatchInfo(&requestBody.Data, dataDir, res)
 	if err != nil {
 		log.Warnf("Failed to get Patch Info : %v", err)
 		return
@@ -207,7 +207,7 @@ func extractDataDir(req *http.Request) (string, []string) {
 
 func validateRequest(requestBody *oapicodegen.OPADataUpdateRequest) error {
 	validationErrors := utils.ValidateOPADataRequest(requestBody)
-	if !utils.IsValidData(requestBody.Data) {
+	if !utils.IsValidData(&requestBody.Data) {
 		validationErrors = append(validationErrors, "Data is required and cannot be empty")
 	}
 	if len(validationErrors) > 0 {
@@ -577,3 +577,4 @@ func getData(res http.ResponseWriter, dataPath string) {
 		log.Errorf("Error encoding JSON response: %s", err)
 	}
 }
+

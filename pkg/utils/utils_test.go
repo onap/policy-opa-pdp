@@ -533,8 +533,8 @@ func TestIsValidData(t *testing.T) {
 }
 
 func TestIsValidCurrentDate(t *testing.T) {
-	validDates := []string{"2025-01-17", "1999-12-31"}
-	invalidDates := []string{"20250117", "01-17-2025", "abcd-ef-gh", ""}
+	validDates := []string{"2025-01-17", "1999-12-31", ""}
+	invalidDates := []string{"20250117", "01-17-2025", "abcd-ef-gh"}
 
 	for _, date := range validDates {
 		if !IsValidCurrentDate(&date) {
@@ -710,7 +710,7 @@ func TestValidateOPADataRequest_UpdateRequest_Valid(t *testing.T) {
 		OnapComponent:   strPtr("Component"),
 		OnapInstance:    strPtr("Instance"),
 		OnapName:        strPtr("Onap"),
-		PolicyName:      strPtr("Policy1"),
+		PolicyName:      "Policy1",
 	}
 
 	errors := ValidateOPADataRequest(updateReq)

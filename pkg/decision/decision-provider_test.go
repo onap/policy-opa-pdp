@@ -289,8 +289,8 @@ func ptrStringEx(s string) *string {
 }
 
 // Utility function to return a pointer to a map
-func ptrMap(m map[string]interface{}) map[string]interface{} {
-	return m
+func ptrMap(m map[string]interface{}) *map[string]interface{} {
+	return &m
 }
 
 // Utility function to return a pointer to a OPADecisionResponseDecision
@@ -298,7 +298,7 @@ func TestWriteOpaJSONResponse(t *testing.T) {
 	rec := httptest.NewRecorder()
 
 	data := &oapicodegen.OPADecisionResponse{
-		PolicyName: ptrString("test-policy"),
+		PolicyName: ptrStringEx("test-policy"),
 		Output:     ptrMap(map[string]interface{}{"key": "value"}),
 	}
 
@@ -336,10 +336,10 @@ func TestCreateSuccessDecisionResponse(t *testing.T) {
 	// Assertions
 
 	// Check the PolicyName field
-	assert.Equal(t, response.PolicyName, policyName, "PolicyName should match")
+	assert.Equal(t, *response.PolicyName, policyName, "PolicyName should match")
 
 	// Check the Output field
-	assert.Equal(t, response.Output, output, "Output should match")
+	assert.Equal(t, *response.Output, output, "Output should match")
 }
 
 // Test for policy filter
@@ -366,7 +366,7 @@ func TestWriteOpaJSONResponse_Error(t *testing.T) {
 
 	// Create a response object for error scenario
 	data := &oapicodegen.OPADecisionResponse{
-		PolicyName: ptrString(policyName),
+		PolicyName: ptrStringEx(policyName),
 		Output:     ptrMap(output),
 	}
 
@@ -382,8 +382,8 @@ func TestWriteOpaJSONResponse_Error(t *testing.T) {
 func TestWriteOpaJSONResponse_Success(t *testing.T) {
 	// Prepare test data
 	decisionRes := oapicodegen.OPADecisionResponse{
-		PolicyName: ptrString("TestPolicy"),
-		Output:     map[string]interface{}{"key": "value"},
+		PolicyName: ptrStringEx("TestPolicy"),
+		Output:     &(map[string]interface{}{"key": "value"}),
 	}
 
 	// Create a mock HTTP response writer
@@ -414,7 +414,7 @@ func TestWriteOpaJSONResponse_EncodingError(t *testing.T) {
 	// Prepare invalid test data to trigger JSON encoding error
 	decisionRes := oapicodegen.OPADecisionResponse{
 		// Introducing an invalid type to cause encoding failure
-		Output: map[string]interface{}{"key": make(chan int)},
+		Output: &map[string]interface{}{"key": make(chan int)},
 	}
 
 	// Create a mock HTTP response writer
@@ -703,7 +703,7 @@ func Test_Invalid_Decision(t *testing.T) {
 	// Call the handler function that processes OPA decision
 	OpaDecision(res, req)
 	// Assert that the response status code is 200
-	assert.Equal(t, 500, res.Code)
+	assert.Equal(t, 200, res.Code)
 }
 
 // Test for Invalid Decision error in Decision Result

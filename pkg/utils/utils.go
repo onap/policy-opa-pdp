@@ -37,13 +37,13 @@ import (
 )
 
 type (
-	CreateDirectoryFunc       func(dirPath string) error
+	CreateDirectoryFunc func(dirPath string) error
 	ValidateFieldsStructsFunc func(pdpUpdate model.PdpUpdate) error
 )
 
 var (
-	CreateDirectoryVar       CreateDirectoryFunc       = CreateDirectory
-	removeAll                                          = os.RemoveAll
+	CreateDirectoryVar CreateDirectoryFunc = CreateDirectory
+	removeAll                              = os.RemoveAll
 	ValidateFieldsStructsVar ValidateFieldsStructsFunc = ValidateFieldsStructs
 )
 
@@ -312,7 +312,7 @@ func IsValidData(data *[]map[string]interface{}) bool {
 // Custom validation function for CurrentDate
 func IsValidCurrentDate(currentDate *string) bool {
 	if currentDate == nil || strings.TrimSpace(*currentDate) == "" {
-		return false
+		return true
 	}
 	re := regexp.MustCompile(`^\d{4}-\d{2}-\d{2}$`) //  eg: "2025-01-17"
 	return re.MatchString(*currentDate)
@@ -361,6 +361,7 @@ func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) (string, error) {
 	return string(output), nil
 }
 
+
 type CommonFields struct {
 	CurrentDate     *string
 	CurrentDateTime *time.Time
@@ -388,17 +389,18 @@ func ValidateOPADataRequest(request interface{}) []string {
 		}
 
 		commonFields := CommonFields{
-			CurrentDate:     &currentDate,
-			CurrentDateTime: updateReq.CurrentDateTime,
-			CurrentTime:     updateReq.CurrentTime,
-			TimeOffset:      updateReq.TimeOffset,
-			TimeZone:        updateReq.TimeZone,
-			OnapComponent:   updateReq.OnapComponent,
-			OnapInstance:    updateReq.OnapInstance,
-			OnapName:        updateReq.OnapName,
-			PolicyName:      convertPtrToString(updateReq.PolicyName),
+	                CurrentDate: &currentDate, 
+			CurrentDateTime: updateReq.CurrentDateTime, 
+			CurrentTime: updateReq.CurrentTime, 
+			TimeOffset: updateReq.TimeOffset, 
+			TimeZone: updateReq.TimeZone, 
+			OnapComponent: updateReq.OnapComponent, 
+			OnapInstance: updateReq.OnapInstance, 
+			OnapName: updateReq.OnapName, 
+			PolicyName: updateReq.PolicyName,
+
 		}
-		return validateCommonFields(commonFields)
+	        return validateCommonFields(commonFields)
 
 	}
 
@@ -410,15 +412,15 @@ func ValidateOPADataRequest(request interface{}) []string {
 		}
 
 		commonFields := CommonFields{
-			CurrentDate:     &currentDate,
-			CurrentDateTime: decisionReq.CurrentDateTime,
-			CurrentTime:     decisionReq.CurrentTime,
-			TimeOffset:      decisionReq.TimeOffset,
-			TimeZone:        decisionReq.TimeZone,
-			OnapComponent:   decisionReq.OnapComponent,
-			OnapInstance:    decisionReq.OnapInstance,
-			OnapName:        decisionReq.OnapName,
-			PolicyName:      decisionReq.PolicyName,
+	                CurrentDate: &currentDate,
+	                CurrentDateTime: decisionReq.CurrentDateTime,
+	                CurrentTime: decisionReq.CurrentTime,
+	                TimeOffset: decisionReq.TimeOffset,
+	                TimeZone: decisionReq.TimeZone,
+	                OnapComponent: decisionReq.OnapComponent,
+	                OnapInstance: decisionReq.OnapInstance,
+	                OnapName: decisionReq.OnapName,
+	                PolicyName: decisionReq.PolicyName,
 		}
 		return validateCommonFields(commonFields)
 
@@ -439,29 +441,20 @@ func validateCommonFields(fields CommonFields) []string {
 
 	var validationErrors []string
 
-	if fields.CurrentDate == nil || !IsValidCurrentDate(fields.CurrentDate) {
-		validationErrors = append(validationErrors, "CurrentDate is invalid or missing")
+	if fields.CurrentDate != nil && !IsValidCurrentDate(fields.CurrentDate) {
+		validationErrors = append(validationErrors, "CurrentDate is invalid")
 	}
-	if fields.CurrentDateTime == nil || !IsValidTime(fields.CurrentDateTime) {
-		validationErrors = append(validationErrors, "CurrentDateTime is invalid or missing")
+	if fields.CurrentDateTime != nil && !IsValidTime(fields.CurrentDateTime) {
+		validationErrors = append(validationErrors, "CurrentDateTime is invalid")
 	}
-	if fields.CurrentTime == nil || !IsValidCurrentTime(fields.CurrentTime) {
-		validationErrors = append(validationErrors, "CurrentTime is invalid or missing")
+	if fields.CurrentTime != nil && !IsValidCurrentTime(fields.CurrentTime) {
+		validationErrors = append(validationErrors, "CurrentTime is invalid")
 	}
-	if fields.TimeOffset == nil || !IsValidTimeOffset(fields.TimeOffset) {
-		validationErrors = append(validationErrors, "TimeOffset is invalid or missing")
+	if fields.TimeOffset != nil && !IsValidTimeOffset(fields.TimeOffset) {
+		validationErrors = append(validationErrors, "TimeOffset is invalid")
 	}
-	if fields.TimeZone == nil || !IsValidTimeZone(fields.TimeZone) {
-		validationErrors = append(validationErrors, "TimeZone is invalid or missing")
-	}
-	if !IsValidString(fields.OnapComponent) {
-		validationErrors = append(validationErrors, "OnapComponent is required")
-	}
-	if !IsValidString(fields.OnapInstance) {
-		validationErrors = append(validationErrors, "OnapInstance is required")
-	}
-	if !IsValidString(fields.OnapName) {
-		validationErrors = append(validationErrors, "OnapName is required")
+	if fields.TimeZone != nil && !IsValidTimeZone(fields.TimeZone) {
+		validationErrors = append(validationErrors, "TimeZone is invalid")
 	}
 	if !IsValidString(fields.PolicyName) {
 		validationErrors = append(validationErrors, "PolicyName is required and cannot be empty")
