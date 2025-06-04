@@ -99,8 +99,8 @@ func TestPatchHandlerWithInvalidData(t *testing.T) {
 		OnapComponent:   &onapComp,
 		OnapInstance:    &onapIns,
 		OnapName:        &onapName,
-		PolicyName:      &policyName,
-		Data:            &data,
+		PolicyName:      policyName,
+		Data:            data,
 	}
 
 	// Marshal the request to JSON
@@ -145,8 +145,8 @@ func TestPatchHandlerWithInvalidPolicyId(t *testing.T) {
 		OnapComponent:   &onapComp,
 		OnapInstance:    &onapIns,
 		OnapName:        &onapName,
-		PolicyName:      &policyName,
-		Data:            &data,
+		PolicyName:      policyName,
+		Data:            data,
 	}
 	// Marshal the request to JSON
 	requestBody, err := json.Marshal(validRequest)
@@ -647,8 +647,8 @@ func TestPatchHandler_EmptyDataField(t *testing.T) {
 		OnapComponent:   &onapComp,
 		OnapInstance:    &onapIns,
 		OnapName:        &onapName,
-		PolicyName:      &policyName,
-		Data:            &data, // Empty data
+		PolicyName:      policyName,
+		Data:            data, // Empty data
 	}
 
 	// Marshal the request to JSON
@@ -759,9 +759,8 @@ func TestPatchHandler_PolicyDoesNotExist(t *testing.T) {
 		OnapComponent:   &onapComp,
 		OnapInstance:    &onapIns,
 		OnapName:        &onapName,
-
-		PolicyName: StringPointer("invalid-policy"),
-		Data:       &[]map[string]interface{}{{"test": "value"}},
+		PolicyName: "invalid-policy",
+		Data:       []map[string]interface{}{{"test": "value"}},
 	}
 	bodyBytes, _ := json.Marshal(requestBody)
 
@@ -807,8 +806,8 @@ func TestPatchHandler_InvalidDataPath(t *testing.T) {
 		OnapInstance:    &onapIns,
 		OnapName:        &onapName,
 
-		PolicyName: StringPointer("valid-policy"),
-		Data:       &[]map[string]interface{}{{"test": "value"}},
+		PolicyName: "valid-policy",
+		Data:       []map[string]interface{}{{"test": "value"}},
 	}
 	bodyBytes, _ := json.Marshal(requestBody)
 
