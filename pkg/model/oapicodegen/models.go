@@ -66,14 +66,14 @@ type OPADataResponse_Data struct {
 
 // OPADataUpdateRequest defines model for OPADataUpdateRequest.
 type OPADataUpdateRequest struct {
-	CurrentDate     *openapi_types.Date       `json:"currentDate,omitempty"`
-	CurrentDateTime *time.Time                `json:"currentDateTime,omitempty"`
-	CurrentTime     *string                   `json:"currentTime,omitempty"`
-	Data            *[]map[string]interface{} `json:"data,omitempty"`
-	OnapComponent   *string                   `json:"onapComponent,omitempty"`
-	OnapInstance    *string                   `json:"onapInstance,omitempty"`
-	OnapName        *string                   `json:"onapName,omitempty"`
-	PolicyName      *string                   `json:"policyName,omitempty"`
+	CurrentDate     *openapi_types.Date      `json:"currentDate,omitempty"`
+	CurrentDateTime *time.Time               `json:"currentDateTime,omitempty"`
+	CurrentTime     *string                  `json:"currentTime,omitempty"`
+	Data            []map[string]interface{} `json:"data"`
+	OnapComponent   *string                  `json:"onapComponent,omitempty"`
+	OnapInstance    *string                  `json:"onapInstance,omitempty"`
+	OnapName        *string                  `json:"onapName,omitempty"`
+	PolicyName      string                   `json:"policyName"`
 
 	// TimeOffset Time offset in hours and minutes, e.g., '+02:00' or '-05:00'
 	TimeOffset *string `json:"timeOffset,omitempty"`
@@ -114,9 +114,9 @@ type OPADecisionRequest_Input struct {
 
 // OPADecisionResponse defines model for OPADecisionResponse.
 type OPADecisionResponse struct {
-	Output        map[string]interface{} `json:"output"`
-	PolicyName    string                 `json:"policyName"`
-	StatusMessage *string                `json:"statusMessage,omitempty"`
+	Output        *map[string]interface{} `json:"output,omitempty"`
+	PolicyName    *string                 `json:"policyName,omitempty"`
+	StatusMessage *string                 `json:"statusMessage,omitempty"`
 }
 
 // StatisticsReport defines model for StatisticsReport.
