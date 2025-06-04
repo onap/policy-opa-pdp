@@ -1,0 +1,10 @@
+Code-Review+2: Adheli Tavares <adheli.tavares@est.tech>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Code-Review+1: Deena Mukundan <dm00536893@techmahindra.com>
+Submitted-by: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-at: Wed, 04 Jun 2025 15:13:22 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/opa-pdp/+/141116
+Project: policy/opa-pdp
+Branch: refs/heads/master
