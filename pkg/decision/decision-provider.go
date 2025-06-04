@@ -78,16 +78,16 @@ func writeErrorJSONResponse(res http.ResponseWriter, status int, errorDescriptio
 // creates a success decision response
 func createSuccessDecisionResponse(policyName string, output map[string]interface{}) *oapicodegen.OPADecisionResponse {
 	return &oapicodegen.OPADecisionResponse{
-		PolicyName: policyName,
-		Output:     output,
+		PolicyName: &policyName,
+		Output:     &output,
 	}
 }
 
 // creates a decision response based on the provided parameters
 func createSuccessDecisionResponseWithStatus(policyName string, output map[string]interface{}, statusMessage string) *oapicodegen.OPADecisionResponse {
 	return &oapicodegen.OPADecisionResponse{
-		PolicyName:    policyName,
-		Output:        output,
+		PolicyName:    &policyName,
+		Output:        &output,
 		StatusMessage: &statusMessage,
 	}
 }
@@ -136,6 +136,7 @@ func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls
 		return
 	}
 
+	*policyId = decisionReq.PolicyName
 	// Validate the request body
 	validationErrors := utils.ValidateOPADataRequest(decisionReq)
 
@@ -150,7 +151,6 @@ func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls
 	}
 	log.Debugf("Validation successful for request fields")
 	// If validation passes, handle the decision request
-
 	decisionReq.PolicyName = strings.ReplaceAll(decisionReq.PolicyName, ".", "/")
 	handlePolicyValidation(res, decisionReq, errorDtls, httpStatus, policyId)
 }
@@ -276,7 +276,7 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 		log.Warnf("Failed to unmarshal decision Request Input: %vg", err)
 		return
 	}
-	if inputBytes == nil || len(inputBytes) == 0 {
+	if inputBytes == nil || len(inputBytes) == 0 || string(inputBytes) == "null" {
 		statusMessage := "{\"warning\":{\"code\":\"api_usage_warning\",\"message\":\"'input' key missing from the request\"}}"
 		decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, nil, statusMessage)
 	} else {

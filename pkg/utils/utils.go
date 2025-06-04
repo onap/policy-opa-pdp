@@ -312,7 +312,7 @@ func IsValidData(data *[]map[string]interface{}) bool {
 // Custom validation function for CurrentDate
 func IsValidCurrentDate(currentDate *string) bool {
 	if currentDate == nil || strings.TrimSpace(*currentDate) == "" {
-		return false
+		return true
 	}
 	re := regexp.MustCompile(`^\d{4}-\d{2}-\d{2}$`) //  eg: "2025-01-17"
 	return re.MatchString(*currentDate)
@@ -396,7 +396,7 @@ func ValidateOPADataRequest(request interface{}) []string {
 			OnapComponent:   updateReq.OnapComponent,
 			OnapInstance:    updateReq.OnapInstance,
 			OnapName:        updateReq.OnapName,
-			PolicyName:      convertPtrToString(updateReq.PolicyName),
+			PolicyName:      updateReq.PolicyName,
 		}
 		return validateCommonFields(commonFields)
 
@@ -439,29 +439,20 @@ func validateCommonFields(fields CommonFields) []string {
 
 	var validationErrors []string
 
-	if fields.CurrentDate == nil || !IsValidCurrentDate(fields.CurrentDate) {
-		validationErrors = append(validationErrors, "CurrentDate is invalid or missing")
+	if fields.CurrentDate != nil && !IsValidCurrentDate(fields.CurrentDate) {
+		validationErrors = append(validationErrors, "CurrentDate is invalid")
 	}
-	if fields.CurrentDateTime == nil || !IsValidTime(fields.CurrentDateTime) {
-		validationErrors = append(validationErrors, "CurrentDateTime is invalid or missing")
+	if fields.CurrentDateTime != nil && !IsValidTime(fields.CurrentDateTime) {
+		validationErrors = append(validationErrors, "CurrentDateTime is invalid")
 	}
-	if fields.CurrentTime == nil || !IsValidCurrentTime(fields.CurrentTime) {
-		validationErrors = append(validationErrors, "CurrentTime is invalid or missing")
+	if fields.CurrentTime != nil && !IsValidCurrentTime(fields.CurrentTime) {
+		validationErrors = append(validationErrors, "CurrentTime is invalid")
 	}
-	if fields.TimeOffset == nil || !IsValidTimeOffset(fields.TimeOffset) {
-		validationErrors = append(validationErrors, "TimeOffset is invalid or missing")
+	if fields.TimeOffset != nil && !IsValidTimeOffset(fields.TimeOffset) {
+		validationErrors = append(validationErrors, "TimeOffset is invalid")
 	}
-	if fields.TimeZone == nil || !IsValidTimeZone(fields.TimeZone) {
-		validationErrors = append(validationErrors, "TimeZone is invalid or missing")
-	}
-	if !IsValidString(fields.OnapComponent) {
-		validationErrors = append(validationErrors, "OnapComponent is required")
-	}
-	if !IsValidString(fields.OnapInstance) {
-		validationErrors = append(validationErrors, "OnapInstance is required")
-	}
-	if !IsValidString(fields.OnapName) {
-		validationErrors = append(validationErrors, "OnapName is required")
+	if fields.TimeZone != nil && !IsValidTimeZone(fields.TimeZone) {
+		validationErrors = append(validationErrors, "TimeZone is invalid")
 	}
 	if !IsValidString(fields.PolicyName) {
 		validationErrors = append(validationErrors, "PolicyName is required and cannot be empty")
