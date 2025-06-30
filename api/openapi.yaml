@@ -28,7 +28,6 @@ info:
       email: dm00536893@techmahindra.com
 servers:
 - url: http://policy-opa-pdp:8282/policy/pdpo/v1
-- url: https://policy-opa-pdp:8282/policy/pdpo/v1
 tags:
 - name: Decision
 - name: Statistics
