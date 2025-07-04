@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "c4daab6cfaecd344cc497825053e72953bfd3386",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f7fbadd_8719573f",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-07-04T13:35:56Z",
+      "side": 1,
+      "message": "I think you need to remove these empty lines - github actions seems to be failing on it.",
+      "revId": "c4daab6cfaecd344cc497825053e72953bfd3386",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
