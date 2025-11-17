@@ -83,13 +83,13 @@ jobs:
         run: sudo bash ./run-s3p-test.sh stability
 
       - name: Archive result jtl
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: policy-opa-s3p-results-jtl-stability
           path: ${{ github.workspace }}/testsuites/automate-s3p-test/s3pTestResults.jtl
 
       - name: Archive JMeter logs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: policy-opa-s3p-results-jmeter-stability
           path: ${{ github.workspace }}/testsuites/automate-s3p-test/jmeter.log
