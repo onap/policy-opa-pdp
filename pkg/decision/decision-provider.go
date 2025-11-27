@@ -76,30 +76,33 @@ func writeErrorJSONResponse(res http.ResponseWriter, status int, errorDescriptio
 }
 
 // creates a success decision response
-func createSuccessDecisionResponse(policyName string, output map[string]interface{}) *oapicodegen.OPADecisionResponse {
+func createSuccessDecisionResponse(policyName string, policyVersion string, output map[string]interface{}) *oapicodegen.OPADecisionResponse {
 	return &oapicodegen.OPADecisionResponse{
-		PolicyName: &policyName,
-		Output:     &output,
+		PolicyName:    &policyName,
+		PolicyVersion: &policyVersion,
+		Output:        &output,
 	}
 }
 
 // creates a decision response based on the provided parameters
-func createSuccessDecisionResponseWithStatus(policyName string, output map[string]interface{}, statusMessage string) *oapicodegen.OPADecisionResponse {
+func createSuccessDecisionResponseWithStatus(policyName string, policyVersion string, output map[string]interface{}, statusMessage string) *oapicodegen.OPADecisionResponse {
 	return &oapicodegen.OPADecisionResponse{
 		PolicyName:    &policyName,
+		PolicyVersion: &policyVersion,
 		Output:        &output,
 		StatusMessage: &statusMessage,
 	}
 }
 
 // creates a decision response based on the provided parameters
-func createDecisionExceptionResponse(statusCode int, errorMessage string, policyName string) *oapicodegen.ErrorResponse {
+func createDecisionExceptionResponse(statusCode int, errorMessage string, policyName string, PolicyVersion string) *oapicodegen.ErrorResponse {
 
 	responseCode := getErrorResponseResponseCode(statusCode)
 	return &oapicodegen.ErrorResponse{
-		ResponseCode: (*oapicodegen.ErrorResponseResponseCode)(&responseCode),
-		ErrorMessage: &errorMessage,
-		PolicyName:   &policyName,
+		ResponseCode:  (*oapicodegen.ErrorResponseResponseCode)(&responseCode),
+		ErrorMessage:  &errorMessage,
+		PolicyName:    &policyName,
+		PolicyVersion: &PolicyVersion,
 	}
 }
 
@@ -109,6 +112,7 @@ func OpaDecision(res http.ResponseWriter, req *http.Request) {
 	var errorDtls string
 	var httpStatus int
 	var policyId = ""
+	var policyVersion = ""
 
 	requestId, _ := processRequestHeaders(req, res)
 	log.Debugf("Headers processed for requestId: %s", requestId)
@@ -120,15 +124,15 @@ func OpaDecision(res http.ResponseWriter, req *http.Request) {
 		errorDtls = req.Method + " MethodNotAllowed"
 		httpStatus = http.StatusMethodNotAllowed
 	} else {
-		handleDecisionRequest(res, req, &errorDtls, &httpStatus, &policyId)
+		handleDecisionRequest(res, req, &errorDtls, &httpStatus, &policyId, &policyVersion)
 	}
 	if errorDtls != "" {
-		sendDecisionErrorResponse(errorDtls, res, httpStatus, policyId)
+		sendDecisionErrorResponse(errorDtls, res, httpStatus, policyId, policyVersion)
 	}
 }
 
 // Function to handle decision request logic
-func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls *string, httpStatus *int, policyId *string) {
+func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls *string, httpStatus *int, policyId *string, policyVersion *string) {
 	decisionReq, err := parseRequestBody(req)
 	if err != nil {
 		*errorDtls = err.Error()
@@ -152,11 +156,11 @@ func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls
 	log.Debugf("Validation successful for request fields")
 	// If validation passes, handle the decision request
 	decisionReq.PolicyName = strings.ReplaceAll(decisionReq.PolicyName, ".", "/")
-	handlePolicyValidation(res, decisionReq, errorDtls, httpStatus, policyId)
+	handlePolicyValidation(res, decisionReq, errorDtls, httpStatus, policyId, policyVersion)
 }
 
 // Function to handle policy validation logic
-func handlePolicyValidation(res http.ResponseWriter, decisionReq *oapicodegen.OPADecisionRequest, errorDtls *string, httpStatus *int, policyId *string) {
+func handlePolicyValidation(res http.ResponseWriter, decisionReq *oapicodegen.OPADecisionRequest, errorDtls *string, httpStatus *int, policyId *string, policyVersion *string) {
 	policiesMap := policymap.LastDeployedPolicies
 	if policiesMap == "" {
 		*errorDtls = "No policies are deployed."
@@ -179,6 +183,7 @@ func handlePolicyValidation(res http.ResponseWriter, decisionReq *oapicodegen.OP
 	}
 
 	// Process OPA decision
+	*policyVersion = getPolicyVersion(decisionReq.PolicyName, extractedPolicies)
 	opa, err := getOpaInstance()
 	if err != nil {
 		*errorDtls = "Failed to get OPA instance."
@@ -187,7 +192,7 @@ func handlePolicyValidation(res http.ResponseWriter, decisionReq *oapicodegen.OP
 		return
 	}
 
-	processOpaDecision(res, opa, decisionReq)
+	processOpaDecision(res, opa, decisionReq, *policyVersion)
 }
 
 // Function to check if policy exists in extracted policies
@@ -244,9 +249,9 @@ func parseRequestBody(req *http.Request) (*oapicodegen.OPADecisionRequest, error
 }
 
 // This function sends the error response
-func sendDecisionErrorResponse(msg string, res http.ResponseWriter, httpStatus int, policyName string) {
+func sendDecisionErrorResponse(msg string, res http.ResponseWriter, httpStatus int, policyName string, policyVersion string) {
 	log.Warnf("%s", msg)
-	decisionExc := createDecisionExceptionResponse(httpStatus, msg, policyName)
+	decisionExc := createDecisionExceptionResponse(httpStatus, msg, policyName, policyVersion)
 	metrics.IncrementDecisionFailureCount()
 	metrics.IncrementTotalErrorCount()
 	writeErrorJSONResponse(res, httpStatus, msg, *decisionExc)
@@ -266,7 +271,7 @@ type OPADecisionFunc func(opa *sdk.OPA, ctx context.Context, options sdk.Decisio
 var OPADecision OPADecisionFunc = (*sdk.OPA).Decision
 
 // This function processes the OPA decision
-func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapicodegen.OPADecisionRequest) {
+func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapicodegen.OPADecisionRequest, policyVersion string) {
 	ctx := context.Background()
 	log.Debugf("SDK making a decision")
 	var decisionRes *oapicodegen.OPADecisionResponse
@@ -278,7 +283,7 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 	}
 	if inputBytes == nil || len(inputBytes) == 0 || string(inputBytes) == "null" {
 		statusMessage := "{\"warning\":{\"code\":\"api_usage_warning\",\"message\":\"'input' key missing from the request\"}}"
-		decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, nil, statusMessage)
+		decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, policyVersion, nil, statusMessage)
 	} else {
 		options := sdk.DecisionOptions{Path: decisionReq.PolicyName, Input: decisionReq.Input}
 		decisionResult, decisionErr := OPADecision(opa, ctx, options)
@@ -293,7 +298,7 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 		decisionReq.PolicyName = strings.ReplaceAll(decisionReq.PolicyName, "/", ".")
 
 		if decisionErr != nil {
-			sendDecisionErrorResponse(decisionErr.Error(), res, http.StatusInternalServerError, decisionReq.PolicyName)
+			sendDecisionErrorResponse(decisionErr.Error(), res, http.StatusInternalServerError, decisionReq.PolicyName, policyVersion)
 			return
 		}
 		var policyFilter []string
@@ -305,9 +310,9 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 
 		if len(unmatchedFilters) > 0 {
 			message := fmt.Sprintf("Policy Filter(s) not matching, Valid Filter(s) are: [%s]", strings.Join(validPolicyFilters, ", "))
-			decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, outputMap, message)
+			decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, policyVersion, outputMap, message)
 		} else {
-			decisionRes = createSuccessDecisionResponse(decisionReq.PolicyName, outputMap)
+			decisionRes = createSuccessDecisionResponse(decisionReq.PolicyName, policyVersion, outputMap)
 		}
 	}
 	metrics.IncrementDecisionSuccessCount()
@@ -387,4 +392,14 @@ func getValidPolicyFilters(opaSdkResult map[string]interface{}) []string {
 	}
 	sort.Strings(keys)
 	return keys
+}
+
+func getPolicyVersion(policyName string, extractedPolicies []model.ToscaConceptIdentifier) string {
+	for _, policy := range extractedPolicies {
+		if strings.ReplaceAll(policy.Name, ".", "/") == policyName {
+			return policy.Version
+		}
+	}
+	return "unknown"
+
 }

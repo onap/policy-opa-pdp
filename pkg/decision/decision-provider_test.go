@@ -79,9 +79,9 @@ func TestOpaDecision_MissingPolicyPath(t *testing.T) {
 	}
 	defer func() { pdpstate.GetCurrentState = originalGetState }()
 
-	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyFilter":["allow"],"input":{"content" : "content"}}`
-	var validRequest oapicodegen.OPADecisionRequest
-	json.Unmarshal([]byte(jsonString), &validRequest)
+        jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyFilter":["allow"],"input":{"content" : "content"}}`
+        var validRequest oapicodegen.OPADecisionRequest
+        json.Unmarshal([]byte(jsonString), &validRequest)
 
 	jsonBody, _ := json.Marshal(validRequest)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBuffer(jsonBody))
@@ -102,8 +102,8 @@ func TestOpaDecision_MissingPolicyFilter(t *testing.T) {
 	}
 	defer func() { pdpstate.GetCurrentState = originalGetState }()
 	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","input":{"content" : "content"}}`
-	var validRequest oapicodegen.OPADecisionRequest
-	json.Unmarshal([]byte(jsonString), &validRequest)
+        var validRequest oapicodegen.OPADecisionRequest
+        json.Unmarshal([]byte(jsonString), &validRequest)
 
 	jsonBody, _ := json.Marshal(validRequest)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBuffer(jsonBody))
@@ -123,8 +123,8 @@ func TestOpaDecision_GetInstanceError(t *testing.T) {
 	}
 	defer func() { pdpstate.GetCurrentState = originalGetState }()
 	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"data.policy","policyFilter":["allow"],"input":{"content" : "content"}}`
-	var validRequest oapicodegen.OPADecisionRequest
-	json.Unmarshal([]byte(jsonString), &validRequest)
+        var validRequest oapicodegen.OPADecisionRequest
+        json.Unmarshal([]byte(jsonString), &validRequest)
 
 	jsonBody, _ := json.Marshal(validRequest)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBuffer(jsonBody))
@@ -144,8 +144,8 @@ func TestOpaDecision_OPADecisionError(t *testing.T) {
 	}
 	defer func() { pdpstate.GetCurrentState = originalGetState }()
 	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"data.policy","policyFilter":["allow", "authz"],"input":{"content" : "content"}}`
-	var validRequest oapicodegen.OPADecisionRequest
-	json.Unmarshal([]byte(jsonString), &validRequest)
+        var validRequest oapicodegen.OPADecisionRequest
+        json.Unmarshal([]byte(jsonString), &validRequest)
 
 	jsonBody, _ := json.Marshal(validRequest)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBuffer(jsonBody))
@@ -229,11 +229,12 @@ func TestWriteErrorJSONResponse(t *testing.T) {
 func TestCreateSuccessDecisionResponse(t *testing.T) {
 	// Input values for creating the response
 	policyName := "policy-name"
+	policyVersion := "1.0.0"
 	output := map[string]interface{}{"key": "value"}
 
 	// Call the createSuccessDecisionResponse function
 	response := createSuccessDecisionResponse(
-		policyName, output)
+		policyName, policyVersion,output)
 
 	// Assertions
 
@@ -549,10 +550,9 @@ func Test_Invalid_Decision(t *testing.T) {
 		return model.Active
 	}
 	defer func() { pdpstate.GetCurrentState = originalGetState }()
-
 	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
-	var validRequest oapicodegen.OPADecisionRequest
-	json.Unmarshal([]byte(jsonString), &validRequest)
+        var validRequest oapicodegen.OPADecisionRequest
+        json.Unmarshal([]byte(jsonString), &validRequest)
 	originalOPADecision := OPADecision
 	OPADecision = func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
 		return nil, fmt.Errorf("opa_undefined_error")
@@ -582,15 +582,15 @@ func Test_Invalid_Decision(t *testing.T) {
 
 // Test for Invalid Decision error in Decision Result
 func Test_Valid_Decision_String(t *testing.T) {
-	originalGetState := pdpstate.GetCurrentState
-	pdpstate.GetCurrentState = func() model.PdpState {
-		return model.Active
-	}
-	defer func() { pdpstate.GetCurrentState = originalGetState }()
+        originalGetState := pdpstate.GetCurrentState
+        pdpstate.GetCurrentState = func() model.PdpState {
+                return model.Active
+        }
+        defer func() { pdpstate.GetCurrentState = originalGetState }()
 
-	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
-	var validRequest oapicodegen.OPADecisionRequest
-	json.Unmarshal([]byte(jsonString), &validRequest)
+        jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+        var validRequest oapicodegen.OPADecisionRequest
+        json.Unmarshal([]byte(jsonString), &validRequest)
 
 	// Patch the OPA Decision method to return an error
 	originalOPADecision := OPADecision
@@ -629,15 +629,15 @@ func Test_Valid_Decision_String(t *testing.T) {
 
 // Test with OPA Decision of boolean type true
 func Test_with_boolean_OPA_Decision(t *testing.T) {
-	originalGetState := pdpstate.GetCurrentState
-	pdpstate.GetCurrentState = func() model.PdpState {
-		return model.Active
-	}
-	defer func() { pdpstate.GetCurrentState = originalGetState }()
+        originalGetState := pdpstate.GetCurrentState
+        pdpstate.GetCurrentState = func() model.PdpState {
+                return model.Active
+        }
+        defer func() { pdpstate.GetCurrentState = originalGetState }()
 
 	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
-	var validRequest oapicodegen.OPADecisionRequest
-	json.Unmarshal([]byte(jsonString), &validRequest)
+        var validRequest oapicodegen.OPADecisionRequest
+        json.Unmarshal([]byte(jsonString), &validRequest)
 
 	originalOPADecision := OPADecision
 	OPADecision = func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
@@ -664,9 +664,9 @@ func Test_with_boolean_OPA_Decision(t *testing.T) {
 // Test with OPA Decision with String type
 func Test_decision_Result_String(t *testing.T) {
 
-	jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
-	var validRequest oapicodegen.OPADecisionRequest
-	json.Unmarshal([]byte(jsonString), &validRequest)
+        jsonString := `{"onapName":"CDS","onapComponent":"CDS","onapInstance":"CDS", "currentDate": "2024-11-22", "currentTime": "08:26:41.857Z", "timeZone": "UTC", "timeOffset": "+05:30", "currentDateTime": "2024-11-22T12:08:00Z","policyName":"s3","policyFilter":["allow"],"input":{"content" : "content"}}`
+        var validRequest oapicodegen.OPADecisionRequest
+        json.Unmarshal([]byte(jsonString), &validRequest)
 
 	originalGetState := pdpstate.GetCurrentState
 	pdpstate.GetCurrentState = func() model.PdpState {
@@ -718,8 +718,9 @@ func TestHandlePolicyValidation_NoPoliciesDeployed(t *testing.T) {
 	var errorDtls string
 	var httpStatus int
 	var policyId string
+	var policyVersion string
 
-	handlePolicyValidation(res, req, &errorDtls, &httpStatus, &policyId)
+	handlePolicyValidation(res, req, &errorDtls, &httpStatus, &policyId, &policyVersion)
 
 	assert.Equal(t, "No policies are deployed.", errorDtls)
 	assert.Equal(t, http.StatusBadRequest, httpStatus)
@@ -735,8 +736,9 @@ func TestHandlePolicyValidation_PolicyDoesNotExist(t *testing.T) {
 	var errorDtls string
 	var httpStatus int
 	var policyId string
+	var policyVersion string 
 
-	handlePolicyValidation(res, req, &errorDtls, &httpStatus, &policyId)
+	handlePolicyValidation(res, req, &errorDtls, &httpStatus, &policyId, &policyVersion)
 
 	assert.Equal(t, "Policy Name non-existent-policy does not exist", errorDtls)
 	assert.Equal(t, http.StatusBadRequest, httpStatus)
@@ -752,6 +754,7 @@ func TestHandlePolicyValidation_OPAInstanceFailure(t *testing.T) {
 	var errorDtls string
 	var httpStatus int
 	var policyId string
+	var policyVersion string
 
 	originalFunc := OPASingletonInstance
 	// Mock the function
@@ -760,5 +763,5 @@ func TestHandlePolicyValidation_OPAInstanceFailure(t *testing.T) {
 	}
 	defer func() { OPASingletonInstance = originalFunc }()
 
-	handlePolicyValidation(res, req, &errorDtls, &httpStatus, &policyId)
+	handlePolicyValidation(res, req, &errorDtls, &httpStatus, &policyId, &policyVersion)
 }

@@ -31,9 +31,10 @@ const (
 
 // ErrorResponse defines model for ErrorResponse.
 type ErrorResponse struct {
-	ErrorMessage *string                    `json:"errorMessage,omitempty"`
-	PolicyName   *string                    `json:"policyName,omitempty"`
-	ResponseCode *ErrorResponseResponseCode `json:"responseCode,omitempty"`
+	ErrorMessage  *string                    `json:"errorMessage,omitempty"`
+	PolicyName    *string                    `json:"policyName,omitempty"`
+	PolicyVersion *string                    `json:"policyVersion,omitempty"`
+	ResponseCode  *ErrorResponseResponseCode `json:"responseCode,omitempty"`
 }
 
 // ErrorResponseResponseCode defines model for ErrorResponse.ResponseCode.
@@ -116,6 +117,7 @@ type OPADecisionRequest_Input struct {
 type OPADecisionResponse struct {
 	Output        *map[string]interface{} `json:"output,omitempty"`
 	PolicyName    *string                 `json:"policyName,omitempty"`
+	PolicyVersion *string                 `json:"policyVersion,omitempty"`
 	StatusMessage *string                 `json:"statusMessage,omitempty"`
 }
 
