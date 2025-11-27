@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "c7b1d787a46c289dc6317baa4c5f0adaf7de1d5d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b6f809b_39ab2654",
+        "filename": "pkg/decision/decision-provider.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2025-11-27T13:24:36Z",
+      "side": 1,
+      "message": "why this got changed from previous location",
+      "revId": "c7b1d787a46c289dc6317baa4c5f0adaf7de1d5d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
