@@ -18,6 +18,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1141cd1c_93d2b17c",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2026-03-13T14:47:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bec92b78_386204ea",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e911617_51f6ee52",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-13T12:42:48Z",
       "side": 1,
       "message": "same kafka options are present above. Do we need this ?",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a65eca4_f3acb82a",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2026-03-13T14:47:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8e911617_51f6ee52",
       "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
@@ -52,6 +88,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98afa5b6_c82fee49",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2026-03-13T14:47:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "60ae7357_34af2d7a",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d75347b_0ee2389e",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-03-13T12:42:48Z",
       "side": 1,
       "message": "can we add constants here",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55160886_52988bc8",
+        "filename": "pkg/kafkacomm/pdp_topic_producer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2026-03-13T14:47:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5d75347b_0ee2389e",
       "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
@@ -86,6 +158,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "892eb434_d2a96efa",
+        "filename": "pkg/kafkacomm/pdp_topic_producer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2026-03-13T14:47:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0718790c_9378eee6",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98e8a95b_e2aaf1a7",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-03-13T12:42:48Z",
       "side": 1,
       "message": "use constants",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef838fb8_9b0bbe21",
+        "filename": "pkg/kafkacomm/pdp_topic_producer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 8487
+      },
+      "writtenOn": "2026-03-13T14:47:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "98e8a95b_e2aaf1a7",
       "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
