@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bec92b78_386204ea",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2026-03-13T12:42:48Z",
+      "side": 1,
+      "message": "can we add constants",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e911617_51f6ee52",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2026-03-13T12:42:48Z",
+      "side": 1,
+      "message": "same kafka options are present above. Do we need this ?",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60ae7357_34af2d7a",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2026-03-13T12:42:48Z",
+      "side": 1,
+      "message": "add to constants",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d75347b_0ee2389e",
+        "filename": "pkg/kafkacomm/pdp_topic_producer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2026-03-13T12:42:48Z",
+      "side": 1,
+      "message": "can we add constants here",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0718790c_9378eee6",
+        "filename": "pkg/kafkacomm/pdp_topic_producer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2026-03-13T12:42:48Z",
+      "side": 1,
+      "message": "move to constants",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98e8a95b_e2aaf1a7",
+        "filename": "pkg/kafkacomm/pdp_topic_producer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 8479
+      },
+      "writtenOn": "2026-03-13T12:42:48Z",
+      "side": 1,
+      "message": "use constants",
+      "revId": "e178179a3b1f209ec6263ea43b4da076cccdccfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
