@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024-2025: Deutsche Telekom
+//   Copyright (C) 2024-2026: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import (
 	"fmt"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"policy-opa-pdp/cfg"
+	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"time"
 )
@@ -32,6 +33,21 @@ var (
 	// Declare a global variable to hold the singleton KafkaConsumer
 	consumerInstance *KafkaConsumer
 )
+
+
+// SafeTeardown closes a consumer with unsubscribe first (idempotent).
+func SafeTeardown(kc *KafkaConsumer) {
+        if kc == nil || kc.Consumer == nil {
+                return
+        }
+        if err := kc.Consumer.Unsubscribe(); err != nil {
+                log.Warnf("Error Unsubscribing during teardown: %v", err)
+        }
+        if err := kc.Consumer.Close(); err != nil {
+                log.Warnf("Error Closing consumer during teardown: %v", err)
+        }
+}
+
 
 // KafkaConsumerInterface defines the interface for a Kafka consumer.
 type KafkaConsumerInterface interface {
@@ -87,6 +103,16 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 		"bootstrap.servers": brokers,
 		"group.id":          groupid,
 		"auto.offset.reset": "latest",
+                "session.timeout.ms": consts.ConsumerSessionTimeout,
+                "max.poll.interval.ms": consts.ConsumerMaxPoll,
+                "enable.auto.commit": consts.ConsumerAutoCommit,
+                "enable.partition.eof": consts.ConsumerPartitionEOF,
+                "reconnect.backoff.ms": consts.ConsumerBackoffMIN,
+                "reconnect.backoff.max.ms": consts.ConsumerBackoffMAX,
+                "topic.metadata.refresh.interval.ms": consts.ConsumerTopicMetadata,
+		"socket.receive.buffer.bytes": consts.ConsumerSocketReceive,
+		"max.partition.fetch.bytes": consts.ConsumerMaxPartitionFetch,
+		"fetch.max.bytes": consts.ConsumerFetchMaxBytes,
 	}
 	fmt.Print(configMap)
 	// If SASL is enabled, add SASL properties
@@ -95,15 +121,17 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 		configMap.SetKey("sasl.username", username)                   // #nosec G104
 		configMap.SetKey("sasl.password", password)                   // #nosec G104
 		configMap.SetKey("security.protocol", "SASL_PLAINTEXT")       // #nosec G104
-		configMap.SetKey("fetch.max.bytes", 50*1024*1024)             // #nosec G104
-		configMap.SetKey("max.partition.fetch.bytes", 50*1024*1024)   // #nosec G104
-		configMap.SetKey("socket.receive.buffer.bytes", 50*1024*1024) // #nosec G104
-		configMap.SetKey("session.timeout.ms", "30000")               // #nosec G104
-		configMap.SetKey("max.poll.interval.ms", "300000")            // #nosec G104
-		configMap.SetKey("enable.partition.eof", true)                // #nosec G104
-		configMap.SetKey("enable.auto.commit", true)                  // #nosec G104
 		// configMap.SetKey("debug", "all") // Uncomment for debug
 	}
+
+        // Tear down any previous singleton before creating a new one
+        if consumerInstance != nil {
+                log.Debugf("Tearing down previous Kafka Consumer singleton before rebuild")
+                SafeTeardown(consumerInstance)
+                consumerInstance = nil
+                // small gap to let sockets close
+                time.Sleep(consts.ConsumerTearDownSleepTime)
+        }
 
 	// Create a new Kafka consumer
 	consumer, err := KafkaNewConsumer(configMap)
@@ -126,7 +154,7 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 
 	// Assign the consumer instance
 	consumerInstance = &KafkaConsumer{Consumer: consumer}
-	log.Debugf("Created SIngleton consumer instance")
+	log.Debugf("Created Singleton consumer instance")
 
 	// Return the singleton consumer instance
 	if consumerInstance == nil {
@@ -139,7 +167,20 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 func ReadKafkaMessages(kc *KafkaConsumer) ([]byte, error) {
 	msg, err := kc.Consumer.ReadMessage(100 * time.Millisecond)
 	if err != nil {
+                if kafkaErr, ok := err.(kafka.Error); ok {
+                        switch kafkaErr.Code() {
+                        case kafka.ErrTimedOut:
+                                return nil, err // no message, normal
+                        case kafka.ErrAllBrokersDown:
+                                log.Warn("All brokers down. Retrying after backoff...")
+                                time.Sleep(consts.ConsumerReconnectRetries)
+                                return nil, err
+                        default:
+                                log.Errorf("Kafka error: %v", kafkaErr)
+                        }
+                }
 		return nil, err
 	}
+
 	return msg.Value, nil
 }

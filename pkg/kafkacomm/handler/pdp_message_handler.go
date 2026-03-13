@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024-2025: Deutsche Telekom
+//   Copyright (C) 2024-2026: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -25,12 +25,16 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/pdpattributes"
+	"strings"
 	"sync"
+	"time"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 )
 
 type (
@@ -70,34 +74,30 @@ type OpaPdpMessage struct {
 func checkIfMessageIsForOpaPdp(message OpaPdpMessage) bool {
 
 	if message.Name != "" {
-		// message included a PDP name, check if matches
-		//log.Infof(" Message Name is not empty")
+		// Message is targeted by name
 		return message.Name == pdpattributes.PdpName
 	}
 
-	// message does not provide a PDP name - must be a broadcast
+	// Message is a broadcast; validate group and subGroup rules
 	if message.PdpGroup == "" {
-		//log.Infof(" Message PDP Group is empty")
 		return false
 	}
 
 	if pdpattributes.PdpSubgroup == "" {
-		// this PDP has no assignment yet, thus should ignore broadcast messages
-		//log.Infof(" pdpstate PDP subgroup is empty")
+		// This PDP has no subgroup assignment; ignore broadcast messages
 		return false
 	}
 
 	if message.PdpGroup != consts.PdpGroup {
-		//log.Infof(" message pdp group is not equal to cons pdp group")
 		return false
 	}
 
 	if message.PdpSubgroup == "" {
-		//message was broadcast to entire group
-		//log.Infof(" message pdp subgroup is empty")
+		//Broadcast to entire group
 		return true
 	}
 
+	// Broadcast within subgroup
 	return message.PdpSubgroup == pdpattributes.PdpSubgroup
 }
 
@@ -107,37 +107,54 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
 
 	log.Debug("Starting PDP Message Listener.....")
 	var stopConsuming bool
+
 	for !stopConsuming {
 		select {
 		case <-ctx.Done():
 			log.Debug("Stopping PDP Listener.....")
 			return nil
-			stopConsuming = true ///Loop Exits
+
 		default:
 			message, err := kafkacomm.ReadKafkaMessages(kc)
 			if err != nil {
+                                if shouldRebuildConsumer(err) {
+                                        log.Warnf("Consumer error; rebuilding. err=%v", err)
+                                        log.Info("Recovering Kafka Consumer......")
+                                        newKc, recErr := recoverConsumer(kc, topic, cfg.GroupId)
+                                        if recErr == nil && newKc != nil {
+                                                kc = newKc
+                                                log.Info("New consumer initialized")
+                                        } else {
+                                                log.Warnf("Failed to re-initialize consumer: %v", recErr)
+                                                time.Sleep(consts.ConsumerPollSleep)
+                                        }
+                                        continue
+                                }
+                                // Non-fatal/non-rebuild errors: small backoff and continue
+                                consumerNonFatalBackoff()
 				continue
 			}
+
+
+                        if message == nil {
+                                continue
+                        }
+
 			log.Debugf("[IN|KAFKA|%s]\n%s", topic, string(message))
 
-			if message != nil {
+			var opaPdpMessage OpaPdpMessage
 
-				var opaPdpMessage OpaPdpMessage
-
-				err = json.Unmarshal(message, &opaPdpMessage)
-				if err != nil {
-					log.Warnf("Failed to UnMarshal Messages: %v\n", err)
-					continue
-				}
-
-				if !checkIfMessageIsForOpaPdp(opaPdpMessage) {
-
-					log.Warnf("Not a valid Opa Pdp Message")
-					continue
-				}
-
-				handlePdpMessageTypes(opaPdpMessage.MessageType, message, p)
+                        if err := json.Unmarshal(message, &opaPdpMessage); err != nil {
+				log.Warnf("Failed to UnMarshal Messages: %v\n", err)
+				continue
 			}
+
+			if !checkIfMessageIsForOpaPdp(opaPdpMessage) {
+				log.Warnf("Not a valid Opa Pdp Message")
+				continue
+			}
+
+			handlePdpMessageTypes(opaPdpMessage.MessageType, message, p)
 		}
 
 	}
@@ -147,26 +164,70 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
 
 func handlePdpMessageTypes(messageType string, message []byte, p publisher.PdpStatusSender) {
 	log.Debugf("messageType: %s", messageType)
-	var err error
-	switch messageType {
 
+	switch messageType {
 	case "PDP_UPDATE":
-		err = pdpUpdateMessageHandlerVar(message, p)
-		if err != nil {
+		if err := pdpUpdateMessageHandlerVar(message, p); err != nil {
 			log.Warnf("Error processing Update Message: %v", err)
 		}
 
 	case "PDP_STATE_CHANGE":
-		err = pdpStateChangeMessageHandlerVar(message, p)
-		if err != nil {
-			log.Warnf("Error processing Update Message: %v", err)
+		if err := pdpStateChangeMessageHandlerVar(message, p); err != nil {
+			log.Warnf("Error processing State Change Message: %v", err)
 		}
 
 	case "PDP_STATUS":
 		log.Debugf("discarding event of type PDP_STATUS")
-		break
 	default:
 		log.Errorf("This is not a valid Message Type: %s", messageType)
-
 	}
+}
+
+// ------------------------
+// Helper methods (same file)
+// ------------------------
+
+// shouldRebuildConsumer determines if the consumer must be torn down and recreated
+// based on the error returned by the Kafka client.
+func shouldRebuildConsumer(err error) bool {
+        if err == nil {
+                return false
+        }
+
+        // Prefer structured kafka.Error classification
+        if ke, ok := err.(kafka.Error); ok {
+                // Fatal errors, all brokers down, or authentication errors require rebuild
+                if ke.IsFatal() || ke.Code() == kafka.ErrAllBrokersDown || ke.Code() == kafka.ErrAuthentication {
+                        return true
+                }
+                // Otherwise, treat as non-fatal/transient
+                return false
+        }
+
+        // Fallback heuristic based on error text for non-kafka.Error cases
+        txt := strings.ToUpper(err.Error())
+        if strings.Contains(txt, "AUTH") || strings.Contains(txt, "BROKERS_DOWN") {
+                return true
+        }
+
+        return false
+}
+
+// recoverConsumer encapsulates teardown + recreation of the Kafka consumer.
+// It uses the kafkacomm.SafeTeardown and NewKafkaConsumer in sequence, with a small cooldown
+// to let sockets close cleanly.
+func recoverConsumer(kc *kafkacomm.KafkaConsumer, topic, groupID string) (*kafkacomm.KafkaConsumer, error) {
+        // Teardown current handle
+        kafkacomm.SafeTeardown(kc)
+
+        // Small cooldown to allow sockets to close
+        time.Sleep(consts.ConsumerReconnectRetries)
+
+        // Recreate with latest config (e.g., group.id)
+        return kafkacomm.NewKafkaConsumer(topic, groupID)
+}
+
+// consumerNonFatalBackoff applies a small delay for transient/non-fatal errors.
+func consumerNonFatalBackoff() {
+        time.Sleep(consts.ConsumerTearDownSleepTime)
 }

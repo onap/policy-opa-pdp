@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024-2025: Deutsche Telekom
+//   Copyright (C) 2024-2026: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -21,6 +21,9 @@
 // and other settings that are used across different parts of the service.
 package consts
 
+import (
+        "time"
+)
 // Variables:
 //
 //			LogFilePath         - The file path for the log file.
@@ -89,4 +92,33 @@ var (
 	MaxOutputResponseLength = 200
 	ContentType             = "Content-Type"
 	ApplicationJson         = "application/json"
+
+	// Kafka Consumer configuration
+	ConsumerSessionTimeout  = 30000
+	ConsumerMaxPoll         = 300000
+	ConsumerAutoCommit      = true
+	ConsumerPartitionEOF    = true
+	ConsumerBackoffMIN      = 100
+	ConsumerBackoffMAX      = 10000
+	ConsumerTopicMetadata   = 30000
+	ConsumerSocketReceive   = 50*1024*1024
+	ConsumerMaxPartitionFetch = 50*1024*1024
+	ConsumerFetchMaxBytes   = 50*1024*1024
+	ConsumerTearDownSleepTime    = 300 * time.Millisecond
+	ConsumerReconnectRetries  = 5 * time.Second
+	ConsumerPollSleep       = 3 * time.Second
+
+	// Kafka Producer configuration
+	ProducerTopicMetadataRefresh = 30000
+	ProducerMessageTimeout       = 300000
+	ProducerEnableIdempotence    = true
+	ProducerDeliveryTimeout      = 300000
+	ProducerRequestTimeout       = 30000
+	ProducerReconnectBackoff     = 100
+	ProducerReconnectBackoffMax  = 10000
+	ProducerTearDownSleepTime    = 300 * time.Millisecond
+	ProducerReconnectRetries     = 3
+	ProducerTearDownFlush        = 15*1000
+	ProducerFlushReportsTime     = 1000
+
 )
