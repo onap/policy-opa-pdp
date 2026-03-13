@@ -25,6 +25,8 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"log"
 	"policy-opa-pdp/cfg"
+	"strings"
+        "time"
 )
 
 type KafkaProducerInterface interface {
@@ -44,6 +46,37 @@ var (
 	instance *KafkaProducer
 )
 
+// SafeTeardownProducer cleanly shuts down the producer singleton (idempotent).
+func SafeTeardownProducer(kp *KafkaProducer) {
+        if kp == nil || kp.producer == nil {
+                log.Println("KafkaProducer or producer is nil, skipping SafeTeardownProducer.")
+                return
+        }
+        // Flush outstanding messages
+        kp.producer.Flush(15 * 1000)
+        // Close underlying handle
+        kp.producer.Close()
+        log.Println("KafkaProducer safely torn down.")
+}
+
+// RebuildProducerSingleton tears down the current singleton and replaces it with a fresh one.
+func RebuildProducerSingleton(topic string) (*KafkaProducer, error) {
+        if instance != nil {
+                log.Println("[Kafka] Rebuilding producer singleton: tearing down old handle...")
+                SafeTeardownProducer(instance)
+                instance = nil
+                time.Sleep(300 * time.Millisecond) // small gap to let sockets close
+        }
+        // Create a brand-new singleton
+        newInst, err := initializeKafkaProducer(topic)
+        if err != nil {
+                return nil, err
+        }
+        instance = newInst
+        log.Println("[Kafka] Producer singleton rebuilt.")
+        return instance, nil
+}
+
 // GetKafkaProducer initializes and returns a KafkaProducer instance which is a singleton.
 // It configures the Kafka producer with the given bootstrap servers and topic.
 // If SASL authentication is enabled via the configuration, the necessary credentials
@@ -52,6 +85,12 @@ var (
 
 func GetKafkaProducer(bootstrapServers, topic string) (*KafkaProducer, error) {
 	var err error
+        if instance != nil {
+                log.Println("[Kafka] Existing producer singleton found; tearing down before re-init...")
+                SafeTeardownProducer(instance)
+                instance = nil
+                time.Sleep(300 * time.Millisecond)
+        }
 	instance, err = initializeKafkaProducer(topic)
 	return instance, err
 }
@@ -65,6 +104,13 @@ func initializeKafkaProducer(topic string) (*KafkaProducer, error) {
 
 	configMap := &kafka.ConfigMap{
 		"bootstrap.servers": brokers,
+                "topic.metadata.refresh.interval.ms": 30000,  // refresh every 30s
+                "message.timeout.ms":                 300000, // 5 min delivery timeout
+                "enable.idempotence":                 true,   // safe retries
+                "delivery.timeout.ms":                300000, // 5 min
+                "request.timeout.ms":                 30000,  // 30s
+                "reconnect.backoff.ms":               100,    // initial backoff
+                "reconnect.backoff.max.ms":           10000,  // max backoff
 	}
 
 	if useSASL == "true" {
@@ -79,6 +125,40 @@ func initializeKafkaProducer(topic string) (*KafkaProducer, error) {
 		return nil, err
 	}
 
+        // Delivery report listener
+        go func() {
+                for e := range p.Events() {
+                        switch ev := e.(type) {
+                        case *kafka.Message:
+                                if ev.TopicPartition.Error == nil {
+                                        log.Printf("[Kafka DR] Delivered: %v", ev.TopicPartition)
+                                        continue
+                                }
+
+                                // Classify common delivery failures
+                                if kerr, ok := ev.TopicPartition.Error.(kafka.Error); ok {
+                                        switch kerr.Code() {
+                                        case kafka.ErrMsgTimedOut:
+                                                // Typical after a broker restart if the message exceeded delivery window
+                                                log.Printf("[Kafka DR] Message timed out: %v", kerr)
+                                        case kafka.ErrTransport:
+                                                // Transient transport error during restart/flap
+                                                log.Printf("[Kafka DR] Transport error: %v", kerr)
+                                        case kafka.ErrUnknownTopicOrPart:
+                                                log.Printf("[Kafka DR] Unknown topic/partition: %v (refreshing metadata)", kerr)
+                                                // Refresh metadata to resolve stale leader/partition layout
+                                                p.GetMetadata(nil, true, 5000)
+                                                // If this persists, verify topic existence/ACLs via Admin/ops.
+                                        default:
+                                                log.Printf("[Kafka DR] Delivery failed: %v", kerr)
+                                        }
+                                } else {
+                                        log.Printf("[Kafka DR] Delivery failed: %v", ev.TopicPartition.Error)
+                                }
+                        }
+                }
+        }()
+
 	return &KafkaProducer{
 		producer: p,
 		topic:    topic,
@@ -89,18 +169,77 @@ func initializeKafkaProducer(topic string) (*KafkaProducer, error) {
 // It takes the message payload as a byte slice and returns any errors
 func (kp *KafkaProducer) Produce(kafkaMessage *kafka.Message, eventChan chan kafka.Event) error {
 	log.Println("KafkaProducer or producer produce message")
+
 	if kafkaMessage.TopicPartition.Topic == nil {
 		kafkaMessage.TopicPartition = kafka.TopicPartition{
 			Topic:     &kp.topic,
 			Partition: kafka.PartitionAny,
 		}
 	}
+
 	eventChan = nil
-	err := kp.producer.Produce(kafkaMessage, eventChan)
-	if err != nil {
-		return err
-	}
-	return nil
+        maxRetries := 3
+        var err error
+
+        for attempt := 1; attempt <= maxRetries; attempt++ {
+                err = kp.producer.Produce(kafkaMessage, eventChan)
+                if err == nil {
+                        return nil
+                }
+
+                // Handle local queue pressure quickly
+                if kerr, ok := err.(kafka.Error); ok && kerr.Code() == kafka.ErrQueueFull {
+                        log.Println("[Kafka Produce] queue full; flushing and backing off...")
+                        // Drain delivery reports for up to 1s to make space
+                        kp.producer.Flush(1000)
+                        time.Sleep(200 * time.Millisecond)
+                        continue
+                }
+
+                // Classify the error (best effort). When Produce() returns an error,
+                // it's usually a local issue (e.g., queue full), but we add rebuild logic
+                // for common transport/auth cases observed during redeployments.
+                var needsRebuild bool
+                if kerr, ok := err.(kafka.Error); ok {
+                        // Rebuild on fatal/auth/all-brokers-down errors
+                        if kerr.IsFatal() ||
+                                kerr.Code() == kafka.ErrAuthentication ||
+                                kerr.Code() == kafka.ErrAllBrokersDown {
+                                needsRebuild = true
+                        }
+                } else {
+                        // Fallback string matching for transport/auth symptoms
+                        emsg := strings.ToUpper(err.Error())
+                        if strings.Contains(emsg, "AUTH") ||
+                                strings.Contains(emsg, "BROKERS_DOWN") {
+                                needsRebuild = true
+                        }
+                }
+
+                log.Println("[Kafka Produce] Failed attempt", attempt, "/", maxRetries, ":", err)
+
+                if needsRebuild {
+                        log.Println("[Kafka Produce] Triggering producer rebuild due to error...")
+                        // Rebuild global singleton and update this wrapper to use fresh handle
+                        newInst, rerr := RebuildProducerSingleton(kp.topic)
+                        if rerr != nil {
+                                log.Println("[Kafka Produce] Rebuild failed:", rerr)
+                                // Backoff before next attempt
+                                time.Sleep(time.Second * time.Duration(attempt))
+                                continue
+                        }
+                        // Point this wrapper to the new underlying producer
+                        kp.producer = newInst.producer
+                        log.Println("[Kafka Produce] Rebuild successful; retrying...")
+                }
+
+                // Backoff before next attempt
+                time.Sleep(time.Second * time.Duration(attempt))
+        }
+
+        // Exhausted retries
+        log.Println("[Kafka Produce] Failed after retries:", err)
+        return err
 }
 
 // Close shuts down the Kafka producer, releasing all resources.
