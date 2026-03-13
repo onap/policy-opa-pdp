@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2025: Deutsche Telekom
+//   Copyright (C) 2025-26: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -23,14 +23,21 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"policy-opa-pdp/cfg"
+	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
+	"time"
 )
 
 
-// This function handles the incoming kafka messages and dispatches them futher for data patch processing.
+// PatchMessageHandler handles incoming Kafka messages and dispatches them for data patch processing.
+// Error handling is delegated to helper functions in this same file:
+//   - shouldRebuildConsumer(err error) bool
+//   - recoverConsumer(kc *kafkacomm.KafkaConsumer, topic, groupID string) (*kafkacomm.KafkaConsumer, error)
+//   - consumerNonFatalBackoff()
 func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string) error {
 	log.Debug("Starting Patch Message Listener.....")
 	for {
@@ -41,32 +48,49 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 		default:
 			message, err := kafkacomm.ReadKafkaMessages(kc)
 			if err != nil {
+                                if shouldRebuildConsumer(err) {
+                                        log.Warnf("Consumer error; rebuilding. err=%v", err)
+                                        log.Info("Recovering Kafka Consumer......")
+                                        newKc, recErr := recoverConsumer(kc, topic, cfg.GroupId)
+                                        if recErr == nil && newKc != nil {
+                                                kc = newKc
+                                                log.Info("New consumer initialized")
+                                        } else {
+                                                log.Warnf("Failed to re-initialize consumer: %v", recErr)
+                                                time.Sleep(consts.ConsumerPollSleep)
+                                        }
+                                        continue
+                                }
+                                // Non-fatal/non-rebuild errors: small backoff and continue
+                                consumerNonFatalBackoff()
 				continue
 			}
+
+                        if message == nil {
+                                continue
+                        }
+
 			log.Debugf("[IN|KAFKA|%s]\n%s", topic, string(message))
 
-			if message != nil {
-				var patchMsg model.PatchMessage
-				err = json.Unmarshal(message, &patchMsg)
-				if err != nil {
-					log.Warnf("Failed to UnMarshal PatchMessage: %v\n", err)
-					continue
-				}
-				log.Debugf("Received patch request")
+			var patchMsg model.PatchMessage
+			if err := json.Unmarshal(message, &patchMsg); err != nil {
+				log.Warnf("Failed to UnMarshal PatchMessage: %v\n", err)
+				continue
+			}
+			log.Debugf("Received patch request")
 
-				// check message type
-				if patchMsg.Header.MessageType != model.OPA_PDP_DATA_PATCH_SYNC.String() {
-					log.Warnf("Ignoring message with unexpected type: %s", patchMsg.Header.MessageType)
-					continue
-				}
+			// check message type
+			if patchMsg.Header.MessageType != model.OPA_PDP_DATA_PATCH_SYNC.String() {
+				log.Warnf("Ignoring message with unexpected type: %s", patchMsg.Header.MessageType)
+				continue
+			}
 
-				log.Debugf("Received patch request from source: %s", patchMsg.Header.SourceID)
+			log.Debugf("Received patch request from source: %s", patchMsg.Header.SourceID)
 
-				if err := data.PatchDataVar(patchMsg.PatchInfos, nil); err != nil {
-					log.Debugf("patchData failed: %v", err)
-				} else {
-					log.Debugf("Successfully patched data")
-				}
+			if err := data.PatchDataVar(patchMsg.PatchInfos, nil); err != nil {
+				log.Debugf("patchData failed: %v", err)
+			} else {
+				log.Debugf("Successfully patched data")
 			}
 		}
 	}
