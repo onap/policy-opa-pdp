@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff40f30_3220dc4b",
+        "filename": "consts/constants.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2026-03-17T15:54:07Z",
+      "side": 1,
+      "message": "2026",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "38dded59bbe66d421ee35d833ee73e208a2ff8fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0efa5dd1_da3faddb",
+        "filename": "pkg/kafkacomm/handler/pdp_message_handler.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2026-03-17T15:54:07Z",
+      "side": 1,
+      "message": "2026",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "38dded59bbe66d421ee35d833ee73e208a2ff8fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e0588a_d58d9200",
+        "filename": "pkg/kafkacomm/pdp_topic_consumer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2026-03-17T15:54:07Z",
+      "side": 1,
+      "message": "2026",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "38dded59bbe66d421ee35d833ee73e208a2ff8fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "041e289f_1841e487",
+        "filename": "pkg/kafkacomm/pdp_topic_producer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2026-03-17T15:54:07Z",
+      "side": 1,
+      "message": "2026",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "38dded59bbe66d421ee35d833ee73e208a2ff8fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
