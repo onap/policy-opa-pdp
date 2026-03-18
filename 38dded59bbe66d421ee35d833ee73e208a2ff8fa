@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0324d53e_5410db81",
+        "filename": "consts/constants.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2026-03-18T09:43:36Z",
+      "side": 1,
+      "message": "Hi Murali, Sorry for the nitpicky comments. we mention the continuity of the years with \"-\" in the license info. I think, it should be 2024-2026 in this case in all the files?",
+      "parentUuid": "7ff40f30_3220dc4b",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "38dded59bbe66d421ee35d833ee73e208a2ff8fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0efa5dd1_da3faddb",
         "filename": "pkg/kafkacomm/handler/pdp_message_handler.go",
         "patchSetId": 3
