@@ -1,6 +1,6 @@
 #
 #  ========================LICENSE_START=================================
-#   Copyright (C) 2024-2025: Deutsche Telekom
+#   Copyright (C) 2024-2026: Deutsche Telekom
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -16,39 +16,40 @@
 #  SPDX-License-Identifier: Apache-2.0
 #  ========================LICENSE_END===================================
 #
+---
 openapi: 3.0.3
 info:
   title: "Policy OPA PDP Documentation"
   description: Policy OPA PDP Service
-  version: 1.0.3
+  version: 1.0.4
   x-component: Policy Framework
   x-planned-retirement-date: tbd
   contact:
-      name: Deena Mukundan
-      email: dm00536893@techmahindra.com
+    name: Deena Mukundan
+    email: dm00536893@techmahindra.com
 servers:
-- url: http://policy-opa-pdp:8282/policy/pdpo/v1
-- url: https://policy-opa-pdp:8282/policy/pdpo/v1
+  - url: http://policy-opa-pdp:8282/policy/pdpo/v1
+  - url: https://policy-opa-pdp:8282/policy/pdpo/v1
 tags:
-- name: Decision
-- name: Statistics
-- name: HealthCheck
-- name: Dynamic Data Update
+  - name: Decision
+  - name: Statistics
+  - name: HealthCheck
+  - name: Dynamic Data Update
 paths:
   /decision:
     post:
       tags:
-      - Decision
+        - Decision
       summary: Fetch the decision using specified decision parameters
       description: Returns the policy decision from Policy OPA PDP
       operationId: decision
       parameters:
-      - name: X-ONAP-RequestID
-        in: header
-        description: RequestID for http transaction
-        schema:
-          type: string
-          format: uuid
+        - name: X-ONAP-RequestID
+          in: header
+          description: RequestID for http transaction
+          schema:
+            type: string
+            format: uuid
       requestBody:
         content:
           application/json:
@@ -67,14 +68,15 @@ paths:
               schema:
                 type: string
             X-PatchVersion:
-              description: Used only to communicate a PATCH version in a response
-                for troubleshooting purposes only, and will not be provided by the
-                client on request
+              description: "Used only to communicate a PATCH version in a
+              response for troubleshooting purposes only, and will not be
+              provided by the client on request"
               schema:
                 type: string
             X-MinorVersion:
-              description: Used to request or communicate a MINOR version back from
-                the client to the server, and from the server back to the client
+              description: "Used to request or communicate a MINOR version
+              back from the client to the server, and from the server back
+              to the client"
               schema:
                 type: string
             X-ONAP-RequestID:
@@ -89,7 +91,6 @@ paths:
             application/yaml:
               schema:
                 $ref: '#/components/schemas/OPADecisionResponse'
-
         400:
           description: Bad Request
           content:
@@ -109,7 +110,7 @@ paths:
           description: Internal Server Error
           content: {}
       security:
-      - basicAuth: []
+        - basicAuth: []
       x-interface info:
         last-mod-release: Paris
         pdpo-version: 1.0.3
@@ -117,17 +118,17 @@ paths:
   /healthcheck:
     get:
       tags:
-      - HealthCheck
+        - HealthCheck
       summary: Perform a system healthcheck
       description: Provides healthy status of the Policy OPA PDP component
       operationId: healthcheck
       parameters:
-      - name: X-ONAP-RequestID
-        in: header
-        description: RequestID for http transaction
-        schema:
-          type: string
-          format: uuid
+        - name: X-ONAP-RequestID
+          in: header
+          description: RequestID for http transaction
+          schema:
+            type: string
+            format: uuid
       responses:
         200:
           description: successful operation
@@ -137,14 +138,15 @@ paths:
               schema:
                 type: string
             X-PatchVersion:
-              description: Used only to communicate a PATCH version in a response
-                for troubleshooting purposes only, and will not be provided by the
-                client on request
+              description: "Used only to communicate a PATCH version in a
+              response for troubleshooting purposes only, and will not be
+              provided by the client on request"
               schema:
                 type: string
             X-MinorVersion:
-              description: Used to request or communicate a MINOR version back from
-                the client to the server, and from the server back to the client
+              description: "Used to request or communicate a MINOR version
+              back from the client to the server, and from the server back
+              to the client"
               schema:
                 type: string
             X-ONAP-RequestID:
@@ -169,24 +171,24 @@ paths:
           description: Internal Server Error
           content: {}
       security:
-      - basicAuth: []
+        - basicAuth: []
       x-interface info:
         last-mod-release: Paris
         pdpo-version: 1.0.3
   /statistics:
     get:
       tags:
-      - Statistics
+        - Statistics
       summary: Fetch current statistics
       description: Provides current statistics of the Policy OPA PDP component
       operationId: statistics
       parameters:
-      - name: X-ONAP-RequestID
-        in: header
-        description: RequestID for http transaction
-        schema:
-          type: string
-          format: uuid
+        - name: X-ONAP-RequestID
+          in: header
+          description: RequestID for http transaction
+          schema:
+            type: string
+            format: uuid
       responses:
         200:
           description: successful operation
@@ -196,14 +198,15 @@ paths:
               schema:
                 type: string
             X-PatchVersion:
-              description: Used only to communicate a PATCH version in a response
-                for troubleshooting purposes only, and will not be provided by the
-                client on request
+              description: "Used only to communicate a PATCH version in a
+              response for troubleshooting purposes only, and will not be
+              provided by the client on request"
               schema:
                 type: string
             X-MinorVersion:
-              description: Used to request or communicate a MINOR version back from
-                the client to the server, and from the server back to the client
+              description: "Used to request or communicate a MINOR version
+              back from the client to the server, and from the server back
+              to the client"
               schema:
                 type: string
             X-ONAP-RequestID:
@@ -228,31 +231,31 @@ paths:
           description: Internal Server Error
           content: {}
       security:
-      - basicAuth: []
+        - basicAuth: []
       x-interface info:
         last-mod-release: Paris
         pdpo-version: 1.0.3
   /data/{path}:
     patch:
       tags:
-      - Dynamic Data Update
+        - Dynamic Data Update
       summary: Updates the data which is already added by a PUT request
       description: Returns the success or failure response
       operationId: patchdata
       parameters:
-      - name: X-ONAP-RequestID
-        in: header
-        description: RequestID for http transaction
-        schema:
-          type: string
-          format: uuid
-      - name: path
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+        - name: X-ONAP-RequestID
+          in: header
+          description: RequestID for http transaction
+          schema:
+            type: string
+            format: uuid
+        - name: path
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -303,31 +306,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-      - basicAuth: []
-      x-interface info:
-        last-mod-release: Paris
-        pdpo-version: 1.0.3
-      x-codegen-request-body-name: body
+        - basicAuth: []
+          x-interface info:
+            last-mod-release: Paris
+            pdpo-version: 1.0.3
+          x-codegen-request-body-name: body
     get:
       tags:
-      - Dynamic Data Update
+        - Dynamic Data Update
       summary: Gets the data dynamically
       description: Returns success or failure
       operationId: data-get
       parameters:
-      - name: X-ONAP-RequestID
-        in: header
-        description: RequestID for http transaction
-        schema:
-          type: string
-          format: uuid
-      - name: path
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+        - name: X-ONAP-RequestID
+          in: header
+          description: RequestID for http transaction
+          schema:
+            type: string
+            format: uuid
+        - name: path
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
       responses:
         200:
           description: successful operation
@@ -337,14 +340,15 @@ paths:
               schema:
                 type: string
             X-PatchVersion:
-              description: Used only to communicate a PATCH version in a response
-                for troubleshooting purposes only, and will not be provided by the
-                client on request
+              description: "Used only to communicate a PATCH version in a
+              response for troubleshooting purposes only, and will not be
+              provided by the client on request"
               schema:
                 type: string
             X-MinorVersion:
-              description: Used to request or communicate a MINOR version back from
-                the client to the server, and from the server back to the client
+              description: "Used to request or communicate a MINOR version
+              back from the client to the server, and from the server back
+              to the client"
               schema:
                 type: string
             X-ONAP-RequestID:
@@ -370,32 +374,114 @@ paths:
           content: {}
       security:
         - basicAuth: []
-      x-interface info:
-        last-mod-release: Paris
-        pdpo-version: 1.0.3
+          x-interface info:
+            last-mod-release: Paris
+            pdpo-version: 1.0.3
+  /generateast:
+    post:
+      tags:
+        - name: Generate AST
+          summary: Generates the AST from Rego code
+          description: Returns the AST in json format
+          operationId: generateast
+          parameters:
+            - name: X-ONAP-RequestID
+              in: header
+              description: RequestID for http transaction
+              schema:
+                type: string
+                format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OPAASTGenerateRequest'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/OPAASTGenerateRequest'
+        required: false
+      responses:
+        200:
+          description: "Request processed successfully, AST will be sent in
+          response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OPAASTGenerateResponse'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OPAASTGenerateResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorResponse'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/GenericErrorResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorResponse'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/GenericErrorResponse'
+        405:
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorResponse'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/GenericErrorResponse'
+        401:
+          description: Authentication Error
+          content: {}
+        403:
+          description: Authorization Error
+          content: {}
+      security:
+        - basicAuth: []
+          x-interface info:
+            last-mod-release: Paris
+            pdpo-version: 1.0.4
+          x-codegen-request-body-name: body
 components:
   schemas:
+    ErrorResponseResponseCode:
+      type: string
+      enum:
+        - internal_error
+        - bad_request
+        - evaluation_error
+        - unauthorized
+        - invalid_parameter
+        - invalid_operation
+        - resource_not_found
+        - resource_conflict
+        - undefined_document
+        - opa_undefined_error
     ErrorResponse:
       type: object
       properties:
         responseCode:
-          type: string
-          enum:
-          - internal_error
-          - bad_request
-          - evaluation_error
-          - unauthorized
-          - invalid_parameter
-          - invalid_operation
-          - resource_not_found
-          - resource_conflict
-          - undefined_document
-          - opa_undefined_error
+          $ref: '#/components/schemas/ErrorResponseResponseCode'
         errorMessage:
           type: string
         policyName:
           type: string
         policyVersion:
+          type: string
+    GenericErrorResponse:
+      type: object
+      properties:
+        responseCode:
+          $ref: '#/components/schemas/ErrorResponseResponseCode'
+        errorMessage:
           type: string
     OPADecisionRequest:
       type: object
@@ -417,11 +503,13 @@ components:
           format: time
         timeZone:
           type: string
-          description: "Timezone in IANA format (e.g., 'America/NewYork', 'Europe/Paris', 'UTC')"
+          description: "Timezone in IANA format (e.g., 'America/NewYork'
+          , 'Europe/Paris', 'UTC')"
         timeOffset:
           type: string
           pattern: '^[+-]?\d{2}:\d{2}$'
-          description: "Time offset in hours and minutes, e.g., '+02:00' or '-05:00'"
+          description: "Time offset in hours and minutes, e.g., '+02:00'
+          or '-05:00'"
         policyName:
           type: string
         policyFilter:
@@ -430,18 +518,18 @@ components:
             type: string
         input:
           anyOf:
-           - x-go-type: "interface{}"
-           - type: object
-             additionalProperties: true
-             example:
-                    user: alice
-                    action: read
-                    object: id123
-                    type: human
+            - x-go-type: "interface{}"
+            - type: object
+              additionalProperties: true
+              example:
+                user: alice
+                action: read
+                object: id123
+                type: human
       required:
-      - policyName
-      - policyFilter
-      - input
+        - policyName
+        - policyFilter
+        - input
     OPADataUpdateRequest:
       type: object
       properties:
@@ -462,26 +550,27 @@ components:
           format: time
         timeZone:
           type: string
-          description: "Timezone in IANA format (e.g., 'America/NewYork', 'Europe/Paris', 'UTC')"
+          description: "Timezone in IANA format (e.g., 'America/NewYork',
+          'Europe/Paris', 'UTC')"
         timeOffset:
           type: string
           pattern: '^[+-]?\d{2}:\d{2}$'
-          description: "Time offset in hours and minutes, e.g., '+02:00' or '-05:00'"
+          description: "Time offset in hours and minutes, e.g., '+02:00'
+          or '-05:00'"
         policyName:
           type: string
         data:
           type: array
           items:
-             type: object
+            type: object
           example:
-                -
-                    user: alice
-                    action: read
-                    object: id123
-                    type: human
+            - user: alice
+              action: read
+              object: id123
+              type: human
       required:
-      - policyName
-      - data
+        - policyName
+        - data
     HealthCheckReport:
       type: object
       properties:
@@ -550,11 +639,21 @@ components:
     OPADataResponse:
       type: object
       properties:
-         data:
-           anyOf:
-           - x-go-type: "interface{}"
-           - type: object
-             additionalProperties: true
+        data:
+          anyOf:
+            - x-go-type: "interface{}"
+            - type: object
+              additionalProperties: true
+    OPAASTGenerateRequest:
+      type: object
+      properties:
+        code:
+          type: string
+    OPAASTGenerateResponse:
+      type: object
+      properties:
+        ast:
+          type: object
   securitySchemes:
     basicAuth:
       type: http
