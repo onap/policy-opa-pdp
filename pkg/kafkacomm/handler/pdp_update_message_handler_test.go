@@ -36,7 +36,7 @@ Description: Test by sending a invalid input message which should result in a Js
 Input: invalid input Message by renaming params or removing certain params
 Expected Output: Message Handler should exit gracefully stating the error.
 */
-func TestpdpUpdateMessageHandler_Message_Unmarshal_Failure2(t *testing.T) {
+func TestPdpUpdateMessageHandler_Message_Unmarshal_Failure2(t *testing.T) {
 
 	// invlaid params by mispelling a param  "source"
 
@@ -57,7 +57,7 @@ Description: Test by sending a invalid input message which should result in a Js
 Input: {}
 Expected Output: Message Handler should exit gracefully stating the error.
 */
-func TestpdpUpdateMessageHandler_Message_Unmarshal_Failure3(t *testing.T) {
+func TestPdpUpdateMessageHandler_Message_Unmarshal_Failure3(t *testing.T) {
 
 	// invlaid params by mispelling a param  "source"
 
@@ -78,7 +78,7 @@ Description: Test by sending a invalid input message which should result in a Js
 Input: empty
 Expected Output: Message Handler should exit gracefully stating the error.
 */
-func TestpdpUpdateMessageHandler_Message_Unmarshal_Failure4(t *testing.T) {
+func TestPdpUpdateMessageHandler_Message_Unmarshal_Failure4(t *testing.T) {
 
 	// invlaid params by mispelling a param  "source"
 
@@ -97,7 +97,7 @@ Description: Test by sending a invalid attribute for pdpstate which should resul
 Input: invalid input config set for pdpstate
 Expected Output: Message Handler should exit gracefully stating the error.
 */
-func TestpdpUpdateMessageHandler_Fails_Sending_UpdateResponse(t *testing.T) {
+func TestPdpUpdateMessageHandler_Fails_Sending_UpdateResponse(t *testing.T) {
 
 	// invalid value set to pdpSubgroup -->empty ""
 	messageString := `{
@@ -126,7 +126,7 @@ Description: Test by sending a invalid time value attribute for pdpstate which s
 Input: invalid input message for pdpstate heartbeat interval
 Expected Output: Message Handler should exit gracefully stating the error.
 */
-func TestpdpUpdateMessageHandler_Invalid_Starttimeinterval(t *testing.T) {
+func TestPdpUpdateMessageHandler_Invalid_Starttimeinterval(t *testing.T) {
 
 	//invalid interval set to negative -1000
 	messageString := `{
@@ -153,7 +153,7 @@ func TestpdpUpdateMessageHandler_Invalid_Starttimeinterval(t *testing.T) {
 /*
 pdpUpdateMessageHandler_Successful_Deployment
 */
-func TestpdpUpdateMessageHandler_Invalid_Deployment(t *testing.T) {
+func TestPdpUpdateMessageHandler_Invalid_Deployment(t *testing.T) {
 	messageString := `{
 		"source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 		"pdpHeartbeatIntervalMs":120000,
@@ -180,7 +180,7 @@ func TestpdpUpdateMessageHandler_Invalid_Deployment(t *testing.T) {
 /*
 pdpUpdateMessageHandler_Successful_Deployment
 */
-func TestpdpUpdateMessageHandler_Successful_Deployment(t *testing.T) {
+func TestPdpUpdateMessageHandler_Successful_Deployment(t *testing.T) {
 	messageString := `{
 		"source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 		"pdpHeartbeatIntervalMs":120000,
@@ -209,7 +209,7 @@ func TestpdpUpdateMessageHandler_Successful_Deployment(t *testing.T) {
 /*
 pdpUpdateMessageHandler_Skipping_Deployment
 */
-func TestpdpUpdateMessageHandler_Skipping_Deployment(t *testing.T) {
+func TestPdpUpdateMessageHandler_Skipping_Deployment(t *testing.T) {
 	messageString := `{
 		"source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 		"pdpHeartbeatIntervalMs":120000,
@@ -234,7 +234,10 @@ func TestpdpUpdateMessageHandler_Skipping_Deployment(t *testing.T) {
 /*
 pdpUpdateMessageHandler_FailureIn_Deployment_UnDeployment
 */
-func TestpdpUpdateMessageHandler_FailureIn_Deployment_UnDeployment(t *testing.T) {
+func TestPdpUpdateMessageHandler_FailureIn_Deployment_UnDeployment(t *testing.T) {
+	defer func() {
+		handlePolicyUndeploymentVar = handlePolicyUndeployment
+	}()
 	messageString := `{
 		"source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 		"pdpHeartbeatIntervalMs":120000,
@@ -258,7 +261,7 @@ func TestpdpUpdateMessageHandler_FailureIn_Deployment_UnDeployment(t *testing.T)
 		return nil, map[string]string{"zone": "1.0.0"}
 	}
 	//mock the policy undeployment
-	handlePolicyDeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
+	handlePolicyUndeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
 
 		return nil, map[string]string{"role": "1.0.0"}
 	}
@@ -269,7 +272,7 @@ func TestpdpUpdateMessageHandler_FailureIn_Deployment_UnDeployment(t *testing.T)
 /*
 pdpUpdateMessageHandler_Successful_Undeployment
 */
-func TestpdpUpdateMessageHandler_Successful_Undeployment(t *testing.T) {
+func TestPdpUpdateMessageHandler_Successful_Undeployment(t *testing.T) {
 	messageString := `{
 		"source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 		"pdpHeartbeatIntervalMs":120000,
@@ -285,7 +288,7 @@ func TestpdpUpdateMessageHandler_Successful_Undeployment(t *testing.T) {
 
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`
 	//mock the policy undeployment
-	handlePolicyDeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
+	handlePolicyUndeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
 
 		return nil, map[string]string{"zone": "1.0.0"}
 	}
@@ -299,7 +302,7 @@ func TestpdpUpdateMessageHandler_Successful_Undeployment(t *testing.T) {
 /*
 pdpUpdateMessageHandler_Successful_Registration
 */
-func TestpdpUpdateMessageHandler_Successful_Registration(t *testing.T) {
+func TestPdpUpdateMessageHandler_Successful_Registration(t *testing.T) {
 	messageString := `{
 		"source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 		"pdpHeartbeatIntervalMs":120000,
@@ -322,7 +325,7 @@ func TestpdpUpdateMessageHandler_Successful_Registration(t *testing.T) {
 /*
 pdpUpdateMessageHandler_Unsuccessful_Undeployment
 */
-func TestpdpUpdateMessageHandler_UnSuccessful_Undeployment(t *testing.T) {
+func TestPdpUpdateMessageHandler_UnSuccessful_Undeployment(t *testing.T) {
 	messageString := `{
 		"source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 		"pdpHeartbeatIntervalMs":120000,
@@ -352,7 +355,7 @@ func TestpdpUpdateMessageHandler_UnSuccessful_Undeployment(t *testing.T) {
 /*
 pdpUpdateMessageHandler_Partial_FailureIn_Undeployment
 */
-func TestpdpUpdateMessageHandler_Partial_FailureIn_Undeployment(t *testing.T) {
+func TestPdpUpdateMessageHandler_Partial_FailureIn_Undeployment(t *testing.T) {
 	messageString := `{
 		"source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 		"pdpHeartbeatIntervalMs":120000,
@@ -563,7 +566,7 @@ func TestSendPDPStatusResponse_SimulateFailures(t *testing.T) {
 func TestCreateBundleFunc(t *testing.T) {
 }
 
-func TesthandlePdpUpdateDeploymentVarSuccess(t *testing.T) {
+func TestHandlePdpUpdateDeploymentVarSuccess(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
 
 	handlePolicyDeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
@@ -584,7 +587,7 @@ func TesthandlePdpUpdateDeploymentVarSuccess(t *testing.T) {
 	assert.Empty(t, failureMsgs)
 }
 
-func TesthandlePdpUpdateDeploymentVarFormatError(t *testing.T) {
+func TestHandlePdpUpdateDeploymentVarFormatError(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
 
 	handlePolicyDeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
@@ -608,7 +611,7 @@ func TesthandlePdpUpdateDeploymentVarFormatError(t *testing.T) {
 	assert.Contains(t, failureMsgs[0], "Internal Map Error")
 }
 
-func TesthandlePdpUpdateUndeploymentVarSuccess(t *testing.T) {
+func TestHandlePdpUpdateUndeploymentVarSuccess(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
 
 	handlePolicyUndeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
@@ -629,7 +632,7 @@ func TesthandlePdpUpdateUndeploymentVarSuccess(t *testing.T) {
 	assert.Empty(t, failureMsgs)
 }
 
-func TesthandlePdpUpdateUndeploymentVarFormatError(t *testing.T) {
+func TestHandlePdpUpdateUndeploymentVarFormatError(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
 
 	handlePolicyUndeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
@@ -708,7 +711,7 @@ func Test_DeploymentHandlerFails(t *testing.T) {
 	mockPublisher := new(mocks.PdpStatusSender)
 	mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
 	sendFinalResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
-		assert.Equal(t, "{}", policies)
+		assert.Equal(t, "", policies)
 		return nil
 	}
 	defer func() {

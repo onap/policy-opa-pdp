@@ -26,99 +26,103 @@ import (
 )
 // Variables:
 //
-//			LogFilePath         - The file path for the log file.
-//			LogMaxSize          - The maximum size of the log file in megabytes.
-//			LogMaxBackups       - The maximum number of backup log files to retain.
-//			OpasdkConfigPath    - The file path for the OPA SDK configuration.
-//			Opa                 - The file path for the OPA binary.
-//			BuildBundle         - The command to build the bundle.
-//			Policies            - The directory path for policies.
-//			Data                - The directory path for policy data.
-//			DataNode            - The directory path for policy data with node.
-//			Output              - The output flag for bundle commands.
-//			BundleTarGz         - The name of the bundle tar.gz file.
-//			BundleTarGzFile     - The file path for the bundle tar.gz file.
-//			PdpGroup            - The default PDP group.
-//			PdpType             - The type of PDP.
-//			ServerPort          - The port on which the server listens.
-//			ServerWaitUpTime    - The time to wait for the server to be up, in seconds.
-//			ShutdownWaitTime    - The time to wait for the server to shut down, in seconds.
-//			V1Compatible        - The flag for v1 compatibility.
-//			LatestVersion       - The Version set in response for decision
-//			MinorVersion        - The Minor version set in response header for decision
-//			PatchVersion        - The Patch Version set in response header for decison
-//			OpaPdpUrl           - The Healthcheck url for response
-//			HealtCheckStatus    - The bool flag for Healthy field in HealtCheck response
-//			OkCode              - The Code for HealthCheck response
-//			HealthCheckMessage  - The Healtcheck Message
-//		        DefaultHeartbeatMS  - The default interval for heartbeat signals in milliseconds.
-//			SingleHierarchy     - The Counter indicates the length of datakey path
-//		        PolicyVersion       - constant declared for policy-version
-//		        PolicyID            - constant declared for policy-id
-//		        RequestId           - constant declared for ONAP Request-ID
-//	             MaxOutputResponseLength - constant declared for maximum length of output in response message
-//	             ContentType              - constant for response Content Type
+//                      LogFilePath         - The file path for the log file.
+//                      LogMaxSize          - The maximum size of the log file in megabytes.
+//                      LogMaxBackups       - The maximum number of backup log files to retain.
+//                      OpasdkConfigPath    - The file path for the OPA SDK configuration.
+//                      Opa                 - The file path for the OPA binary.
+//                      BuildBundle         - The command to build the bundle.
+//                      Policies            - The directory path for policies.
+//                      Data                - The directory path for policy data.
+//                      DataNode            - The directory path for policy data with node.
+//                      Output              - The output flag for bundle commands.
+//                      BundleTarGz         - The name of the bundle tar.gz file.
+//                      BundleTarGzFile     - The file path for the bundle tar.gz file.
+//                      PdpGroup            - The default PDP group.
+//                      PdpType             - The type of PDP.
+//                      ServerPort          - The port on which the server listens.
+//                      ServerWaitUpTime    - The time to wait for the server to be up, in seconds.
+//                      ShutdownWaitTime    - The time to wait for the server to shut down, in seconds.
+//                      V1Compatible        - The flag for v1 compatibility.
+//                      LatestVersion       - The Version set in response for decision
+//                      MinorVersion        - The Minor version set in response header for decision
+//                      PatchVersion        - The Patch Version set in response header for decison
+//                      OpaPdpUrl           - The Healthcheck url for response
+//                      HealtCheckStatus    - The bool flag for Healthy field in HealtCheck response
+//                      OkCode              - The Code for HealthCheck response
+//                      HealthCheckMessage  - The Healtcheck Message
+//                      DefaultHeartbeatMS  - The default interval for heartbeat signals in milliseconds.
+//                      SingleHierarchy     - The Counter indicates the length of datakey path
+//                      PolicyVersion       - constant declared for policy-version
+//                      PolicyID            - constant declared for policy-id
+//                      RequestId           - constant declared for ONAP Request-ID
+//                   MaxOutputResponseLength - constant declared for maximum length of output in response message
+//                   ContentType              - constant for response Content Type
 var (
-	LogFilePath             = "/var/logs/logs.log"
-	LogMaxSize              = 10
-	LogMaxBackups           = 3
-	OpasdkConfigPath        = "/app/config/config.json"
-	Opa                     = "/app/opa"
-	BuildBundle             = "build"
-	Policies                = "/opt/policies"
-	Data                    = "/opt/data"
-	DataNode                = "/opt/data/node"
-	Output                  = "-o"
-	BundleTarGz             = "bundle.tar.gz"
-	BundleTarGzFile         = "/app/bundles/bundle.tar.gz"
-	PdpGroup                = "opaGroup"
-	PdpType                 = "opa"
-	ServerPort              = ":8282"
-	ServerWaitUpTime        = 5
-	ShutdownWaitTime        = 5
-	V1Compatible            = "--v1-compatible"
-	LatestVersion           = "1.0.0"
-	MinorVersion            = "0"
-	PatchVersion            = "0"
-	OpaPdpUrl               = "self"
-	HealtCheckStatus        = true
-	OkCode                  = int32(200)
-	HealthCheckMessage      = "alive"
-	DefaultHeartbeatMS      = 60000
-	SingleHierarchy         = 4
-	PolicyVersion           = "policy-version"
-	PolicyId                = "policy-id"
-	RequestId               = "X-ONAP-RequestID"
-	MaxOutputResponseLength = 200
-	ContentType             = "Content-Type"
-	ApplicationJson         = "application/json"
+        LogFilePath             = "/var/logs/logs.log"
+        LogMaxSize              = 10
+        LogMaxBackups           = 3
+        OpasdkConfigPath        = "/app/config/config.json"
+        Opa                     = "/app/opa"
+        BuildBundle             = "build"
+        Policies                = "/opt/policies"
+        Data                    = "/opt/data"
+        DataNode                = "/opt/data/node"
+        Output                  = "-o"
+        BundleTarGz             = "bundle.tar.gz"
+        BundleTarGzFile         = "/app/bundles/bundle.tar.gz"
+        PdpGroup                = "opaGroup"
+        PdpType                 = "opa"
+        ServerPort              = ":8282"
+        ServerWaitUpTime        = 5
+        ShutdownWaitTime        = 5
+        V1Compatible            = "--v1-compatible"
+        LatestVersion           = "1.0.0"
+        MinorVersion            = "0"
+        PatchVersion            = "0"
+        OpaPdpUrl               = "self"
+        HealtCheckStatus        = true
+        OkCode                  = int32(200)
+        HealthCheckMessage      = "alive"
+        DefaultHeartbeatMS      = 60000
+        SingleHierarchy         = 4
+        PolicyVersion           = "policy-version"
+        PolicyId                = "policy-id"
+        RequestId               = "X-ONAP-RequestID"
+        MaxOutputResponseLength = 200
+        ContentType             = "Content-Type"
+        ApplicationJson         = "application/json"
+        TempRegoPattern         = "policy*.rego"
+        TempPolicyFileRegex     = `/var/logs/policy[0-9]+\.rego`
+        TempRegoFolderPath      = `/var/logs/`
+        StandardPolicyName      = "policy.rego"
 
-	// Kafka Consumer configuration
-	ConsumerSessionTimeout  = 30000
-	ConsumerMaxPoll         = 300000
-	ConsumerAutoCommit      = true
-	ConsumerPartitionEOF    = true
-	ConsumerBackoffMIN      = 100
-	ConsumerBackoffMAX      = 10000
-	ConsumerTopicMetadata   = 30000
-	ConsumerSocketReceive   = 50*1024*1024
-	ConsumerMaxPartitionFetch = 50*1024*1024
-	ConsumerFetchMaxBytes   = 50*1024*1024
-	ConsumerTearDownSleepTime    = 300 * time.Millisecond
-	ConsumerReconnectRetries  = 5 * time.Second
-	ConsumerPollSleep       = 3 * time.Second
+        // Kafka Consumer configuration
+        ConsumerSessionTimeout  = 30000
+        ConsumerMaxPoll         = 300000
+        ConsumerAutoCommit      = true
+        ConsumerPartitionEOF    = true
+        ConsumerBackoffMIN      = 100
+        ConsumerBackoffMAX      = 10000
+        ConsumerTopicMetadata   = 30000
+        ConsumerSocketReceive   = 50*1024*1024
+        ConsumerMaxPartitionFetch = 50*1024*1024
+        ConsumerFetchMaxBytes   = 50*1024*1024
+        ConsumerTearDownSleepTime    = 300 * time.Millisecond
+        ConsumerReconnectRetries  = 5 * time.Second
+        ConsumerPollSleep       = 3 * time.Second
 
-	// Kafka Producer configuration
-	ProducerTopicMetadataRefresh = 30000
-	ProducerMessageTimeout       = 300000
-	ProducerEnableIdempotence    = true
-	ProducerDeliveryTimeout      = 300000
-	ProducerRequestTimeout       = 30000
-	ProducerReconnectBackoff     = 100
-	ProducerReconnectBackoffMax  = 10000
-	ProducerTearDownSleepTime    = 300 * time.Millisecond
-	ProducerReconnectRetries     = 3
-	ProducerTearDownFlush        = 15*1000
-	ProducerFlushReportsTime     = 1000
+        // Kafka Producer configuration
+        ProducerTopicMetadataRefresh = 30000
+        ProducerMessageTimeout       = 300000
+        ProducerEnableIdempotence    = true
+        ProducerDeliveryTimeout      = 300000
+        ProducerRequestTimeout       = 30000
+        ProducerReconnectBackoff     = 100
+        ProducerReconnectBackoffMax  = 10000
+        ProducerTearDownSleepTime    = 300 * time.Millisecond
+        ProducerReconnectRetries     = 3
+        ProducerTearDownFlush        = 15*1000
+        ProducerFlushReportsTime     = 1000
 
 )
