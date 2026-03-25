@@ -31,7 +31,9 @@ import (
 	"policy-opa-pdp/pkg/model"
 	"time"
 )
-
+var (
+    recoverConsumerVar = recoverConsumer
+)
 
 // PatchMessageHandler handles incoming Kafka messages and dispatches them for data patch processing.
 // Error handling is delegated to helper functions in this same file:
@@ -74,7 +76,7 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 
 			var patchMsg model.PatchMessage
 			if err := json.Unmarshal(message, &patchMsg); err != nil {
-				log.Warnf("Failed to UnMarshal PatchMessage: %v\n", err)
+				log.Debugf("Failed to UnMarshal PatchMessage: %v\n", err)
 				continue
 			}
 			log.Debugf("Received patch request")
