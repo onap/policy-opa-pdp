@@ -31,7 +31,9 @@ import (
 	"policy-opa-pdp/pkg/model"
 	"time"
 )
-
+var (
+    recoverConsumerVar = recoverConsumer
+)
 
 // PatchMessageHandler handles incoming Kafka messages and dispatches them for data patch processing.
 // Error handling is delegated to helper functions in this same file:

@@ -120,7 +120,7 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
                                 if shouldRebuildConsumer(err) {
                                         log.Warnf("Consumer error; rebuilding. err=%v", err)
                                         log.Info("Recovering Kafka Consumer......")
-                                        newKc, recErr := recoverConsumer(kc, topic, cfg.GroupId)
+                                        newKc, recErr := recoverConsumerVar(kc, topic, cfg.GroupId)
                                         if recErr == nil && newKc != nil {
                                                 kc = newKc
                                                 log.Info("New consumer initialized")
