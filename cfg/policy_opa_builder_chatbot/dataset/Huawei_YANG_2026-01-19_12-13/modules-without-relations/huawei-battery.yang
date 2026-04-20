@@ -1,0 +1,138 @@
+module huawei-battery {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-battery";
+ prefix battery;
+ description
+ "Auto-generated modular YANG for huawei-battery" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping BATTERY-attributes {
+ leaf BC1 {
+  type uint16 {
+   range "5..5000";
+  }
+  mandatory false;
+ }
+ leaf BC2 {
+  type uint16 {
+   range "5..5000";
+  }
+  mandatory false;
+ }
+ leaf BCD {
+  type uint8 {
+   range "30..240";
+  }
+  mandatory false;
+ }
+ leaf BCLC {
+  type uint8 {
+   range "5..25";
+  }
+  mandatory false;
+ }
+ leaf BCV {
+  type uint16 {
+   range "433..576";
+  }
+  mandatory false;
+ }
+ leaf BN {
+  type uint8 {
+   range "1..2";
+  }
+  mandatory false;
+ }
+ leaf BTYPE {
+  type enumeration {
+   enum val-2;
+   enum val-3;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf DISCHARGEMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf FCV {
+  type uint16 {
+   range "432..575";
+  }
+  mandatory false;
+ }
+ leaf HTSDF {
+  type boolean;
+  mandatory false;
+ }
+ leaf INSTALLTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf LBN {
+  type uint8 {
+   range "1..32";
+  }
+  mandatory false;
+ }
+ leaf LVSDF {
+  type boolean;
+  mandatory false;
+ }
+ leaf SDT {
+  type uint8 {
+   range "40..70";
+  }
+  mandatory false;
+ }
+ leaf SDV {
+  type uint16 {
+   range "350..556";
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf TCC {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf TLTHD {
+  type int8 {
+   range "-20..20";
+  }
+  mandatory false;
+ }
+ leaf TUTHD {
+  type uint8 {
+   range "35..80";
+  }
+  mandatory false;
+ }
+ }
+}

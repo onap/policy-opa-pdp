@@ -1,0 +1,127 @@
+module huawei-nrcellanr {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrcellanr";
+ prefix nrcellanr;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-nrcellanr" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRCELLANR-attributes {
+ leaf ANRALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf ANRMODESWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf AUTODELNCELLPENALTYNUM {
+  type uint16 {
+   range "1..10000";
+  }
+  mandatory false;
+ }
+ leaf AUTODELNCELLPENALTYPERIOD {
+  type uint16 {
+   range "1..50400";
+  }
+  mandatory false;
+ }
+ leaf INTERGNBCELLCFGMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf INTRARATANRRSRPTHLD {
+  type int16 {
+   range "-130..-70";
+  }
+  mandatory false;
+ }
+ leaf LTENCELLHONUMTHLD {
+  type uint16 {
+   range "50..10000";
+  }
+  mandatory false;
+ }
+ leaf N2LNOHOCONSECPRDTHLD {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ leaf N2LNOHOSUCCRATETHLD {
+  type uint8 {
+   range "0..80";
+  }
+  mandatory false;
+ }
+ leaf N2NNOHOCONSECPRDTHLD {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ leaf N2NNOHOSUCCRATETHLD {
+  type uint8 {
+   range "0..80";
+  }
+  mandatory false;
+ }
+ leaf NCELLADDCGIRPTCOUNTTHLD {
+  type uint8 {
+   range "1..10";
+  }
+  mandatory false;
+ }
+ leaf NCELLHOSUCCRATETHLD {
+  type uint8 {
+   range "0..90";
+  }
+  mandatory false;
+ }
+ leaf NRCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRNCELLHONUMTHLD {
+  type uint16 {
+   range "50..10000";
+  }
+  mandatory false;
+ }
+ leaf NRNCELLNOHORESINTVL {
+  type uint8 {
+   range "1..180";
+  }
+  mandatory false;
+ }
+ leaf OVERDISTANTNCELLTHLD {
+  type uint32 {
+   range "0..100000";
+  }
+  mandatory false;
+ }
+ leaf PERIODFORDELNRT {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ leaf STARTTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf STOPTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ }
+}

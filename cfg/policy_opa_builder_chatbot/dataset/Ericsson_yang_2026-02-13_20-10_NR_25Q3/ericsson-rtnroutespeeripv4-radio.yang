@@ -1,0 +1,61 @@
+module ericsson-rtnroutespeeripv4-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnRoutesPeerIPv4";
+  prefix rtnroute;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list PeerIPv4 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Provides IPv4 peer information.";
+      key "peerIPv4Id";
+      leaf peerIPv4Id {
+        type leafref {
+          path "../attributes/peerIPv4Id";
+        }
+      }
+      container attributes {
+        uses PeerIPv4-attributes;
+      }
+    }
+  }
+  typedef BfdStaticRoutesInterfaceType {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping PeerIPv4-attributes {
+    leaf address {
+      type string;
+      mandatory true;
+    }
+    leaf bfdProfile {
+      type string;
+    }
+    leaf bfdStaticRoutes {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf peerIPv4Id {
+      type ietfinet:ipv4-address;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+  }
+}

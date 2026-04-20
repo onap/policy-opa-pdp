@@ -1,0 +1,62 @@
+module huawei-pri2que {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-pri2que";
+ prefix pri2que;
+ description
+ "Auto-generated modular YANG for huawei-pri2que" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping PRI2QUE-attributes {
+ leaf PRI0 {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf PRI1 {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf PRI2 {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf PRI3 {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf PRI4 {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf PRI5 {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf PRI6 {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

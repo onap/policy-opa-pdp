@@ -1,0 +1,75 @@
+module ericsson-rcstheftdeterrence-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsTheftDeterrence";
+  prefix rcstheft;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list TheftDeterrence {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Theft protection. Locks Public Land Mobile Network identities with a password so that this equipment can only be used in the assigned network. The RDN for this MO is TheftDeterrence=1.";
+      key "theftDeterrenceId";
+      leaf theftDeterrenceId {
+        type leafref {
+          path "../attributes/theftDeterrenceId";
+        }
+      }
+      container attributes {
+        uses TheftDeterrence-attributes;
+      }
+    }
+  }
+  typedef ThdAuthenticationType {
+    type enumeration {
+      enum PASSWORD;
+      enum NO_AUTHENTICATION;
+    }
+  }
+  typedef ThdStatusType {
+    type enumeration {
+      enum UNLOCKED;
+      enum LOCKED;
+      enum LOCKED_PERMANENTLY;
+    }
+  }
+  grouping TheftDeterrence-attributes {
+    leaf theftDeterrenceId {
+      type string;
+      mandatory true;
+    }
+    list thdStoredId {
+      config false;
+      container attributes {
+      leaf thdProtectedServiceName {
+        type string;
+      }
+      leaf thdProtectedIds {
+        type string;
+      }
+      }
+    }
+    leaf thdAuthentication {
+      type enumeration {
+        enum PASSWORD;
+        enum NO_AUTHENTICATION;
+      }
+      config false;
+    }
+    leaf thdStatus {
+      type enumeration {
+        enum UNLOCKED;
+        enum LOCKED;
+        enum LOCKED_PERMANENTLY;
+      }
+      config false;
+    }
+  }
+}

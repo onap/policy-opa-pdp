@@ -1,0 +1,190 @@
+module huawei-gnbueinfo {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbueinfo";
+ prefix gnbueinfo;
+ description
+ "Auto-generated modular YANG for huawei-gnbueinfo" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBUEINFO-attributes {
+ leaf ACCESSSTRATUMRELEASE {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf DLUECATEGORY {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf EUTRANBANDLIST1 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf EUTRANBANDLIST2 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FBTOEMBBREDCAPFEATURE {
+  type string;
+  mandatory false;
+ }
+ leaf FGI {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FGIR10 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FGIR9 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FGIR9ADD {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf NRFR1BANDLIST1 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf NRFR1BANDLIST2 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf NRFR1BANDLIST3 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf NRFR1BANDLIST4 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf NRFR2BANDLIST1 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf UECAPBCONTENT {
+  type string {
+   length "1..200";
+  }
+  mandatory false;
+ }
+ leaf UECAPBLENGTH {
+  type uint16 {
+   range "1..800";
+  }
+  mandatory false;
+ }
+ leaf UECAPBOFFSET {
+  type uint32 {
+   range "0..147456";
+  }
+  mandatory false;
+ }
+ leaf UECATEGORY {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf UEFEATUREVALUECONTENT {
+  type string {
+   length "0..32";
+  }
+  mandatory false;
+ }
+ leaf UEFEATUREVALUEMASK {
+  type string {
+   length "32";
+  }
+  mandatory false;
+ }
+ leaf UEFEATUREVALUEVERSION {
+  type boolean;
+  mandatory false;
+ }
+ leaf UEIMEISVGROUPID {
+  type uint16 {
+   range "0..1023";
+  }
+  mandatory false;
+ }
+ leaf UEIMEISVSVN {
+  type uint8 {
+   range "0..99";
+  }
+  mandatory false;
+ }
+ leaf UEIMEISVTAC {
+  type uint32 {
+   range "0..99999999";
+  }
+  mandatory false;
+ }
+ leaf UEIMEISVTACGROUPID {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf UEINFOINDEX {
+  type union {
+   type int16 {
+    range "-1..128";
+   }
+  }
+  mandatory false;
+ }
+ leaf UEINFOTYPE {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf UETYPEDESC {
+  type string {
+   length "0..80";
+  }
+  mandatory false;
+ }
+ leaf ULUECATEGORY {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ }
+}

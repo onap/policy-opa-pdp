@@ -1,0 +1,90 @@
+module ericsson-rd-data-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRdData";
+  prefix rddatardo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-transceiver-radio {
+    prefix trsvrrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/trsvrrdo:Transceiver" {
+    list RdData {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO models Radio Dot Data (RdData).";
+      key "rdDataId";
+      leaf rdDataId {
+        type leafref {
+          path "../attributes/rdDataId";
+        }
+      }
+      container attributes {
+        uses RdData-attributes;
+      }
+    }
+  }
+  grouping RdData-attributes {
+    leaf rdDataId {
+      type string;
+      mandatory true;
+    }
+    leaf requestedRelativeOutputPower {
+      type eytypes:uint32_range_1-100;
+      default "100";
+      units "percent";
+      description "range 1..100; Default value: 100.";
+    }
+    leaf minimumRelativeOutputPower {
+      type eytypes:uint32_range_1-100;
+      config false;
+      units "percent";
+      description "range 1..100.";
+    }
+    leaf actualRelativeOutputPower {
+      type eytypes:uint32_range_1-100;
+      config false;
+      units "percent";
+      description "range 1..100.";
+    }
+    list radioDotCoverage {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf posCellBearing {
+        type eytypes:int32_range_-1-3599;
+        default "-1";
+        units "degrees";
+        description "range -1..3599; Default value: -1.";
+      }
+      leaf posCellOpeningAngle {
+        type eytypes:int32_range_-1-3599;
+        default "-1";
+        units "degrees";
+        description "range -1..3599; Default value: -1.";
+      }
+      leaf posCellRadius {
+        type eytypes:int32_range_0-100000;
+        default "0";
+        units "m";
+        description "range 0..100000; Default value: 0.";
+      }
+      }
+    }
+  }
+}

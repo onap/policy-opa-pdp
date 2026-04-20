@@ -1,0 +1,240 @@
+module huawei-cellbtruncalgopara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cellbtruncalgopara";
+ prefix cellbtruncalgopara;
+ description
+ "Auto-generated modular YANG for huawei-cellbtruncalgopara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLBTRUNCALGOPARA-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf BTRUNCALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf BTRUNCSIBBRDCSTENHUPDPRD {
+  type uint8 {
+   range "1..10";
+  }
+  mandatory false;
+ }
+ leaf BTRUNCSWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf GROUPGAPPATTERNTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf GROUPGAPSTARTPOS {
+  type uint8 {
+   range "0..79";
+  }
+  mandatory false;
+ }
+ leaf GROUPJOINDELAY {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf GROUPPTPSERVDIVISIONPERIOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+  }
+  mandatory false;
+ }
+ leaf GROUPSPDCIPWROFFSET {
+  type int16 {
+   range "-150..150";
+  }
+  mandatory false;
+ }
+ leaf GROUPSPECIFICCCEAGGLVL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf GROUPSUBFRAMELENGTH {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf GROUPSUBFRAMESATIRATETHLD {
+  type uint8 {
+   range "20..90";
+  }
+  mandatory false;
+ }
+ leaf GROUPSUBFRAMESTARTPOS {
+  type uint16 {
+   range "0..499";
+  }
+  mandatory false;
+ }
+ leaf HIGHLOADTHLDFORMCSADJ {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf LOADBASEDMCSADJSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOWLOADTHLDFORMCSADJ {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf PSGROUPMCS {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf PSTTCHGROUPPA {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf SPSACTRETRANINTERVAL {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf SPSACTRETRANLCYCMULOFSCYC {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf SPSACTRETRANMAXCNT {
+  type uint8 {
+   range "1..10";
+  }
+  mandatory false;
+ }
+ leaf SPSACTRETRANSCYCCNT {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf TCCHCODERATE {
+  type uint16 {
+   range "0..1000";
+  }
+  mandatory false;
+ }
+ leaf TCCHSCHDELAYTIMER {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf TPCCHCODERATE {
+  type uint16 {
+   range "1..1000";
+  }
+  mandatory false;
+ }
+ leaf TTCHMCSFORHVOICESERVLOAD {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf TTCHMCSFORLVOICESERVLOAD {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf TTCHMCSFORMVOICESERVLOAD {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf TTCHSCHDELAYTIMER {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf VOICEMCSADAPTADJSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf VOICEMCSADJTHLDFAC {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+  }
+  mandatory false;
+ }
+ leaf VOICETTCHLOWMCS {
+  type uint8 {
+   range "0..4";
+  }
+  mandatory false;
+ }
+ leaf VOICETTCHMCS {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ }
+}

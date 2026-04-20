@@ -1,0 +1,84 @@
+module huawei-bfantselfopt {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-bfantselfopt";
+ prefix bfantselfopt;
+ description
+ "Auto-generated modular YANG for huawei-bfantselfopt" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping BFANTSELFOPT-attributes {
+ leaf AGINGTIME {
+  type uint8 {
+   range "1..180";
+  }
+  mandatory false;
+ }
+ leaf DEVICENO {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf ETILTDOWNWARDSADJRATETHLD {
+  type uint32 {
+   range "1..4294967295";
+  }
+  mandatory false;
+ }
+ leaf ETILTDOWNWARDSADJSTEP {
+  type uint8 {
+   range "1..15";
+  }
+  mandatory false;
+ }
+ leaf ETILTDOWNWARDSADJUENUMTHLD {
+  type uint16 {
+   range "1..1200";
+  }
+  mandatory false;
+ }
+ leaf ETILTUPWARDSADJRATETHLD {
+  type uint32 {
+   range "1..4294967295";
+  }
+  mandatory false;
+ }
+ leaf ETILTUPWARDSADJUENUMTHLD {
+  type uint16 {
+   range "1..1200";
+  }
+  mandatory false;
+ }
+ leaf MAXETILTDOWNWARDSADJ {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf MAXETILTUPWARDSADJ {
+  type union {
+   type int16 {
+    range "-15..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SELFOPTACTVUENUMTHLD {
+  type uint16 {
+   range "1..1200";
+  }
+  mandatory false;
+ }
+ leaf SELFOPTDEACTVUENUMTHLD {
+  type uint16 {
+   range "1..1200";
+  }
+  mandatory false;
+ }
+ }
+}

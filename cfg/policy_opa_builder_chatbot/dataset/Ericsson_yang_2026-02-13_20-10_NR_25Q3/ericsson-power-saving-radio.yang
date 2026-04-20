@@ -1,0 +1,82 @@
+module ericsson-power-saving-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmePowerSaving";
+  prefix pwrsvrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list PowerSaving {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; MO PowerSaving handles configuration of certain power saving features in node. Activation of power saving is dependent on HW, SW, RAT standard and configuration. The RDN of this MO is PowerSaving=1.";
+      key "powerSavingId";
+      leaf powerSavingId {
+        type leafref {
+          path "../attributes/powerSavingId";
+        }
+      }
+      container attributes {
+        uses PowerSaving-attributes;
+      }
+    }
+  }
+  typedef BbPowerSavingStatus {
+    type enumeration {
+      enum DEACTIVATED;
+      enum ACTIVATED;
+      enum DEACTIVATED_PENDING_RESTART;
+      enum ACTIVATED_PENDING_RESTART;
+    }
+  }
+  typedef RanCompDeepSleepStatus {
+    type enumeration {
+      enum DEACTIVATED;
+      enum ACTIVATED;
+      enum NOT_SUPPORTED;
+    }
+  }
+  grouping PowerSaving-attributes {
+    leaf powerSavingId {
+      type string;
+      mandatory true;
+    }
+    leaf bbPowerSavingsEnabled {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf bbPowerSavingStatus {
+      type enumeration {
+        enum DEACTIVATED;
+        enum ACTIVATED;
+        enum DEACTIVATED_PENDING_RESTART;
+        enum ACTIVATED_PENDING_RESTART;
+      }
+      config false;
+    }
+    leaf ranCompDeepSleepEnabled {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf ranCompDeepSleepStatus {
+      type enumeration {
+        enum DEACTIVATED;
+        enum ACTIVATED;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf pmRanCompDeepSleepTime {
+      type uint64;
+      config false;
+    }
+  }
+}

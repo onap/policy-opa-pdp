@@ -1,0 +1,28 @@
+module huawei-rfasectoreqmgroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfasectoreqmgroup";
+ prefix rfasectoreqmgroup;
+ description
+ "Auto-generated modular YANG for huawei-rfasectoreqmgroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFASECTOREQMGROUP-attributes {
+ leaf OLD_SECTOREQMGROUPID {
+  type union {
+   type int16 {
+    range "-1..1439";
+   }
+  }
+  mandatory false;
+ }
+ leaf SECTOREQMGROUPID {
+  type union {
+   type int16 {
+    range "-1..1439";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

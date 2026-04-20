@@ -1,0 +1,38 @@
+module huawei-sshconf {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-sshconf";
+ prefix sshconf;
+ description
+ "Auto-generated modular YANG for huawei-sshconf" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping SSHCONF-attributes {
+ leaf IDLEFORCESWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf IDLETIMEOUT {
+  type uint16 {
+   range "1..4320";
+  }
+  mandatory false;
+ }
+ leaf MAXLIFETIME {
+  type uint16 {
+   range "1..10080";
+  }
+  mandatory false;
+ }
+ leaf POLICYID {
+  type uint8 {
+   range "0..16";
+  }
+  mandatory false;
+ }
+ leaf PORTFLAG {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

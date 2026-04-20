@@ -1,0 +1,379 @@
+module ericsson-energy-meter-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEnergyMeter";
+  prefix enmtrrdo;
+  import ericsson-e-fuse-radio {
+    prefix efuserdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/efuserdo:EFuse" {
+    list EnergyMeter {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; This MO displays the energy meter values for a single FieldReplaceableUnit or EFuse with energy measurement capability.";
+      key "energyMeterId";
+      leaf energyMeterId {
+        type leafref {
+          path "../attributes/energyMeterId";
+        }
+      }
+      container attributes {
+      uses EnergyMeter-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list EnergyMeter {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; This MO displays the energy meter values for a single FieldReplaceableUnit or EFuse with energy measurement capability.";
+      key "energyMeterId";
+      leaf energyMeterId {
+        type leafref {
+          path "../attributes/energyMeterId";
+        }
+      }
+      container attributes {
+      uses EnergyMeter-attributes;
+      }
+    }
+  }
+  typedef ApcEnergyMeterEnabled {
+    description "Configured energy meter state.";
+    type enumeration {
+      enum DISABLED {
+        description "The energy meter is configured as disabled.";
+      }
+      enum ENABLED {
+        description "The energy meter is configured as enabled.";
+      }
+      enum UNDEFINED {
+        description "The state of the energy meter is not yet configured.";
+      }
+    }
+  }
+  typedef ApcPerceivedSeverity {
+    description "This parameter provides an indication of how it is perceived that the capability of the managed object has been affected.";
+    type enumeration {
+      enum CRITICAL {
+        description "The Critical severity level indicates that a service affecting condition has occurred and an immediate corrective action is required. Such a severity can be reported, for example, when a managed object becomes totally out of service and its capability must be restored.";
+      }
+      enum MAJOR {
+        description "The Major severity level indicates that a service affecting condition has developed and an urgent corrective action is required. Such a severity can be reported, for example, when there is a severe degradation in the capability of the managed object and its full capability must be restored.";
+      }
+      enum MINOR {
+        description "The Minor severity level indicates the existence of a non-service affecting fault condition and that corrective action should be taken in order to prevent a more serious (for example, service affecting) fault. Such a severity can be reported, for example, when the detected alarm condition is not currently degrading the capacity of the managed object.";
+      }
+      enum WARNING {
+        description "The Warning severity level indicates the detection of a potential or impending service affecting fault, before any significant effects have been felt. Action should be taken to further diagnose (if necessary) and correct the problem in order to prevent it from becoming a more serious service affecting fault.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef LowDcInputVoltageNotificationStatus {
+    description "The status of low DC input voltage notification.";
+    type enumeration {
+      enum ENABLED {
+        description "Notification is enabled.";
+      }
+      enum NOT_SUPPORTED {
+        description "Notification is not supported.";
+      }
+      enum DISABLED {
+        description "Notification is disabled.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping LowDcInputVoltageNotification-struct {
+    description "Current configuration and status of low DC input voltage notification.";
+    leaf perceivedSeverity {
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+    }
+    leaf alarmCeaseDelay {
+      description "range 6..3600.";
+      type uint16 {
+        range "6..3600";
+      }
+      units "s";
+    }
+    leaf alarmRaiseDelay {
+      description "range 6..3600.";
+      type uint16 {
+        range "6..3600";
+      }
+      units "s";
+    }
+    leaf alarmCeaseVoltage {
+      description "range -530..-400.";
+      type int16 {
+        range "-530..-400";
+      }
+      units "V";
+    }
+    leaf alarmRaiseVoltage {
+      type int16 {
+        range "-520..-380 | -1";
+      }
+      units "V";
+    }
+    leaf status {
+      type enumeration {
+        enum ENABLED;
+        enum NOT_SUPPORTED;
+        enum DISABLED;
+      }
+    }
+  }
+  grouping EnergyMeter-attributes {
+    leaf energyMeterId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf inputCurrent {
+      description "The present input current measured by the FieldReplaceableUnit. If empty, then this indicates that it is not possible to obtain a measurement value..";
+      type int32;
+      config false;
+      units "A";
+    }
+    leaf inputVoltage {
+      description "The present input voltage measured by the the FieldReplaceableUnit. If empty, then this indicates that it is not possible to obtain a measurement value..";
+      type int32;
+      config false;
+      units "V";
+    }
+    leaf outputCurrent {
+      description "The present output current level measured by the FieldReplaceableUnit. If empty, then this indicates that it is not possible to obtain a measurement value..";
+      type int32;
+      config false;
+      units "A";
+    }
+    leaf outputPower {
+      description "The present output power measured by the FieldReplaceableUnit. If empty, then this indicates that it is not possible to obtain a measurement value..";
+      type int32;
+      config false;
+      units "W";
+    }
+    leaf outputVoltage {
+      description "The present output voltage level measured by the FieldReplaceableUnit. If empty, then this indicates that it is not possible to obtain a measurement value..";
+      type int32;
+      config false;
+      units "V";
+    }
+    leaf powerLoad {
+      description "The present power load in percent of the maximum available capacity. If empty, then this indicates that it is not possible to obtain a measurement value.; range 0..100.";
+      type eytypes:int32_range_0-100;
+      config false;
+      units "percent";
+    }
+    leaf unitPowerConsumption {
+      description "The present power consumption measured by the FieldReplaceableUnit. If empty, then this indicates that it is not possible to obtain a measurement value.; MOM flags: noNotification, isNillable=true; Status info: Since 17.Q3. The same information is supplied by PM Counter pmPowerConsumption..";
+      type int32;
+      config false;
+      status deprecated;
+      units "W";
+    }
+    leaf operationalState {
+      description "Defines the operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf unitInformation {
+      description "Additional unit specific information. Valid values depending on type: PSU with input current limitation (8A, 10A, 12.5A, 15A). PSU with output power limitation (1200W, 1800W). N/A: Used when no additional information exists..";
+      type string;
+      config false;
+    }
+    leaf consumedEnergyMeasurementRef {
+      description "Reference to MO ConsumedEnergyMeasurement..";
+      type string;
+      config false;
+    }
+    leaf energyMeterEnabled {
+      description "Configured state of the energy meter. The configured state is retained after a restart. Configured state is the desired operational state, not necessarily the actual operational state. Possible values: • DISABLED = The energy meter is configured as disabled • ENABLED = The energy meter is configured as enabled • UNDEFINED = The state of the energy meter is not yet configured Energy meters are auto-enabled up to a system defined limit. Additional energy meters must be enabled manually, by executing action setEnergyMeterEnabled..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+        enum UNDEFINED;
+      }
+      config false;
+    }
+    list lowDcInputVoltageNotification {
+      config false;
+      description "Current configuration and status of low DC input voltage notification. Configuration is retained after restart. Set by MO action configureLowDcInputVoltageNotification. If empty, then this indicates that notification is not configured..";
+      uses LowDcInputVoltageNotification-struct;
+    }
+    leaf-list pmMinVoltage1 {
+      description "Minimum voltage on first power feed in 6 second periods. Unit: 0.1 V.";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmCurrent1 {
+      description "Average current on first power feed in 6 second periods. Unit: 0.01 A..";
+      type int32;
+      max-elements 150;
+    }
+    leaf pmConsumedEnergy {
+      description "Energy consumed during each ROP. Unit: 1 Wh.";
+      type uint32;
+      config false;
+    }
+    leaf pmConsumedEnergyAccumulated {
+      description "EnergyMeter Accumulated Energy consumed and measured from creation of MO. Unit: 1 Wh.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmMinVoltage2 {
+      description "Minimum voltage on second power feed in 6 second periods. Unit: 0.1 V.";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmCurrent2 {
+      description "Average current on second power feed in 6 second periods. Unit: 0.01 A..";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmMaxCurrent2 {
+      description "Maximum current on second power feed in 6 second periods. Unit: 0.01 A..";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmPowerConsumption {
+      description "EnergyMeter Average power consumption in 6 second periods. Unit: 1 W.";
+      type int32;
+      max-elements 150;
+    }
+    leaf pmMaxPowerConsumption {
+      description "Maximum power consumption during each ROP. Unit: 1 W.";
+      type int32;
+      config false;
+    }
+    leaf-list pmVoltage1 {
+      description "Average voltage on first power feed in 6 second periods. Unit: 0.1 V..";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmMaxVoltage1 {
+      description "Maximum voltage on first power feed in 6 second periods. Unit: 0.1 V.";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmMinCurrent2 {
+      description "Minimum current on second power feed in 6 second periods. Unit: 0.01 A..";
+      type int32;
+      max-elements 150;
+    }
+    leaf pmMinPowerConsumption {
+      description "Minimum power consumption during each ROP. Unit: 1 W.";
+      type int32;
+      config false;
+    }
+    leaf-list pmVoltage {
+      description "Average voltage in 6 second periods. Unit: 1 V.";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmMaxCurrent1 {
+      description "Maximum current on first power feed in 6 second periods. Unit: 0.01 A..";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmMinCurrent1 {
+      description "Minimum current on first power feed in 6 second periods. Unit: 0.01 A..";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmVoltage2 {
+      description "Average voltage on second power feed in 6 second periods. Unit: 0.1 V..";
+      type int32;
+      max-elements 150;
+    }
+    leaf-list pmMaxVoltage2 {
+      description "Maximum voltage on second power feed in 6 second periods. Unit: 0.1 V.";
+      type int32;
+      max-elements 150;
+    }
+  }
+}

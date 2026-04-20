@@ -1,0 +1,643 @@
+module ericsson-rcssnmp-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsSnmp";
+  prefix rcssnmp;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-rcssysm-radio {
+    prefix rcssysm;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM SNMP MOM.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcssnmp:Snmp" {
+    list SnmpTargetV2C {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP target defines a trap receiver and gives access privileges. This class, defines V2C protocol attributes.";
+      key "snmpTargetV2CId";
+      leaf snmpTargetV2CId {
+        type leafref {
+          path "../attributes/snmpTargetV2CId";
+        }
+      }
+      container attributes {
+      uses SnmpTargetV2C-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcssnmp:Snmp" {
+    list SnmpTargetV3 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP target defines a trap receiver and gives access privileges. This class, defines V3 USM protocol attributes.";
+      key "snmpTargetV3Id";
+      leaf snmpTargetV3Id {
+        type leafref {
+          path "../attributes/snmpTargetV3Id";
+        }
+      }
+      container attributes {
+      uses SnmpTargetV3-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcssnmp:Snmp" {
+    list SnmpTargetV1 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; An SNMP target defines a trap receiver and gives access privileges. This class, defines V1 protocol attributes.";
+      key "snmpTargetV1Id";
+      leaf snmpTargetV1Id {
+        type leafref {
+          path "../attributes/snmpTargetV1Id";
+        }
+      }
+      container attributes {
+      uses SnmpTargetV1-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcssnmp:Snmp" {
+    list SnmpViewV1 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP view gives users access to SNMP MIBs. This class explicitly defines a view for SNMP V1 users. Users are identified by community name. Communities that are not configured in any view, are given by default access to the following SNMP MIBs: - Ericsson Alarm MIB - SNMP-FRAMEWORK-MIB - MIB-2 Default status denies access to other SNMP MIBs. Create a new view configuration if default behaviour is insufficient.";
+      key "snmpViewV1Id";
+      leaf snmpViewV1Id {
+        type leafref {
+          path "../attributes/snmpViewV1Id";
+        }
+      }
+      container attributes {
+      uses SnmpViewV1-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcssnmp:Snmp" {
+    list SnmpViewV2C {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP view gives users access to SNMP MIBs. This class explicitly defines a view for SNMP V2C users. Users are identified by community name. Communities that are not configured in any view, are given by default access to the following SNMP MIBs: - Ericsson Alarm MIB - SNMP-FRAMEWORK-MIB - MIB-2 Default status denies access to other SNMP MIBs. Create a new view configuration if default behaviour is insufficient.";
+      key "snmpViewV2CId";
+      leaf snmpViewV2CId {
+        type leafref {
+          path "../attributes/snmpViewV2CId";
+        }
+      }
+      container attributes {
+      uses SnmpViewV2C-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcssnmp:Snmp" {
+    list SnmpViewV3 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP view gives users access to SNMP MIBs. This class explicitly defines a view for SNMP V3 users. Users are identified by community name. Communities that are not configured in any view, are given by default access to the following SNMP MIBs: - Ericsson Alarm MIB - SNMP-FRAMEWORK-MIB - MIB-2 Default status denies access to other SNMP MIBs. Create a new view configuration if default behaviour is insufficient.";
+      key "snmpViewV3Id";
+      leaf snmpViewV3Id {
+        type leafref {
+          path "../attributes/snmpViewV3Id";
+        }
+      }
+      container attributes {
+      uses SnmpViewV3-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcssnmp:Snmp" {
+    list SnmpTargetV3Dtls {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP target defines a trap receiver and gives access privileges. This class defines attributes needed for SNMP over DTLS. Attributes nodeCredential and trustCategory defined in the Snmp MO class/instance are used. DTLS is used as transport protocol for incoming requests, outgoing responses and SNMP notifications.";
+      key "snmpTargetV3DtlsId";
+      leaf snmpTargetV3DtlsId {
+        type leafref {
+          path "../attributes/snmpTargetV3DtlsId";
+        }
+      }
+      container attributes {
+      uses SnmpTargetV3Dtls-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list Snmp {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Configuration of the SNMP protocol, for example IP addresses and ports.";
+      key "snmpId";
+      leaf snmpId {
+        type leafref {
+          path "../attributes/snmpId";
+        }
+      }
+      container attributes {
+      uses Snmp-attributes;
+      }
+    }
+  }
+  typedef AuthProtocol {
+    description "Valid values for authorization protocol.";
+    type enumeration {
+      enum NONE {
+      }
+      enum MD5 {
+      }
+      enum SHA1 {
+      }
+      enum SHA224 {
+      }
+      enum SHA256 {
+      }
+      enum SHA384 {
+      }
+      enum SHA512 {
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef NotifyType {
+    description "Method type used. Can be TRAP or INFORM.";
+    type enumeration {
+      enum TRAP {
+      }
+      enum INFORM {
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef PrivProtocol {
+    description "Allowed values are DES and AES128 cipher.";
+    type enumeration {
+      enum NONE {
+      }
+      enum DES {
+      }
+      enum AES128 {
+      }
+    }
+  }
+  typedef SecurityLevel {
+    description "Used security level.";
+    type enumeration {
+      enum NO_AUTH_NO_PRIV {
+        description "Unauthenticated and unencrypted.";
+      }
+      enum AUTH_NO_PRIV {
+        description "Authenticated but not encrypted.";
+      }
+      enum AUTH_PRIV {
+        description "Authenticated and encrypted.";
+      }
+    }
+  }
+  grouping EcimPassword-struct {
+    description "Stores the password.";
+    leaf cleartext {
+      type boolean;
+    }
+    leaf password {
+      type string;
+    }
+  }
+  grouping HostAndPort-struct {
+    description "Host (IP address or DNS name) and port number.";
+    leaf host {
+      type string;
+    }
+    leaf port {
+      description "range 1..65535.";
+      type ietfinet:port-number;
+    }
+  }
+  grouping Snmp-attributes {
+    leaf snmpId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf operationalState {
+      description "The operational status of the SNMP functionality. If DISABLED, there is some problem that degrades the SNMP functionality..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf administrativeState {
+      description "The administrative state for the SNMP protocol. If LOCKED, no SNMP Traps are generated, for example, alarm, alerts or heartbeats. Also, all access to the SNMP protocol is disabled..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    list agentAddress {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      uses HostAndPort-struct;
+    }
+    leaf nodeCredential {
+      description "Node credential used for SNMP notifications with Transport Security Model. Specifies the DN of a NodeCredential MO in Certificate Management. If Transport Security Model, DTLS, is not used, the attribute value can be empty. Setting this attribute without support for DTLS disables SNMP..";
+      type string;
+    }
+    list agentAddressDtls {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      uses HostAndPort-struct;
+    }
+    leaf trustCategory {
+      description "Trust category used for authentication of DTLS protocol users. Specifies the DN of a TrustCategory MO in Certificate Management. If the DTLS protocol is not used, the attribute value can be empty. Setting this attribute without support for DTLS disables SNMP..";
+      type string;
+    }
+    leaf enableSourceCheckForV1V2C {
+      description "Enables source IP check on the agent for community based Snmp V1 and Snmp V2C protocol access. If false, agent may accept SNMP GET, SET messages from any IP address. If true, agent only accepts SNMP GET, SET messages from configured target IP subnet.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf port {
+      description "Port number used by agent to listen for incoming SNMP requests over OamAccessPoint interface. Note that OamAccessPoint interface is configured in System Management. The agent uses the value only if agentAddress attribute is not configured in this MO.; Default value: 161.";
+      type ietfinet:port-number;
+      default "161";
+    }
+    leaf portDtls {
+      description "Port number used by agent to listen for SNMP with DTLS requests over OamAccessPoint interface. Note that OamAccessPoint interface is configured in System Management. The agent uses the value only if agentAddressDtls attribute is not configured in this MO.; Default value: 10161.";
+      type ietfinet:port-number;
+      default "10161";
+    }
+    leaf engineId {
+      description "Unique identifier of the SNMP agent. Only applicable when using SNMPv3. To be configured when auto discovery of the SNMP Engine ID is not supported or it is desired to use an identifier that is not automatically calculated and remains unchanged across re-initializations. Where SNMP stack can not support setting the Engine ID, the applied value is ignored, keeping the current empty value.; length 5..32.";
+      type string {
+        length "5..32";
+      }
+    }
+  }
+  grouping SnmpTargetV1-attributes {
+    leaf snmpTargetV1Id {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf community {
+      description "The SNMP community string..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "Administrative state for the SNMP target. When LOCKED, traps are not sent and access is not allowed for this MO instance..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf address {
+      description "Host address or DNS name for the SNMP trap target..";
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      description "UDP port number for this SNMP trap target.; range 1..65535; Default value: 162.";
+      type ietfinet:port-number;
+      default "162";
+    }
+    leaf isMibWritable {
+      description "Specifies if user has write-access to MIB. If false, user is only allowed to perform read-access, such as SNMP GET. Attribute value has no relevance if SnmpViewV1 exists for the community of this instance. Permissions in the view override this attribute.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf operationalState {
+      description "The operational status of this SNMP target..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf networkPrefixLength {
+      description "The network prefix length identifying the number of subnet mask bits in the target address. For IPv4 target address, range 1-32 For IPv6 target address, range 1-128 The value of this attribute is used only if Snmp MO's enableSourceCheckForV1V2C is set to true. In which case, the agent uses the value to determine the source IP address range permitted to execute Snmp GET and SET on managed device. An empty value in that case will mean that Snmp GET and SET shall be permitted from just a single target IP as configured in address attribute of this MO.; range 1..128.";
+      type uint8 {
+        range "1..128";
+      }
+    }
+  }
+  grouping SnmpTargetV2C-attributes {
+    leaf snmpTargetV2CId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf community {
+      description "SNMP community string..";
+      type string;
+      mandatory true;
+    }
+    leaf informRetryCount {
+      description "The number of retries attempted when no response is received for a notification. Attribute value relevant only if transportMethod is set to INFORM.; Default value: 1.";
+      type uint32;
+      default "1";
+    }
+    leaf address {
+      description "Host address or DNS name for the SNMP trap target..";
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      description "UDP port number for this SNMP trap target.; range 1..65535; Default value: 162.";
+      type ietfinet:port-number;
+      default "162";
+    }
+    leaf informTimeout {
+      description "Timeout for SNMP INFORM. If SNMP INFORM is not acknowledged during this time, the implementation can assume that the notification was not delivered. Attribute value relevant only if transportMethod is set to INFORM. The unit is hundredth of a second, 0.01 seconds..";
+      type string;
+    }
+    leaf transportMethod {
+      description "Method type used. Can be TRAP or INFORM..";
+      type enumeration {
+        enum TRAP;
+        enum INFORM;
+      }
+    }
+    leaf isMibWritable {
+      description "Specifies if users have write-access to MIB. If false, users are only allowed to perform read-access, such as SNMP GET. Attribute value has no relevance if SnmpViewV2C exists for the community of this instance. Permissions in the view override this attribute.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf operationalState {
+      description "The operational status of this SNMP target..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf administrativeState {
+      description "Administrative state for SNMP target. If LOCKED, traps are not sent and access is not allowed for this MO instance..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf networkPrefixLength {
+      description "The network prefix length identifying the number of subnet mask bits in the target address. For IPv4 target address, range 1-32 For IPv6 target address, range 1-128 The value of this attribute is used only if Snmp MO's enableSourceCheckForV1V2C is set to true. In which case, the agent uses the value to determine the source IP address range permitted to execute Snmp GET and SET on managed device. An empty value in that case will mean that Snmp GET and SET shall be permitted from just a single target IP as configured in address attribute of this MO.; range 1..128.";
+      type uint8 {
+        range "1..128";
+      }
+    }
+  }
+  grouping SnmpTargetV3-attributes {
+    leaf snmpTargetV3Id {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf user {
+      description "SNMP V3 user name for the SNMP V3 message..";
+      type string;
+      mandatory true;
+    }
+    leaf authProtocol {
+      description "Authentication protocol used. Value relevant only if authorization is enabled. See attribute snmpSecurityLevel..";
+      type enumeration {
+        enum NONE;
+        enum MD5;
+        enum SHA1;
+        enum SHA224;
+        enum SHA256;
+        enum SHA384;
+        enum SHA512;
+      }
+    }
+    leaf privProtocol {
+      description "Privacy protocol used. Attribute value relevant only if privacy is enabled. See attribute snmpSecurityLevel..";
+      type enumeration {
+        enum NONE;
+        enum DES;
+        enum AES128;
+      }
+    }
+    leaf informRetryCount {
+      description "The number of retries attempted when no response is received for a notification. Attribute value relevant only if transportMethod is set to INFORM.; Default value: 1.";
+      type uint32;
+      default "1";
+    }
+    leaf administrativeState {
+      description "Administrative state for SNMP target. If LOCKED, traps are not sent and access is not allowed for this MO instance..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf address {
+      description "Host address or DNS name for the SNMP trap target..";
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      description "UDP port number for this SNMP trap target.; range 1..65535; Default value: 162.";
+      type ietfinet:port-number;
+      default "162";
+    }
+    leaf informTimeout {
+      description "Timeout for SNMP INFORM. If SNMP INFORM is not acknowledged during this time, the implementation can assume that the notification was not delivered. Attribute value relevant only if transportMethod is set to INFORM. The unit is hundredth of a second, 0.01 seconds..";
+      type string;
+    }
+    leaf transportMethod {
+      description "Method type used. Can be TRAP or INFORM..";
+      type enumeration {
+        enum TRAP;
+        enum INFORM;
+      }
+    }
+    leaf snmpSecurityLevel {
+      description "Specifies the level of security applied to messages exchanged with this target..";
+      type enumeration {
+        enum NO_AUTH_NO_PRIV;
+        enum AUTH_NO_PRIV;
+        enum AUTH_PRIV;
+      }
+    }
+    list privKey {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      min-elements 1;
+      description "Privacy key used for encryption. User's privKey encrypts the data portion of the message. Key must contain at least 8 characters. Must have a value, but the value is used only if privacy is enabled. See attribute snmpSecurityLevel. If privacy is disabled, attribute can contain any arbitrary value..";
+      uses EcimPassword-struct;
+    }
+    list authKey {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      min-elements 1;
+      description "Authentication key used for signing SNMP notifications. AuthKey used to sign the messages sent. Key must contain at least 8 characters. Must have a value, but the value is used only if authorization is enabled. See attribute snmpSecurityLevel. If authorization is disabled, attribute can contain any arbitrary value..";
+      uses EcimPassword-struct;
+    }
+    leaf isMibWritable {
+      description "Specifies if users have write-access to MIB. If false, users are only allowed to perform read-access, such as SNMP GET. Attribute value has no relevance if SnmpViewV3 exists for the community of this instance. Permissions in the view override this attribute.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf operationalState {
+      description "The operational status of this SNMP target..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+  }
+  grouping SnmpTargetV3Dtls-attributes {
+    leaf snmpTargetV3DtlsId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf informRetryCount {
+      description "The number of retries attempted when no response is received for a notification. Attribute value relevant only if transportMethod is set to INFORM.; Default value: 1.";
+      type uint32;
+      default "1";
+    }
+    leaf administrativeState {
+      description "Administrative state for SNMP target. If LOCKED, traps are not sent and access is not allowed for this MO instance..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf address {
+      description "Host address or DNS name for the SNMP trap target..";
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      description "UDP port number for this SNMP trap target.; range 1..65535; Default value: 10162.";
+      type ietfinet:port-number;
+      default "10162";
+    }
+    leaf informTimeout {
+      description "Timeout for SNMP INFORM. If SNMP INFORM is not acknowledged during this time, the implementation can assume that the notification was not delivered. Attribute value relevant only if transportMethod is set to INFORM. The unit is hundredth of a second, 0.01 seconds..";
+      type string;
+    }
+    leaf transportMethod {
+      description "Method type used. Can be TRAP or INFORM..";
+      type enumeration {
+        enum TRAP;
+        enum INFORM;
+      }
+    }
+    leaf isMibWritable {
+      description "Specifies if users have write-access to MIB. If false, users are only allowed to perform read-access, such as SNMP GET. Attribute value has no relevance if SnmpViewV3 exists for the community of this instance. Permissions in the view override this attribute.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf operationalState {
+      description "The operational status of this SNMP target..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf user {
+      description "SNMP V3 user name. Used for authorization of incoming SNMP requests. Defined by the subject alternative name field, from the certificate provided by the client during DTLS session setup..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping SnmpViewV1-attributes {
+    leaf snmpViewV1Id {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf-list community {
+      description "The SNMP V1 communities that this view shall be applied on. If a specific community is set in more than one V1 view, the user will get access to the sum of the views. The information in this object will override the attribute isMibWriteable in all SnmpTargetV1 for these communities..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list readOids {
+      description "Defines which SNMP OIDs the user is allowed to read. The defined OIDs and all contained OIDs are readable..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list writeOids {
+      description "Defines which SNMP OIDs the user is allowed to write. The defined OIDs and all contained OIDs are writeable..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping SnmpViewV2C-attributes {
+    leaf snmpViewV2CId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf-list community {
+      description "The SNMP V2C communities that this view shall be applied on. If a specific community is set in more than one V2 view, the user will get access to the sum of the views. The information in this object will override the attribute isMibWriteable in all SnmpTargetV2C for these communities..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list readOids {
+      description "Defines which SNMP OIDs the user is allowed to read. The defined OIDs and all contained OIDs are readable..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list writeOids {
+      description "Defines which SNMP OIDs the user is allowed to write. The defined OIDs and all contained OIDs are writeable..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping SnmpViewV3-attributes {
+    leaf snmpViewV3Id {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf-list user {
+      description "The SNMP V3 users that this view shall be applied on. If a specific user is defined in more than one V3 view, the user will get access to the sum of the views. The information in this object will override the attribute isMibWriteable in all SnmpTargetV3 for these users..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list readOids {
+      description "Defines which SNMP OIDs the user is allowed to read. The defined OIDs and all contained OIDs are readable..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list writeOids {
+      description "Defines which SNMP OIDs the user is allowed to write. The defined OIDs and all contained OIDs are writeable..";
+      type string;
+      min-elements 0;
+    }
+  }
+}

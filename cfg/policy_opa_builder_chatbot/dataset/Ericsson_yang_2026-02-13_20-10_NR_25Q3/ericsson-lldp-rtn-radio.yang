@@ -1,0 +1,42 @@
+module ericsson-lldp-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnLldp";
+  prefix lldprdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Lldp {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents Link Layer Discovery Protocol (LLDP) operation in Baseband. When MO is created, LLDP Rx functionality is enabled on all EthernetPort MOs. Lldp MO must be created before LLDP Tx functionality can be enabled. LLPD Tx is enabled separately per EthernetPort MO.";
+      key "lldpId";
+      leaf lldpId {
+        type leafref {
+          path "../attributes/lldpId";
+        }
+      }
+      container attributes {
+        uses Lldp-attributes;
+      }
+    }
+  }
+  grouping Lldp-attributes {
+    leaf lldpId {
+      type string;
+      mandatory true;
+    }
+    leaf-list transmitEnableRef {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

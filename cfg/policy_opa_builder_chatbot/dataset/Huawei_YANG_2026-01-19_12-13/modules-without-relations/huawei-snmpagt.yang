@@ -1,0 +1,64 @@
+module huawei-snmpagt {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-snmpagt";
+ prefix snmpagt;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-snmpagt" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container snmpagt-ipv4 {
+  container attributes {
+   uses SNMPAGT-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping SNMPAGT-attributes {
+ leaf OLD_AGENTID {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf AGENTID {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf AGENTIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf AGENTPORT {
+  type union {
+   type uint16 {
+    range "161..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf USERNAME {
+  type string {
+   length "1..32";
+  }
+  mandatory false;
+ }
+ }
+}

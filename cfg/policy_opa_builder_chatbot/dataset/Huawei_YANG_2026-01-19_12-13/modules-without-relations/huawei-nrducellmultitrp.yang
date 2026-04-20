@@ -1,0 +1,190 @@
+module huawei-nrducellmultitrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellmultitrp";
+ prefix nrducellmultitrp;
+ description
+ "Auto-generated modular YANG for huawei-nrducellmultitrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLMULTITRP-attributes {
+ leaf DATATRANSMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf DIRECTTRPHOADMITRSRP {
+  type int8 {
+   range "-30..0";
+  }
+  mandatory false;
+ }
+ leaf DIRECTTRPHODELTARSRP {
+  type int8 {
+   range "-6..12";
+  }
+  mandatory false;
+ }
+ leaf DMMIMOALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf DMIMOTRPSELECTRSRPDIFFTHLD {
+  type uint8 {
+   range "0..40";
+  }
+  mandatory false;
+ }
+ leaf FUSIONCELLALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf HYPERCELLTRPHORSRPPOLICY {
+  type boolean;
+  mandatory false;
+ }
+ leaf INTERTRPHODLMCSDECVALUE {
+  type uint8 {
+   range "0..12";
+  }
+  mandatory false;
+ }
+ leaf INTERTRPHOMACCEPWROFS {
+  type uint8 {
+   range "0..6";
+  }
+  mandatory false;
+ }
+ leaf INTERTRPHOMACCETRANSTIMES {
+  type uint8 {
+   range "1..16";
+  }
+  mandatory false;
+ }
+ leaf INTERTRPHORSRPEVALTIMES {
+  type uint8 {
+   range "1..50";
+  }
+  mandatory false;
+ }
+ leaf INTERTRPHOSRSSINRDIFFTHLD {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf INTERTRPHOSRSSINRTHLD {
+  type int8 {
+   range "-30..0";
+  }
+  mandatory false;
+ }
+ leaf INTERTRPHOULTAADJ {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf MULTITRPALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf MULTITRPCSIRSALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf MULTITRSMEASRSRPEVALTIMES {
+  type uint8 {
+   range "1..50";
+  }
+  mandatory false;
+ }
+ leaf MULTITRSMEASRSRPOFFSET {
+  type uint8 {
+   range "1..12";
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf PINGPONGHORSRPTHLDOFS {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf PUSCHSCRAMBLEOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ROBUSTMUMIMOTIMECORRTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf SRCTRPOVERCOVHORSRPTHLDOFS {
+  type int8 {
+   range "-30..0";
+  }
+  mandatory false;
+ }
+ leaf SRCTRPOVERCOVTATHLD {
+  type uint8 {
+   range "16..128";
+  }
+  mandatory false;
+ }
+ leaf SRSRSRPFILTERCOEFF {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf TRGTRPOVERCOVHORSRPTHLDOFS {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf TRGTRPOVERCOVTATHLD {
+  type uint8 {
+   range "32..128";
+  }
+  mandatory false;
+ }
+ leaf TRPHODELTARSRP {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf TRPHOMACCEADPTRANSBLERTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf TRPHOMACCEADPTRANSNUMOFS {
+  type uint8 {
+   range "0..6";
+  }
+  mandatory false;
+ }
+ leaf TRPSELECTSRSSINRTHLD {
+  type int8 {
+   range "-20..20";
+  }
+  mandatory false;
+ }
+ }
+}

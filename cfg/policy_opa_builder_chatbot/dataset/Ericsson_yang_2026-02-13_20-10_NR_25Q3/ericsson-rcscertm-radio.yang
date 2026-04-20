@@ -1,0 +1,889 @@
+module ericsson-rcscertm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsCertM";
+  prefix rcscertm;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM" {
+    list EnrollmentServerGroup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Maintains a group of enrollment servers for load balancing.";
+      key "enrollmentServerGroupId";
+      leaf enrollmentServerGroupId {
+        type leafref {
+          path "../attributes/enrollmentServerGroupId";
+        }
+      }
+      container attributes {
+        uses EnrollmentServerGroup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM" {
+    list EnrollmentAuthority {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents a Certification or Registration Authority for certificate enrollment.";
+      key "enrollmentAuthorityId";
+      leaf enrollmentAuthorityId {
+        type leafref {
+          path "../attributes/enrollmentAuthorityId";
+        }
+      }
+      container attributes {
+        uses EnrollmentAuthority-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM" {
+    list TrustedCertificate {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents a trusted certificate. TrustedCertificate=VCTA_[CN] is a read-only system created instance which represents a Vendor Credential Trust Anchor certificate. [CN] is certificate's subject Common Name.";
+      key "trustedCertificateId";
+      leaf trustedCertificateId {
+        type leafref {
+          path "../attributes/trustedCertificateId";
+        }
+      }
+      container attributes {
+        uses TrustedCertificate-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM" {
+    list VendorCredential {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents the vendor credential pre-installed on the ME.";
+      key "vendorCredentialId";
+      leaf vendorCredentialId {
+        type leafref {
+          path "../attributes/vendorCredentialId";
+        }
+      }
+      container attributes {
+        uses VendorCredential-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM" {
+    list NodeCredential {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents the node credential and contains information about the corresponding certificate.";
+      key "nodeCredentialId";
+      leaf nodeCredentialId {
+        type leafref {
+          path "../attributes/nodeCredentialId";
+        }
+      }
+      container attributes {
+        uses NodeCredential-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM" {
+    list TrustCategory {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents a group of trusted certificates that can be referenced by Credential Users on the ME. TrustCategory=VCTA_CONTAINER is a read-only system created instance which contains Vendor Credential Trust Anchor certificates.";
+      key "trustCategoryId";
+      leaf trustCategoryId {
+        type leafref {
+          path "../attributes/trustCategoryId";
+        }
+      }
+      container attributes {
+        uses TrustCategory-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM" {
+    list CertMCapabilities {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Contains the certificate management capabilities of the ME.";
+      key "certMCapabilitiesId";
+      leaf certMCapabilitiesId {
+        type leafref {
+          path "../attributes/certMCapabilitiesId";
+        }
+      }
+      container attributes {
+        uses CertMCapabilities-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM" {
+    list ExternalTrustCategory {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents a group of external trusted certificates that can be referenced by Credential Users on the ME.";
+      key "externalTrustCategoryId";
+      leaf externalTrustCategoryId {
+        type leafref {
+          path "../attributes/externalTrustCategoryId";
+        }
+      }
+      container attributes {
+        uses ExternalTrustCategory-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM" {
+    list ExternalTrustedCertificate {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; A trusted certificate provided by a third party. These certificates are deployed through upgrade packages and cannot be altered or replaced in any other way.";
+      key "externalTrustedCertificateId";
+      leaf externalTrustedCertificateId {
+        type leafref {
+          path "../attributes/externalTrustedCertificateId";
+        }
+      }
+      container attributes {
+        uses ExternalTrustedCertificate-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM/EnrollmentServerGroup" {
+    list EnrollmentServer {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents an enrollment server. An enrollment server implementing the Certificate Management Protocol (CMP).";
+      key "enrollmentServerId";
+      leaf enrollmentServerId {
+        type leafref {
+          path "../attributes/enrollmentServerId";
+        }
+      }
+      container attributes {
+        uses EnrollmentServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM/NodeCredential" {
+    list ChainCertificate {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Chain certificate belonging to the credential.";
+      key "chainCertificateId";
+      leaf chainCertificateId {
+        type leafref {
+          path "../attributes/chainCertificateId";
+        }
+      }
+      container attributes {
+        uses ChainCertificate-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/CertM/VendorCredential" {
+    list ChainCertificate {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Chain certificate belonging to the credential.";
+      key "chainCertificateId";
+      leaf chainCertificateId {
+        type leafref {
+          path "../attributes/chainCertificateId";
+        }
+      }
+      container attributes {
+        uses ChainCertificate-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list CertM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The top class of the Certificate Management model. Certificate management encompasses management of node credentials and trusted certificates.";
+      key "certMId";
+      leaf certMId {
+        type leafref {
+          path "../attributes/certMId";
+        }
+      }
+      container attributes {
+        uses CertM-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    type enumeration {
+      enum SUCCESS;
+      enum FAILURE;
+      enum NOT_AVAILABLE;
+    }
+  }
+  typedef ActionStateType {
+    type enumeration {
+      enum CANCELLING;
+      enum RUNNING;
+      enum FINISHED;
+      enum CANCELLED;
+    }
+  }
+  typedef AuthorityType {
+    type enumeration {
+      enum CERTIFICATION_AUTHORITY;
+      enum REGISTRATION_AUTHORITY;
+    }
+  }
+  typedef CertificateState {
+    type enumeration {
+      enum NOT_VALID_YET;
+      enum VALID;
+      enum EXPIRED;
+      enum REVOKED;
+    }
+  }
+  typedef EnrollmentProtocol {
+    type enumeration {
+      enum SCEP;
+      enum CMP;
+    }
+  }
+  typedef EnrollmentSupport {
+    type enumeration {
+      enum OFFLINE_CSR;
+      enum OFFLINE_PKCS12;
+      enum ONLINE_SCEP;
+      enum ONLINE_CMP;
+    }
+  }
+  typedef FeatureState {
+    type enumeration {
+      enum ACTIVATED;
+      enum DEACTIVATED;
+    }
+  }
+  typedef FingerprintSupport {
+    type enumeration {
+      enum SHA_1;
+      enum SHA_224;
+      enum SHA_256;
+      enum SHA_384;
+      enum SHA_512;
+    }
+  }
+  typedef KeyInfo {
+    type enumeration {
+      enum RSA_1024;
+      enum RSA_2048;
+      enum RSA_3072;
+      enum RSA_4096;
+      enum ECDSA_160;
+      enum ECDSA_224;
+      enum ECDSA_256;
+      enum ECDSA_384;
+      enum ECDSA_512;
+      enum ECDSA_521;
+      enum ECDSA_BRAINPOOL_256;
+      enum ECDSA_BRAINPOOL_320;
+      enum ECDSA_BRAINPOOL_384;
+      enum ECDSA_BRAINPOOL_512;
+      enum ECDSA_SECP_256_R1;
+      enum ECDSA_SECP_384_R1;
+      enum ECDSA_SECP_521_R1;
+    }
+  }
+  typedef ManagedCertificateState {
+    type enumeration {
+      enum ENABLED;
+      enum DISABLED;
+    }
+  }
+  typedef RenewalMode {
+    type enumeration {
+      enum MANUAL;
+      enum AUTOMATIC;
+    }
+  }
+  grouping CertM-attributes {
+    leaf certMId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    list reportProgress {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    leaf localFileStorePath {
+      type string;
+      config false;
+    }
+    leaf activeVendorCredential {
+      type string;
+      config false;
+    }
+  }
+  grouping CertMCapabilities-attributes {
+    leaf certMCapabilitiesId {
+      type string;
+      mandatory true;
+    }
+    leaf-list enrollmentSupport {
+      type ietfinet:port-number;
+    }
+    leaf fingerprintSupport {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf-list keySupport {
+      type ietfinet:port-number;
+    }
+  }
+  grouping ChainCertificate-attributes {
+    leaf chainCertificateId {
+      type string;
+      mandatory true;
+    }
+    list certificateContent {
+      config false;
+      container attributes {
+      leaf version {
+        type string;
+      }
+      leaf serialNumber {
+        type string;
+      }
+      leaf signatureAlgorithm {
+        type string;
+      }
+      leaf issuer {
+        type string;
+      }
+      leaf validFrom {
+        type string;
+      }
+      leaf validTo {
+        type string;
+      }
+      leaf publicKey {
+        type string;
+      }
+      leaf publicKeyAlgorithm {
+        type string;
+      }
+      leaf keyUsage {
+        type string;
+      }
+      leaf extensionContent {
+        type string;
+      }
+      leaf subject {
+        type string;
+      }
+      }
+    }
+    leaf certificateState {
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+  grouping EnrollmentAuthority-attributes {
+    leaf enrollmentAuthorityId {
+      type string;
+      mandatory true;
+    }
+    leaf enrollmentCaCertificate {
+      type string;
+    }
+    leaf enrollmentCaFingerprint {
+      type string;
+    }
+    leaf authorityType {
+      type enumeration {
+        enum CERTIFICATION_AUTHORITY;
+        enum REGISTRATION_AUTHORITY;
+      }
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Deprecated in version 2.0. Redundant functionality..";
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf enrollmentAuthorityName {
+      type string;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+  }
+  grouping EnrollmentServer-attributes {
+    leaf enrollmentServerId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf enrollmentAuthority {
+      type string;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Deprecated in version 2.0. Function replaced by enrollmentAuthority attribute in NodeCredential MOC..";
+    }
+    leaf uri {
+      type string;
+      mandatory true;
+    }
+    leaf protocol {
+      type enumeration {
+        enum SCEP;
+        enum CMP;
+      }
+      mandatory true;
+    }
+    leaf enrollmentInterface {
+      type string;
+    }
+  }
+  grouping EnrollmentServerGroup-attributes {
+    leaf enrollmentServerGroupId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+  }
+  grouping ExternalTrustCategory-attributes {
+    leaf externalTrustCategoryId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf-list externalTrustedCertificates {
+      type string;
+      min-elements 1;
+    }
+    leaf-list reservedByUser {
+      type string;
+    }
+  }
+  grouping ExternalTrustedCertificate-attributes {
+    leaf externalTrustedCertificateId {
+      type string;
+      mandatory true;
+    }
+    leaf managedState {
+      type enumeration {
+        enum ENABLED;
+        enum DISABLED;
+      }
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    list certificateContent {
+      config false;
+      container attributes {
+      leaf version {
+        type string;
+      }
+      leaf serialNumber {
+        type string;
+      }
+      leaf signatureAlgorithm {
+        type string;
+      }
+      leaf issuer {
+        type string;
+      }
+      leaf validFrom {
+        type string;
+      }
+      leaf validTo {
+        type string;
+      }
+      leaf publicKey {
+        type string;
+      }
+      leaf publicKeyAlgorithm {
+        type string;
+      }
+      leaf keyUsage {
+        type string;
+      }
+      leaf extensionContent {
+        type string;
+      }
+      leaf subject {
+        type string;
+      }
+      }
+    }
+    leaf certificateState {
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+  grouping NodeCredential-attributes {
+    leaf nodeCredentialId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf subjectName {
+      type string;
+    }
+    leaf-list reservedByUser {
+      type string;
+    }
+    leaf enrollmentTimer {
+      type uint16 {
+        range "1..max";
+      }
+      default "60";
+      units "minutes";
+      description "range 1..max; Default value: 60.";
+    }
+    leaf enrollmentServerGroup {
+      type string;
+    }
+    leaf keyInfo {
+      type enumeration {
+        enum RSA_1024;
+        enum RSA_2048;
+        enum RSA_3072;
+        enum RSA_4096;
+        enum ECDSA_160;
+        enum ECDSA_224;
+        enum ECDSA_256;
+        enum ECDSA_384;
+        enum ECDSA_512;
+        enum ECDSA_521;
+        enum ECDSA_BRAINPOOL_256;
+        enum ECDSA_BRAINPOOL_320;
+        enum ECDSA_BRAINPOOL_384;
+        enum ECDSA_BRAINPOOL_512;
+        enum ECDSA_SECP_256_R1;
+        enum ECDSA_SECP_384_R1;
+        enum ECDSA_SECP_521_R1;
+      }
+    }
+    list enrollmentProgress {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    leaf renewalMode {
+      type enumeration {
+        enum MANUAL;
+        enum AUTOMATIC;
+      }
+    }
+    leaf enrollmentAuthority {
+      type string;
+    }
+    leaf expiryAlarmThreshold {
+      type string;
+    }
+    leaf subjectAltName {
+      type string {
+        pattern "((((IP|DNS|URI|email|rfc822Name|directoryName|DirName):[^;]+)(;(IP|DNS|URI|email|rfc822Name|directoryName|DirName):[^;]+)*)$|(([0-9]{1,3}\\.){3}[0-9]{1,3})$|((([0-9A-Fa-f]{1,4}:){1,5}:((25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(([0-9A-Fa-f]{1,4}:){6,7}:)|(([0-9A-Fa-f]{1,4}:){6}((25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3}))|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}(:[0-9A-Fa-f]{1,4}){1,2})|(([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?))|(([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){2,3})|((([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){1,2})(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){3,4})|(([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){1,3}(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){4,5})|(([0-9A-Fa-f]{1,4}:)(:[0-9A-Fa-f]{1,4}){1,4}(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(([0-9A-Fa-f]{1,4}:)(:[0-9A-Fa-f]{1,4}){5,6})|((:(:[0-9A-Fa-f]{1,4}){1,5})(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(:(:[0-9A-Fa-f]{1,4}){6,7})|(([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(((::FFFF)|(0:0:0:0:0:FFFF))(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})))$|(([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})$)";
+      }
+    }
+    list certificateContent {
+      config false;
+      container attributes {
+      leaf version {
+        type string;
+      }
+      leaf serialNumber {
+        type string;
+      }
+      leaf signatureAlgorithm {
+        type string;
+      }
+      leaf issuer {
+        type string;
+      }
+      leaf validFrom {
+        type string;
+      }
+      leaf validTo {
+        type string;
+      }
+      leaf publicKey {
+        type string;
+      }
+      leaf publicKeyAlgorithm {
+        type string;
+      }
+      leaf keyUsage {
+        type string;
+      }
+      leaf extensionContent {
+        type string;
+      }
+      leaf subject {
+        type string;
+      }
+      }
+    }
+    leaf certificateState {
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+  grouping TrustCategory-attributes {
+    leaf trustCategoryId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf-list trustedCertificates {
+      type string;
+      min-elements 1;
+    }
+    leaf-list reservedByUser {
+      type string;
+    }
+    leaf crlCheck {
+      type enumeration {
+        enum ACTIVATED;
+        enum DEACTIVATED;
+      }
+    }
+    leaf crlInterface {
+      type string;
+    }
+  }
+  grouping TrustedCertificate-attributes {
+    leaf trustedCertificateId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedByCategory {
+      type string;
+      description "MOM flags: noNotification; Status info: Deprecated in version 3.0. Restrictive to TrustCategory objects. Replaced by reservedBy..";
+    }
+    leaf managedState {
+      type enumeration {
+        enum ENABLED;
+        enum DISABLED;
+      }
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf expiryAlarmThreshold {
+      type string;
+    }
+    list certificateContent {
+      config false;
+      container attributes {
+      leaf version {
+        type string;
+      }
+      leaf serialNumber {
+        type string;
+      }
+      leaf signatureAlgorithm {
+        type string;
+      }
+      leaf issuer {
+        type string;
+      }
+      leaf validFrom {
+        type string;
+      }
+      leaf validTo {
+        type string;
+      }
+      leaf publicKey {
+        type string;
+      }
+      leaf publicKeyAlgorithm {
+        type string;
+      }
+      leaf keyUsage {
+        type string;
+      }
+      leaf extensionContent {
+        type string;
+      }
+      leaf subject {
+        type string;
+      }
+      }
+    }
+    leaf certificateState {
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+  grouping VendorCredential-attributes {
+    leaf vendorCredentialId {
+      type string;
+      mandatory true;
+    }
+    list certificateContent {
+      config false;
+      container attributes {
+      leaf version {
+        type string;
+      }
+      leaf serialNumber {
+        type string;
+      }
+      leaf signatureAlgorithm {
+        type string;
+      }
+      leaf issuer {
+        type string;
+      }
+      leaf validFrom {
+        type string;
+      }
+      leaf validTo {
+        type string;
+      }
+      leaf publicKey {
+        type string;
+      }
+      leaf publicKeyAlgorithm {
+        type string;
+      }
+      leaf keyUsage {
+        type string;
+      }
+      leaf extensionContent {
+        type string;
+      }
+      leaf subject {
+        type string;
+      }
+      }
+    }
+    leaf certificateState {
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+}

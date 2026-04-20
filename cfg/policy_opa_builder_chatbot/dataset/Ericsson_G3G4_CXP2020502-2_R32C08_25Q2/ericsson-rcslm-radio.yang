@@ -1,0 +1,793 @@
+module ericsson-rcslm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsLM";
+  prefix rcslm;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM License Management model fragment.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list Lm {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Supports activities and contains information related to license management.";
+      key "lmId";
+      leaf lmId {
+        type leafref {
+          path "../attributes/lmId";
+        }
+      }
+      container attributes {
+      uses Lm-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm/rcslm:CapacityKey" {
+    list GracePeriod {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Grace period information of the associated capacity.";
+      key "gracePeriodId";
+      leaf gracePeriodId {
+        type leafref {
+          path "../attributes/gracePeriodId";
+        }
+      }
+      container attributes {
+      uses GracePeriod-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm/rcslm:CapacityState" {
+    list GracePeriod {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Grace period information of the associated capacity.";
+      key "gracePeriodId";
+      leaf gracePeriodId {
+        type leafref {
+          path "../attributes/gracePeriodId";
+        }
+      }
+      container attributes {
+      uses GracePeriod-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm/rcslm:KeyFileManagement" {
+    list KeyFileInformation {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Basic information about the key file installed on the Managed Element.";
+      key "keyFileInformationId";
+      leaf keyFileInformationId {
+        type leafref {
+          path "../attributes/keyFileInformationId";
+        }
+      }
+      container attributes {
+      uses KeyFileInformation-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm" {
+    list CapacityKey {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Key of a licensed capacity that is available for the Managed Element.";
+      key "capacityKeyId";
+      leaf capacityKeyId {
+        type leafref {
+          path "../attributes/capacityKeyId";
+        }
+      }
+      container attributes {
+      uses CapacityKey-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm" {
+    list FeatureKey {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Key of a licensed feature that is available for the Managed Element.";
+      key "featureKeyId";
+      leaf featureKeyId {
+        type leafref {
+          path "../attributes/featureKeyId";
+        }
+      }
+      container attributes {
+      uses FeatureKey-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm" {
+    list EmergencyUnlock {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Emergency Unlock state information.";
+      key "emergencyUnlockId";
+      leaf emergencyUnlockId {
+        type leafref {
+          path "../attributes/emergencyUnlockId";
+        }
+      }
+      container attributes {
+      uses EmergencyUnlock-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm" {
+    list IntegrationUnlock {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Integration Unlock state information.";
+      key "integrationUnlockId";
+      leaf integrationUnlockId {
+        type leafref {
+          path "../attributes/integrationUnlockId";
+        }
+      }
+      container attributes {
+      uses IntegrationUnlock-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm" {
+    list AutonomousMode {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Autonomous Mode state information.";
+      key "autonomousModeId";
+      leaf autonomousModeId {
+        type leafref {
+          path "../attributes/autonomousModeId";
+        }
+      }
+      container attributes {
+      uses AutonomousMode-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm" {
+    list KeyFileManagement {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Enables installation of key files and provides information about the installed key file.";
+      key "keyFileManagementId";
+      leaf keyFileManagementId {
+        type leafref {
+          path "../attributes/keyFileManagementId";
+        }
+      }
+      container attributes {
+      uses KeyFileManagement-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm" {
+    list CapacityState {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; States of capacities that are supported by a Managed Element.";
+      key "capacityStateId";
+      leaf capacityStateId {
+        type leafref {
+          path "../attributes/capacityStateId";
+        }
+      }
+      container attributes {
+      uses CapacityState-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm" {
+    list FeatureState {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; This MO class defines different licensing-related states of a feature.";
+      key "featureStateId";
+      leaf featureStateId {
+        type leafref {
+          path "../attributes/featureStateId";
+        }
+      }
+      container attributes {
+      uses FeatureState-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcslm:Lm" {
+    list SystemTriggeredUnlock {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; System Triggered Unlock state information.";
+      key "systemTriggeredUnlockId";
+      leaf systemTriggeredUnlockId {
+        type leafref {
+          path "../attributes/systemTriggeredUnlockId";
+        }
+      }
+      container attributes {
+      uses SystemTriggeredUnlock-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    description "Lists the different results of an action.";
+    type enumeration {
+      enum SUCCESS {
+        description "The asynchronous action ended with success.";
+      }
+      enum FAILURE {
+        description "The asynchronous action ended with failure.";
+      }
+      enum NOT_AVAILABLE {
+        description "No result is available yet.";
+      }
+    }
+  }
+  typedef ActionStateType {
+    description "Lists the action states.";
+    type enumeration {
+      enum CANCELLING {
+        description "Cancellation is in progress.";
+      }
+      enum RUNNING {
+        description "The execution of the action is currently in progress.";
+      }
+      enum FINISHED {
+        description "The action is finished.";
+      }
+      enum CANCELLED {
+        description "The action has been cancelled and cancellation has been done.";
+      }
+    }
+  }
+  typedef LmActivationState {
+    description "Operational modes activation states and License Manager grace period.";
+    type enumeration {
+      enum INACTIVE {
+        description "The operational mode or grace period is inactive.";
+      }
+      enum ACTIVATED {
+        description "The operational mode or grace period is activated.";
+      }
+      enum ACTIVATED_EXPIRING {
+        description "The operational mode or grace period is about to expire.";
+      }
+      enum EXPIRED {
+        description "The operational mode or grace period has expired. Note: The state is not applicable to all operational modes.";
+      }
+      enum UNAVAILABLE {
+        description "The operational mode or grace period is unavailable. Note: The state is not applicable to all operational modes.";
+      }
+    }
+  }
+  typedef LmFeatureState {
+    description "Indicates whether or not a certain feature is administratively activated.";
+    type enumeration {
+      enum DEACTIVATED {
+      }
+      enum ACTIVATED {
+      }
+    }
+  }
+  typedef LmLicenseState {
+    description "The license state of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "No valid license available for the feature or capacity.";
+      }
+      enum ENABLED {
+        description "Valid license available for the feature or capacity.";
+      }
+      enum ENTITLED {
+        description "License eligible for use and can be activated by Instantaneous Licensing.";
+      }
+    }
+  }
+  typedef LmServiceState {
+    description "Whether a certain service is operable or not based on license and feature states.";
+    type enumeration {
+      enum INOPERABLE {
+      }
+      enum OPERABLE {
+      }
+    }
+  }
+  typedef LmState {
+    description "Operational modes of the License Manager.";
+    type enumeration {
+      enum LOCKED {
+        description "No key file is available for the License Manager, so license requests are rejected.";
+      }
+      enum NORMAL {
+        description "Key file is available for the License Manager, so license requests are granted accordingly.";
+      }
+      enum INTEGRATION_UNLOCK {
+        description "All license requests are granted until first key file is delivered. The maximum duration the License Manager can function in this operational mode is pre-defined. When maximum duration expires and no other unlock applies, the License Manager goes into LOCKED operational state.";
+      }
+      enum MAINTENANCE_UNLOCK {
+        description "All license requests are granted for maintenance purposes. The maximum duration the License Manager can function in this operational state is pre-defined. When maximum duration expires and no other unlock applies, the License Manager goes into LOCKED operational state.";
+      }
+      enum EMERGENCY_UNLOCK {
+        description "All license requests are granted due to an emergency situation. The maximum duration the License Manager can function in this operational state is pre-defined. When maximum duration expires and no other unlock applies, the License Manager goes into LOCKED operational state.";
+      }
+      enum AUTONOMOUS_MODE {
+        description "The key file is not accessible and license requests are granted based on cached license information. The maximum duration the License Manager can function in this operational state is pre-defined. When maximum duration expires and no unlock state applies, the License Manager goes into LOCKED operational state.";
+      }
+      enum SYSTEM_TRIGGERED_UNLOCK {
+        description "SYSTEM_TRIGGERED_UNLOCK. All license requests are granted due to unlock state being triggered by some event in the License Manager. The maximum duration the License Manager can function in this operational state is pre-defined.";
+      }
+    }
+  }
+  grouping AsyncActionProgress-struct {
+    description "Records the progress of an asynchronous action.";
+    leaf actionName {
+      type string;
+    }
+    leaf-list additionalInfo {
+      type string;
+      min-elements 0;
+    }
+    leaf progressInfo {
+      type string;
+    }
+    leaf progressPercentage {
+      type string;
+    }
+    leaf result {
+      type enumeration {
+        enum SUCCESS;
+        enum FAILURE;
+        enum NOT_AVAILABLE;
+      }
+    }
+    leaf resultInfo {
+      type string;
+    }
+    leaf state {
+      type enumeration {
+        enum CANCELLING;
+        enum RUNNING;
+        enum FINISHED;
+        enum CANCELLED;
+      }
+    }
+    leaf actionId {
+      type string;
+    }
+    leaf timeActionStarted {
+      type string;
+    }
+    leaf timeActionCompleted {
+      type string;
+    }
+    leaf timeOfLastStatusUpdate {
+      type string;
+    }
+  }
+  grouping LmCapacityValue-struct {
+    description "Defines a capacity value. The value is invalid if the value of noLimit is 'true'. If the value of 'value' is -1 the capacity key is of type 'Not Contractually Limited'.";
+    leaf value {
+      type string;
+    }
+    leaf noLimit {
+      description "Default value: false.";
+      type boolean;
+      default "false";
+    }
+  }
+  grouping AutonomousMode-attributes {
+    leaf autonomousModeId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf activationState {
+      description "Autonomous Mode activation state..";
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf expiration {
+      description "Expiry date and time of Autonomous Mode. The value is NULL if the activation state is INACTIVE..";
+      type string;
+      config false;
+    }
+  }
+  grouping CapacityKey-attributes {
+    leaf capacityKeyId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list licensedCapacityLimit {
+      config false;
+      description "Licensed capacity limit as defined in the installed key file..";
+      uses LmCapacityValue-struct;
+    }
+    leaf capacityUnit {
+      description "The licensed capacity measuring unit..";
+      type string;
+      config false;
+    }
+    leaf grantedCapacityLevel {
+      description "The capacity level currently granted by the License Manager. The attribute value is based on requests and releases of capacity units made by License Users. If such requests and releases are not made by License Users, the value of the attribute defaults to the licensed capacity limit. Note: The value of the attribute is not based on Performance Management data..";
+      type int32;
+      config false;
+    }
+    leaf licensedCapacityLimitReached {
+      description "Indicates whether or not current capacity usage reaches the licensed capacity limit..";
+      type boolean;
+      config false;
+    }
+    leaf state {
+      description "State information for the capacity associated with this key..";
+      type string;
+      config false;
+    }
+    leaf name {
+      description "The name of the feature represented by the key..";
+      type string;
+      config false;
+    }
+    leaf validFrom {
+      description "The date and time from which the key is valid..";
+      type string;
+      config false;
+    }
+    leaf expiration {
+      description "The key expiry date and time. For perpetual keys, the value is NULL..";
+      type string;
+      config false;
+    }
+    leaf shared {
+      description "Indicates whether the key is shared among Managed Elements or dedicated to the Managed Element. A key is dedicated to the Managed Element if the key can be used only by the Managed Element. This is always the case when the ELIM format is used. A key can be shared among multiple Managed Elements if it is installed on a License Server to which multiple Managed Elements connect..";
+      type boolean;
+      config false;
+    }
+    leaf keyId {
+      description "Identity of the feature under license control. E.g., CXC4011234, FAT1021234.";
+      type string;
+      config false;
+    }
+    leaf productType {
+      description "Identifier of the type of product to which the capacity is related. This attribute is used only in systems where the different applications use separate key files to identify which application or product the capacity belongs to, e.g. “SASN”, “GSN_GGSN”, “SSR 8000”..";
+      type string;
+      config false;
+    }
+  }
+  grouping CapacityState-attributes {
+    leaf capacityStateId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf licenseState {
+      description "Indicates whether or not a valid license key enables the capacity usage..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+        enum ENTITLED;
+      }
+      config false;
+    }
+    leaf description {
+      description "The description of the capacity..";
+      type string;
+      config false;
+    }
+    leaf-list capacityKey {
+      description "Key instances associated with this capacity..";
+      type string;
+      ordered-by user;
+      min-elements 0;
+    }
+    leaf keyId {
+      description "Identity of the feature under license control. E.g., CXC4011234, FAT1021234.";
+      type string;
+      config false;
+    }
+    list currentCapacityLimit {
+      config false;
+      description "Licensed capacity limit as defined by the currently valid license key..";
+      uses LmCapacityValue-struct;
+    }
+    leaf capacityUnit {
+      description "The licensed capacity measuring unit..";
+      type string;
+      config false;
+    }
+    leaf grantedCapacityLevel {
+      description "The capacity level currently granted by the License Manager. The attribute value is based on requests and releases of capacity units made by License Users. If such requests and releases are not made by License Users, the value of the attribute defaults to the licensed capacity limit. Note: The value of the attribute is not based on Performance Management data..";
+      type int32;
+      config false;
+    }
+    leaf licensedCapacityLimitReached {
+      description "Indicates whether or not current capacity usage reaches the licensed capacity limit..";
+      type boolean;
+      config false;
+    }
+    leaf serviceState {
+      description "Whether capacity is available from a license perspective. Value of serviceState is derived from featureState and licenseState. If featureState is ACTIVATED and licenseState is ENABLED, serviceState is OPERABLE. In all other cases, serviceState is INOPERABLE..";
+      type enumeration {
+        enum INOPERABLE;
+        enum OPERABLE;
+      }
+      config false;
+    }
+  }
+  grouping EmergencyUnlock-attributes {
+    leaf emergencyUnlockId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf activationState {
+      description "Activation state of Emergency Unlock..";
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf expiration {
+      description "Expiry date and time of Emergency Unlock. The value is NULL if the activation state is INACTIVE..";
+      type string;
+      config false;
+    }
+    leaf activationsLeft {
+      description "Remaining allowed Emergency Unlock activations left..";
+      type uint8;
+      config false;
+    }
+  }
+  grouping FeatureKey-attributes {
+    leaf featureKeyId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf state {
+      description "State information for the feature associated with this key..";
+      type string;
+      config false;
+    }
+    leaf name {
+      description "The name of the feature represented by the key..";
+      type string;
+      config false;
+    }
+    leaf validFrom {
+      description "The date and time from which the key is valid..";
+      type string;
+      config false;
+    }
+    leaf expiration {
+      description "The key expiry date and time. For perpetual keys, the value is NULL..";
+      type string;
+      config false;
+    }
+    leaf shared {
+      description "Indicates whether the key is shared among Managed Elements or dedicated to the Managed Element. A key is dedicated to the Managed Element if the key can be used only by the Managed Element. This is always the case when the ELIM format is used. A key can be shared among multiple Managed Elements if it is installed on a License Server to which multiple Managed Elements connect..";
+      type boolean;
+      config false;
+    }
+    leaf keyId {
+      description "Identity of the feature under license control. E.g., CXC4011234, FAT1021234.";
+      type string;
+      config false;
+    }
+    leaf productType {
+      description "Identifier of the type of product to which the capacity is related. This attribute is used only in systems where the different applications use separate key files to identify which application or product the capacity belongs to, e.g. “SASN”, “GSN_GGSN”, “SSR 8000”..";
+      type string;
+      config false;
+    }
+  }
+  grouping FeatureState-attributes {
+    leaf featureStateId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf featureState {
+      description "Indicates whether or not the feature license is administratively activated..";
+      type enumeration {
+        enum DEACTIVATED;
+        enum ACTIVATED;
+      }
+    }
+    leaf licenseState {
+      description "Indicates whether or not a valid license key enables the feature usage..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+        enum ENTITLED;
+      }
+      config false;
+    }
+    leaf serviceState {
+      description "Indicates whether or not the feature is able to provide its service from a license perspective. The value of serviceState is derived from featureState and licenseState. If featureState is ACTIVATED and licenseState is ENABLED, serviceState is OPERABLE. In all other cases, serviceState is INOPERABLE..";
+      type enumeration {
+        enum INOPERABLE;
+        enum OPERABLE;
+      }
+      config false;
+    }
+    leaf description {
+      description "The description of the feature..";
+      type string;
+      config false;
+    }
+    leaf-list featureKey {
+      description "Key instances associated with this feature..";
+      type string;
+      ordered-by user;
+      min-elements 0;
+    }
+    leaf keyId {
+      description "Identity of the feature under license control. E.g., CXC4011234, FAT1021234.";
+      type string;
+      config false;
+    }
+  }
+  grouping GracePeriod-attributes {
+    leaf gracePeriodId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf gracePeriodState {
+      description "Grace period state of the capacity..";
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf gracePeriodExpiration {
+      description "Expiry date and time of the grace period. The value is NULL if grace-period state is inactive..";
+      type string;
+      config false;
+    }
+  }
+  grouping IntegrationUnlock-attributes {
+    leaf integrationUnlockId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf activationState {
+      description "Activation state of Integration Unlock..";
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf expiration {
+      description "Expiry date and time of Integration Unlock. The value is NULL if the activation state is INACTIVE..";
+      type string;
+      config false;
+    }
+    leaf activationsLeft {
+      description "Remaining allowed Integration Unlock activations left..";
+      type uint8;
+      config false;
+    }
+  }
+  grouping KeyFileInformation-attributes {
+    leaf keyFileInformationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf sequenceNumber {
+      description "Sequence number of the key file. If sequence number is not available, this value is 0..";
+      type int32;
+      config false;
+    }
+    leaf installationTime {
+      description "Date and time when key file was installed on the Managed Element..";
+      type string;
+      config false;
+    }
+    leaf locatable {
+      description "Indicates whether or not the key file can currently be located..";
+      type boolean;
+      config false;
+    }
+    leaf productType {
+      description "Identifier of the product type to which the capacity is related. This attribute is used only in systems where different applications use separate key files to identify to which application or product the capacity belongs, e.g: SASN, GSN_GGSN, or SSR 8000..";
+      type string;
+      config false;
+    }
+  }
+  grouping KeyFileManagement-attributes {
+    leaf keyFileManagementId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list reportProgress {
+      config false;
+      description "Reference to the progress report including the result of the initiated key file installation..";
+      uses AsyncActionProgress-struct;
+    }
+  }
+  grouping Lm-attributes {
+    leaf lmId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf fingerprint {
+      description "The unique identification of the Managed Element..";
+      type string;
+      mandatory true;
+    }
+    leaf fingerprintUpdateable {
+      description "Indicates whether or not the fingerprint of the Managed Element can be updated..";
+      type boolean;
+      config false;
+    }
+    leaf lmState {
+      description "The current operational state of the License Manager..";
+      type enumeration {
+        enum LOCKED;
+        enum NORMAL;
+        enum INTEGRATION_UNLOCK;
+        enum MAINTENANCE_UNLOCK;
+        enum EMERGENCY_UNLOCK;
+        enum AUTONOMOUS_MODE;
+        enum SYSTEM_TRIGGERED_UNLOCK;
+      }
+      config false;
+    }
+    leaf lastInventoryChange {
+      description "Date and time of the last change in the license inventory. Change in the license inventory may occur when the key file is updated on the Managed Element or when license information is refreshed by synchronizing with license servers..";
+      type string;
+      config false;
+    }
+    leaf lastLicenseInventoryRefresh {
+      description "Date and time when License Manager last synchronized the license inventory of the Managed Element..";
+      type string;
+      config false;
+    }
+    leaf referenceToLicenseServer {
+      description "Reference to the primary license server used by the License Manager. For instance, the reference can contain the IP address of the server or locate its configuration interface. The attribute value is NULL if the License Manager does not rely on any license server..";
+      type string;
+      config false;
+    }
+  }
+  grouping SystemTriggeredUnlock-attributes {
+    leaf systemTriggeredUnlockId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf activationState {
+      description "System Triggered Unlock activation state..";
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf expiration {
+      description "Expiry date and time of System Triggered Unlock. The value is NULL if the activation state is INACTIVE..";
+      type string;
+      config false;
+    }
+  }
+}

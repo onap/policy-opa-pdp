@@ -1,0 +1,63 @@
+module huawei-sfp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-sfp";
+ prefix sfp;
+ description
+ "Auto-generated modular YANG for huawei-sfp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping SFP-attributes {
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf MODULEID {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf PT {
+  type enumeration {
+   enum val--1;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

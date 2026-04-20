@@ -1,0 +1,45 @@
+module huawei-nrducellmcch {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellmcch";
+ prefix nrducellmcch;
+ description
+ "Auto-generated modular YANG for huawei-nrducellmcch" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLMCCH-attributes {
+ leaf MCCHMAXPWROFFSET {
+  type int8 {
+   range "-3..3";
+  }
+  mandatory false;
+ }
+ leaf MCCHREPETITIONPERIOD {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf MCCHWINDOWDURATION {
+  type enumeration {
+   enum val-4;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

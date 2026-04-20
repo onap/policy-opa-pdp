@@ -1,0 +1,97 @@
+module ericsson-power-saving-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmePowerSaving";
+  prefix pwrsvrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list PowerSaving {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; MO PowerSaving handles configuration of certain power saving features in node. Activation of power saving is dependent on HW, SW, RAT standard and configuration. The RDN of this MO is PowerSaving=1.";
+      key "powerSavingId";
+      leaf powerSavingId {
+        type leafref {
+          path "../attributes/powerSavingId";
+        }
+      }
+      container attributes {
+      uses PowerSaving-attributes;
+      }
+    }
+  }
+  typedef BbPowerSavingStatus {
+    type enumeration {
+      enum DEACTIVATED {
+      }
+      enum ACTIVATED {
+      }
+      enum DEACTIVATED_PENDING_RESTART {
+      }
+      enum ACTIVATED_PENDING_RESTART {
+      }
+    }
+  }
+  typedef RanCompDeepSleepStatus {
+    description "RAN Compute Deep Sleep Status";
+    type enumeration {
+      enum DEACTIVATED {
+        description "RAN Compute Deep Sleep is deactivated.";
+      }
+      enum ACTIVATED {
+        description "RAN Compute Deep Sleep is activated.";
+      }
+      enum NOT_SUPPORTED {
+        description "RAN Compute Deep Sleep is not supported.";
+      }
+    }
+  }
+  grouping PowerSaving-attributes {
+    leaf powerSavingId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf bbPowerSavingsEnabled {
+      description "Whether Baseband power savings is enabled. Allows node to save energy by deactivating BB capacity.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf bbPowerSavingStatus {
+      description "Status for Baseband power savings on node..";
+      type enumeration {
+        enum DEACTIVATED;
+        enum ACTIVATED;
+        enum DEACTIVATED_PENDING_RESTART;
+        enum ACTIVATED_PENDING_RESTART;
+      }
+      config false;
+    }
+    leaf ranCompDeepSleepEnabled {
+      description "Whether RAN Compute Deep Sleep is enabled. Allows RAN Compute to dynamically power off/on some parts to save energy.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf ranCompDeepSleepStatus {
+      description "Status for RAN Compute Deep Sleep..";
+      type enumeration {
+        enum DEACTIVATED;
+        enum ACTIVATED;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf pmRanCompDeepSleepTime {
+      description "Number of seconds RAN Compute Deep Sleep feature has been activated. Unit: 1s.";
+      type uint64;
+      config false;
+    }
+  }
+}

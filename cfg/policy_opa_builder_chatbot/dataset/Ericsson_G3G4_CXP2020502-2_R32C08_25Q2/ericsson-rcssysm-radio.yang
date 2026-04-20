@@ -1,0 +1,437 @@
+module ericsson-rcssysm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsSysM";
+  prefix rcssysm;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis fragment defines the features used by other fragments or by the managed element itself. These include the schema for the managed element that define version handling for the model parts, configuration data for OaM protocols, the OaM access point and traffic class configuration data.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list SysM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This is the System Management MO. It is a parent to the MOs that represent the system level functions, such as time handling and version handling, as well as file transfer capabilities and netconf configuration.";
+      key "sysMId";
+      leaf sysMId {
+        type leafref {
+          path "../attributes/sysMId";
+        }
+      }
+      container attributes {
+      uses SysM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list Cli {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; The common configuration attributes for CLI sessions.";
+      key "cliId";
+      leaf cliId {
+        type leafref {
+          path "../attributes/cliId";
+        }
+      }
+      container attributes {
+      uses Cli-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list CliSsh {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the CLI configuration management service over Secure Shell.";
+      key "cliSshId";
+      leaf cliSshId {
+        type leafref {
+          path "../attributes/cliSshId";
+        }
+      }
+      container attributes {
+      uses CliSsh-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list CliTls {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the CLI configuration management service over Transport Layer Security (TLS).";
+      key "cliTlsId";
+      leaf cliTlsId {
+        type leafref {
+          path "../attributes/cliTlsId";
+        }
+      }
+      container attributes {
+      uses CliTls-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list NetconfSsh {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the Netconf configuration management service over Secure Shell.";
+      key "netconfSshId";
+      leaf netconfSshId {
+        type leafref {
+          path "../attributes/netconfSshId";
+        }
+      }
+      container attributes {
+      uses NetconfSsh-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list NetconfTls {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the Netconf configuration management service over Transport Layer Security (TLS).";
+      key "netconfTlsId";
+      leaf netconfTlsId {
+        type leafref {
+          path "../attributes/netconfTlsId";
+        }
+      }
+      container attributes {
+      uses NetconfTls-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list NtpServer {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; DEPRECATED Use the NtpServer MOC in ECIM TimeM. The NTP server configuration data. This MOC presents a persistent NTP client mode network association with a specified remote server or local reference clock address.";
+      key "ntpServerId";
+      leaf ntpServerId {
+        type leafref {
+          path "../attributes/ntpServerId";
+        }
+      }
+      container attributes {
+      uses NtpServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list OamAccessPoint {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; An OaM Access Point instance for the ME. Alternative access point has limited OaM support. It is recommended to use only to repair problems with primary access point.";
+      key "oamAccessPointId";
+      leaf oamAccessPointId {
+        type leafref {
+          path "../attributes/oamAccessPointId";
+        }
+      }
+      container attributes {
+      uses OamAccessPoint-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list OamTrafficClass {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Defines the traffic class and priority for IP packets.";
+      key "oamTrafficClassId";
+      leaf oamTrafficClassId {
+        type leafref {
+          path "../attributes/oamTrafficClassId";
+        }
+      }
+      container attributes {
+      uses OamTrafficClass-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list Schema {
+      description "Additional definitions from MOM:min/max-elements:2/unbounded;systemCreated; Represents a MIM model fragment whose corresponding functionality is operational in the ME.";
+      key "schemaId";
+      leaf schemaId {
+        type leafref {
+          path "../attributes/schemaId";
+        }
+      }
+      container attributes {
+      uses Schema-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list TopologySchema {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents a Topology model fragment whose corresponding functionality is operational in the ME.";
+      key "topologySchemaId";
+      leaf topologySchemaId {
+        type leafref {
+          path "../attributes/topologySchemaId";
+        }
+      }
+      container attributes {
+      uses TopologySchema-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  grouping Cli-attributes {
+    leaf cliId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf idleTimer {
+      description "The amount of minutes after which an idle session is terminated. The default value is 15 minutes.; range 1..60; Default value: 15.";
+      type uint16 {
+        range "1..60";
+      }
+      default "15";
+      units "minutes";
+    }
+  }
+  grouping CliSsh-attributes {
+    leaf administrativeState {
+      description "The administrative state for the CLI target. When LOCKED, all on-going CLI connections are immediately terminated. NOTE: Setting the administrativState to LOCKED for all Netconf and CLI interfaces disables O&M access to the ME. Refer to product specific troubleshooting instructions to resolve such a scenario..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf cliSshId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      description "The OaM port..";
+      type ietfinet:port-number;
+      mandatory true;
+    }
+  }
+  grouping CliTls-attributes {
+    leaf administrativeState {
+      description "The administrative state for the CLI target. When LOCKED, all on-going CLI connections are immediately terminated. NOTE: Setting the administrativState to LOCKED for all Netconf and CLI interfaces disables O&M access to the ME. Refer to product specific troubleshooting instructions to resolve such a scenario..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf cliTlsId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      description "The credential used for the CLI service. Specifies the DN of a NodeCredential MO in Certificate Management..";
+      type string;
+    }
+    leaf port {
+      description "The OaM port..";
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf trustCategory {
+      description "The set of certificates trusted by the CLI service. Specifies the DN of a TrustCategory MO in Certificate Management..";
+      type string;
+    }
+  }
+  grouping NetconfSsh-attributes {
+    leaf administrativeState {
+      description "The administrative state for the Netconf target. When LOCKED, all on-going netconf connections are immediately terminated. NOTE: Setting the administrativState to LOCKED for all Netconf and CLI interfaces disables O&M access to the ME. Refer to product specific troubleshooting instructions to resolve such a scenario..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf netconfSshId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      description "The OaM port.; Default value: 830.";
+      type ietfinet:port-number;
+      default "830";
+    }
+  }
+  grouping NetconfTls-attributes {
+    leaf administrativeState {
+      description "The administrative state for the Netconf target. When LOCKED, all on-going netconf connections are immediately terminated NOTE: Setting the administrativState to LOCKED for all Netconf and CLI interfaces disables O&M access to the ME. Refer to product specific troubleshooting instructions to resolve such a scenario..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf netconfTlsId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      description "The credential used for the NETCONF service. Specifies the DN of a NodeCredential MO in Certificate Management..";
+      type string;
+    }
+    leaf port {
+      description "The OaM port..";
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf trustCategory {
+      description "The set of certificates trusted by the NETCONF service. Specifies the DN of a TrustCategory MO in Certificate Management..";
+      type string;
+    }
+  }
+  grouping NtpServer-attributes {
+    leaf administrativeState {
+      description "Locks or unlocks the operation of the NTP client function. This is a convenience function to permit some or all NtpServer instances to be temporarily locked without the need to delete the object.";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf ntpServerId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf serverAddress {
+      description "The address of the NTP server with which a persistent client server mode association is made. The serverAddress represents either a V4 or a V6 IP address, or a DNS domain name..";
+      type union {
+        type ietfinet:ip-address;
+        type ietfinet:domain-name;
+      }
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+  grouping OamAccessPoint-attributes {
+    leaf accessPoint {
+      description "The OaM access point. Points to the MO containing the address. The MO must have an attribute named address containing the IP address in IPv4 or IPv6 format, with or without a network prefix length at the end..";
+      type string;
+    }
+    leaf dscp {
+      description "The Differentiated Services Code Point (DSCP) value for OAM services. Only IP packets originated form the node are tagged with the DSCP value. The DSCP value is used by Differentiated Services enabled hosts and routers to identify different service levels. When set, the DSCP value is mapped to a Per-Hop Behaviour (PHB) by forwarding devices along the path between the source and destination. A PHB dictates how each package is handled, that is, what type of service that is applied to the packet when it is forwarded.; range 0..63; Default value: 0.";
+      type eytypes:uint8_range_0-63;
+      default "0";
+    }
+    leaf ipv4address {
+      description "Refers to the IPv4 interface MO to which the OAM services shall bind..";
+      type ietfinet:ipv4-address;
+    }
+    leaf netconfPort {
+      description "Port for accessing the NETCONF service.";
+      type ietfinet:port-number;
+    }
+    leaf oamAccessPointId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf sshPort {
+      description "Port for accessing the Ericsson Command Line interface service.";
+      type ietfinet:port-number;
+    }
+  }
+  grouping OamTrafficClass-attributes {
+    leaf dscp {
+      description "DSCP value for IP packets related to OaM services. Only IP packets that originate from node are tagged with DSCP value. A change in DSCP settings for OaM traffic is only applied to new connections.; range 0..63.";
+      type eytypes:uint8_range_0-63;
+      mandatory true;
+    }
+    leaf name {
+      description "Name of the traffic class associated with this DSCP class..";
+      type string;
+      config false;
+    }
+    leaf oamTrafficClassId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping Schema-attributes {
+    leaf baseModelIdentifier {
+      description "Represents the name of the common information model fragment that the data model fragment is derived from..";
+      type string;
+      config false;
+    }
+    leaf baseModelVersion {
+      description "The full version information for the common information model fragment from which the data model fragment is derived..";
+      type string;
+      config false;
+    }
+    leaf identifier {
+      description "Represents the name of the data model fragment that the schema represents..";
+      type string;
+      config false;
+    }
+    leaf schemaId {
+      description "The value component of the RDN. From a usability perspective, the value could e.g. be set to the corresponding model name..";
+      type string;
+      mandatory true;
+    }
+    leaf-list selectedModelOptions {
+      description "Contains the model features with unique names used in the MIM generation. The MS can query the information from the model without the need to access the MIM file itself..";
+      type string;
+      min-elements 0;
+    }
+    leaf version {
+      description "Represents the full version information for the data model fragment the schema represents..";
+      type string;
+      config false;
+    }
+  }
+  grouping SysM-attributes {
+    leaf sysMId {
+      description "The value component of the RDN. It is set automatically when the MO instance is created..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+  grouping TopologySchema-attributes {
+    leaf name {
+      description "Represents the name of the topology model schema artefact..";
+      type string;
+      config false;
+    }
+    leaf topologySchemaId {
+      description "The key attribute of the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf version {
+      description "Represents the version information of the topology model schema artefact..";
+      type string;
+      config false;
+    }
+  }
+}

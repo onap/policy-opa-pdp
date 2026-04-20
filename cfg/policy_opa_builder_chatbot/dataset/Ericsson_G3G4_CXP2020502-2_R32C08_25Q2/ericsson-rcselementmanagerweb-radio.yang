@@ -1,0 +1,45 @@
+module ericsson-rcselementmanagerweb-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsElementManagerWeb";
+  prefix rcseleme;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nCommon configuration attributes for Element Manager web based sessions.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ElementManagerWeb {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Common configuration attributes for Element Manager web-based sessions. The RDN of this MO is ElementManagerWeb=1.";
+      key "elementManagerWebId";
+      leaf elementManagerWebId {
+        type leafref {
+          path "../attributes/elementManagerWebId";
+        }
+      }
+      container attributes {
+      uses ElementManagerWeb-attributes;
+      }
+    }
+  }
+  grouping ElementManagerWeb-attributes {
+    leaf elementManagerWebId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf idleTimer {
+      description "The amount of minutes after which an idle session is terminated..";
+      type string;
+    }
+    leaf absoluteTimer {
+      description "Maximum lifetime of an active session after which the session is terminated automatically..";
+      type string;
+    }
+  }
+}

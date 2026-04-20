@@ -1,0 +1,887 @@
+module ericsson-rcsbrm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsBrM";
+  prefix rcsbrm;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list BrM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; ECIM Backup and Restore Management top-level class. ECIM BRM encompasses all the operations associated with the backup and restore of the managed element.";
+      key "brMId";
+      leaf brMId {
+        type leafref {
+          path "../attributes/brMId";
+        }
+      }
+      container attributes {
+        uses BrM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM" {
+    list BrmBackupManager {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Serves as container for Backup instances of a particular backupType and backupDomain. This class also provides the actions for creating new backups, importing backups from other locations, and deleting existing backups of the corresponding type and domain.";
+      key "brmBackupManagerId";
+      leaf brmBackupManagerId {
+        type leafref {
+          path "../attributes/brmBackupManagerId";
+        }
+      }
+      container attributes {
+        uses BrmBackupManager-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM" {
+    list BrmRollbackAtRestore {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides optional support for confirmation of a restore action or automatic rollback. The existence of an instance of this class indicates that this feature is supported by the implementation. If configured then the action confirmRestore must be invoked within the configured time by the timeAllowedBeforeRollback attribute otherwise the system will be rolled back to the state before the backup being restored.";
+      key "brmRollbackAtRestoreId";
+      leaf brmRollbackAtRestoreId {
+        type leafref {
+          path "../attributes/brmRollbackAtRestoreId";
+        }
+      }
+      container attributes {
+        uses BrmRollbackAtRestore-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM/BrmBackupManager" {
+    list BrmBackup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents one backup of the type and domain specified by the BrmBackupManager. This backup is contained in the corresponding parent BrmBackupManager instance.";
+      key "brmBackupId";
+      leaf brmBackupId {
+        type leafref {
+          path "../attributes/brmBackupId";
+        }
+      }
+      container attributes {
+        uses BrmBackup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM/BrmBackupManager" {
+    list BrmBackupHousekeeping {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides optional support for automated housekeeping of manually created backups. If autoDelete is set to ENABLED before creating a new manual backup, BRM first checks the number of manual backups, and if the limit specified by the value of maxStoredManualBackups is reached, BRM removes the oldest manual backup before creating a new one.";
+      key "brmBackupHousekeepingId";
+      leaf brmBackupHousekeepingId {
+        type leafref {
+          path "../attributes/brmBackupHousekeepingId";
+        }
+      }
+      container attributes {
+        uses BrmBackupHousekeeping-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM/BrmBackupManager" {
+    list BrmBackupScheduler {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides optional support for scheduling backup creation. Each instance of BrmBackupScheduler MOC serves as the backup scheduler for the backup type indicated by its parent instance of BrmBackupManager. The scheduled backup events can be instances of BrmSingleEvent MOC, BrmCalnedarBasedPeriodicEvent MOC, or BrmPeriodicEvent MOC contained in the instance of BrmBackupScheduler. Some optional attributes which are mentioned below are used only if encryption of sensitive parts of the backups is needed. In case the backup must be encrypted then this can be enabled by using the enableEncryption attribute. In this case the encryption method must be selected (URI or PASSWORD). Also all the necessary parameters for the selected method must be set as follows: For URI method: cryptoKeyUri, cryptoKeyUriPassword, cryptoKeyPassword (this one is optional. Needed if the key file is encrypted). For PASSWORD method: backupPassword.";
+      key "brmBackupSchedulerId";
+      leaf brmBackupSchedulerId {
+        type leafref {
+          path "../attributes/brmBackupSchedulerId";
+        }
+      }
+      container attributes {
+        uses BrmBackupScheduler-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM/BrmBackupManager" {
+    list BrmBackupLabelStore {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides optional support for labeling of certain backups. This class contains attributes that help distinguish certain backups such as the last restored backup, primary restore candidate, and so on.";
+      key "brmBackupLabelStoreId";
+      leaf brmBackupLabelStoreId {
+        type leafref {
+          path "../attributes/brmBackupLabelStoreId";
+        }
+      }
+      container attributes {
+        uses BrmBackupLabelStore-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM/BrmBackupManager" {
+    list BrmFailsafeBackup {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; MO for activating and deactivating failsafe backups. Failsafe backups can be used when making changes to sensitive parts of the model, in which an error in configuration can lead to lost OAM connectivity or other failures from which the system can recover by a restore from a backup. When activated the failsafe backup function will automatically restore the system from a backup if the configuration as not been confirmed within a defined time period.";
+      key "brmFailsafeBackupId";
+      leaf brmFailsafeBackupId {
+        type leafref {
+          path "../attributes/brmFailsafeBackupId";
+        }
+      }
+      container attributes {
+        uses BrmFailsafeBackup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM/BrmBackupManager/BrmBackupScheduler" {
+    list BrmSingleEvent {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; A single scheduled backup event. This construct can be used to configure a single, one-shot, scheduled backup event by specifying the desired date and time.";
+      key "brmSingleEventId";
+      leaf brmSingleEventId {
+        type leafref {
+          path "../attributes/brmSingleEventId";
+        }
+      }
+      container attributes {
+        uses BrmSingleEvent-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM/BrmBackupManager/BrmBackupScheduler" {
+    list BrmPeriodicEvent {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Periodic backup event. This construct can be used to configure a periodic scheduled backup event by specifying the number of months, weeks, days, hours, or minutes. For instance, in order to configure a scheduled backup event to occur every 12 hours, the following setup must be done: hours = 12. If more than one attribute is set, the values are added when calculating the next scheduled event. For example, if hours = 6 and minutes = 30, the scheduled backup event occurs every 6 hour and 30 minutes. The start time for calculating scheduled events is assumed to be the current system time by default, unless explicitly set using the startTime attribute. Furthermore, if the configured event is to stop at a specific date, attribute stopTime must be set accordingly. Note that the default value of stopTime is the end of a century. Daylight saving adjustments in Spring and Fall are addressed in such a way that the affected scheduled backup events are triggered exactly once only";
+      key "brmPeriodicEventId";
+      leaf brmPeriodicEventId {
+        type leafref {
+          path "../attributes/brmPeriodicEventId";
+        }
+      }
+      container attributes {
+        uses BrmPeriodicEvent-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/BrM/BrmBackupManager/BrmBackupScheduler" {
+    list BrmCalendarBasedPeriodicEvent {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Periodic backup event using calendar-based interval. This construct can be used to configure a periodic scheduled backup event by specifying the desired interval using the calendar. For instance, in order to configure a scheduled backup event to occur every night at 2:00 am, the following setup must be done: time = 02:00:00. The start time for calculating scheduled events is by default the current system time, unless explicitly set using the startTime attribute. Furthermore, if the configured event is to stop at a specific date, stopTime attribute must be set accordingly. Note that the default value of stopTime is the end of the century. A scheduled backup event of this type is triggered only if ALL the conditions with regard to attribute values are satisfied. For example, if dayOfWeek is set to Monday and dayOfMonth is set to 1, the event is triggered only if the first day of month is Monday. In another example if dayOfWeekOccurence is set to Second and dayOfWeek is set to Tuesday then the event will occur on the second Tuesday of every month. If dayOfWeekOccurence is set to All and dayOfWeek is set to Wednesday then there will be event on every Wednesday (of every month). Daylight saving adjustments in Spring and Fall are addressed in such a way that the affected scheduled backup events are triggered exactly once.";
+      key "brmCalendarBasedPeriodicEventId";
+      leaf brmCalendarBasedPeriodicEventId {
+        type leafref {
+          path "../attributes/brmCalendarBasedPeriodicEventId";
+        }
+      }
+      container attributes {
+        uses BrmCalendarBasedPeriodicEvent-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    type enumeration {
+      enum SUCCESS;
+      enum FAILURE;
+      enum NOT_AVAILABLE;
+    }
+  }
+  typedef ActionStateType {
+    type enumeration {
+      enum CANCELLING;
+      enum RUNNING;
+      enum FINISHED;
+      enum CANCELLED;
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef BrmAutoExport {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef BrmBackupCreationType {
+    type enumeration {
+      enum MANUAL;
+      enum SCHEDULED;
+      enum SYSTEM_CREATED;
+    }
+  }
+  typedef BrmBackupEncryptionMethod {
+    type enumeration {
+      enum PASSWORD;
+      enum URI;
+    }
+  }
+  typedef BrmBackupStatus {
+    type enumeration {
+      enum BRM_BACKUP_COMPLETE;
+      enum BRM_BACKUP_INCOMPLETE;
+      enum BRM_BACKUP_CORRUPTED;
+    }
+  }
+  typedef BrmDeactivatePostAction {
+    type enumeration {
+      enum NOP;
+      enum CLEAR_LIST;
+      enum ADD_BACKUP_TO_LIST;
+    }
+  }
+  typedef BrmManualBackupAutoDelete {
+    type enumeration {
+      enum ENABLED;
+      enum DISABLED;
+    }
+  }
+  typedef BrmSchedBackupStrategy {
+    type enumeration {
+      enum REPLACE_PER_SCHEDULE;
+      enum REMOVE_OLDEST;
+    }
+  }
+  typedef DayOfWeek {
+    type enumeration {
+      enum SUNDAY;
+      enum MONDAY;
+      enum TUESDAY;
+      enum WEDNESDAY;
+      enum THURSDAY;
+      enum FRIDAY;
+      enum SATURDAY;
+      enum ALL;
+    }
+  }
+  typedef DayOfWeekOccurrence {
+    type enumeration {
+      enum FIRST;
+      enum SECOND;
+      enum THIRD;
+      enum FOURTH;
+      enum LAST;
+      enum ALL;
+    }
+  }
+  typedef UsageState {
+    type enumeration {
+      enum IDLE;
+      enum ACTIVE;
+      enum BUSY;
+    }
+  }
+  grouping BrM-attributes {
+    leaf brMId {
+      type string;
+      mandatory true;
+    }
+    leaf exportPackageLabelPrefix {
+      type ietfinet:ip-prefix;
+    }
+  }
+  grouping BrmBackup-attributes {
+    leaf brmBackupId {
+      type string;
+      mandatory true;
+    }
+    leaf backupName {
+      type string;
+      config false;
+    }
+    leaf creationTime {
+      type string;
+      config false;
+    }
+    leaf status {
+      type enumeration {
+        enum BRM_BACKUP_COMPLETE;
+        enum BRM_BACKUP_INCOMPLETE;
+        enum BRM_BACKUP_CORRUPTED;
+      }
+      config false;
+    }
+    list progressReport {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    leaf creationType {
+      type enumeration {
+        enum MANUAL;
+        enum SCHEDULED;
+        enum SYSTEM_CREATED;
+      }
+      config false;
+    }
+    list swVersion {
+      config false;
+      container attributes {
+      leaf productName {
+        type string;
+      }
+      leaf productNumber {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf productionDate {
+        type string;
+      }
+      leaf description {
+        type ietfinet:ip-address;
+      }
+      leaf type {
+        type string;
+      }
+      }
+    }
+    leaf userLabel {
+      type string;
+      config false;
+    }
+    leaf cryptoKeyId {
+      type string;
+      config false;
+    }
+    leaf cryptoPasswordId {
+      type string;
+      config false;
+    }
+  }
+  grouping BrmBackupHousekeeping-attributes {
+    leaf brmBackupHousekeepingId {
+      type string;
+      mandatory true;
+    }
+    leaf maxStoredManualBackups {
+      type uint16 {
+        range "0..30";
+      }
+      default "20";
+      description "range 0..30; Default value: 20.";
+    }
+    leaf autoDelete {
+      type enumeration {
+        enum ENABLED;
+        enum DISABLED;
+      }
+    }
+  }
+  grouping BrmBackupLabelStore-attributes {
+    leaf brmBackupLabelStoreId {
+      type string;
+      mandatory true;
+    }
+    leaf lastRestoredBackup {
+      type string;
+      config false;
+    }
+    leaf lastCreatedBackup {
+      type string;
+      config false;
+    }
+    leaf lastImportedBackup {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf lastExportedBackup {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf-list restoreEscalationList {
+      type string;
+      ordered-by user;
+    }
+  }
+  grouping BrmBackupManager-attributes {
+    leaf brmBackupManagerId {
+      type string;
+      mandatory true;
+    }
+    leaf backupType {
+      type string;
+      config false;
+    }
+    leaf backupDomain {
+      type string;
+      config false;
+    }
+    list progressReport {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    leaf autoExport {
+      type ietfinet:port-number;
+    }
+    leaf autoExportUri {
+      type ietfinet:port-number;
+    }
+    list autoExportPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf manualBackupName {
+      type string;
+    }
+  }
+  grouping BrmBackupScheduler-attributes {
+    leaf brmBackupSchedulerId {
+      type string;
+      mandatory true;
+    }
+    leaf maxStoredScheduledBackups {
+      type uint16 {
+        range "0..5";
+      }
+      default "5";
+      description "range 0..5; Default value: 5.";
+    }
+    leaf scheduledBackupName {
+      type string;
+      default "BACKUP";
+      description "Default value: BACKUP.";
+    }
+    list progressReport {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    leaf mostRecentlyCreatedAutoBackup {
+      type string;
+      config false;
+    }
+    leaf autoExport {
+      type ietfinet:port-number;
+    }
+    leaf autoExportUri {
+      type ietfinet:port-number;
+    }
+    list autoExportPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf housekeepingStrategy {
+      type enumeration {
+        enum REPLACE_PER_SCHEDULE;
+        enum REMOVE_OLDEST;
+      }
+    }
+    leaf encryptionMethod {
+      type enumeration {
+        enum PASSWORD;
+        enum URI;
+      }
+    }
+    leaf enableEncryption {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf cryptoKeyUri {
+      type string;
+    }
+    list keyDecryptionKey {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    list cryptoKeyUriPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    list backupPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf selectiveAutoExport {
+      type ietfinet:port-number;
+    }
+    leaf adminState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf nextScheduledTime {
+      type string;
+      config false;
+    }
+  }
+  grouping BrmCalendarBasedPeriodicEvent-attributes {
+    leaf brmCalendarBasedPeriodicEventId {
+      type string;
+      mandatory true;
+    }
+    leaf selectiveAutoExport {
+      type ietfinet:port-number;
+    }
+    leaf month {
+      type string;
+    }
+    leaf dayOfWeek {
+      type enumeration {
+        enum SUNDAY;
+        enum MONDAY;
+        enum TUESDAY;
+        enum WEDNESDAY;
+        enum THURSDAY;
+        enum FRIDAY;
+        enum SATURDAY;
+        enum ALL;
+      }
+    }
+    leaf dayOfMonth {
+      type string;
+    }
+    leaf time {
+      type string;
+      mandatory true;
+    }
+    leaf dayOfWeekOccurrence {
+      type enumeration {
+        enum FIRST;
+        enum SECOND;
+        enum THIRD;
+        enum FOURTH;
+        enum LAST;
+        enum ALL;
+      }
+    }
+    leaf startTime {
+      type string;
+    }
+    leaf stopTime {
+      type string;
+    }
+  }
+  grouping BrmFailsafeBackup-attributes {
+    leaf brmFailsafeBackupId {
+      type string;
+      mandatory true;
+    }
+    leaf backupName {
+      type string;
+      config false;
+    }
+    leaf timeRemaining {
+      type uint64;
+      config false;
+    }
+    leaf usageState {
+      type enumeration {
+        enum IDLE;
+        enum ACTIVE;
+        enum BUSY;
+      }
+      config false;
+    }
+    list progressReport {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    leaf timeoutLength {
+      type uint64 {
+        range "1..86400";
+      }
+      default "1200";
+      units "seconds";
+      description "range 1..86400; Default value: 1200.";
+    }
+  }
+  grouping BrmPeriodicEvent-attributes {
+    leaf brmPeriodicEventId {
+      type string;
+      mandatory true;
+    }
+    leaf selectiveAutoExport {
+      type ietfinet:port-number;
+    }
+    leaf months {
+      type uint16;
+      status deprecated;
+      default "0";
+      description "Default value: 0; Status info: CalendarBasedPeriodicEvent is used for monthly scheduling.";
+    }
+    leaf weeks {
+      type uint16;
+      default "0";
+      description "Default value: 0.";
+    }
+    leaf days {
+      type uint16;
+      default "0";
+      description "Default value: 0.";
+    }
+    leaf hours {
+      type uint16;
+      mandatory true;
+    }
+    leaf minutes {
+      type uint16;
+      default "0";
+      description "Default value: 0.";
+    }
+    leaf startTime {
+      type string;
+    }
+    leaf stopTime {
+      type string;
+    }
+  }
+  grouping BrmRollbackAtRestore-attributes {
+    leaf brmRollbackAtRestoreId {
+      type string;
+      mandatory true;
+    }
+    leaf timeAllowedBeforeRollback {
+      type uint16;
+    }
+    leaf timeRemainingBeforeRollback {
+      type uint16;
+      config false;
+    }
+  }
+  grouping BrmSingleEvent-attributes {
+    leaf brmSingleEventId {
+      type string;
+      mandatory true;
+    }
+    leaf selectiveAutoExport {
+      type ietfinet:port-number;
+    }
+    leaf scheduledTime {
+      type string;
+      mandatory true;
+    }
+  }
+}

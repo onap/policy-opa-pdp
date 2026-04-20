@@ -1,0 +1,53 @@
+module huawei-tlspolicy {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-tlspolicy";
+ prefix tlspolicy;
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-tlspolicy" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping TLSPOLICY-attributes {
+ leaf CIPHERSUITE {
+  type inet:ip-address;
+  mandatory false;
+ }
+ leaf DHGRP {
+  type string;
+  mandatory false;
+ }
+ leaf KEYUPDATELT {
+  type uint16 {
+   range "5..10080";
+  }
+  mandatory false;
+ }
+ leaf KEYUPDATESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_POLICYID {
+  type union {
+   type int8 {
+    range "-1..16";
+   }
+  }
+  mandatory false;
+ }
+ leaf POLICYID {
+  type union {
+   type int8 {
+    range "-1..16";
+   }
+  }
+  mandatory false;
+ }
+ leaf SIGALG {
+  type string;
+  mandatory false;
+ }
+ }
+}

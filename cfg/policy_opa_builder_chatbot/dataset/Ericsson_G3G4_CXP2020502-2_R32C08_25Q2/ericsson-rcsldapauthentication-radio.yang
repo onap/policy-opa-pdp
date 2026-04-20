@@ -1,0 +1,272 @@
+module ericsson-rcsldapauthentication-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsLdapAuthentication";
+  prefix rcsldapa;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nLDAP Authentication model.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/rcsldapa:LdapAuthenticationMethod/rcsldapa:Ldap" {
+    list Filter {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Indicates the filter used to locate the user's authorization profile in the LDAP directory. This class must be used when profileFilter in Ldap MO is set to FLEXIBLE. Example of use with POSIX group objects as authorization profile: The user authorization profile is mapped to posixGroups in the LDAP schema. Each posixGroup contains a set of users and by this association, users are mapped into one or more groups. To identify the set of groups a user is a member of, the following search filter must be used: (&(objectClass=posixGroup)(memberUid=%u)) cn where %u is the user ID parameter used during authentication and cn is the common name value returned for the posixGroup. This must match an authorization entity, for example role, in an authorization method. (&(objectClass=posixGroup)(memberUid=\"\")) is the search filter contained by the filter attribute.";
+      key "filterId";
+      leaf filterId {
+        type leafref {
+          path "../attributes/filterId";
+        }
+      }
+      container attributes {
+      uses Filter-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/rcsldapa:LdapAuthenticationMethod/rcsldapa:Ldap" {
+    list EricssonFilter {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides configuration of features supported by the Ericsson LDAP schema. This class must be used when profileFilter in Ldap MO is set to ERICSSON_FILTER.";
+      key "ericssonFilterId";
+      leaf ericssonFilterId {
+        type leafref {
+          path "../attributes/ericssonFilterId";
+        }
+      }
+      container attributes {
+      uses EricssonFilter-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/rcsldapa:LdapAuthenticationMethod" {
+    list Ldap {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Contains the configurable information on primary and secondary LDAP directories.";
+      key "ldapId";
+      leaf ldapId {
+        type leafref {
+          path "../attributes/ldapId";
+        }
+      }
+      container attributes {
+      uses Ldap-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement" {
+    list LdapAuthenticationMethod {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Root MOC of the LDAP Authentication Method. LDAP-based authentication uses a directory to store a user's credentials and allows them to be queried over a secure LDAP interface.";
+      key "ldapAuthenticationMethodId";
+      leaf ldapAuthenticationMethodId {
+        type leafref {
+          path "../attributes/ldapAuthenticationMethodId";
+        }
+      }
+      container attributes {
+      uses LdapAuthenticationMethod-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef EricssonFilterVersion {
+    description "The valid version range of the Ericsson filter.";
+    type enumeration {
+      enum _1 {
+        description "Version 1.";
+      }
+      enum _2 {
+        description "Version 2.";
+      }
+    }
+  }
+  typedef ProfileFilter {
+    description "Authorization profile filter types for LDAP.";
+    type enumeration {
+      enum POSIX_GROUPS {
+        description "Standard POSIX group filter. The authorization profiles are selected from the LDAP database based on the standard Posix Group schema. The Common Name attribute (cn) of the Posix Group object is treated as authorization data, for example, role.";
+      }
+      enum ERICSSON_FILTER {
+        description "Ericsson specified filter. The authorization profiles are retrieved from the LDAP database from Ericsson extended Posix accounts, as defined by the Ericsson LDAP Interface.";
+      }
+      enum FLEXIBLE {
+        description "Flexible filter. The authorization profiles are selected from the LDAP database based on attributes specified in the contained Filter MO.";
+      }
+    }
+  }
+  typedef TlsMode {
+    description "TLS establishment protocols for LDAP.";
+    type enumeration {
+      enum STARTTLS {
+        description "The TLS-layer is established by using the StartTLS method of RFC4511. Default port number is 389.";
+      }
+      enum LDAPS {
+        description "The TLS-layer is established by using the LDAPS protocol. Default port number is 636.";
+      }
+    }
+  }
+  grouping EcimPassword-struct {
+    description "Stores the password.";
+    leaf cleartext {
+      type boolean;
+    }
+    leaf password {
+      type string;
+    }
+  }
+  grouping EricssonFilter-attributes {
+    leaf ericssonFilterId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf roleAliasesBaseDn {
+      description "LDAP DN to a subtree of objects that is used to convert alias roles to roles the ME understands. An option for authorization methods that implements Role Based Access Control. The value is an LDAP DN. The format of the DN for such an object is 'role=[role], roleAliasesBaseDn', where [role] must be replaced with the name of a role alias or role group. All these objects must be accessible from the base DN defined in this attribute. For example: if roleAliasesBaseDn = \"dc=example,dc=com\" and the user has role Admin, and the object \"role=Admin,dc=example,dc=com\" exists and has attribute ericssonUserAuthorizationScope = Administrator, the user receives the Administrator role..";
+      type string;
+    }
+    leaf targetBasedAccessControl {
+      description "Toggles Target Based Access Control. The User Management MO provides the <Target Type> strings of the ME. The TBAC authorization behavior is defined in the User Management MOC. The optional Ericsson LDAP-schema-specified attribute ericssonUserAuthenticationScope stores the targets where the user can be authenticated and authorized. It is a case-insensitive string of <Target Type>. The Ericsson target-type identifier, such as ‘bsc’, ‘cscf’, classifies the target type the user can access. The optional Ericsson LDAP-schema-specified attribute ericssonUserAuthorizationScope stores the authorization profiles of which the user is a member. It is a case-insensitive string of form <Target Type>:<Authorization Profile>, where ':' is a separator; <Target Type> is the Ericsson target-type identifier, such as ‘bsc’, ‘cscf’, and it classifies the target type for which the user acquires the <Authorization Profile>. <Authorization Profile> is the Ericsson application-defined profile, for example, a role. Attribute ericssonUserAuthenticationScope behavior: When TBAC is LOCKED in the ME, authentication and authorization are performed without TBAC. When TBAC is UNLOCKED in the ME and the user has a target-restricted authentication scope, authentication and authorization are performed when a match is found. If not, it fails. Attribute ericssonUserAuthenticationScope allows the use of wild-carded scope ('*') to permit the user to be authorized on any ME based on its ericssonUserAuthorizationScope attribute. Attribute ericssonUserAuthorizationScope behavior: When TBAC is LOCKED in the ME, the authorization profiles without target qualifiers and with wildcard target qualifier ('*') are assigned to the user from the user database. When TBAC is UNLOCKED in the ME, the authorization profiles with matching target qualifiers and with wildcard target qualifier are assigned to the user from the user database. In addition, role aliases are accepted also without a target qualifier. Not using the Ericsson LDAP schema in the user accounts, or improper use of this schema causes authorization failure. For more details, refer to the Ericsson LDAP Interface Description. Example with roles: If the ME in User Management MOC is configured with 'cscf.ims.stockholm' and the LDAP user account contains: ericssonUserAuthenticationScope: cscf.ims.stockholm ericssonUserAuthenticationScope: cscf.ims.malmo ericssonUserAuthorizationScope: cscf.ims.stockholm:SystemAdministrator ericssonUserAuthorizationScope: cscf.ims.malmo:SystemSecurityAdministrator ericssonUserAuthorizationScope: *:ApplicationOperator Then given the LDAP user provided a correct password it is authenticated on the ME and assigned with role 'SystemAdministrator' and 'ApplicationOperator'..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf version {
+      description "The selected version of the Ericsson filtering behavior. Version 1 is deprecated. Version 1 allows wildcarding of roles without any qualifier and it supports the use of '*' character. Such syntax applies the given role on all targets: ericssonUserAuthorizationScope: ApplicationOperator ericssonUserAuthorizationScope: *:ApplicationOperator Version 2 differentiates the wildcarding behavior depending on the value of attribute targetBasedAccessControl. When targetBasedAccessControl is LOCKED, both syntaxes are allowed and assigns the role to the user in the ME. When targetBasedAccessControl is UNLOCKED, it only allows the use of '*' character, but unqualified roles are ignored..";
+      type enumeration {
+        enum _1;
+        enum _2;
+      }
+    }
+  }
+  grouping Filter-attributes {
+    leaf filterId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf filter {
+      description "The filter used to search in the LDAP tree. Example: (&(objectClass=posixGroup)(memberUid=\"\")), This specifies a filter, where the authorized users are members of posixGroup objects in the LDAP schema. Double quotes indicate where the ME inserts the user identifier..";
+      type string;
+    }
+    leaf type {
+      description "Determines which attribute to retrieve from an element in the database. The value can be the name of any parameter in the LDAP schema, for example, 'cn'..";
+      type string;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+  grouping Ldap-attributes {
+    leaf ldapId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf ldapIpAddress {
+      description "The IP or DNS address of the primary LDAP server. Default port number used is 389. The selected tlsMode overrides the default port number..";
+      type string;
+      mandatory true;
+    }
+    leaf fallbackLdapIpAddress {
+      description "The IP or DNS address of the fallback LDAP server. The fallback server is used when the primary server is inaccessible. Default port number used is 389. The selected tlsMode overrides the default port number..";
+      type string;
+    }
+    leaf serverPort {
+      description "Specifies the server port number to access the primary and secondary LDAP servers. Must only be specified when the default port number is not in use. Default ports are: 389, when useTls is false. 389, when useTls is true and tlsMode is STARTTLS. 636, when useTls is true and tlsMode is LDAPS..";
+      type ietfinet:port-number;
+    }
+    leaf bindDn {
+      description "Default bind DN used to access the LDAP servers. When configured, the ME uses the specified DN as the bind name for LDAP searches. The bind DN must be specified in an LDAP DN format, for example 'cn=bindaccount,dc=mycompany,dc=com'..";
+      type string;
+    }
+    list bindPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password used with bindDn to access the LDAP servers. When configured, the ME establishes a password-based LDAP simple bind..";
+      uses EcimPassword-struct;
+    }
+    leaf baseDn {
+      description "Default base DN to use in LDAP operations. The base DN must be specified in an LDAP DN format, for example, 'ou=people,dc=mycompany,dc=com'. All LDAP objects used for authentication and authorization must be accessible from the base DN..";
+      type string;
+      mandatory true;
+    }
+    leaf useReferrals {
+      description "Toggle to enable the use of referrals. When set to false, the ME ignores referrals returned by the LDAP server. When set to true, the ME follows referrals. Referrals can be used for authentication and authorization only if the referral URI refers back to a directory tree within the same LDAP server instance; otherwise, access is denied for referred user accounts.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf profileFilter {
+      description "Selects an LDAP filter to determine the user's authorization profile. Authorization profiles are used by authorization methods. For ERICSSON_FILTER, the contained EricssonFilter MO must exist. For FLEXIBLE, the contained Filter MO must exist..";
+      type enumeration {
+        enum POSIX_GROUPS;
+        enum ERICSSON_FILTER;
+        enum FLEXIBLE;
+      }
+    }
+    leaf nodeCredential {
+      description "The credential used for LDAP. Specifies the DN of a NodeCredential MO in Certificate Management..";
+      type string;
+    }
+    leaf trustCategory {
+      description "The set of certificates trusted by LDAP. Specifies the DN of a TrustCategory MO in Certificate Management..";
+      type string;
+    }
+    leaf useTls {
+      description "Toggle to enable TLS access to primary and secondary LDAP targets..";
+      type boolean;
+      mandatory true;
+    }
+    leaf tlsMode {
+      description "Toggles the TLS establishment mode to access the primary and secondary LDAP servers. Takes effect when useTls is true..";
+      type enumeration {
+        enum STARTTLS;
+        enum LDAPS;
+      }
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+  grouping LdapAuthenticationMethod-attributes {
+    leaf ldapAuthenticationMethodId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state of this authorization method..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+}

@@ -1,0 +1,92 @@
+module ericsson-o-ri-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqORiPort";
+  prefix oriptrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list ORiPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO is used to configure and monitor a port on an ORadio.";
+      key "oRiPortId";
+      leaf oRiPortId {
+        type leafref {
+          path "../attributes/oRiPortId";
+        }
+      }
+      container attributes {
+        uses ORiPort-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping ORiPort-attributes {
+    leaf oRiPortId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+  }
+}

@@ -1,0 +1,44 @@
+module huawei-grpprocessctrlpolicy {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-grpprocessctrlpolicy";
+ prefix grpprocessctrlpolicy;
+ description
+ "Auto-generated modular YANG for huawei-grpprocessctrlpolicy" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GRPPROCESSCTRLPOLICY-attributes {
+ leaf OLD_GROUPID {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf GROUPID {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SERVICEINDEX {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVICEINDEX {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

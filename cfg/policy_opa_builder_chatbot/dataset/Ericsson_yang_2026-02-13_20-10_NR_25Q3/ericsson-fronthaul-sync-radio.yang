@@ -1,0 +1,333 @@
+module ericsson-fronthaul-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncFronthaul";
+  prefix fsyncrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-ptp-sync-radio {
+    prefix ptprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/ptprdo:Ptp" {
+    list FronthaulBoundaryOrdinaryClock {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; Boundary clock for synchronization over eCPRI ports. Clock type is restricted to boundary clock.";
+      key "fronthaulBoundaryOrdinaryClockId";
+      leaf fronthaulBoundaryOrdinaryClockId {
+        type leafref {
+          path "../attributes/fronthaulBoundaryOrdinaryClockId";
+        }
+      }
+      container attributes {
+        uses FronthaulBoundaryOrdinaryClock-attributes;
+      }
+    }
+  }
+  typedef BcOcClockType {
+    type enumeration {
+      enum GRAND_MASTER_ORDINARY_CLOCK;
+      enum BOUNDARY_CLOCK;
+      enum SLAVE_ONLY_ORDINARY_CLOCK;
+    }
+  }
+  typedef ClockAccuracy {
+    type enumeration {
+      enum CLOCK_ACCURACY_25NS;
+      enum CLOCK_ACCURACY_100NS;
+      enum CLOCK_ACCURACY_250NS;
+      enum CLOCK_ACCURACY_1US;
+      enum CLOCK_ACCURACY_2500NS;
+      enum CLOCK_ACCURACY_10US;
+      enum CLOCK_ACCURACY_25US;
+      enum CLOCK_ACCURACY_100US;
+      enum CLOCK_ACCURACY_250US;
+      enum CLOCK_ACCURACY_1MS;
+      enum CLOCK_ACCURACY_2500US;
+      enum CLOCK_ACCURACY_10MS;
+      enum CLOCK_ACCURACY_25MS;
+      enum CLOCK_ACCURACY_100MS;
+      enum CLOCK_ACCURACY_250MS;
+      enum CLOCK_ACCURACY_1S;
+      enum CLOCK_ACCURACY_10S;
+      enum CLOCK_ACCURACY_MORETHAN_10S;
+      enum CLOCK_ACCURACY_UNKNOWN;
+      enum CLOCK_ACCURACY_RESERVED;
+    }
+  }
+  typedef ClockStatus {
+    type enumeration {
+      enum NO_FAULT;
+      enum PDV_PROBLEM;
+      enum CLOCK_CLASS;
+      enum CLOCK_ACCURACY;
+      enum TIME_NOT_TRACEABLE;
+      enum TIME_SCALE_NOT_PTP;
+      enum ERRATIC_SYNC;
+      enum LOW_ANNOUNCE_RATE;
+      enum LOW_SYNC_RATE;
+      enum LOW_DELAY_REQ_RATE;
+      enum LOW_DELAY_RSP_RATE;
+      enum NO_ANNOUNCE;
+      enum NO_SYNC;
+      enum NO_DELAY_RSP;
+      enum NO_MESSAGES;
+      enum UNKNOWN;
+    }
+  }
+  typedef PtpProfile {
+    type enumeration {
+      enum IEEE_1588_J3;
+      enum G_8275_1;
+      enum G_8265_1;
+      enum G_8275_2;
+      enum IEEE_1588_TIME_DEFAULT;
+      enum IEEE_1588_TIME_SLOW;
+      enum IEEE_1588_CUSTOM;
+      enum ECPRI_CUSTOM;
+    }
+  }
+  typedef TimeSource {
+    type enumeration {
+      enum ATOMIC_CLOCK;
+      enum GPS;
+      enum TERRESTRIAL_RADIO;
+      enum PTP;
+      enum NTP;
+      enum HAND_SET;
+      enum OTHER;
+      enum INTERNAL_OSCILLATOR;
+    }
+  }
+  grouping FronthaulBoundaryOrdinaryClock-attributes {
+    leaf-list clockStatus {
+      type enumeration {
+        enum NO_FAULT;
+        enum PDV_PROBLEM;
+        enum CLOCK_CLASS;
+        enum CLOCK_ACCURACY;
+        enum TIME_NOT_TRACEABLE;
+        enum TIME_SCALE_NOT_PTP;
+        enum ERRATIC_SYNC;
+        enum LOW_ANNOUNCE_RATE;
+        enum LOW_SYNC_RATE;
+        enum LOW_DELAY_REQ_RATE;
+        enum LOW_DELAY_RSP_RATE;
+        enum NO_ANNOUNCE;
+        enum NO_SYNC;
+        enum NO_DELAY_RSP;
+        enum NO_MESSAGES;
+        enum UNKNOWN;
+      }
+    }
+    leaf clockType {
+      type enumeration {
+        enum GRAND_MASTER_ORDINARY_CLOCK;
+        enum BOUNDARY_CLOCK;
+        enum SLAVE_ONLY_ORDINARY_CLOCK;
+      }
+      mandatory true;
+    }
+    list currentDS {
+      config false;
+      container attributes {
+      leaf meanPathDelay {
+        type string;
+      }
+      leaf offsetFromMaster {
+        type string;
+      }
+      leaf stepsRemoved {
+        type string;
+      }
+      }
+    }
+    list defaultDS {
+      config false;
+      container attributes {
+      leaf clockAccuracy {
+        type enumeration {
+          enum CLOCK_ACCURACY_25NS;
+          enum CLOCK_ACCURACY_100NS;
+          enum CLOCK_ACCURACY_250NS;
+          enum CLOCK_ACCURACY_1US;
+          enum CLOCK_ACCURACY_2500NS;
+          enum CLOCK_ACCURACY_10US;
+          enum CLOCK_ACCURACY_25US;
+          enum CLOCK_ACCURACY_100US;
+          enum CLOCK_ACCURACY_250US;
+          enum CLOCK_ACCURACY_1MS;
+          enum CLOCK_ACCURACY_2500US;
+          enum CLOCK_ACCURACY_10MS;
+          enum CLOCK_ACCURACY_25MS;
+          enum CLOCK_ACCURACY_100MS;
+          enum CLOCK_ACCURACY_250MS;
+          enum CLOCK_ACCURACY_1S;
+          enum CLOCK_ACCURACY_10S;
+          enum CLOCK_ACCURACY_MORETHAN_10S;
+          enum CLOCK_ACCURACY_UNKNOWN;
+          enum CLOCK_ACCURACY_RESERVED;
+        }
+      }
+      leaf clockClass {
+        type string;
+      }
+      leaf clockIdentity {
+        type string;
+      }
+      leaf domainNumber {
+        type string;
+      }
+      leaf numberPorts {
+        type ietfinet:port-number;
+      }
+      leaf offsetScaledLogVariance {
+        type string;
+      }
+      leaf priority1 {
+        type string;
+      }
+      leaf priority2 {
+        type string;
+      }
+      leaf slaveOnly {
+        type string;
+      }
+      leaf twoStepFlag {
+        type string;
+      }
+      }
+    }
+    leaf domainNumber {
+      type eytypes:uint8_range_0-255-51;
+      default "24";
+      description "range 0..255; Default value: 24.";
+    }
+    leaf fronthaulBoundaryOrdinaryClockId {
+      type string;
+      mandatory true;
+    }
+    list parentDS {
+      config false;
+      container attributes {
+      leaf grandmasterClockAccuracy {
+        type enumeration {
+          enum CLOCK_ACCURACY_25NS;
+          enum CLOCK_ACCURACY_100NS;
+          enum CLOCK_ACCURACY_250NS;
+          enum CLOCK_ACCURACY_1US;
+          enum CLOCK_ACCURACY_2500NS;
+          enum CLOCK_ACCURACY_10US;
+          enum CLOCK_ACCURACY_25US;
+          enum CLOCK_ACCURACY_100US;
+          enum CLOCK_ACCURACY_250US;
+          enum CLOCK_ACCURACY_1MS;
+          enum CLOCK_ACCURACY_2500US;
+          enum CLOCK_ACCURACY_10MS;
+          enum CLOCK_ACCURACY_25MS;
+          enum CLOCK_ACCURACY_100MS;
+          enum CLOCK_ACCURACY_250MS;
+          enum CLOCK_ACCURACY_1S;
+          enum CLOCK_ACCURACY_10S;
+          enum CLOCK_ACCURACY_MORETHAN_10S;
+          enum CLOCK_ACCURACY_UNKNOWN;
+          enum CLOCK_ACCURACY_RESERVED;
+        }
+      }
+      leaf grandmasterClockClass {
+        type string;
+      }
+      leaf grandmasterIdentity {
+        type string;
+      }
+      leaf grandmasterOffsetScaledLogVariance {
+        type string;
+      }
+      leaf grandmasterPriority1 {
+        type string;
+      }
+      leaf grandmasterPriority2 {
+        type string;
+      }
+      leaf observedParentClkPhaseChgRate {
+        type string;
+      }
+      leaf observedParentOffsetScalLogVar {
+        type string;
+      }
+      leaf parentClockIdentity {
+        type string;
+      }
+      leaf parentPortNumber {
+        type ietfinet:port-number;
+      }
+      leaf parentStats {
+        type string;
+      }
+      }
+    }
+    leaf ptpProfile {
+      type enumeration {
+        enum IEEE_1588_J3;
+        enum G_8275_1;
+        enum G_8265_1;
+        enum G_8275_2;
+        enum IEEE_1588_TIME_DEFAULT;
+        enum IEEE_1588_TIME_SLOW;
+        enum IEEE_1588_CUSTOM;
+        enum ECPRI_CUSTOM;
+      }
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    list timePropertiesDS {
+      config false;
+      container attributes {
+      leaf currentUtcOffset {
+        type string;
+      }
+      leaf currentUtcOffsetValid {
+        type string;
+      }
+      leaf frequencyTraceable {
+        type string;
+      }
+      leaf leap59 {
+        type string;
+      }
+      leaf leap61 {
+        type string;
+      }
+      leaf ptpTimescale {
+        type string;
+      }
+      leaf timeSource {
+        type enumeration {
+          enum ATOMIC_CLOCK;
+          enum GPS;
+          enum TERRESTRIAL_RADIO;
+          enum PTP;
+          enum NTP;
+          enum HAND_SET;
+          enum OTHER;
+          enum INTERNAL_OSCILLATOR;
+        }
+      }
+      leaf timeTraceable {
+        type string;
+      }
+      }
+    }
+  }
+}

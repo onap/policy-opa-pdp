@@ -1,0 +1,55 @@
+module ericsson-sc-rf-branch-map-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeScRfBranchMap";
+  prefix srbmrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis MO contains configuration items controlling mapping of sector carriers to RF branches.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ScRfBranchMap {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO contains configuration items controlling mapping of sector carriers to RF branches. The RDN of this MO is ScRfBranchMap=1.";
+      key "scRfBranchMapId";
+      leaf scRfBranchMapId {
+        type leafref {
+          path "../attributes/scRfBranchMapId";
+        }
+      }
+      container attributes {
+      uses ScRfBranchMap-attributes;
+      }
+    }
+  }
+  typedef RfBranchMappingMethod {
+    description "RF branch mapping methods.";
+    type enumeration {
+      enum POLARIZATION_AGNOSTIC {
+        description "Sector carriers are mapped to RF branches ignoring antenna columns and polarizations.";
+      }
+      enum POLARIZATION_AWARE {
+        description "Sector carriers are mapped to RF branches using antenna columns and polarizations. Only applicable to RAN Compute group 4 and higher.";
+      }
+    }
+  }
+  grouping ScRfBranchMap-attributes {
+    leaf scRfBranchMapId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf rfBranchMappingMethod {
+      description "Method used for mapping sector carriers to RF branches. Note: Only CPRI sector carriers are affected. If Deterministic Carrier Allocation (DCA) is configured, mapping method is overridden and sector carriers are mapped to RF branches in order of configured RF branch references..";
+      type enumeration {
+        enum POLARIZATION_AGNOSTIC;
+        enum POLARIZATION_AWARE;
+      }
+    }
+  }
+}

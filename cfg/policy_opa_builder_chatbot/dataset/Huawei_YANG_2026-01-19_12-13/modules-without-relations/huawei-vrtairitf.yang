@@ -1,0 +1,40 @@
+module huawei-vrtairitf {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-vrtairitf";
+ prefix vrtairitf;
+ description
+ "Auto-generated modular YANG for huawei-vrtairitf" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping VRTAIRITF-attributes {
+ leaf OLD_PORTID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf PORTID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ }
+}

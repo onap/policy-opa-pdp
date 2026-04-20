@@ -1,0 +1,113 @@
+module ericsson-pim-cancellation-function-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmePimCancellationFunction";
+  prefix pimcnfrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list PimCancellationFunction {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents PIM cancellation function. It calculates PIM generated from DL carriers of one or more SectorCarriers. The PIM is then cancelled in one or more UL carriers participating in the function.";
+      key "pimCancellationFunctionId";
+      leaf pimCancellationFunctionId {
+        type leafref {
+          path "../attributes/pimCancellationFunctionId";
+        }
+      }
+      container attributes {
+        uses PimCancellationFunction-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping PimCancellationFunction-attributes {
+    leaf pimCancellationFunctionId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf sharedFunctionIdentifier {
+      type int32 {
+        range "-1..53";
+      }
+      default "-1";
+      description "range -1..53; Default value: -1.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list pmPimcCancellationGroupStatus {
+      type uint32;
+    }
+    leaf-list pmPimcCancellationDepth {
+      type uint32;
+    }
+    leaf-list pmPimcCoefficientsDivergence {
+      type uint32;
+    }
+    leaf-list pmPimcPowerSignalInjected {
+      type uint32;
+    }
+  }
+}

@@ -1,0 +1,203 @@
+module ericsson-rtnl2lagport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL2LagPort";
+  prefix rtnl2lag;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list LagPort {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; Represents group of Ethernet link ports bundled together to act as single link, to provide link redundancy and increased bandwidth. Dependencies: EthernetPort MO that is encapsulated by LagPort MO, cannot be used for MO types VlanPort, Dot1xSupplicant, InterfaceIPv4 or InterfaceIPv6.";
+      key "lagPortId";
+      leaf lagPortId {
+        type leafref {
+          path "../attributes/lagPortId";
+        }
+      }
+      container attributes {
+        uses LagPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping LagPort-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf-list encapsulation {
+      type string;
+      min-elements 1;
+    }
+    leaf lacpEnabled {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf lagPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf macAddress {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf mtu {
+      type int32;
+      config false;
+      units "B";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf ifHCInMulticastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifHCInOctets {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutBroadcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifInUnknownTags {
+      type uint64;
+      config false;
+    }
+    leaf ifHCInUcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifMinLossOfSignalDuration {
+      type int64;
+      config false;
+    }
+    leaf ifHCInBroadcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf-list ifOutOctetRatePercentiles {
+      type int64;
+    }
+    leaf ifMaxLossOfSignalDuration {
+      type int64;
+      config false;
+    }
+    leaf ifInUnknownProtos {
+      type uint64;
+      config false;
+    }
+    leaf ifTotalLossOfSignalDuration {
+      type uint64;
+      config false;
+    }
+    leaf ifHCLossOfSignal {
+      type uint64;
+      config false;
+    }
+    leaf-list ifInOctetRatePercentiles {
+      type int64;
+    }
+    leaf ifOutErrors {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutUcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifInErrors {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutOctets {
+      type uint64;
+      config false;
+    }
+    leaf ifOutDiscards {
+      type uint64;
+      config false;
+    }
+    leaf ifInDiscards {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutMulticastPkts {
+      type uint64;
+      config false;
+    }
+  }
+}

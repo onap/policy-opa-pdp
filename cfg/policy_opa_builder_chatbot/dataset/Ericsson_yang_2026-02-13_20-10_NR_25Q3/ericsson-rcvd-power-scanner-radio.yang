@@ -1,0 +1,63 @@
+module ericsson-rcvd-power-scanner-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRcvdPowerScanner";
+  prefix rcvdpwrsrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list RcvdPowerScanner {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Measures power at receive antenna when O&M interface requests it. The RDN of this MO is RcvdPowerScanner=1.";
+      key "rcvdPowerScannerId";
+      leaf rcvdPowerScannerId {
+        type leafref {
+          path "../attributes/rcvdPowerScannerId";
+        }
+      }
+      container attributes {
+        uses RcvdPowerScanner-attributes;
+      }
+    }
+  }
+  typedef RcvdPowerScanType {
+    type enumeration {
+      enum RCVD_POWER_WITHOUT_CARRIER;
+      enum RCVD_POWER_WITH_CARRIER;
+    }
+  }
+  grouping RcvdPowerScanner-attributes {
+    leaf scanId {
+      type uint32;
+      config false;
+    }
+    list scanResult {
+      config false;
+      container attributes {
+      leaf freq {
+        type string;
+      }
+      leaf bandwidth {
+        type string;
+      }
+      leaf rcvdPower {
+        type string;
+      }
+      }
+    }
+    leaf rcvdPowerScannerId {
+      type string;
+      mandatory true;
+    }
+  }
+}

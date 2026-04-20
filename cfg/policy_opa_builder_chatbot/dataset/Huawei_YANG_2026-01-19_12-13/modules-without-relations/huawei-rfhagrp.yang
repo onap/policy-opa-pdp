@@ -1,0 +1,54 @@
+module huawei-rfhagrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfhagrp";
+ prefix rfhagrp;
+ description
+ "Auto-generated modular YANG for huawei-rfhagrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFHAGRP-attributes {
+ leaf BRFCN {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf BRFSN {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf BRFSRN {
+  type uint8 {
+   range "60..254";
+  }
+  mandatory false;
+ }
+ leaf MRFCN {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf MRFSN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf MRFSRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,108 @@
+module ericsson-macsec-profile-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnMacSecProfile";
+  prefix macsecpfrdo;
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nRtnMacSecProfile fragment contains Media Access Control Security (MACsec) profile MO.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list MacSecProfile {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents profile allowing set of MACsec constraints that can be associated with all RiLink MOs or subset in ME.";
+      key "macSecProfileId";
+      leaf macSecProfileId {
+        type leafref {
+          path "../attributes/macSecProfileId";
+        }
+      }
+      container attributes {
+      uses MacSecProfile-attributes;
+      }
+    }
+  }
+  typedef MacSecCipher {
+    description "MACsec cipher suites.";
+    type enumeration {
+      enum GCM_AES_128 {
+        description "Specification: IEEE 802.1AE 2018";
+      }
+      enum GCM_AES_256 {
+        description "Specification: IEEE 802.1AE 2018";
+      }
+    }
+  }
+  typedef MacSecProfileScope {
+    description "Scope of MACsec profile.";
+    type enumeration {
+      enum SPECIFIC_REF {
+      }
+      enum ALL_RI_PORTS {
+      }
+    }
+  }
+  typedef MacSecSecurityLevel {
+    description "Security level provided by MACsec.";
+    type enumeration {
+      enum NONE {
+        description "Best-effort security using MACsec based on hardware capabilities.";
+      }
+      enum INTEGRITY_AND_CONFIDENTIALITY {
+        description "Maximum security using MACsec that includes both integrity and confidentiality.";
+      }
+    }
+  }
+  grouping MacSecProfile-attributes {
+    leaf-list excludedCiphers {
+      description "List of ciphers not used by MACsec. If value is empty, list is empty, all ciphers are allowed. If list contains all supported ciphers, minimumSecurityLevel attribute must be set to NONE..";
+      type MacSecCipher;
+      min-elements 0;
+    }
+    leaf macSecProfileId {
+      description "The value component of the RDN..";
+      type ietfyang:mac-address;
+      mandatory true;
+    }
+    leaf minimumSecurityLevel {
+      description "Configures minimum required MACsec level. If set to NONE, best-effort MACsec is provided. If set to INTEGRITY_AND_CONFIDENTIALITY, both integrity and confidentiality protection are provided. If available hardware does not allow both integrity and confidentiality, alarm is raised..";
+      type enumeration {
+        enum NONE;
+        enum INTEGRITY_AND_CONFIDENTIALITY;
+      }
+    }
+    leaf replayProtect {
+      description "Value of replay protection. If true, replay protection is provided. Can only be set to false if no packet reordering is expected on link.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf scope {
+      description "MACsec profile scope..";
+      type enumeration {
+        enum SPECIFIC_REF;
+        enum ALL_RI_PORTS;
+      }
+    }
+    leaf-list securedEntity {
+      description "Reference to RiLink MOs that profile is associated with..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

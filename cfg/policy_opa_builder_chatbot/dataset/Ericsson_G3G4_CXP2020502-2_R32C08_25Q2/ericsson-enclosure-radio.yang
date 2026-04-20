@@ -1,0 +1,70 @@
+module ericsson-enclosure-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEnclosure";
+  prefix enclrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nRepresents enclosure in which power system is located.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list Enclosure {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents enclosure in which power system is located.";
+      key "enclosureId";
+      leaf enclosureId {
+        type leafref {
+          path "../attributes/enclosureId";
+        }
+      }
+      container attributes {
+      uses Enclosure-attributes;
+      }
+    }
+  }
+  grouping ProductData-struct {
+    description "Product data.";
+    leaf productionDate {
+      type string;
+    }
+    leaf productName {
+      type string;
+    }
+    leaf productNumber {
+      type string;
+    }
+    leaf productRevision {
+      type string;
+    }
+    leaf serialNumber {
+      type string;
+    }
+  }
+  grouping Enclosure-attributes {
+    leaf enclosureId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list productData {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      min-elements 1;
+      description "The product data of the installed Unit. If the corresponding hardware unit is not installed yet, the struct contains empty strings..";
+      uses ProductData-struct;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+  }
+}

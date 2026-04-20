@@ -1,0 +1,66 @@
+module ericsson-twamp-responder-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnTwampResponder";
+  prefix twresprdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list TwampResponder {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Two Way Active Measurement Protocol Responder. This MO represents session responder functionality (according to RFC 5357) in TWAMP light architecture. When created, node reflects TWAMP packets received on specified UDP port. Maximum number of TwampResponder MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2 or 3: 8, - For Baseband in RAN Compute Group 4 or higher: 60. Dependencies: TwampResponder MO and TwampLightResponder MO are mutually exclusive.";
+      key "twampResponderId";
+      leaf twampResponderId {
+        type leafref {
+          path "../attributes/twampResponderId";
+        }
+      }
+      container attributes {
+        uses TwampResponder-attributes;
+      }
+    }
+  }
+  typedef ResponderType {
+    type enumeration {
+      enum LIGHT;
+      enum LIGHT_SL;
+    }
+  }
+  grouping TwampResponder-attributes {
+    leaf ipAddress {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf responderType {
+      type enumeration {
+        enum LIGHT;
+        enum LIGHT_SL;
+      }
+      config false;
+    }
+    leaf twampResponderId {
+      type string;
+      mandatory true;
+    }
+    leaf udpPort {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

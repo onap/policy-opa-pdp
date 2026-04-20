@@ -1,0 +1,455 @@
+module huawei-rfu {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfu";
+ prefix rfu;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-rfu" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFU-attributes {
+ leaf ADMSTATE {
+  type boolean;
+  mandatory false;
+ }
+ leaf ALMPROCSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ALMPROCTHRHLD {
+  type uint8 {
+   range "14..100";
+  }
+  mandatory false;
+ }
+ leaf ALMTHRHLD {
+  type uint8 {
+   range "13..30";
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CUSTOMDORMANCYSTDSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CUSTOMEDRFSPECEXTSW {
+  type string;
+  mandatory false;
+ }
+ leaf CUSTOMEDRFSPECSW {
+  type string;
+  mandatory false;
+ }
+ leaf DORMANCYSTARTTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf DORMANCYSTD {
+  type string;
+  mandatory false;
+ }
+ leaf DORMANCYSTOPTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf DORMANCYSW {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf DORMANCYTIMER {
+  type uint8 {
+   range "1..10";
+  }
+  mandatory false;
+ }
+ leaf ET {
+  type hwat:yyyy_mm_dd_HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf FLAG {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf FMBWH {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf IFFREQ {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf LCPSW {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf LEDSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf MMSETREMARK {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ leaf MNTMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+  }
+  mandatory false;
+ }
+ leaf PAEFFSWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf PS {
+  type uint8 {
+   range "0..20";
+  }
+  mandatory false;
+ }
+ leaf PSGID {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RCN {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RFCONNCN2 {
+  type union {
+   type uint32 {
+    range "0..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFCONNSN2 {
+  type union {
+   type uint32 {
+    range "0..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFCONNSRN2 {
+  type union {
+   type uint32 {
+    range "4..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFCONNTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf RFDS {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf RFTXSIGNDETECTPERIOD {
+  type boolean;
+  mandatory false;
+ }
+ leaf RFTXSIGNDETECTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RFTXSIGNDETECTTHLD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf RS {
+  type enumeration {
+   enum val-4;
+   enum val-6;
+   enum val-8;
+   enum val-12;
+   enum val-20;
+   enum val-40;
+   enum val-64;
+   enum val-68;
+   enum val-72;
+   enum val-76;
+   enum val-128;
+   enum val-132;
+   enum val-136;
+   enum val-140;
+   enum val-160;
+   enum val-192;
+   enum val-196;
+   enum val-200;
+   enum val-204;
+   enum val-256;
+   enum val-260;
+   enum val-264;
+   enum val-268;
+   enum val-288;
+   enum val-296;
+   enum val-320;
+   enum val-324;
+   enum val-328;
+   enum val-332;
+   enum val-384;
+   enum val-388;
+   enum val-392;
+   enum val-396;
+   enum val-448;
+   enum val-452;
+   enum val-456;
+   enum val-460;
+   enum val-512;
+   enum val-516;
+   enum val-520;
+   enum val-524;
+   enum val-640;
+   enum val-644;
+   enum val-648;
+   enum val-652;
+   enum val-768;
+   enum val-772;
+   enum val-776;
+   enum val-780;
+   enum val-896;
+   enum val-900;
+   enum val-904;
+   enum val-908;
+   enum val-2048;
+   enum val-2052;
+   enum val-2054;
+   enum val-2056;
+   enum val-2060;
+   enum val-2080;
+   enum val-2088;
+   enum val-2112;
+   enum val-2116;
+   enum val-2120;
+   enum val-2124;
+   enum val-2176;
+   enum val-2180;
+   enum val-2184;
+   enum val-2188;
+   enum val-2208;
+   enum val-2240;
+   enum val-2244;
+   enum val-2248;
+   enum val-2252;
+   enum val-2304;
+   enum val-2308;
+   enum val-2312;
+   enum val-2316;
+   enum val-2336;
+   enum val-2344;
+   enum val-2368;
+   enum val-2376;
+   enum val-2380;
+   enum val-2432;
+   enum val-2436;
+   enum val-2440;
+   enum val-2444;
+   enum val-2496;
+   enum val-2504;
+   enum val-2560;
+   enum val-2564;
+   enum val-2568;
+   enum val-2572;
+   enum val-2688;
+   enum val-2692;
+   enum val-2696;
+   enum val-2700;
+   enum val-2816;
+   enum val-2820;
+   enum val-2824;
+   enum val-2828;
+   enum val-2944;
+   enum val-2948;
+   enum val-2952;
+   enum val-2956;
+  }
+  mandatory false;
+ }
+ leaf RT {
+  type enumeration {
+   enum val-16;
+   enum val-23;
+   enum val-4112;
+   enum val-4368;
+   enum val-8208;
+   enum val-12304;
+   enum val-16400;
+   enum val-20496;
+  }
+  mandatory false;
+ }
+ leaf RUSPEC {
+  type string {
+   length "0..63";
+  }
+  mandatory false;
+ }
+ leaf RXFREQBANDMUTUALSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RXHWALMDETECTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RXNUM {
+  type uint8 {
+   range "0..128";
+  }
+  mandatory false;
+ }
+ leaf SCR {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-12;
+   enum val-20;
+   enum val-21;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf ST {
+  type hwat:yyyy_mm_dd_HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf TEMPERATUREALMDETENHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf TEMPERATUREALMTHLD {
+  type uint8 {
+   range "40..85";
+  }
+  mandatory false;
+ }
+ leaf TP {
+  type boolean;
+  mandatory false;
+ }
+ leaf TXNUM {
+  type uint8 {
+   range "0..128";
+  }
+  mandatory false;
+ }
+ leaf VSWRALMVALEXTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf WIFISW {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

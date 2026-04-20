@@ -1,0 +1,90 @@
+module huawei-glocellrlalmpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-glocellrlalmpara";
+ prefix glocellrlalmpara;
+ description
+ "Auto-generated modular YANG for huawei-glocellrlalmpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GLOCELLRLALMPARA-attributes {
+ leaf AREDISTHD {
+  type uint8 {
+   range "0..80";
+  }
+  mandatory false;
+ }
+ leaf ARELWTHD {
+  type uint8 {
+   range "5..100";
+  }
+  mandatory false;
+ }
+ leaf BWTHD {
+  type uint8 {
+   range "20..100";
+  }
+  mandatory false;
+ }
+ leaf GLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf GUNBADQUALCLRTHRD {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ leaf GUNBADQUALDETCTTHRD {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ leaf GUNCHDROPCLRTHRD {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ leaf GUNCHDROPDECTTHRD {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ leaf GUNFAULTDECTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf NOTRASP {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf RSSIUNBALANCEDTHRD {
+  type uint16 {
+   range "80..320";
+  }
+  mandatory false;
+ }
+ leaf WLAETIME {
+  type uint8 {
+   range "0..24";
+  }
+  mandatory false;
+ }
+ leaf WLASTIME {
+  type uint8 {
+   range "0..24";
+  }
+  mandatory false;
+ }
+ }
+}

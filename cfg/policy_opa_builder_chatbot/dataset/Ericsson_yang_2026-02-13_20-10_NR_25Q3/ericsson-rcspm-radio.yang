@@ -1,0 +1,622 @@
+module ericsson-rcspm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsPm";
+  prefix rcspm;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list Pm {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The top class of the Performance Management model. It is used to manage the Performance Management jobs and PM measurements.";
+      key "pmId";
+      leaf pmId {
+        type leafref {
+          path "../attributes/pmId";
+        }
+      }
+      container attributes {
+        uses Pm-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Pm/PmJob/MeasurementReader" {
+    list PmThresholdMonitoring {
+      description "Additional definitions from MOM:min/max-elements:0/4; Contains configuration of each threshold for Threshold jobs. To be able to monitor the overall health of the network, thresholds are used for generating Performance Alarms. Performance alarms cannot be cleared manually. Performance alarms must be cleared when the threshold is (a) crossed, or (b) reached, in the opposite direction to the one that triggers the alarm.";
+      key "pmThresholdMonitoringId";
+      leaf pmThresholdMonitoringId {
+        type leafref {
+          path "../attributes/pmThresholdMonitoringId";
+        }
+      }
+      container attributes {
+        uses PmThresholdMonitoring-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Pm" {
+    list PmMeasurementCapabilities {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Contains the measurement capabilities of the ME.";
+      key "pmMeasurementCapabilitiesId";
+      leaf pmMeasurementCapabilitiesId {
+        type leafref {
+          path "../attributes/pmMeasurementCapabilitiesId";
+        }
+      }
+      container attributes {
+        uses PmMeasurementCapabilities-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Pm" {
+    list PmGroup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; A grouping of the measurements into logical grouping. PmGroup is unique in the ME.";
+      key "pmGroupId";
+      leaf pmGroupId {
+        type leafref {
+          path "../attributes/pmGroupId";
+        }
+      }
+      container attributes {
+        uses PmGroup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Pm" {
+    list PmJob {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Describes a user-defined PM job on the Managed Element. A PM Job defines the attributes required per job and also defines the measurements to be included in the job. An instance of the MeasurementReader class is created for every PmGroup or MeasurementType instance being measured.";
+      key "pmJobId";
+      leaf pmJobId {
+        type leafref {
+          path "../attributes/pmJobId";
+        }
+      }
+      container attributes {
+        uses PmJob-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Pm/PmGroup" {
+    list MeasurementType {
+      description "Additional definitions from MOM:min/max-elements:1/unbounded;systemCreated; Defines a Measurement Type on the Managed Element to be monitored and collected. MeasurementType is unique within the PM Group.";
+      key "measurementTypeId";
+      leaf measurementTypeId {
+        type leafref {
+          path "../attributes/measurementTypeId";
+        }
+      }
+      container attributes {
+        uses MeasurementType-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Pm/PmJob" {
+    list MeasurementReader {
+      description "Additional definitions from MOM:min/max-elements:1/unbounded; Represents the capability to read the value of the MeasurementType or group of MeasurementTypes. There can be many Measurement Reader instances for each job (one for each MeasurementType or PmGroup). For a Threshold Job, only a MeasurementType instance can be referenced by the Measurement Reader.";
+      key "measurementReaderId";
+      leaf measurementReaderId {
+        type leafref {
+          path "../attributes/measurementReaderId";
+        }
+      }
+      container attributes {
+        uses MeasurementReader-attributes;
+      }
+    }
+  }
+  typedef Aggregation {
+    type enumeration {
+      enum SUM;
+      enum AVG;
+      enum MIN;
+      enum MAX;
+      enum LAST_UPDATE;
+    }
+  }
+  typedef CollectionMethod {
+    type enumeration {
+      enum CC;
+      enum GAUGE;
+      enum DER;
+      enum SI;
+    }
+  }
+  typedef CompressionTypes {
+    type enumeration {
+      enum GZIP;
+    }
+  }
+  typedef ExceptionStringState {
+    type enumeration {
+      enum NONE;
+      enum EXCEPTION_ENABLED;
+    }
+  }
+  typedef JobControl {
+    type enumeration {
+      enum FULL;
+      enum STARTSTOP;
+      enum VIEWONLY;
+    }
+  }
+  typedef JobPriority {
+    type enumeration {
+      enum LOW;
+      enum MEDIUM;
+      enum HIGH;
+    }
+  }
+  typedef JobStartStopSupport {
+    type enumeration {
+      enum NONE;
+      enum BASIC;
+    }
+  }
+  typedef JobState {
+    type enumeration {
+      enum ACTIVE;
+      enum STOPPED;
+    }
+  }
+  typedef JobType {
+    type enumeration {
+      enum MEASUREMENTJOB;
+      enum THRESHOLDJOB;
+      enum REALTIMEJOB;
+    }
+  }
+  typedef MeasurementStatus {
+    type enumeration {
+      enum USED;
+      enum DEPRECATED;
+      enum OBSOLETE;
+      enum PRELIMINARY;
+    }
+  }
+  typedef PerTimeInterval {
+    type enumeration {
+      enum PER_SECOND;
+      enum PER_GP;
+    }
+  }
+  typedef RopFilenameTimestamp {
+    type enumeration {
+      enum LOCAL_WITH_UTC_OFFSET;
+      enum UTC_NO_OFFSET;
+    }
+  }
+  typedef SeverityLevel {
+    type enumeration {
+      enum CRITICAL;
+      enum MAJOR;
+      enum MINOR;
+      enum WARNING;
+    }
+  }
+  typedef ThresholdDirection {
+    type enumeration {
+      enum INCREASING;
+      enum DECREASING;
+    }
+  }
+  typedef TimePeriod {
+    type enumeration {
+      enum TEN_SECONDS;
+      enum THIRTY_SECONDS;
+      enum ONE_MIN;
+      enum FIVE_MIN;
+      enum FIFTEEN_MIN;
+      enum THIRTY_MIN;
+      enum ONE_HOUR;
+      enum TWELVE_HOUR;
+      enum ONE_DAY;
+    }
+  }
+  grouping MeasurementReader-attributes {
+    leaf measurementReaderId {
+      type string;
+      mandatory true;
+    }
+    list measurementReaderNameValue {
+      config false;
+      container attributes {
+      leaf currentValue {
+        type string;
+      }
+      leaf lastUpdated {
+        type string;
+      }
+      leaf moClassInstance {
+        type string;
+      }
+      leaf suspectFlag {
+        type boolean;
+        default "false";
+        description "Default value: false.";
+      }
+      }
+    }
+    list measurementSpecification {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf groupRef {
+        type string;
+      }
+      leaf measurementTypeRef {
+        type string;
+      }
+      }
+    }
+    leaf-list moInstances {
+      type string;
+    }
+    leaf thresholdRateOfVariation {
+      type enumeration {
+        enum PER_SECOND;
+        enum PER_GP;
+      }
+    }
+    leaf thresholdDirection {
+      type enumeration {
+        enum INCREASING;
+        enum DECREASING;
+      }
+    }
+  }
+  grouping MeasurementType-attributes {
+    leaf measurementTypeId {
+      type string;
+      mandatory true;
+    }
+    leaf size {
+      type uint16;
+      config false;
+    }
+    leaf collectionMethod {
+      type enumeration {
+        enum CC;
+        enum GAUGE;
+        enum DER;
+        enum SI;
+      }
+      config false;
+    }
+    leaf description {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf condition {
+      type string;
+      config false;
+    }
+    leaf aggregation {
+      type enumeration {
+        enum SUM;
+        enum AVG;
+        enum MIN;
+        enum MAX;
+        enum LAST_UPDATE;
+      }
+      config false;
+    }
+    leaf measurementStatus {
+      type enumeration {
+        enum USED;
+        enum DEPRECATED;
+        enum OBSOLETE;
+        enum PRELIMINARY;
+      }
+      config false;
+    }
+    leaf measurementResult {
+      type string;
+      config false;
+    }
+    leaf multiplicity {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf initialValue {
+      type int32;
+      config false;
+    }
+    leaf resetAtGranPeriod {
+      type boolean;
+      config false;
+    }
+    leaf derSampleRate {
+      type int16;
+      config false;
+    }
+    leaf fmAlarmType {
+      type string;
+      config false;
+    }
+    leaf thresholdDirection {
+      type enumeration {
+        enum INCREASING;
+        enum DECREASING;
+      }
+      config false;
+    }
+    leaf isCompressed {
+      type boolean;
+      config false;
+    }
+    leaf thresholdValidRange {
+      type string;
+      config false;
+    }
+    leaf measurementName {
+      type string;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification, isNillable=true; Status info: This attribute does not save the intended data. It also has no particular use in the model. Deprecated in ECIM PM 3.0.";
+    }
+    list categories {
+      config false;
+      container attributes {
+      leaf type {
+        type string;
+      }
+      leaf area {
+        type string;
+      }
+      leaf scenario {
+        type string;
+      }
+      }
+    }
+  }
+  grouping Pm-attributes {
+    leaf pmId {
+      type string;
+      mandatory true;
+    }
+    leaf exceptionStringEnabled {
+      type enumeration {
+        enum NONE;
+        enum EXCEPTION_ENABLED;
+      }
+    }
+  }
+  grouping PmGroup-attributes {
+    leaf pmGroupId {
+      type string;
+      mandatory true;
+    }
+    leaf generation {
+      type string;
+      config false;
+    }
+    leaf switchingTechnology {
+      type string;
+      config false;
+    }
+    leaf validity {
+      type boolean;
+      config false;
+    }
+    list moClass {
+      config false;
+      container attributes {
+      leaf moClassName {
+        type string;
+      }
+      leaf mimName {
+        type string;
+      }
+      leaf mimVersion {
+        type string;
+      }
+      leaf mimRelease {
+        type string;
+      }
+      }
+    }
+    leaf description {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf pmGroupVersion {
+      type string;
+      config false;
+    }
+  }
+  grouping PmJob-attributes {
+    leaf pmJobId {
+      type string;
+      mandatory true;
+    }
+    leaf requestedJobState {
+      type enumeration {
+        enum ACTIVE;
+        enum STOPPED;
+      }
+    }
+    leaf reportingPeriod {
+      type ietfinet:port-number;
+    }
+    leaf jobType {
+      type enumeration {
+        enum MEASUREMENTJOB;
+        enum THRESHOLDJOB;
+        enum REALTIMEJOB;
+      }
+    }
+    leaf jobPriority {
+      type enumeration {
+        enum LOW;
+        enum MEDIUM;
+        enum HIGH;
+      }
+    }
+    leaf granularityPeriod {
+      type enumeration {
+        enum TEN_SECONDS;
+        enum THIRTY_SECONDS;
+        enum ONE_MIN;
+        enum FIVE_MIN;
+        enum FIFTEEN_MIN;
+        enum THIRTY_MIN;
+        enum ONE_HOUR;
+        enum TWELVE_HOUR;
+        enum ONE_DAY;
+      }
+    }
+    leaf currentJobState {
+      type enumeration {
+        enum ACTIVE;
+        enum STOPPED;
+      }
+      config false;
+    }
+    leaf jobControl {
+      type enumeration {
+        enum FULL;
+        enum STARTSTOP;
+        enum VIEWONLY;
+      }
+      config false;
+    }
+    leaf compressionType {
+      type enumeration {
+        enum GZIP;
+      }
+    }
+    leaf jobGroup {
+      type string;
+    }
+  }
+  grouping PmMeasurementCapabilities-attributes {
+    leaf pmMeasurementCapabilitiesId {
+      type string;
+      mandatory true;
+    }
+    leaf maxNoOfJobs {
+      type uint16;
+      config false;
+    }
+    leaf jobStartStopSupport {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf finalROP {
+      type boolean;
+      config false;
+    }
+    leaf jobPrioritizationSupport {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf maxNoOfMeasurements {
+      type uint32;
+      config false;
+    }
+    leaf maxNoOfPmFiles {
+      type uint16;
+      config false;
+    }
+    leaf alignedReportingPeriod {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf measurementJobSupport {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf realTimeJobSupport {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf thresholdJobSupport {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf fileLocation {
+      type string;
+      config false;
+    }
+    leaf fileRPSupported {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf-list supportedRopPeriods {
+      type ietfinet:port-number;
+    }
+    leaf-list supportedMeasJobGps {
+      type ietfinet:port-number;
+    }
+    leaf-list supportedRtJobGps {
+      type ietfinet:port-number;
+    }
+    leaf-list supportedThreshJobGps {
+      type ietfinet:port-number;
+    }
+    leaf-list supportedCompressionTypes {
+      type ietfinet:port-number;
+    }
+    leaf jobGroupingSupport {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf ropFilenameTimestamp {
+      type enumeration {
+        enum LOCAL_WITH_UTC_OFFSET;
+        enum UTC_NO_OFFSET;
+      }
+      config false;
+    }
+    leaf maxNoOfThresholdJobs {
+      type int32;
+      config false;
+    }
+    leaf maxNoOfMeasurementJobs {
+      type int32;
+      config false;
+    }
+    leaf maxNoOfRealtimeJobs {
+      type int32;
+      config false;
+    }
+  }
+  grouping PmThresholdMonitoring-attributes {
+    leaf pmThresholdMonitoringId {
+      type string;
+      mandatory true;
+    }
+    leaf thresholdHigh {
+      type int64;
+      mandatory true;
+    }
+    leaf thresholdLow {
+      type int64;
+      mandatory true;
+    }
+    leaf thresholdSeverity {
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+    }
+  }
+}

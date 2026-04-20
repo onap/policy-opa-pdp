@@ -1,0 +1,2537 @@
+module ericsson-gnbcuup-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:GNBCUUP";
+  prefix gnbcuup;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement" {
+    list GNBCUUPFunction {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Representation of GNBCUUP function. Maximum number of instances is one.";
+      key "gNBCUUPFunctionId";
+      leaf gNBCUUPFunctionId {
+        type leafref {
+          path "../attributes/gNBCUUPFunctionId";
+        }
+      }
+      container attributes {
+        uses GNBCUUPFunction-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/CUUP5qiTable" {
+    list CUUP5qi {
+      description "Additional definitions from MOM:min/max-elements:1/29; QoS configuration for each 5QI profile. Each profile can be present once in each table.";
+      key "cUUP5qiId";
+      leaf cUUP5qiId {
+        type leafref {
+          path "../attributes/cUUP5qiId";
+        }
+      }
+      container attributes {
+        uses CUUP5qi-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/DataPacketGenerator" {
+    list DataPacketGeneratorUeCfg {
+      description "Additional definitions from MOM:min/max-elements:0/1; Configuration of Downlink Throughput Test in gNodeB feature for UE groups. The RDN of this MO must be DataPacketGeneratorUeCfg=1.";
+      key "dataPacketGeneratorUeCfgId";
+      leaf dataPacketGeneratorUeCfgId {
+        type leafref {
+          path "../attributes/dataPacketGeneratorUeCfgId";
+        }
+      }
+      container attributes {
+        uses DataPacketGeneratorUeCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC/Drb" {
+    list DrbUeCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; Configuration of data radio bearer UE profile for UE groups. Instance DrbUeCfg=Base is created automatically when parent MO instance is created, unless created manually in same transaction. Each UE configuration group identifier can only be defined in one ueConfGroupList among DrbUeCfg instances contained under same parent Drb instance. Any combination of one UE group identifier in ueGroupList and one preference UE group identifier in prefUeGroupList must be unique among DrbUeCfg instances contained under parent Drb instance. Attributes prefUeGroupList, ueGroupList and ueConfGroupList must be empty in instance DrbUeCfg=Base but cannot all be empty in any other instance of DrbUeCfg under same parent Drb instance. Other instances than UserPlaneProfileUeCfg=Base are only applicable if license for one or more of following features is present and feature is active: - NR Service-Adaptive User Plane Profile - Service-Adaptive Uplink User Plane Profile Precondition: Instance DrbUeCfg=Base can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 7 DrbUeCfg instances, with RDN different from Base, can be created under same parent MO instance. To be able to create an instance, the total number of instances, including all auto created instances, must be less than the total allowed number of instances under UeCC instance that is 32.";
+      key "drbUeCfgId";
+      leaf drbUeCfgId {
+        type leafref {
+          path "../attributes/drbUeCfgId";
+        }
+      }
+      container attributes {
+        uses DrbUeCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/EndpointResource" {
+    list LocalIpEndpoint {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Local transport network endpoint for user plane interface. E1 control plane uses TCP, hence this interface is also configured by this class.";
+      key "localIpEndpointId";
+      leaf localIpEndpointId {
+        type leafref {
+          path "../attributes/localIpEndpointId";
+        }
+      }
+      container attributes {
+        uses LocalIpEndpoint-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/EndpointResource" {
+    list LocalIPsecEndpoint {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Local transport network endpoint for interfaces using direct IPsec VPN connection with X2 neighbor.";
+      key "localIPsecEndpointId";
+      leaf localIPsecEndpointId {
+        type leafref {
+          path "../attributes/localIPsecEndpointId";
+        }
+      }
+      container attributes {
+        uses LocalIPsecEndpoint-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list CardinalityLimits {
+      description "Additional definitions from MOM:min/max-elements:0/1; Cardinality limits for current deployment. Listed cardinality limits is maximum number of MO instances that can be created. Instance CardinalityLimits=1 is created automatically on RAN Compute group 4 and 5 when parent MO instance is created, unless created manually in same transaction. Not applicable to RAN Compute group 6 and higher. The RDN of this MO must be CardinalityLimits=1. Precondition: Instance CardinalityLimits=1 can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted.";
+      key "cardinalityLimitsId";
+      leaf cardinalityLimitsId {
+        type leafref {
+          path "../attributes/cardinalityLimitsId";
+        }
+      }
+      container attributes {
+        uses CardinalityLimits-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list CUUP5qiTable {
+      description "Additional definitions from MOM:min/max-elements:0/36; Mapping from 5G QoS Identifier to parameters that have impact on QoS. At least one CUUP5qi instance must be created in same transaction when a CUUP5qiTable is created.";
+      key "cUUP5qiTableId";
+      leaf cUUP5qiTableId {
+        type leafref {
+          path "../attributes/cUUP5qiTableId";
+        }
+      }
+      container attributes {
+        uses CUUP5qiTable-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list DataPacketGenerator {
+      description "Additional definitions from MOM:min/max-elements:0/1; Configuration parameters for downlink data packet test generator. Only applicable if license for Downlink Throughput Test in gNodeB is present and feature is active. The RDN of this MO must be DataPacketGenerator=1.";
+      key "dataPacketGeneratorId";
+      leaf dataPacketGeneratorId {
+        type leafref {
+          path "../attributes/dataPacketGeneratorId";
+        }
+      }
+      container attributes {
+        uses DataPacketGenerator-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list EndpointResource {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Transport network endpoints for RAN interfaces. Configuration is valid for an entity that refers to an instance of this MO.";
+      key "endpointResourceId";
+      leaf endpointResourceId {
+        type leafref {
+          path "../attributes/endpointResourceId";
+        }
+      }
+      container attributes {
+        uses EndpointResource-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list EP_NgU {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; NG link UPF termination point. Created when NgU link is established. Deleted when NgU link is released. The RDN of this MO is EP_NgU=[Local Ip Address]_[Remote Ip Address]. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "eP_NgUId";
+      leaf eP_NgUId {
+        type leafref {
+          path "../attributes/eP_NgUId";
+        }
+      }
+      container attributes {
+        uses EP_NgU-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list EP_XnU {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Xn link CUUP termination point. Created when XnU link is established. Deleted when XnU link is released. The RDN of this MO is EP_XnU=[Local Ip Address]_[Remote Ip Address]. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "eP_XnUId";
+      leaf eP_XnUId {
+        type leafref {
+          path "../attributes/eP_XnUId";
+        }
+      }
+      container attributes {
+        uses EP_XnU-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list GtpuSupervision {
+      description "Additional definitions from MOM:min/max-elements:0/1; GTP-U path supervision towards external nodes. The RDN of this MO must be GtpuSupervision=1.";
+      key "gtpuSupervisionId";
+      leaf gtpuSupervisionId {
+        type leafref {
+          path "../attributes/gtpuSupervisionId";
+        }
+      }
+      container attributes {
+        uses GtpuSupervision-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list PpControlTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Local termination point of packet processing control interface. Created when first packet processing control link is established. Deleted at node restart. The RDN of this MO is PpControlTermination=1. Length of RDN value is 1 character. Instance can be created without a preceding user-initiated transaction.";
+      key "ppControlTerminationId";
+      leaf ppControlTerminationId {
+        type leafref {
+          path "../attributes/ppControlTerminationId";
+        }
+      }
+      container attributes {
+        uses PpControlTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list ResourcePartitions {
+      description "Additional definitions from MOM:min/max-elements:0/1; Set of resource partitions.";
+      key "resourcePartitionsId";
+      leaf resourcePartitionsId {
+        type leafref {
+          path "../attributes/resourcePartitionsId";
+        }
+      }
+      container attributes {
+        uses ResourcePartitions-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list RpUserPlaneTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Local termination point of radio processing user plane interface. Created when first RpUserPlaneLink instance is created. Deleted at node restart. The RDN of this MO is RpUserPlaneTermination=1. Length of RDN value is 1 character. Instance can be created without a preceding user-initiated transaction.";
+      key "rpUserPlaneTerminationId";
+      leaf rpUserPlaneTerminationId {
+        type leafref {
+          path "../attributes/rpUserPlaneTerminationId";
+        }
+      }
+      container attributes {
+        uses RpUserPlaneTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list S1UTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Contains information about S1 user plane. Created when first S1ULink instance is created. Deleted at node restart. The RDN of this MO is S1UTermination=1. Length of RDN value is 1 character. Instance can be created without a preceding user-initiated transaction.";
+      key "s1UTerminationId";
+      leaf s1UTerminationId {
+        type leafref {
+          path "../attributes/s1UTerminationId";
+        }
+      }
+      container attributes {
+        uses S1UTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list UeCC {
+      description "Additional definitions from MOM:min/max-elements:0/1; Container class for UE Connection Control (UeCC) attributes and UeCC profile classes. Instance UeCC=1 is created automatically when parent MO instance is created, unless created manually in same transaction. The RDN of this MO must be UeCC=1. Precondition: Instance UeCC=1 can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted.";
+      key "ueCCId";
+      leaf ueCCId {
+        type leafref {
+          path "../attributes/ueCCId";
+        }
+      }
+      container attributes {
+        uses UeCC-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction" {
+    list X2UTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; X2 user plane termination. Created when first X2ULink instance is created. Deleted at node restart. The RDN of this MO is X2UTermination=1. Length of RDN value is 1 character. Instance can be created without a preceding user-initiated transaction.";
+      key "x2UTerminationId";
+      leaf x2UTerminationId {
+        type leafref {
+          path "../attributes/x2UTerminationId";
+        }
+      }
+      container attributes {
+        uses X2UTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/GtpuSupervision" {
+    list GtpuSupervisionProfile {
+      description "Additional definitions from MOM:min/max-elements:0/64; GTP-U path supervision profile.";
+      key "gtpuSupervisionProfileId";
+      leaf gtpuSupervisionProfileId {
+        type leafref {
+          path "../attributes/gtpuSupervisionProfileId";
+        }
+      }
+      container attributes {
+        uses GtpuSupervisionProfile-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/PpControlTermination" {
+    list PpControlLink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Control link for packet processing interface. Created when packet processing control link is established. Deleted when packet processing control link is released. The RDN of this MO is PpControlLink=[Local Ip Address]_[Remote Ip Address] when E1 is external. The RDN of this MO is PpControlLink=internal when E1 is internal. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "ppControlLinkId";
+      leaf ppControlLinkId {
+        type leafref {
+          path "../attributes/ppControlLinkId";
+        }
+      }
+      container attributes {
+        uses PpControlLink-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/ResourcePartitions/ResourcePartition" {
+    list ResourcePartitionMember {
+      description "Additional definitions from MOM:min/max-elements:0/36; Set of member information of resource partition.";
+      key "resourcePartitionMemberId";
+      leaf resourcePartitionMemberId {
+        type leafref {
+          path "../attributes/resourcePartitionMemberId";
+        }
+      }
+      container attributes {
+        uses ResourcePartitionMember-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/ResourcePartitions" {
+    list ResourcePartition {
+      description "Additional definitions from MOM:min/max-elements:0/36; Combination of attributes specifying in which resource partition a UE is included.";
+      key "resourcePartitionId";
+      leaf resourcePartitionId {
+        type leafref {
+          path "../attributes/resourcePartitionId";
+        }
+      }
+      container attributes {
+        uses ResourcePartition-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/RpUserPlaneTermination" {
+    list RpUserPlaneLink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; User plane link for radio processing interface. Created when radio processing user plane link is established. Deleted when radio processing user plane link is released. The RDN of this MO is RpUserPlaneLink=[Local Ip Address]_[Remote Ip Address] when E1 is external. The RDN of this MO is RpUserPlaneLink=internal when E1 is internal. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "rpUserPlaneLinkId";
+      leaf rpUserPlaneLinkId {
+        type leafref {
+          path "../attributes/rpUserPlaneLinkId";
+        }
+      }
+      container attributes {
+        uses RpUserPlaneLink-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/S1UTermination" {
+    list S1ULink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Contains information about S1 user plane link between CUUP and SGW. Created when S1U link is established. Deleted when S1U link is released. The RDN of this MO is S1ULink=[Local Ip Address]_[Remote Ip Address]. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "s1ULinkId";
+      leaf s1ULinkId {
+        type leafref {
+          path "../attributes/s1ULinkId";
+        }
+      }
+      container attributes {
+        uses S1ULink-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC" {
+    list AqmCfg {
+      description "Additional definitions from MOM:min/max-elements:0/32; Automatic queue management configuration selection profile. Instances AqmCfg=Default_application_signaling, Default_conversational_media, and Default_other are created automatically when parent MO instance is created, unless created manually in same transaction. Precondition: Instances AqmCfg=Default_application_signaling, Default_conversational_media, and Default_other can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 29 AqmCfg instances, with RDN different from Default_application_signaling, Default_conversational_media, or Default_other can be created under same parent MO instance.";
+      key "aqmCfgId";
+      leaf aqmCfgId {
+        type leafref {
+          path "../attributes/aqmCfgId";
+        }
+      }
+      container attributes {
+        uses AqmCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC" {
+    list DcDlCfg {
+      description "Additional definitions from MOM:min/max-elements:0/32; Dual-connectivity downlink configuration profile. Instance DcDlCfg=Default is created automatically when parent MO instance is created, unless created manually in same transaction. DrbUeCfg::dcDlCfgRef is automatically set to DcDlCfg=Default instance, unless manually set to refer to another MO instance. Precondition: Instance DcDlCfg=Default can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 31 DcDlCfg instances, with RDN different from Default, can be created under same parent MO instance.";
+      key "dcDlCfgId";
+      leaf dcDlCfgId {
+        type leafref {
+          path "../attributes/dcDlCfgId";
+        }
+      }
+      container attributes {
+        uses DcDlCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC" {
+    list DcUlCfg {
+      description "Additional definitions from MOM:min/max-elements:0/32; Dual connectivity uplink configuration profile. Instance DcUlCfg=Default is created automatically when parent MO instance is created, unless created manually in same transaction. DrbUeCfg::dcUlCfgRef is automatically set to DcUlCfg=Default instance, unless manually set to refer to another MO instance. Precondition: Instance DcUlCfg=Default can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted in same transaction. Other instances can be created and deleted at any time. Maximum 31 DcUlCfg instances, with RDN different from Default, can be created under same parent MO instance.";
+      key "dcUlCfgId";
+      leaf dcUlCfgId {
+        type leafref {
+          path "../attributes/dcUlCfgId";
+        }
+      }
+      container attributes {
+        uses DcUlCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC" {
+    list Drb {
+      description "Additional definitions from MOM:min/max-elements:0/32; Data radio bearer profile. Instances Drb=Default_application_signaling, Default_conversational_media, and Default_other are created automatically when parent MO instance is created, unless created manually in same transaction. Precondition: Instances Drb=Default_application_signaling, Default_conversational_media, and Default_other can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 29 Drb instances, with RDN different from Default_application_signaling, Default_conversational_media, or Default_other can be created under same parent MO instance. When creating an instance, there must be room for a child instance DrbUeCfg=Base without exceeding the total amount of allowed DrbUeCfg instances 32.";
+      key "drbId";
+      leaf drbId {
+        type leafref {
+          path "../attributes/drbId";
+        }
+      }
+      container attributes {
+        uses Drb-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC" {
+    list L4sCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; Container for L4S configuration attributes. Only applicable if license for DL RAN Assisted Rate Adaptation is present and feature is active.";
+      key "l4sCfgId";
+      leaf l4sCfgId {
+        type leafref {
+          path "../attributes/l4sCfgId";
+        }
+      }
+      container attributes {
+        uses L4sCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC" {
+    list UserPlaneProfile {
+      description "Additional definitions from MOM:min/max-elements:0/8; User plane profile. Instance UserPlaneProfile=Default is created automatically when parent MO instance is created, unless created manually in same transaction. Precondition: Instance UserPlaneProfile=Default can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 7 UserPlaneProfile instances, with RDN different from Default, can be created under parent MO instance.";
+      key "userPlaneProfileId";
+      leaf userPlaneProfileId {
+        type leafref {
+          path "../attributes/userPlaneProfileId";
+        }
+      }
+      container attributes {
+        uses UserPlaneProfile-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC" {
+    list UserPlaneProfileCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; User plane profile configuration group. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. If UserPlaneProfileUeCfg::userPlaneProfileCfgRef is non-empty, attributes from referenced MO instance are used. If UserPlaneProfileUeCfg::userPlaneProfileCfgRef is empty, attributes according to UserPlaneProfileUeCfg MO class definition are used.";
+      key "userPlaneProfileCfgId";
+      leaf userPlaneProfileCfgId {
+        type leafref {
+          path "../attributes/userPlaneProfileCfgId";
+        }
+      }
+      container attributes {
+        uses UserPlaneProfileCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC" {
+    list UserPlaneProfileCgCat {
+      description "Additional definitions from MOM:min/max-elements:0/1; User plane profile cell group category. Instance UserPlaneProfileCgCat=1 is created automatically when parent MO instance is created, unless created manually in same transaction. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. The RDN of this MO must be UserPlaneProfileCgCat=1. Precondition: Instance UserPlaneProfileCgCat=1 can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted.";
+      key "userPlaneProfileCgCatId";
+      leaf userPlaneProfileCgCatId {
+        type leafref {
+          path "../attributes/userPlaneProfileCgCatId";
+        }
+      }
+      container attributes {
+        uses UserPlaneProfileCgCat-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC/UserPlaneProfile" {
+    list UserPlaneProfileUeCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; User plane profile for UE configuration group. Instance UserPlaneProfileUeCfg=Base is created automatically when parent MO instance is created, unless created manually in same transaction. Each UE configuration group identifier can only be defined in one ueConfGroupList among UserPlaneProfileUeCfg instances contained under parent UserPlaneProfile instance. Any combination of one UE group identifier in ueGroupList and one preference UE group identifier in prefUeGroupList must be unique among UserPlaneProfileUeCfg instances contained under parent UserPlaneProfile instance. Attributes prefUeGroupList, ueGroupList and ueConfGroupList must be empty in instance UserPlaneProfileUeCfg=Base but cannot all be empty in any other instance of UserPlaneProfileUeCfg under same parent UserPlaneProfile instance. Other instances than UserPlaneProfileUeCfg=Base are only applicable if license for one or more of following features is present and feature is active: - NR Service-Adaptive User Plane Profile - Service-Adaptive Uplink User Plane Profile Precondition: Instance UserPlaneProfileUeCfg=Base can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 7 UserPlaneProfileUeCfg instances, with RDN different from Base, can be created under parent MO instance.";
+      key "userPlaneProfileUeCfgId";
+      leaf userPlaneProfileUeCfgId {
+        type leafref {
+          path "../attributes/userPlaneProfileUeCfgId";
+        }
+      }
+      container attributes {
+        uses UserPlaneProfileUeCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/UeCC/UserPlaneProfileCgCat" {
+    list UserPlaneProfileCgCatCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; User plane profile cell group category configuration group. Instance UserPlaneProfileCgCatCfg=Default is created automatically when parent MO instance is created, unless created manually in same transaction. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. Precondition: Instance UserPlaneProfileCgCatCfg=Default can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 7 UserPlaneProfileCgCatCfg instances, with RDN different from Default, can be created under parent MO instance.";
+      key "userPlaneProfileCgCatCfgId";
+      leaf userPlaneProfileCgCatCfgId {
+        type leafref {
+          path "../attributes/userPlaneProfileCgCatCfgId";
+        }
+      }
+      container attributes {
+        uses UserPlaneProfileCgCatCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/GNBCUUPFunction/X2UTermination" {
+    list X2ULink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; X2 user plane link. Created when X2U link is established. Deleted when X2U link is released. The RDN of this MO is X2ULink=[Local Ip Address]_[Remote Ip Address]. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "x2ULinkId";
+      leaf x2ULinkId {
+        type leafref {
+          path "../attributes/x2ULinkId";
+        }
+      }
+      container attributes {
+        uses X2ULink-attributes;
+      }
+    }
+  }
+  typedef AqmMode {
+    type enumeration {
+      enum OFF;
+      enum MODE1;
+      enum MODE2;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef DcDlAggCgPrio {
+    type enumeration {
+      enum MCG_PRIO;
+      enum SCG_PRIO;
+      enum EQUAL_PRIO;
+    }
+  }
+  typedef DcDlPdcpAggrPrioCg {
+    type enumeration {
+      enum NO_AGGREGATION;
+      enum MCG_PRIO;
+      enum SCG_PRIO;
+      enum EQUAL_PRIO;
+    }
+  }
+  typedef DcDlPdcpAggrTimeDiffCg {
+    type enumeration {
+      enum MCG;
+      enum SCG;
+      enum YOUNGEST_CG;
+    }
+  }
+  typedef DlPdcpPreferredCg {
+    type enumeration {
+      enum MCG;
+      enum SCG;
+      enum KEEP_SCG;
+    }
+  }
+  typedef InterfaceName {
+    type enumeration {
+      enum C5;
+      enum E1;
+      enum E6;
+      enum F1;
+      enum NG;
+      enum S1;
+      enum XN;
+      enum X2;
+    }
+  }
+  typedef L4sMode {
+    type enumeration {
+      enum DISABLED;
+      enum QUEUE_BASED;
+    }
+  }
+  typedef MonitoringStatusType {
+    type enumeration {
+      enum INACTIVE;
+      enum ACTIVE;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef PathStatusType {
+    type enumeration {
+      enum UNKNOWN;
+      enum REACHABLE;
+      enum UNREACHABLE;
+    }
+  }
+  typedef RedundancyMode {
+    type enumeration {
+      enum NORMAL;
+      enum BACKUP_IP;
+    }
+  }
+  typedef UeConfGroupType {
+    type enumeration {
+      enum UE_MOBILITY_GROUP;
+      enum UE_SERVICE_GROUP;
+      enum UE_ADMISSION_GROUP;
+    }
+  }
+  typedef UlPrimaryPathMode {
+    type enumeration {
+      enum MCG;
+      enum SCG;
+      enum KEEP_SCG;
+    }
+  }
+  grouping AqmCfg-attributes {
+    leaf aqmCfgId {
+      type string;
+      mandatory true;
+    }
+    leaf aqmMode {
+      type enumeration {
+        enum OFF;
+        enum MODE1;
+        enum MODE2;
+      }
+    }
+    leaf estimatedE2ERTT {
+      type eytypes:int32_range_0-1023;
+      default "50";
+      units "ms";
+      description "range 0..1023; Default value: 50.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf tDiscardDl {
+      type int32 {
+        range "0..2046";
+      }
+      default "200";
+      units "ms";
+      description "range 0..2046; Default value: 200.";
+    }
+    leaf tOooUlDelivery {
+      type int32 {
+        range "0 | 10 | 20 | 30 | 40 | 50 | 60 | 75 | 100 | 150 | 200 | 250 | 300 | 500 | 750 | 1500";
+      }
+      default "150";
+      units "ms";
+      description "Default value: 150.";
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping CardinalityLimits-attributes {
+    leaf cardinalityLimitsId {
+      type string;
+      mandatory true;
+    }
+    leaf maxNgUPath {
+      type int32 {
+        range "0..1800";
+      }
+      default "600";
+      description "range 0..1800; Default value: 600.";
+    }
+    leaf maxS1UPath {
+      type int32 {
+        range "0..1800";
+      }
+      default "600";
+      description "range 0..1800; Default value: 600.";
+    }
+  }
+  grouping CUUP5qi-attributes {
+    leaf aqmMode {
+      type enumeration {
+        enum OFF;
+        enum MODE1;
+        enum MODE2;
+      }
+      status deprecated;
+      default "MODE1";
+      description "Default value: MODE1; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf counterActiveMode {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf cUUP5qiId {
+      type string;
+      mandatory true;
+    }
+    leaf dcDlPdcpAggrPrioCg {
+      type enumeration {
+        enum NO_AGGREGATION;
+        enum MCG_PRIO;
+        enum SCG_PRIO;
+        enum EQUAL_PRIO;
+      }
+      status deprecated;
+      default "EQUAL_PRIO";
+      description "Default value: EQUAL_PRIO; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpAggrTimeDiffCg {
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum YOUNGEST_CG;
+      }
+      status deprecated;
+      default "YOUNGEST_CG";
+      description "Default value: YOUNGEST_CG; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpAggrTimeDiffProhibit {
+      type eytypes:int32_range_0-10000;
+      status deprecated;
+      default "200";
+      units "ms";
+      description "range 0..10000; Default value: 200; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpAggrTimeDiffThresh {
+      type eytypes:int32_range_0-3000;
+      status deprecated;
+      default "150";
+      units "ms";
+      description "range 0..3000; Default value: 150; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf drbRef {
+      type string;
+    }
+    leaf dscp {
+      type eytypes:int32_range_0-63;
+      default "12";
+      description "range 0..63; Default value: 12.";
+    }
+    leaf estimatedE2ERTT {
+      type eytypes:int32_range_0-1023;
+      status deprecated;
+      default "50";
+      units "ms";
+      description "range 0..1023; Default value: 50; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf l4sCfgRef {
+      type string;
+      status deprecated;
+      description "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; MOM flags: isNillable=true; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf packetDelayBudget {
+      type eytypes:int32_range_0-1023;
+      status deprecated;
+      default "280";
+      units "ms";
+      description "range 0..1023; Default value: 280; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf packetDelayBudgetOffset {
+      type eytypes:int32_range_0-1023;
+      status deprecated;
+      default "0";
+      units "ms";
+      description "range 0..1023; Default value: 0; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf profile5qi {
+      type eytypes:int32_range_0-255;
+      mandatory true;
+      description "range 0..255.";
+    }
+    leaf tOooUlDelivery {
+      type int32 {
+        range "10 | 20 | 30 | 40 | 50 | 60 | 75 | 100 | 150 | 200 | 250 | 300 | 500 | 750 | 1500";
+      }
+      status deprecated;
+      default "150";
+      units "ms";
+      description "Default value: 150; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; MOM flags: isNillable=true; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping CUUP5qiTable-attributes {
+    leaf cUUP5qiTableId {
+      type string;
+      mandatory true;
+    }
+    leaf default5qiTable {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+  }
+  grouping DataPacketGenerator-attributes {
+    leaf dataPacketGeneratorId {
+      type string;
+      mandatory true;
+    }
+    leaf duration {
+      type int32 {
+        range "60..600";
+      }
+      default "60";
+      units "s";
+      description "range 60..600; Default value: 60.";
+    }
+    leaf packetRate {
+      type int32 {
+        range "0..4200000";
+      }
+      default "0";
+      units "kbps";
+      description "range 0..4200000; Default value: 0.";
+    }
+  }
+  grouping DataPacketGeneratorUeCfg-attributes {
+    leaf dataPacketGeneratorUeCfgId {
+      type string;
+      mandatory true;
+    }
+    leaf-list prefUeGroupList {
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+    }
+    leaf-list ueGroupList {
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping DcDlCfg-attributes {
+    leaf dcDlAggAllowed {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf dcDlAggCgPrioOverride {
+      type enumeration {
+        enum MCG_PRIO;
+        enum SCG_PRIO;
+        enum EQUAL_PRIO;
+      }
+    }
+    leaf dcDlCfgId {
+      type string;
+      mandatory true;
+    }
+    leaf dlPdcpPreferredCgOverride {
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum KEEP_SCG;
+      }
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping DcUlCfg-attributes {
+    leaf dcUlCfgId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf ulPrimaryPathMode {
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum KEEP_SCG;
+      }
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping Drb-attributes {
+    leaf drbId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf ueConfGroupType {
+      type enumeration {
+        enum UE_MOBILITY_GROUP;
+        enum UE_SERVICE_GROUP;
+        enum UE_ADMISSION_GROUP;
+      }
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping DrbUeCfg-attributes {
+    leaf aqmCfgRef {
+      type string;
+    }
+    leaf dcDlCfgRef {
+      type string;
+    }
+    leaf dcUlCfgRef {
+      type string;
+    }
+    leaf drbUeCfgId {
+      type string;
+      mandatory true;
+    }
+    leaf l4sCfgRef {
+      type string;
+    }
+    leaf-list prefUeGroupList {
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+    }
+    leaf-list ueConfGroupList {
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+    }
+    leaf-list ueGroupList {
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping EndpointResource-attributes {
+    leaf endpointResourceId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping EP_NgU-attributes {
+    leaf echoPeerStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum REACHABLE;
+        enum UNREACHABLE;
+      }
+      config false;
+    }
+    leaf eP_NgUId {
+      type string;
+      mandatory true;
+    }
+    leaf localEndPoint {
+      type string;
+      config false;
+    }
+    leaf monitoringStatus {
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVE;
+      }
+      config false;
+    }
+    leaf remoteEndPoint {
+      type string;
+      config false;
+    }
+    leaf pmGtpuEchoReqSent {
+      type uint64;
+      config false;
+    }
+    leaf pmGtpuEchoRtdMax {
+      type int64;
+      config false;
+    }
+    leaf pmGtpuEchoRespNotRcvd {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDlDiscAqm5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecDlDisc5qi {
+      type uint64;
+    }
+    leaf pmGtpuEchoRespAccRcvd {
+      type uint64;
+      config false;
+    }
+    leaf-list pmGtpuEchoRtdDistr {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransUl5qi {
+      type uint64;
+    }
+    leaf pmGtpuEchoRespRejRcvd {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransUl5qi {
+      type uint64;
+    }
+    leaf pmGtpuEchoRtdSamp {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDl5qi {
+      type uint64;
+    }
+    leaf pmGtpuEchoRtdSum {
+      type uint64;
+      config false;
+    }
+    leaf pmGtpuEchoRtdMin {
+      type int64;
+      config false;
+    }
+  }
+  grouping EP_XnU-attributes {
+    leaf eP_XnUId {
+      type string;
+      mandatory true;
+    }
+    leaf localEndPoint {
+      type string;
+      config false;
+    }
+    leaf remoteEndPoint {
+      type string;
+      config false;
+    }
+    leaf-list pmPdcpPktFwdTransDlQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdTransDlDiscQos {
+      type uint64;
+    }
+  }
+  grouping GNBCUUPFunction-attributes {
+    leaf altDepHServAdapUPProfEnabled {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf dataFwdRateTo5Gs {
+      type int32 {
+        range "10..10000";
+      }
+      default "5000";
+      units "Mbps";
+      description "range 10..10000; Default value: 5000.";
+    }
+    leaf dataFwdRateToEps {
+      type int32 {
+        range "10..10000";
+      }
+      default "200";
+      units "Mbps";
+      description "range 10..10000; Default value: 200.";
+    }
+    leaf dcDlAggActTime {
+      type eytypes:int32_range_0-1000;
+      status deprecated;
+      default "1";
+      units "ms";
+      description "range 0..1000; Default value: 1; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlAggExpiryTimer {
+      type eytypes:int32_range_0-10000;
+      status deprecated;
+      default "100";
+      units "ms";
+      description "range 0..10000; Default value: 100; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpInitialMcgRate {
+      type eytypes:int32_range_0-10000-1;
+      status deprecated;
+      default "20";
+      units "Mbps";
+      description "range 0..10000; Default value: 20; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpInitialScgRate {
+      type eytypes:int32_range_0-10000-1;
+      status deprecated;
+      default "100";
+      units "Mbps";
+      description "range 0..10000; Default value: 100; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dlPdcpSpsTargetTimeLTE {
+      type eytypes:int32_range_0-1000;
+      status deprecated;
+      default "25";
+      units "ms";
+      description "range 0..1000; Default value: 25; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dlPdcpSpsTargetTimeNR {
+      type eytypes:int32_range_0-1000;
+      status deprecated;
+      default "25";
+      units "ms";
+      description "range 0..1000; Default value: 25; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf endcDataUsageReportEnabled {
+      type ietfinet:port-number;
+      description "Default value: false.";
+    }
+    leaf endcDlNrRetProhibTimer {
+      type eytypes:int32_range_0-1000;
+      status deprecated;
+      default "400";
+      units "ms";
+      description "range 0..1000; Default value: 400; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf endcUlNrRetProhibTimer {
+      type eytypes:int32_range_0-10000;
+      status deprecated;
+      default "1000";
+      units "ms";
+      description "range 0..10000; Default value: 1000; Takes effect: Next cell unlock; Status info: Since 25.Q1. Replaced by UserPlaneProfileUeCfg::ulPdcpScgRetProhibitTime. Planned to be removed..";
+      reference "Takes effect: Next cell unlock.";
+    }
+    leaf endpointResourceRef {
+      type string;
+    }
+    leaf estimatedUeL2Buffer {
+      type int32 {
+        range "0..400";
+      }
+      units "MB";
+      description "range 0..400.";
+    }
+    leaf gNBCUUPFunctionId {
+      type string;
+      mandatory true;
+    }
+    leaf gNBId {
+      type eytypes:int64_range_0-4294967295;
+      mandatory true;
+      description "range 0..4294967295.";
+    }
+    leaf gNBIdLength {
+      type eytypes:int32_range_22-32;
+      default "22";
+      description "range 22..32; Default value: 22.";
+    }
+    leaf gtpuErrorIndDscp {
+      type eytypes:int32_range_0-63;
+      description "range 0..63.";
+    }
+    list pLMNIdList {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      ordered-by user;
+      container attributes {
+      leaf mcc {
+        type string {
+          length "3";
+          pattern "[02345679][0-9][0-9]";
+        }
+        description "length 3..3.";
+      }
+      leaf mnc {
+        type string {
+          length "2..3";
+          pattern "(([0-9][0-9][0-9])|([0-9][0-9]))";
+        }
+        description "length 2..3.";
+      }
+      }
+    }
+    leaf release {
+      type string;
+      config false;
+    }
+    leaf s1GtpuEchoDscp {
+      type eytypes:int32_range_0-63;
+      description "range 0..63.";
+    }
+    leaf s1GtpuEchoEnable {
+      type boolean;
+    }
+    leaf servAdapUPProfUlDepHEnabled {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    list sNSSAIList {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      ordered-by user;
+      container attributes {
+      leaf sd {
+        type eytypes:int32_range_0-16777215;
+        description "range 0..16777215.";
+      }
+      leaf sst {
+        type eytypes:int32_range_0-255;
+        description "range 0..255.";
+      }
+      }
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf x2EndcGtpuEchoDscp {
+      type eytypes:int32_range_0-63;
+      description "range 0..63.";
+    }
+    leaf x2EndcGtpuEchoEnable {
+      type boolean;
+    }
+    leaf-list pmPdcpPktRecDlNgU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdTransDlXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecDlDiscS1UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolDlHdrProf1Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlAggrXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlToX2UQci {
+      type uint64;
+    }
+    leaf pmDrbLevelSumSa {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktLossUlToDiscX2UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlToXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlToF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlAggrF1UQos {
+      type uint64;
+    }
+    leaf-list pmFwkStreamDroppedEventSocketConnectionFailDistr {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlAckF1UQos {
+      type uint64;
+    }
+    leaf pmDrbLevelMaxSa {
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpVolUlHdrProf1Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlAggrF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlXnU5qi {
+      type uint64;
+    }
+    leaf pmFwkSampLostL2Leg {
+      type uint64;
+      config false;
+    }
+    leaf pmEndcDrbSetupSucc {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpVolTransDlAggrX2UQci {
+      type uint64;
+    }
+    leaf pmProhibitTimerRefuseUlLegSwitch {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransUlS1UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlDiscAqmF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolDlCmpHdrProf2Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecDlDiscNgU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlToDiscXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlX2UQci {
+      type uint64;
+    }
+    leaf-list pmFwkStreamDroppedEventDistr {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlDiscIntgF1UQos {
+      type uint64;
+    }
+    leaf pmDrbLevelSumEndc {
+      type uint64;
+      config false;
+    }
+    leaf-list pmFwkStreamDroppedEventSocketErrorDistr {
+      type uint64;
+    }
+    leaf pmPdcpPktDisc {
+      type uint64;
+      config false;
+    }
+    leaf pmEndcDrbSetupAtt {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransDlF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlX2UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdRecDlDiscQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolDlCmpHdrProf1Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolRecUlX2UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlIntgF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransUlS1UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdTransDlX2UQos {
+      type uint64;
+    }
+    leaf pmFwkSampLostL2Ppf {
+      type uint64;
+      config false;
+    }
+    leaf pmRohcCidDlSum {
+      type uint64;
+      config false;
+    }
+    leaf pmPduSessionLevelSamp {
+      type uint64;
+      config false;
+    }
+    leaf pmPdcpPktDiscGtpu {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktFwdRecDlDiscXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlRetransX2UQci {
+      type uint64;
+    }
+    leaf pmDrbLevelSamp {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransDlRetransX2UQci {
+      type uint64;
+    }
+    leaf pmRohcCidDlSamp {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransDlAckXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransUlNgU5qi {
+      type uint64;
+    }
+    leaf pmPdcpPktRecDlDiscInact {
+      type uint64;
+      config false;
+    }
+    leaf-list pmFwkStreamDroppedEventLicenseUnavailableDistr {
+      type uint64;
+    }
+    leaf-list pmFwkStreamDroppedEventSlowStreamDistr {
+      type uint64;
+    }
+    leaf pmPdcpRadioResSwitchDlMcg {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDlDiscAqmS1UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdRecDlQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlRetransXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlOooF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlAggrXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdRecDlXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlX2UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlDiscAqmXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlDiscXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlDiscF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlRetransF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecDlDiscAqmNgU5qi {
+      type uint64;
+    }
+    leaf-list pmFwkStreamProducedEventDistr {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlToDiscF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlAckX2UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdTransDlDiscXnU5qi {
+      type uint64;
+    }
+    leaf pmRohcCidUlSamp {
+      type uint64;
+      config false;
+    }
+    leaf pmPduSessionLevelSum {
+      type uint64;
+      config false;
+    }
+    leaf pmRohcCidDlMax {
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecUlOooXnU5qi {
+      type uint64;
+    }
+    leaf pmRohcCidUlMax {
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDlS1UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlAggrX2UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpVolUlCmpHdrProf2Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmFwkStreamDroppedEventSocketSetupFailDistr {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlRetransF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlX2UQci {
+      type uint64;
+    }
+    leaf pmPdcpRadioResSwitchDlScg {
+      type uint64;
+      config false;
+    }
+    leaf pmFwkSampLostL2Bearer {
+      type uint64;
+      config false;
+    }
+    leaf pmPdcpPktRecDlInact {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktFwdRecDlX2UQci {
+      type uint64;
+    }
+    leaf pmRohcCidUlSum {
+      type uint64;
+      config false;
+    }
+    leaf pmPdcpPktInjected {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktFwdTransDlDiscX2UQos {
+      type uint64;
+    }
+    leaf pmDrbLevelMaxEndc {
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransDlDiscX2UQci {
+      type uint64;
+    }
+    leaf pmPduSessionLevelMax {
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecUlOooX2UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpVolRecUlF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolUlHdrProf2Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlIntgF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlRetransXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdRecDlDiscX2UQci {
+      type uint64;
+    }
+    leaf-list pmPdcpVolUlCmpHdrProf1Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlF1UQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlDiscAqmX2UQci {
+      type uint64;
+    }
+    leaf pmPdcpPktDiscNoCtxt {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransUlNgU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolRecUlXnU5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolDlHdrProf2Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlXnU5qi {
+      type uint64;
+    }
+  }
+  grouping GtpuSupervision-attributes {
+    leaf gtpuErrorIndDscp {
+      type eytypes:int32_range_0-63;
+      default "40";
+      description "range 0..63; Default value: 40.";
+    }
+    leaf gtpuSupervisionId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping GtpuSupervisionProfile-attributes {
+    leaf-list endpointResourceRef {
+      type string;
+      ordered-by user;
+    }
+    leaf gtpuEchoDscp {
+      type eytypes:int32_range_0-63;
+      default "14";
+      description "range 0..63; Default value: 14.";
+    }
+    leaf gtpuEchoEnabled {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf gtpuSupervisionProfileId {
+      type string;
+      mandatory true;
+    }
+    leaf-list interfaceList {
+      type enumeration {
+        enum C5;
+        enum E1;
+        enum E6;
+        enum F1;
+        enum NG;
+        enum S1;
+        enum XN;
+        enum X2;
+      }
+      ordered-by user;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping L4sCfg-attributes {
+    leaf dlL4sHighThresh {
+      type int32 {
+        range "5..100";
+      }
+      default "20";
+      units "ms";
+      description "range 5..100; Default value: 20.";
+    }
+    leaf dlL4sLowThresh {
+      type int32 {
+        range "1..50";
+      }
+      default "8";
+      units "ms";
+      description "range 1..50; Default value: 8.";
+    }
+    leaf dlL4sMode {
+      type enumeration {
+        enum DISABLED;
+        enum QUEUE_BASED;
+      }
+    }
+    leaf l4sCfgId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping LocalIpEndpoint-attributes {
+    leaf-list addressRef {
+      type string;
+      ordered-by user;
+      min-elements 1;
+    }
+    leaf-list interfaceList {
+      type enumeration {
+        enum C5;
+        enum E1;
+        enum E6;
+        enum F1;
+        enum NG;
+        enum S1;
+        enum XN;
+        enum X2;
+      }
+      ordered-by user;
+      min-elements 1;
+    }
+    leaf localIpEndpointId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf mode {
+      type enumeration {
+        enum NORMAL;
+        enum BACKUP_IP;
+      }
+    }
+  }
+  grouping LocalIPsecEndpoint-attributes {
+    leaf-list interfaceList {
+      type enumeration {
+        enum C5;
+        enum E1;
+        enum E6;
+        enum F1;
+        enum NG;
+        enum S1;
+        enum XN;
+        enum X2;
+      }
+      ordered-by user;
+      min-elements 1;
+    }
+    leaf localIPsecEndpointId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf-list outerIpAddressRef {
+      type ietfinet:ip-address;
+      ordered-by user;
+      min-elements 1;
+    }
+  }
+  grouping PpControlLink-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf detailedAvailabilityInfoTemp {
+      type string {
+        length "1..256";
+      }
+      config false;
+      description "length 1..256.";
+    }
+    leaf localEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf ppControlLinkId {
+      type string;
+      mandatory true;
+    }
+    leaf remoteEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf pmEndcNrDrbSetupAtt {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmDrbLevelSumSa {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmDrbLevelMaxSa {
+      type int64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmDrbLevelMaxEndc {
+      type int64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmPduSessionLevelMax {
+      type int64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmEndcNrDrbSetupSucc {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmPduSessionLevelSamp {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmPduSessionLevelSum {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmDrbLevelSamp {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmDrbLevelSumEndc {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+  }
+  grouping PpControlTermination-attributes {
+    leaf ppControlTerminationId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping ResourcePartition-attributes {
+    leaf related5qiTableRef {
+      type string;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf resourcePartitionId {
+      type string;
+      mandatory true;
+    }
+    leaf resourcePartitionName {
+      type string {
+        length "1..255";
+      }
+      description "length 1..255.";
+    }
+  }
+  grouping ResourcePartitionMember-attributes {
+    leaf endpointResourceRef {
+      type string;
+    }
+    list pLMNIdList {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      ordered-by user;
+      container attributes {
+      leaf mcc {
+        type string {
+          length "3";
+          pattern "[02345679][0-9][0-9]";
+        }
+        description "length 3..3.";
+      }
+      leaf mnc {
+        type string {
+          length "2..3";
+          pattern "(([0-9][0-9][0-9])|([0-9][0-9]))";
+        }
+        description "length 2..3.";
+      }
+      }
+    }
+    leaf resourcePartitionMemberId {
+      type string;
+      mandatory true;
+    }
+    list sNSSAIList {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      ordered-by user;
+      container attributes {
+      leaf sd {
+        type eytypes:int32_range_0-16777215;
+        description "range 0..16777215.";
+      }
+      leaf sst {
+        type eytypes:int32_range_0-255;
+        description "range 0..255.";
+      }
+      }
+    }
+  }
+  grouping ResourcePartitions-attributes {
+    leaf resourcePartitionsId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping RpUserPlaneLink-attributes {
+    leaf echoPeerStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum REACHABLE;
+        enum UNREACHABLE;
+      }
+      config false;
+    }
+    leaf localEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf monitoringStatus {
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVE;
+      }
+      config false;
+    }
+    leaf remoteEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf rpUserPlaneLinkId {
+      type string;
+      mandatory true;
+    }
+    leaf-list pmPdcpVolUlHdrProf2Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlIntgQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlToQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlAggrQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlRetransQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolUlCmpHdrProf1Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlAckQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlAggrQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlDiscIntgQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolDlCmpHdrProf1Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlDiscAqmQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktTransDlDiscQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolDlHdrProf2Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlRetransQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlIntgQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolUlHdrProf1Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolTransDlQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolDlHdrProf1Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolRecUlQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktRecUlOooQos {
+      type uint64;
+    }
+    leaf-list pmPdcpVolUlCmpHdrProf2Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpVolDlCmpHdrProf2Rohc5qi {
+      type uint64;
+    }
+    leaf-list pmPdcpPktLossUlToDiscQos {
+      type uint64;
+    }
+  }
+  grouping RpUserPlaneTermination-attributes {
+    leaf rpUserPlaneTerminationId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping S1ULink-attributes {
+    leaf echoPeerStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum REACHABLE;
+        enum UNREACHABLE;
+      }
+      config false;
+    }
+    leaf localEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf monitoringStatus {
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVE;
+      }
+      config false;
+    }
+    leaf remoteEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf s1ULinkId {
+      type string;
+      mandatory true;
+    }
+    leaf-list pmPdcpPktRecDlDiscAqm5qi {
+      type uint64;
+    }
+    leaf pmGtpuEchoRtdSum {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpVolTransUl5qi {
+      type uint64;
+    }
+    leaf pmGtpuEchoRtdMax {
+      type int64;
+      config false;
+    }
+    leaf pmGtpuEchoRespRejRcvd {
+      type uint64;
+      config false;
+    }
+    leaf pmGtpuEchoRtdMin {
+      type int64;
+      config false;
+    }
+    leaf pmGtpuEchoRespNotRcvd {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransUl5qi {
+      type uint64;
+    }
+    leaf pmGtpuEchoReqSent {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDlDisc5qi {
+      type uint64;
+    }
+    leaf pmGtpuEchoRespAccRcvd {
+      type uint64;
+      config false;
+    }
+    leaf-list pmGtpuEchoRtdDistr {
+      type uint64;
+    }
+    leaf pmGtpuEchoRtdSamp {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDl5qi {
+      type uint64;
+    }
+  }
+  grouping S1UTermination-attributes {
+    leaf s1UTerminationId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UeCC-attributes {
+    leaf ueCCId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfile-attributes {
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf ueConfGroupType {
+      type enumeration {
+        enum UE_MOBILITY_GROUP;
+        enum UE_SERVICE_GROUP;
+        enum UE_ADMISSION_GROUP;
+      }
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf userPlaneProfileId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfileCfg-attributes {
+    leaf dcDlAggActTime {
+      type eytypes:int32_range_0-1000;
+      default "1";
+      units "ms";
+      description "range 0..1000; Default value: 1.";
+    }
+    leaf dcDlAggAgeDiffPreferredCg {
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum YOUNGEST_CG;
+      }
+    }
+    leaf dcDlAggAgeDiffProhibitTime {
+      type eytypes:int32_range_0-10000;
+      default "200";
+      units "ms";
+      description "range 0..10000; Default value: 200.";
+    }
+    leaf dcDlAggAgeDiffThresh {
+      type eytypes:int32_range_0-3000;
+      default "150";
+      units "ms";
+      description "range 0..3000; Default value: 150.";
+    }
+    leaf dcDlAggCgPrio {
+      type enumeration {
+        enum MCG_PRIO;
+        enum SCG_PRIO;
+        enum EQUAL_PRIO;
+      }
+    }
+    leaf dcDlAggExpiryTimer {
+      type eytypes:int32_range_0-10000;
+      default "100";
+      units "ms";
+      description "range 0..10000; Default value: 100.";
+    }
+    leaf dcDlAggMcgDrxWakeupTime {
+      type eytypes:int32_range_0-1000;
+      default "80";
+      units "ms";
+      description "range 0..1000; Default value: 80.";
+    }
+    leaf dcDlAggScgDrxWakeupTime {
+      type eytypes:int32_range_0-1000;
+      default "80";
+      units "ms";
+      description "range 0..1000; Default value: 80.";
+    }
+    leaf dlPdcpMcgInitialRate {
+      type eytypes:int32_range_0-10000-1;
+      default "20";
+      units "Mbps";
+      description "range 0..10000; Default value: 20.";
+    }
+    leaf dlPdcpMcgSpsTargetTime {
+      type eytypes:int32_range_0-1000;
+      default "25";
+      units "ms";
+      description "range 0..1000; Default value: 25.";
+    }
+    leaf dlPdcpPreferredCg {
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum KEEP_SCG;
+      }
+    }
+    leaf dlPdcpScgInitialRate {
+      type eytypes:int32_range_0-10000-1;
+      default "100";
+      units "Mbps";
+      description "range 0..10000; Default value: 100.";
+    }
+    leaf dlPdcpScgRetProhibitTime {
+      type eytypes:int32_range_0-1000;
+      default "400";
+      units "ms";
+      description "range 0..1000; Default value: 400.";
+    }
+    leaf dlPdcpScgSpsTargetTime {
+      type eytypes:int32_range_0-1000;
+      default "25";
+      units "ms";
+      description "range 0..1000; Default value: 25.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf ulPdcpScgRetProhibitTime {
+      type eytypes:int32_range_0-10000;
+      default "1000";
+      units "ms";
+      description "range 0..10000; Default value: 1000.";
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf userPlaneProfileCfgId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfileCgCat-attributes {
+    leaf userLabel {
+      type string;
+    }
+    leaf userPlaneProfileCgCatId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfileCgCatCfg-attributes {
+    leaf-list cgCategoryList {
+      type eytypes:int32_range_0-255;
+      ordered-by user;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf userPlaneProfileCgCatCfgId {
+      type string;
+      mandatory true;
+    }
+    leaf userPlaneProfileRef {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfileUeCfg-attributes {
+    leaf dcDlAggActTime {
+      type eytypes:int32_range_0-1000;
+      default "1";
+      units "ms";
+      description "range 0..1000; Default value: 1.";
+    }
+    leaf dcDlAggAgeDiffPreferredCg {
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum YOUNGEST_CG;
+      }
+    }
+    leaf dcDlAggAgeDiffProhibitTime {
+      type eytypes:int32_range_0-10000;
+      default "200";
+      units "ms";
+      description "range 0..10000; Default value: 200.";
+    }
+    leaf dcDlAggAgeDiffThresh {
+      type eytypes:int32_range_0-3000;
+      default "150";
+      units "ms";
+      description "range 0..3000; Default value: 150.";
+    }
+    leaf dcDlAggCgPrio {
+      type enumeration {
+        enum MCG_PRIO;
+        enum SCG_PRIO;
+        enum EQUAL_PRIO;
+      }
+    }
+    leaf dcDlAggExpiryTimer {
+      type eytypes:int32_range_0-10000;
+      default "100";
+      units "ms";
+      description "range 0..10000; Default value: 100.";
+    }
+    leaf dcDlAggHighAirIfLoadThresh {
+      type eytypes:int32_range_0-100;
+      units "percent";
+      description "range 0..100.";
+    }
+    leaf dcDlAggHighLatencyThresh {
+      type eytypes:int32_range_0-100-12;
+      units "ms";
+      description "range 0..100.";
+    }
+    leaf dcDlAggMcgDrxWakeupTime {
+      type eytypes:int32_range_0-1000;
+      default "80";
+      units "ms";
+      description "range 0..1000; Default value: 80.";
+    }
+    leaf dcDlAggScgDrxWakeupTime {
+      type eytypes:int32_range_0-1000;
+      default "80";
+      units "ms";
+      description "range 0..1000; Default value: 80.";
+    }
+    leaf dlPdcpMcgInitialRate {
+      type eytypes:int32_range_0-10000-1;
+      default "20";
+      units "Mbps";
+      description "range 0..10000; Default value: 20.";
+    }
+    leaf dlPdcpMcgSpsTargetTime {
+      type eytypes:int32_range_0-1000;
+      default "25";
+      units "ms";
+      description "range 0..1000; Default value: 25.";
+    }
+    leaf dlPdcpPreferredCg {
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum KEEP_SCG;
+      }
+    }
+    leaf dlPdcpScgInitialRate {
+      type eytypes:int32_range_0-10000-1;
+      default "100";
+      units "Mbps";
+      description "range 0..10000; Default value: 100.";
+    }
+    leaf dlPdcpScgRetProhibitTime {
+      type eytypes:int32_range_0-1000;
+      default "400";
+      units "ms";
+      description "range 0..1000; Default value: 400.";
+    }
+    leaf dlPdcpScgSpsTargetTime {
+      type eytypes:int32_range_0-1000;
+      default "25";
+      units "ms";
+      description "range 0..1000; Default value: 25.";
+    }
+    leaf-list prefUeGroupList {
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+    }
+    leaf-list ueConfGroupList {
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+    }
+    leaf-list ueGroupList {
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+    }
+    leaf ulPdcpScgRetProhibitTime {
+      type eytypes:int32_range_0-10000;
+      default "1000";
+      units "ms";
+      description "range 0..10000; Default value: 1000.";
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf userPlaneProfileCfgRef {
+      type string;
+    }
+    leaf userPlaneProfileUeCfgId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping X2ULink-attributes {
+    leaf echoPeerStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum REACHABLE;
+        enum UNREACHABLE;
+      }
+      config false;
+    }
+    leaf localEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf monitoringStatus {
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVE;
+      }
+      config false;
+    }
+    leaf remoteEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf x2ULinkId {
+      type string;
+      mandatory true;
+    }
+    leaf-list pmPdcpPktFwdTransDlQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdTransDlDiscQos {
+      type uint64;
+    }
+  }
+  grouping X2UTermination-attributes {
+    leaf x2UTerminationId {
+      type string;
+      mandatory true;
+    }
+    leaf-list pmPdcpPktFwdRecDlDiscQos {
+      type uint64;
+    }
+    leaf-list pmPdcpPktFwdRecDlQos {
+      type uint64;
+    }
+  }
+}

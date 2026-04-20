@@ -1,0 +1,509 @@
+module ericsson-rmelicensesupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeLicenseSupport";
+  prefix rmelicen;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/LicenseSupport" {
+    list InstantaneousLicensing {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides support for Instantaneous Licensing. The RDN of this MO is InstantaneousLicensing=1. Cardinality changed [1..1] -> [0..1] in version 3.0.";
+      key "instantaneousLicensingId";
+      leaf instantaneousLicensingId {
+        type leafref {
+          path "../attributes/instantaneousLicensingId";
+        }
+      }
+      container attributes {
+        uses InstantaneousLicensing-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/LicenseSupport" {
+    list NetworkLicensing {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides support for Network-level Licensing. The RDN of this MO is NetworkLicensing=1.";
+      key "networkLicensingId";
+      leaf networkLicensingId {
+        type leafref {
+          path "../attributes/networkLicensingId";
+        }
+      }
+      container attributes {
+        uses NetworkLicensing-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/LicenseSupport" {
+    list KeyFileSupport {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides support for key file handling. The RDN of this MO is KeyFileSupport=1.";
+      key "keyFileSupportId";
+      leaf keyFileSupportId {
+        type leafref {
+          path "../attributes/keyFileSupportId";
+        }
+      }
+      container attributes {
+        uses KeyFileSupport-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/LicenseSupport/NetworkLicensing" {
+    list LicenseServer {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Configuration data for Network License Server (NeLS).";
+      key "licenseServerId";
+      leaf licenseServerId {
+        type leafref {
+          path "../attributes/licenseServerId";
+        }
+      }
+      container attributes {
+        uses LicenseServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list LicenseSupport {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The root MOC of the License Support branch. The RDN of this MO is LicenseSupport=1.";
+      key "licenseSupportId";
+      leaf licenseSupportId {
+        type leafref {
+          path "../attributes/licenseSupportId";
+        }
+      }
+      container attributes {
+        uses LicenseSupport-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    type enumeration {
+      enum SUCCESS;
+      enum FAILURE;
+      enum NOT_AVAILABLE;
+    }
+  }
+  typedef ActionStateType {
+    type enumeration {
+      enum CANCELLING;
+      enum RUNNING;
+      enum FINISHED;
+      enum CANCELLED;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef ConnectionModeSelection {
+    type enumeration {
+      enum IL_NOT_USED;
+      enum CONNECTED_MODE;
+      enum OFFLINE_MODE;
+    }
+  }
+  typedef KeyFileRequestStatus {
+    type enumeration {
+      enum NOT_STARTED;
+      enum KEY_FILE_REQUESTED;
+      enum KEY_FILE_REQUEST_SENT;
+      enum KEY_FILE_SUCCESSFUL;
+      enum KEY_FILE_FAILED;
+      enum CONNECTION_ERROR;
+      enum REQUIRED_CAPACITY_NOT_GRANTED;
+      enum TIMEOUT;
+      enum KEY_FILE_INSTALLATION_FAILURE;
+      enum REQUIRED_LICENSE_NOT_GRANTED;
+      enum REQUIRED_FEATURE_KEY_NOT_GRANTED;
+      enum REQUESTED_FEATURE_KEY_OMITTED;
+      enum CANCELLED;
+    }
+  }
+  typedef LicenseCalculationStatus {
+    type enumeration {
+      enum SUCCESS;
+      enum MISSING_FP;
+      enum MISSING_BB_HWAC;
+      enum OTHER_ERROR;
+      enum MISSING_EUFT;
+      enum MISSING_SWLTID;
+      enum MISSING_MANDATORY_ATTRIBUTES;
+      enum MISSING_LICENSE_DEMAND;
+    }
+  }
+  typedef LicenseNeedScope {
+    type enumeration {
+      enum DELTA_DEMAND;
+      enum FULL_DEMAND;
+    }
+  }
+  typedef ModeSelection {
+    type enumeration {
+      enum FULL_ACTIVATION;
+      enum LKF_REFRESH;
+      enum RESET;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping InstantaneousLicensing-attributes {
+    leaf instantaneousLicensingId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf euft {
+      type string;
+    }
+    list progressReport {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    leaf swltId {
+      type string;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    list expansionProgressReport {
+      config false;
+      container attributes {
+      leaf activityID {
+        type string;
+      }
+      leaf expansionStatus {
+        type enumeration {
+          enum NOT_STARTED;
+          enum KEY_FILE_REQUESTED;
+          enum KEY_FILE_REQUEST_SENT;
+          enum KEY_FILE_SUCCESSFUL;
+          enum KEY_FILE_FAILED;
+          enum CONNECTION_ERROR;
+          enum REQUIRED_CAPACITY_NOT_GRANTED;
+          enum TIMEOUT;
+          enum KEY_FILE_INSTALLATION_FAILURE;
+          enum REQUIRED_LICENSE_NOT_GRANTED;
+          enum REQUIRED_FEATURE_KEY_NOT_GRANTED;
+          enum REQUESTED_FEATURE_KEY_OMITTED;
+          enum CANCELLED;
+        }
+      }
+      leaf timeActivityStarted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      leaf timeActivityCompleted {
+        type string;
+      }
+      leaf expansionResultInfo {
+        type string;
+      }
+      leaf activityName {
+        type string;
+      }
+      leaf expansionProgressInfo {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf mode {
+      type enumeration {
+        enum FULL_ACTIVATION;
+        enum LKF_REFRESH;
+        enum RESET;
+      }
+    }
+    leaf lrfName {
+      type string;
+      config false;
+    }
+    leaf connectionMode {
+      type enumeration {
+        enum IL_NOT_USED;
+        enum CONNECTED_MODE;
+        enum OFFLINE_MODE;
+      }
+    }
+    leaf licenseSwReleaseTarget {
+      type string;
+    }
+    leaf refreshStatus {
+      type enumeration {
+        enum NOT_STARTED;
+        enum KEY_FILE_REQUESTED;
+        enum KEY_FILE_REQUEST_SENT;
+        enum KEY_FILE_SUCCESSFUL;
+        enum KEY_FILE_FAILED;
+        enum CONNECTION_ERROR;
+        enum REQUIRED_CAPACITY_NOT_GRANTED;
+        enum TIMEOUT;
+        enum KEY_FILE_INSTALLATION_FAILURE;
+        enum REQUIRED_LICENSE_NOT_GRANTED;
+        enum REQUIRED_FEATURE_KEY_NOT_GRANTED;
+        enum REQUESTED_FEATURE_KEY_OMITTED;
+        enum CANCELLED;
+      }
+      config false;
+    }
+  }
+  grouping KeyFileSupport-attributes {
+    leaf keyFileSupportId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    list progressReport {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+  }
+  grouping LicenseServer-attributes {
+    leaf licenseServerId {
+      type string;
+      mandatory true;
+    }
+    leaf priority {
+      type uint16;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf fqdn {
+      type ietfinet:domain-name;
+      mandatory true;
+    }
+    leaf port {
+      type ietfinet:port-number;
+    }
+    leaf lastConnection {
+      type string;
+      config false;
+    }
+    leaf address {
+      type string;
+    }
+  }
+  grouping LicenseSupport-attributes {
+    leaf licenseSupportId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+  }
+  grouping NetworkLicensing-attributes {
+    leaf networkLicensingId {
+      type string;
+      mandatory true;
+    }
+    leaf euft {
+      type string;
+    }
+    leaf swltId {
+      type string;
+    }
+    list progressReport {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+  }
+}

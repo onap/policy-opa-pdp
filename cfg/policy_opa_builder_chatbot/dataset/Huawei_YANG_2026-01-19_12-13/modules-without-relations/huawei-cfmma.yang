@@ -1,0 +1,81 @@
+module huawei-cfmma {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cfmma";
+ prefix cfmma;
+ description
+ "Auto-generated modular YANG for huawei-cfmma" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CFMMA-attributes {
+ leaf BNDVLAN {
+  type boolean;
+  mandatory false;
+ }
+ leaf CCMINTL {
+  type enumeration {
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf OLD_MANAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MANAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf OLD_MDNAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MDNAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf VLANID {
+  type uint16 {
+   range "1..4094";
+  }
+  mandatory false;
+ }
+ leaf VLANPRI {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ }
+}

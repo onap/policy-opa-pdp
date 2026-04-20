@@ -1,0 +1,164 @@
+module ericsson-bfd-session-ipv6-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnBfdSessionIPv6";
+  prefix bfdsv6rdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list BfdSessionIPv6 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; IPv6 BFD session information. Maximum number of BfdSessionIPv6 and BfdSessionIPv4 MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 64, - For Baseband in RAN Compute Group 4 or higher: 120.";
+      key "bfdSessionIPv6Id";
+      leaf bfdSessionIPv6Id {
+        type leafref {
+          path "../attributes/bfdSessionIPv6Id";
+        }
+      }
+      container attributes {
+        uses BfdSessionIPv6-attributes;
+      }
+    }
+  }
+  typedef BfdSessionDiagnosticCode {
+    type enumeration {
+      enum NO_DIAG;
+      enum CONTROL_DETECTION_TIME_EXPIRED;
+      enum ECHO_FUNCTION_FAILED;
+      enum NEIGHBOR_SIGNALED_SESSION_DOWN;
+      enum FORWARDING_PLANE_RESET;
+      enum PATH_DOWN;
+      enum CONCATENATED_PATH_DOWN;
+      enum ADMIN_DOWN;
+      enum REVERSE_CONCATENATED_PATH_DOWN;
+    }
+  }
+  typedef BfdSessionOperState {
+    type enumeration {
+      enum ADMIN_DOWN;
+      enum DOWN;
+      enum INIT;
+      enum FAILING;
+      enum UP;
+    }
+  }
+  grouping BfdSessionIPv6-attributes {
+    leaf addrDst {
+      type string;
+      config false;
+    }
+    leaf addrSrc {
+      type string;
+      config false;
+    }
+    leaf bfdSessionIPv6Id {
+      type ietfinet:ipv6-address;
+      mandatory true;
+    }
+    leaf detectionTime {
+      type uint32;
+      config false;
+      units "ms";
+    }
+    leaf diagCode {
+      type enumeration {
+        enum NO_DIAG;
+        enum CONTROL_DETECTION_TIME_EXPIRED;
+        enum ECHO_FUNCTION_FAILED;
+        enum NEIGHBOR_SIGNALED_SESSION_DOWN;
+        enum FORWARDING_PLANE_RESET;
+        enum PATH_DOWN;
+        enum CONCATENATED_PATH_DOWN;
+        enum ADMIN_DOWN;
+        enum REVERSE_CONCATENATED_PATH_DOWN;
+      }
+      config false;
+    }
+    leaf intervalRxNegotiated {
+      type uint32;
+      config false;
+      units "ms";
+    }
+    leaf intervalTxNegotiated {
+      type uint32;
+      config false;
+      units "ms";
+    }
+    leaf localDiscriminator {
+      type uint32;
+      config false;
+    }
+    leaf portSrc {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf remoteDiscriminator {
+      type uint32;
+      config false;
+    }
+    leaf remoteHeardFlag {
+      type boolean;
+      config false;
+    }
+    leaf sessionState {
+      type enumeration {
+        enum ADMIN_DOWN;
+        enum DOWN;
+        enum INIT;
+        enum FAILING;
+        enum UP;
+      }
+      config false;
+    }
+    leaf timeDown {
+      type string;
+      config false;
+    }
+    leaf timeUp {
+      type string;
+      config false;
+    }
+    leaf bfdSessDownDurationTotal {
+      type uint64;
+      config false;
+    }
+    leaf bfdSessDownDurationMax {
+      type int64;
+      config false;
+    }
+    leaf bfdSessTxPackets {
+      type uint64;
+      config false;
+    }
+    leaf bfdSessDownCount {
+      type uint64;
+      config false;
+    }
+    leaf bfdSessRxPackets {
+      type uint64;
+      config false;
+    }
+    leaf bfdSessDownDurationMin {
+      type int64;
+      config false;
+    }
+    leaf bfdSessUpCount {
+      type uint64;
+      config false;
+    }
+    leaf bfdSessDroppedPackets {
+      type uint64;
+      config false;
+    }
+  }
+}

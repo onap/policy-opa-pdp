@@ -1,0 +1,132 @@
+module huawei-emu {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-emu";
+ prefix emu;
+ description
+ "Auto-generated modular YANG for huawei-emu" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping EMU-attributes {
+ leaf ADDR {
+  type uint8 {
+   range "1..30";
+  }
+  mandatory false;
+ }
+ leaf ANTITHEFTALLOW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CLRDELAY {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf CLRINTERVAL {
+  type uint8 {
+   range "30..255";
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf HLTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf HUTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf MCN {
+  type uint8 {
+   range "0..62";
+  }
+  mandatory false;
+ }
+ leaf MPN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf MSRN {
+  type uint8 {
+   range "0..254";
+  }
+  mandatory false;
+ }
+ leaf SAAF {
+  type string;
+  mandatory false;
+ }
+ leaf SBAF {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..59";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..59";
+   }
+  }
+  mandatory false;
+ }
+ leaf TLTHD {
+  type int8 {
+   range "-20..80";
+  }
+  mandatory false;
+ }
+ leaf TUTHD {
+  type int8 {
+   range "-20..80";
+  }
+  mandatory false;
+ }
+ }
+}

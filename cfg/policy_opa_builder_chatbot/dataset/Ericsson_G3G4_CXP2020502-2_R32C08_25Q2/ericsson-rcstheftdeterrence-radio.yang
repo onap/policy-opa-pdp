@@ -1,0 +1,93 @@
+module ericsson-rcstheftdeterrence-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsTheftDeterrence";
+  prefix rcstheft;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nTheft deterrence.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list TheftDeterrence {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Theft protection. Locks Public Land Mobile Network identities with a password so that this equipment can only be used in the assigned network. The RDN for this MO is TheftDeterrence=1.";
+      key "theftDeterrenceId";
+      leaf theftDeterrenceId {
+        type leafref {
+          path "../attributes/theftDeterrenceId";
+        }
+      }
+      container attributes {
+      uses TheftDeterrence-attributes;
+      }
+    }
+  }
+  typedef ThdAuthenticationType {
+    description "Authentication type used for operating on this MO.";
+    type enumeration {
+      enum PASSWORD {
+        description "A password was used to lock the identity.";
+      }
+      enum NO_AUTHENTICATION {
+        description "No authentication was used to lock the identity. Unlocking not possible.";
+      }
+    }
+  }
+  typedef ThdStatusType {
+    description "Protection status";
+    type enumeration {
+      enum UNLOCKED {
+        description "Network identity is not protected.";
+      }
+      enum LOCKED {
+        description "Network identity is protected. No other network identity can be used in traffic services. Unlock to change network identity.";
+      }
+      enum LOCKED_PERMANENTLY {
+        description "Network identity is protected. No other network identity can be used in traffic services. Unlock to change network identity is not possible.";
+      }
+    }
+  }
+  grouping ThdStoredId-struct {
+    description "Stored identities for a protected service.";
+    leaf thdProtectedServiceName {
+      type string;
+    }
+    leaf thdProtectedIds {
+      type string;
+    }
+  }
+  grouping TheftDeterrence-attributes {
+    leaf theftDeterrenceId {
+      description "The value component for the RDN..";
+      type string;
+      mandatory true;
+    }
+    list thdStoredId {
+      config false;
+      min-elements 0;
+      uses ThdStoredId-struct;
+    }
+    leaf thdAuthentication {
+      description "Authentication method used when locking. Same method must be used when unlocking. Empty before lock action is invoked..";
+      type enumeration {
+        enum PASSWORD;
+        enum NO_AUTHENTICATION;
+      }
+      config false;
+    }
+    leaf thdStatus {
+      description "Protection status. When locked, no other network identity can be used for traffic services. If empty, the service is establishing the status and will soon announce a value..";
+      type enumeration {
+        enum UNLOCKED;
+        enum LOCKED;
+        enum LOCKED_PERMANENTLY;
+      }
+      config false;
+    }
+  }
+}

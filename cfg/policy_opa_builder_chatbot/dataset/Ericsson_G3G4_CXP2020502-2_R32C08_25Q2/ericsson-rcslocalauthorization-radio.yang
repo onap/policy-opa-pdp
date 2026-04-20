@@ -1,0 +1,252 @@
+module ericsson-rcslocalauthorization-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsLocalAuthorization";
+  prefix rcslocal;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nLocal Role Based Access Control (RBAC) model.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/rcslocal:LocalAuthorizationMethod" {
+    list Role {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Authorization roles that may be assigned to users. Roles have a containment relationship to the rules which define the access controls to objects.";
+      key "roleId";
+      leaf roleId {
+        type leafref {
+          path "../attributes/roleId";
+        }
+      }
+      container attributes {
+      uses Role-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/rcslocal:LocalAuthorizationMethod" {
+    list CustomRole {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Authorization roles defined by the MS that may be assigned to users. CustomRole MO instances are associated to CustomRule MO instances, which define the access controls to objects.";
+      key "customRoleId";
+      leaf customRoleId {
+        type leafref {
+          path "../attributes/customRoleId";
+        }
+      }
+      container attributes {
+      uses CustomRole-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/rcslocal:LocalAuthorizationMethod" {
+    list CustomRule {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; The rules created by the MS that define the access control to objects. The CustomRule MO instances are associated with CustomRole MO instances, which may be then applied to users.";
+      key "customRuleId";
+      leaf customRuleId {
+        type leafref {
+          path "../attributes/customRuleId";
+        }
+      }
+      container attributes {
+      uses CustomRule-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/rcslocal:LocalAuthorizationMethod/rcslocal:Role" {
+    list Rule {
+      description "Additional definitions from MOM:min/max-elements:1/unbounded;systemCreated; The rules that define the access control to objects. A Rule MO is contained by a Role MO which may be then applied to users.";
+      key "ruleId";
+      leaf ruleId {
+        type leafref {
+          path "../attributes/ruleId";
+        }
+      }
+      container attributes {
+      uses Rule-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement" {
+    list LocalAuthorizationMethod {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The Root MOC of the Local Authorization method. Roles and authorization rules are defined to build a Role Based Access Control (RBAC) model for controlling access to Managed Element resources such as Managed Objects, attributes, actions and CLI commands.";
+      key "localAuthorizationMethodId";
+      leaf localAuthorizationMethodId {
+        type leafref {
+          path "../attributes/localAuthorizationMethodId";
+        }
+      }
+      container attributes {
+      uses LocalAuthorizationMethod-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef PermissionType {
+    description "Permission is the access right a role has on a target object specified by the ruleData attribute. Current permission types follow UNIX/Linux permission enumeration values as follows: 0 = NO_ACCESS 1 = X (EXECUTE) 4 = R (READ) 5 = RX (READ and EXECUTE) 6 = RW (READ and WRITE) 7 = RWX (READ, WRITE and EXECUTE) Reserved values that are not included here are as follows and if required, may be introduced at a later date: 2 = W (WRITE) 3 = WX (WRITE and EXECUTE).";
+    type enumeration {
+      enum R {
+        description "Read only access right. The user can read MOs and can get attribute values.";
+      }
+      enum RW {
+        description "Read and write access right. The user can create and delete MOs and set and get attribute values.";
+      }
+      enum X {
+        description "Execute access right. This is valid only for actions and specific commands.";
+      }
+      enum RX {
+        description "Read and execute access rights. The user can read MOs, get attribute values, and execute any actions.";
+      }
+      enum RWX {
+        description "Read, write, and execute access rights. The user can create and delete MOs, and set and get attribute values, and execute any actions.";
+      }
+      enum NO_ACCESS {
+        description "No access. The user has no read, write or execute rights to the MO, attribute, or action.";
+      }
+    }
+  }
+  grouping CustomRole-attributes {
+    leaf customRoleId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf roleName {
+      description "The role name a user may have. The name must match a role name retrieved from the user information store..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf-list rules {
+      description "The rules of the role created by the MS. Contains the Distinguished Names of CustomRule MO instances..";
+      type string;
+      ordered-by user;
+      min-elements 1;
+    }
+  }
+  grouping CustomRule-attributes {
+    leaf customRuleId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf ruleName {
+      description "The rule name..";
+      type string;
+    }
+    leaf permission {
+      description "Permission is the access right the rule provides on a target specified by the ruleData attribute..";
+      type enumeration {
+        enum R;
+        enum RW;
+        enum X;
+        enum RX;
+        enum RWX;
+        enum NO_ACCESS;
+      }
+      mandatory true;
+    }
+    leaf ruleData {
+      description "Defines the model elements for which the permission is applicable..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedByRoles {
+      description "The roles to which this rule is associated. Indicates the Distinguished Names of CustomRole MO instances that refer to this CustomRule MO..";
+      type string;
+      ordered-by user;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+  grouping LocalAuthorizationMethod-attributes {
+    leaf localAuthorizationMethodId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state of this authorization method..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+  grouping Role-attributes {
+    leaf roleId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf roleName {
+      description "The role name a user may have. The name is matched against role names retrieved from the user information store..";
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+  grouping Rule-attributes {
+    leaf ruleId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf ruleName {
+      description "The rule name. The rule name is a string of '<FunctionName>_<RuleNumber>' <FunctionName> is a unique name for a system, transport, equipment, or application function. <RuleNumber> is a numerical ID of the Rule MO within a <FunctionName>. Examples: BackupAndRestoreManagement_1 FileManagement_2 SecurityManagement_2 SystemManagement_1.";
+      type string;
+      config false;
+    }
+    leaf permission {
+      description "Permission is the access right the rule provides on a target specified by the ruleData attribute..";
+      type enumeration {
+        enum R;
+        enum RW;
+        enum X;
+        enum RX;
+        enum RWX;
+        enum NO_ACCESS;
+      }
+      config false;
+    }
+    leaf ruleData {
+      description "Defines the model elements for which the permission is applicable..";
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+}

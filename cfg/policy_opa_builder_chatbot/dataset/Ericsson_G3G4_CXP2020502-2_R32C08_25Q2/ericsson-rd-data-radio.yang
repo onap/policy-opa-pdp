@@ -1,0 +1,100 @@
+module ericsson-rd-data-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRdData";
+  prefix rddatardo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-transceiver-radio {
+    prefix trsvrrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nReqRdData mom";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/trsvrrdo:Transceiver" {
+    list RdData {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO models Radio Dot Data (RdData).";
+      key "rdDataId";
+      leaf rdDataId {
+        type leafref {
+          path "../attributes/rdDataId";
+        }
+      }
+      container attributes {
+      uses RdData-attributes;
+      }
+    }
+  }
+  grouping EutranCellArea-struct {
+    description "Models cell coverage area used for UE positioning. Cell coverage area is defined by cell bearing, cell opening angle and cell radius.";
+    leaf posCellBearing {
+      description "range -1..3599; Default value: -1.";
+      type int32 {
+        range "-1..3599";
+      }
+      default "-1";
+      units "degrees";
+    }
+    leaf posCellOpeningAngle {
+      description "range -1..3599; Default value: -1.";
+      type int32 {
+        range "-1..3599";
+      }
+      default "-1";
+      units "degrees";
+    }
+    leaf posCellRadius {
+      description "range 0..100000; Default value: 0.";
+      type int32 {
+        range "0..100000";
+      }
+      default "0";
+      units "m";
+    }
+  }
+  grouping RdData-attributes {
+    leaf rdDataId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf requestedRelativeOutputPower {
+      description "Requested transceiver output power relative to the output power set for SectorCarrier. Requested output power is rounded to closest possible value due to power setting granularity. If changes of requested relative output power are too small, they do not affect result of output power from transceiver.; range 1..100; Default value: 100.";
+      type eytypes:uint32_range_1-100;
+      default "100";
+      units "percent";
+    }
+    leaf minimumRelativeOutputPower {
+      description "Minimum requested relative output power that given transceiver is capable of.; range 1..100.";
+      type eytypes:uint32_range_1-100;
+      config false;
+      units "percent";
+    }
+    leaf actualRelativeOutputPower {
+      description "Transceiver output power relative to output power set for SectorCarrier. It can differ from requested output power if another node requested it.; range 1..100.";
+      type eytypes:uint32_range_1-100;
+      config false;
+      units "percent";
+    }
+    list radioDotCoverage {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Coverage area used for UE positioning. Cell portion coverage is defined by bearing, opening angle and radius. This attribute is used by Mobile Positioning System (MPS). Has no impact on traffic..";
+      uses EutranCellArea-struct;
+    }
+  }
+}

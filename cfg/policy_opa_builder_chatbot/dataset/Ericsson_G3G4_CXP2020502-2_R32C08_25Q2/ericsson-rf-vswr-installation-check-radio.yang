@@ -1,0 +1,186 @@
+module ericsson-rf-vswr-installation-check-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRfVswrInstallationCheck";
+  prefix vswrinstchrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis MO allows to run different VSWR measurements automatically based on type of radio.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list RfVswrInstallationCheck {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO allows to run different VSWR measurements automatically based on type of radio.";
+      key "rfVswrInstallationCheckId";
+      leaf rfVswrInstallationCheckId {
+        type leafref {
+          path "../attributes/rfVswrInstallationCheckId";
+        }
+      }
+      container attributes {
+      uses RfVswrInstallationCheck-attributes;
+      }
+    }
+  }
+  typedef ActionFailureReason {
+    description "Reason for actionStatus set to FAILED.";
+    type enumeration {
+      enum UNDEFINED {
+        description "Default value when actionStatus is different than FAILED.";
+      }
+      enum INVALID_INPUT_PARAMETERS {
+        description "Input parameters are invalid.";
+      }
+      enum RL_FREQ_SWEEP_ONGOING {
+        description "Action startRlFreqSweep on RF Port MO is ongoing.";
+      }
+      enum NO_RF_PORT_TESTED {
+        description "No RF port is tested because of reasonForNotTested settings in rfPortTestResult.";
+      }
+    }
+  }
+  typedef ActionStatus {
+    description "Current state of measurement.";
+    type enumeration {
+      enum UNKNOWN {
+        description "Default value set after MO creation, performCheck action never started.";
+      }
+      enum STARTED {
+        description "Action performCheck started and ongoing.";
+      }
+      enum FAILED {
+        description "Action performCheck fails because of actionFailureReason settings.";
+      }
+      enum FINISHED {
+        description "Action performCheck finished successfully.";
+      }
+    }
+  }
+  typedef ReasonForNotTested {
+    description "Reason why measurement cannot be executed.";
+    type enumeration {
+      enum UNDEFINED {
+        description "Default value used when testResult is OK, OKW (OK with warning) or NOK (not OK).";
+      }
+      enum HW_NOT_SUPPORTED {
+        description "Measurement functionality not supported by radio.";
+      }
+      enum INTERNAL_ERROR {
+        description "Performing or finishing measurement is prevented by internal condition.";
+      }
+      enum NO_ACTIVE_CARRIER {
+        description "No carrier is activated for this band or RF port.";
+      }
+      enum HW_RESOURCE_CONFLICT {
+        description "Ongoing performCheck action triggered from another DU sharing this radio.";
+      }
+      enum MAX_NUM_OF_RF_PORTS_REACHED {
+        description "Check requested for too many RF ports, exceeding internal queue limit, 280. Therefore, no measurement is performed for this band on RF port. To receive the result for this band on RF port, action needs to be performed for smaller set of RF ports, or lower testLevel.";
+      }
+    }
+  }
+  typedef TestLevel {
+    description "Level on which test is executed.";
+    type enumeration {
+      enum NODE {
+        description "All connected RF ports on node has to be tested.";
+      }
+      enum RADIO {
+        description "All connected RF ports on radio units specified by targedLDN has to be tested.";
+      }
+      enum RFPORT {
+        description "All RF ports specified by targedLDN has to be tested.";
+      }
+    }
+  }
+  typedef TestResult {
+    description "Result of test after comparing measured data with given thresholds.";
+    type enumeration {
+      enum NOT_TESTED {
+        description "Measurement not performed or finished because of the reason presented in reasonForNotTested.";
+      }
+      enum OK {
+        description "Result of measurement is greater than or equal to thresholdHigh.";
+      }
+      enum OKW {
+        description "Result of measurement is less than thresholdHigh but greater than or equal to thresholdLow.";
+      }
+      enum NOK {
+        description "Result of measurement is less than thresholdLow.";
+      }
+    }
+  }
+  grouping TestResultOfVswr-struct {
+    description "Results of VSWR measurements for each RF port determined by testLevel and targetLDN. If RF port supports more frequency bands, testResultOfVswr is created for each band.";
+    leaf frequencyRange {
+      type string;
+    }
+    leaf reasonForNotTested {
+      type enumeration {
+        enum UNDEFINED;
+        enum HW_NOT_SUPPORTED;
+        enum INTERNAL_ERROR;
+        enum NO_ACTIVE_CARRIER;
+        enum HW_RESOURCE_CONFLICT;
+        enum MAX_NUM_OF_RF_PORTS_REACHED;
+      }
+    }
+    leaf testResult {
+      type enumeration {
+        enum NOT_TESTED;
+        enum OK;
+        enum OKW;
+        enum NOK;
+      }
+    }
+    leaf rfPort {
+      type string;
+    }
+    leaf value {
+      type int16;
+      units "dB";
+    }
+  }
+  grouping RfVswrInstallationCheck-attributes {
+    leaf rfVswrInstallationCheckId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf endTime {
+      description "Timestamp of the end of last executed measurement. Format: YYYY-MM-DD HH:MM:SS.XXX..";
+      type string;
+      config false;
+    }
+    leaf actionFailureReason {
+      description "Reason for actionStatus set to FAILED..";
+      type enumeration {
+        enum UNDEFINED;
+        enum INVALID_INPUT_PARAMETERS;
+        enum RL_FREQ_SWEEP_ONGOING;
+        enum NO_RF_PORT_TESTED;
+      }
+      config false;
+    }
+    leaf actionStatus {
+      description "Current state of measurement..";
+      type enumeration {
+        enum UNKNOWN;
+        enum STARTED;
+        enum FAILED;
+        enum FINISHED;
+      }
+      config false;
+    }
+    list rfPortTestResult {
+      config false;
+      min-elements 0;
+      uses TestResultOfVswr-struct;
+    }
+  }
+}

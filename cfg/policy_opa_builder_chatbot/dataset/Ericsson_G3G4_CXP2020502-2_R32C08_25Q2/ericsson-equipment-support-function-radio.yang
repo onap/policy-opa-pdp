@@ -1,0 +1,68 @@
+module ericsson-equipment-support-function-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ResEquipmentSupportFunction";
+  prefix eqsupfnrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\n.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement" {
+    list EquipmentSupportFunction {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; This MO represents the logical functions needed for other equipment to function properly. These are functions like Power Supply and Climate. One instance of this MO is created by the system.";
+      key "equipmentSupportFunctionId";
+      leaf equipmentSupportFunctionId {
+        type leafref {
+          path "../attributes/equipmentSupportFunctionId";
+        }
+      }
+      container attributes {
+      uses EquipmentSupportFunction-attributes;
+      }
+    }
+  }
+  grouping EquipmentSupportFunction-attributes {
+    leaf equipmentSupportFunctionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf supportSystemControl {
+      description "Indicates if the node controls and supervises the climate, power, and external alarm hardware in the cabinet. Only one node in the cabinet can control and supervise climate and power.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf-list reservedBy {
+      description "Contains a reference to the EcBus MO that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf autoCreateUnits {
+      description "Whether or not detection of unconfigured HW units results in auto-creation of corresponding MOs.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf autoCreateExternalNodes {
+      description "Whether or not detection of unconfigured external nodes results in auto-creation of corresponding ExternalNode MOs.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf supportFunction {
+      description "A read-only attribute boolean supportFunction, default true, always set to true. For use by management systems to distinguish supportFunction implementations..";
+      type boolean;
+      config false;
+    }
+    leaf userLabel {
+      description "Used for product free-text description..";
+      type string;
+    }
+    leaf release {
+      description "The product release of the SupportFunction..";
+      type string;
+      config false;
+    }
+  }
+}

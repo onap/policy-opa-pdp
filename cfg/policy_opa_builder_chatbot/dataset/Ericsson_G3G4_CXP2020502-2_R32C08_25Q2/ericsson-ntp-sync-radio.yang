@@ -1,0 +1,197 @@
+module ericsson-ntp-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncNtp";
+  prefix ntprdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nTransport NTP Model.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Ntp {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO class is the top class for NTP management.";
+      key "ntpId";
+      leaf ntpId {
+        type leafref {
+          path "../attributes/ntpId";
+        }
+      }
+      container attributes {
+      uses Ntp-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/ntprdo:Ntp" {
+    list NtpFrequencySync {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO class models a NTP frequency reference used for Network Synchronization. The addressIPv4Reference attribute is the reference to the source IPv4 address to be used in NTP protocol exchange with NTP server.";
+      key "ntpFrequencySyncId";
+      leaf ntpFrequencySyncId {
+        type leafref {
+          path "../attributes/ntpFrequencySyncId";
+        }
+      }
+      container attributes {
+      uses NtpFrequencySync-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef NtpFrequencySyncStatus {
+    description "NTP frequency synchronization status.";
+    type enumeration {
+      enum UNKNOWN {
+        description "No status information available.";
+      }
+      enum NO_FAULT {
+        description "No defect detected.";
+      }
+      enum PDV_PROBLEM {
+        description "High Packet Delay Variation (PDV) detected.";
+      }
+      enum UNREACHABLE_REFERENCE {
+        description "NTP server unreachable.";
+      }
+      enum HIGH_PACKET_DROP {
+        description "NTP packet drop detected.";
+      }
+      enum LOW_STRATUM {
+        description "NTP server indicates that its quality is unreliable.";
+      }
+      enum LI_ERROR {
+        description "NTP server indicates that its quality is unreliable.";
+      }
+      enum QL_TOO_LOW {
+        description "adminQL/minQL configuration gives too low QL for synchronization.";
+      }
+      enum UNRESOLVED_SERVER_ADDRESS {
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping Ntp-attributes {
+    leaf ntpId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping NtpFrequencySync-attributes {
+    leaf addressIPv4Reference {
+      description "Specifies a reference to an AddressIPv4 MO. The IP address of the referenced AddressIPv4 MO will be the source IPv4 address to be used in NTP protocol exchange with the NTP server..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf cachedIpAddress {
+      description "The IPv4 address of the NTP server obtained from a DNS..";
+      type string;
+      config false;
+    }
+    leaf dscp {
+      description "The DSCP value used for SNTP/UDP/IP transmitted packets.; range 0..63; Default value: 54.";
+      type eytypes:uint8_range_0-63;
+      default "54";
+    }
+    leaf ingressUdpPort {
+      description "The ingress UDP port number used by the NTP frequency synchronization reference..";
+      type string;
+      config false;
+    }
+    leaf ntpFrequencySyncId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list ntpFrequencySyncStatus {
+      description "Indicates the detailed fault status of the NTP frequency synchronization reference..";
+      type NtpFrequencySyncStatus;
+      min-elements 1;
+      max-elements 6;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf syncServerNtpIpAddress {
+      description "The IPv4 address or domain name of the NTP server..";
+      type union {
+        type ietfinet:ip-address;
+        type ietfinet:domain-name;
+      }
+      mandatory true;
+    }
+  }
+}

@@ -1,0 +1,89 @@
+module ericsson-theft-deterrence-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqTheftDeterrence";
+  prefix thdrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list TheftDeterrence {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Theft protection. Locks Public Land Mobile Network identities with a password so that this equipment can only be used in assigned network. Created by system when hardware unit represented by parent of this MO supports this functionality. RDN for this MO is TheftDeterrence=1.";
+      key "theftDeterrenceId";
+      leaf theftDeterrenceId {
+        type leafref {
+          path "../attributes/theftDeterrenceId";
+        }
+      }
+      container attributes {
+      uses TheftDeterrence-attributes;
+      }
+    }
+  }
+  typedef ThdAuthenticationType {
+    description "Authentication type used for operating on this MO.";
+    type enumeration {
+      enum PASSWORD {
+        description "A password was used to lock identity.";
+      }
+      enum NO_AUTHENTICATION {
+        description "No authentication was used to lock identity. Unlocking not possible.";
+      }
+    }
+  }
+  typedef ThdStatusType {
+    description "Protection status";
+    type enumeration {
+      enum UNLOCKED {
+        description "Network identity is not protected.";
+      }
+      enum LOCKED {
+        description "Network identity is protected. No other network identity can be used in traffic services. Unlock to change network identity.";
+      }
+      enum LOCKED_PERMANENTLY {
+        description "Network identity is protected. No other network identity can be used in traffic services. Unlock to change network identity is not possible.";
+      }
+    }
+  }
+  grouping TheftDeterrence-attributes {
+    leaf theftDeterrenceId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf thdAuthentication {
+      description "Authentication method used when locking. Same method must be used when unlocking. Empty before lock action is invoked..";
+      type enumeration {
+        enum PASSWORD;
+        enum NO_AUTHENTICATION;
+      }
+      config false;
+    }
+    leaf thdStatus {
+      description "Protection Status. When locked, no other network identity can be used for traffic services. If empty, service is in process of establishing status and a value is announced soon after..";
+      type enumeration {
+        enum UNLOCKED;
+        enum LOCKED;
+        enum LOCKED_PERMANENTLY;
+      }
+      config false;
+    }
+    leaf thdStoredId {
+      description "Protected identities. If empty, no protected identities are stored in FRU now or earlier.; length 0..799.";
+      type string {
+        length "0..799";
+      }
+      config false;
+    }
+  }
+}

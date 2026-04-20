@@ -1,0 +1,154 @@
+module huawei-lcsengineeringpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-lcsengineeringpara";
+ prefix lcsengineeringpara;
+ description
+ "Auto-generated modular YANG for huawei-lcsengineeringpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping LCSENGINEERINGPARA-attributes {
+ leaf ALTITUDE {
+  type int32 {
+   range "-100000..1000000";
+  }
+  mandatory false;
+ }
+ leaf ANGLEMEASPERIOD {
+  type union {
+   type uint16 {
+    range "10..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf ANGLERCS {
+  type boolean;
+  mandatory false;
+ }
+ leaf CARTESIANX {
+  type int32 {
+   range "-655360..655350";
+  }
+  mandatory false;
+ }
+ leaf CARTESIANY {
+  type int32 {
+   range "-655360..655350";
+  }
+  mandatory false;
+ }
+ leaf CARTESIANZ {
+  type int16 {
+   range "-32768..32767";
+  }
+  mandatory false;
+ }
+ leaf OLD_EPTID {
+  type union {
+   type int16 {
+    range "-1..1499";
+   }
+  }
+  mandatory false;
+ }
+ leaf EPTID {
+  type union {
+   type int16 {
+    range "-1..1499";
+   }
+  }
+  mandatory false;
+ }
+ leaf EPTNAME {
+  type string {
+   length "0..128";
+  }
+  mandatory false;
+ }
+ leaf EPTPRECISIONMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf HEIGHT {
+  type uint32 {
+   range "0..1000000";
+  }
+  mandatory false;
+ }
+ leaf LATITUDE {
+  type int32 {
+   range "-900000000..900000000";
+  }
+  mandatory false;
+ }
+ leaf LOCATIONMEASPERIOD {
+  type union {
+   type uint16 {
+    range "1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCATIONNAME {
+  type string {
+   length "0..128";
+  }
+  mandatory false;
+ }
+ leaf LONGITUDE {
+  type int32 {
+   range "-1800000000..1800000000";
+  }
+  mandatory false;
+ }
+ leaf MAPID {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf PITCH {
+  type int16 {
+   range "-1800..3599";
+  }
+  mandatory false;
+ }
+ leaf PITCHMEASPERIOD {
+  type union {
+   type uint16 {
+    range "10..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf RELATIVEPOSMAPNAME {
+  type string {
+   length "0..128";
+  }
+  mandatory false;
+ }
+ leaf ROLL {
+  type int16 {
+   range "-1800..3599";
+  }
+  mandatory false;
+ }
+ leaf ROLLMEASPERIOD {
+  type union {
+   type uint16 {
+    range "10..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf YAW {
+  type uint16 {
+   range "0..3599";
+  }
+  mandatory false;
+ }
+ }
+}

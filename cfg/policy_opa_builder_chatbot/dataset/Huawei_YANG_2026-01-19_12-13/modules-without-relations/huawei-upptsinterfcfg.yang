@@ -1,0 +1,42 @@
+module huawei-upptsinterfcfg {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-upptsinterfcfg";
+ prefix upptsinterfcfg;
+ description
+ "Auto-generated modular YANG for huawei-upptsinterfcfg" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping UPPTSINTERFCFG-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf TESTHYSTERESIS {
+  type uint8 {
+   range "5..35";
+  }
+  mandatory false;
+ }
+ leaf TESTPERIOD {
+  type uint16 {
+   range "50..600";
+  }
+  mandatory false;
+ }
+ leaf TESTTHRESHOLD {
+  type int8 {
+   range "-115..-80";
+  }
+  mandatory false;
+ }
+ }
+}

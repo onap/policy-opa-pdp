@@ -1,0 +1,135 @@
+module ericsson-rf-vswr-installation-check-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRfVswrInstallationCheck";
+  prefix vswrinstchrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list RfVswrInstallationCheck {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO allows to run different VSWR measurements automatically based on type of radio.";
+      key "rfVswrInstallationCheckId";
+      leaf rfVswrInstallationCheckId {
+        type leafref {
+          path "../attributes/rfVswrInstallationCheckId";
+        }
+      }
+      container attributes {
+        uses RfVswrInstallationCheck-attributes;
+      }
+    }
+  }
+  typedef ActionFailureReason {
+    type enumeration {
+      enum UNDEFINED;
+      enum INVALID_INPUT_PARAMETERS;
+      enum RL_FREQ_SWEEP_ONGOING;
+      enum NO_RF_PORT_TESTED;
+    }
+  }
+  typedef ActionStatus {
+    type enumeration {
+      enum UNKNOWN;
+      enum STARTED;
+      enum FAILED;
+      enum FINISHED;
+    }
+  }
+  typedef ReasonForNotTested {
+    type enumeration {
+      enum UNDEFINED;
+      enum HW_NOT_SUPPORTED;
+      enum INTERNAL_ERROR;
+      enum NO_ACTIVE_CARRIER;
+      enum HW_RESOURCE_CONFLICT;
+      enum MAX_NUM_OF_RF_PORTS_REACHED;
+    }
+  }
+  typedef TestLevel {
+    type enumeration {
+      enum NODE;
+      enum RADIO;
+      enum RFPORT;
+    }
+  }
+  typedef TestResult {
+    type enumeration {
+      enum NOT_TESTED;
+      enum OK;
+      enum OKW;
+      enum NOK;
+    }
+  }
+  grouping RfVswrInstallationCheck-attributes {
+    leaf rfVswrInstallationCheckId {
+      type string;
+      mandatory true;
+    }
+    leaf endTime {
+      type string;
+      config false;
+    }
+    leaf actionFailureReason {
+      type enumeration {
+        enum UNDEFINED;
+        enum INVALID_INPUT_PARAMETERS;
+        enum RL_FREQ_SWEEP_ONGOING;
+        enum NO_RF_PORT_TESTED;
+      }
+      config false;
+    }
+    leaf actionStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum STARTED;
+        enum FAILED;
+        enum FINISHED;
+      }
+      config false;
+    }
+    list rfPortTestResult {
+      config false;
+      container attributes {
+      leaf frequencyRange {
+        type string;
+      }
+      leaf reasonForNotTested {
+        type enumeration {
+          enum UNDEFINED;
+          enum HW_NOT_SUPPORTED;
+          enum INTERNAL_ERROR;
+          enum NO_ACTIVE_CARRIER;
+          enum HW_RESOURCE_CONFLICT;
+          enum MAX_NUM_OF_RF_PORTS_REACHED;
+        }
+      }
+      leaf testResult {
+        type enumeration {
+          enum NOT_TESTED;
+          enum OK;
+          enum OKW;
+          enum NOK;
+        }
+      }
+      leaf rfPort {
+        type ietfinet:port-number;
+      }
+      leaf value {
+        type int16;
+        units "dB";
+      }
+      }
+    }
+  }
+}

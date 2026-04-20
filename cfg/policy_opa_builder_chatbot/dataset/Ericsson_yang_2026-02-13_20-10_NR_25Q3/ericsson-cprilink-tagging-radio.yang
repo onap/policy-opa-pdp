@@ -1,0 +1,44 @@
+module ericsson-cprilink-tagging-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeCpriLinkTagging";
+  prefix crilktgrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list CpriLinkTagging {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; The Managed Object (MO) is used to configure the CPRI link tagging information.";
+      key "cpriLinkTaggingId";
+      leaf cpriLinkTaggingId {
+        type leafref {
+          path "../attributes/cpriLinkTaggingId";
+        }
+      }
+      container attributes {
+        uses CpriLinkTagging-attributes;
+      }
+    }
+  }
+  grouping CpriLinkTagging-attributes {
+    leaf cpriLinkTaggingId {
+      type string;
+      mandatory true;
+    }
+    leaf nodeTag {
+      type eytypes:int32_range_-1-16777215;
+      default "-1";
+      description "range -1..16777215; Default value: -1.";
+    }
+  }
+}

@@ -1,0 +1,224 @@
+module ericsson-rcsldapauthentication-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsLdapAuthentication";
+  prefix rcsldapa;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/LdapAuthenticationMethod/Ldap" {
+    list Filter {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Indicates the filter used to locate the user's authorization profile in the LDAP directory. This class must be used when profileFilter in Ldap MO is set to FLEXIBLE. Example of use with POSIX group objects as authorization profile: The user authorization profile is mapped to posixGroups in the LDAP schema. Each posixGroup contains a set of users and by this association, users are mapped into one or more groups. To identify the set of groups a user is a member of, the following search filter must be used: (&(objectClass=posixGroup)(memberUid=%u)) cn where %u is the user ID parameter used during authentication and cn is the common name value returned for the posixGroup. This must match an authorization entity, for example role, in an authorization method. (&(objectClass=posixGroup)(memberUid=\"\")) is the search filter contained by the filter attribute.";
+      key "filterId";
+      leaf filterId {
+        type leafref {
+          path "../attributes/filterId";
+        }
+      }
+      container attributes {
+        uses Filter-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/LdapAuthenticationMethod/Ldap" {
+    list EricssonFilter {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides configuration of features supported by the Ericsson LDAP schema. This class must be used when profileFilter in Ldap MO is set to ERICSSON_FILTER.";
+      key "ericssonFilterId";
+      leaf ericssonFilterId {
+        type leafref {
+          path "../attributes/ericssonFilterId";
+        }
+      }
+      container attributes {
+        uses EricssonFilter-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/LdapAuthenticationMethod" {
+    list Ldap {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Contains the configurable information on primary and secondary LDAP directories.";
+      key "ldapId";
+      leaf ldapId {
+        type leafref {
+          path "../attributes/ldapId";
+        }
+      }
+      container attributes {
+        uses Ldap-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement" {
+    list LdapAuthenticationMethod {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Root MOC of the LDAP Authentication Method. LDAP-based authentication uses a directory to store a user's credentials and allows them to be queried over a secure LDAP interface.";
+      key "ldapAuthenticationMethodId";
+      leaf ldapAuthenticationMethodId {
+        type leafref {
+          path "../attributes/ldapAuthenticationMethodId";
+        }
+      }
+      container attributes {
+        uses LdapAuthenticationMethod-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef EricssonFilterVersion {
+    type enumeration {
+      enum _1;
+      enum _2;
+    }
+  }
+  typedef ProfileFilter {
+    type enumeration {
+      enum POSIX_GROUPS;
+      enum ERICSSON_FILTER;
+      enum FLEXIBLE;
+    }
+  }
+  typedef TlsMode {
+    type enumeration {
+      enum STARTTLS;
+      enum LDAPS;
+    }
+  }
+  grouping EricssonFilter-attributes {
+    leaf ericssonFilterId {
+      type string;
+      mandatory true;
+    }
+    leaf roleAliasesBaseDn {
+      type string;
+    }
+    leaf targetBasedAccessControl {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf version {
+      type enumeration {
+        enum _1;
+        enum _2;
+      }
+    }
+  }
+  grouping Filter-attributes {
+    leaf filterId {
+      type string;
+      mandatory true;
+    }
+    leaf filter {
+      type string;
+    }
+    leaf type {
+      type string;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping Ldap-attributes {
+    leaf ldapId {
+      type string;
+      mandatory true;
+    }
+    leaf ldapIpAddress {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf fallbackLdapIpAddress {
+      type ietfinet:ip-address;
+    }
+    leaf serverPort {
+      type ietfinet:port-number;
+    }
+    leaf bindDn {
+      type string;
+    }
+    list bindPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf baseDn {
+      type string;
+      mandatory true;
+    }
+    leaf useReferrals {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf profileFilter {
+      type enumeration {
+        enum POSIX_GROUPS;
+        enum ERICSSON_FILTER;
+        enum FLEXIBLE;
+      }
+    }
+    leaf nodeCredential {
+      type string;
+    }
+    leaf trustCategory {
+      type string;
+    }
+    leaf useTls {
+      type boolean;
+      mandatory true;
+    }
+    leaf tlsMode {
+      type enumeration {
+        enum STARTTLS;
+        enum LDAPS;
+      }
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping LdapAuthenticationMethod-attributes {
+    leaf ldapAuthenticationMethodId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+}

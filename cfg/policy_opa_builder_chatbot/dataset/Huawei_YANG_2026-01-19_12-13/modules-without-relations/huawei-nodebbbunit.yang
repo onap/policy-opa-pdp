@@ -1,0 +1,46 @@
+module huawei-nodebbbunit {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nodebbbunit";
+ prefix nodebbbunit;
+ description
+ "Auto-generated modular YANG for huawei-nodebbbunit" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NODEBBBUNIT-attributes {
+ leaf OLD_BBUNITID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf BBUNITID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ }
+}

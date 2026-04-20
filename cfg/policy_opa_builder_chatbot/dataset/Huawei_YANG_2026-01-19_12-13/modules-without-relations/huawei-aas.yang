@@ -1,0 +1,62 @@
+module huawei-aas {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-aas";
+ prefix aas;
+ description
+ "Auto-generated modular YANG for huawei-aas" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping AAS-attributes {
+ leaf AAUSPEC {
+  type string {
+   length "0..63";
+  }
+  mandatory false;
+ }
+ leaf AN {
+  type string {
+   length "0..99";
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCATIONNAME {
+  type string {
+   length "0..128";
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

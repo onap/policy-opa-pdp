@@ -1,0 +1,153 @@
+module huawei-batctpa {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-batctpa";
+ prefix batctpa;
+ description
+ "Auto-generated modular YANG for huawei-batctpa" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping BATCTPA-attributes {
+ leaf ATMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf BATNUM {
+  type uint8 {
+   range "1..50";
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf DDSTM {
+  type uint8 {
+   range "1..60";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT0 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT1 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT2 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT3 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT4 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT5 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT6 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT7 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT8 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSCHGT9 {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf DSTML {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf EFF {
+  type uint8 {
+   range "80..100";
+  }
+  mandatory false;
+ }
+ leaf ENDV {
+  type uint16 {
+   range "170..330";
+  }
+  mandatory false;
+ }
+ leaf SDSEV {
+  type uint16 {
+   range "400..540";
+  }
+  mandatory false;
+ }
+ leaf SDSTML {
+  type uint8 {
+   range "1..240";
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf TDSTM {
+  type uint8 {
+   range "30..240";
+  }
+  mandatory false;
+ }
+ }
+}

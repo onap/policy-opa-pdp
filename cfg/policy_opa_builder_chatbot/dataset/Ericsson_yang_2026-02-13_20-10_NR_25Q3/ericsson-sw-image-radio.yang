@@ -1,0 +1,43 @@
+module ericsson-sw-image-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqSwImage";
+  prefix swirdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list SwImage {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Controls software version that can be installed. Created when hardware unit represented by parent of this MO supports this functionality. The RDN of this MO is SwImage=1.";
+      key "swImageId";
+      leaf swImageId {
+        type leafref {
+          path "../attributes/swImageId";
+        }
+      }
+      container attributes {
+        uses SwImage-attributes;
+      }
+    }
+  }
+  grouping SwImage-attributes {
+    leaf swImageId {
+      type string;
+      mandatory true;
+    }
+    leaf allowedSw {
+      type string;
+      config false;
+    }
+  }
+}

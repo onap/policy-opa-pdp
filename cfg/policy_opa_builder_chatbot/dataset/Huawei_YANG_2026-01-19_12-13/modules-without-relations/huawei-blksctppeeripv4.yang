@@ -1,0 +1,42 @@
+module huawei-blksctppeeripv4 {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-blksctppeeripv4";
+ prefix blksctppeeripv4;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-blksctppeeripv4" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container blksctppeeripv4-ipv4 {
+  container attributes {
+   uses BLKSCTPPEERIPV4-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping BLKSCTPPEERIPV4-attributes {
+ leaf PEERIPV4 {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

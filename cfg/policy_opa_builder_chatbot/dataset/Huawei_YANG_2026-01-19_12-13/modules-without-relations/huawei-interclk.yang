@@ -1,0 +1,34 @@
+module huawei-interclk {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-interclk";
+ prefix interclk;
+ description
+ "Auto-generated modular YANG for huawei-interclk" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping INTERCLK-attributes {
+ leaf OLD_LN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf LN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf PRI {
+  type uint8 {
+   range "1..4";
+  }
+  mandatory false;
+ }
+ }
+}

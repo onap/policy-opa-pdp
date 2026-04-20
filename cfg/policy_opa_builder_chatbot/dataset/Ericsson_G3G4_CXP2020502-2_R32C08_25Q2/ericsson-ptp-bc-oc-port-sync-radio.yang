@@ -1,0 +1,500 @@
+module ericsson-ptp-bc-oc-port-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncPtpBcOcPort";
+  prefix ptpbcocptrdo;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-ptp-sync-radio {
+    prefix ptprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Transport PTP Port Model. PTP port is used to communicate with other 1588 devices.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/ptprdo:Ptp/ptprdo:BoundaryOrdinaryClock" {
+    list PtpBcOcPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents PTP port to communicate with other 1588 devices. Grandmaster ordinary clock can have more than one port. Slave-only ordinary clock can only have one port.";
+      key "ptpBcOcPortId";
+      leaf ptpBcOcPortId {
+        type leafref {
+          path "../attributes/ptpBcOcPortId";
+        }
+      }
+      container attributes {
+      uses PtpBcOcPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "The administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef DelayMechanism {
+    description "Available delay mechanism modes. Delay mechanism modes indicate propagation delay measuring option used by port in computing <meanPathDelay>.";
+    type enumeration {
+      enum E2E {
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef PortState {
+    description "Available port states of PTP port.";
+    type enumeration {
+      enum INITIALIZING {
+      }
+      enum FAULTY {
+      }
+      enum DISABLED {
+      }
+      enum LISTENING {
+      }
+      enum PRE_MASTER {
+      }
+      enum MASTER {
+      }
+      enum PASSIVE {
+      }
+      enum UNCALIBRATED {
+      }
+      enum SLAVE {
+      }
+    }
+  }
+  typedef PtpMulticastAddress {
+    description "Type of multicast address that shall be used.";
+    type enumeration {
+      enum FORWARDABLE {
+        description "Forwardable multicast MAC address 01-1B-19-00-00-00.";
+      }
+      enum NON_FORWARDABLE {
+        description "Non-forwardable multicast MAC address 01-80-C2-00-00-0E.";
+      }
+    }
+  }
+  typedef PtpPortStatus {
+    description "PTP port status.";
+    type enumeration {
+      enum NO_FAULT {
+        description "No fault is detected.";
+      }
+      enum UNRESOLVED_SERVER_ADDRESS {
+        description "Server address cannot be resolved.";
+      }
+      enum NEGOTIATION_FAILED {
+        description "At any time during operation, grandmaster cancels previously granted unicast transmission agreement, or grandmaster does not comply with requested negotiation service.";
+      }
+      enum NEGOTIATION_NO_REPLY {
+        description "No reply from grandmaster to slave's Unicast Request.";
+      }
+      enum UNKNOWN {
+      }
+    }
+  }
+  grouping PortDS-struct {
+    description "This data set describe port properties.";
+    leaf announceInterval {
+      type string;
+    }
+    leaf announceReceiptTimeout {
+      type string;
+    }
+    leaf delayMechanism {
+      type enumeration {
+        enum E2E;
+      }
+    }
+    leaf minDelayReqInterval {
+      type string;
+    }
+    leaf minPdelayReqInterval {
+      type string;
+    }
+    leaf peerMeanPathDelay {
+      type string;
+    }
+    leaf portClockIdentity {
+      type string;
+    }
+    leaf portNumber {
+      type string;
+    }
+    leaf portState {
+      type enumeration {
+        enum INITIALIZING;
+        enum FAULTY;
+        enum DISABLED;
+        enum LISTENING;
+        enum PRE_MASTER;
+        enum MASTER;
+        enum PASSIVE;
+        enum UNCALIBRATED;
+        enum SLAVE;
+      }
+    }
+    leaf syncInterval {
+      type string;
+    }
+    leaf versionNumber {
+      type string;
+    }
+  }
+  grouping PtpBcOcPort-attributes {
+    leaf administrativeState {
+      description "The administrative state. If set to SHUTTINGDOWN, state is immediately brought to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf announceMessageInterval {
+      description "Announce message transmission interval expressed as logarithm of time in seconds (base of 2). Positive value indicates time in seconds between messages. Negative value indicates number of messages every second. Example: If value is -2, 4 messages are sent every second. If value is 4, message is sent every 16 seconds.; range -3..4; Default value: 1.";
+      type int8 {
+        range "-3..4";
+      }
+      default "1";
+    }
+    leaf associatedGrandmaster {
+      description "IP address or domain name of associated grandmaster according to G.8265.1 or G.8275.2. PTP associated grandmaster and PTP slave must have same IP version..";
+      type union {
+        type ietfinet:ip-address;
+        type ietfinet:domain-name;
+      }
+    }
+    leaf asymmetryCompensation {
+      description "Asymmetry compensation. +/- sign specifies uplink delay relative to downlink. Not used in frequency profile. Applicable to slave port.; range -100000..100000; Default value: 0.";
+      type int32 {
+        range "-100000..100000";
+      }
+      default "0";
+      units "ns";
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf cachedIpAddress {
+      description "Cached IP address obtained from DNS for PTP frequency grandmaster..";
+      type string;
+      config false;
+    }
+    leaf dscp {
+      description "DSCP value for PTP related IP packets.; range 0..63; Default value: 54.";
+      type eytypes:uint8_range_0-63;
+      default "54";
+    }
+    leaf durationField {
+      description "Time that packet master transmitting requested Announce and Sync message rates and renewal of Announce and Sync before expiration.; range 60..1000; Default value: 300.";
+      type uint16 {
+        range "60..1000";
+      }
+      default "300";
+      units "s";
+    }
+    leaf localPriority {
+      description "Local priority used if alternate BMCA is activated. Lower values take precedence. Attribute value is subject to PTP network planning. Only applicable for BC with telecom profile configured for time synchronization according to G.8275.1.; range 0..255; Default value: 128.";
+      type eytypes:uint8_range_0-255-43;
+      default "128";
+    }
+    leaf masterOnly {
+      description "Whether port can only act as master or both master and slave for PtpBcOcPort MO. Only applicable if configured according to G.8275.1. If true, PtpBcOcPort MO can only act as master. If false, PtpBcOcPort MO can act both as master or slave. Attribute value is subject to PTP network planning. Only applicable for GM and BC whit telecom profile configured for time synchronization according to G.8275.1.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf pBit {
+      description "PCP value used for transmitted Ethernet frames when they are carried over VLAN. If transportVlan is not set, this attribute is ignored.; range 0..7; Default value: 1.";
+      type eytypes:uint8_range_0-7;
+      default "1";
+    }
+    list portDS {
+      config false;
+      description "Port data set..";
+      uses PortDS-struct;
+    }
+    leaf ptpBcOcPortId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf ptpMulticastAddress {
+      description "Multicast address. If underlaying transport interface is not EthernetPort MO, this attribute is ignored..";
+      type enumeration {
+        enum FORWARDABLE;
+        enum NON_FORWARDABLE;
+      }
+    }
+    leaf ptpPathTimeError {
+      description "Time error of PTP path at node interface. If PTP network has full timing support, this attribute must contain maximum absolute time error generated by chain of boundary, transparent clocks and asymmetry of worst-case path from grandmaster to node. This corresponds to network limit at reference point C according to G.8271.1 without time error introduced by grandmaster. Latter part is taken from BoundaryOrdinaryClock MO attribute parentDS.grandmasterClockAccuracy. Maximum absolute time error is theoretical sum of worst-case of each component. As alternative, attribute can be used to set worst-case measured time error of path from grandmaster to node. If BoundaryOrdinaryClock MOs are reserved by AssistingReference MO, this attribute is ignored.; range 0..65535; Default value: 750.";
+      type uint16 {
+        range "0..65535";
+      }
+      default "750";
+      units "ns";
+    }
+    leaf ptpPortStatus {
+      description "Status of PTP port..";
+      type enumeration {
+        enum NO_FAULT;
+        enum UNRESOLVED_SERVER_ADDRESS;
+        enum NEGOTIATION_FAILED;
+        enum NEGOTIATION_NO_REPLY;
+        enum UNKNOWN;
+      }
+      config false;
+    }
+    leaf syncMessageInterval {
+      description "Synchronization message transmission interval expressed as logarithm of time in seconds (base of 2). Positive value indicates time in seconds between messages. Negative value indicates number of messages every second. Example: If value is -4, 16 messages sent every second. If value is 1, message sent every 2 seconds.; range -7..1; Default value: -4.";
+      type int8 {
+        range "-7..1";
+      }
+      default "-4";
+    }
+    leaf transportInterface {
+      description "References to underlying transport entity. Can be MO type EthernetPort, AddressIPv4 or AddressIPv6..";
+      type string;
+      mandatory true;
+    }
+    leaf transportVlan {
+      description "Reference to underlying encapsulation. Can only refer to VlanPort MO. Used when carrying PTP over VLAN. If attribute is not set, PTP is carried over untagged Ethernet..";
+      type string;
+    }
+    leaf ptpDownLinkDelayAvg {
+      description "Absolute value of average among measured downlink delay (T2 - T1) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpPacketsTx {
+      description "PTP packet transmitted through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpFollowUpRx {
+      description "Follow up message received through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpAnnounceTx {
+      description "Announce message transmitted through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpDelayRspTx {
+      description "Delay response message transmitted through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpAnnounceForeignMasterRx {
+      description "Announce message received through this PTP port from foreign PTP grandmaster..";
+      type uint64;
+      config false;
+    }
+    leaf ptpSyncRx {
+      description "Sync message received through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpDelayReqRx {
+      description "Delay request message received through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpMeanPathDelayMax {
+      description "Absolute value of maximum among measured mean path delay ((T2 - T1 + T4 - T3)/2) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpDownLinkDelayMin {
+      description "Absolute value of minimum among measured downlink delay (T2 - T1) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpMeanPathDelayMin {
+      description "Absolute value of minimum among measured mean path delay ((T2 - T1 + T4 - T3)/2) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpValidMeasurement {
+      description "Value one indicates valid data and value zero invalid data. If valid, data is collected for active synchronization reference. If invalid, another synchronization reference was active when data was collected..";
+      type int64;
+      config false;
+    }
+    leaf ptpSyncTx {
+      description "Sync message transmitted through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpDownLinkDelayMax {
+      description "Absolute value of maximum among measured downlink delay (T2 - T1) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpOffsetFromMasterAvg {
+      description "Average absolute value of time offset from grandmaster during granularity period. If another synchronization reference is active when data is collected, value presents average time offset from active reference. Use ptpValidMeasurement counter to determine if reference is active during data collection period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpFollowUpTx {
+      description "Follow up message transmitted through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpUpLinkDelayAvg {
+      description "Absolute value of average among measured (T4 - T3) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpDownLinkDelayStDev {
+      description "Standard deviation in measured downlink delay (T2 - T1) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpMeanPathDelayAvg {
+      description "Absolute value of average among measured mean path delay ((T2 - T1 + T4 - T3)/2) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpUpLinkDelayMin {
+      description "Absolute value of minimum among measured uplink delay (T4 - T3) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpOffsetFromMasterStDev {
+      description "Standard deviation in measured time offset from grandmaster during granularity period. If another synchronization reference is active when data is collected, value presents standard deviation in measured time offset from active reference. Use ptpValidMeasurement counter to determine if reference is active during data collection period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpPacketsRx {
+      description "PTP packet received through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpRefDefectTime {
+      description "Number of seconds during granularity period that PTP slave port has disqualifying defect, it cannot be selected as active synchronization reference. Unit: 1 s.";
+      type uint64;
+      config false;
+    }
+    leaf-list phaseJump {
+      description "Number of phase jumps of certain size on time synchronization reference, defined as abrupt change in mean level of signal. Ranges: Bin[0]: [..-500001] ns Bin[1]: [-500000..-200001] ns Bin[2]: [-200000..- 50001] ns Bin[3]: [-50000..-10001] ns Bin[4]: [-10000..-5001] ns Bin[5]: [-5000..-3001] ns Bin[6]: [-3000..- 1501] ns Bin[7]: [-1500..-1001] ns Bin[8]: [-1000..- 501] ns Bin[9]: [-500..-200] ns Bin[10]: [200..500] ns Bin[11]: [501..1000] ns Bin[12]: [1001..1500] ns Bin[13]: [1501..3000] ns Bin[14]: [3001..5000] ns Bin[15]: [5001..10000] ns Bin[16]: [10001..50000] ns Bin[17]: [50001.. 200000] ns Bin[18]: [200001..500000] ns Bin[19]: [500001..] ns.";
+      type uint64;
+      max-elements 20;
+    }
+    leaf ptpUpLinkDelayStDev {
+      description "Standard deviation in measured uplink delay (T4 - T3) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpOffsetFromMasterMin {
+      description "Minimum absolute value of time offset from grandmaster during granularity period. If another synchronization reference is active when data is collected, value presents minimum time offset from active reference. Use ptpValidMeasurement counter to determine if reference is active during data collection period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpMeanPathDelayStDev {
+      description "Standard deviation in measured mean path delay ((T2 - T1 + T4 - T3)/2) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpUpLinkDelayMax {
+      description "Absolute value of maximum among measured uplink delay (T4 - T3) during granularity period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpDelayReqTx {
+      description "Delay request message transmitted through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpAnnounceRx {
+      description "Announce message received through this PTP port..";
+      type uint64;
+      config false;
+    }
+    leaf ptpOffsetFromMasterMax {
+      description "Maximum absolute value of time offset from grandmaster during granularity period. If another synchronization reference is active when data is collected, value presents maximum time offset from active reference. Use ptpValidMeasurement counter to determine if reference is active during data collection period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf ptpDelayRspRx {
+      description "Delay response message received through this PTP port..";
+      type uint64;
+      config false;
+    }
+  }
+}

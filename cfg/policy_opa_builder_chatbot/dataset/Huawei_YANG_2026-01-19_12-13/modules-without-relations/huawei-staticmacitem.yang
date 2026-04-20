@@ -1,0 +1,51 @@
+module huawei-staticmacitem {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-staticmacitem";
+ prefix staticmacitem;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-yang-types {
+ prefix yang;
+ }
+ description
+ "Auto-generated modular YANG for huawei-staticmacitem" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface" {
+ container attributes {
+  uses STATICMACITEM-attributes {
+   /* opcjonalnie: IF-only subset */
+  }
+ }
+}
+ grouping STATICMACITEM-attributes {
+ leaf DSTMAC {
+  type yang:mac-address;
+  mandatory false;
+ }
+ leaf OLD_MACIDX {
+  type union {
+   type int8 {
+    range "-1..99";
+   }
+  }
+  mandatory false;
+ }
+ leaf MACIDX {
+  type union {
+   type int8 {
+    range "-1..99";
+   }
+  }
+  mandatory false;
+ }
+ leaf SWPORTIDX {
+  type uint8 {
+   range "1..32";
+  }
+  mandatory false;
+ }
+ }
+}

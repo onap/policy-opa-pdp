@@ -1,0 +1,417 @@
+module ericsson-qos-profiles-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnQosProfiles";
+  prefix qospfrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list QosProfiles {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Mapping of a set of DSCP values to a PCP.";
+      key "qosProfilesId";
+      leaf qosProfilesId {
+        type leafref {
+          path "../attributes/qosProfilesId";
+        }
+      }
+      container attributes {
+        uses QosProfiles-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/QosProfiles" {
+    list DscpDscpMap {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; A DSCP to DSCP map. Used for remarking of the DSCP value.";
+      key "dscpDscpMapId";
+      leaf dscpDscpMapId {
+        type leafref {
+          path "../attributes/dscpDscpMapId";
+        }
+      }
+      container attributes {
+        uses DscpDscpMap-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/QosProfiles" {
+    list DscpPcpMap {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; A DSCP to PCP map.";
+      key "dscpPcpMapId";
+      leaf dscpPcpMapId {
+        type leafref {
+          path "../attributes/dscpPcpMapId";
+        }
+      }
+      container attributes {
+        uses DscpPcpMap-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/QosProfiles" {
+    list PcpPcpMap {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; A PCP to PCP map. Used for remarking of the PCP value.";
+      key "pcpPcpMapId";
+      leaf pcpPcpMapId {
+        type leafref {
+          path "../attributes/pcpPcpMapId";
+        }
+      }
+      container attributes {
+        uses PcpPcpMap-attributes;
+      }
+    }
+  }
+  grouping DscpDscpMap-attributes {
+    leaf defaultDscp {
+      type eytypes:uint8_range_0-63;
+      description "range 0..63.";
+    }
+    leaf-list dscp0 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp1 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp10 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp11 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp12 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp13 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp14 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp15 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp16 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp17 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp18 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp19 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp2 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp20 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp21 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp22 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp23 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp24 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp25 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp26 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp27 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp28 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp29 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp3 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp30 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp31 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp32 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp33 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp34 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp35 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp36 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp37 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp38 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp39 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp4 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp40 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp41 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp42 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp43 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp44 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp45 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp46 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp47 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp48 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp49 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp5 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp50 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp51 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp52 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp53 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp54 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp55 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp56 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp57 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp58 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp59 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp6 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp60 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp61 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp62 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp63 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp7 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp8 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp9 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf dscpDscpMapId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping DscpPcpMap-attributes {
+    leaf defaultPcp {
+      type eytypes:uint8_range_0-7;
+      default "0";
+      description "range 0..7; Default value: 0.";
+    }
+    leaf dscpPcpMapId {
+      type string;
+      mandatory true;
+    }
+    leaf-list pcp0 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp1 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp2 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp3 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp4 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp5 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp6 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp7 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping DscpPcpMapDefault-attributes {
+    leaf defaultPcp {
+      type eytypes:uint8_range_0-7;
+      default "0";
+      description "range 0..7; Default value: 0.";
+    }
+    leaf dscpPcpMapDefaultId {
+      type string;
+      mandatory true;
+    }
+    leaf-list pcp0 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp1 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp2 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp3 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp4 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp5 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp6 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list pcp7 {
+      type eytypes:uint8_range_0-63;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping PcpPcpMap-attributes {
+    leaf defaultPcp {
+      type eytypes:uint8_range_0-7;
+      description "range 0..7.";
+    }
+    leaf-list pcp0 {
+      type eytypes:uint8_range_0-7;
+    }
+    leaf-list pcp1 {
+      type eytypes:uint8_range_0-7;
+    }
+    leaf-list pcp2 {
+      type eytypes:uint8_range_0-7;
+    }
+    leaf-list pcp3 {
+      type eytypes:uint8_range_0-7;
+    }
+    leaf-list pcp4 {
+      type eytypes:uint8_range_0-7;
+    }
+    leaf-list pcp5 {
+      type eytypes:uint8_range_0-7;
+    }
+    leaf-list pcp6 {
+      type eytypes:uint8_range_0-7;
+    }
+    leaf-list pcp7 {
+      type eytypes:uint8_range_0-7;
+    }
+    leaf pcpPcpMapId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping QosProfiles-attributes {
+    leaf qosProfilesId {
+      type string;
+      mandatory true;
+    }
+  }
+}

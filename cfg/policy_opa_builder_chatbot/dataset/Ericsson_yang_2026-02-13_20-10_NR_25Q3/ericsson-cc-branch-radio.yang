@@ -1,0 +1,50 @@
+module ericsson-cc-branch-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqCcBranch";
+  prefix ccbrnchrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-antenna-radio {
+    prefix antrdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup" {
+    list CcBranch {
+      description "Additional definitions from MOM:min/max-elements:0/24;root; This MO represents the functional \"long antenna branch\" between the Antenna Reference Point and the cross connected receiving radio unit. It conceptually includes an RfBranch and a CcLink.";
+      key "ccBranchId";
+      leaf ccBranchId {
+        type leafref {
+          path "../attributes/ccBranchId";
+        }
+      }
+      container attributes {
+        uses CcBranch-attributes;
+      }
+    }
+  }
+  grouping CcBranch-attributes {
+    leaf ccBranchId {
+      type string;
+      mandatory true;
+    }
+    leaf ccLinkRef {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf rfBranchRef {
+      type string;
+      mandatory true;
+    }
+  }
+}

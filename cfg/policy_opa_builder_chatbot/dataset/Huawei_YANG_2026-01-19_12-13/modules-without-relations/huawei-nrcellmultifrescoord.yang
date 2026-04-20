@@ -1,0 +1,34 @@
+module huawei-nrcellmultifrescoord {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrcellmultifrescoord";
+ prefix nrcellmultifrescoord;
+ description
+ "Auto-generated modular YANG for huawei-nrcellmultifrescoord" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRCELLMULTIFRESCOORD-attributes {
+ leaf HETNETCOORDCELLFLAG {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf MULTIFREQULCOORDFACTOR {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf NRCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

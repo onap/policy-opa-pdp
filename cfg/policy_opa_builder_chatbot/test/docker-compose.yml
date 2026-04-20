@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  backend:
+    image: docker.io/library/policy_opa_builder_chatbot:1.8.2
+    container_name: backend
+    ports:
+      - "8000:8000"
+    restart: always
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+  frontend:
+    image: docker.io/library/policy_opa_builder_chatbot_ui:1.2.2
+    container_name: policy-ui
+    ports:
+      - "8501:8501"
+    environment:
+      - FASTAPI_CHAT_URL=http://backend:8000/chat
+    depends_on:
+      - backend
+    restart: always

@@ -1,0 +1,142 @@
+module ericsson-rmeo1support-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeO1Support";
+  prefix rmeo1sup;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/O1Support" {
+    list NtfClient {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Configuration for HTTP cleints for NtfSubscriptionControl. IOC NtfSubscriptionControl is defined in 3GPP TS 28.622. Allows secure communication over TLS with an HTTPS-server. The RDN for this MO is NtfClient=X.";
+      key "ntfClientId";
+      leaf ntfClientId {
+        type leafref {
+          path "../attributes/ntfClientId";
+        }
+      }
+      container attributes {
+        uses NtfClient-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list O1Support {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Support for O1 Services. The RDN for this MO is O1Support=X.";
+      key "o1SupportId";
+      leaf o1SupportId {
+        type leafref {
+          path "../attributes/o1SupportId";
+        }
+      }
+      container attributes {
+        uses O1Support-attributes;
+      }
+    }
+  }
+  typedef BatchType {
+    type enumeration {
+      enum SINGLE;
+      enum MULTIPLE;
+    }
+  }
+  typedef OnOffType {
+    type enumeration {
+      enum OFF;
+      enum ON;
+    }
+  }
+  typedef ProtocolType {
+    type enumeration {
+      enum VES;
+      enum SDO;
+    }
+  }
+  grouping NtfClient-attributes {
+    leaf ntfClientId {
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      type string;
+    }
+    leaf trustCategory {
+      type string;
+    }
+    leaf address {
+      type string;
+      mandatory true;
+    }
+    leaf batchType {
+      type enumeration {
+        enum SINGLE;
+        enum MULTIPLE;
+      }
+    }
+    leaf username {
+      type string;
+    }
+    list password {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf protocolType {
+      type enumeration {
+        enum VES;
+        enum SDO;
+      }
+    }
+    leaf serverNameCheck {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf vesHeartbeatInterval {
+      type uint16 {
+        range "30..300";
+      }
+      description "range 30..300.";
+    }
+    leaf port {
+      type ietfinet:port-number;
+    }
+    leaf nativeForwardSlash {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+  }
+  grouping O1Support-attributes {
+    leaf o1SupportId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+}

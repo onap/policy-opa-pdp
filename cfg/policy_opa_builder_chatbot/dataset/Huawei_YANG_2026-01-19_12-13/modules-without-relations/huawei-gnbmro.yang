@@ -1,0 +1,58 @@
+module huawei-gnbmro {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbmro";
+ prefix gnbmro;
+ description
+ "Auto-generated modular YANG for huawei-gnbmro" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBMRO-attributes {
+ leaf ABNHORATIOTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf OPTPERIOD {
+  type uint16 {
+   range "1..65535";
+  }
+  mandatory false;
+ }
+ leaf SCENARIOIDENTIFYSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf STATNUMTHLD {
+  type uint16 {
+   range "0..10000";
+  }
+  mandatory false;
+ }
+ leaf TOOEARLYHOWRONGHORATIOTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf TOOLATEHORATIOTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf UEPINGPONGHONUMTHLD {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ leaf UEPINGPONGHOSTAYTIMETHLD {
+  type uint8 {
+   range "1..60";
+  }
+  mandatory false;
+ }
+ }
+}

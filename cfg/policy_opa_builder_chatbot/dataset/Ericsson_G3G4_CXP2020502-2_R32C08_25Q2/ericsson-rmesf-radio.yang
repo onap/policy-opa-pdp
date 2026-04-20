@@ -1,0 +1,91 @@
+module ericsson-rmesf-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSf";
+  prefix rmesf;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThe Service Finder Model.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmesf:ServiceFinder" {
+    list ServiceFinderServerInfo {
+      description "Additional definitions from MOM:min/max-elements:0/32; Represents Service Finder Server Info MO. Configuration data of service discovery server hosts. When this MO class is created, the service discovery client will connect to the service discovery server defined in dstHost and dstPort.";
+      key "serviceFinderServerInfoId";
+      leaf serviceFinderServerInfoId {
+        type leafref {
+          path "../attributes/serviceFinderServerInfoId";
+        }
+      }
+      container attributes {
+      uses ServiceFinderServerInfo-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ServiceFinder {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents Service Finder MO. Configuration data for service discovery clients. This MO class and at least one ServiceFinderServerInfo MO class must be created to activate node external service discovery function. Observe this MO is not needed for node internal service discovery function, which is automatically activated at node startup.";
+      key "serviceFinderId";
+      leaf serviceFinderId {
+        type leafref {
+          path "../attributes/serviceFinderId";
+        }
+      }
+      container attributes {
+      uses ServiceFinder-attributes;
+      }
+    }
+  }
+  grouping ServiceFinder-attributes {
+    leaf serviceFinderId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf accessPoint {
+      description "Network interface used by service discovery function for outgoing connections towards service discovery servers. Points to the MO containing the address. The MO must have an attribute named address containing the IP address in IPv4 or IPv6 format, with or without a network prefix length at the end..";
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      description "Node Credential is required by service discovery function which is using accessPoint for outgoing connections..";
+      type string;
+      mandatory true;
+    }
+    leaf trustCategory {
+      description "TrustCategory is required by service discovery function which is using accessPoint for outgoing connections..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping ServiceFinderServerInfo-attributes {
+    leaf serviceFinderServerInfoId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf dstHost {
+      description "Destination hostname or ip address for service finder server..";
+      type string;
+      mandatory true;
+    }
+    leaf dstPort {
+      description "Destination port for service finder server..";
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+}

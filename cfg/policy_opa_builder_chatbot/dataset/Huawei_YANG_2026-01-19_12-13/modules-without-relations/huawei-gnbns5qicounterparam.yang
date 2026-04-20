@@ -1,0 +1,120 @@
+module huawei-gnbns5qicounterparam {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbns5qicounterparam";
+ prefix gnbns5qicounterparam;
+ description
+ "Auto-generated modular YANG for huawei-gnbns5qicounterparam" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBNS5QICOUNTERPARAM-attributes {
+ leaf OLD_COUNTERTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+  }
+  mandatory false;
+ }
+ leaf COUNTERTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+  }
+  mandatory false;
+ }
+ leaf DLDELAYSTATTHLD0 {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf DLDELAYSTATTHLD1 {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf DLDELAYSTATTHLD2 {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf DLDELAYSTATTHLD3 {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf DLDELAYSTATTHLD4 {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf OLD_NR5QI {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf NR5QI {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_OPERATORID {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf OPERATORID {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SLICEDIFFERENTIATOR {
+  type union {
+   type int32 {
+    range "-1..16777215";
+   }
+  }
+  mandatory false;
+ }
+ leaf SLICEDIFFERENTIATOR {
+  type union {
+   type int32 {
+    range "-1..16777215";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SLICESERVICETYPE {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SLICESERVICETYPE {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,36 @@
+module huawei-enbueimeisvgroupcfg {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-enbueimeisvgroupcfg";
+ prefix enbueimeisvgroupcfg;
+ description
+ "Auto-generated modular YANG for huawei-enbueimeisvgroupcfg" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ENBUEIMEISVGROUPCFG-attributes {
+ leaf RATFREQPRIORITYGROUPID {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_UEIMEISVGROUPID {
+  type union {
+   type int8 {
+    range "-1..9";
+   }
+  }
+  mandatory false;
+ }
+ leaf UEIMEISVGROUPID {
+  type union {
+   type int8 {
+    range "-1..9";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

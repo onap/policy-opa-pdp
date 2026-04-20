@@ -1,0 +1,21 @@
+module huawei-e1t1ber {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-e1t1ber";
+ prefix e1t1ber;
+ description
+ "Auto-generated modular YANG for huawei-e1t1ber" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping E1T1BER-attributes {
+ leaf BTL {
+  type enumeration {
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ }
+}

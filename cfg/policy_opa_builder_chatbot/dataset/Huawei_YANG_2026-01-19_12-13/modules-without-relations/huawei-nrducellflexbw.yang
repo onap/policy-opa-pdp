@@ -1,0 +1,52 @@
+module huawei-nrducellflexbw {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellflexbw";
+ prefix nrducellflexbw;
+ description
+ "Auto-generated modular YANG for huawei-nrducellflexbw" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLFLEXBW-attributes {
+ leaf CUSTDLAVAILRBNUM {
+  type union {
+   type uint8 {
+    range "0..106";
+   }
+  }
+  mandatory false;
+ }
+ leaf CUSTDLSTARTRBINDEX {
+  type uint8 {
+   range "0..105";
+  }
+  mandatory false;
+ }
+ leaf CUSTULAVAILRBNUM {
+  type union {
+   type uint8 {
+    range "0..106";
+   }
+  }
+  mandatory false;
+ }
+ leaf CUSTULSTARTRBINDEX {
+  type uint8 {
+   range "0..105";
+  }
+  mandatory false;
+ }
+ leaf FLEXBWALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

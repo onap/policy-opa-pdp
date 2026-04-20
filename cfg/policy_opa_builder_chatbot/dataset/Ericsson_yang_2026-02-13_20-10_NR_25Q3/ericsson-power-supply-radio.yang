@@ -1,0 +1,207 @@
+module ericsson-power-supply-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ResPowerSupply";
+  prefix pwsuplrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-equipment-support-function-radio {
+    prefix eqsupfnrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/eqsupfnrdo:EquipmentSupportFunction" {
+    list PowerSupply {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO represents the logical resource providing configuration and supervision support for the cabinet power supply. Examples include configuration of charging algorithms and supervision levels and switching functions on/off etc. Dependencies: Can only exist in the node when the attribute supportSystemControl is set to true on a parent MO EquipmentSupportFunction.";
+      key "powerSupplyId";
+      leaf powerSupplyId {
+        type leafref {
+          path "../attributes/powerSupplyId";
+        }
+      }
+      container attributes {
+        uses PowerSupply-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping PowerSupply-attributes {
+    leaf powerSupplyId {
+      type string;
+      mandatory true;
+    }
+    leaf nominalVoltage {
+      type eytypes:int32_range_-570--480;
+      default "-545";
+      units "V";
+      description "range -570..-480; Default value: -545.";
+    }
+    leaf systemOvervoltageAlarmCeaseOffset {
+      type int32 {
+        range "0..50";
+      }
+      status deprecated;
+      default "5";
+      units "V";
+      description "range 0..50; Default value: 5; Status info: Since 18A. Planned to be removed..";
+    }
+    leaf systemUndervoltageAlarmLevel {
+      type int32 {
+        range "-480..-380";
+      }
+      status deprecated;
+      default "-475";
+      units "V";
+      description "range -480..-380; Default value: -475; Status info: Since 18A. Replaced by systemUndervoltageAlarmLevel on MO PowerDistribution. Planned to be removed..";
+    }
+    leaf systemVoltage {
+      type int32 {
+        range "-600..-380";
+      }
+      config false;
+      status deprecated;
+      units "V";
+      description "range -600..-380; MOM flags: noNotification, isNillable=true; Status info: Since 18A. Replaced by systemVoltage on MO PowerDistribution. Planned to be removed..";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf systemUndervoltageAlarmCeaseOffset {
+      type int32 {
+        range "0..50";
+      }
+      status deprecated;
+      default "30";
+      units "V";
+      description "range 0..50; Default value: 30; Status info: Since 18A. Planned to be removed..";
+    }
+    leaf systemOvervoltageAlarmLevel {
+      type int32 {
+        range "-600..-530";
+      }
+      status deprecated;
+      default "-575";
+      units "V";
+      description "range -600..-530; Default value: -575; Status info: Since 18A. Replaced by systemOvervoltageAlarmLevel on MO PowerDistribution. Planned to be removed..";
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf multiplePowerSystem {
+      type ietfinet:ip-address;
+      description "Default value: true.";
+    }
+    leaf controlDomainRef {
+      type string;
+    }
+    list smartLoadSharingConfig {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf lowLoadLevelTreshold {
+        type int32 {
+          range "10..40";
+        }
+        default "30";
+        units "percent";
+        description "range 10..40; Default value: 30.";
+      }
+      leaf highLoadLevelTreshold {
+        type int32 {
+          range "55..85";
+        }
+        default "70";
+        units "percent";
+        description "range 55..85; Default value: 70.";
+      }
+      leaf highLoadLevelThreshold {
+        type int32 {
+          range "55..85";
+        }
+        default "70";
+        units "percent";
+        description "range 55..85; Default value: 70.";
+      }
+      leaf lowLoadLevelThreshold {
+        type int32 {
+          range "10..40";
+        }
+        default "30";
+        units "percent";
+        description "range 10..40; Default value: 30.";
+      }
+      }
+    }
+    leaf smartLoadSharing {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf-list pmPsuAcInputVoltageInterruption {
+      type uint32;
+    }
+    leaf-list pmPsuPowerLoad {
+      type int32;
+    }
+  }
+}

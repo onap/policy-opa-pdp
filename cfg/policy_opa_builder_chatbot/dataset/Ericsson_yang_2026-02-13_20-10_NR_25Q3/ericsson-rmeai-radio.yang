@@ -1,0 +1,70 @@
+module ericsson-rmeai-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeAI";
+  prefix rmeai;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list AutoProvisioning {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO class contains configuration items for the Auto provisioning service.";
+      key "autoProvisioningId";
+      leaf autoProvisioningId {
+        type leafref {
+          path "../attributes/autoProvisioningId";
+        }
+      }
+      container attributes {
+        uses AutoProvisioning-attributes;
+      }
+    }
+  }
+  typedef ConfigLevel {
+    type enumeration {
+      enum SITE_CONFIG_COMPLETE;
+      enum OSS_CONFIGURATION_SUCCESSFUL;
+      enum INTEGRATION_COMPLETE;
+      enum READY_FOR_SERVICE;
+      enum OSS_ACTIVATING_CONFIGURATION;
+      enum OSS_CONFIGURATION_FAILED;
+      enum ACTIVATING_FEATURES;
+      enum ACTIVATING_FEATURES_FAILED;
+      enum OSS_CONTROL_NODE_CONN;
+      enum OSS_CONTROL_NODE_CONN_FAILED;
+      enum UNLOCKING_CELLS;
+      enum UNLOCKING_CELLS_FAILED;
+      enum RAN_INTEGRATION_WAS_CANCELLED;
+    }
+  }
+  grouping AutoProvisioning-attributes {
+    leaf autoProvisioningId {
+      type string;
+      mandatory true;
+    }
+    leaf rbsConfigLevel {
+      type enumeration {
+        enum SITE_CONFIG_COMPLETE;
+        enum OSS_CONFIGURATION_SUCCESSFUL;
+        enum INTEGRATION_COMPLETE;
+        enum READY_FOR_SERVICE;
+        enum OSS_ACTIVATING_CONFIGURATION;
+        enum OSS_CONFIGURATION_FAILED;
+        enum ACTIVATING_FEATURES;
+        enum ACTIVATING_FEATURES_FAILED;
+        enum OSS_CONTROL_NODE_CONN;
+        enum OSS_CONTROL_NODE_CONN_FAILED;
+        enum UNLOCKING_CELLS;
+        enum UNLOCKING_CELLS_FAILED;
+        enum RAN_INTEGRATION_WAS_CANCELLED;
+      }
+    }
+  }
+}

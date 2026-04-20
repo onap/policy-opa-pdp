@@ -1,0 +1,40 @@
+module huawei-cellbtruncracalgo {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cellbtruncracalgo";
+ prefix cellbtruncracalgo;
+ description
+ "Auto-generated modular YANG for huawei-cellbtruncracalgo" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLBTRUNCRACALGO-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf BTRUNCDLPRBUSAGETHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf BTRUNCRACALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf BTRUNCULPRBUSAGETHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,56 @@
+module huawei-nrducelladdlssb {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducelladdlssb";
+ prefix nrducelladdlssb;
+ description
+ "Auto-generated modular YANG for huawei-nrducelladdlssb" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLADDLSSB-attributes {
+ leaf ADDITIONALSSBDESCMETHOD {
+  type boolean;
+  mandatory false;
+ }
+ leaf ADDITIONALSSBFREQPOS {
+  type union {
+   type uint32 {
+    range "2..2279165";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_ADDITIONALSSBNUM {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf ADDITIONALSSBNUM {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

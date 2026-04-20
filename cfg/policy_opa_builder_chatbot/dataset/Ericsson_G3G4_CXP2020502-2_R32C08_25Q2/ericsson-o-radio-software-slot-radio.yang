@@ -1,0 +1,125 @@
+module ericsson-o-radio-software-slot-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqORadioSwSlot";
+  prefix ordossrdo;
+  import ericsson-o-radio {
+    prefix ordo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nReqORadioSwSlot.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/ordo:ORadio" {
+    list ORadioSwSlot {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents a software slot in ORadio. Contains information about the software stored in the slot. Created by system when management plane between Baseband unit and ORadio is established, and software inventory data is fetched.";
+      key "oRadioSwSlotId";
+      leaf oRadioSwSlotId {
+        type leafref {
+          path "../attributes/oRadioSwSlotId";
+        }
+      }
+      container attributes {
+      uses ORadioSwSlot-attributes;
+      }
+    }
+  }
+  typedef ORadioSwSlotAccess {
+    description "Whether the slot is writable. Contains access status in software slot of ORadio.";
+    type enumeration {
+      enum READ_ONLY {
+        description "Slot intended only for factory software. Activation of such software slot restores factory defaults.";
+      }
+      enum READ_WRITE {
+        description "Slot used for updating software.";
+      }
+    }
+  }
+  typedef ORadioSwSlotStatus {
+    description "Software status in the software slot of ORadio.";
+    type enumeration {
+      enum VALID {
+        description "Slot contains software build considered as valid.";
+      }
+      enum INVALID {
+        description "Software build is considered as damaged and is not currently used by ORadio.";
+      }
+      enum EMPTY {
+        description "Slot does not contain software package.";
+      }
+    }
+  }
+  grouping ORadioSwSlot-attributes {
+    leaf oRadioSwSlotId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf name {
+      description "Name of software slot..";
+      type string;
+      config false;
+    }
+    leaf status {
+      description "Status of the software package..";
+      type enumeration {
+        enum VALID;
+        enum INVALID;
+        enum EMPTY;
+      }
+      config false;
+    }
+    leaf active {
+      description "Whether software in the slot is active. false: Software is not active. true: Software is active. Set by MO action ORadio::sendCommand in the following ways: - To false after the install command. - To true after the activate command..";
+      type boolean;
+      config false;
+    }
+    leaf running {
+      description "Whether software stored in the slot is running. Value changes to true after ORadio restart, if software is active. false: Software is not running. true: Software is running..";
+      type boolean;
+      config false;
+    }
+    leaf access {
+      description "Access rights for the slot..";
+      type enumeration {
+        enum READ_ONLY;
+        enum READ_WRITE;
+      }
+      config false;
+    }
+    leaf productCode {
+      description "Product code provided by the vendor, specific to product..";
+      type string;
+      config false;
+    }
+    leaf vendorCode {
+      description "Vendor code..";
+      type string;
+      config false;
+    }
+    leaf buildId {
+      description "Identity of software build..";
+      type string;
+      config false;
+    }
+    leaf buildName {
+      description "Name of software build..";
+      type string;
+      config false;
+    }
+    leaf buildVersion {
+      description "Version of software build..";
+      type string;
+      config false;
+    }
+  }
+}

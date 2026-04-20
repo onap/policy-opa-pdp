@@ -1,0 +1,23 @@
+module huawei-gnbtddclkmodesw {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbtddclkmodesw";
+ prefix gnbtddclkmodesw;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-gnbtddclkmodesw" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBTDDCLKMODESW-attributes {
+ leaf CELLACTVSWEXPIREDTIME {
+  type hwat:yyyy_mm_dd_HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf CLKUNAVLBCELLACTVSW {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

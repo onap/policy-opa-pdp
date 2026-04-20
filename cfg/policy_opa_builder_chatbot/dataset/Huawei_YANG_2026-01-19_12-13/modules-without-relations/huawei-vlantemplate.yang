@@ -1,0 +1,46 @@
+module huawei-vlantemplate {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-vlantemplate";
+ prefix vlantemplate;
+ description
+ "Auto-generated modular YANG for huawei-vlantemplate" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping VLANTEMPLATE-attributes {
+ leaf PVID {
+  type uint16 {
+   range "1..4094";
+  }
+  mandatory false;
+ }
+ leaf PVPRI {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf VBIID {
+  type uint8 {
+   range "0";
+  }
+  mandatory false;
+ }
+ leaf OLD_VLANTEMPLATEID {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf VLANTEMPLATEID {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

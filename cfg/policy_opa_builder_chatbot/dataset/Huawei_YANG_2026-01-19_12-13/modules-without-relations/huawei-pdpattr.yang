@@ -1,0 +1,101 @@
+module huawei-pdpattr {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-pdpattr";
+ prefix pdpattr;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-pdpattr" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping PDPATTR-attributes {
+ leaf CBCAPC {
+  type union {
+   type uint16 {
+    range "25..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf CLSDT {
+  type uint16 {
+   range "0..1440";
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CSDTS {
+  type boolean;
+  mandatory false;
+ }
+ leaf CTSSTARTTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf CTSSTOPTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf CTSSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ESN {
+  type string {
+   length "0..23";
+  }
+  mandatory false;
+ }
+ leaf PORTDESC {
+  type string {
+   length "0..199";
+  }
+  mandatory false;
+ }
+ leaf PORTNO {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..18";
+   }
+  }
+  mandatory false;
+ }
+ leaf TOPORECOGMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf VOLTAGEADJUSTMENTMODE {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

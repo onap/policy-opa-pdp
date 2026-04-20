@@ -1,0 +1,95 @@
+module ericsson-dot1x-supplicant-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnDot1xSupplicant";
+  prefix dot1xsuprdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Dot1xSupplicant {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents IEEE 802.1X supplicant. Dependencies: Max one Dot1xSupplicant MO can be created under Transport MO. Max one EthernetPort MO can reserve Dot1xSupplicant MO.";
+      key "dot1xSupplicantId";
+      leaf dot1xSupplicantId {
+        type leafref {
+          path "../attributes/dot1xSupplicantId";
+        }
+      }
+      container attributes {
+        uses Dot1xSupplicant-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping Dot1xSupplicant-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf dot1xSupplicantId {
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      type string;
+      mandatory true;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf trustCategory {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

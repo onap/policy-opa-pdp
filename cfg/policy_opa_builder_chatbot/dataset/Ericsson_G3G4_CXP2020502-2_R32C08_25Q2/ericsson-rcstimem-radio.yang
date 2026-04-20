@@ -1,0 +1,227 @@
+module ericsson-rcstimem-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsTimeM";
+  prefix rcstimem;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rcssysm-radio {
+    prefix rcssysm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nContains the Time management attributes including handling of the NTP server information.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list TimeM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Time management concerns the calendar date and local time of the node.";
+      key "timeMId";
+      leaf timeMId {
+        type leafref {
+          path "../attributes/timeMId";
+        }
+      }
+      container attributes {
+      uses TimeM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcstimem:TimeM/rcstimem:Ntp" {
+    list NtpServer {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; The NTP server configuration data. This MOC presents a persistent NTP client mode network association with a specified remote server or local reference clock address.";
+      key "ntpServerId";
+      leaf ntpServerId {
+        type leafref {
+          path "../attributes/ntpServerId";
+        }
+      }
+      container attributes {
+      uses NtpServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcstimem:TimeM/rcstimem:Ntp" {
+    list NtpSecurityPolicy {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Contains the information about what algorithm this NTP Server supports.";
+      key "ntpSecurityPolicyId";
+      leaf ntpSecurityPolicyId {
+        type leafref {
+          path "../attributes/ntpSecurityPolicyId";
+        }
+      }
+      container attributes {
+      uses NtpSecurityPolicy-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcstimem:TimeM" {
+    list DateAndTime {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Local time and time zone values.";
+      key "dateAndTimeId";
+      leaf dateAndTimeId {
+        type leafref {
+          path "../attributes/dateAndTimeId";
+        }
+      }
+      container attributes {
+      uses DateAndTime-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcstimem:TimeM" {
+    list Ntp {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; The NTP top class.";
+      key "ntpId";
+      leaf ntpId {
+        type leafref {
+          path "../attributes/ntpId";
+        }
+      }
+      container attributes {
+      uses Ntp-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef KeyAlgorithm {
+    description "List of key algorithms supported for NTP.";
+    type enumeration {
+      enum AES128CMAC {
+      }
+      enum MD5 {
+      }
+      enum SHA1 {
+      }
+      enum SHA256 {
+      }
+    }
+  }
+  grouping DateAndTime-attributes {
+    leaf dateAndTimeId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf timeZone {
+      description "The time zone of the ME. A time zone is a region that has a uniform standard time. The string must match an entry in the ME’s time zone database, for example ‘Europe/Stockholm’..";
+      type string;
+    }
+    leaf localDateTime {
+      description "The local date and time of the ME. Local time is standard time in a time zone at a fixed offset from Coordinated Universal Time (UTC), possibly adjusted by Daylight Saving Time (DST) during part of the year..";
+      type string;
+      config false;
+    }
+    leaf dateTimeOffset {
+      description "The offset in hours and minutes from UTC to local time..";
+      type string;
+      config false;
+    }
+    leaf tzRevision {
+      description "The revision of the time zone database stored on the ME..";
+      type string;
+      config false;
+    }
+  }
+  grouping Ntp-attributes {
+    leaf ntpId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf-list supportedKeyAlgorithm {
+      description "List of supported key algorithms by the ME..";
+      type KeyAlgorithm;
+      min-elements 0;
+    }
+  }
+  grouping NtpSecurityPolicy-attributes {
+    leaf ntpSecurityPolicyId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf keyAlgorithm {
+      description "The encryption algorithm used towards the corresponding NTP Server..";
+      type enumeration {
+        enum AES128CMAC;
+        enum MD5;
+        enum SHA1;
+        enum SHA256;
+      }
+      mandatory true;
+    }
+    leaf preSharedKey {
+      description "The pre shared key for the NTP authentication..";
+      type string;
+      mandatory true;
+    }
+    leaf keyId {
+      description "The key ID for the NTP authentication. This is an integer identifying the cryptographic key used to generate the message authentication code.; range 1..65534.";
+      type int64 {
+        range "1..65534";
+      }
+      mandatory true;
+    }
+    leaf-list ntpServerRef {
+      description "Indicates the NtpServer using this NtpSecurityPolicy..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping NtpServer-attributes {
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf ntpServerId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf serverAddress {
+      description "The address of the NTP server with which a persistent client server mode association is made. The serverAddress represents either a V4 or a V6 IP address, or a DNS domain name..";
+      type union {
+        type ietfinet:ip-address;
+        type ietfinet:domain-name;
+      }
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "Locks or unlocks the operation of the NTP client function. This is a convenience function to permit some or all NtpServer instances to be temporarily locked without the need to delete the object.";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf ntpSecurityPolicy {
+      description "Points to the NTP Security Policy used for this server..";
+      type string;
+    }
+  }
+  grouping TimeM-attributes {
+    leaf timeMId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+  }
+}

@@ -1,0 +1,44 @@
+module ericsson-cprilink-supervision-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeCpriLinkSupervision";
+  prefix crilnksprdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis MO class contains configuration items for the CPRI link supervision service.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list CpriLinkSupervision {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO class contains configuration items for the CPRI link supervision service.";
+      key "cpriLinkSupervisionId";
+      leaf cpriLinkSupervisionId {
+        type leafref {
+          path "../attributes/cpriLinkSupervisionId";
+        }
+      }
+      container attributes {
+      uses CpriLinkSupervision-attributes;
+      }
+    }
+  }
+  grouping CpriLinkSupervision-attributes {
+    leaf cpriLinkSupervisionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list cpriLinkFilterTime {
+      description "Filter time for CPRI link disturbances. If CPRI link disturbance is not recovered within filter time, loss of traffic can occur. Value of 400 is defined as default. Lower value increases traffic resource vulnerability to CPRI disturbance. Value must be in range 0..450. If multiple values are configured, only first value is used. If no value is configured, default value is used.; Default values sequence: 400.";
+      type int16;
+      ordered-by user;
+      min-elements 0;
+      max-elements 10000;
+    }
+  }
+}

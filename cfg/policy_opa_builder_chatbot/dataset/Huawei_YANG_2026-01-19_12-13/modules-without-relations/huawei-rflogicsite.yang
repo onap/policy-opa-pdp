@@ -1,0 +1,52 @@
+module huawei-rflogicsite {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rflogicsite";
+ prefix rflogicsite;
+ description
+ "Auto-generated modular YANG for huawei-rflogicsite" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFLOGICSITE-attributes {
+ leaf BANDGROUPID {
+  type uint8 {
+   range "0..31";
+  }
+  mandatory false;
+ }
+ leaf OLD_RFLOGICSITEID {
+  type union {
+   type int16 {
+    range "-1..1023";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFLOGICSITEID {
+  type union {
+   type int16 {
+    range "-1..1023";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFLOGICSITENAME {
+  type string {
+   length "1..99";
+  }
+  mandatory false;
+ }
+ leaf RFPHYSITEID {
+  type uint16 {
+   range "0..1023";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

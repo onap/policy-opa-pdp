@@ -1,0 +1,116 @@
+module huawei-almport {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-almport";
+ prefix almport;
+ description
+ "Auto-generated modular YANG for huawei-almport" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ALMPORT-attributes {
+ leaf AID {
+  type uint16 {
+   range "65033..65233";
+  }
+  mandatory false;
+ }
+ leaf AVOL {
+  type boolean;
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf DTPRD {
+  type union {
+   type uint8 {
+    range "3..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LL {
+  type int32 {
+   range "-99999..999999";
+  }
+  mandatory false;
+ }
+ leaf PN {
+  type union {
+   type int8 {
+    range "-1..35";
+   }
+  }
+  mandatory false;
+ }
+ leaf PT {
+  type boolean;
+  mandatory false;
+ }
+ leaf SMLL {
+  type int32 {
+   range "-99999..999999";
+  }
+  mandatory false;
+ }
+ leaf SMUL {
+  type int32 {
+   range "-99999..999999";
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..19";
+   }
+  }
+  mandatory false;
+ }
+ leaf SOLL {
+  type uint32 {
+   range "0..999999";
+  }
+  mandatory false;
+ }
+ leaf SOUL {
+  type uint32 {
+   range "0..999999";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf ST {
+  type boolean;
+  mandatory false;
+ }
+ leaf SW {
+  type boolean;
+  mandatory false;
+ }
+ leaf UL {
+  type int32 {
+   range "-99999..999999";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..63";
+  }
+  mandatory false;
+ }
+ }
+}

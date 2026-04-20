@@ -1,0 +1,51 @@
+module ericsson-lls-mode-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeLlsMode";
+  prefix llsmrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list LlsMode {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents preferred fronthaul Lower Layer Split setting. The RDN of this MO must be LlsMode=1.";
+      key "llsModeId";
+      leaf llsModeId {
+        type leafref {
+          path "../attributes/llsModeId";
+        }
+      }
+      container attributes {
+        uses LlsMode-attributes;
+      }
+    }
+  }
+  typedef llsModePreferenceType {
+    type enumeration {
+      enum DEFAULT;
+      enum OPEN_LLS;
+    }
+  }
+  grouping LlsMode-attributes {
+    leaf llsModeId {
+      type string;
+      mandatory true;
+    }
+    leaf llsModePreference {
+      type enumeration {
+        enum DEFAULT;
+        enum OPEN_LLS;
+      }
+    }
+    leaf-list fieldReplaceableUnitRef {
+      type string;
+    }
+  }
+}

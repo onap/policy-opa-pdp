@@ -1,0 +1,39 @@
+module ericsson-rmempclusterhandling-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeMpClusterHandling";
+  prefix rmempclu;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list MpClusterHandling {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO is used for configuration of the cluster of main processors. The RDN of this MO is MpClusterHandling=1.";
+      key "mpClusterHandlingId";
+      leaf mpClusterHandlingId {
+        type leafref {
+          path "../attributes/mpClusterHandlingId";
+        }
+      }
+      container attributes {
+        uses MpClusterHandling-attributes;
+      }
+    }
+  }
+  grouping MpClusterHandling-attributes {
+    leaf mpClusterHandlingId {
+      type string;
+      mandatory true;
+    }
+    leaf primaryCoreRef {
+      type string;
+    }
+  }
+}

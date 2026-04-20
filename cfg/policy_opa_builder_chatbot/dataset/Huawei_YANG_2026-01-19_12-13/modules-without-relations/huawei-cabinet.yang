@@ -1,0 +1,83 @@
+module huawei-cabinet {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cabinet";
+ prefix cabinet;
+ description
+ "Auto-generated modular YANG for huawei-cabinet" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CABINET-attributes {
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf DESC {
+  type string {
+   length "0..79";
+  }
+  mandatory false;
+ }
+ leaf ELABELFLAG {
+  type boolean;
+  mandatory false;
+ }
+ leaf LOCATIONNAME {
+  type string {
+   length "0..128";
+  }
+  mandatory false;
+ }
+ leaf TYPE {
+  type enumeration {
+   enum val-128;
+   enum val-129;
+   enum val-130;
+   enum val-131;
+   enum val-132;
+   enum val-133;
+   enum val-134;
+   enum val-135;
+   enum val-136;
+   enum val-137;
+   enum val-138;
+   enum val-142;
+   enum val-143;
+   enum val-144;
+   enum val-145;
+   enum val-146;
+   enum val-148;
+   enum val-154;
+   enum val-155;
+   enum val-200;
+   enum val-209;
+   enum val-210;
+   enum val-211;
+   enum val-212;
+   enum val-213;
+   enum val-214;
+   enum val-215;
+   enum val-216;
+   enum val-217;
+   enum val-218;
+   enum val-219;
+   enum val-220;
+   enum val-222;
+   enum val-224;
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,54 @@
+module huawei-mocrsvdpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-mocrsvdpara";
+ prefix mocrsvdpara;
+ description
+ "Auto-generated modular YANG for huawei-mocrsvdpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping MOCRSVDPARA-attributes {
+ leaf OLD_MOCNAME {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf MOCNAME {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf OLD_MOIKEY {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf MOIKEY {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf OLD_RSVDPARAID {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARAID {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARAVALUE {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ }
+}

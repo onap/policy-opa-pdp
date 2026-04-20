@@ -1,0 +1,32 @@
+module huawei-rfacellalgoswitch {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfacellalgoswitch";
+ prefix rfacellalgoswitch;
+ description
+ "Auto-generated modular YANG for huawei-rfacellalgoswitch" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFACELLALGOSWITCH-attributes {
+ leaf GPSYMBOLEXTENSIONSWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf GUARDBANDTOLERANTSWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf POWERSAVINGSWITCH {
+  type string;
+  mandatory false;
+ }
+ }
+}

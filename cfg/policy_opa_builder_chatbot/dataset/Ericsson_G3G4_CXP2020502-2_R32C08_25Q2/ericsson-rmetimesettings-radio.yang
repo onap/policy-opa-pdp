@@ -1,0 +1,141 @@
+module ericsson-rmetimesettings-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeTimeSettings";
+  prefix rmetimes;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nTime settings for LTE SIB 16 messages";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list TimeSettings {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO class contain configuration for time zone information broadcast. The settings in this MO do not affect the system local time zone.";
+      key "timeSettingsId";
+      leaf timeSettingsId {
+        type leafref {
+          path "../attributes/timeSettingsId";
+        }
+      }
+      container attributes {
+      uses TimeSettings-attributes;
+      }
+    }
+  }
+  typedef DstMonth {
+    description "Month of daylight savings time change";
+    type enumeration {
+      enum JANUARY {
+      }
+      enum FEBRUARY {
+      }
+      enum MARCH {
+      }
+      enum APRIL {
+      }
+      enum MAY {
+      }
+      enum JUNE {
+      }
+      enum JULY {
+      }
+      enum AUGUST {
+      }
+      enum SEPTEMBER {
+      }
+      enum OCTOBER {
+      }
+      enum NOVEMBER {
+      }
+      enum DECEMBER {
+      }
+    }
+  }
+  grouping DstRule-struct {
+    description "This struct contains rule information for the beginning and end of the daylight savings time period.";
+    leaf month {
+      type enumeration {
+        enum JANUARY;
+        enum FEBRUARY;
+        enum MARCH;
+        enum APRIL;
+        enum MAY;
+        enum JUNE;
+        enum JULY;
+        enum AUGUST;
+        enum SEPTEMBER;
+        enum OCTOBER;
+        enum NOVEMBER;
+        enum DECEMBER;
+      }
+    }
+    leaf dayRule {
+      type string;
+    }
+    leaf time {
+      description "length 5..5.";
+      type string {
+        length "5";
+        pattern "(([0-1][0-9])|(2[0-4])):[0-5][0-9]";
+      }
+    }
+  }
+  grouping TimeSettings-attributes {
+    leaf timeSettingsId {
+      description "Holds the name used when identifying this MO..";
+      type string;
+      mandatory true;
+    }
+    list daylightSavingTimeEndDate {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Date for ending daylight saving time expressed in local standard time as specified in the timeOffset attribute.";
+      uses DstRule-struct;
+    }
+    leaf daylightSavingTimeOffset {
+      description "The time saved when daylight saving time is applied given as hours:minutes; length 4..4; Default value: 1:00.";
+      type string {
+        length "4";
+        pattern "[0-9]:[0-5][0-9]";
+      }
+      default "1:00";
+    }
+    list daylightSavingTimeStartDate {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Date for starting daylight saving time expressed in local standard time as configured in the timeOffset attribute..";
+      uses DstRule-struct;
+    }
+    leaf gpsToUtcLeapSeconds {
+      description "The leap second offset of UTC compared to GPS time.; range -1000..1000.";
+      type int16 {
+        range "-1000..1000";
+      }
+    }
+    leaf gpsToUtcLeapSecondsChangeDate {
+      description "The date when leap seconds is changed. The minus sign indicates a decrement of the gpsToUtcLeapSeconds value..";
+      type string {
+        pattern "-*[1-9][0-9]{3}-(1[0-2]|0[1-9])-(0[1-9]|[1|2][0-9]|3[0-1])";
+      }
+    }
+    leaf timeOffset {
+      description "The time offset from UTC; length 5..6; Default value: +00:00.";
+      type string {
+        length "5..6";
+        pattern "[+-](([0-1][0-9])|(2[0-4])):([0-5][0-9])";
+      }
+      default "+00:00";
+    }
+  }
+}

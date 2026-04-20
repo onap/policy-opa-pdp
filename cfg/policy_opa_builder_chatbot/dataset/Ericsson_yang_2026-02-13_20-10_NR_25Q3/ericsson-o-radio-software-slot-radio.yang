@@ -1,0 +1,102 @@
+module ericsson-o-radio-software-slot-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqORadioSwSlot";
+  prefix ordossrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-o-radio {
+    prefix ordo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/ordo:ORadio" {
+    list ORadioSwSlot {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents a software slot in ORadio. Contains information about the software stored in the slot. Created by system when management plane between Baseband unit and ORadio is established, and software inventory data is fetched.";
+      key "oRadioSwSlotId";
+      leaf oRadioSwSlotId {
+        type leafref {
+          path "../attributes/oRadioSwSlotId";
+        }
+      }
+      container attributes {
+        uses ORadioSwSlot-attributes;
+      }
+    }
+  }
+  typedef ORadioSwSlotAccess {
+    type enumeration {
+      enum READ_ONLY;
+      enum READ_WRITE;
+    }
+  }
+  typedef ORadioSwSlotStatus {
+    type enumeration {
+      enum VALID;
+      enum INVALID;
+      enum EMPTY;
+    }
+  }
+  grouping ORadioSwSlot-attributes {
+    leaf oRadioSwSlotId {
+      type string;
+      mandatory true;
+    }
+    leaf name {
+      type string;
+      config false;
+    }
+    leaf status {
+      type enumeration {
+        enum VALID;
+        enum INVALID;
+        enum EMPTY;
+      }
+      config false;
+    }
+    leaf active {
+      type boolean;
+      config false;
+    }
+    leaf running {
+      type boolean;
+      config false;
+    }
+    leaf access {
+      type enumeration {
+        enum READ_ONLY;
+        enum READ_WRITE;
+      }
+      config false;
+    }
+    leaf productCode {
+      type string;
+      config false;
+    }
+    leaf vendorCode {
+      type string;
+      config false;
+    }
+    leaf buildId {
+      type string;
+      config false;
+    }
+    leaf buildName {
+      type string;
+      config false;
+    }
+    leaf buildVersion {
+      type string;
+      config false;
+    }
+  }
+}

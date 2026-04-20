@@ -1,0 +1,82 @@
+module huawei-ipsecdtnl {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ipsecdtnl";
+ prefix ipsecdtnl;
+ description
+ "Auto-generated modular YANG for huawei-ipsecdtnl" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping IPSECDTNL-attributes {
+ leaf BFDDTCTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_DUALID {
+  type union {
+   type int8 {
+    range "-1..49";
+   }
+  }
+  mandatory false;
+ }
+ leaf DUALID {
+  type union {
+   type int8 {
+    range "-1..49";
+   }
+  }
+  mandatory false;
+ }
+ leaf IPSECSWITCHBACK {
+  type boolean;
+  mandatory false;
+ }
+ leaf IPSECSWITCHBACKTM {
+  type uint16 {
+   range "1..900";
+  }
+  mandatory false;
+ }
+ leaf MBFDSN {
+  type union {
+   type uint8 {
+    range "0..195";
+   }
+  }
+  mandatory false;
+ }
+ leaf MSPGN {
+  type string {
+   length "1..15";
+  }
+  mandatory false;
+ }
+ leaf MSPSN {
+  type uint16 {
+   range "1..10000";
+  }
+  mandatory false;
+ }
+ leaf SBFDSN {
+  type union {
+   type uint8 {
+    range "0..195";
+   }
+  }
+  mandatory false;
+ }
+ leaf SSPGN {
+  type string {
+   length "1..15";
+  }
+  mandatory false;
+ }
+ leaf SSPSN {
+  type uint16 {
+   range "1..10000";
+  }
+  mandatory false;
+ }
+ }
+}

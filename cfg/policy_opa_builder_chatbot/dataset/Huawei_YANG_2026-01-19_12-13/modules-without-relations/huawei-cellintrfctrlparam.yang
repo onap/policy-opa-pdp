@@ -1,0 +1,52 @@
+module huawei-cellintrfctrlparam {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cellintrfctrlparam";
+ prefix cellintrfctrlparam;
+ description
+ "Auto-generated modular YANG for huawei-cellintrfctrlparam" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLINTRFCTRLPARAM-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf DLRBALLOCATIONDIRECTION {
+  type boolean;
+  mandatory false;
+ }
+ leaf HIGHINTRFSTATEDURATION {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf HIGHINTRFSTATERBUSAGETHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOWINTRFSTATEDURATION {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf LOWINTRFSTATERBUSAGETHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ }
+}

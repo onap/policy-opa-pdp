@@ -1,0 +1,334 @@
+module huawei-gnbcustcabandcomb {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbcustcabandcomb";
+ prefix gnbcustcabandcomb;
+ description
+ "Auto-generated modular YANG for huawei-gnbcustcabandcomb" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBCUSTCABANDCOMB-attributes {
+ leaf BANDWIDTHCOMBSET {
+  type uint8 {
+   range "0..31";
+  }
+  mandatory false;
+ }
+ leaf OLD_CUSTCABANDCOMBID {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf CUSTCABANDCOMBID {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf FR2FREQUENCYBAND1 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FR2FREQUENCYBAND2 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FR2FREQUENCYBWCLASS1 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FR2FREQUENCYBWCLASS2 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBAND1 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBAND2 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBAND3 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBAND4 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBAND5 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBANDWIDTH1 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBANDWIDTH2 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBANDWIDTH3 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBANDWIDTH4 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBANDWIDTH5 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ }
+}

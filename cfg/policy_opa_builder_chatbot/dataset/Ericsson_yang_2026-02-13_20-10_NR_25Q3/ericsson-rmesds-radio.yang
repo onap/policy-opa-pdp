@@ -1,0 +1,136 @@
+module ericsson-rmesds-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSds";
+  prefix rmesds;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ServiceDiscovery {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Configuration data for Service Discovery clients. This MO must be created for the service discovery function to be active in the node.";
+      key "serviceDiscoveryId";
+      status deprecated;
+      leaf serviceDiscoveryId {
+        type leafref {
+          path "../attributes/serviceDiscoveryId";
+        }
+        status deprecated;
+      }
+      container attributes {
+        uses ServiceDiscovery-attributes;
+      }
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping ServiceDiscovery-attributes {
+    leaf serviceDiscoveryId {
+      type string;
+      mandatory true;
+      status deprecated;
+      description "MOM flags: restricted, noNotification; Status info: Since 22.Q3. Planned to be removed..";
+    }
+    leaf localAddress {
+      type string;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+    }
+    list secondaryGsds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      description "Takes effect: Node Restart; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      container attributes {
+      leaf host {
+        type string;
+      }
+      leaf port {
+        type ietfinet:port-number;
+      }
+      leaf serviceArea {
+        type string {
+          length "1..128";
+          pattern "([A-Za-z0-9_-]+)";
+        }
+        default "vrcs";
+        description "length 1..128; Default value: vrcs.";
+      }
+      leaf hostIPs {
+        type ietfinet:ipv4-address;
+      }
+      }
+    }
+    leaf statusPrimary {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+    }
+    leaf statusSecondary {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+    }
+    list primaryGsds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      description "Takes effect: Node Restart; Status info: Since 22.Q3. Planned to be removed..";
+      container attributes {
+      leaf host {
+        type string;
+      }
+      leaf port {
+        type ietfinet:port-number;
+      }
+      leaf serviceArea {
+        type string {
+          length "1..128";
+          pattern "([A-Za-z0-9_-]+)";
+        }
+        default "vrcs";
+        description "length 1..128; Default value: vrcs.";
+      }
+      leaf hostIPs {
+        type ietfinet:ipv4-address;
+      }
+      }
+    }
+    leaf trustCategory {
+      type string;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+    }
+    leaf nodeCredential {
+      type string;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+    }
+  }
+}

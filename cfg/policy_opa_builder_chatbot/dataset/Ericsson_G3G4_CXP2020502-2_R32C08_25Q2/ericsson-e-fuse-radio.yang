@@ -1,0 +1,309 @@
+module ericsson-e-fuse-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEFuse";
+  prefix efuserdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\n.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list EFuse {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; This MO models an electrical fuse related to power distribution. Number of MO's is created depending on the number of EFuses on the PDU. The RDNs of these MOs are EFuse=1, EFuse=2, and so on. Dependencies: Can only exist when FieldReplaceableUnit MO represents a PDU.";
+      key "eFuseId";
+      leaf eFuseId {
+        type leafref {
+          path "../attributes/eFuseId";
+        }
+      }
+      container attributes {
+      uses EFuse-attributes;
+      }
+    }
+  }
+  typedef ApcEFuseLoadType {
+    description "Load configuration for EFuse.";
+    type enumeration {
+      enum MAIN {
+        description "The e-fuse is configured for main load.";
+      }
+      enum PRIO {
+        description "The e-fuse is configured for prio load.";
+      }
+    }
+  }
+  typedef ApcEFuseOutput {
+    description "Output configuration for EFuse.";
+    type enumeration {
+      enum ON {
+        description "Set e-fuse power output to ON";
+      }
+      enum OFF {
+        description "Set e-fuse power output to OFF";
+      }
+      enum TEMPORARY_OFF {
+        description "Set e-fuse power output to TEMPORARY_OFF";
+      }
+    }
+  }
+  typedef ApcFuseHoldUp {
+    description "Type of output. An internal consumer is a unit located inside the cabinet. An external consumer is a unit located outside of the cabinet.";
+    type enumeration {
+      enum HOLDUP_STANDARD {
+        description "Output used for internal consumer requiring hold-up functionality.";
+      }
+      enum STANDARD {
+        description "Output used to feed internal consumer.";
+      }
+      enum HOLDUP_REMOTE {
+        description "Output used for internal or external consumer requiring hold-up functionality.";
+      }
+      enum REMOTE {
+        description "Output used to feed internal or external consumer.";
+      }
+      enum NOT_SUPPORTED {
+        description "Information about type of output is not available on HW.";
+      }
+    }
+  }
+  typedef ApcFuseState {
+    description "Fuse state.";
+    type enumeration {
+      enum ON {
+        description "Power output state is ON.";
+      }
+      enum OFF {
+        description "Power output state is OFF.";
+      }
+      enum TEMPORARY_OFF {
+        description "Power output state is OFF and fuse is set in TEMPORARY_OFF state.";
+      }
+      enum TRIPPED {
+        description "Power output state is OFF and fuse is set in TRIPPED state.";
+      }
+      enum NOT_PRESENT {
+        description "Fuse is not present.";
+      }
+      enum NOT_SUPPORTED {
+        description "Power output state information is not supported by HW.";
+      }
+    }
+  }
+  typedef ApcFuseType {
+    description "Fuse type.";
+    type enumeration {
+      enum CB {
+        description "Fuse of Circuit Breaker (CB) type.";
+      }
+      enum ECM {
+        description "Fuse of Electronic Circuit Breaker Module (ECM) type.";
+      }
+      enum EFUSE {
+        description "Fuse of e-fuse type.";
+      }
+      enum NOT_SUPPORTED {
+        description "The fuse type information is not supported by HW.";
+      }
+    }
+  }
+  typedef ApcIndicatorStatus {
+    description "Possible states for green, yellow and red indicators. Since the semantics of the different indicator states depend on the color of the indicator, the semantics is described as part of the corresponding indicator status attribute description.";
+    type enumeration {
+      enum NOT_APPLICABLE {
+        description "The indicator is not supported.";
+      }
+      enum NOT_AVAILABLE {
+        description "The indicator state is currently not available.";
+      }
+      enum OFF {
+        description "The indicator is off.";
+      }
+      enum STEADY_ON {
+        description "The indicator is on continuously.";
+      }
+      enum SLOW_BLINK {
+        description "The indicator blinks slowly.";
+      }
+      enum FAST_BLINK {
+        description "The indicator blinks quickly.";
+      }
+      enum DOUBLE_FLASH_AND_STEADY_ON {
+        description "The indicator blinks twice and is then on for a short time. This cycle is then repeated.";
+      }
+      enum DOUBLE_FLASH_AND_OFF {
+        description "The indicator blinks twice and is then off for a short time. This cycle is then repeated.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping EFuse-attributes {
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf onAtColdStartup {
+      description "Indicates if the e-fuse is turned on at cold-startup or not. true: The e-fuse is turned on at cold-startup. false: The e-fuse is not turned on at cold-startup..";
+      type boolean;
+      config false;
+    }
+    leaf remoteControllable {
+      description "Indicates if the e-fuse is possible to control remotely. true: The e-fuse is possible to control remotely. false: The e-fuse is not possible to control remotely..";
+      type boolean;
+      config false;
+    }
+    leaf operationalState {
+      description "Defines the operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf loadType {
+      description "Indicates if the e-fuse is used for main or prio load..";
+      type enumeration {
+        enum MAIN;
+        enum PRIO;
+      }
+      config false;
+    }
+    leaf plugInModuleRef {
+      description "Refers to the PlugInModule MO that represent the physical electronic circuitbreaker module this e-fuse is part of..";
+      type string;
+      config false;
+    }
+    leaf eFuseIndicator {
+      description "The operational status of the e-fuse. The indicator is physically located on the corresponding Power Distribution Unit (PDU). Possible values: • NOT_APPLICABLE = This indicator is not supported. • NOT_AVAILABLE = The indicator state is currently not available. • OFF = The power is not distributed. • STEADY_ON = Power is distributed from the e-fuse port. • SLOW_BLINK = E-fuse tripped..";
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf eFuseId {
+      description "The value component of the RDN. The ID of the electrical fuse that matches the number on the physical e-fuse..";
+      type string;
+      mandatory true;
+    }
+    leaf fuseRating {
+      description "Maximum fuse rating. Given in Ampere. NOT_SUPPORTED is used for units that cannot support this attribute..";
+      type string;
+      config false;
+    }
+    leaf fuseHoldUp {
+      description "Type of output. NOT_SUPPORTED is used for units that cannot support this attribute..";
+      type enumeration {
+        enum HOLDUP_STANDARD;
+        enum STANDARD;
+        enum HOLDUP_REMOTE;
+        enum REMOTE;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf limitedOutputCurrentSetting {
+      description "Fuse limitation setting. Given in Ampere. Depends on cable type connected to output. NOT_SUPPORTED is used for units that cannot support this attribute..";
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use. Customer-defined label that describes equipment powered by this output..";
+      type string;
+    }
+    leaf fuseType {
+      description "Fuse type. NOT_SUPPORTED is used for units that cannot support this attribute..";
+      type enumeration {
+        enum CB;
+        enum ECM;
+        enum EFUSE;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf fuseState {
+      description "Fuse state. NOT_SUPPORTED is used for units that cannot support this attribute..";
+      type enumeration {
+        enum ON;
+        enum OFF;
+        enum TEMPORARY_OFF;
+        enum TRIPPED;
+        enum NOT_PRESENT;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+  }
+}

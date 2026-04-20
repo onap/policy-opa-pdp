@@ -1,0 +1,288 @@
+module ericsson-energy-meter-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEnergyMeter";
+  prefix enmtrrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-e-fuse-radio {
+    prefix efuserdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/efuserdo:EFuse" {
+    list EnergyMeter {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; This MO displays the energy meter values for a single FieldReplaceableUnit or EFuse with energy measurement capability.";
+      key "energyMeterId";
+      leaf energyMeterId {
+        type leafref {
+          path "../attributes/energyMeterId";
+        }
+      }
+      container attributes {
+        uses EnergyMeter-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list EnergyMeter {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; This MO displays the energy meter values for a single FieldReplaceableUnit or EFuse with energy measurement capability.";
+      key "energyMeterId";
+      leaf energyMeterId {
+        type leafref {
+          path "../attributes/energyMeterId";
+        }
+      }
+      container attributes {
+        uses EnergyMeter-attributes;
+      }
+    }
+  }
+  typedef ApcEnergyMeterEnabled {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+      enum UNDEFINED;
+    }
+  }
+  typedef ApcPerceivedSeverity {
+    type enumeration {
+      enum CRITICAL;
+      enum MAJOR;
+      enum MINOR;
+      enum WARNING;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef LowDcInputVoltageNotificationStatus {
+    type enumeration {
+      enum ENABLED;
+      enum NOT_SUPPORTED;
+      enum DISABLED;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping EnergyMeter-attributes {
+    leaf energyMeterId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf inputCurrent {
+      type int32;
+      config false;
+      units "A";
+    }
+    leaf inputVoltage {
+      type int32;
+      config false;
+      units "V";
+    }
+    leaf outputCurrent {
+      type int32;
+      config false;
+      units "A";
+    }
+    leaf outputPower {
+      type int32;
+      config false;
+      units "W";
+    }
+    leaf outputVoltage {
+      type int32;
+      config false;
+      units "V";
+    }
+    leaf powerLoad {
+      type eytypes:int32_range_0-100;
+      config false;
+      units "percent";
+      description "range 0..100.";
+    }
+    leaf unitPowerConsumption {
+      type int32;
+      config false;
+      status deprecated;
+      units "W";
+      description "MOM flags: noNotification, isNillable=true; Status info: Since 17.Q3. The same information is supplied by PM Counter pmPowerConsumption..";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf unitInformation {
+      type string;
+      config false;
+    }
+    leaf consumedEnergyMeasurementRef {
+      type string;
+      config false;
+    }
+    leaf energyMeterEnabled {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+        enum UNDEFINED;
+      }
+      config false;
+    }
+    list lowDcInputVoltageNotification {
+      config false;
+      container attributes {
+      leaf perceivedSeverity {
+        type enumeration {
+          enum CRITICAL;
+          enum MAJOR;
+          enum MINOR;
+          enum WARNING;
+        }
+      }
+      leaf alarmCeaseDelay {
+        type uint16 {
+          range "6..3600";
+        }
+        units "s";
+        description "range 6..3600.";
+      }
+      leaf alarmRaiseDelay {
+        type uint16 {
+          range "6..3600";
+        }
+        units "s";
+        description "range 6..3600.";
+      }
+      leaf alarmCeaseVoltage {
+        type int16 {
+          range "-530..-400";
+        }
+        units "V";
+        description "range -530..-400.";
+      }
+      leaf alarmRaiseVoltage {
+        type int16;
+        units "V";
+      }
+      leaf status {
+        type enumeration {
+          enum ENABLED;
+          enum NOT_SUPPORTED;
+          enum DISABLED;
+        }
+      }
+      }
+    }
+    leaf-list pmMinVoltage1 {
+      type int32;
+    }
+    leaf-list pmCurrent1 {
+      type int32;
+    }
+    leaf pmConsumedEnergy {
+      type uint32;
+      config false;
+    }
+    leaf pmConsumedEnergyAccumulated {
+      type uint32;
+      config false;
+    }
+    leaf-list pmMinVoltage2 {
+      type int32;
+    }
+    leaf-list pmCurrent2 {
+      type int32;
+    }
+    leaf-list pmMaxCurrent2 {
+      type int32;
+    }
+    leaf-list pmPowerConsumption {
+      type int32;
+    }
+    leaf pmMaxPowerConsumption {
+      type int32;
+      config false;
+    }
+    leaf-list pmVoltage1 {
+      type int32;
+    }
+    leaf-list pmMaxVoltage1 {
+      type int32;
+    }
+    leaf-list pmMinCurrent2 {
+      type int32;
+    }
+    leaf pmMinPowerConsumption {
+      type int32;
+      config false;
+    }
+    leaf-list pmVoltage {
+      type int32;
+    }
+    leaf-list pmMaxCurrent1 {
+      type int32;
+    }
+    leaf-list pmMinCurrent1 {
+      type int32;
+    }
+    leaf-list pmVoltage2 {
+      type int32;
+    }
+    leaf-list pmMaxVoltage2 {
+      type int32;
+    }
+  }
+}

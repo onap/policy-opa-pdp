@@ -1,0 +1,249 @@
+module ericsson-rcsfiletpm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsFileTPM";
+  prefix rcsfilet;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rcssysm-radio {
+    prefix rcssysm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis fragment supports configuration management of the file transfer protocols.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcsfilet:FileTPM" {
+    list FtpServer {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Generic configuration options for a file transfer server.";
+      key "ftpServerId";
+      leaf ftpServerId {
+        type leafref {
+          path "../attributes/ftpServerId";
+        }
+      }
+      container attributes {
+      uses FtpServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcsfilet:FileTPM" {
+    list FtpTls {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the common configuration parameters of FTP over Transport Layer Security (TLS) clients on the ME.";
+      key "ftpTlsId";
+      leaf ftpTlsId {
+        type leafref {
+          path "../attributes/ftpTlsId";
+        }
+      }
+      container attributes {
+      uses FtpTls-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcsfilet:FileTPM" {
+    list Sftp {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the common configuration parameters of Secure Shell File Transfer Protocol (SFTP) clients on the ME.";
+      key "sftpId";
+      leaf sftpId {
+        type leafref {
+          path "../attributes/sftpId";
+        }
+      }
+      container attributes {
+      uses Sftp-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcsfilet:FileTPM/rcsfilet:FtpServer" {
+    list FtpTlsServer {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the FTP over Transport Layer Security (TLS) server of the ME. The server only accepts FTP sessions that are explicitly requesting a TLS layer by the \"AUTH TLS\" command.";
+      key "ftpTlsServerId";
+      leaf ftpTlsServerId {
+        type leafref {
+          path "../attributes/ftpTlsServerId";
+        }
+      }
+      container attributes {
+      uses FtpTlsServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/rcsfilet:FileTPM/rcsfilet:FtpServer" {
+    list SftpServer {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the Secure Shell File Transfer Protocol (SFTP) server of the ME.";
+      key "sftpServerId";
+      leaf sftpServerId {
+        type leafref {
+          path "../attributes/sftpServerId";
+        }
+      }
+      container attributes {
+      uses SftpServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list FileTPM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The top class for server and client configuration of different protocols implementing file transfer. Lists the protocols supported by the ME by any file transfer client or server.";
+      key "fileTPMId";
+      leaf fileTPMId {
+        type leafref {
+          path "../attributes/fileTPMId";
+        }
+      }
+      container attributes {
+      uses FileTPM-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  grouping FileTPM-attributes {
+    leaf fileTPMId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping FtpServer-attributes {
+    leaf ftpServerId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf idleTimer {
+      description "The amount of seconds after which an idle session is terminated. Specifies the maximum time an FTP session may remain idle. A session will be dropped if the length of the idle session exceeds the configured time. No idleTimer means idle sessions are not limited.; range 10..3600; Default value: 600.";
+      type uint16 {
+        range "10..3600";
+      }
+      default "600";
+      units "seconds";
+    }
+  }
+  grouping FtpTls-attributes {
+    leaf ftpTlsId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      description "The credential used for FTP over TLS based file transfer. Specifies the DN of a NodeCredential MO in Certificate Management..";
+      type string;
+    }
+    leaf trustCategory {
+      description "The set of certificates trusted by the FTP over TLS based file transfer. Specifies the DN of a TrustCategory MO in Certificate Management..";
+      type string;
+    }
+  }
+  grouping FtpTlsServer-attributes {
+    leaf ftpTlsServerId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state for the FTP server. When LOCKED all on-going connections will immediately be terminated..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf nodeCredential {
+      description "The credential used for FTP over TLS based file transfer. Specifies the DN of a NodeCredential MO in Certificate Management..";
+      type string;
+    }
+    leaf trustCategory {
+      description "The set of certificates trusted by the FTP over TLS based file transfer. Specifies the DN of a TrustCategory MO in Certificate Management..";
+      type string;
+    }
+    leaf port {
+      description "The listening port number of the FTP over TLS server control connection. The TLS layer is established on the regular FTP port by issuing an \"AUTH TLS\" command.; Default value: 9921.";
+      type ietfinet:port-number;
+      default "9921";
+    }
+    leaf minDataPort {
+      description "The minimum port number for PASV data connections. Must be lower or equal to maxDataPort..";
+      type ietfinet:port-number;
+    }
+    leaf maxDataPort {
+      description "The maximum port number for PASV data connections. Must be greater or equal to minDataPort..";
+      type ietfinet:port-number;
+    }
+  }
+  grouping Sftp-attributes {
+    leaf sftpId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf-list selectedCiphers {
+      description "The list of selected ciphers. The ciphers are offered to the SSH peer in the order as configured. Each value indicates one cipher..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list selectedKeyExchanges {
+      description "The list of selected key exchange algorithms. The algorithms are offered to the SSH peer in the order as configured. Each value indicates one algorithm..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list selectedMacs {
+      description "The list of selected message authentication codes. The algorithms are offered to the SSH peer in the order as configured. Each value indicates one coding algorithm..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list supportedCiphers {
+      description "Lists the supported encryption ciphers..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list supportedKeyExchanges {
+      description "Lists the supported key exchange algorithms..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list supportedMacs {
+      description "Lists the supported message authentication codes..";
+      type string;
+      min-elements 1;
+    }
+  }
+  grouping SftpServer-attributes {
+    leaf sftpServerId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state for the SFTP server. When LOCKED all on-going connections will immediately be terminated..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf port {
+      description "The listening port number of the SFTP server.; Default value: 2024.";
+      type ietfinet:port-number;
+      default "2024";
+    }
+  }
+}

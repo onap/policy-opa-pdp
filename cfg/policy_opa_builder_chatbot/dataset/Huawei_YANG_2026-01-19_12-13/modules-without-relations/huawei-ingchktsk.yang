@@ -1,0 +1,26 @@
+module huawei-ingchktsk {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ingchktsk";
+ prefix ingchktsk;
+ description
+ "Auto-generated modular YANG for huawei-ingchktsk" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping INGCHKTSK-attributes {
+ leaf FLINGCHKITEM {
+  type string;
+  mandatory false;
+ }
+ leaf FLINGCHKSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf FLINGCHKTM {
+  type uint8 {
+   range "0..23";
+  }
+  mandatory false;
+ }
+ }
+}

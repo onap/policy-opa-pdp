@@ -1,0 +1,42 @@
+module huawei-chroutputmode {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-chroutputmode";
+ prefix chroutputmode;
+ description
+ "Auto-generated modular YANG for huawei-chroutputmode" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CHROUTPUTMODE-attributes {
+ leaf CHRDETAILCAUSEVAL {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf CHRHIEROUTMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_MODENO {
+  type union {
+   type int8 {
+    range "-1..19";
+   }
+  }
+  mandatory false;
+ }
+ leaf MODENO {
+  type union {
+   type int8 {
+    range "-1..19";
+   }
+  }
+  mandatory false;
+ }
+ leaf SAMPLINGENABLE {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

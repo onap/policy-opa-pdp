@@ -1,0 +1,394 @@
+module huawei-rfalocell {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfalocell";
+ prefix rfalocell;
+ description
+ "Auto-generated modular YANG for huawei-rfalocell" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFALOCELL-attributes {
+ leaf TEMPLATENAME {
+  type string;
+  mandatory false;
+ }
+ leaf ACCESSSTANDARD {
+  type enumeration {
+   enum val-2;
+   enum val-3;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+  }
+  mandatory false;
+ }
+ leaf ASSOCIATEDCELLID {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf ASSOCIATEDCELLSWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf BANDWIDTH {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+  }
+  mandatory false;
+ }
+ leaf CARRIERMAXINPWR {
+  type union {
+   type int16 {
+    range "-1000..160";
+   }
+  }
+  mandatory false;
+ }
+ leaf CELLACTIVESTATE {
+  type enumeration {
+   enum val-0;
+   enum val-13;
+  }
+  mandatory false;
+ }
+ leaf CELLMANAGESTATE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf CELLNAME {
+  type string {
+   length "1..99";
+  }
+  mandatory false;
+ }
+ leaf CELLRADIUS {
+  type union {
+   type uint32 {
+    range "0..160000";
+   }
+  }
+  mandatory false;
+ }
+ leaf DLEARFCN {
+  type string {
+   length "1..99";
+  }
+  mandatory false;
+ }
+ leaf FRAMEOFFSET {
+  type union {
+   type uint32 {
+    range "0..307200";
+   }
+  }
+  mandatory false;
+ }
+ leaf FREQBAND {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf FREQCHANNEL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+  }
+  mandatory false;
+ }
+ leaf FREQH {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FREQL {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf HIGHRRUMAXPOWER {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf OLD_LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf MAXTXPOWER {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf MERCCARRIERDLATT {
+  type int8 {
+   range "-30..30";
+  }
+  mandatory false;
+ }
+ leaf MICRORRUMAXPOWER {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf MIDDLERRUMAXPOWER {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf NBDLEARFCN {
+  type uint32 {
+   range "0..68485";
+  }
+  mandatory false;
+ }
+ leaf NBDLFREQOFFSET {
+  type enumeration {
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+  }
+  mandatory false;
+ }
+ leaf NBMODE {
+  type enumeration {
+   enum val-2;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf NBPILOTPOWERRATIO {
+  type int16 {
+   range "-200..0";
+  }
+  mandatory false;
+ }
+ leaf NBPOWERRATIO {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf NBULEARFCN {
+  type union {
+   type uint32 {
+    range "0..133221";
+   }
+  }
+  mandatory false;
+ }
+ leaf NBULFREQOFFSET {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+  }
+  mandatory false;
+ }
+ leaf NRFRAMEOFFSET {
+  type union {
+   type uint32 {
+    range "0..307200";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRSLOTASSIGNMENT {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf NRSLOTSTRUCTURE {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-40;
+   enum val-51;
+   enum val-52;
+   enum val-53;
+   enum val-54;
+   enum val-55;
+   enum val-56;
+   enum val-101;
+   enum val-102;
+   enum val-103;
+   enum val-104;
+   enum val-105;
+   enum val-106;
+  }
+  mandatory false;
+ }
+ leaf NETWORKMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf PILOTPOWERRATIO {
+  type int16 {
+   range "-300..0";
+  }
+  mandatory false;
+ }
+ leaf SPECIALSUBFRAMEPATTERNS {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-254;
+  }
+  mandatory false;
+ }
+ leaf SUBFRAMEASSIGNMENT {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-254;
+  }
+  mandatory false;
+ }
+ leaf TXRXMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf ULBANDWIDTH {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+  }
+  mandatory false;
+ }
+ leaf ULEARFCN {
+  type string {
+   length "1..99";
+  }
+  mandatory false;
+ }
+ leaf ULFREQH {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf ULFREQL {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ }
+}

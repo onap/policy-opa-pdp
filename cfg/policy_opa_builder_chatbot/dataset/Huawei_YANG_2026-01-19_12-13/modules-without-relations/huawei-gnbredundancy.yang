@@ -1,0 +1,48 @@
+module huawei-gnbredundancy {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbredundancy";
+ prefix gnbredundancy;
+ description
+ "Auto-generated modular YANG for huawei-gnbredundancy" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBREDUNDANCY-attributes {
+ leaf FAULTDETECTIONDURATION {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf LOCALGNBTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_PEERGNBID {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf PEERGNBID {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf TIMETOTRIGGERFORFAULTRPT {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf GNBRELIABILITYSWITCH {
+  type string;
+  mandatory false;
+ }
+ }
+}

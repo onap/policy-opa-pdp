@@ -1,0 +1,58 @@
+module huawei-pkg {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-pkg";
+ prefix pkg;
+ description
+ "Auto-generated modular YANG for huawei-pkg" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping PKG-attributes {
+ leaf CERTNAME {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf IPVERSION {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_PKGID {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf PKGID {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf POLICYID {
+  type uint8 {
+   range "0..16";
+  }
+  mandatory false;
+ }
+ leaf TRUSTGROUPID {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf URL {
+  type string {
+   length "1..128";
+  }
+  mandatory false;
+ }
+ }
+}

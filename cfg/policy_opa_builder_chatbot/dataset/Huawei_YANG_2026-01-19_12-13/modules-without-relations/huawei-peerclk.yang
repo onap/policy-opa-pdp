@@ -1,0 +1,80 @@
+module huawei-peerclk {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-peerclk";
+ prefix peerclk;
+ description
+ "Auto-generated modular YANG for huawei-peerclk" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping PEERCLK-attributes {
+ leaf CN {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf DN {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf OLD_PN {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf PN {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf PNT {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf PRI {
+  type uint8 {
+   range "1..4";
+  }
+  mandatory false;
+ }
+ leaf PS {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "60..254";
+  }
+  mandatory false;
+ }
+ }
+}

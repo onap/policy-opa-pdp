@@ -1,0 +1,152 @@
+module huawei-enbqcirsvdpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-enbqcirsvdpara";
+ prefix enbqcirsvdpara;
+ description
+ "Auto-generated modular YANG for huawei-enbqcirsvdpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ENBQCIRSVDPARA-attributes {
+ leaf QCI {
+  type union {
+   type int8 {
+    range "-1..9";
+   }
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA10 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA11 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA12 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA13 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA14 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA15 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA16 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA17 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA18 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA19 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA2 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA20 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA21 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA3 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA4 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA5 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA6 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA7 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA8 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARA9 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDSWPARA0 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARA1 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARA2 {
+  type string;
+  mandatory false;
+ }
+ }
+}

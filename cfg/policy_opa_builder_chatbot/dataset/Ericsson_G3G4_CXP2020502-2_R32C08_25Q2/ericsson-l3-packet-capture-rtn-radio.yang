@@ -1,0 +1,54 @@
+module ericsson-l3-packet-capture-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL3PacketCapture";
+  prefix l3pktcaprdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nPacketCapture";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list PacketCapture {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Packet Capture";
+      key "packetCaptureId";
+      leaf packetCaptureId {
+        type leafref {
+          path "../attributes/packetCaptureId";
+        }
+      }
+      container attributes {
+      uses PacketCapture-attributes;
+      }
+    }
+  }
+  typedef PacketCaptureDirection {
+    description "Direction for packet capture.";
+    type enumeration {
+      enum BOTH {
+        description "Both ingress and egres direction.";
+      }
+      enum EGRESS {
+        description "Egress direction.";
+      }
+      enum INGRESS {
+        description "Igress direction.";
+      }
+    }
+  }
+  grouping PacketCapture-attributes {
+    leaf packetCaptureId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

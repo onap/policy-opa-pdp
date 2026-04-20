@@ -1,0 +1,40 @@
+module huawei-rfphysite {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfphysite";
+ prefix rfphysite;
+ description
+ "Auto-generated modular YANG for huawei-rfphysite" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFPHYSITE-attributes {
+ leaf OLD_RFPHYSITEID {
+  type union {
+   type int16 {
+    range "-1..1023";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFPHYSITEID {
+  type union {
+   type int16 {
+    range "-1..1023";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFPHYSITENAME {
+  type string {
+   length "1..128";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,213 @@
+module ericsson-e-fuse-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEFuse";
+  prefix efuserdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list EFuse {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; This MO models an electrical fuse related to power distribution. Number of MO's is created depending on the number of EFuses on the PDU. The RDNs of these MOs are EFuse=1, EFuse=2, and so on. Dependencies: Can only exist when FieldReplaceableUnit MO represents a PDU.";
+      key "eFuseId";
+      leaf eFuseId {
+        type leafref {
+          path "../attributes/eFuseId";
+        }
+      }
+      container attributes {
+        uses EFuse-attributes;
+      }
+    }
+  }
+  typedef ApcEFuseLoadType {
+    type enumeration {
+      enum MAIN;
+      enum PRIO;
+    }
+  }
+  typedef ApcEFuseOutput {
+    type enumeration {
+      enum ON;
+      enum OFF;
+      enum TEMPORARY_OFF;
+    }
+  }
+  typedef ApcFuseHoldUp {
+    type enumeration {
+      enum HOLDUP_STANDARD;
+      enum STANDARD;
+      enum HOLDUP_REMOTE;
+      enum REMOTE;
+      enum NOT_SUPPORTED;
+    }
+  }
+  typedef ApcFuseState {
+    type enumeration {
+      enum ON;
+      enum OFF;
+      enum TEMPORARY_OFF;
+      enum TRIPPED;
+      enum NOT_PRESENT;
+      enum NOT_SUPPORTED;
+    }
+  }
+  typedef ApcFuseType {
+    type enumeration {
+      enum CB;
+      enum ECM;
+      enum EFUSE;
+      enum NOT_SUPPORTED;
+    }
+  }
+  typedef ApcIndicatorStatus {
+    type enumeration {
+      enum NOT_APPLICABLE;
+      enum NOT_AVAILABLE;
+      enum OFF;
+      enum STEADY_ON;
+      enum SLOW_BLINK;
+      enum FAST_BLINK;
+      enum DOUBLE_FLASH_AND_STEADY_ON;
+      enum DOUBLE_FLASH_AND_OFF;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping EFuse-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf onAtColdStartup {
+      type boolean;
+      config false;
+    }
+    leaf remoteControllable {
+      type boolean;
+      config false;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf loadType {
+      type enumeration {
+        enum MAIN;
+        enum PRIO;
+      }
+      config false;
+    }
+    leaf plugInModuleRef {
+      type string;
+      config false;
+    }
+    leaf eFuseIndicator {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf eFuseId {
+      type string;
+      mandatory true;
+    }
+    leaf fuseRating {
+      type string;
+      config false;
+    }
+    leaf fuseHoldUp {
+      type enumeration {
+        enum HOLDUP_STANDARD;
+        enum STANDARD;
+        enum HOLDUP_REMOTE;
+        enum REMOTE;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf limitedOutputCurrentSetting {
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf fuseType {
+      type enumeration {
+        enum CB;
+        enum ECM;
+        enum EFUSE;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf fuseState {
+      type enumeration {
+        enum ON;
+        enum OFF;
+        enum TEMPORARY_OFF;
+        enum TRIPPED;
+        enum NOT_PRESENT;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+  }
+}

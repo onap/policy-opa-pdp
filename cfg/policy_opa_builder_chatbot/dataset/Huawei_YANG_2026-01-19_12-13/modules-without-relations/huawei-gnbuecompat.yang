@@ -1,0 +1,36 @@
+module huawei-gnbuecompat {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbuecompat";
+ prefix gnbuecompat;
+ description
+ "Auto-generated modular YANG for huawei-gnbuecompat" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBUECOMPAT-attributes {
+ leaf BLACKLISTCTRLSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf PARAMCTRLTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf UEINFOINDEX {
+  type union {
+   type int16 {
+    range "-1..128";
+   }
+  }
+  mandatory false;
+ }
+ leaf WHITELISTCTRLSWITCH {
+  type string;
+  mandatory false;
+ }
+ }
+}

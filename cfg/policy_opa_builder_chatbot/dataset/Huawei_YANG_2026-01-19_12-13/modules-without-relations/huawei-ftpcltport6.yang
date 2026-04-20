@@ -1,0 +1,56 @@
+module huawei-ftpcltport6 {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ftpcltport6";
+ prefix ftpcltport6;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-ftpcltport6" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv6" {
+ container ftpcltport6-ipv6 {
+  container attributes {
+   uses FTPCLTPORT6-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping FTPCLTPORT6-attributes {
+ leaf ENDDATAPORT {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf PORT {
+  type uint16 {
+   range "21..65535";
+  }
+  mandatory false;
+ }
+ leaf OLD_SERVERIPV6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf SERVERIPV6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf STARTDATAPORT {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ }
+}

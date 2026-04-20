@@ -1,0 +1,58 @@
+module ericsson-rtnpeeripsecprofile-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnPeerIpsecProfile";
+  prefix rtnpeeri;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIpsec PeerIpsecProfile package";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list PeerIpsecProfile {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Enables node to automatically setup direct IPsec VPN connections to other RBS based on X2 or Xn neighbor information in node. Information for IKE and Child SA negotiation for direct IPsec VPN connections by referring to Ikev2PolicyProfile MO and IpsecProposalProfile MO. PeerIpsecProfile MO must be configured in Router MO where AddressIPv4 MO or AddressIPv6 MO used for X2 or Xn is configured.";
+      key "peerIpsecProfileId";
+      leaf peerIpsecProfileId {
+        type leafref {
+          path "../attributes/peerIpsecProfileId";
+        }
+      }
+      container attributes {
+      uses PeerIpsecProfile-attributes;
+      }
+    }
+  }
+  grouping PeerIpsecProfile-attributes {
+    leaf antiReplayProtection {
+      description "Enable or disable anti-replay protection.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf ikev2PolicyProfile {
+      description "Reference to Ikev2PolicyProfile MO..";
+      type string;
+      mandatory true;
+    }
+    leaf ipsecProposalProfile {
+      description "Reference to IpsecProposalProfile MO..";
+      type string;
+      mandatory true;
+    }
+    leaf peerIpsecProfileId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

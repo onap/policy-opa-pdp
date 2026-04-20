@@ -1,0 +1,74 @@
+module ericsson-virtual-alarm-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqVirtualAlarmPort";
+  prefix valprtrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-cabinet-radio {
+    prefix cabrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\n.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/cabrdo:Cabinet" {
+    list VirtualAlarmPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; This MO is in secondary node. It mirrors an AlarmPort MO which is in primary node. MO is created by the system when the mirrored AlarmPort MO has a raised alarm. MO is deleted when the alarm is ceased. The RDN of this MO is described in attribute virtualAlarmPortId. Dependencies: Can only exist in the node when the attribute supportSystemControl on MO EquipmentSupportFunction is set to false.";
+      key "virtualAlarmPortId";
+      leaf virtualAlarmPortId {
+        type leafref {
+          path "../attributes/virtualAlarmPortId";
+        }
+      }
+      container attributes {
+      uses VirtualAlarmPort-attributes;
+      }
+    }
+  }
+  typedef ApcPerceivedSeverity {
+    description "This parameter provides an indication of how it is perceived that the capability of the managed object has been affected.";
+    type enumeration {
+      enum CRITICAL {
+        description "The Critical severity level indicates that a service affecting condition has occurred and an immediate corrective action is required. Such a severity can be reported, for example, when a managed object becomes totally out of service and its capability must be restored.";
+      }
+      enum MAJOR {
+        description "The Major severity level indicates that a service affecting condition has developed and an urgent corrective action is required. Such a severity can be reported, for example, when there is a severe degradation in the capability of the managed object and its full capability must be restored.";
+      }
+      enum MINOR {
+        description "The Minor severity level indicates the existence of a non-service affecting fault condition and that corrective action should be taken in order to prevent a more serious (for example, service affecting) fault. Such a severity can be reported, for example, when the detected alarm condition is not currently degrading the capacity of the managed object.";
+      }
+      enum WARNING {
+        description "The Warning severity level indicates the detection of a potential or impending service affecting fault, before any significant effects have been felt. Action should be taken to further diagnose (if necessary) and correct the problem in order to prevent it from becoming a more serious service affecting fault.";
+      }
+    }
+  }
+  grouping VirtualAlarmPort-attributes {
+    leaf virtualAlarmPortId {
+      description "The value component of RDN. It is set automatically when the MO instance is created and consists of a concatenated string of the RDN of the parent of mirrored AlarmPort MO, colon and the value of attribute alarmPortId of the mirrored AlarmPort MO. Example HwUnit-SCU-1:1..";
+      type string;
+      mandatory true;
+    }
+    leaf alarmSlogan {
+      description "Specifies the alarm. Used in additional text in the alarm ExternalAlarm.; length 1..63.";
+      type string {
+        length "1..63";
+      }
+      config false;
+    }
+    leaf perceivedSeverity {
+      description "The severity level of the alarm ExternalAlarm..";
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+      config false;
+    }
+  }
+}

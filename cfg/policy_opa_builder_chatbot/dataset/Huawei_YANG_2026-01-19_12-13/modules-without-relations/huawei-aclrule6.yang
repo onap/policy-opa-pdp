@@ -1,0 +1,168 @@
+module huawei-aclrule6 {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-aclrule6";
+ prefix aclrule6;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-aclrule6" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv6" {
+ container aclrule6-ipv6 {
+  container attributes {
+   uses ACLRULE6-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping ACLRULE6-attributes {
+ leaf OLD_ACLID {
+  type union {
+   type int16 {
+    range "-1..9999";
+   }
+  }
+  mandatory false;
+ }
+ leaf ACLID {
+  type union {
+   type int16 {
+    range "-1..9999";
+   }
+  }
+  mandatory false;
+ }
+ leaf ACTION {
+  type boolean;
+  mandatory false;
+ }
+ leaf CTRLMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf DIP {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf DMPT {
+  type boolean;
+  mandatory false;
+ }
+ leaf DOP {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf DPFXLEN {
+  type uint8 {
+   range "0..128";
+  }
+  mandatory false;
+ }
+ leaf DPT1 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf DPT2 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf DSCP {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf MDSCP {
+  type boolean;
+  mandatory false;
+ }
+ leaf PT {
+  type enumeration {
+   enum val-0;
+   enum val-6;
+   enum val-17;
+   enum val-58;
+   enum val-132;
+  }
+  mandatory false;
+ }
+ leaf OLD_RULEID {
+  type union {
+   type int32 {
+    range "-1..91999";
+   }
+  }
+  mandatory false;
+ }
+ leaf RULEID {
+  type union {
+   type int32 {
+    range "-1..91999";
+   }
+  }
+  mandatory false;
+ }
+ leaf SIP {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf SMPT {
+  type boolean;
+  mandatory false;
+ }
+ leaf SOP {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf SPFXLEN {
+  type uint8 {
+   range "0..128";
+  }
+  mandatory false;
+ }
+ leaf SPT1 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf SPT2 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..48";
+  }
+  mandatory false;
+ }
+ }
+}

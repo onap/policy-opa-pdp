@@ -1,0 +1,42 @@
+module ericsson-rmeoamipsupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeOamIpSupport";
+  prefix rmeoamip;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list OamIpSupport {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO class contains an attribute set by a management system to acknowledge successful setting of the IP address used for OaM access to a node. The IP address is received by a management system via an SNMP trap eriChangeAddressEvent.";
+      key "oamIpSupportId";
+      leaf oamIpSupportId {
+        type leafref {
+          path "../attributes/oamIpSupportId";
+        }
+      }
+      container attributes {
+        uses OamIpSupport-attributes;
+      }
+    }
+  }
+  grouping OamIpSupport-attributes {
+    leaf oamIpSupportId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf ipAddressChangeStatus {
+      type ietfinet:ip-address;
+    }
+  }
+}

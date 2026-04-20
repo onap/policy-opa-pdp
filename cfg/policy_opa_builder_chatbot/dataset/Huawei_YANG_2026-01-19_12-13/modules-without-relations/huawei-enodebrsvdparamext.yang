@@ -1,0 +1,92 @@
+module huawei-enodebrsvdparamext {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-enodebrsvdparamext";
+ prefix enodebrsvdparamext;
+ description
+ "Auto-generated modular YANG for huawei-enodebrsvdparamext" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ENODEBRSVDPARAMEXT-attributes {
+ leaf RSVDPARAM0 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARAM1 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARAM2 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARAM3 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARAM4 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARAM5 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARAM6 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDPARAM7 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDSWPARAM0 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM1 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM2 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM3 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM4 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM5 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM6 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM7 {
+  type string;
+  mandatory false;
+ }
+ }
+}

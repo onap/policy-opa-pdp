@@ -1,0 +1,41 @@
+module huawei-glocellenergymgtpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-glocellenergymgtpara";
+ prefix glocellenergymgtpara;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-glocellenergymgtpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GLOCELLENERGYMGTPARA-attributes {
+ leaf GLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf MAINBCCHPWRDTEN {
+  type boolean;
+  mandatory false;
+ }
+ leaf MAINBCCHPWRDTETIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf MAINBCCHPWRDTRANGE {
+  type uint8 {
+   range "0..40";
+  }
+  mandatory false;
+ }
+ leaf MAINBCCHPWRDTSTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ }
+}

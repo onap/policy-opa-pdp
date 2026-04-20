@@ -1,0 +1,66 @@
+module huawei-nrducelllcsproperty {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducelllcsproperty";
+ prefix nrducelllcsproperty;
+ description
+ "Auto-generated modular YANG for huawei-nrducelllcsproperty" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLLCSPROPERTY-attributes {
+ leaf LCSENGINEERPARAMTABLEID {
+  type uint16 {
+   range "0..1499";
+  }
+  mandatory false;
+ }
+ leaf OLD_NRDUCELLCOVERAGEID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLCOVERAGEID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_NRDUCELLTRPID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLTRPID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_POSTRPID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf POSTRPID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,401 @@
+module ericsson-lratbb-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:LratBb";
+  prefix lratbb;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list BbProcessingResource {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; Represents Baseband processing resource in a DU or a Capacity Module used for eNodeB application in RBS. MO instance is created automatically when first LTE cell of a Capacity Module is unlocked. In DU, ManagedElementData::autoConfigurationAllowed must be set to true to enable autoconfiguration function. MO can be deleted manually. The RDNs of these MOs are BbProcessingResource=1 to BbProcessingResource=2.";
+      key "bbProcessingResourceId";
+      leaf bbProcessingResourceId {
+        type leafref {
+          path "../attributes/bbProcessingResourceId";
+        }
+      }
+      container attributes {
+        uses BbProcessingResource-attributes;
+      }
+    }
+  }
+  grouping BbProcessingResource-attributes {
+    leaf bbProcessingResourceId {
+      type string;
+      mandatory true;
+    }
+    leaf licCapDistr {
+      type eytypes:int32_range_0-100;
+      default "0";
+      units "percent";
+      description "range 0..100; Default value: 0.";
+    }
+    leaf licPrbUnit {
+      type int32 {
+        range "1..600";
+      }
+      default "25";
+      units "PRB";
+      description "range 1..600; Default value: 25.";
+    }
+    leaf dlBbCapacityMaxLimit {
+      type eytypes:int64_range_-1-65535;
+      config false;
+      units "Mbps";
+      description "range -1..65535.";
+    }
+    leaf dlBbCapacityNet {
+      type eytypes:int64_range_-1-65535;
+      config false;
+      units "Mbps";
+      description "range -1..65535.";
+    }
+    leaf ulBbCapacityMaxLimit {
+      type eytypes:int64_range_-1-65535;
+      config false;
+      units "Mbps";
+      description "range -1..65535.";
+    }
+    leaf ulBbCapacityNet {
+      type eytypes:int64_range_-1-65535;
+      config false;
+      units "Mbps";
+      description "range -1..65535.";
+    }
+    leaf-list pmLicUlCapDistr {
+      type uint32;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmZtemporary163 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmBbmUlPrbUtilization {
+      type uint32;
+    }
+    leaf pmLicDlCapUsedBrSamp {
+      type uint32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmBbmDlPrbPttReservation {
+      type uint32;
+    }
+    leaf pmLicDlPrbUsedSum {
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedMax {
+      type int32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmPdcpPktDiscDlNoUeCtxt {
+      type uint32;
+      config false;
+    }
+    leaf pmPucchCqiResUtilBbm {
+      type int32;
+      config false;
+    }
+    leaf pmLicUlPrbUsedSum {
+      type uint32;
+      config false;
+    }
+    leaf-list pmLicDlPrbCapDistr {
+      type uint32;
+    }
+    leaf pmLicDlCapUsedSumMbps {
+      type uint32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmPucchCqiResCongBbm {
+      type uint32;
+      config false;
+    }
+    leaf pmRohcCidSamp {
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary165 {
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary154 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmBbmDlPrbUtilization {
+      type uint32;
+    }
+    leaf pmZtemporary47 {
+      type uint32;
+      config false;
+    }
+    leaf pmLicUlPrbUsedSamp {
+      type uint32;
+      config false;
+    }
+    leaf pmPucchSrResCongBbm {
+      type uint32;
+      config false;
+    }
+    leaf pmPdcpPktDiscDlEth {
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary157 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmRlcPduBufferCongStatusUlDistr {
+      type uint32;
+    }
+    leaf pmLicUlCapUsedBrSamp {
+      type uint32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmZtemporary51 {
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedBrMax {
+      type int32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmLicDlCapActual {
+      type int32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmBbmUlBbCapacityUtilization {
+      type uint32;
+    }
+    leaf pmLicDlPrbUsedSamp {
+      type uint32;
+      config false;
+    }
+    leaf pmLicUlCapUsedSum {
+      type uint32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmLicUlPrbCapActual {
+      type int32;
+      config false;
+    }
+    leaf-list pmBbmHwResUtilDistr {
+      type uint32;
+    }
+    leaf pmZtemporary50 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmRlcPduBufferUtilUlDistr {
+      type uint32;
+    }
+    leaf-list pmLicUlPrbCapDistr {
+      type uint32;
+    }
+    leaf pmLicDlPrbUsedMax {
+      type int32;
+      config false;
+    }
+    leaf pmZtemporary52 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmBbmDlBbCapacityPttReservation {
+      type uint32;
+    }
+    leaf pmPdcpPktDiscDlNoMbmsCtxt {
+      type uint32;
+      config false;
+    }
+    leaf-list pmLicUlPrbUsedDistr {
+      type uint32;
+    }
+    leaf-list pmBbmDlBbCapacityUtilization {
+      type uint32;
+    }
+    leaf pmZtemporary155 {
+      type uint32;
+      config false;
+    }
+    leaf pmLicPrbUnit {
+      type int32;
+      config false;
+    }
+    leaf-list pmZtemporary54 {
+      type uint32;
+    }
+    leaf pmPucchSrResUtilBbm {
+      type int32;
+      config false;
+    }
+    leaf-list pmLicDlCapDistr {
+      type uint32;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmFlexPdcpPktDiscDlNoUeCtxt {
+      type uint32;
+      config false;
+    }
+    leaf pmLicUlCapUsedBrSum {
+      type uint32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmLicUlCapUsedBrMax {
+      type int32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmZtemporary151 {
+      type uint32;
+    }
+    leaf pmPdcpPktDiscDlEthBurst {
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary164 {
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedSum {
+      type uint32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmLicDlPrbUsedDistr {
+      type uint32;
+    }
+    leaf pmFlexPdcpPktDiscDlEth {
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary166 {
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedBrSum {
+      type uint32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmLicUlCapActual {
+      type int32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmZtemporary53 {
+      type uint32;
+    }
+    leaf pmZtemporary48 {
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary49 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmZtemporary152 {
+      type uint32;
+    }
+    leaf-list pmBbmDlSePttReservation {
+      type uint32;
+    }
+    leaf pmZtemporary156 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmBbmUlSeUtilization {
+      type uint32;
+    }
+    leaf pmZtemporary162 {
+      type uint32;
+      config false;
+    }
+    leaf pmLicUlCapUsedMax {
+      type int32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmLicUlPrbUsedMax {
+      type int32;
+      config false;
+    }
+    leaf-list pmBbmHwResCaPreemptDistr {
+      type uint32;
+    }
+    leaf pmPdcpPktDiscDlEthFormat {
+      type uint32;
+      config false;
+    }
+    leaf pmPdcpPktDiscUlEthPacing {
+      type uint32;
+      config false;
+    }
+    leaf pmRohcCidSum {
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedSamp {
+      type uint32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmPdcpPktDiscDlEthX2Fwd {
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary153 {
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlPrbCapActual {
+      type int32;
+      config false;
+    }
+    leaf pmLicUlCapUsedSamp {
+      type uint32;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmBbmDlSeUtilization {
+      type uint32;
+    }
+  }
+}

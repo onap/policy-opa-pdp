@@ -1,0 +1,24 @@
+module huawei-crosscert {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-crosscert";
+ prefix crosscert;
+ description
+ "Auto-generated modular YANG for huawei-crosscert" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CROSSCERT-attributes {
+ leaf OLD_CERTNAME {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf CERTNAME {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ }
+}

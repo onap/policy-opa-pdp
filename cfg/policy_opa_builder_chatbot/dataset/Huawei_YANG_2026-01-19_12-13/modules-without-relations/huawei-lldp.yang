@@ -1,0 +1,50 @@
+module huawei-lldp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-lldp";
+ prefix lldp;
+ description
+ "Auto-generated modular YANG for huawei-lldp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping LLDP-attributes {
+ leaf BNDVLAN {
+  type boolean;
+  mandatory false;
+ }
+ leaf ETHPORTID {
+  type uint16 {
+   range "0..9999";
+  }
+  mandatory false;
+ }
+ leaf OLD_LLDPID {
+  type union {
+   type int8 {
+    range "-1..47";
+   }
+  }
+  mandatory false;
+ }
+ leaf LLDPID {
+  type union {
+   type int8 {
+    range "-1..47";
+   }
+  }
+  mandatory false;
+ }
+ leaf VLANID {
+  type uint16 {
+   range "1..4094";
+  }
+  mandatory false;
+ }
+ leaf VLANPRI {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ }
+}

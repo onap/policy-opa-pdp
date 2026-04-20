@@ -1,0 +1,331 @@
+module ericsson-sctp-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnSctp";
+  prefix sctprdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list SctpEndpoint {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents logical sender and receiver of SCTP packets. Maximum number of SctpEndpoint MO in node is limited to 128. Each SctpEndpoint is served by SCTP server assigned to one Router MO. Maximum number of SCTP servers running in parallel is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 8, - For Baseband in RAN Compute Group 4 or higher: 12.";
+      key "sctpEndpointId";
+      leaf sctpEndpointId {
+        type leafref {
+          path "../attributes/sctpEndpointId";
+        }
+      }
+      container attributes {
+        uses SctpEndpoint-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/SctpEndpoint" {
+    list SctpAssociation {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents protocol relationship between two SCTP Endpoints. It is composed of two SCTP Endpoints and protocol state information.";
+      key "sctpAssociationId";
+      leaf sctpAssociationId {
+        type leafref {
+          path "../attributes/sctpAssociationId";
+        }
+      }
+      container attributes {
+        uses SctpAssociation-attributes;
+      }
+    }
+  }
+  typedef AssociationSecurityState {
+    type enumeration {
+      enum UNSECURED;
+      enum SECURED;
+    }
+  }
+  typedef AssociationState {
+    type enumeration {
+      enum CLOSED;
+      enum ESTABLISHED;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef RedundancyStatus {
+    type enumeration {
+      enum UNDEFINED;
+      enum DORMANT;
+      enum NOT_REDUNDANT;
+      enum REDUNDANT;
+      enum REDUNDANCY_NOT_POSSIBLE;
+    }
+  }
+  typedef SctpSecurityMode {
+    type enumeration {
+      enum DISABLED;
+      enum FORCED;
+      enum PREFERRED;
+    }
+  }
+  grouping SctpAssociation-attributes {
+    leaf associationSecurityState {
+      type enumeration {
+        enum UNSECURED;
+        enum SECURED;
+      }
+      config false;
+    }
+    leaf associationState {
+      type enumeration {
+        enum CLOSED;
+        enum ESTABLISHED;
+      }
+      config false;
+    }
+    leaf-list localIpAddress {
+      type ietfinet:ip-address;
+    }
+    leaf localPortNumber {
+      type ietfinet:port-number;
+      config false;
+      description "range 1..65535.";
+    }
+    leaf localPrimaryAddress {
+      type string;
+      config false;
+    }
+    leaf-list pmtudSctpPduSize {
+      type string;
+    }
+    leaf redundancyStatus {
+      type enumeration {
+        enum UNDEFINED;
+        enum DORMANT;
+        enum NOT_REDUNDANT;
+        enum REDUNDANT;
+        enum REDUNDANCY_NOT_POSSIBLE;
+      }
+      config false;
+    }
+    leaf-list remoteIpAddress {
+      type ietfinet:ip-address;
+    }
+    leaf remotePortNumber {
+      type ietfinet:port-number;
+      config false;
+      description "range 1..65535.";
+    }
+    leaf remotePrimaryAddress {
+      type string;
+      config false;
+    }
+    leaf sctpAssociationId {
+      type string;
+      mandatory true;
+    }
+    leaf sctpAssocInAbnormalControlChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInControlChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocTimeCongested {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutDataChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInAbnormalDataChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutPacks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocUnavailRtx {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocAborteds {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutOctets {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutControlChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocShutdowns {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutDiscardedDataChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocCongestions {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocPeerZeroWindows {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocTimeUnavail {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocDelayRTTMax {
+      type int64;
+      config false;
+    }
+    leaf sctpAssocInDiscardedDataChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutDiscardedUserMsgs {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInPacks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocRtxChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocDelayRTTAvg {
+      type int64;
+      config false;
+    }
+    leaf sctpAssocDelayRTTMin {
+      type int64;
+      config false;
+    }
+    leaf sctpAssocInOctets {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInDiscardedControlChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocTimePeerZeroWindow {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInDataChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocDelayRTTPeriods {
+      type int64;
+      config false;
+    }
+  }
+  grouping SctpEndpoint-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf dtls {
+      type string;
+    }
+    leaf dtlsNodeCredential {
+      type string;
+    }
+    leaf dtlsSctpSecurityMode {
+      type enumeration {
+        enum DISABLED;
+        enum FORCED;
+        enum PREFERRED;
+      }
+    }
+    leaf dtlsTrustCategory {
+      type string;
+    }
+    leaf-list localIpAddress {
+      type ietfinet:ip-address;
+      min-elements 1;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf portNumber {
+      type ietfinet:port-number;
+      mandatory true;
+      description "range 1..65535.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf sctpEndpointId {
+      type string;
+      mandatory true;
+    }
+    leaf sctpProfile {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf sctpEndpointDtlsNegotiationFailed {
+      type uint64;
+      config false;
+    }
+  }
+}

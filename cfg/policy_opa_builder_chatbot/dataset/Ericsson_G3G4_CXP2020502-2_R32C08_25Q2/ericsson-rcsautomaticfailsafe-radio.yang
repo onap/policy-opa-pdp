@@ -1,0 +1,54 @@
+module ericsson-rcsautomaticfailsafe-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsAutomaticFailsafe";
+  prefix rcsautom;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nModel for automatic failsafe";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list AutomaticFailsafe {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Automatic failsafe. Automatic failsafe creates a backup that is used in case OAM fails unexpectedly. The RDN for this MO is AutomaticFailsafe=1.";
+      key "automaticFailsafeId";
+      leaf automaticFailsafeId {
+        type leafref {
+          path "../attributes/automaticFailsafeId";
+        }
+      }
+      container attributes {
+      uses AutomaticFailsafe-attributes;
+      }
+    }
+  }
+  grouping AutomaticFailsafe-attributes {
+    leaf automaticFailsafeId {
+      description "The value component for the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf timeoutLength {
+      description "Timeout length. Timer is started when any persistent configuration is changed. If the OAM-connection is down when the timer expires, the system rolls back to a backup taken prior to the persistent configuration change.; range 30..240; Default value: 60.";
+      type int64 {
+        range "30..240";
+      }
+      default "60";
+      units "minute";
+    }
+    leaf expiryDate {
+      description "Date and time when automatic failsafe timer expires..";
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      description "Lable for free use..";
+      type string;
+    }
+  }
+}

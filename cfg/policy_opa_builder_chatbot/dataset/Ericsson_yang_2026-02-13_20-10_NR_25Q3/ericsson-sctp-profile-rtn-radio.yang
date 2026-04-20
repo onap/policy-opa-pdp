@@ -1,0 +1,285 @@
+module ericsson-sctp-profile-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnSctpProfile";
+  prefix sctppfrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list SctpProfile {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; SctpProfile defines configuration that controls behaviour of SctpEndpoint. SctpProfile MO can be shared by one or more SctpEndpoint MOs.";
+      key "sctpProfileId";
+      leaf sctpProfileId {
+        type leafref {
+          path "../attributes/sctpProfileId";
+        }
+      }
+      container attributes {
+        uses SctpProfile-attributes;
+      }
+    }
+  }
+  typedef AlphaIndex {
+    type enumeration {
+      enum ALPHA_1_2ND;
+      enum ALPHA_1_4TH;
+      enum ALPHA_1_8TH;
+      enum ALPHA_1_16TH;
+    }
+  }
+  typedef BetaIndex {
+    type enumeration {
+      enum BETA_1_2ND;
+      enum BETA_1_4TH;
+      enum BEAT_1_8TH;
+      enum BETA_1_16TH;
+    }
+  }
+  grouping SctpProfile-attributes {
+    leaf alphaIndex {
+      type enumeration {
+        enum ALPHA_1_2ND;
+        enum ALPHA_1_4TH;
+        enum ALPHA_1_8TH;
+        enum ALPHA_1_16TH;
+      }
+    }
+    leaf assocMaxRtx {
+      type eytypes:uint8_range_1-20;
+      default "20";
+      description "range 1..20; Default value: 20.";
+    }
+    leaf betaIndex {
+      type enumeration {
+        enum BETA_1_2ND;
+        enum BETA_1_4TH;
+        enum BEAT_1_8TH;
+        enum BETA_1_16TH;
+      }
+    }
+    leaf bundlingActivated {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf bundlingAdaptiveActivated {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf bundlingTimer {
+      type uint16 {
+        range "0..1000";
+      }
+      default "3";
+      units "ms";
+      description "range 0..1000; Default value: 3.";
+    }
+    leaf cookieLife {
+      type uint8 {
+        range "1..180";
+      }
+      default "60";
+      units "s";
+      description "range 1..180; Default value: 60.";
+    }
+    leaf dscp {
+      type eytypes:uint8_range_0-63;
+      default "40";
+      description "range 0..63; Default value: 40.";
+    }
+    leaf endpointDependency {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf hbMaxBurst {
+      type uint32 {
+        range "0..4";
+      }
+      default "1";
+      description "range 0..4; Default value: 1.";
+    }
+    leaf heartbeatActivated {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf heartbeatInterval {
+      type uint32 {
+        range "10..1800000";
+      }
+      default "2000";
+      units "ms";
+      description "range 10..1800000; Default value: 2000.";
+    }
+    leaf incCookieLife {
+      type uint8 {
+        range "0..180";
+      }
+      default "30";
+      units "s";
+      description "range 0..180; Default value: 30.";
+    }
+    leaf initARWnd {
+      type uint32 {
+        range "1500..1048576";
+      }
+      default "16384";
+      units "bytes";
+      description "range 1500..1048576; Default value: 16384.";
+    }
+    leaf initialHeartbeatInterval {
+      type uint32 {
+        range "10..1800000";
+      }
+      default "500";
+      units "ms";
+      description "range 10..1800000; Default value: 500.";
+    }
+    leaf initRto {
+      type uint32 {
+        range "10..120000";
+      }
+      default "200";
+      units "ms";
+      description "range 10..120000; Default value: 200.";
+    }
+    leaf maxActivateThr {
+      type eytypes:uint16_range_1-65535;
+      default "65535";
+      description "range 1..65535; Default value: 65535.";
+    }
+    leaf maxBurst {
+      type eytypes:uint16_range_1-16384;
+      default "4";
+      description "range 1..16384; Default value: 4.";
+    }
+    leaf maxInitRt {
+      type uint8 {
+        range "1..16";
+      }
+      default "8";
+      description "range 1..16; Default value: 8.";
+    }
+    leaf maxInStreams {
+      type eytypes:uint16_range_1-16384;
+      default "2";
+      description "range 1..16384; Default value: 2.";
+    }
+    leaf maxOutStreams {
+      type eytypes:uint16_range_1-16384;
+      default "2";
+      description "range 1..16384; Default value: 2.";
+    }
+    leaf maxRto {
+      type uint32 {
+        range "11..120000";
+      }
+      default "400";
+      units "ms";
+      description "range 11..120000; Default value: 400.";
+    }
+    leaf maxSctpPduSize {
+      type uint16 {
+        range "0..1480";
+      }
+      default "0";
+      units "bytes";
+      description "range 0..1480; Default value: 0.";
+    }
+    leaf maxShutdownRt {
+      type eytypes:uint8_range_1-20;
+      default "5";
+      description "range 1..20; Default value: 5.";
+    }
+    leaf minActivateThr {
+      type eytypes:uint16_range_1-65535;
+      default "1";
+      description "range 1..65535; Default value: 1.";
+    }
+    leaf minRto {
+      type uint16 {
+        range "10..5000";
+      }
+      default "100";
+      units "ms";
+      description "range 10..5000; Default value: 100.";
+    }
+    leaf noSwitchback {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf pathMaxRtx {
+      type eytypes:uint8_range_1-20;
+      default "10";
+      description "range 1..20; Default value: 10.";
+    }
+    leaf primaryPathAvoidance {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf primaryPathMaxRtx {
+      type uint8 {
+        range "0..20";
+      }
+      default "0";
+      description "range 0..20; Default value: 0.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf sackTimer {
+      type uint16 {
+        range "0..500";
+      }
+      default "10";
+      units "ms";
+      description "range 0..500; Default value: 10.";
+    }
+    leaf sctpProfileId {
+      type string;
+      mandatory true;
+    }
+    leaf thrTransmitBuffer {
+      type uint16 {
+        range "1..2048";
+      }
+      default "48";
+      units "KB";
+      description "range 1..2048; Default value: 48.";
+    }
+    leaf thrTransmitBufferCongCeased {
+      type uint8 {
+        range "1..100";
+      }
+      default "85";
+      units "percent";
+      description "range 1..100; Default value: 85.";
+    }
+    leaf transmitBufferSize {
+      type uint16 {
+        range "1..2048";
+      }
+      default "64";
+      units "KB";
+      description "range 1..2048; Default value: 64.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

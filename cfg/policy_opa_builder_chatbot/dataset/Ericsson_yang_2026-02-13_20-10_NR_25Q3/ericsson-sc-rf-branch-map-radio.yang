@@ -1,0 +1,48 @@
+module ericsson-sc-rf-branch-map-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeScRfBranchMap";
+  prefix srbmrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ScRfBranchMap {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO contains configuration items controlling mapping of sector carriers to RF branches. The RDN of this MO is ScRfBranchMap=1.";
+      key "scRfBranchMapId";
+      leaf scRfBranchMapId {
+        type leafref {
+          path "../attributes/scRfBranchMapId";
+        }
+      }
+      container attributes {
+        uses ScRfBranchMap-attributes;
+      }
+    }
+  }
+  typedef RfBranchMappingMethod {
+    type enumeration {
+      enum POLARIZATION_AGNOSTIC;
+      enum POLARIZATION_AWARE;
+    }
+  }
+  grouping ScRfBranchMap-attributes {
+    leaf scRfBranchMapId {
+      type string;
+      mandatory true;
+    }
+    leaf rfBranchMappingMethod {
+      type enumeration {
+        enum POLARIZATION_AGNOSTIC;
+        enum POLARIZATION_AWARE;
+      }
+    }
+  }
+}

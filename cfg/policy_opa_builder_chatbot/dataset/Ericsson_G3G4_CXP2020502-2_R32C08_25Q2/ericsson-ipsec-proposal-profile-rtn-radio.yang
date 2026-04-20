@@ -1,0 +1,140 @@
+module ericsson-ipsec-proposal-profile-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnIpsecProposalProfile";
+  prefix ipsecprpfrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIpSecProposalProfile package";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list IpsecProposalProfile {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Common configuration parameters used by Child SAs. Maximum number of IpsecProposalProfile MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 8, - For Baseband in RAN Compute Group 4 or higher: 60.";
+      key "ipsecProposalProfileId";
+      leaf ipsecProposalProfileId {
+        type leafref {
+          path "../attributes/ipsecProposalProfileId";
+        }
+      }
+      container attributes {
+      uses IpsecProposalProfile-attributes;
+      }
+    }
+  }
+  typedef ChildSaEncryptionAlgorithm {
+    description "Child SA encryption algorithms.";
+    type enumeration {
+      enum ENCR_NULL {
+      }
+      enum ENCR_CHACHA20_POLY1305 {
+      }
+      enum ENCR_AES_CBC_128 {
+      }
+      enum ENCR_AES_CBC_256 {
+      }
+      enum AES_GCM_16_128 {
+      }
+      enum AES_GCM_16_256 {
+      }
+    }
+  }
+  typedef ChildSaIntegrityAlgorithm {
+    description "Child SA integrity algorithms.";
+    type enumeration {
+      enum AUTH_HMAC_MD5_96 {
+      }
+      enum AUTH_HMAC_SHA1_96 {
+      }
+      enum AUTH_AES_XCBC_96 {
+      }
+      enum AUTH_AES_128_GMAC {
+        description "Using this corresponds to combined mode algorithm ENCR_NULL_AUTH_AES_GMAC for ESP, as defined by RFC 4543, with 128 key length.";
+      }
+      enum AUTH_AES_256_GMAC {
+        description "Using this corresponds to combined mode algorithm ENCR_NULL_AUTH_AES_GMAC for ESP, as defined by RFC 4543, with 256 key length.";
+      }
+      enum AUTH_HMAC_SHA2_256_128 {
+      }
+      enum AUTH_HMAC_SHA2_512_256 {
+      }
+    }
+  }
+  grouping ChildSaLifetime-struct {
+    description "Lifetime for negotiated Child SAs.";
+    leaf dataLimit {
+      type string;
+    }
+    leaf timeLimit {
+      type string;
+    }
+  }
+  grouping IpsecProposal-struct {
+    description "Holds transform proposal used during Child SA negotiation.";
+    leaf encryptionAlgorithm {
+      type enumeration {
+        enum ENCR_NULL;
+        enum ENCR_CHACHA20_POLY1305;
+        enum ENCR_AES_CBC_128;
+        enum ENCR_AES_CBC_256;
+        enum AES_GCM_16_128;
+        enum AES_GCM_16_256;
+      }
+    }
+    leaf integrityAlgorithm {
+      type enumeration {
+        enum AUTH_HMAC_MD5_96;
+        enum AUTH_HMAC_SHA1_96;
+        enum AUTH_AES_XCBC_96;
+        enum AUTH_AES_128_GMAC;
+        enum AUTH_AES_256_GMAC;
+        enum AUTH_HMAC_SHA2_256_128;
+        enum AUTH_HMAC_SHA2_512_256;
+      }
+    }
+  }
+  grouping IpsecProposalProfile-attributes {
+    list childSaLifetime {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Lifetime for negotiated Child SAs. In order for node to complete the rekeying process before lifetime expires, node starts new rekeying according to soft lifetime. Soft lifetime is calculated as (0.8+0.1*R)*childSaLifetime, where R is random factor between 0 and 1..";
+      uses ChildSaLifetime-struct;
+    }
+    list ipsecProposal {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      max-elements 2;
+      uses IpsecProposal-struct;
+    }
+    leaf ipsecProposalProfileId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf pfs {
+      description "Enables Perfect Forward Secrecy. By default, PFS is disabled and is not used for any Child SA pair rekeying or establishment of new Child SA pairs. If PFS is enabled, node requires PFS for any Child SA pair rekeying or establishment of new Child SA pairs.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

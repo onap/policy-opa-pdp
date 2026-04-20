@@ -1,0 +1,348 @@
+module ericsson-ri-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRiPort";
+  prefix riportrdo;
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nReqRiPort.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list RiPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Radio Interface (RI) Port.";
+      key "riPortId";
+      leaf riPortId {
+        type leafref {
+          path "../attributes/riPortId";
+        }
+      }
+      container attributes {
+      uses RiPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/riportrdo:RiPort" {
+    list RiEthernetPort {
+      description "Additional definitions from MOM:min/max-elements:0/1; Ethernet performance monitoring. RiEthernetPort MO is created automatically when the link starts in Ethernet mode. The RDN of this MO is RiEthernetPort=1.";
+      key "riEthernetPortId";
+      status deprecated;
+      leaf riEthernetPortId {
+        type leafref {
+          path "../attributes/riEthernetPortId";
+        }
+        status deprecated;
+      }
+      container attributes {
+      uses RiEthernetPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "Administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef TransmissionStandard {
+    description "Transmission standard for communication between DU and RU.";
+    type enumeration {
+      enum CPRI {
+        description "CPRI.";
+      }
+      enum ETHERNET {
+        description "Ethernet.";
+      }
+    }
+  }
+  grouping SfpProductData-struct {
+    description "Information on the installed small form-factor pluggable (SFP) module on the Radio Interface (RI) link.";
+    leaf manufacturerDesignation {
+      description "length 0..16.";
+      type string {
+        length "0..16";
+      }
+    }
+    leaf manufacturerId {
+      description "length 0..16.";
+      type string {
+        length "0..16";
+      }
+    }
+    leaf manufacturerRevision {
+      description "length 0..8.";
+      type string {
+        length "0..8";
+      }
+    }
+    leaf negotiatedBitRate {
+      description "length 0..8.";
+      type string {
+        length "0..8";
+      }
+    }
+    leaf productionDate {
+      description "length 0..7.";
+      type string {
+        length "0..7";
+      }
+    }
+    leaf productNumber {
+      description "length 0..13.";
+      type string {
+        length "0..13";
+      }
+    }
+    leaf productRevision {
+      description "length 0..8.";
+      type string {
+        length "0..8";
+      }
+    }
+    leaf serialNumber {
+      description "length 0..15.";
+      type string {
+        length "0..15";
+      }
+    }
+  }
+  grouping RiEthernetPort-attributes {
+    leaf riEthernetPortId {
+      description "The value component of the RDN.; MOM flags: restricted, noNotification; Status info: Since 23.Q3. Replaced by EthernetPort.ethernetPortId. Planned to be removed..";
+      type string;
+      mandatory true;
+      status deprecated;
+    }
+    leaf macAddress {
+      description "MAC address for RiPort; MOM flags: isNillable=true; Status info: Since 23.Q3. Replaced by EthernetPort.macAddress. Planned to be removed..";
+      type ietfyang:mac-address;
+      config false;
+      status deprecated;
+    }
+    leaf ifHCOutMulticastPkts {
+      description "The total number of multicast packets that are requested to be transmitted. Multicast packets counted by ifOutDiscards and ifOutErrors are included. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifHCOutMulticastPkts. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf ifHCOutOctets {
+      description "Total number of octets transmitted on interface, including framing characters. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifHCOutOctets. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf ifOutErrors {
+      description "Number of outgoing packets that cannot be transmitted because of errors. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifOutErrors. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf ifHCInUcastPkts {
+      description "Number of unicast packets forwarded to bridge or delivered to higher (sub)layer. Packets counted by ifInErrors and ifInDiscards are not included. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifHCInUcastPkts. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf ifHCOutUcastPkts {
+      description "Total number of unicast packets that are requested to be transmitted. Unicast packets counted by ifOutDiscards and ifOutErrors are included. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifHCOutUcastPkts. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf ifHCInOctets {
+      description "Total number of octets received on interface, including framing characters. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifHCInOctets. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf ifHCInBroadcastPkts {
+      description "Number of broadcast packets forwarded to bridge or delivered to higher (sub) layer. Packets counted by ifInErrors and ifInDiscards are not included. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifHCInBroadcastPkts. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf ifInDiscards {
+      description "Number of incoming packets that are discarded even if no errors are detected. Reasons of discarding include lack of buffer space or traffic shaping. Standard reference: RFC 2863, section 6. Obsolete: Since 21.Q3. Planned to be removed..";
+      type uint64;
+      config false;
+    }
+    leaf ifInErrors {
+      description "Number of incoming packets with errors that prevent them from being delivered to a higher-layer protocol. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifInErrors. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf ifOutDiscards {
+      description "Number of outgoing packets that are discarded even if no errors are detected. Reasons for discarding include lack of buffer space or traffic shaping. Standard reference: RFC 2863, section 6. Obsolete: Since 21.Q3. Planned to be removed..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInMulticastPkts {
+      description "Number of multicast packets forwarded to bridge or delivered to higher (sub)layer. Packets counted by ifInErrors and ifInDiscards are not included. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifHCInMulticastPkts. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf ifHCOutBroadcastPkts {
+      description "Total number of broadcast packets that are requested to be transmitted. Broadcast packets counted by ifOutDiscards and ifOutErrors are included. Standard reference: RFC 2863, section 6. Deprecated: Since 23.Q3. Replaced by EthernetPort.ifHCOutBroadcastPkts. Planned to be removed.; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+  }
+  grouping RiPort-attributes {
+    leaf riPortId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availabilityStatus. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    list sfpData {
+      config false;
+      description "Information on the installed small form-factor pluggable (SFP) module on the Radio Interface (RI) link. A blank value indicates the data is currently unavailable..";
+      uses SfpProductData-struct;
+    }
+    leaf sfpModuleRef {
+      description "Refers to one SfpModule on the unit to which the port is connected..";
+      type string;
+      config false;
+    }
+    leaf transmissionStandard {
+      description "Shows if the RiPort has come up as CPRI or Ethernet..";
+      type enumeration {
+        enum CPRI;
+        enum ETHERNET;
+      }
+      config false;
+    }
+    leaf administrativeState {
+      description "The administrative state. If set to SHUTTINGDOWN, the state is immediately brought to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf preferredSfpProductNumber {
+      description "Ericsson product number of the preferred SFP module for the RiPort. If SFP with different product number detected, alarm \"SFP Product Number Mismatch\" is issued. The default value, nil, means the SFP validation function is disabled.; length 1..13.";
+      type string {
+        length "1..13";
+      }
+    }
+    leaf-list channelRef {
+      description "Reference to MO SfpChannel instance connected to this port..";
+      type string;
+      min-elements 0;
+    }
+    leaf pmLossOfFrame {
+      description "The total number of Loss of Frame (LOF) errors detected on the port. Only valid for CPRI link..";
+      type uint32;
+      config false;
+    }
+    leaf-list pmBitError {
+      description "Estimated bit error rate on the port. PDF ranges: [0]: Number of samples with bit error rate 10^-8 [1]: Number of samples with bit error rate 10^-7 [2]: Number of samples with bit error rate 10^-6 [3]: Number of samples with bit error rate 10^-5 [4]: Number of samples with bit error rate 10^-4 [5]: Number of samples with bit error rate 10^-3. Only valid for CPRI link..";
+      type uint32;
+      max-elements 6;
+    }
+    leaf pmLossOfSignal {
+      description "The total number of Loss of Signal (LOS) errors detected on the port..";
+      type uint32;
+      config false;
+    }
+  }
+}

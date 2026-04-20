@@ -1,0 +1,98 @@
+module huawei-subrack {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-subrack";
+ prefix subrack;
+ description
+ "Auto-generated modular YANG for huawei-subrack" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping SUBRACK-attributes {
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf DESC {
+  type string {
+   length "0..79";
+  }
+  mandatory false;
+ }
+ leaf PHYSRN {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf TYPE {
+  type enumeration {
+   enum val-128;
+   enum val-129;
+   enum val-130;
+   enum val-131;
+   enum val-132;
+   enum val-134;
+   enum val-135;
+   enum val-136;
+   enum val-137;
+   enum val-138;
+   enum val-140;
+   enum val-147;
+   enum val-148;
+   enum val-156;
+   enum val-159;
+   enum val-163;
+   enum val-165;
+   enum val-166;
+   enum val-167;
+   enum val-193;
+   enum val-194;
+   enum val-195;
+   enum val-196;
+   enum val-198;
+   enum val-199;
+   enum val-200;
+   enum val-201;
+   enum val-202;
+   enum val-203;
+   enum val-205;
+   enum val-206;
+   enum val-208;
+   enum val-209;
+   enum val-224;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,223 @@
+module ericsson-lratmce-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:LratMce";
+  prefix lratmce;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement" {
+    list MceFunction {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO is the top level MO for MCE functions. It contains the M3 connection classes.";
+      key "mceFunctionId";
+      leaf mceFunctionId {
+        type leafref {
+          path "../attributes/mceFunctionId";
+        }
+      }
+      container attributes {
+        uses MceFunction-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/MceFunction" {
+    list TermPointToMmeM3 {
+      description "Additional definitions from MOM:min/max-elements:0/64; Models the MME termination point of an M3 link between the RBS and the MME node.";
+      key "termPointToMmeM3Id";
+      leaf termPointToMmeM3Id {
+        type leafref {
+          path "../attributes/termPointToMmeM3Id";
+        }
+      }
+      container attributes {
+        uses TermPointToMmeM3-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef OrderCode {
+    type enumeration {
+      enum RETAIN_EXISTING;
+      enum RENEW_ALL_EXISTING;
+    }
+  }
+  grouping MceFunction-attributes {
+    leaf mceFunctionId {
+      type string;
+      mandatory true;
+    }
+    leaf useM3dnsFormat {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf release {
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf pmMbmsSessionEnd {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionStopMmeNoSession {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionEstabSucc {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionEstabFailUpdate {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionUpdateFailParam {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionUpdateAtt {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionUpdateFailNotSupp {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionEstabFailNotSupp {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionStopAuditTimer {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionEstabAtt {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionUpdateSucc {
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary102 {
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary103 {
+      type uint32;
+      config false;
+    }
+    leaf pmMbmsSessionStopMme {
+      type uint32;
+      config false;
+    }
+  }
+  grouping TermPointToMmeM3-attributes {
+    leaf termPointToMmeM3Id {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf domainName {
+      type ietfinet:domain-name;
+      description "length 0..255.";
+    }
+    leaf ipAddress1 {
+      type ietfinet:ip-address;
+      default "0.0.0.0";
+      description "length 7..15; Default value: 0.0.0.0.";
+    }
+    leaf ipAddress2 {
+      type ietfinet:ip-address;
+      default "0.0.0.0";
+      description "length 7..15; Default value: 0.0.0.0.";
+    }
+    leaf ipv6Address1 {
+      type ietfinet:ipv6-address;
+      default "::";
+      description "length 2..39; Default value: ::.";
+    }
+    leaf ipv6Address2 {
+      type ietfinet:ipv6-address;
+      default "::";
+      description "length 2..39; Default value: ::.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf usedIpAddress {
+      type ietfinet:ip-address;
+      config false;
+      description "length 2..39.";
+    }
+  }
+}

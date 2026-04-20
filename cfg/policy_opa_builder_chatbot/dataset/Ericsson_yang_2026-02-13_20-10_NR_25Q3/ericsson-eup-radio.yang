@@ -1,0 +1,134 @@
+module ericsson-eup-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqExternalUp";
+  prefix euprdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-eum-radio {
+    prefix eumrdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/eumrdo:ExternalUpManager" {
+    list ExternalUp {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Controls change process of software configuration of external hardware unit. An instance of ExternalUp represents a specific change of software configuration from existing one to new one identified by administrativeData attribute. When ExternalUp MO is created, firmware is downloaded to node. Created automatically when triggered by createExternalUp action on ExternalUpManager MO. Deleted automatically when triggered by removeExternalUp action on ExternalUpManager MO. The RDNs of these MOs are ExternalUP=1, 2, 3, and so on.";
+      key "externalUpId";
+      leaf externalUpId {
+        type leafref {
+          path "../attributes/externalUpId";
+        }
+      }
+      container attributes {
+        uses ExternalUp-attributes;
+      }
+    }
+  }
+  typedef ExternalUpStatus {
+    type enumeration {
+      enum INIT_IN_PROGRESS;
+      enum INIT_FAILED;
+      enum INIT_COMPLETED;
+      enum TRANSFER_FILE_IN_PROGRESS;
+      enum TRANSFER_FILE_COMPLETED;
+      enum TRANSFER_FILE_PARTIALLY_COMPLETED;
+      enum TRANSFER_FILE_FAILED;
+      enum ACTIVATION_IN_PROGRESS;
+      enum ACTIVATION_COMPLETED;
+      enum ACTIVATION_PARTIALLY_COMPLETED;
+      enum ACTIVATION_FAILED;
+    }
+  }
+  grouping ExternalUp-attributes {
+    leaf externalUpId {
+      type string;
+      mandatory true;
+    }
+    list administrativeData {
+      config false;
+      container attributes {
+      leaf revision {
+        type string;
+      }
+      leaf name {
+        type string;
+      }
+      leaf vendor {
+        type string;
+      }
+      }
+    }
+    leaf cumulativeUpgradeStatus {
+      type enumeration {
+        enum INIT_IN_PROGRESS;
+        enum INIT_FAILED;
+        enum INIT_COMPLETED;
+        enum TRANSFER_FILE_IN_PROGRESS;
+        enum TRANSFER_FILE_COMPLETED;
+        enum TRANSFER_FILE_PARTIALLY_COMPLETED;
+        enum TRANSFER_FILE_FAILED;
+        enum ACTIVATION_IN_PROGRESS;
+        enum ACTIVATION_COMPLETED;
+        enum ACTIVATION_PARTIALLY_COMPLETED;
+        enum ACTIVATION_FAILED;
+      }
+      config false;
+    }
+    list unitUpgradeStatus {
+      config false;
+      container attributes {
+      leaf unitStatus {
+        type enumeration {
+          enum INIT_IN_PROGRESS;
+          enum INIT_FAILED;
+          enum INIT_COMPLETED;
+          enum TRANSFER_FILE_IN_PROGRESS;
+          enum TRANSFER_FILE_COMPLETED;
+          enum TRANSFER_FILE_PARTIALLY_COMPLETED;
+          enum TRANSFER_FILE_FAILED;
+          enum ACTIVATION_IN_PROGRESS;
+          enum ACTIVATION_COMPLETED;
+          enum ACTIVATION_PARTIALLY_COMPLETED;
+          enum ACTIVATION_FAILED;
+        }
+      }
+      leaf statusMessage {
+        type string;
+      }
+      leaf upgradeTargetRef {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      leaf progressPercentage {
+        type uint8 {
+          range "0..100";
+        }
+        description "range 0..100.";
+      }
+      }
+    }
+    leaf-list upgradeTargetRef {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

@@ -1,0 +1,108 @@
+module ericsson-macsec-ca-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnMacSecCa";
+  prefix macseccardo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list MacSecCa {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents Connectivity Association, as seen by MKA Key server. Only created when RiLink MO is created with following conditions: - When one MacSecProfile MO is associated with RiLink MO. - When Ethernet is detected on link.";
+      key "macSecCaId";
+      leaf macSecCaId {
+        type leafref {
+          path "../attributes/macSecCaId";
+        }
+      }
+      container attributes {
+        uses MacSecCa-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef MacSecCipher {
+    type enumeration {
+      enum GCM_AES_128;
+      enum GCM_AES_256;
+    }
+  }
+  typedef MacSecSecurityLevel {
+    type enumeration {
+      enum NONE;
+      enum INTEGRITY_AND_CONFIDENTIALITY;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping MacSecCa-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf macSecCaId {
+      type ietfyang:mac-address;
+      mandatory true;
+    }
+    leaf-list macSecCiphers {
+      type ietfinet:ip-address;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf-list securityLevel {
+      type enumeration {
+        enum NONE;
+        enum INTEGRITY_AND_CONFIDENTIALITY;
+      }
+    }
+  }
+}

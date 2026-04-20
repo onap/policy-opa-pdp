@@ -1,0 +1,42 @@
+module ericsson-equip-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEquipment";
+  prefix equiprdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement" {
+    list Equipment {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO is used as a structural element for the network element, that is, it only acts as a container for other MOs. This MO structures the equipment of the network element. This MO is created automatically and cannot be deleted. The RDN of this MO is Equipment=1.";
+      key "equipmentId";
+      leaf equipmentId {
+        type leafref {
+          path "../attributes/equipmentId";
+        }
+      }
+      container attributes {
+        uses Equipment-attributes;
+      }
+    }
+  }
+  grouping Equipment-attributes {
+    leaf equipmentId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

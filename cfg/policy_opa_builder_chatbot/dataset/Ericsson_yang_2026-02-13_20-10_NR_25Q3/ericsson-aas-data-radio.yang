@@ -1,0 +1,91 @@
+module ericsson-aas-data-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqAasData";
+  prefix aasdrdo;
+  import ericsson-transceiver-radio {
+    prefix trsvrrdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/trsvrrdo:Transceiver" {
+    list AasData {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; This MO contains configuration parameters for the Array Antenna Module in an AAS radio.";
+      key "aasDataId";
+      leaf aasDataId {
+        type leafref {
+          path "../attributes/aasDataId";
+        }
+      }
+      container attributes {
+        uses AasData-attributes;
+      }
+    }
+  }
+  typedef AntSegmentationType {
+    type enumeration {
+      enum AUTO;
+      enum WHOLE_100;
+      enum SPLIT_H_50_50;
+      enum SPLIT_V_50_50;
+      enum SPLIT_H_75_25;
+      enum SPLIT_V_75_25;
+      enum SPLIT_H_50_25_25;
+      enum SPLIT_V_50_25_25;
+      enum SPLIT_H_25_25_25_25;
+      enum SPLIT_V_25_25_25_25;
+      enum AUTO_SPLIT;
+      enum SPLIT_GRID_25_25_25_25;
+    }
+  }
+  grouping AasData-attributes {
+    leaf aasDataId {
+      type string;
+      mandatory true;
+    }
+    leaf usedAntSegmentation {
+      type enumeration {
+        enum AUTO;
+        enum WHOLE_100;
+        enum SPLIT_H_50_50;
+        enum SPLIT_V_50_50;
+        enum SPLIT_H_75_25;
+        enum SPLIT_V_75_25;
+        enum SPLIT_H_50_25_25;
+        enum SPLIT_V_50_25_25;
+        enum SPLIT_H_25_25_25_25;
+        enum SPLIT_V_25_25_25_25;
+        enum AUTO_SPLIT;
+        enum SPLIT_GRID_25_25_25_25;
+      }
+      config false;
+    }
+    leaf antSegmentation {
+      type enumeration {
+        enum AUTO;
+        enum WHOLE_100;
+        enum SPLIT_H_50_50;
+        enum SPLIT_V_50_50;
+        enum SPLIT_H_75_25;
+        enum SPLIT_V_75_25;
+        enum SPLIT_H_50_25_25;
+        enum SPLIT_V_50_25_25;
+        enum SPLIT_H_25_25_25_25;
+        enum SPLIT_V_25_25_25_25;
+        enum AUTO_SPLIT;
+        enum SPLIT_GRID_25_25_25_25;
+      }
+    }
+  }
+}

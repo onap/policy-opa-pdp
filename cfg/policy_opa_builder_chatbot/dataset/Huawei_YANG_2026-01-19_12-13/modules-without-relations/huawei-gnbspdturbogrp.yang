@@ -1,0 +1,238 @@
+module huawei-gnbspdturbogrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbspdturbogrp";
+ prefix gnbspdturbogrp;
+ description
+ "Auto-generated modular YANG for huawei-gnbspdturbogrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBSPDTURBOGRP-attributes {
+ leaf DLTRAFFICVOLUMETHLD {
+  type uint32 {
+   range "0..20000000";
+  }
+  mandatory false;
+ }
+ leaf DLTRAFFICVOLUMEUPPERTHLD {
+  type uint32 {
+   range "0..20000000";
+  }
+  mandatory false;
+ }
+ leaf OLD_IDENTIFICATIONID {
+  type union {
+   type int8 {
+    range "-1..99";
+   }
+  }
+  mandatory false;
+ }
+ leaf IDENTIFICATIONID {
+  type union {
+   type int8 {
+    range "-1..99";
+   }
+  }
+  mandatory false;
+ }
+ leaf IDLESERVDATAVOLTHLD {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf IDLESERVWINDOWSIZE {
+  type uint8 {
+   range "2..63";
+  }
+  mandatory false;
+ }
+ leaf PKTLENIDENTMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf PKTSIZEDIFFTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf SECONDSPDTURBOGRPID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVSAMPLINGPERIOD {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf SERVICESENSINGTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf SERVICETYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+  }
+  mandatory false;
+ }
+ leaf SPDTURBOIDENTINTERVAL {
+  type uint8 {
+   range "1..15";
+  }
+  mandatory false;
+ }
+ leaf SPDTURBOALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf SPEEDTURBODETECTINTVL {
+  type uint8 {
+   range "0..20";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBODLIPPKTSIZE {
+  type uint16 {
+   range "1..1500";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBODLIPPKTSIZEOFS {
+  type uint16 {
+   range "0..1500";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOGROUPID {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOIDENTTIMER {
+  type uint16 {
+   range "0..3600";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOIPPKTNUMTHLD {
+  type uint8 {
+   range "1..50";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOIPPKTSIZEOFFSET {
+  type uint16 {
+   range "0..1500";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOMAXIPPKTNUMTHLD {
+  type uint8 {
+   range "1..50";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOTIMEWINDOW {
+  type uint16 {
+   range "1..5000";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOULDETECTINTVL {
+  type uint8 {
+   range "0..60";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOULIPPKTSIZE {
+  type uint16 {
+   range "1..1500";
+  }
+  mandatory false;
+ }
+ leaf STDLPKTLENLOWERTHLD {
+  type uint16 {
+   range "0..1500";
+  }
+  mandatory false;
+ }
+ leaf STDLPKTLENUPPERTHLD {
+  type uint16 {
+   range "0..1500";
+  }
+  mandatory false;
+ }
+ leaf STULPKTLENLOWERTHLD {
+  type uint16 {
+   range "0..1500";
+  }
+  mandatory false;
+ }
+ leaf STULPKTLENUPPERTHLD {
+  type uint16 {
+   range "0..1500";
+  }
+  mandatory false;
+ }
+ leaf ULTRAFFICVOLUMELOWERTHLD {
+  type uint32 {
+   range "0..20000000";
+  }
+  mandatory false;
+ }
+ leaf ULTRAFFICVOLUMETHLD {
+  type uint32 {
+   range "0..20000000";
+  }
+  mandatory false;
+ }
+ leaf USERIDENTTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf USERPOLICY {
+  type boolean;
+  mandatory false;
+ }
+ leaf USERSPID {
+  type uint16 {
+   range "1..256";
+  }
+  mandatory false;
+ }
+ }
+}

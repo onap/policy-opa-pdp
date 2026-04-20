@@ -1,0 +1,126 @@
+module ericsson-rmesds-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSds";
+  prefix rmesds;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nService discovery MOM";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ServiceDiscovery {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Configuration data for Service Discovery clients. This MO must be created for the service discovery function to be active in the node.";
+      key "serviceDiscoveryId";
+      status deprecated;
+      leaf serviceDiscoveryId {
+        type leafref {
+          path "../attributes/serviceDiscoveryId";
+        }
+        status deprecated;
+      }
+      container attributes {
+      uses ServiceDiscovery-attributes;
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping SdCluster-struct {
+    description "Connection details for a specific GSSD cluster.";
+    leaf host {
+      type string;
+    }
+    leaf port {
+      type string;
+    }
+    leaf serviceArea {
+      description "length 1..128; Default value: vrcs.";
+      type string {
+        length "1..128";
+        pattern "([A-Za-z0-9_-]+)";
+      }
+      default "vrcs";
+    }
+    leaf-list hostIPs {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 5;
+    }
+  }
+  grouping ServiceDiscovery-attributes {
+    leaf serviceDiscoveryId {
+      description "The value component of the RDN.; MOM flags: restricted, noNotification; Status info: Since 22.Q3. Planned to be removed..";
+      type string;
+      mandatory true;
+      status deprecated;
+    }
+    leaf localAddress {
+      description "Local address used by the service discovery client to connect to service discovery servers. In non-standalone mode, where node has been configured to use an external vSD cluster: - primaryGsds.host must be set to DNS. - localAddress must be set to fronthaul. In standalone mode, where node is configured as standalone gNodeB: - primaryGsds.host must be set to localhost. - localAddress is left empty in all normal cases.; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      type string;
+      status deprecated;
+    }
+    list secondaryGsds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Connection information for the secondary GSDS cluster.; Takes effect: Node Restart; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      uses SdCluster-struct;
+    }
+    leaf statusPrimary {
+      description "Operational state of the primary GSDS cluster.; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+      status deprecated;
+    }
+    leaf statusSecondary {
+      description "Operational state of the secondary GSDS cluster.; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+      status deprecated;
+    }
+    list primaryGsds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      min-elements 1;
+      description "Connection information for the primary GSDS cluster.; Takes effect: Node Restart; Status info: Since 22.Q3. Planned to be removed..";
+      uses SdCluster-struct;
+    }
+    leaf trustCategory {
+      description "Trust Category for front haul network.; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      type string;
+      status deprecated;
+    }
+    leaf nodeCredential {
+      description "Node Credential for front haul network.; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      type string;
+      status deprecated;
+    }
+  }
+}

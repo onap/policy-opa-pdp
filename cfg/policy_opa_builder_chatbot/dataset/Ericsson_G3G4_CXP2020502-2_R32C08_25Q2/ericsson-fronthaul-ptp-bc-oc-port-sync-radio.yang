@@ -1,0 +1,253 @@
+module ericsson-fronthaul-ptp-bc-oc-port-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncFronthaulPtpBcOcPort";
+  prefix fptpbcocptrdo;
+  import ericsson-fronthaul-sync-radio {
+    prefix fsyncrdo;
+  }
+  import ericsson-ptp-sync-radio {
+    prefix ptprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nSynchronization Fronthaul Model.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/ptprdo:Ptp/fsyncrdo:FronthaulBoundaryOrdinaryClock" {
+    list FronthaulPtpBcOcPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents PTP port to communicate with other 1588 devices.";
+      key "fronthaulPtpBcOcPortId";
+      leaf fronthaulPtpBcOcPortId {
+        type leafref {
+          path "../attributes/fronthaulPtpBcOcPortId";
+        }
+      }
+      container attributes {
+      uses FronthaulPtpBcOcPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "The administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef DelayMechanism {
+    description "Available delay mechanism modes. Delay mechanism modes indicate propagation delay measuring option used by port in computing <meanPathDelay>.";
+    type enumeration {
+      enum E2E {
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef PortState {
+    description "Available port states of PTP port.";
+    type enumeration {
+      enum INITIALIZING {
+      }
+      enum FAULTY {
+      }
+      enum DISABLED {
+      }
+      enum LISTENING {
+      }
+      enum PRE_MASTER {
+      }
+      enum MASTER {
+      }
+      enum PASSIVE {
+      }
+      enum UNCALIBRATED {
+      }
+      enum SLAVE {
+      }
+    }
+  }
+  typedef PtpPortStatus {
+    description "PTP port status.";
+    type enumeration {
+      enum NO_FAULT {
+        description "No fault is detected.";
+      }
+      enum UNRESOLVED_SERVER_ADDRESS {
+        description "Server address cannot be resolved.";
+      }
+      enum NEGOTIATION_FAILED {
+        description "At any time during operation, grandmaster cancels previously granted unicast transmission agreement, or grandmaster does not comply with requested negotiation service.";
+      }
+      enum NEGOTIATION_NO_REPLY {
+        description "No reply from grandmaster to slave's Unicast Request.";
+      }
+      enum UNKNOWN {
+      }
+    }
+  }
+  grouping PortDS-struct {
+    description "This data set describe port properties.";
+    leaf announceInterval {
+      type string;
+    }
+    leaf announceReceiptTimeout {
+      type string;
+    }
+    leaf delayMechanism {
+      type enumeration {
+        enum E2E;
+      }
+    }
+    leaf minDelayReqInterval {
+      type string;
+    }
+    leaf minPdelayReqInterval {
+      type string;
+    }
+    leaf peerMeanPathDelay {
+      type string;
+    }
+    leaf portClockIdentity {
+      type string;
+    }
+    leaf portNumber {
+      type string;
+    }
+    leaf portState {
+      type enumeration {
+        enum INITIALIZING;
+        enum FAULTY;
+        enum DISABLED;
+        enum LISTENING;
+        enum PRE_MASTER;
+        enum MASTER;
+        enum PASSIVE;
+        enum UNCALIBRATED;
+        enum SLAVE;
+      }
+    }
+    leaf syncInterval {
+      type string;
+    }
+    leaf versionNumber {
+      type string;
+    }
+  }
+  grouping FronthaulPtpBcOcPort-attributes {
+    leaf administrativeState {
+      description "The administrative state. If set to SHUTTINGDOWN, state is immediately brought to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf asymmetryCompensation {
+      description "Asymmetry compensation. +/- sign specifies uplink delay relative to downlink. Not used in frequency profile. Applicable to slave port.; range -100000..100000; Default value: 0.";
+      type int32 {
+        range "-100000..100000";
+      }
+      default "0";
+      units "ns";
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf fronthaulPtpBcOcPortId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    list portDS {
+      config false;
+      description "Port data set..";
+      uses PortDS-struct;
+    }
+    leaf ptpPortStatus {
+      description "Status of PTP port..";
+      type enumeration {
+        enum NO_FAULT;
+        enum UNRESOLVED_SERVER_ADDRESS;
+        enum NEGOTIATION_FAILED;
+        enum NEGOTIATION_NO_REPLY;
+        enum UNKNOWN;
+      }
+      config false;
+    }
+    leaf transportInterface {
+      description "References to underlying transport entity. Can only be RiPort MO..";
+      type string;
+      mandatory true;
+    }
+  }
+}

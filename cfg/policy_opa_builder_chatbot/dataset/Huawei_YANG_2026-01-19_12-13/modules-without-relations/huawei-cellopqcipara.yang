@@ -1,0 +1,70 @@
+module huawei-cellopqcipara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cellopqcipara";
+ prefix cellopqcipara;
+ description
+ "Auto-generated modular YANG for huawei-cellopqcipara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLOPQCIPARA-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_CNOPERATORID {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf CNOPERATORID {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf NSADCQCIPARAMGROUPID {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf OLD_QCI {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf QCI {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

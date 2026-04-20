@@ -1,0 +1,308 @@
+module ericsson-sctp-profile-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnSctpProfile";
+  prefix sctppfrdo;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nSCTP Profile";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list SctpProfile {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; SctpProfile defines configuration that controls behaviour of SctpEndpoint. SctpProfile MO can be shared by one or more SctpEndpoint MOs.";
+      key "sctpProfileId";
+      leaf sctpProfileId {
+        type leafref {
+          path "../attributes/sctpProfileId";
+        }
+      }
+      container attributes {
+      uses SctpProfile-attributes;
+      }
+    }
+  }
+  typedef AlphaIndex {
+    description "RTO alpha index.";
+    type enumeration {
+      enum ALPHA_1_2ND {
+        description "ALPHA_1_2ND -> RTO.Alpha=1/2.";
+      }
+      enum ALPHA_1_4TH {
+        description "ALPHA_1_4TH -> RTO.Alpha=1/4.";
+      }
+      enum ALPHA_1_8TH {
+        description "ALPHA_1_8TH -> RTO.Alpha=1/8.";
+      }
+      enum ALPHA_1_16TH {
+        description "ALPHA_1_16TH -> RTO.Alpha=1/16.";
+      }
+    }
+  }
+  typedef BetaIndex {
+    description "RTO beta index.";
+    type enumeration {
+      enum BETA_1_2ND {
+        description "BETA_1_2ND -> RTO.Beta = 1/2.";
+      }
+      enum BETA_1_4TH {
+        description "BETA_1_4TH -> RTO.Beta = 1/4.";
+      }
+      enum BEAT_1_8TH {
+        description "BEAT_1_8TH -> RTO.Beta = 1/8.";
+      }
+      enum BETA_1_16TH {
+        description "BETA_1_16TH -> RTO.Beta = 1/16.";
+      }
+    }
+  }
+  grouping SctpProfile-attributes {
+    leaf alphaIndex {
+      description "RTO alpha index..";
+      type enumeration {
+        enum ALPHA_1_2ND;
+        enum ALPHA_1_4TH;
+        enum ALPHA_1_8TH;
+        enum ALPHA_1_16TH;
+      }
+    }
+    leaf assocMaxRtx {
+      description "Association maximum number of retransmissions packets.; range 1..20; Default value: 20.";
+      type eytypes:uint8_range_1-20;
+      default "20";
+    }
+    leaf betaIndex {
+      description "RTO beta index..";
+      type enumeration {
+        enum BETA_1_2ND;
+        enum BETA_1_4TH;
+        enum BEAT_1_8TH;
+        enum BETA_1_16TH;
+      }
+    }
+    leaf bundlingActivated {
+      description "States whether bundling is allowed for endpoint. True: Endpoint bundles chunks by including multiple chunks in one outbound SCTP packet. False: Bundling is not used.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf bundlingAdaptiveActivated {
+      description "States whether adaptive bundling is applied. It is only applicable if bundlingActivated is set to true. According to traffic condition, SCTP bundles chunks by including multiple chunks in one outbound SCTP packet. True : Adaptive bundling is enabled. False : Adaptive bundling is disabled.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf bundlingTimer {
+      description "Maximum allowed bundling delay.; range 0..1000; Default value: 3.";
+      type uint16 {
+        range "0..1000";
+      }
+      default "3";
+      units "ms";
+    }
+    leaf cookieLife {
+      description "Valid cookie life. New value of attribute does not apply to associations that are already established.; range 1..180; Default value: 60.";
+      type uint8 {
+        range "1..180";
+      }
+      default "60";
+      units "s";
+    }
+    leaf dscp {
+      description "DSCP value.; range 0..63; Default value: 40.";
+      type eytypes:uint8_range_0-63;
+      default "40";
+    }
+    leaf endpointDependency {
+      description "Whether dependency of SCTP association on operational state for SCTP endpoint is activated. If true, SCTP associations are closed when SctpEndpoint::operationalState is DISABLED.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf hbMaxBurst {
+      description "HB.MaxBurst value. New value of attribute does not apply to associations that are already established.; range 0..4; Default value: 1.";
+      type uint32 {
+        range "0..4";
+      }
+      default "1";
+    }
+    leaf heartbeatActivated {
+      description "States whether heartbeat is activated. True: Activates heartbeats for SCTP endpoint. False: Disables heartbeats for SCTP endpoint.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf heartbeatInterval {
+      description "SCTP heartbeat interval.; range 10..1800000; Default value: 2000.";
+      type uint32 {
+        range "10..1800000";
+      }
+      default "2000";
+      units "ms";
+    }
+    leaf incCookieLife {
+      description "Allowed increment of parameter valid.Cookie.Life in local node. Applied when increase of parameter is requested from remote node. New value of attribute does not apply to associations that are already established.; range 0..180; Default value: 30.";
+      type uint8 {
+        range "0..180";
+      }
+      default "30";
+      units "s";
+    }
+    leaf initARWnd {
+      description "Value of maximum advertised window credit on all SCTP associations connected to this SCTP Profile, a_rwnd sent in INIT message. Use of existing value depends on implementation. Can be used for limiting peer maximum congestion window value. If value is increased, it applies to both existing and new associations. If value is decreased, it does not apply to associations that are already established.; range 1500..1048576; Default value: 16384.";
+      type uint32 {
+        range "1500..1048576";
+      }
+      default "16384";
+      units "bytes";
+    }
+    leaf initialHeartbeatInterval {
+      description "Period for acceptance of heartbeat acknowledge message during path probing. It limits intensity of heartbeats for path probing after association start-up.; range 10..1800000; Default value: 500.";
+      type uint32 {
+        range "10..1800000";
+      }
+      default "500";
+      units "ms";
+    }
+    leaf initRto {
+      description "RTO initial value. New value of attribute does not apply to associations that are already established.; range 10..120000; Default value: 200.";
+      type uint32 {
+        range "10..120000";
+      }
+      default "200";
+      units "ms";
+    }
+    leaf maxActivateThr {
+      description "Maximum number of consecutive successful heartbeats. Must be sent over Data Transfer Path (DTP) before switchback can be performed.; range 1..65535; Default value: 65535.";
+      type eytypes:uint16_range_1-65535;
+      default "65535";
+    }
+    leaf maxBurst {
+      description "Maximum number of burst packets.; range 1..16384; Default value: 4.";
+      type eytypes:uint16_range_1-16384;
+      default "4";
+    }
+    leaf maxInitRt {
+      description "Maximum number of retransmissions allowed for both INIT and COOKIE_ECHO chunks. New value of attribute does not apply to associations that are already established.; range 1..16; Default value: 8.";
+      type uint8 {
+        range "1..16";
+      }
+      default "8";
+    }
+    leaf maxInStreams {
+      description "Maximum number of inbound streams to negotiate for association. Change to this attribute does not affect existing associations. To apply new value, endpoint must be re-created.; range 1..16384; Default value: 2.";
+      type eytypes:uint16_range_1-16384;
+      default "2";
+    }
+    leaf maxOutStreams {
+      description "Maximum number of outbound streams to negotiate for association. Change to this attribute does not affect existing associations. To apply new value, endpoint must be re-created.; range 1..16384; Default value: 2.";
+      type eytypes:uint16_range_1-16384;
+      default "2";
+    }
+    leaf maxRto {
+      description "Maximum RTO.; range 11..120000; Default value: 400.";
+      type uint32 {
+        range "11..120000";
+      }
+      default "400";
+      units "ms";
+    }
+    leaf maxSctpPduSize {
+      description "Maximum size of SCTP PDU. This is equal to the size of IP MTU minus size of IP overhead. Default value means Path MTU discovery, according to RFC 4821. If default value is set in any of SctpProfile MO used by initialized SctpEndpoint MO, Path MTU Discovery is enabled in all SctpEndpoint MOs that belong to same virtual routing domain.; range 0..1480; Default value: 0.";
+      type uint16 {
+        range "0..1480";
+      }
+      default "0";
+      units "bytes";
+    }
+    leaf maxShutdownRt {
+      description "Maximum number of retransmissions during shutdown phase of association.; range 1..20; Default value: 5.";
+      type eytypes:uint8_range_1-20;
+      default "5";
+    }
+    leaf minActivateThr {
+      description "Minimum and initial number of consecutive successful heartbeats before switchback can be performed. Minimum and initial value for number of consecutive successful heartbeats that must be sent over preferred primary path before switchback can be performed.; range 1..65535; Default value: 1.";
+      type eytypes:uint16_range_1-65535;
+      default "1";
+    }
+    leaf minRto {
+      description "Minimum RTO.; range 10..5000; Default value: 100.";
+      type uint16 {
+        range "10..5000";
+      }
+      default "100";
+      units "ms";
+    }
+    leaf noSwitchback {
+      description "Recovery of failed Primary Path does not invoke change of current data transfer path. True: No switchback. False: Switchback.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf pathMaxRtx {
+      description "Maximum number of consecutive retransmissions on IP path. IP path is defined by pair of local and remote IP addresses.; range 1..20; Default value: 10.";
+      type eytypes:uint8_range_1-20;
+      default "10";
+    }
+    leaf primaryPathAvoidance {
+      description "Whether SCTP can avoid primary path usage when it did not work for latest transmission. True: Enable functionality. False: Disable functionality.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf primaryPathMaxRtx {
+      description "Maximum value of error counter of current primary path before switchover. In case of enabled Primary Path Avoidance (PPA), if error counter of primary path exceeds this value, SCTP chooses another current primary path.; range 0..20; Default value: 0.";
+      type uint8 {
+        range "0..20";
+      }
+      default "0";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf sackTimer {
+      description "Time delay for sending Selective Acknowledgement (SACK). Time is measured from receiving DATA chunk to sending SACK chunk.; range 0..500; Default value: 10.";
+      type uint16 {
+        range "0..500";
+      }
+      default "10";
+      units "ms";
+    }
+    leaf sctpProfileId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf thrTransmitBuffer {
+      description "Threshold of transmit buffer size. Upon exceeding this threshold user of SCTP will be asked to stop sending data. This condition will persist until occupancy of transmit buffer drops below thrTransmitBufferCongCeased * thrTransmitBuffer.; range 1..2048; Default value: 48.";
+      type uint16 {
+        range "1..2048";
+      }
+      default "48";
+      units "KB";
+    }
+    leaf thrTransmitBufferCongCeased {
+      description "Size of threshold of transmit buffer in percentage when congestion cease indication is sent. See also description of attribute thrTransmitBuffer.; range 1..100; Default value: 85.";
+      type uint8 {
+        range "1..100";
+      }
+      default "85";
+      units "percent";
+    }
+    leaf transmitBufferSize {
+      description "Size of buffer used for storing data pending to be sent or retransmitted in association.; range 1..2048; Default value: 64.";
+      type uint16 {
+        range "1..2048";
+      }
+      default "64";
+      units "KB";
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

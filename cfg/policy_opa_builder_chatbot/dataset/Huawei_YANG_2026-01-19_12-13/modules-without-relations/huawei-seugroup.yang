@@ -1,0 +1,64 @@
+module huawei-seugroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-seugroup";
+ prefix seugroup;
+ description
+ "Auto-generated modular YANG for huawei-seugroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping SEUGROUP-attributes {
+ leaf ACTCN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf ACTSN {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf ACTSRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf OLD_GROUPID {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf GROUPID {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf STBCN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf STBSN {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf STBSRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ }
+}

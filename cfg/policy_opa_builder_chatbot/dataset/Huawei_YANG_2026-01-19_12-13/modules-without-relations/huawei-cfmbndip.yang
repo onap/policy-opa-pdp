@@ -1,0 +1,94 @@
+module huawei-cfmbndip {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cfmbndip";
+ prefix cfmbndip;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-cfmbndip" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container cfmbndip-ipv4 {
+  container attributes {
+   uses CFMBNDIP-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping CFMBNDIP-attributes {
+ leaf OLD_BNDIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf BNDIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf OLD_MANAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MANAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf OLD_MDNAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MDNAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf OLD_RMEPID {
+  type union {
+   type int16 {
+    range "-1..8191";
+   }
+  }
+  mandatory false;
+ }
+ leaf RMEPID {
+  type union {
+   type int16 {
+    range "-1..8191";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_VRFIDX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,99 @@
+module ericsson-external-node-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqExternalNode";
+  prefix exndrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list ExternalNode {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; MO ExternalNode in a node represents an external node sharing resources (climate, power and external alarm hardware) with it and possibly other external nodes. A node here is understood as node with ManagedElement as top MO. Where the node acts in a primary role: - ExternalNode MO instances represent every external secondary role node. - Number of ExternalNode MOs must match number of external nodes. - Child MO EcPort is used to configure the termination point for inter-node communication. (Has no function for non-EcBus inter-node communication) - Attribute inciConnectorRef points to termination point for the inter-node communication. - Attribute equipmentSupportFunctionRef points to an EquipmentSupportFunction MO instance that correlates the ExternalNode to belong to a primary role node. Where the node acts in a secondary role: - ExternalNode MO instances represent external neighbouring primary and secondary role node(s). - MO ExternalNode is optional in case of inter-node communication over the EC-bus. - Child MO EcPort has no function. - Attribute inciConnectorRef points to termination point for the inter-node communication. - Attribute equipmentSupportFunctionRef points to an EquipmentSupportFunction MO instance that correlate the ExternalNode MO to belong to a secondary role node.";
+      key "externalNodeId";
+      leaf externalNodeId {
+        type leafref {
+          path "../attributes/externalNodeId";
+        }
+      }
+      container attributes {
+        uses ExternalNode-attributes;
+      }
+    }
+  }
+  typedef ApcRadioAccessTechnology {
+    type enumeration {
+      enum NOT_AVAILABLE;
+      enum GSM;
+      enum WCDMA;
+      enum LTE;
+      enum MULTI_STANDARD;
+      enum TRANSMISSION;
+    }
+  }
+  typedef ApcSupportSystemControl {
+    type enumeration {
+      enum FALSE;
+      enum TRUE;
+      enum NOT_AVAILABLE;
+    }
+  }
+  grouping ExternalNode-attributes {
+    leaf externalNodeId {
+      type string;
+      mandatory true;
+    }
+    leaf radioAccessTechnology {
+      type enumeration {
+        enum NOT_AVAILABLE;
+        enum GSM;
+        enum WCDMA;
+        enum LTE;
+        enum MULTI_STANDARD;
+        enum TRANSMISSION;
+      }
+      config false;
+    }
+    leaf supportSystemControl {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf logicalName {
+      type string {
+        length "1..255";
+      }
+      config false;
+      description "length 1..255.";
+    }
+    leaf informationOnly {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf fullDistinguishedName {
+      type string {
+        length "1..255";
+      }
+      config false;
+      description "length 1..255.";
+    }
+    leaf equipmentSupportFunctionRef {
+      type ietfinet:ip-address;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf inciConnectorRef {
+      type string;
+    }
+  }
+}

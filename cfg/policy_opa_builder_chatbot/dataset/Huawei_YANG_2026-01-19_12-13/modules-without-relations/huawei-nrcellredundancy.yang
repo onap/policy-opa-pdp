@@ -1,0 +1,26 @@
+module huawei-nrcellredundancy {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrcellredundancy";
+ prefix nrcellredundancy;
+ description
+ "Auto-generated modular YANG for huawei-nrcellredundancy" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRCELLREDUNDANCY-attributes {
+ leaf NRCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf PEERNRCELLID {
+  type uint16 {
+   range "0..65534";
+  }
+  mandatory false;
+ }
+ }
+}

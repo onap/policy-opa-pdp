@@ -1,0 +1,28 @@
+module huawei-gnblicensealmthld {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnblicensealmthld";
+ prefix gnblicensealmthld;
+ description
+ "Auto-generated modular YANG for huawei-gnblicensealmthld" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBLICENSEALMTHLD-attributes {
+ leaf ALARMCHKPERIOD {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf ALARMGENERATETHLD {
+  type uint8 {
+   range "50..100";
+  }
+  mandatory false;
+ }
+ leaf LICENSECHKSW {
+  type string;
+  mandatory false;
+ }
+ }
+}

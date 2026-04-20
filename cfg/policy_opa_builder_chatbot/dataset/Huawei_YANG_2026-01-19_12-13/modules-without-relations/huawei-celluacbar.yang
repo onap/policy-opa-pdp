@@ -1,0 +1,54 @@
+module huawei-celluacbar {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-celluacbar";
+ prefix celluacbar;
+ description
+ "Auto-generated modular YANG for huawei-celluacbar" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLUACBAR-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_ACCESSCATEGORY {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf ACCESSCATEGORY {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf ACCESSCONTROLPARAMGRPID {
+  type uint8 {
+   range "0..127";
+  }
+  mandatory false;
+ }
+ leaf OLD_LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

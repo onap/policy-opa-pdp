@@ -1,0 +1,30 @@
+module huawei-op {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-op";
+ prefix op;
+ description
+ "Auto-generated modular YANG for huawei-op" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping OP-attributes {
+ leaf IDLEDISABLESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf IDLEPERIOD {
+  type uint16 {
+   range "1..365";
+  }
+  mandatory false;
+ }
+ leaf LOCKST {
+  type boolean;
+  mandatory false;
+ }
+ leaf SWOP {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

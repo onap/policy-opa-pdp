@@ -1,0 +1,40 @@
+module ericsson-open-lls-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqOpenLls";
+  prefix ollsrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list OpenLls {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Created for observability when parent FieldReplaceableUnit instance is using Open Lower-Layer Split as fronthaul functional split. Deleted at node restart. The RDN of this MO is OpenLls=1.";
+      key "openLlsId";
+      leaf openLlsId {
+        type leafref {
+          path "../attributes/openLlsId";
+        }
+      }
+      container attributes {
+      uses OpenLls-attributes;
+      }
+    }
+  }
+  grouping OpenLls-attributes {
+    leaf openLlsId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+}

@@ -1,0 +1,3051 @@
+module ericsson-gnbcuup-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:GNBCUUP";
+  prefix gnbcuup;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIt contains the GNBCUUPFunction.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement" {
+    list GNBCUUPFunction {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Representation of GNBCUUP function. Maximum number of instances is one.";
+      key "gNBCUUPFunctionId";
+      leaf gNBCUUPFunctionId {
+        type leafref {
+          path "../attributes/gNBCUUPFunctionId";
+        }
+      }
+      container attributes {
+      uses GNBCUUPFunction-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:CUUP5qiTable" {
+    list CUUP5qi {
+      description "Additional definitions from MOM:min/max-elements:1/29; QoS configuration for each 5QI profile. Each profile can be present once in each table.";
+      key "cUUP5qiId";
+      leaf cUUP5qiId {
+        type leafref {
+          path "../attributes/cUUP5qiId";
+        }
+      }
+      container attributes {
+      uses CUUP5qi-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:DataPacketGenerator" {
+    list DataPacketGeneratorUeCfg {
+      description "Additional definitions from MOM:min/max-elements:0/1; Configuration of Downlink Throughput Test in gNodeB feature for UE groups. The RDN of this MO must be DataPacketGeneratorUeCfg=1.";
+      key "dataPacketGeneratorUeCfgId";
+      leaf dataPacketGeneratorUeCfgId {
+        type leafref {
+          path "../attributes/dataPacketGeneratorUeCfgId";
+        }
+      }
+      container attributes {
+      uses DataPacketGeneratorUeCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC/gnbcuup:Drb" {
+    list DrbUeCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; Configuration of data radio bearer UE profile for UE groups. Instance DrbUeCfg=Base is created automatically when parent MO instance is created, unless created manually in same transaction. Each UE configuration group identifier can only be defined in one ueConfGroupList among DrbUeCfg instances contained under same parent Drb instance. Any combination of one UE group identifier in ueGroupList and one preference UE group identifier in prefUeGroupList must be unique among DrbUeCfg instances contained under parent Drb instance. Attributes prefUeGroupList, ueGroupList and ueConfGroupList must be empty in instance DrbUeCfg=Base but cannot all be empty in any other instance of DrbUeCfg under same parent Drb instance. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. Precondition: Instance DrbUeCfg=Base can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 7 DrbUeCfg instances, with RDN different from Base, can be created under same parent MO instance. To be able to create an instance, the total number of instances, including all auto created instances, must be less than the total allowed number of instances under a UeCC instance that is 32.";
+      key "drbUeCfgId";
+      leaf drbUeCfgId {
+        type leafref {
+          path "../attributes/drbUeCfgId";
+        }
+      }
+      container attributes {
+      uses DrbUeCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:EndpointResource" {
+    list LocalIpEndpoint {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Local transport network endpoint for user plane interface. E1 control plane uses TCP, hence this interface is also configured by this class.";
+      key "localIpEndpointId";
+      leaf localIpEndpointId {
+        type leafref {
+          path "../attributes/localIpEndpointId";
+        }
+      }
+      container attributes {
+      uses LocalIpEndpoint-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:EndpointResource" {
+    list LocalIPsecEndpoint {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Local transport network endpoint for interfaces using direct IPsec VPN connection with X2 neighbor.";
+      key "localIPsecEndpointId";
+      leaf localIPsecEndpointId {
+        type leafref {
+          path "../attributes/localIPsecEndpointId";
+        }
+      }
+      container attributes {
+      uses LocalIPsecEndpoint-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list CardinalityLimits {
+      description "Additional definitions from MOM:min/max-elements:0/1; Cardinality limits for current deployment. Listed cardinality limits is maximum number of MO instances that can be created. Instance CardinalityLimits=1 is created automatically on RAN Compute group 4 and 5 when parent MO instance is created, unless created manually in same transaction. Not applicable to RAN Compute group 6 and higher. The RDN of this MO must be CardinalityLimits=1. Precondition: Instance CardinalityLimits=1 can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted.";
+      key "cardinalityLimitsId";
+      leaf cardinalityLimitsId {
+        type leafref {
+          path "../attributes/cardinalityLimitsId";
+        }
+      }
+      container attributes {
+      uses CardinalityLimits-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list CUUP5qiTable {
+      description "Additional definitions from MOM:min/max-elements:0/36; Mapping from 5G QoS Identifier to parameters that have impact on QoS. At least one CUUP5qi instance must be created in same transaction when a CUUP5qiTable is created.";
+      key "cUUP5qiTableId";
+      leaf cUUP5qiTableId {
+        type leafref {
+          path "../attributes/cUUP5qiTableId";
+        }
+      }
+      container attributes {
+      uses CUUP5qiTable-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list DataPacketGenerator {
+      description "Additional definitions from MOM:min/max-elements:0/1; Configuration parameters for downlink data packet test generator. Only applicable if license for Downlink Throughput Test in gNodeB is present and feature is active. The RDN of this MO must be DataPacketGenerator=1.";
+      key "dataPacketGeneratorId";
+      leaf dataPacketGeneratorId {
+        type leafref {
+          path "../attributes/dataPacketGeneratorId";
+        }
+      }
+      container attributes {
+      uses DataPacketGenerator-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list EndpointResource {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Transport network endpoints for RAN interfaces. Configuration is valid for an entity that refers to an instance of this MO.";
+      key "endpointResourceId";
+      leaf endpointResourceId {
+        type leafref {
+          path "../attributes/endpointResourceId";
+        }
+      }
+      container attributes {
+      uses EndpointResource-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list EP_NgU {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; NG link UPF termination point. Created when NgU link is established. Deleted when NgU link is released. The RDN of this MO is EP_NgU=[Local Ip Address]_[Remote Ip Address]. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "eP_NgUId";
+      leaf eP_NgUId {
+        type leafref {
+          path "../attributes/eP_NgUId";
+        }
+      }
+      container attributes {
+      uses EP_NgU-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list EP_XnU {
+      description "Additional definitions from MOM:min/max-elements:0/512;systemCreated; Xn link CUUP termination point. Created when XnU link is established. Deleted when XnU link is released. The RDN of this MO is EP_XnU=[Local Ip Address]_[Remote Ip Address]. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "eP_XnUId";
+      leaf eP_XnUId {
+        type leafref {
+          path "../attributes/eP_XnUId";
+        }
+      }
+      container attributes {
+      uses EP_XnU-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list GtpuSupervision {
+      description "Additional definitions from MOM:min/max-elements:0/1; GTP-U path supervision towards external nodes. The RDN of this MO must be GtpuSupervision=1.";
+      key "gtpuSupervisionId";
+      leaf gtpuSupervisionId {
+        type leafref {
+          path "../attributes/gtpuSupervisionId";
+        }
+      }
+      container attributes {
+      uses GtpuSupervision-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list PpControlTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Local termination point of packet processing control interface. Created when first packet processing control link is established. Deleted at node restart. The RDN of this MO is PpControlTermination=1. Length of RDN value is 1 character. Instance can be created without a preceding user-initiated transaction.";
+      key "ppControlTerminationId";
+      leaf ppControlTerminationId {
+        type leafref {
+          path "../attributes/ppControlTerminationId";
+        }
+      }
+      container attributes {
+      uses PpControlTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list ResourcePartitions {
+      description "Additional definitions from MOM:min/max-elements:0/1; Set of resource partitions.";
+      key "resourcePartitionsId";
+      leaf resourcePartitionsId {
+        type leafref {
+          path "../attributes/resourcePartitionsId";
+        }
+      }
+      container attributes {
+      uses ResourcePartitions-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list RpUserPlaneTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Local termination point of radio processing user plane interface. Created when first RpUserPlaneLink instance is created. Deleted at node restart. The RDN of this MO is RpUserPlaneTermination=1. Length of RDN value is 1 character. Instance can be created without a preceding user-initiated transaction.";
+      key "rpUserPlaneTerminationId";
+      leaf rpUserPlaneTerminationId {
+        type leafref {
+          path "../attributes/rpUserPlaneTerminationId";
+        }
+      }
+      container attributes {
+      uses RpUserPlaneTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list S1UTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Contains information about S1 user plane. Created when first S1ULink instance is created. Deleted at node restart. The RDN of this MO is S1UTermination=1. Length of RDN value is 1 character. Instance can be created without a preceding user-initiated transaction.";
+      key "s1UTerminationId";
+      leaf s1UTerminationId {
+        type leafref {
+          path "../attributes/s1UTerminationId";
+        }
+      }
+      container attributes {
+      uses S1UTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list UeCC {
+      description "Additional definitions from MOM:min/max-elements:0/1; Container class for UE Connection Control (UeCC) attributes and UeCC profile classes. Instance UeCC=1 is created automatically when parent MO instance is created, unless created manually in same transaction. The RDN of this MO must be UeCC=1. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. Precondition: Instance UeCC=1 can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted.";
+      key "ueCCId";
+      leaf ueCCId {
+        type leafref {
+          path "../attributes/ueCCId";
+        }
+      }
+      container attributes {
+      uses UeCC-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction" {
+    list X2UTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; X2 user plane termination. Created when first X2ULink instance is created. Deleted at node restart. The RDN of this MO is X2UTermination=1. Length of RDN value is 1 character. Instance can be created without a preceding user-initiated transaction.";
+      key "x2UTerminationId";
+      leaf x2UTerminationId {
+        type leafref {
+          path "../attributes/x2UTerminationId";
+        }
+      }
+      container attributes {
+      uses X2UTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:GtpuSupervision" {
+    list GtpuSupervisionProfile {
+      description "Additional definitions from MOM:min/max-elements:0/64; GTP-U path supervision profile.";
+      key "gtpuSupervisionProfileId";
+      leaf gtpuSupervisionProfileId {
+        type leafref {
+          path "../attributes/gtpuSupervisionProfileId";
+        }
+      }
+      container attributes {
+      uses GtpuSupervisionProfile-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:PpControlTermination" {
+    list PpControlLink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Control link for packet processing interface. Created when packet processing control link is established. Deleted when packet processing control link is released. The RDN of this MO is PpControlLink=[Local Ip Address]_[Remote Ip Address] when E1 is external. The RDN of this MO is PpControlLink=internal when E1 is internal. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "ppControlLinkId";
+      leaf ppControlLinkId {
+        type leafref {
+          path "../attributes/ppControlLinkId";
+        }
+      }
+      container attributes {
+      uses PpControlLink-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:ResourcePartitions/gnbcuup:ResourcePartition" {
+    list ResourcePartitionMember {
+      description "Additional definitions from MOM:min/max-elements:0/36; Set of member information of resource partition.";
+      key "resourcePartitionMemberId";
+      leaf resourcePartitionMemberId {
+        type leafref {
+          path "../attributes/resourcePartitionMemberId";
+        }
+      }
+      container attributes {
+      uses ResourcePartitionMember-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:ResourcePartitions" {
+    list ResourcePartition {
+      description "Additional definitions from MOM:min/max-elements:0/36; Combination of attributes specifying in which resource partition a UE is included.";
+      key "resourcePartitionId";
+      leaf resourcePartitionId {
+        type leafref {
+          path "../attributes/resourcePartitionId";
+        }
+      }
+      container attributes {
+      uses ResourcePartition-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:RpUserPlaneTermination" {
+    list RpUserPlaneLink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; User plane link for radio processing interface. Created when radio processing user plane link is established. Deleted when radio processing user plane link is released. The RDN of this MO is RpUserPlaneLink=[Local Ip Address]_[Remote Ip Address] when E1 is external. The RDN of this MO is RpUserPlaneLink=internal when E1 is internal. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "rpUserPlaneLinkId";
+      leaf rpUserPlaneLinkId {
+        type leafref {
+          path "../attributes/rpUserPlaneLinkId";
+        }
+      }
+      container attributes {
+      uses RpUserPlaneLink-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:S1UTermination" {
+    list S1ULink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Contains information about S1 user plane link between CUUP and SGW. Created when S1U link is established. Deleted when S1U link is released. The RDN of this MO is S1ULink=[Local Ip Address]_[Remote Ip Address]. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "s1ULinkId";
+      leaf s1ULinkId {
+        type leafref {
+          path "../attributes/s1ULinkId";
+        }
+      }
+      container attributes {
+      uses S1ULink-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC" {
+    list AqmCfg {
+      description "Additional definitions from MOM:min/max-elements:0/32; Automatic queue management configuration selection profile. Instances AqmCfg=Default_application_signaling, Default_conversational_media, and Default_other are created automatically when parent MO instance is created, unless created manually in same transaction. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. Precondition: Instances AqmCfg=Default_application_signaling, Default_conversational_media, and Default_other can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 29 AqmCfg instances, with RDN different from Default_application_signaling, Default_conversational_media, or Default_other can be created under same parent MO instance.";
+      key "aqmCfgId";
+      leaf aqmCfgId {
+        type leafref {
+          path "../attributes/aqmCfgId";
+        }
+      }
+      container attributes {
+      uses AqmCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC" {
+    list DcDlCfg {
+      description "Additional definitions from MOM:min/max-elements:0/32; Dual-connectivity downlink configuration profile. Instance DcDlCfg=Default is created automatically when parent MO instance is created, unless created manually in same transaction. DrbUeCfg::dcDlCfgRef is automatically set to DcDlCfg=Default instance, unless manually set to refer to another MO instance. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. Precondition: Instance DcDlCfg=Default can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 31 DcDlCfg instances, with RDN different from Default, can be created under same parent MO instance.";
+      key "dcDlCfgId";
+      leaf dcDlCfgId {
+        type leafref {
+          path "../attributes/dcDlCfgId";
+        }
+      }
+      container attributes {
+      uses DcDlCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC" {
+    list DcUlCfg {
+      description "Additional definitions from MOM:min/max-elements:0/32; Dual connectivity uplink configuration profile. Instance DcUlCfg=Default is created automatically when parent MO instance is created, unless created manually in same transaction. DrbUeCfg::dcUlCfgRef is automatically set to DcUlCfg=Default instance, unless manually set to refer to another MO instance. Applicable to RAN Compute groups 4 and 5. Precondition: Instance DcUlCfg=Default can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted in same transaction. Other instances can be created and deleted at any time. Maximum 31 DcUlCfg instances, with RDN different from Default, can be created under same parent MO instance.";
+      key "dcUlCfgId";
+      leaf dcUlCfgId {
+        type leafref {
+          path "../attributes/dcUlCfgId";
+        }
+      }
+      container attributes {
+      uses DcUlCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC" {
+    list Drb {
+      description "Additional definitions from MOM:min/max-elements:0/32; Data radio bearer profile. Instances Drb=Default_application_signaling, Default_conversational_media, and Default_other are created automatically when parent MO instance is created, unless created manually in same transaction. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. Precondition: Instances Drb=Default_application_signaling, Default_conversational_media, and Default_other can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 29 Drb instances, with RDN different from Default_application_signaling, Default_conversational_media, or Default_other can be created under same parent MO instance. When creating an instance, there must be room for a child instance DrbUeCfg=Base without exceeding the total amount of allowed DrbUeCfg instances 32.";
+      key "drbId";
+      leaf drbId {
+        type leafref {
+          path "../attributes/drbId";
+        }
+      }
+      container attributes {
+      uses Drb-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC" {
+    list L4sCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; Container for L4S configuration attributes. Only applicable if license for DL RAN Assisted Rate Adaptation is present and feature is active.";
+      key "l4sCfgId";
+      leaf l4sCfgId {
+        type leafref {
+          path "../attributes/l4sCfgId";
+        }
+      }
+      container attributes {
+      uses L4sCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC" {
+    list UserPlaneProfile {
+      description "Additional definitions from MOM:min/max-elements:0/8; User plane profile. Instance UserPlaneProfile=Default is created automatically when parent MO instance is created, unless created manually in same transaction. When GNBCUUPFunction::altDepHServAdapUPProfEnabled is true, following attributes are used: - CUUP5qi::drbRef - UserPlaneProfile::ueConfGroupType - UserPlaneProfileUeCfg::prefUeGroupList - UserPlaneProfileUeCfg::ueGroupList - UserPlaneProfileUeCfg::ueConfGroupList - UserPlaneProfileUeCfg::dlPdcpMcgSpsTargetTime - UserPlaneProfileUeCfg::dlPdcpScgSpsTargetTime - UserPlaneProfileUeCfg::dlPdcpScgRetProhibitTime - UserPlaneProfileUeCfg::dcDlAggCgPrio - UserPlaneProfileUeCfg::dcDlAggAgeDiffThresh - UserPlaneProfileUeCfg::dcDlAggAgeDiffProhibitTime - UserPlaneProfileUeCfg::dcDlAggAgeDiffPreferredCg - UserPlaneProfileUeCfg::dlPdcpPreferredCg - UserPlaneProfileUeCfg::dcDlAggActTime - UserPlaneProfileUeCfg::dcDlAggExpiryTimer - UserPlaneProfileUeCfg::dlPdcpMcgInitialRate - UserPlaneProfileUeCfg::dlPdcpScgInitialRate - UserPlaneProfileUeCfg::dcDlAggMcgDrxWakeupTime - UserPlaneProfileUeCfg::dcDlAggScgDrxWakeupTime - Drb::ueConfGroupType - DrbUeCfg::ueGroupList - DrbUeCfg::ueConfGroupList - DrbUeCfg::prefUeGroupList - DrbUeCfg::aqmCfgRef - DrbUeCfg::dcDlCfgRef - DrbUeCfg::l4sCfgRef - AqmCfg::aqmMode - AqmCfg::estimatedE2ERTT - AqmCfg::tDiscardDl - AqmCfg::tOooUlDelivery - DcDlCfg::dcDlAggAllowed - DcDlCfg::dlPdcpPreferredCgOverride - DcDlCfg::dcDlAggCgPrioOverride Precondition: Instance UserPlaneProfile=Default can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 7 UserPlaneProfile instances, with RDN different from Default, can be created under parent MO instance.";
+      key "userPlaneProfileId";
+      leaf userPlaneProfileId {
+        type leafref {
+          path "../attributes/userPlaneProfileId";
+        }
+      }
+      container attributes {
+      uses UserPlaneProfile-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC" {
+    list UserPlaneProfileCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; User plane profile configuration group. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. If UserPlaneProfileUeCfg::userPlaneProfileCfgRef is non-empty, attributes from referenced MO instance are used. If UserPlaneProfileUeCfg::userPlaneProfileCfgRef is empty, attributes according to UserPlaneProfileUeCfg MO class definition are used.";
+      key "userPlaneProfileCfgId";
+      leaf userPlaneProfileCfgId {
+        type leafref {
+          path "../attributes/userPlaneProfileCfgId";
+        }
+      }
+      container attributes {
+      uses UserPlaneProfileCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC" {
+    list UserPlaneProfileCgCat {
+      description "Additional definitions from MOM:min/max-elements:0/1; User plane profile cell group category. Instance UserPlaneProfileCgCat=1 is created automatically when parent MO instance is created, unless created manually in same transaction. The RDN of this MO must be UserPlaneProfileCgCat=1. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. Precondition: Instance UserPlaneProfileCgCat=1 can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted.";
+      key "userPlaneProfileCgCatId";
+      leaf userPlaneProfileCgCatId {
+        type leafref {
+          path "../attributes/userPlaneProfileCgCatId";
+        }
+      }
+      container attributes {
+      uses UserPlaneProfileCgCat-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC/gnbcuup:UserPlaneProfile" {
+    list UserPlaneProfileUeCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; User plane profile for UE configuration group. Instance UserPlaneProfileUeCfg=Base is created automatically when parent MO instance is created, unless created manually in same transaction. Each UE configuration group identifier can only be defined in one ueConfGroupList among UserPlaneProfileUeCfg instances contained under parent UserPlaneProfile instance. Any combination of one UE group identifier in ueGroupList and one preference UE group identifier in prefUeGroupList must be unique among UserPlaneProfileUeCfg instances contained under parent UserPlaneProfile instance. Attributes prefUeGroupList, ueGroupList and ueConfGroupList must be empty in instance UserPlaneProfileUeCfg=Base but cannot all be empty in any other instance of UserPlaneProfileUeCfg under same parent UserPlaneProfile instance. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. Precondition: Instance UserPlaneProfileUeCfg=Base can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 7 UserPlaneProfileUeCfg instances, with RDN different from Base, can be created under parent MO instance.";
+      key "userPlaneProfileUeCfgId";
+      leaf userPlaneProfileUeCfgId {
+        type leafref {
+          path "../attributes/userPlaneProfileUeCfgId";
+        }
+      }
+      container attributes {
+      uses UserPlaneProfileUeCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:UeCC/gnbcuup:UserPlaneProfileCgCat" {
+    list UserPlaneProfileCgCatCfg {
+      description "Additional definitions from MOM:min/max-elements:0/8; User plane profile cell group category configuration group. Instance UserPlaneProfileCgCatCfg=Default is created automatically when parent MO instance is created, unless created manually in same transaction. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true. Precondition: Instance UserPlaneProfileCgCatCfg=Default can only be created in same transaction as parent MO instance and cannot be deleted unless parent MO instance is deleted. Other instances can be created and deleted at any time. Maximum 7 UserPlaneProfileCgCatCfg instances, with RDN different from Default, can be created under parent MO instance.";
+      key "userPlaneProfileCgCatCfgId";
+      leaf userPlaneProfileCgCatCfgId {
+        type leafref {
+          path "../attributes/userPlaneProfileCgCatCfgId";
+        }
+      }
+      container attributes {
+      uses UserPlaneProfileCgCatCfg-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/gnbcuup:GNBCUUPFunction/gnbcuup:X2UTermination" {
+    list X2ULink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; X2 user plane link. Created when X2U link is established. Deleted when X2U link is released. The RDN of this MO is X2ULink=[Local Ip Address]_[Remote Ip Address]. Length of RDN value is up to 79 characters. Instance can be created without a preceding user-initiated transaction.";
+      key "x2ULinkId";
+      leaf x2ULinkId {
+        type leafref {
+          path "../attributes/x2ULinkId";
+        }
+      }
+      container attributes {
+      uses X2ULink-attributes;
+      }
+    }
+  }
+  typedef AqmMode {
+    description "AQM mode.";
+    type enumeration {
+      enum OFF {
+        description "Turned off.";
+      }
+      enum MODE1 {
+        description "Non-GBR.";
+      }
+      enum MODE2 {
+        description "GBR.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef DcDlAggCgPrio {
+    description "Cell group priority for data when downlink PDCP aggregation is active.";
+    type enumeration {
+      enum MCG_PRIO {
+        description "Main cell group is prioritized for data.";
+      }
+      enum SCG_PRIO {
+        description "Secondary cell group is prioritized for data.";
+      }
+      enum EQUAL_PRIO {
+        description "Both cell groups have equal priority for data.";
+      }
+    }
+  }
+  typedef DcDlPdcpAggrPrioCg {
+    description "Prioritized cell group during active PDCP DL aggregation.";
+    type enumeration {
+      enum NO_AGGREGATION {
+        description "No PDCP DL aggregation is performed.";
+      }
+      enum MCG_PRIO {
+        description "MCG is prioritized during PDCP DL aggregation.";
+      }
+      enum SCG_PRIO {
+        description "SCG is prioritized during PDCP DL aggregation.";
+      }
+      enum EQUAL_PRIO {
+        description "Cell group with largest demand for transmission is prioritized during PDCP DL aggregation.";
+      }
+    }
+  }
+  typedef DcDlPdcpAggrTimeDiffCg {
+    description "Cell group used at suspension of PDCP DL aggregation.";
+    type enumeration {
+      enum MCG {
+        description "MCG is used at suspension of PDCP DL aggregation.";
+      }
+      enum SCG {
+        description "SCG is used at suspension of PDCP DL aggregation.";
+      }
+      enum YOUNGEST_CG {
+        description "Cell group with youngest not yet delivered PDCP PDU is used at suspension of PDCP DL aggregation.";
+      }
+    }
+  }
+  typedef DlPdcpPreferredCg {
+    description "Preferred cell group for downlink data traffic when dual connectivity is configured.";
+    type enumeration {
+      enum MCG {
+        description "MCG is preferred for downlink traffic.";
+      }
+      enum SCG {
+        description "SCG is preferred for downlink traffic.";
+      }
+      enum KEEP_SCG {
+        description "SCG is preferred for downlink traffic even when SCG downlink coverage level is low.";
+      }
+    }
+  }
+  typedef InterfaceName {
+    description "RAN interfaces.";
+    type enumeration {
+      enum C5 {
+        description "C5 for user plane.";
+      }
+      enum E1 {
+        description "E1 for control and user plane.";
+      }
+      enum E6 {
+        description "E6 for control plane.";
+      }
+      enum F1 {
+        description "F1 for control and user plane.";
+      }
+      enum NG {
+        description "NG for control and user plane.";
+      }
+      enum S1 {
+        description "S1 for user plane.";
+      }
+      enum XN {
+        description "Xn for control and user plane.";
+      }
+      enum X2 {
+        description "X2 for control and user plane.";
+      }
+    }
+  }
+  typedef L4sMode {
+    description "L4S mode.";
+    type enumeration {
+      enum DISABLED {
+        description "L4S is disabled.";
+      }
+      enum QUEUE_BASED {
+        description "Queue-based L4S algorithm is used.";
+      }
+    }
+  }
+  typedef MonitoringStatusType {
+    description "GTP-U echo path monitoring activity status.";
+    type enumeration {
+      enum INACTIVE {
+        description "GTP-U Path monitoring is disabled.";
+      }
+      enum ACTIVE {
+        description "GTP-U Path monitoring is enabled.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef PathStatusType {
+    description "GTP-U path status.";
+    type enumeration {
+      enum UNKNOWN {
+        description "Peer status is unknown.";
+      }
+      enum REACHABLE {
+        description "Peer reachable, responds to GTP-U echo requests.";
+      }
+      enum UNREACHABLE {
+        description "Peer unreachable, does not respond to GTP-U echo requests.";
+      }
+    }
+  }
+  typedef RedundancyMode {
+    description "Redundancy mode for user plane interface.";
+    type enumeration {
+      enum NORMAL {
+        description "User plane interface not used in redundancy mode.";
+      }
+      enum BACKUP_IP {
+        description "User plane interface used in backup mode.";
+      }
+    }
+  }
+  typedef UeConfGroupType {
+    description "UE configuration group type.";
+    type enumeration {
+      enum UE_MOBILITY_GROUP {
+        description "UE mobility group. Defined by UeMobilityGroupDefinition MO class.";
+      }
+      enum UE_SERVICE_GROUP {
+        description "UE service group. Defined by UeServiceGroupDefinition MO class.";
+      }
+      enum UE_ADMISSION_GROUP {
+        description "UE admission group. Defined by UeAdmissionGroupDefinition MO class.";
+      }
+    }
+  }
+  typedef UlPrimaryPathMode {
+    description "Whether MCG or SCG is used at SCG uplink quality change.";
+    type enumeration {
+      enum MCG {
+        description "MCG is used as uplink primary path.";
+      }
+      enum SCG {
+        description "SCG is preferred as uplink primary path. Used as uplink primary path in good radio conditions. Otherwise, MCG is used as uplink primary path.";
+      }
+      enum KEEP_SCG {
+        description "SCG is kept as uplink primary path. Used as uplink primary path in good radio conditions and in low quality conditions.";
+      }
+    }
+  }
+  grouping PLMNId-struct {
+    description "PLMN Identity consisting of Mobile Country Code (MCC) and Mobile Network Code (MNC).";
+    leaf mcc {
+      description "length 3..3.";
+      type string {
+        length "3";
+        pattern "[02345679][0-9][0-9]";
+      }
+    }
+    leaf mnc {
+      description "length 2..3.";
+      type string {
+        length "2..3";
+        pattern "(([0-9][0-9][0-9])|([0-9][0-9]))";
+      }
+    }
+  }
+  grouping SliceSelectionAssistInfo-struct {
+    description "Single Network Slice Selection Assistance Information (S-NSSAI).";
+    leaf sd {
+      description "range 0..16777215.";
+      type eytypes:int32_range_0-16777215;
+    }
+    leaf sst {
+      description "range 0..255.";
+      type eytypes:int32_range_0-255;
+    }
+  }
+  grouping AqmCfg-attributes {
+    leaf aqmCfgId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf aqmMode {
+      description "Active Queue Management mode. If CUUP5qi::profile5qi is 1, 65, or 66, recommendation is MODE2. If CUUP5qi::profile5qi is 5 or 69, recommendation is OFF. If CUUP5qi::profile5qi is anything else, recommendation is MODE1..";
+      type enumeration {
+        enum OFF;
+        enum MODE1;
+        enum MODE2;
+      }
+    }
+    leaf estimatedE2ERTT {
+      description "Estimated end-to-end Round-Trip Time (RTT). Only applicable when aqmMode is set to MODE1.; range 0..1023; Default value: 50.";
+      type eytypes:int32_range_0-1023;
+      default "50";
+      units "ms";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf tDiscardDl {
+      description "Packet age threshold for downlink packet discard. Downlink packets older than threshold are discarded. Only applicable when aqmMode is set to MODE2.; range 0..2046; Default value: 200.";
+      type int32 {
+        range "0..2046";
+      }
+      default "200";
+      units "ms";
+    }
+    leaf tOooUlDelivery {
+      description "Extension period when receiving out-of-order packets is allowed. Extension period is added after CUCP5qi::tReorderingUl in PDCP expires. When timer expires, PDCP reception window is moved forward and remaining arriving packets are discarded. Therefore, packets that arrive within CUCP5qi::tReorderingUl plus this value can be delivered to upper layers. Different values are set based on purpose of optimization and bearer type.; Default value: 150.";
+      type int32 {
+        range "0 | 10 | 20 | 30 | 40 | 50 | 60 | 75 | 100 | 150 | 200 | 250 | 300 | 500 | 750 | 1500";
+      }
+      default "150";
+      units "ms";
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping CardinalityLimits-attributes {
+    leaf cardinalityLimitsId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf maxNgUPath {
+      description "Maximum number of created EP_NgU instances. Not applicable to RAN Compute group 6 and higher.; range 0..1800; Default value: 600.";
+      type int32 {
+        range "0..1800";
+      }
+      default "600";
+    }
+    leaf maxS1UPath {
+      description "Maximum number of created S1ULink instances. Not applicable to RAN Compute group 6 and higher.; range 0..1800; Default value: 600.";
+      type int32 {
+        range "0..1800";
+      }
+      default "600";
+    }
+  }
+  grouping CUUP5qi-attributes {
+    leaf aqmMode {
+      description "AQM mode. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; Default value: MODE1; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type enumeration {
+        enum OFF;
+        enum MODE1;
+        enum MODE2;
+      }
+      status deprecated;
+      default "MODE1";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf counterActiveMode {
+      description "In-session activity handling. If false, DRB is labeled as bursty. Active session time is measured for each DRB after data is transferred in uplink or downlink. Session time measurement continues with added guard period of 100 ms. Bursty DRBs are labeled as released in session if any data is transferred during last 100 ms. If true, DRB is labeled as continuous. Active time is measured for each DRB from first uplink or downlink data transmission until 100 ms after last data transmission. Continuous DRBs are labeled as released in session after transmission of first packet of data and afterwards. Only applicable to standalone DRBs. Default value is false, which is applicable to all non-standalone DRBs.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf cUUP5qiId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf dcDlPdcpAggrPrioCg {
+      description "Prioritized cell group during active PDCP downlink aggregation. Prioritized cell group for transmission during active PDCP downlink aggregation. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; Default value: EQUAL_PRIO; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type enumeration {
+        enum NO_AGGREGATION;
+        enum MCG_PRIO;
+        enum SCG_PRIO;
+        enum EQUAL_PRIO;
+      }
+      status deprecated;
+      default "EQUAL_PRIO";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpAggrTimeDiffCg {
+      description "Cell group used at suspension of PDCP downlink aggregation at high age difference. Cell group which can be used for transmission when PDCP downlink aggregation is prohibited after exceeding dcDlPdcpAggrTimeDiffThresh. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; Default value: YOUNGEST_CG; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum YOUNGEST_CG;
+      }
+      status deprecated;
+      default "YOUNGEST_CG";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpAggrTimeDiffProhibit {
+      description "Prohibit timer at suspension of PDCP downlink aggregation at high age difference. Time during which PDCP downlink aggregation is prohibited after exceeding dcDlPdcpAggrTimeDiffThresh. Value 0 corresponds to infinity. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..10000; Default value: 200; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-10000;
+      status deprecated;
+      default "200";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpAggrTimeDiffThresh {
+      description "PDU age difference threshold of cell group triggering temporary prohibition of PDCP DL aggregation. Minimum age difference between oldest PDCP PDUs for MCG and SCG not yet RLC-acknowledged by UE. This shall trigger a temporary prohibition of PDCP downlink aggregation. Value 0 disables check for minimum age difference. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..3000; Default value: 150; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-3000;
+      status deprecated;
+      default "150";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf drbRef {
+      description "Reference to an instance of Drb MO. Automatically set to following MO instance: - Drb=Default_application_signaling instance for CUUP5qi instances for which profile5qi is 5 or 69. - Drb=Default_conversational_media instance for CUUP5qi instances for which profile5qi is 1, 65, or 66. - Drb=Default_other instance for all other CUUP5qi instances. Unless manually set to refer to another MO instance. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true..";
+      type string;
+    }
+    leaf dscp {
+      description "DSCP for 5QI. Corresponds to mappings from RAN QoS to transport network QoS. Following values are recommended: * 46 if profile5qi is 1, 65, 66, 67, 75, 82 or 83. * 36 if profile5qi is 2. * 34 if profile5qi is 3 or 79. * 38 if profile5qi is 4. * 40 if profile5qi is 5 or 69. * 26 if profile5qi is 6 or 70. * 10 if profile5qi is 7. * 12 if profile5qi is 8. * 14 if profile5qi is 9.; range 0..63; Default value: 12.";
+      type eytypes:int32_range_0-63;
+      default "12";
+    }
+    leaf estimatedE2ERTT {
+      description "Estimated end-to-end Round-Trip Time (RTT). Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..1023; Default value: 50; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-1023;
+      status deprecated;
+      default "50";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf l4sCfgRef {
+      description "Reference to an instance of L4sCfg MO. If empty, L4S is not enabled for this CUUP5qi instance. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; MOM flags: isNillable=true; Status info: Since 24.Q3. Planned to be removed..";
+      type string;
+      status deprecated;
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf packetDelayBudget {
+      description "The gNodeB contribution to PDB on 5QI. Packet delays outside gNodeB are excluded, for example, in transport network. Following values are recommended: * 80 if profile5qi is 1, 5, 7, 66, or 67. * 130 if profile5qi is 2. * 30 if profile5qi is 3 or 79. * 280 if profile5qi is 4, 6, 8, or 9. * 65 if profile5qi is 65. * 50 if profile5qi is 69. * 190 if profile5qi is 70. * 8 if profile5qi is 80. * 9 if profile5qi is 82 or 83. * 25 if profile5qi is 84. * 3 if profile5qi is 85. 3GPP defined 5QIs use up to 500 ms range. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..1023; Default value: 280; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-1023;
+      status deprecated;
+      default "280";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf packetDelayBudgetOffset {
+      description "Offset added to PDB. Following values are recommended: * 0 if profile5qi is 2, 3, 4, 5, 6, 7, 8, 9, 65, 66, 67, 69, 70, 79, 80, 82, 83, 84 or 85. * 50 if profile5qi is 1. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..1023; Default value: 0; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-1023;
+      status deprecated;
+      default "0";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf profile5qi {
+      description "5G QoS Identifier, unique within a table.; range 0..255.";
+      type eytypes:int32_range_0-255;
+      mandatory true;
+    }
+    leaf tOooUlDelivery {
+      description "Extension period when reception of out-of-order packets is allowed. Extension period is added after tReorderingUl in PDCP expires. When timer expires, PDCP reception window is moved forward and remaining arriving packets are discarded. Therefore, packets that arrive within tReorderingUl + tOooUlDelivery can be delivered to upper layers. Different values are set based on purpose of optimization and bearer type. If empty, system handles timer value as 1500 ms. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; Default value: 150; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; MOM flags: isNillable=true; Status info: Since 24.Q3. Planned to be removed..";
+      type int32 {
+        range "10 | 20 | 30 | 40 | 50 | 60 | 75 | 100 | 150 | 200 | 250 | 300 | 500 | 750 | 1500";
+      }
+      status deprecated;
+      default "150";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping CUUP5qiTable-attributes {
+    leaf cUUP5qiTableId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf default5qiTable {
+      description "Indicates that CUUP5qiTable instance is a default 5QI table. The default 5QI table is used when no CUUP5qiTable has been configured for a resource partition.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping DataPacketGenerator-attributes {
+    leaf dataPacketGeneratorId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf duration {
+      description "Duration of packets generation period for the gNodeB data generator for test mode in PDCP.; range 60..600; Default value: 60.";
+      type int32 {
+        range "60..600";
+      }
+      default "60";
+      units "s";
+    }
+    leaf packetRate {
+      description "Packet rate for the gNodeB data generator for test mode in PDCP. When default value 0 is used, no packets are generated.; range 0..4200000; Default value: 0.";
+      type int32 {
+        range "0..4200000";
+      }
+      default "0";
+      units "kbps";
+    }
+  }
+  grouping DataPacketGeneratorUeCfg-attributes {
+    leaf dataPacketGeneratorUeCfgId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list prefUeGroupList {
+      description "Preference UE group list. List of preference UE group identifiers. If empty, MO instance matches preference UE group identifiers not defined in prefUeGroupList of any other MO instances under parent MO instance..";
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list ueGroupList {
+      description "UE groups that use values in this MO instance..";
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+      min-elements 0;
+      max-elements 16;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping DcDlCfg-attributes {
+    leaf dcDlAggAllowed {
+      description "Whether PDCP downlink aggregation is enabled. PDCP downlink aggregation is enabled and is used when all criteria for PDCP downlink aggregation are fulfilled.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf dcDlAggCgPrioOverride {
+      description "Prioritized cell group for transmission during active PDCP downlink aggregation. Overrides UserPlaneProfileUeCfg::dcDlAggCgPrio. If empty, UserPlaneProfileUeCfg::dcDlAggCgPrio is used..";
+      type enumeration {
+        enum MCG_PRIO;
+        enum SCG_PRIO;
+        enum EQUAL_PRIO;
+      }
+    }
+    leaf dcDlCfgId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf dlPdcpPreferredCgOverride {
+      description "Preferred cell group when PDCP downlink aggregation is inactive. If empty, the setting in UserPlaneProfileUeCfg::dlPdcpPreferredCg is used, otherwise it overrides setting in UserPlaneProfileUeCfg::dlPdcpPreferredCg..";
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum KEEP_SCG;
+      }
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping DcUlCfg-attributes {
+    leaf dcUlCfgId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf ulPrimaryPathMode {
+      description "Uplink primary path mode at reported SCG uplink quality change. Uplink primary path is configured as follows: - SCG, if value is SCG and secondary cell group uplink quality is good, or if value is KEEP_SCG and secondary cell group uplink quality is good or low. - MCG, if value is MCG and secondary cell group uplink quality is good or low, if value is SCG and secondary cell group uplink quality is low. If MCG or KEEP_SCG, value SCG is used if license for Service-Adaptive Uplink User Plane Profile feature is not present or feature is not active. Applicable to EN-DC and NR-DC. Applicable to RAN Compute groups 4 and 5..";
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum KEEP_SCG;
+      }
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping Drb-attributes {
+    leaf drbId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf ueConfGroupType {
+      description "UE configuration group type. UE configuration group type that is applied in contained DrbUeCfg instances..";
+      type enumeration {
+        enum UE_MOBILITY_GROUP;
+        enum UE_SERVICE_GROUP;
+        enum UE_ADMISSION_GROUP;
+      }
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping DrbUeCfg-attributes {
+    leaf aqmCfgRef {
+      description "Reference to an instance of AqmCfg MO. Automatically set to following MO instance: - AqmCfg=Default_conversational_media instance, if DrbUeCfg instance is created under parent Drb=Default_conversational_media instance. - AqmCfg=Default_application_signaling, if DrbUeCfg instance is created under parent Drb=Default_application_signaling instance. - AqmCfg=Default_other, if DrbUeCfg instance is created under other parent Drb instance. Unless manually set to refer to another MO instance..";
+      type string;
+    }
+    leaf dcDlCfgRef {
+      description "Reference to an instance of DcDlCfg MO. Automatically set to DcDlCfg=Default instance, unless manually set to refer to another MO instance..";
+      type string;
+    }
+    leaf dcUlCfgRef {
+      description "Reference to an instance of DcUlCfg MO. Automatically set to DcUlCfg=Default instance, unless manually set to refer to another MO instance. Applicable to RAN Compute groups 4 and 5..";
+      type string;
+    }
+    leaf drbUeCfgId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf l4sCfgRef {
+      description "Reference to an instance of L4sCfg MO. If empty, L4S is not enabled for this DrbUeCfg instance. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is true..";
+      type string;
+    }
+    leaf-list prefUeGroupList {
+      description "Preference UE group list. List of preference UE group identifiers. If empty, MO instance matches preference UE group identifiers not defined in prefUeGroupList of any other MO instances under parent MO instance..";
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list ueConfGroupList {
+      description "UE configuration group list. List of UE configuration group identifiers. If empty, MO instance matches all UE configuration group identifiers. UE configuration group type is defined by ueConfGroupType in parent MO instance..";
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+      min-elements 0;
+      max-elements 32;
+    }
+    leaf-list ueGroupList {
+      description "UE group list. List of UE group identifiers. If empty, MO instance matches all UE group identifiers..";
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+      min-elements 0;
+      max-elements 16;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping EndpointResource-attributes {
+    leaf endpointResourceId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping EP_NgU-attributes {
+    leaf echoPeerStatus {
+      description "Peer connectivity status for link. Result of GTP-U path monitoring..";
+      type enumeration {
+        enum UNKNOWN;
+        enum REACHABLE;
+        enum UNREACHABLE;
+      }
+      config false;
+    }
+    leaf eP_NgUId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf localEndPoint {
+      description "Local IP address used for initialization of underlying GTPU transport. IP address can be an IPv4 or an IPv6 address..";
+      type string;
+      config false;
+    }
+    leaf monitoringStatus {
+      description "Status of GTP-U echo path monitoring for link..";
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVE;
+      }
+      config false;
+    }
+    leaf remoteEndPoint {
+      description "Remote IP address used for initialization of underlying GTPU transport. IP address can be an IPv4 or an IPv6 address..";
+      type string;
+      config false;
+    }
+    leaf pmGtpuEchoReqSent {
+      description "Total number of sent GTP-U Echo Request messages..";
+      type uint64;
+      config false;
+    }
+    leaf pmGtpuEchoRtdMax {
+      description "Maximum round-trip delay (RTD) measured for GTP-U Echo messages, processing time at responder is included. Unit: microsecond.";
+      type int64;
+      config false;
+    }
+    leaf pmGtpuEchoRespNotRcvd {
+      description "Total number of missing GTP-U Echo Response messages..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDlDiscAqm5qi {
+      description "Total number of packets (PDCP SDUs) discarded for each 5QI over NG-U in downlink because of AQM. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecDlDisc5qi {
+      description "Total number of packets (PDCP SDUs) discarded for each 5QI over NG-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmGtpuEchoRespAccRcvd {
+      description "Total number of received and accepted GTP-U Echo Response messages..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmGtpuEchoRtdDistr {
+      description "Distribution of round-trip delay (RTD) values measured for GTP-U Echo messages, processing time at responder is included. Ranges: Bin[0]: [0..2000] us Bin[1]: [2001..5000] us Bin[2]: [5001..10000] us Bin[3]: [10001..20000] us Bin[4]: [20001..] us.";
+      type uint64;
+      max-elements 5;
+    }
+    leaf-list pmPdcpVolTransUl5qi {
+      description "Total volume of packets (PDCP SDUs) transmitted for each 5QI over NG-U in uplink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmGtpuEchoRespRejRcvd {
+      description "Total number of received but rejected GTP-U Echo Response messages..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransUl5qi {
+      description "Total number of packets (PDCP SDUs) transmitted for each 5QI over NG-U in uplink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmGtpuEchoRtdSamp {
+      description "Aggregated number of round-trip delay (RTD) values measured for GTP-U Echo messages..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDl5qi {
+      description "Total number of packets (PDCP SDUs) received for each 5QI over NG-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmGtpuEchoRtdSum {
+      description "Aggregated sum of all round-trip delay (RTD) values measured for GTP-U Echo messages, processing time at responder is included. Unit: microsecond.";
+      type uint64;
+      config false;
+    }
+    leaf pmGtpuEchoRtdMin {
+      description "Minimum round-trip delay (RTD) measured for GTP-U Echo messages, processing time at responder is included. Unit: microsecond.";
+      type int64;
+      config false;
+    }
+  }
+  grouping EP_XnU-attributes {
+    leaf eP_XnUId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf localEndPoint {
+      description "Local IP address for initialization of underlying GTP-U transport. IP address can be an IPv4 or an IPv6 address..";
+      type string;
+      config false;
+    }
+    leaf remoteEndPoint {
+      description "Remote IP address for initialization of underlying GTP-U transport. IP address can be an IPv4 or an IPv6 address..";
+      type string;
+      config false;
+    }
+    leaf-list pmPdcpPktFwdTransDlQos {
+      description "Number of downlink session DRB packets transmitted during packet forwarding over Xn-U link for each QoS. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdTransDlDiscQos {
+      description "Number of discarded downlink session DRB packets transmitted during packet forwarding over Xn-U link for each QoS. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+  }
+  grouping GNBCUUPFunction-attributes {
+    leaf altDepHServAdapUPProfEnabled {
+      description "Whether alternative deprecation handling for Service Adaptive User Plane Profiles is used. If false, the deprecated legacy attributes are used: - dcDlAggActTime - dcDlAggExpiryTimer - dcDlPdcpInitialMcgRate - dcDlPdcpInitialScgRate - dlPdcpSpsTargetTimeLTE - dlPdcpSpsTargetTimeNR - endcDlNrRetProhibTimer - CUUP5qi::aqmMode - CUUP5qi::dcDlPdcpAggrPrioCg - CUUP5qi::dcDlPdcpAggrTimeDiffCg - CUUP5qi::dcDlPdcpAggrTimeDiffProhibit - CUUP5qi::dcDlPdcpAggrTimeDiffThresh - CUUP5qi::estimatedE2ERTT - CUUP5qi::l4sCfgRef - CUUP5qi::packetDelayBudget - CUUP5qi::packetDelayBudgetOffset - CUUP5qi::tOooUlDelivery If true, the following attributes are used: - CUUP5qi::drbRef - UserPlaneProfile::ueConfGroupType - UserPlaneProfileUeCfg::prefUeGroupList - UserPlaneProfileUeCfg::ueGroupList - UserPlaneProfileUeCfg::ueConfGroupList - UserPlaneProfileUeCfg::dlPdcpMcgSpsTargetTime - UserPlaneProfileUeCfg::dlPdcpScgSpsTargetTime - UserPlaneProfileUeCfg::dlPdcpScgRetProhibitTime - UserPlaneProfileUeCfg::dcDlAggCgPrio - UserPlaneProfileUeCfg::dcDlAggAgeDiffThresh - UserPlaneProfileUeCfg::dcDlAggAgeDiffProhibitTime - UserPlaneProfileUeCfg::dcDlAggAgeDiffPreferredCg - UserPlaneProfileUeCfg::dlPdcpPreferredCg - UserPlaneProfileUeCfg::dcDlAggActTime - UserPlaneProfileUeCfg::dcDlAggExpiryTimer - UserPlaneProfileUeCfg::dlPdcpMcgInitialRate - UserPlaneProfileUeCfg::dlPdcpScgInitialRate - UserPlaneProfileUeCfg::dcDlAggMcgDrxWakeupTime - UserPlaneProfileUeCfg::dcDlAggScgDrxWakeupTime - Drb::ueConfGroupType - DrbUeCfg::ueGroupList - DrbUeCfg::ueConfGroupList - DrbUeCfg::prefUeGroupList - DrbUeCfg::aqmCfgRef - DrbUeCfg::dcDlCfgRef - DrbUeCfg::l4sCfgRef - AqmCfg::aqmMode - AqmCfg::estimatedE2ERTT - AqmCfg::tDiscardDl - AqmCfg::tOooUlDelivery - DcDlCfg::dcDlAggAllowed - DcDlCfg::dlPdcpPreferredCgOverride - DcDlCfg::dcDlAggCgPrioOverride; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf dataFwdRateTo5Gs {
+      description "Maximum direct data forwarding rate for each bearer to a 5GS node.; range 10..10000; Default value: 5000.";
+      type int32 {
+        range "10..10000";
+      }
+      default "5000";
+      units "Mbps";
+    }
+    leaf dataFwdRateToEps {
+      description "Maximum direct data forwarding rate for each bearer to an EPS node.; range 10..10000; Default value: 200.";
+      type int32 {
+        range "10..10000";
+      }
+      default "200";
+      units "Mbps";
+    }
+    leaf dcDlAggActTime {
+      description "Activates DC downlink aggregation. DC downlink aggregation is applied for bearers where a packet spends longer time than attribute value in PDCP SDU queue. Enabling DC downlink aggregation for a bearer requires following: - UE is capable of DC downlink aggregation. - Feature state is activated. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..1000; Default value: 1; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-1000;
+      status deprecated;
+      default "1";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlAggExpiryTimer {
+      description "Deactivates DC downlink aggregation. Timer is started when a bearer with DC downlink aggregation activated runs empty in PDCP PDU and PDCP SDU buffers. At timer expiry, bearer returns to packet scheduling on single leg SCG. Common for EN-DC and NR-DC. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..10000; Default value: 100; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-10000;
+      status deprecated;
+      default "100";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpInitialMcgRate {
+      description "Estimated initial MCG rate at dual connectivity. Estimated initial rate on MCG of a dual-connectivity-configured radio bearer. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..10000; Default value: 20; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-10000-1;
+      status deprecated;
+      default "20";
+      units "Mbps";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dcDlPdcpInitialScgRate {
+      description "Estimated initial SCG rate at dual connectivity. Estimated initial rate on the SCG of a dual-connectivity-configured radio bearer. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..10000; Default value: 100; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-10000-1;
+      status deprecated;
+      default "100";
+      units "Mbps";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dlPdcpSpsTargetTimeLTE {
+      description "Target buffer depth in DU for PDCP PDUs on MCG leg. Common for EN-DC and NR-DC. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..1000; Default value: 25; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-1000;
+      status deprecated;
+      default "25";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf dlPdcpSpsTargetTimeNR {
+      description "Target buffer depth in DU for PDCP PDUs on NR SCG leg. Common for EN-DC and NR-DC. Target buffer depth in DU for PDCP PDUs on SCG leg. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..1000; Default value: 25; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-1000;
+      status deprecated;
+      default "25";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf endcDataUsageReportEnabled {
+      description "Enables routing of Data Usage Report for NR part of split bearers in EN-DC. Attribute must be aligned between primary eNodeB and secondary gNodeBs. It means that this attribute and ENodeBFunction::endcDataUsageReportEnabled must be set to the same value for all eNodeBs and gNodeBs with EN-DC deployment throughout network.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf endcDlNrRetProhibTimer {
+      description "Minimum time between primary downlink path switch from SCG to MCG and switch back to SCG. Common for EN-DC and NR-DC. Timer is only started after a primary downlink path switch to MCG radio resources, but not started after a primary downlink path switch to SCG radio resources. Valid for Secondary Node terminated split DRB. Only applicable when GNBCUUPFunction::altDepHServAdapUPProfEnabled is false.; range 0..1000; Default value: 400; Takes effect: New connection. For RAN Compute group 6 and higher: Next usage.; Status info: Since 24.Q3. Planned to be removed..";
+      type eytypes:int32_range_0-1000;
+      status deprecated;
+      default "400";
+      units "ms";
+      reference "Takes effect: New connection. For RAN Compute group 6 and higher: Next usage..";
+    }
+    leaf endcUlNrRetProhibTimer {
+      description "Minimum time between primary uplink path switch from SCG to MCG and switch back to SCG. Common for EN-DC and NR-DC. Timer is only started after a primary uplink path switch to MCG radio resources, but not started after a primary uplink path switch to SCG radio resources. Valid for Secondary Node terminated split DRB.; range 0..10000; Default value: 1000; Takes effect: Next cell unlock; Status info: Since 25.Q1. Replaced by UserPlaneProfileUeCfg::ulPdcpScgRetProhibitTime. Planned to be removed..";
+      type eytypes:int32_range_0-10000;
+      status deprecated;
+      default "1000";
+      units "ms";
+      reference "Takes effect: Next cell unlock.";
+    }
+    leaf endpointResourceRef {
+      description "Reference to an instance of EndpointResource MO. ResourcePartitionMember MO can also refer to EndpointResource instances only valid for specific PLMN or NSSAI. If ResourcePartitionMember::endpointResourceRef is empty, this reference is used..";
+      type string;
+    }
+    leaf estimatedUeL2Buffer {
+      description "Estimated size of a UE Layer 2 reordering buffer. Under normal conditions, must not be changed from default. Limits how many undelivered PDCP PDUs can be in flight towards UE. Number of maximum packets set in relation to buffer size. Total number of packets are calculated for, which includes any number of packets not yet received by UE. Makes sure PDCP in gNodeB does not send more packets than what UE reordering buffers can handle. Not applicable to RAN Compute group 6 and higher. If empty or zero value, treated as infinite size.; range 0..400.";
+      type int32 {
+        range "0..400";
+      }
+      units "MB";
+    }
+    leaf gNBCUUPFunctionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf gNBId {
+      description "Identifies a gNodeB within a PLMN. Part of the NR Cell Identifier (NCI) of the gNodeB cells.; range 0..4294967295.";
+      type eytypes:int64_range_0-4294967295;
+      mandatory true;
+    }
+    leaf gNBIdLength {
+      description "Length of gNBId bit string representation.; range 22..32; Default value: 22.";
+      type eytypes:int32_range_22-32;
+      default "22";
+    }
+    leaf gtpuErrorIndDscp {
+      description "DSCP value used when sending GTP-U Error Indication messages on user-plane paths.; range 0..63.";
+      type eytypes:int32_range_0-63;
+    }
+    list pLMNIdList {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 1;
+      max-elements 12;
+      uses PLMNId-struct;
+    }
+    leaf release {
+      description "The product release of the ManagedFunction..";
+      type string;
+      config false;
+    }
+    leaf s1GtpuEchoDscp {
+      description "DSCP value used when sending GTP-U Echo Request on S1 user-plane paths. Value applicable if s1GtpuEchoEnable = true.; range 0..63.";
+      type eytypes:int32_range_0-63;
+    }
+    leaf s1GtpuEchoEnable {
+      description "Enables GTP-U supervision for S1 paths. When true, all GTP-U S1 paths are supervised by gNodeB-CU-UP that sends Echo Request every 60 seconds. If five requests in row do not receive response, path connectivity is considered lost. If three requests in row receive response, connectivity is considered re-established. When connectivity is lost no traffic is allocated to the path. If a path is unused for 24h the supervision stops and connectivity is thereafter not known..";
+      type boolean;
+    }
+    leaf servAdapUPProfUlDepHEnabled {
+      description "Whether deprecation handling for attributes in GNBCUUPFunction is enabled. If true, updating deprecated attribute GNBCUUPFunction::endcUlNrRetProhibTimer also updates UserPlaneProfileUeCfg::ulPdcpScgRetProhibitTime in all UserPlaneProfileUeCfg instances. If false, UserPlaneProfileUeCfg instance is not updated. Attribute in corresponding UserPlaneProfileUeCfg instance is always applied. Updating attribute in UserPlaneProfileUeCfg never updates corresponding deprecated attribute. Disabling deprecation handling prevents UserPlaneProfileUeCfg::ulPdcpScgRetProhibitTime from being overwritten in new management system versions where UserPlaneProfileUeCfg instance is visible and used instead of deprecated attribute.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    list sNSSAIList {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      max-elements 1024;
+      uses SliceSelectionAssistInfo-struct;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+    leaf x2EndcGtpuEchoDscp {
+      description "DSCP value used when sending GTP-U Echo Request on X2 EN-DC user-plane paths. Value applicable if x2GtpuEchoEnable = true.; range 0..63.";
+      type eytypes:int32_range_0-63;
+    }
+    leaf x2EndcGtpuEchoEnable {
+      description "Enables GTP-U supervision for X2 (EN-DC) paths. When true, all GTP-U X2 (EN-DC) paths are supervised by gNodeB-CU-UP that sends Echo Request every 60 seconds. If five requests in row do not receive response, path connectivity is considered lost. If three requests in row receive response, connectivity is considered re-established. When connectivity is lost no traffic is allocated to the path. If a path is unused for 24h the supervision stops and connectivity is thereafter not known..";
+      type boolean;
+    }
+    leaf-list pmPdcpPktRecDlDiscS1UQci {
+      description "Total number of packets (PDCP SDUs) discarded for each QCI over S1-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlF1UQos {
+      description "Total volume of packets (PDCP SDUs) transmitted for each QoS indicator in radio processing user plane in downlink. QoS indicator is 5QI or QCI. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolDlHdrProf1Rohc5qi {
+      description "Total volume of uncompressed PDCP SDU headers that are received in ROHC entity using profile 1 in downlink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlAggrXnU5qi {
+      description "Number of packets (PDCP PDUs) transmitted for each 5QI on radio processing user plane over Xn-U in downlink while bearer is in dual connectivity aggregation state. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlToX2UQci {
+      description "Total number of packets (PDCP PDUs) lost, received as out of order, or discarded for each QCI in radio processing user plane over X2-U in uplink because of late reception. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmDrbLevelSumSa {
+      description "Sum of all sample values recorded for number of NR SA DRBs. In NR-DC, DRBs are also counted when gNodeB acts as Secondary Node..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktLossUlToDiscX2UQci {
+      description "Total number of packets (PDCP PDUs) discarded for each QCI in radio processing user plane over X2-U in uplink because of late arrival. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlToXnU5qi {
+      description "Total number of packets (PDCP PDUs) lost, received as out of order, or discarded for each 5QI in radio processing user plane over Xn-U in uplink because of late reception. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlToF1UQos {
+      description "Total number of packets (PDCP PDUs) lost, received as out of order, or discarded for each QoS indicator in radio processing user plane in uplink because of late reception. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlAggrF1UQos {
+      description "Volume of packets (PDCP SDUs) transmitted for each QoS indicator on radio processing user plane link in downlink while bearer is in dual connectivity aggregation state. QoS indicator is 5QI or QCI. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmFwkStreamDroppedEventSocketConnectionFailDistr {
+      description "Number of PM events dropped due to socket connection failure in each CTR stream in PM framework. Ranges: Bin[0]: Applicable for the Cell Trace Job ID 10000 Bin[1]: Applicable for the Cell Trace Job ID 10001 Bin[2]: Applicable for the Cell Trace Job ID 10002 Bin[3]: Applicable for the Cell Trace Job ID 10003 Bin[4]: Applicable for the Cell Trace Job ID 10004 Bin[5]: Applicable for the Cell Trace Job ID 10005.";
+      type uint64;
+      max-elements 6;
+    }
+    leaf-list pmPdcpPktRecUlF1UQos {
+      description "Total number of packets (PDCP PDUs) received for each QoS indicator in radio processing user plane in uplink. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlAckF1UQos {
+      description "Total number of packets (PDCP PDUs) acknowledged for each QoS indicator in radio processing user plane in downlink. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmDrbLevelMaxSa {
+      description "Peak number of NR SA DRBs. In NR-DC, DRBs are also counted when gNodeB acts as Secondary Node..";
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpVolUlHdrProf1Rohc5qi {
+      description "Total volume of uncompressed PDCP SDU headers that are transmitted from ROHC entity using profile 1 in uplink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlAggrF1UQos {
+      description "Number of packets (PDCP PDUs) transmitted for each QoS indicator on radio processing user plane link in downlink while bearer is in dual connectivity aggregation state. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecUlXnU5qi {
+      description "Total number of packets (PDCP PDUs) received for each 5QI in radio processing user plane over Xn-U in uplink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmFwkSampLostL2Leg {
+      description "Total number of lost or incomplete granularity level leg samples during ROP period. Unit: samples.";
+      type uint64;
+      config false;
+    }
+    leaf pmEndcDrbSetupSucc {
+      description "Successful number of EN-DC DRB setups..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpVolTransDlAggrX2UQci {
+      description "Volume of packets (PDCP SDUs) transmitted for each QCI on radio processing user plane link over X2-U in downlink while bearer is in dual connectivity aggregation state. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmProhibitTimerRefuseUlLegSwitch {
+      description "Total number of times UE is refused uplink switch to SCG radio resources because of ongoing prohibit timer..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransUlS1UQci {
+      description "Total number of packets (PDCP SDUs) transmitted for each QCI over S1-U in uplink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlDiscAqmF1UQos {
+      description "Total number of packets (PDCP PDUs) discarded for each QoS indicator in radio processing user plane in downlink because of AQM. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolDlCmpHdrProf2Rohc5qi {
+      description "Total volume of compressed PDCP SDU headers that are transmitted from ROHC entity using profile 2 in downlink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecDlDiscNgU5qi {
+      description "Total number of packets (PDCP SDUs) discarded for each 5QI over NG-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlToDiscXnU5qi {
+      description "Total number of packets (PDCP PDUs) discarded for each 5QI in radio processing user plane over Xn-U in uplink because of late arrival. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlX2UQci {
+      description "Total volume of packets (PDCP SDUs) transmitted for each QCI in radio processing user plane over X2-U in downlink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmFwkStreamDroppedEventDistr {
+      description "Total number of PM events dropped in each CTR stream in PM framework. Ranges: Bin[0]: Applicable for the Cell Trace Job ID 10000 Bin[1]: Applicable for the Cell Trace Job ID 10001 Bin[2]: Applicable for the Cell Trace Job ID 10002 Bin[3]: Applicable for the Cell Trace Job ID 10003 Bin[4]: Applicable for the Cell Trace Job ID 10004 Bin[5]: Applicable for the Cell Trace Job ID 10005.";
+      type uint64;
+      max-elements 6;
+    }
+    leaf-list pmPdcpPktRecUlDiscIntgF1UQos {
+      description "Total number of PDCP PDUs discarded because of failed integrity verification for each QoS indicator in radio processing user plane in uplink. QoS indicator is 5QI or QCI. In NR-DC, discarded packets are also counted when gNodeB acts as Secondary Node. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmDrbLevelSumEndc {
+      description "Sum of all sample values recorded for number of EN-DC DRBs..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmFwkStreamDroppedEventSocketErrorDistr {
+      description "Number of PM events dropped due to socket error in each CTR stream in PM framework. Ranges: Bin[0]: Applicable for the Cell Trace Job ID 10000 Bin[1]: Applicable for the Cell Trace Job ID 10001 Bin[2]: Applicable for the Cell Trace Job ID 10002 Bin[3]: Applicable for the Cell Trace Job ID 10003 Bin[4]: Applicable for the Cell Trace Job ID 10004 Bin[5]: Applicable for the Cell Trace Job ID 10005.";
+      type uint64;
+      max-elements 6;
+    }
+    leaf pmPdcpPktDisc {
+      description "Number of DRB packets discarded in downlink or uplink where the packet could not be associated with a bearer on a link object. This could be caused by overload, invalid packet format or packets arriving without a matching bearer context..";
+      type uint64;
+      config false;
+    }
+    leaf pmEndcDrbSetupAtt {
+      description "Total number of EN-DC DRB setup attempts..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransDlF1UQos {
+      description "Total number of packets (PDCP PDUs) transmitted for each QoS indicator in radio processing user plane in downlink. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlX2UQci {
+      description "Total number of packets (PDCP PDUs) lost, received as out of order, or discarded for each QCI in radio processing user plane over X2-U in uplink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdRecDlDiscQos {
+      description "Number of discarded downlink session DRB packets received during packet forwarding over Xn-U link for each QoS. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolDlCmpHdrProf1Rohc5qi {
+      description "Total volume of compressed PDCP SDU headers that are transmitted from ROHC entity using profile 1 in downlink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolRecUlX2UQci {
+      description "Total volume of packets (PDCP SDUs) received for each QCI in radio processing user plane over X2-U in uplink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecUlIntgF1UQos {
+      description "Total number of PDCP PDUs with integrity protection received for each QoS indicator in radio processing user plane in uplink. QoS indicator is 5QI or QCI. In NR-DC, PDUs are also counted when gNodeB acts as Secondary Node. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransUlS1UQci {
+      description "Total volume of packets (PDCP SDUs) transmitted for each QCI over S1-U in uplink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdTransDlX2UQos {
+      description "Number of downlink session DRB packets transmitted during forwarding over X2 user plane for each QoS. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmFwkSampLostL2Ppf {
+      description "Total number of lost or incomplete granularity level CUUPFunction samples during ROP period. Unit: samples.";
+      type uint64;
+      config false;
+    }
+    leaf pmRohcCidDlSum {
+      description "Sum of all sample values recorded for number of used ROHC context IDs in downlink. Includes ROHC context IDs for profile 0..";
+      type uint64;
+      config false;
+    }
+    leaf pmPduSessionLevelSamp {
+      description "Number of times corresponding sum counter is stepped. Associated ACC PM counter is pmPduSessionLevelSum on GNBCUUPFunction MO..";
+      type uint64;
+      config false;
+    }
+    leaf pmPdcpPktDiscGtpu {
+      description "Number of DRB packets discarded in downlink or uplink because of invalid GTP-U header..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktFwdRecDlDiscXnU5qi {
+      description "Number of discarded downlink session DRB packets received during packet forwarding over Xn-U link for each 5QI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlRetransX2UQci {
+      description "Total volume of packets (PDCP SDUs) retransmitted for each QCI on radio processing user plane link over X2-U in downlink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmDrbLevelSamp {
+      description "Number of times corresponding sum counter is stepped. Associated ACC PM counters are pmDrbLevelSumEndc and pmDrbLevelSumSa on GNBCUUPFunction MO..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransDlRetransX2UQci {
+      description "Total number of packets (PDCP PDUs) retransmitted for each QCI on radio processing user plane link over X2-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmRohcCidDlSamp {
+      description "Counts number of recorded samples that make up value of pmRohcCidDlSum PM counter..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransDlAckXnU5qi {
+      description "Total number of packets (PDCP PDUs) acknowledged for each 5QI in radio processing user plane over Xn-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransUlNgU5qi {
+      description "Total volume of packets (PDCP SDUs) transmitted for each 5QI over NG-U in uplink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmPdcpPktRecDlDiscInact {
+      description "Number of packets discarded for inactive UE contexts over NG-U interface in downlink..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmFwkStreamDroppedEventLicenseUnavailableDistr {
+      description "Number of PM events dropped due to license unavailable in each CTR stream in PM framework Ranges: Bin[0]: Applicable for the Cell Trace Job ID 10000 Bin[1]: Applicable for the Cell Trace Job ID 10001 Bin[2]: Applicable for the Cell Trace Job ID 10002 Bin[3]: Applicable for the Cell Trace Job ID 10003 Bin[4]: Applicable for the Cell Trace Job ID 10004 Bin[5]: Applicable for the Cell Trace Job ID 10005.";
+      type uint64;
+      max-elements 6;
+    }
+    leaf-list pmFwkStreamDroppedEventSlowStreamDistr {
+      description "Number of PM events dropped due to slow stream for each CTR stream in PM framework. Ranges: Bin[0]: Applicable for the Cell Trace Job ID 10000 Bin[1]: Applicable for the Cell Trace Job ID 10001 Bin[2]: Applicable for the Cell Trace Job ID 10002 Bin[3]: Applicable for the Cell Trace Job ID 10003 Bin[4]: Applicable for the Cell Trace Job ID 10004 Bin[5]: Applicable for the Cell Trace Job ID 10005.";
+      type uint64;
+      max-elements 6;
+    }
+    leaf pmPdcpRadioResSwitchDlMcg {
+      description "Number of times downlink PDCP restricts use of SCG radio resources based on measurements by UE for each QoS indicator..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDlDiscAqmS1UQci {
+      description "Total number of packets (PDCP SDUs) discarded for each QCI over S1-U in downlink because of AQM. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecDlNgU5qi {
+      description "Total number of packets (PDCP SDUs) received for each 5QI over NG-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdTransDlXnU5qi {
+      description "Number of downlink session DRB packets transmitted during packet forwarding over Xn-U link for each 5QI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdRecDlQos {
+      description "Number of downlink session DRB packets received during packet forwarding over Xn-U/X2-U link for each QoS. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlRetransXnU5qi {
+      description "Total volume of packets (PDCP SDUs) retransmitted for each 5QI on radio processing user plane link over Xn-U in downlink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecUlOooF1UQos {
+      description "Total number of packets (PDCP PDUs) received in radio processing user plane in uplink that are transferred to S1-U or NG-U with PDCP sequence number that is out of order. Counted for each QoS indicator (5QI or QCI) separately. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlXnU5qi {
+      description "Total number of packets (PDCP PDUs) transmitted for each 5QI in radio processing user plane over Xn-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlAggrXnU5qi {
+      description "Volume of packets (PDCP SDUs) transmitted for each 5QI on radio processing user plane link over Xn-U in downlink while bearer is in dual connectivity aggregation state. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdRecDlXnU5qi {
+      description "Number of downlink session DRB packets received during packet forwarding over Xn-U link for each 5QI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlX2UQci {
+      description "Total number of packets (PDCP PDUs) transmitted for each QCI in radio processing user plane over X2-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlDiscAqmXnU5qi {
+      description "Total number of packets (PDCP PDUs) discarded for each 5QI in radio processing user plane over Xn-U in downlink because of AQM. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlDiscXnU5qi {
+      description "Total number of packets (PDCP PDUs) discarded or lost for each 5QI in radio processing user plane over Xn-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlDiscF1UQos {
+      description "Total number of packets (PDCP PDUs) discarded or lost for each QoS indicator in radio processing user plane in downlink. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlRetransF1UQos {
+      description "Total number of packets (PDCP PDUs) retransmitted for each QoS indicator on radio processing user plane link in downlink. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecDlDiscAqmNgU5qi {
+      description "Total number of packets (PDCP SDUs) discarded for each 5QI over NG-U in downlink because of AQM. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmFwkStreamProducedEventDistr {
+      description "Total number of PM events produced in each CTR stream in PM framework. Ranges: Bin[0]: Applicable for the Cell Trace Job ID 10000 Bin[1]: Applicable for the Cell Trace Job ID 10001 Bin[2]: Applicable for the Cell Trace Job ID 10002 Bin[3]: Applicable for the Cell Trace Job ID 10003 Bin[4]: Applicable for the Cell Trace Job ID 10004 Bin[5]: Applicable for the Cell Trace Job ID 10005.";
+      type uint64;
+      max-elements 6;
+    }
+    leaf-list pmPdcpPktLossUlToDiscF1UQos {
+      description "Total number of packets (PDCP PDUs) discarded for each QoS indicator in radio processing user plane in uplink because of late arrival. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlAckX2UQci {
+      description "Total number of packets (PDCP PDUs) acknowledged for each QCI in radio processing user plane over X2-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdTransDlDiscXnU5qi {
+      description "Number of discarded downlink session DRB packets transmitted during packet forwarding over Xn-U link for each 5QI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmRohcCidUlSamp {
+      description "Counts number of recorded samples that make up value of pmRohcCidUlSum PM counter..";
+      type uint64;
+      config false;
+    }
+    leaf pmPduSessionLevelSum {
+      description "Sum of all sample values recorded for number of PDU sessions..";
+      type uint64;
+      config false;
+    }
+    leaf pmRohcCidDlMax {
+      description "Peak number of used ROHC context IDs in downlink. Includes ROHC context IDs for profile 0..";
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecUlOooXnU5qi {
+      description "Total number of packets (PDCP PDUs) received in radio processing user plane over Xn-U in uplink that are transferred to NG-U with PDCP sequence number that is out of order. Counted for each 5QI separately. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmRohcCidUlMax {
+      description "Peak number of used ROHC context IDs in uplink. Includes ROHC context IDs for profile 0..";
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDlS1UQci {
+      description "Total number of packets (PDCP SDUs) received for each QCI over S1-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlAggrX2UQci {
+      description "Number of packets (PDCP PDUs) transmitted for each QCI on radio processing user plane over X2-U in downlink while bearer is in dual connectivity aggregation state. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolUlCmpHdrProf2Rohc5qi {
+      description "Total volume of compressed PDCP SDU headers that are received in ROHC entity using profile 2 in uplink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmFwkStreamDroppedEventSocketSetupFailDistr {
+      description "Number of PM events dropped due to socket setup failure in each CTR stream in PM framework. Ranges: Bin[0]: Applicable for the Cell Trace Job ID 10000 Bin[1]: Applicable for the Cell Trace Job ID 10001 Bin[2]: Applicable for the Cell Trace Job ID 10002 Bin[3]: Applicable for the Cell Trace Job ID 10003 Bin[4]: Applicable for the Cell Trace Job ID 10004 Bin[5]: Applicable for the Cell Trace Job ID 10005.";
+      type uint64;
+      max-elements 6;
+    }
+    leaf-list pmPdcpVolTransDlRetransF1UQos {
+      description "Total volume of packets (PDCP SDUs) retransmitted for each QoS indicator on radio processing user plane link in downlink. QoS indicator is 5QI or QCI. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecUlX2UQci {
+      description "Total number of packets (PDCP PDUs) received for each QCI in radio processing user plane over X2-U in uplink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmPdcpRadioResSwitchDlScg {
+      description "Number of times downlink PDCP allows use of SCG radio resources based on measurements by UE for each QoS indicator..";
+      type uint64;
+      config false;
+    }
+    leaf pmFwkSampLostL2Bearer {
+      description "Total number of lost or incomplete granularity level bearer samples during ROP period. Unit: samples.";
+      type uint64;
+      config false;
+    }
+    leaf pmPdcpPktRecDlInact {
+      description "Number of packets received for inactive UE contexts over NG-U interface in downlink..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktFwdRecDlX2UQci {
+      description "Number of downlink session DRB packets received during forwarding over X2 user plane for each QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmRohcCidUlSum {
+      description "Sum of all sample values recorded for number of used ROHC context IDs in uplink. Includes ROHC context IDs for profile 0..";
+      type uint64;
+      config false;
+    }
+    leaf pmPdcpPktInjected {
+      description "Number of test mode PDCP packets injected when Downlink Throughput Test feature in gNodeB is activated..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktFwdTransDlDiscX2UQos {
+      description "Number of discarded downlink session DRB packets out of those that need to be transmitted during packet forwarding for each QoS over X2 user plane. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmDrbLevelMaxEndc {
+      description "Peak number of EN-DC DRBs..";
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransDlDiscX2UQci {
+      description "Total number of packets (PDCP PDUs) discarded or lost for each QCI in radio processing user plane over X2-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmPduSessionLevelMax {
+      description "Peak number of PDU sessions..";
+      type int64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecUlOooX2UQci {
+      description "Total number of packets (PDCP PDUs) received in radio processing user plane over X2-U in uplink that are transferred to S1-U with PDCP sequence number that is out of order. Counted for each QCI separately. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolRecUlF1UQos {
+      description "Total volume of packets (PDCP SDUs) received for each QoS indicator in radio processing user plane in uplink. QoS indicator is 5QI or QCI. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolUlHdrProf2Rohc5qi {
+      description "Total volume of uncompressed PDCP SDU headers that are transmitted from ROHC entity using profile 2 in uplink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlIntgF1UQos {
+      description "Total number of PDCP PDUs transmitted with integrity protection for each QoS in radio processing user plane in downlink. QoS indicator is 5QI or QCI. In NR-DC, PDUs are also counted when gNodeB acts as Secondary Node. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlRetransXnU5qi {
+      description "Total number of packets (PDCP PDUs) retransmitted for each 5QI on radio processing user plane link over Xn-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlXnU5qi {
+      description "Total number of packets (PDCP PDUs) lost, received as out of order, or discarded for each 5QI in radio processing user plane over Xn-U in uplink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdRecDlDiscX2UQci {
+      description "Number of discarded downlink session DRB packets out of those received during packet forwarding over X2 user plane for each QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolUlCmpHdrProf1Rohc5qi {
+      description "Total volume of compressed PDCP SDU headers that are received in ROHC entity using profile 1 in uplink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlF1UQos {
+      description "Total number of packets (PDCP PDUs) lost, received as out of order, or discarded for each QoS indicator in radio processing user plane in uplink. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlDiscAqmX2UQci {
+      description "Total number of packets (PDCP PDUs) discarded for each QCI in radio processing user plane over X2-U in downlink because of AQM. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmPdcpPktDiscNoCtxt {
+      description "Number of DRB packets (PDCP) discarded in downlink or uplink due to specific TEID not being mapped to any context..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransUlNgU5qi {
+      description "Total number of packets (PDCP SDUs) transmitted for each 5QI over NG-U in uplink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolRecUlXnU5qi {
+      description "Total volume of packets (PDCP SDUs) received for each 5QI indicator in radio processing user plane over Xn-U in uplink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolDlHdrProf2Rohc5qi {
+      description "Total volume of uncompressed PDCP SDU headers that are received in ROHC entity using profile 2 in downlink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlXnU5qi {
+      description "Total volume of packets (PDCP SDUs) transmitted for each 5QI in radio processing user plane over Xn-U in downlink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+  }
+  grouping GtpuSupervision-attributes {
+    leaf gtpuErrorIndDscp {
+      description "DSCP value used when sending GTP-U Error Indication messages on user plane paths.; range 0..63; Default value: 40.";
+      type eytypes:int32_range_0-63;
+      default "40";
+    }
+    leaf gtpuSupervisionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping GtpuSupervisionProfile-attributes {
+    leaf-list endpointResourceRef {
+      description "References to instances of EndpointResource MO. If empty, GtpuSupervisionProfile instance covers grandparent GNBCUUPFunction instance for interfaces in interfaceList..";
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 20;
+    }
+    leaf gtpuEchoDscp {
+      description "DSCP value used when sending GTP-U Echo Request. Value is applicable if gtpuEchoEnabled is true.; range 0..63; Default value: 14.";
+      type eytypes:int32_range_0-63;
+      default "14";
+    }
+    leaf gtpuEchoEnabled {
+      description "Whether GTP-U supervision is enabled. When enabled, path or paths with given interfaces and local IP addresses are supervised by gNodeB-CU-UP that sends echo request. If three consecutive echo requests with 60-second period receive responses, path connectivity is considered reachable. If five consecutive echo requests with 3-second period do not receive responses, path connectivity is considered lost. When path connectivity is lost, no traffic is allocated to the path. A GtpuSupervisionProfile instance defines supervision for one or several interfaces among interface names NG, S1, X2, and XN. It can only act within its grandparent GNBCUUPFunction instance. There are three main configuration alternatives based on interfaceList and endpointResourceRef. Alternative 1: interfaceList is non-empty, endpointResourceRef is empty. GtpuSupervisionProfile instance covers grandparent GNBCUUPFunction instance for interfaces in interfaceList. Alternative 2: interfaceList is empty, endpointResourceRef is non-empty. GtpuSupervisionProfile instance covers LocalIpEndpoint instances under referenced EndpointResource instances. Empty interfaceList means \"all interfaces NG, S1, X2, and XN\" and matches any interface in LocalIpEndpoint::interfaceList. Alternative 3: interfaceList is non-empty, endpointResourceRef is non-empty. GtpuSupervisionProfile instance covers LocalIpEndpoint instances under referenced EndpointResource instances, for matching interfaces. Matching means listed in both interfaceList and LocalIpEndpoint::interfaceList. GtpuSupervisionProfile MO is not applicable to LocalIPsecEndpoint MO.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf gtpuSupervisionProfileId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list interfaceList {
+      description "List of user plane interfaces that need to be supervised. Can only contain InterfaceName values S1, X2, NG, and XN. If endpointResourceRef is non-empty, interfaces are compared to LocalIpEndpoint::interfaceList for finding match. If empty, and endpointResourceRef is non-empty, all interfaces S1, X2, NG and XN are compared to LocalIpEndpoint::interfaceList for finding match..";
+      type InterfaceName;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping L4sCfg-attributes {
+    leaf dlL4sHighThresh {
+      description "High threshold in L4S. Threshold above which L4S Congestion Experienced marking probability is 100 %.; range 5..100; Default value: 20.";
+      type int32 {
+        range "5..100";
+      }
+      default "20";
+      units "ms";
+    }
+    leaf dlL4sLowThresh {
+      description "Low threshold in L4S. Threshold below which L4S Congestion Experienced marking probability is 0 %.; range 1..50; Default value: 8.";
+      type int32 {
+        range "1..50";
+      }
+      default "8";
+      units "ms";
+    }
+    leaf dlL4sMode {
+      description "L4S mode in downlink. L4S mechanism reduces RLC latency but it can impact throughput..";
+      type enumeration {
+        enum DISABLED;
+        enum QUEUE_BASED;
+      }
+    }
+    leaf l4sCfgId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping LocalIpEndpoint-attributes {
+    leaf-list addressRef {
+      description "Reference to an instance of AddressIPv4 or AddressIPv6 MO. Dual stack is not supported, only one IP address can be referenced..";
+      type string;
+      ordered-by user;
+      min-elements 1;
+      max-elements 2;
+    }
+    leaf-list interfaceList {
+      description "List of user plane interfaces that use the referenced AddressIPv4 or AddressIPv6. Allowed values: NG, S1, X2 and XN. Combination of interface and mode must be unique across LocalIpEndpoint instances under EndpointResource instance..";
+      type InterfaceName;
+      min-elements 1;
+      max-elements 6;
+    }
+    leaf localIpEndpointId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf mode {
+      description "User plane interface redundancy mode. Only applicable when interfaceList is S1..";
+      type enumeration {
+        enum NORMAL;
+        enum BACKUP_IP;
+      }
+    }
+  }
+  grouping LocalIPsecEndpoint-attributes {
+    leaf-list interfaceList {
+      description "List of interfaces that use referenced outer address AddressIPv4 or AddressIPv6. Allowed values are X2 and XN. Interface must be unique across LocalIPsecEndpoint instances under EndpointResource instance..";
+      type InterfaceName;
+      min-elements 1;
+      max-elements 2;
+    }
+    leaf localIPsecEndpointId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list outerIpAddressRef {
+      description "Reference to an instance of AddressIPv4 or AddressIPv6 MO. Must be unique among LocalIPsecEndpoint instances under EndpointResource instance. Dual stack is not supported, only one IP address can be referenced..";
+      type string;
+      ordered-by user;
+      min-elements 1;
+      max-elements 2;
+    }
+  }
+  grouping PpControlLink-attributes {
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf detailedAvailabilityInfoTemp {
+      description "Additional Info for the availabilityStatus FAILED and DEPENDENCY_FAILED. The FailureCause has the format: <causeID> <cause Slogan> [<cause description>] Example: 1 TLS LICENSE NOT INSTALLED The TLS License installation is a prerequisite for Service Discovery.; length 1..256.";
+      type string {
+        length "1..256";
+      }
+      config false;
+    }
+    leaf localEndPoint {
+      description "Local IP address used for initialization of underlying TCP connection. IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf ppControlLinkId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf remoteEndPoint {
+      description "Remote IP address used for initialization of underlying TCP connection. IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf pmEndcNrDrbSetupAtt {
+      description "Total number of EN-DC DRB setup attempts. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmEndcDrbSetupAtt; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf pmDrbLevelSumSa {
+      description "Sum of all sample values recorded for number of NR SA DRBs. In NR-DC, DRBs are also counted when gNodeB acts as Secondary Node. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmDrbLevelSumSa; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf pmDrbLevelMaxSa {
+      description "Peak number of NR SA DRBs. In NR-DC, DRBs are also counted when gNodeB acts as Secondary Node. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmDrbLevelMaxSa; MOM flags: noNotification.";
+      type int64;
+      config false;
+      status deprecated;
+    }
+    leaf pmDrbLevelMaxEndc {
+      description "Peak number of EN-DC DRBs. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmDrbLevelMaxEndc; MOM flags: noNotification.";
+      type int64;
+      config false;
+      status deprecated;
+    }
+    leaf pmPduSessionLevelMax {
+      description "Peak number of PDU sessions. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmPduSessionLevelMax; MOM flags: noNotification.";
+      type int64;
+      config false;
+      status deprecated;
+    }
+    leaf pmEndcNrDrbSetupSucc {
+      description "Successful number of EN-DC DRB setups. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmEndcDrbSetupSucc; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf pmPduSessionLevelSamp {
+      description "Number of times corresponding sum counter is stepped. Associated ACC pm counter is pmPduSessionLevelSum. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmPduSessionLevelSamp; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf pmPduSessionLevelSum {
+      description "Sum of all sample values recorded for number of PDU sessions. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmPduSessionLevelSum; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf pmDrbLevelSamp {
+      description "Number of times corresponding sum counter is stepped. Associated ACC pm counters are pmDrbLevelSumEndc and pmDrbLevelSumSa. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmDrbLevelSamp; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+    leaf pmDrbLevelSumEndc {
+      description "Sum of all sample values recorded for number of EN-DC DRBs. Deprecated: Since 25.Q2. Planned to be removed. Replaced by GNBCUUPFunction::pmDrbLevelSumEndc; MOM flags: noNotification.";
+      type uint64;
+      config false;
+      status deprecated;
+    }
+  }
+  grouping PpControlTermination-attributes {
+    leaf ppControlTerminationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping ResourcePartition-attributes {
+    leaf related5qiTableRef {
+      description "Reference to an instance of CUUP5qiTable MO..";
+      type string;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance. Currently not used..";
+      type string;
+      min-elements 0;
+    }
+    leaf resourcePartitionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf resourcePartitionName {
+      description "Name of a resource partition.; length 1..255.";
+      type string {
+        length "1..255";
+      }
+    }
+  }
+  grouping ResourcePartitionMember-attributes {
+    leaf endpointResourceRef {
+      description "Reference to an instance of EndpointResource MO. Defines transport network configuration for specific PLMN or NSSAI. If empty, GNBCUUPFunction::endpointResourceRef is used..";
+      type string;
+    }
+    list pLMNIdList {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      max-elements 12;
+      uses PLMNId-struct;
+    }
+    leaf resourcePartitionMemberId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list sNSSAIList {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      max-elements 1024;
+      uses SliceSelectionAssistInfo-struct;
+    }
+  }
+  grouping ResourcePartitions-attributes {
+    leaf resourcePartitionsId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping RpUserPlaneLink-attributes {
+    leaf echoPeerStatus {
+      description "Peer connectivity status for link. Result of GTP-U path monitoring..";
+      type enumeration {
+        enum UNKNOWN;
+        enum REACHABLE;
+        enum UNREACHABLE;
+      }
+      config false;
+    }
+    leaf localEndPoint {
+      description "Local IP address used for initialization of underlying GTPU transport. IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf monitoringStatus {
+      description "Status of GTP-U echo path monitoring for link..";
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVE;
+      }
+      config false;
+    }
+    leaf remoteEndPoint {
+      description "Remote IP address used for initialization of underlying GTPU transport. IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf rpUserPlaneLinkId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list pmPdcpVolUlHdrProf2Rohc5qi {
+      description "Total volume of uncompressed PDCP SDU headers that are transmitted from ROHC entity using profile 2 in uplink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlIntgQos {
+      description "Total number of PDCP PDUs transmitted with integrity protection for each QoS in radio processing user plane in downlink. QoS indicator can be 5QI or QCI. In NR-DC, PDUs are also counted when gNodeB acts as Secondary Node. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlToQos {
+      description "Total number of packets (PDCP PDUs) lost, received as out of order, or discarded for each QoS indicator in radio processing user plane in uplink because of late receival. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlAggrQos {
+      description "Number of packets (PDCP PDUs) transmitted for each QoS indicator on radio processing user plane link in downlink while bearer is in dual connectivity aggregation state. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlRetransQos {
+      description "Total number of packets (PDCP SDUs) retransmitted for each QoS indicator on radio processing user plane link in downlink. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolUlCmpHdrProf1Rohc5qi {
+      description "Total volume of compressed PDCP SDU headers that are received in ROHC entity using profile 1 in uplink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlAckQos {
+      description "Total number of packets (PDCP PDUs) acknowledged for each QoS indicator in radio processing user plane in downlink. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlAggrQos {
+      description "Volume of packets (PDCP SDUs) transmitted for each QoS indicator on radio processing user plane link in downlink while bearer is in dual connectivity aggregation state. QoS indicator can be 5QI or QCI. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecUlDiscIntgQos {
+      description "Total number of PDCP PDUs discarded because of failed integrity verification for each QoS indicator in radio processing user plane in uplink. QoS indicator can be 5QI or QCI. In NR-DC, discarded packets are also counted when gNodeB acts as Secondary Node. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecUlQos {
+      description "Total number of packets (PDCP PDUs) received for each QoS indicator in radio processing user plane in uplink. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlQos {
+      description "Total number of packets (PDCP PDUs) transmitted for each QoS indicator in radio processing user plane in downlink. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlQos {
+      description "Total number of packets (PDCP PDUs) lost, received as out of order, or discarded for each QoS indicator in radio processing user plane in uplink. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolDlCmpHdrProf1Rohc5qi {
+      description "Total volume of compressed PDCP SDU headers that are transmitted from ROHC entity using profile 1 in downlink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlDiscAqmQos {
+      description "Total number of packets (PDCP PDUs) discarded for each QoS indicator in radio processing user plane in downlink because of AQM. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktTransDlDiscQos {
+      description "Total number of packets (PDCP PDUs) discarded or lost for each QoS indicator in radio processing user plane in downlink. QoS indicator can be 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolDlHdrProf2Rohc5qi {
+      description "Total volume of uncompressed PDCP SDU headers that are received in ROHC entity using profile 2 in downlink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlRetransQos {
+      description "Total volume of packets (PDCP SDUs) retransmitted for each QoS indicator on radio processing user plane link in downlink. QoS indicator can be 5QI or QCI. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecUlIntgQos {
+      description "Total number of PDCP PDUs with integrity protection received for each QoS indicator in radio processing user plane in uplink. QoS indicator can be 5QI or QCI. In NR-DC, PDUs are also counted when gNodeB acts as Secondary Node. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolUlHdrProf1Rohc5qi {
+      description "Total volume of uncompressed PDCP SDU headers that are transmitted from ROHC entity using profile 1 in uplink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolTransDlQos {
+      description "Total volume of packets (PDCP SDUs) transmitted for each QoS indicator in radio processing user plane in downlink. QoS indicator can be 5QI or QCI. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolDlHdrProf1Rohc5qi {
+      description "Total volume of uncompressed PDCP SDU headers that are received in ROHC entity using profile 1 in downlink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolRecUlQos {
+      description "Total volume of packets (PDCP SDUs) received for each QoS indicator in radio processing user plane in uplink. QoS indicator can be 5QI or QCI. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktRecUlOooQos {
+      description "Total number of packets (PDCP PDUs) received in radio processing user plane in uplink that are transferred to S1-U or NG-U with PDCP sequence number that is out of order. Counted for each QoS indicator (5QI or QCI) separately. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolUlCmpHdrProf2Rohc5qi {
+      description "Total volume of compressed PDCP SDU headers that are received in ROHC entity using profile 2 in uplink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpVolDlCmpHdrProf2Rohc5qi {
+      description "Total volume of compressed PDCP SDU headers that are transmitted from ROHC entity using profile 2 in downlink for each 5QI. Unit: kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktLossUlToDiscQos {
+      description "Total number of packets (PDCP PDUs) discarded for each QoS indicator in radio processing user plane in uplink because of late arrival or because packet is a duplicate. QoS indicator is 5QI or QCI. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+  }
+  grouping RpUserPlaneTermination-attributes {
+    leaf rpUserPlaneTerminationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping S1ULink-attributes {
+    leaf echoPeerStatus {
+      description "Peer connectivity status for link. Result of GTP-U path monitoring..";
+      type enumeration {
+        enum UNKNOWN;
+        enum REACHABLE;
+        enum UNREACHABLE;
+      }
+      config false;
+    }
+    leaf localEndPoint {
+      description "Local IP address used for initialization of underlying GTPU transport. IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf monitoringStatus {
+      description "Status of GTP-U echo path monitoring for link..";
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVE;
+      }
+      config false;
+    }
+    leaf remoteEndPoint {
+      description "Remote IP address used for initialization of underlying GTPU transport. IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf s1ULinkId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list pmPdcpPktRecDlDiscAqm5qi {
+      description "Total number of packets (PDCP SDUs) discarded for each 5QI over S1-U in downlink because of AQM. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmGtpuEchoRtdSum {
+      description "Aggregated sum of all round-trip delay (RTD) values measured for GTP-U Echo messages, processing time at responder is included. Unit: microsecond.";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpVolTransUl5qi {
+      description "Total volume of packets (PDCP SDUs) transmitted for each 5QI over S1-U in uplink. Unit: 1 kilobit (1 000 bits) Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmGtpuEchoRtdMax {
+      description "Maximum round-trip delay (RTD) measured for GTP-U Echo messages, processing time at responder is included. Unit: microsecond.";
+      type int64;
+      config false;
+    }
+    leaf pmGtpuEchoRespRejRcvd {
+      description "Total number of received but rejected GTP-U Echo Response messages..";
+      type uint64;
+      config false;
+    }
+    leaf pmGtpuEchoRtdMin {
+      description "Minimum round-trip delay (RTD) measured for GTP-U Echo messages, processing time at responder is included. Unit: microsecond.";
+      type int64;
+      config false;
+    }
+    leaf pmGtpuEchoRespNotRcvd {
+      description "Total number of missing GTP-U Echo Response messages..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktTransUl5qi {
+      description "Total number of packets (PDCP SDUs) transmitted for each 5QI over S1-U in uplink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmGtpuEchoReqSent {
+      description "Total number of sent GTP-U Echo Request messages..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDlDisc5qi {
+      description "Total number of packets (PDCP SDUs) discarded for each 5QI over S1-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf pmGtpuEchoRespAccRcvd {
+      description "Total number of received and accepted GTP-U Echo Response messages..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmGtpuEchoRtdDistr {
+      description "Distribution of round-trip delay (RTD) values measured for GTP-U Echo messages, processing time at responder is included. Ranges: Bin[0]: [0..2000] us Bin[1]: [2001..5000] us Bin[2]: [5001..10000] us Bin[3]: [10001..20000] us Bin[4]: [20001..] us.";
+      type uint64;
+      max-elements 5;
+    }
+    leaf pmGtpuEchoRtdSamp {
+      description "Aggregated number of round-trip delay (RTD) values measured for GTP-U Echo messages..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPdcpPktRecDl5qi {
+      description "Total number of packets (PDCP SDUs) received for each 5QI over S1-U in downlink. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+  }
+  grouping S1UTermination-attributes {
+    leaf s1UTerminationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UeCC-attributes {
+    leaf ueCCId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfile-attributes {
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf ueConfGroupType {
+      description "UE configuration group type. UE configuration group type that is applied in contained UserPlaneProfileUeCfg instances..";
+      type enumeration {
+        enum UE_MOBILITY_GROUP;
+        enum UE_SERVICE_GROUP;
+        enum UE_ADMISSION_GROUP;
+      }
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+    leaf userPlaneProfileId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfileCfg-attributes {
+    leaf dcDlAggActTime {
+      description "Required PDCP SDU queue age for activating PDCP downlink aggregation. PDCP downlink aggregation is activated for bearers where a packet spends longer time than this attribute value in PDCP SDU queue. Activating PDCP downlink aggregation for a bearer requires following: - UE is capable of PDCP downlink aggregation. - License for LTE-NR Downlink Aggregation is present and feature is active.; range 0..1000; Default value: 1.";
+      type eytypes:int32_range_0-1000;
+      default "1";
+      units "ms";
+    }
+    leaf dcDlAggAgeDiffPreferredCg {
+      description "Cell group used during suspension of PDCP downlink aggregation due to high queue age difference. Cell group used for downlink transmission when PDCP downlink aggregation is temporary suspended when dcDlAggAgeDiffThresh is exceeded..";
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum YOUNGEST_CG;
+      }
+    }
+    leaf dcDlAggAgeDiffProhibitTime {
+      description "Prohibition time for PDCP downlink aggregation at high downlink PDU queue age difference. Time during which PDCP downlink aggregation is prohibited after exceeding dcDlAggAgeDiffThresh. Value 0 corresponds to infinity or until bearer is reconfigured.; range 0..10000; Default value: 200.";
+      type eytypes:int32_range_0-10000;
+      default "200";
+      units "ms";
+    }
+    leaf dcDlAggAgeDiffThresh {
+      description "PDU queue age difference threshold for temporary prohibition of PDCP downlink aggregation. Minimum age difference between oldest PDCP PDUs for MCG and SCG not yet RLC-acknowledged by UE. This triggers a temporary prohibition of PDCP downlink aggregation. If 0, check for minimum downlink PDU queue age difference is disabled.; range 0..3000; Default value: 150.";
+      type eytypes:int32_range_0-3000;
+      default "150";
+      units "ms";
+    }
+    leaf dcDlAggCgPrio {
+      description "Prioritized cell group during active PDCP downlink aggregation. Prioritized cell group for transmission during active PDCP downlink aggregation. If DcDlCfg::dcDlAggCgPrioOverride is non-empty, it overrides this attribute..";
+      type enumeration {
+        enum MCG_PRIO;
+        enum SCG_PRIO;
+        enum EQUAL_PRIO;
+      }
+    }
+    leaf dcDlAggExpiryTimer {
+      description "Expiry timer for when PDCP downlink aggregation is deactivated. When a bearer with PDCP downlink aggregation activated has empty PDCP SDU and PDU queues for longer than this attribute value, PDCP downlink aggregation is deactivated and bearer returns to packet scheduling on dlPdcpPreferredCg.; range 0..10000; Default value: 100.";
+      type eytypes:int32_range_0-10000;
+      default "100";
+      units "ms";
+    }
+    leaf dcDlAggMcgDrxWakeupTime {
+      description "Time since last transmitted user data packet after which MCG is considered to be in DRX sleep. A cell croup considered to be in DRX sleep is secured to be awake again before used for PDCP downlink aggregation. Value 0 means infinity, that is, MCG DRX awake function is turned off.; range 0..1000; Default value: 80.";
+      type eytypes:int32_range_0-1000;
+      default "80";
+      units "ms";
+    }
+    leaf dcDlAggScgDrxWakeupTime {
+      description "Time since last transmitted user data packet after which SCG is considered to be in DRX sleep. A cell group considered to be in DRX sleep is secured to be awake again before used for PDCP downlink aggregation. Value 0 means infinity, that is, SCG DRX awake function is turned off.; range 0..1000; Default value: 80.";
+      type eytypes:int32_range_0-1000;
+      default "80";
+      units "ms";
+    }
+    leaf dlPdcpMcgInitialRate {
+      description "Estimated initial rate on MCG of a dual-connectivity-configured radio bearer.; range 0..10000; Default value: 20.";
+      type eytypes:int32_range_0-10000-1;
+      default "20";
+      units "Mbps";
+    }
+    leaf dlPdcpMcgSpsTargetTime {
+      description "Target buffer depth in gNodeB-DU for PDCP PDUs on MCG radio resources.; range 0..1000; Default value: 25.";
+      type eytypes:int32_range_0-1000;
+      default "25";
+      units "ms";
+    }
+    leaf dlPdcpPreferredCg {
+      description "Cell group preferred to be used when PDCP downlink aggregation is inactive. If DcDlCfg::dlPdcpPreferredCgOverride is non-empty, it overrides this attribute..";
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum KEEP_SCG;
+      }
+    }
+    leaf dlPdcpScgInitialRate {
+      description "Estimated initial rate on SCG of a dual-connectivity-configured radio bearer.; range 0..10000; Default value: 100.";
+      type eytypes:int32_range_0-10000-1;
+      default "100";
+      units "Mbps";
+    }
+    leaf dlPdcpScgRetProhibitTime {
+      description "Minimum time between two consecutive switches enabling use of downlink SCG radio resources.; range 0..1000; Default value: 400.";
+      type eytypes:int32_range_0-1000;
+      default "400";
+      units "ms";
+    }
+    leaf dlPdcpScgSpsTargetTime {
+      description "Target buffer depth in gNodeB-DU for PDCP PDUs on SCG radio resources.; range 0..1000; Default value: 25.";
+      type eytypes:int32_range_0-1000;
+      default "25";
+      units "ms";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf ulPdcpScgRetProhibitTime {
+      description "Minimum time between two consecutive switches enabling use of uplink SCG radio resources.; range 0..10000; Default value: 1000.";
+      type eytypes:int32_range_0-10000;
+      default "1000";
+      units "ms";
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+    leaf userPlaneProfileCfgId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfileCgCat-attributes {
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+    leaf userPlaneProfileCgCatId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfileCgCatCfg-attributes {
+    leaf-list cgCategoryList {
+      description "Cell group category list. If empty, MO instance does not match any incoming UE connection..";
+      type eytypes:int32_range_0-255;
+      ordered-by user;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+    leaf userPlaneProfileCgCatCfgId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userPlaneProfileRef {
+      description "Reference to an instance of UserPlaneProfile MO..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UserPlaneProfileUeCfg-attributes {
+    leaf dcDlAggActTime {
+      description "Required PDCP SDU queue age for activating PDCP downlink aggregation. PDCP downlink aggregation is activated for bearers where a packet spends longer time than attribute value in PDCP SDU queue. Activating PDCP downlink aggregation for a bearer requires following: - UE is capable of PDCP downlink aggregation. - License for LTE-NR Downlink Aggregation is present and feature is active.; range 0..1000; Default value: 1.";
+      type eytypes:int32_range_0-1000;
+      default "1";
+      units "ms";
+    }
+    leaf dcDlAggAgeDiffPreferredCg {
+      description "Cell group used during suspension of PDCP downlink aggregation due to high queue age difference. Cell group used for downlink transmission when PDCP downlink aggregation is temporary suspended when dcDlAggAgeDiffThresh is exceeded..";
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum YOUNGEST_CG;
+      }
+    }
+    leaf dcDlAggAgeDiffProhibitTime {
+      description "Prohibit time for PDCP downlink aggregation at high downlink PDU queue age difference. Time during which PDCP downlink aggregation is prohibited after exceeding dcDlAggAgeDiffThresh. Value 0 corresponds to infinity or until bearer is reconfigured.; range 0..10000; Default value: 200.";
+      type eytypes:int32_range_0-10000;
+      default "200";
+      units "ms";
+    }
+    leaf dcDlAggAgeDiffThresh {
+      description "PDU queue age difference threshold for temporary prohibition of PDCP downlink aggregation. Minimum age difference between oldest PDCP PDUs for MCG and SCG not yet RLC-acknowledged by UE. This triggers a temporary prohibition of PDCP downlink aggregation. If 0, check for minimum downlink PDU queue age difference is disabled.; range 0..3000; Default value: 150.";
+      type eytypes:int32_range_0-3000;
+      default "150";
+      units "ms";
+    }
+    leaf dcDlAggCgPrio {
+      description "Prioritized cell group during active PDCP downlink aggregation. Prioritized cell group for transmission during active PDCP downlink aggregation. Overridden by DcDlCfg::dcDlAggCgPrioOverride if DcDlCfg::dcDlAggCgPrioOverride is non-empty..";
+      type enumeration {
+        enum MCG_PRIO;
+        enum SCG_PRIO;
+        enum EQUAL_PRIO;
+      }
+    }
+    leaf dcDlAggExpiryTimer {
+      description "Expiry timer for when PDCP downlink aggregation can be deactivated. When a bearer with PDCP downlink aggregation activated has had empty PDCP SDU and PDU queues for longer than attribute value, PDCP downlink aggregation is deactivated and bearer returns to packet scheduling on dlPdcpPreferredCg.; range 0..10000; Default value: 100.";
+      type eytypes:int32_range_0-10000;
+      default "100";
+      units "ms";
+    }
+    leaf dcDlAggHighAirIfLoadThresh {
+      description "PDCP downlink aggregation is prohibited when any of MCG or SCG load exceeds this value. If 0, PDCP downlink aggregation will not be prohibited due to high load.; range 0..100.";
+      type eytypes:int32_range_0-100;
+      units "percent";
+    }
+    leaf dcDlAggHighLatencyThresh {
+      description "PDCP downlink aggregation is prohibited when MCG or SCG one-way link latency exceeds this value. If 0, PDCP downlink aggregation will not be prohibited due to high link latency.; range 0..100.";
+      type eytypes:int32_range_0-100-12;
+      units "ms";
+    }
+    leaf dcDlAggMcgDrxWakeupTime {
+      description "Time since last transmitted user data packet after which MCG is considered to be in DRX sleep. A Cell Group considered to be in DRX sleep is secured to be awake again before used for PDCP downlink aggregation. Value 0 means infinity, that is, MCG DRX awake function is turned off.; range 0..1000; Default value: 80.";
+      type eytypes:int32_range_0-1000;
+      default "80";
+      units "ms";
+    }
+    leaf dcDlAggScgDrxWakeupTime {
+      description "Time since last transmitted user data packet after which SCG is considered to be in DRX sleep. A Cell Group considered to be in DRX sleep is secured to be awake again before used for PDCP downlink aggregation. Value 0 means infinity, that is, SCG DRX awake function is turned off.; range 0..1000; Default value: 80.";
+      type eytypes:int32_range_0-1000;
+      default "80";
+      units "ms";
+    }
+    leaf dlPdcpMcgInitialRate {
+      description "Estimated initial rate on MCG of a dual-connectivity-configured radio bearer.; range 0..10000; Default value: 20.";
+      type eytypes:int32_range_0-10000-1;
+      default "20";
+      units "Mbps";
+    }
+    leaf dlPdcpMcgSpsTargetTime {
+      description "Target buffer depth in DU for PDCP PDUs on MCG leg.; range 0..1000; Default value: 25.";
+      type eytypes:int32_range_0-1000;
+      default "25";
+      units "ms";
+    }
+    leaf dlPdcpPreferredCg {
+      description "Cell group preferred to be used when PDCP downlink aggregation is inactive. Overridden by DcDlCfg::dlPdcpPreferredCgOverride if DcDlCfg::dlPdcpPreferredCgOverride is non-empty..";
+      type enumeration {
+        enum MCG;
+        enum SCG;
+        enum KEEP_SCG;
+      }
+    }
+    leaf dlPdcpScgInitialRate {
+      description "Estimated initial rate on SCG of a dual-connectivity-configured radio bearer.; range 0..10000; Default value: 100.";
+      type eytypes:int32_range_0-10000-1;
+      default "100";
+      units "Mbps";
+    }
+    leaf dlPdcpScgRetProhibitTime {
+      description "Minimum time between two consecutive switches enabling use of downlink SCG Radio Resources.; range 0..1000; Default value: 400.";
+      type eytypes:int32_range_0-1000;
+      default "400";
+      units "ms";
+    }
+    leaf dlPdcpScgSpsTargetTime {
+      description "Target buffer depth in DU for PDCP PDUs on SCG leg.; range 0..1000; Default value: 25.";
+      type eytypes:int32_range_0-1000;
+      default "25";
+      units "ms";
+    }
+    leaf-list prefUeGroupList {
+      description "Preference UE group list. List of preference UE group identifiers. If empty, MO instance matches preference UE group identifiers not defined in prefUeGroupList of any other MO instances under parent MO instance..";
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list ueConfGroupList {
+      description "UE configuration group list. List of UE configuration group identifiers. If empty, MO instance matches all UE configuration group identifiers. UE configuration group type is defined by ueConfGroupType in parent MO instance..";
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+      min-elements 0;
+      max-elements 32;
+    }
+    leaf-list ueGroupList {
+      description "UE group list. List of UE group identifiers. If empty, MO instance matches all UE group identifiers..";
+      type eytypes:int32_range_1-255;
+      ordered-by user;
+      min-elements 0;
+      max-elements 16;
+    }
+    leaf ulPdcpScgRetProhibitTime {
+      description "Minimum time between two consecutive switches enabling use of uplink SCG Radio Resources.; range 0..10000; Default value: 1000.";
+      type eytypes:int32_range_0-10000;
+      default "1000";
+      units "ms";
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+    leaf userPlaneProfileCfgRef {
+      description "Reference to an instance of UserPlaneProfileCfg MO. UserPlaneProfileCfg MO contains same PDCP parameters as UserPlaneProfileUeCfg MO. If empty, attributes according to this MO class definition are used. If non-empty, attributes from referenced MO instance are used..";
+      type string;
+    }
+    leaf userPlaneProfileUeCfgId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping X2ULink-attributes {
+    leaf echoPeerStatus {
+      description "Peer connectivity status for link. Result of GTP-U path monitoring..";
+      type enumeration {
+        enum UNKNOWN;
+        enum REACHABLE;
+        enum UNREACHABLE;
+      }
+      config false;
+    }
+    leaf localEndPoint {
+      description "Local IP address for X2 user plane connection. The IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf monitoringStatus {
+      description "Status of GTP-U echo path monitoring for link..";
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVE;
+      }
+      config false;
+    }
+    leaf remoteEndPoint {
+      description "Remote IP address for X2 user plane connection. The IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf x2ULinkId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list pmPdcpPktFwdTransDlQos {
+      description "Number of downlink session DRB packets transmitted during forwarding over X2 user plane for each QoS. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdTransDlDiscQos {
+      description "Number of discarded downlink session DRB packets out of those that need to be transmitted during packet forwarding for each QoS over X2 user plane. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+  }
+  grouping X2UTermination-attributes {
+    leaf x2UTerminationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list pmPdcpPktFwdRecDlDiscQos {
+      description "Number of discarded downlink session DRB packets out of those received during packet forwarding over X2 user plane for each QoS. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+    leaf-list pmPdcpPktFwdRecDlQos {
+      description "Number of downlink session DRB packets received during forwarding over X2 user plane for each QoS. Packets received during incoming IRAT inter-system handover from LTE are excluded from this measurement and instead included in GNBCUUPFunction_pmPdcpPktFwdRecDlQos. Compressed: True.";
+      type uint64;
+      max-elements 256;
+    }
+  }
+}

@@ -1,0 +1,54 @@
+module ericsson-network-identity-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqNetworkIdentity";
+  prefix nwrkidrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nReqNetworkIdentity.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list NetworkIdentity {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Identity of FieldReplaceableUnit MO in network represented by RiNetwork MO.";
+      key "networkIdentityId";
+      leaf networkIdentityId {
+        type leafref {
+          path "../attributes/networkIdentityId";
+        }
+      }
+      container attributes {
+      uses NetworkIdentity-attributes;
+      }
+    }
+  }
+  grouping NetworkIdentity-attributes {
+    leaf networkIdentityId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf serialNumber {
+      description "Serial number of installed unit represented by FieldReplaceableUnit MO.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf-list neighborPortId {
+      description "Identity of network equipment port connected to installed unit represented by FieldReplaceableUnit MO..";
+      type string {
+        length "1..255";
+      }
+      min-elements 0;
+      max-elements 16;
+    }
+  }
+}

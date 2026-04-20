@@ -1,0 +1,54 @@
+module huawei-gnbuecompatswrsvpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbuecompatswrsvpara";
+ prefix gnbuecompatswrsvpara;
+ description
+ "Auto-generated modular YANG for huawei-gnbuecompatswrsvpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBUECOMPATSWRSVPARA-attributes {
+ leaf OLD_PARAMCTRLTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf PARAMCTRLTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf RSVDSWPARAM0 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM1 {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_UEINFOINDEX {
+  type union {
+   type int16 {
+    range "-1..128";
+   }
+  }
+  mandatory false;
+ }
+ leaf UEINFOINDEX {
+  type union {
+   type int16 {
+    range "-1..128";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

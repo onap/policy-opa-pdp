@@ -1,0 +1,53 @@
+module huawei-dfu {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-dfu";
+ prefix dfu;
+ description
+ "Auto-generated modular YANG for huawei-dfu" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping DFU-attributes {
+ leaf APPREF {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf APPTYPE {
+  type enumeration {
+   enum val-3;
+   enum val-10;
+  }
+  mandatory false;
+ }
+ leaf NETWORKID {
+  type uint64 {
+   range "0..68719476735";
+  }
+  mandatory false;
+ }
+ leaf OLD_UID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf UID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf UNITNAME {
+  type string {
+   length "1..31";
+  }
+  mandatory false;
+ }
+ }
+}

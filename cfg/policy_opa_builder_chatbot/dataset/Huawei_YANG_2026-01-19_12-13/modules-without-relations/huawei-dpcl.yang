@@ -1,0 +1,97 @@
+module huawei-dpcl {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-dpcl";
+ prefix dpcl;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-dpcl" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container dpcl-ipv4 {
+  container attributes {
+   uses DPCL-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ augment "/if:interfaces/if:interface/ip:ipv6" {
+ container dpcl-ipv6 {
+  container attributes {
+   uses DPCL-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping DPCL-attributes {
+ leaf IPVERSION {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_LINKID {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf LINKID {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf LOCIP6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf PEERIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf PEERIP6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf SECLOCIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf SECLOCIP6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf SECPEERIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf SECPEERIP6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type uint8 {
+   range "0..31";
+  }
+  mandatory false;
+ }
+ }
+}

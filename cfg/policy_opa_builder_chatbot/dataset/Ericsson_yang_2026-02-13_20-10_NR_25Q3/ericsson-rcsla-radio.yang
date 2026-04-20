@@ -1,0 +1,151 @@
+module ericsson-rcsla-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsLA";
+  prefix rcsla;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/LocalAccessM" {
+    list LocalAccess {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Enables access to local management services. Controls access to SSH- and TLS-based services, for example, Ericsson CLI and NETCONF, and emergency access GUI. Services can be locked only if \"Disable LMT\" license is present. If license is not present, services are unlocked regardless of configuration in this class. The RDNs of these MOs are LocalAccess=cmSsh, LocalAccess=cmTls, and LocalAccess=web.";
+      key "localAccessId";
+      leaf localAccessId {
+        type leafref {
+          path "../attributes/localAccessId";
+        }
+      }
+      container attributes {
+        uses LocalAccess-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/LocalAccessM" {
+    list LmtAlarmControl {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Controls the sending of alarm when a cable is connected to the LMT port. The RDN for this MO is LmtAlarmControl=1.";
+      key "lmtAlarmControlId";
+      leaf lmtAlarmControlId {
+        type leafref {
+          path "../attributes/lmtAlarmControlId";
+        }
+      }
+      container attributes {
+        uses LmtAlarmControl-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list LocalAccessM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Controls for the locally accessible terminal port. The RDNs of this MO is \"LocalAccessM=1\".";
+      key "localAccessMId";
+      leaf localAccessMId {
+        type leafref {
+          path "../attributes/localAccessMId";
+        }
+      }
+      container attributes {
+        uses LocalAccessM-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef EmergencyRestoreState {
+    type enumeration {
+      enum PHYSICALONLY;
+      enum WEBENABLED;
+    }
+  }
+  typedef LinkStatus {
+    type enumeration {
+      enum UP;
+      enum DOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping LmtAlarmControl-attributes {
+    leaf lmtAlarmControlId {
+      type string;
+      mandatory true;
+    }
+    leaf linkStatus {
+      type enumeration {
+        enum UP;
+        enum DOWN;
+      }
+      config false;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping LocalAccess-attributes {
+    leaf localAccessId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping LocalAccessM-attributes {
+    leaf localAccessMId {
+      type string;
+      mandatory true;
+    }
+    leaf emergencyRestore {
+      type enumeration {
+        enum PHYSICALONLY;
+        enum WEBENABLED;
+      }
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+}

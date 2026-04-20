@@ -1,0 +1,122 @@
+module ericsson-bridging-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnBridging";
+  prefix bdgrdo;
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Transport Bridging Model.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Bridge {
+      description "Additional definitions from MOM:min/max-elements:0/256;root; Ethernet L2 forwarding technique. Network bridge connects multiple network segments at data link layer (Layer 2) of OSI model. In Ethernet networks, term bridge formally means device that behaves according to IEEE 802.1D standard. Bridging takes place at OSI Model Layer 2 (data-link layer), including MAC Bridge and Provider Bridge, that direct frames according to hardware assigned MAC addresses. Bridge MO can only refer to existing VlanPort MO.";
+      key "bridgeId";
+      leaf bridgeId {
+        type leafref {
+          path "../attributes/bridgeId";
+        }
+      }
+      container attributes {
+      uses Bridge-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping Bridge-attributes {
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf bridgeId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf lowLatencySwitching {
+      description "Provides low latency switching over member ports.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf macAddress {
+      description "MAC address of Bridged Virtual Interface (BVI), when BVI is associated with this Bridge MO..";
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list port {
+      description "Reference to VlanPort..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+  }
+}

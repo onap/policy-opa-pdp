@@ -1,0 +1,11 @@
+module ericsson-ecimcommon-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:EcimCommon";
+  prefix EcimComm;
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+  grouping ManagedObject-attributes {
+  }
+}

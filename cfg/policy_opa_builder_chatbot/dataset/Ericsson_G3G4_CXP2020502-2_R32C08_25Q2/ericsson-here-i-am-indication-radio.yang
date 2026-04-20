@@ -1,0 +1,78 @@
+module ericsson-here-i-am-indication-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqHereIAmIndication";
+  prefix hriamindrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nReqHereIAmIndication";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list HereIAmIndication {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Represents \"Here I am\" indication functionality of maintenance indicator. Created by system when hardware unit represented by parent of this MO supports this functionality. The RDN of this MO is HereIAmIndication=1.";
+      key "hereIAmIndicationId";
+      leaf hereIAmIndicationId {
+        type leafref {
+          path "../attributes/hereIAmIndicationId";
+        }
+      }
+      container attributes {
+      uses HereIAmIndication-attributes;
+      }
+    }
+  }
+  typedef HereIAmIndState {
+    description "State of optical indication on hardware unit represented by parent of this MO.";
+    type enumeration {
+      enum ACTIVE {
+        description "Indication is active. Maintenance indicator blinks twice continuously. This state is reference to the attribute \"maintenanceIndicator\" of \"FieldReplaceableUnit\" MO. When unit is locked, \"maintenanceIndicator\" is set to DOUBLE_FLASH_AND_STEADY_ON. When unit is unlocked, \"maintenanceIndicator\" is set to DOUBLE_FLASH_AND_OFF.";
+      }
+      enum INACTIVE {
+        description "Indication is not active.";
+      }
+    }
+  }
+  typedef HereIAmIndStatus {
+    description "Status of optical indication on hardware unit represented by parent of this MO.";
+    type enumeration {
+      enum ACTIVE {
+        description "Indication is active. Maintenance indicator blinks twice continuously. This state is reference to the attribute \"maintenanceIndicator\" of \"FieldReplaceableUnit\" MO. When unit is locked, \"maintenanceIndicator\" is set to DOUBLE_FLASH_AND_STEADY_ON. When unit is unlocked, \"maintenanceIndicator\" is set to DOUBLE_FLASH_AND_OFF.";
+      }
+      enum INACTIVE {
+        description "Indication is not active.";
+      }
+    }
+  }
+  grouping HereIAmIndication-attributes {
+    leaf hereIAmIndicationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf hereIAmIndicationStatus {
+      description "Whether \"Here I am\" optical indication on hardware unit represented by parent of this MO is active. This optical indication can help locate equipment. Indication stops under the following conditions: - After 6 hours. - After RU restart. - If maintenance button is pressed. - If administrativeState attribute of parent FieldReplaceableUnit MO is changed to LOCKED or UNLOCKED. - If stopped with stopHereIAmIndication action..";
+      type enumeration {
+        enum ACTIVE;
+        enum INACTIVE;
+      }
+      config false;
+    }
+    leaf hereIAmIndicationState {
+      description "Whether \"Here I am\" optical indication on hardware unit represented by parent of this MO is active. This optical indication can help locate equipment. Indication stops under the following conditions: - After 6 hours. - After RU restart. - If maintenance button is pressed. - If administrativeState attribute of parent FieldReplaceableUnit MO is changed to LOCKED or UNLOCKED. - If stopped with stopHereIAmIndication action..";
+      type enumeration {
+        enum ACTIVE;
+        enum INACTIVE;
+      }
+      config false;
+    }
+  }
+}

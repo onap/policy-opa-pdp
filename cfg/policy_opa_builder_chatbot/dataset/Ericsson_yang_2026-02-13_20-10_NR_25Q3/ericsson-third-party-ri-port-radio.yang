@@ -1,0 +1,137 @@
+module ericsson-third-party-ri-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqThirdPartyRiPort";
+  prefix tpriptrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list ThirdPartyRiPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Third-party Radio Interface Port.";
+      key "thirdPartyRiPortId";
+      leaf thirdPartyRiPortId {
+        type leafref {
+          path "../attributes/thirdPartyRiPortId";
+        }
+      }
+      container attributes {
+        uses ThirdPartyRiPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef TransmissionStandard {
+    type enumeration {
+      enum CPRI;
+      enum ETHERNET;
+    }
+  }
+  grouping ThirdPartyRiPort-attributes {
+    leaf thirdPartyRiPortId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf-list channelRef {
+      type string;
+    }
+    leaf preferredSfpProductNumber {
+      type string {
+        length "1..13";
+      }
+      description "length 1..13.";
+    }
+    leaf sfpModuleRef {
+      type string;
+      config false;
+    }
+    leaf transmissionStandard {
+      type enumeration {
+        enum CPRI;
+        enum ETHERNET;
+      }
+      config false;
+    }
+    leaf externalTrustCategoryRef {
+      type string;
+    }
+  }
+}

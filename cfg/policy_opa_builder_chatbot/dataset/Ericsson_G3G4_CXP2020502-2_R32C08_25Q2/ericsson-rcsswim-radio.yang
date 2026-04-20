@@ -1,0 +1,156 @@
+module ericsson-rcsswim-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsSwIM";
+  prefix rcsswim;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis is the software inventory model. It contains the software versions installed on the managed element. For each software version, the software items that constitute the software version are listed.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list SwInventory {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; A singleton class, the purpose of which is only structural.";
+      key "swInventoryId";
+      leaf swInventoryId {
+        type leafref {
+          path "../attributes/swInventoryId";
+        }
+      }
+      container attributes {
+      uses SwInventory-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsswim:SwInventory" {
+    list SwItem {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; A software item holds information about an executable software product. A software item can also represent a container product that contains other software items, which represent a subordinate container and/or executable software products.";
+      key "swItemId";
+      leaf swItemId {
+        type leafref {
+          path "../attributes/swItemId";
+        }
+      }
+      container attributes {
+      uses SwItem-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsswim:SwInventory" {
+    list SwVersion {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; An MO of this class represents the software version of a domain of the software. If there is only one software domain, the MO represents the overall version of the managed element.";
+      key "swVersionId";
+      leaf swVersionId {
+        type leafref {
+          path "../attributes/swVersionId";
+        }
+      }
+      container attributes {
+      uses SwVersion-attributes;
+      }
+    }
+  }
+  grouping ProductData-struct {
+    description "Represents an Ericsson software product. The product name, product number, and product revision represent product information stored in PRIM realization part.";
+    leaf productName {
+      type string;
+    }
+    leaf productNumber {
+      type string;
+    }
+    leaf productRevision {
+      type string;
+    }
+    leaf productionDate {
+      type string;
+    }
+    leaf description {
+      type string;
+    }
+    leaf type {
+      type string;
+    }
+  }
+  grouping SwInventory-attributes {
+    leaf swInventoryId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "A label for free usage..";
+      type string;
+    }
+    leaf-list active {
+      description "A reference to the active software version of a software domain. The software of a managed element can be structured into more than one software domain. The active software versions control the behavior of the managed element ..";
+      type string;
+      min-elements 1;
+    }
+  }
+  grouping SwItem-attributes {
+    leaf swItemId {
+      description "The value component of RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "A label for free usage..";
+      type string;
+    }
+    list administrativeData {
+      config false;
+      description "The software item product identification..";
+      uses ProductData-struct;
+    }
+    leaf additionalInfo {
+      description "Describes any additional relevant aspects of the software item..";
+      type string;
+      config false;
+    }
+    leaf-list consistsOf {
+      description "Describes a hierarchical relationship between software items. An empty value indicates that the current software item is not a container that includes subordinate software items..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping SwVersion-attributes {
+    leaf swVersionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "A label for free usage..";
+      type string;
+    }
+    list administrativeData {
+      config false;
+      description "The software version product identification..";
+      uses ProductData-struct;
+    }
+    leaf timeOfInstallation {
+      description "Indicates the time the software version was installed..";
+      type string;
+      config false;
+    }
+    leaf timeOfActivation {
+      description "Indicates the time when the software version was activated. If no time is shown, the current software version is not activated..";
+      type string;
+      config false;
+    }
+    leaf timeOfDeactivation {
+      description "Indicates the time when the software version was deactivated. If no time is shown, the current software version is not deactivated..";
+      type string;
+      config false;
+    }
+    leaf-list consistsOf {
+      description "List of references to the software items of which the software version consists..";
+      type string;
+      min-elements 0;
+    }
+  }
+}

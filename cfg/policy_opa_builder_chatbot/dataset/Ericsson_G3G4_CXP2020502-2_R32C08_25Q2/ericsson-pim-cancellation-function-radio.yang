@@ -1,0 +1,146 @@
+module ericsson-pim-cancellation-function-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmePimCancellationFunction";
+  prefix pimcnfrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nRmePimCancellationFunction.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list PimCancellationFunction {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents PIM cancellation function. It calculates PIM generated from DL carriers of one or more SectorCarriers. The PIM is then cancelled in one or more UL carriers participating in the function.";
+      key "pimCancellationFunctionId";
+      leaf pimCancellationFunctionId {
+        type leafref {
+          path "../attributes/pimCancellationFunctionId";
+        }
+      }
+      container attributes {
+      uses PimCancellationFunction-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping PimCancellationFunction-attributes {
+    leaf pimCancellationFunctionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf sharedFunctionIdentifier {
+      description "Global identifier for sharing functions between Managed Elements.; range -1..53; Default value: -1.";
+      type int32 {
+        range "-1..53";
+      }
+      default "-1";
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf-list pmPimcCancellationGroupStatus {
+      description "Distribution of PIM Cancellation group states. PDF ranges: [0]: PimcSetup. Checking that generated PIM is within the UL carrier frequency boundaries. [1]: PimcSearch. Calculating PIM source delay and initializing cancellation. [2]: PimcAction. Running cancellation with desired cancellation depth. [3]: PimcNonOperationalStatus. The cancellation group is in the non-operational state due to failure or saturation..";
+      type uint32;
+      max-elements 4;
+    }
+    leaf-list pmPimcCancellationDepth {
+      description "Distribution of PIM reduction as input/output ratio of UL signal for all UL carrier branches in PIM Cancellation group. PDF ranges: [0]: .. 0.1[ dB [1]: [0.1 .. 1.0[ dB [2]: [1.0 .. 2.0[ dB [3]: [2.0 .. 3.0[ dB ... [28]: [27.0 .. 28.0[ dB [29]: [28.0 .. 29.0[ dB [30]: [29.0 .. dB.";
+      type uint32;
+      max-elements 31;
+    }
+    leaf-list pmPimcCoefficientsDivergence {
+      description "Distribution of PIM Cancellation coefficients divergence states for the PIM Cancellation group. PDF ranges: [0]: coefficientsUnknown. Coefficients of the estimation algorithm have not converged yet. [1]: coefficientsConverging. Coefficients of the estimation algorithm are converging. [2]: coefficientsDiverging. Coefficients of the estimation algorithm are diverging slightly but are within acceptable limits. [3]: coefficientsAbnormal. Coefficient divergence of the estimation algorithm has exceeded acceptable limits. PIM Cancellation injection has stopped..";
+      type uint32;
+      max-elements 4;
+    }
+    leaf-list pmPimcPowerSignalInjected {
+      description "Distribution of PIM signal power injected to cancel (by subtraction) the PIM for all UL carrier branches in PIM Cancellation group. PDF ranges: [0]: .. 0.1[ dBc [1]: [0.1 .. 1.0[ dBc [2]: [1.0 .. 2.0[ dBc [3]: [2.0 .. 3.0[ dBc ... [28]: [27.0 .. 28.0[ dBc [29]: [28.0 .. 29.0[ dBc [30]: [29.0 .. dBc.";
+      type uint32;
+      max-elements 31;
+    }
+  }
+}

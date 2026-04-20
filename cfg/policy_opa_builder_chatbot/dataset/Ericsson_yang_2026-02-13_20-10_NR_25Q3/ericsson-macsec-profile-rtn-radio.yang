@@ -1,0 +1,89 @@
+module ericsson-macsec-profile-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnMacSecProfile";
+  prefix macsecpfrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list MacSecProfile {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents profile allowing set of MACsec constraints that can be associated with all RiLink MOs or subset in ME.";
+      key "macSecProfileId";
+      leaf macSecProfileId {
+        type leafref {
+          path "../attributes/macSecProfileId";
+        }
+      }
+      container attributes {
+        uses MacSecProfile-attributes;
+      }
+    }
+  }
+  typedef MacSecCipher {
+    type enumeration {
+      enum GCM_AES_128;
+      enum GCM_AES_256;
+    }
+  }
+  typedef MacSecProfileScope {
+    type enumeration {
+      enum SPECIFIC_REF;
+      enum ALL_RI_PORTS;
+    }
+  }
+  typedef MacSecSecurityLevel {
+    type enumeration {
+      enum NONE;
+      enum INTEGRITY_AND_CONFIDENTIALITY;
+    }
+  }
+  grouping MacSecProfile-attributes {
+    leaf-list excludedCiphers {
+      type ietfinet:ip-address;
+    }
+    leaf macSecProfileId {
+      type ietfyang:mac-address;
+      mandatory true;
+    }
+    leaf minimumSecurityLevel {
+      type enumeration {
+        enum NONE;
+        enum INTEGRITY_AND_CONFIDENTIALITY;
+      }
+    }
+    leaf replayProtect {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf scope {
+      type enumeration {
+        enum SPECIFIC_REF;
+        enum ALL_RI_PORTS;
+      }
+    }
+    leaf-list securedEntity {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

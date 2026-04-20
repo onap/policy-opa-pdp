@@ -1,0 +1,54 @@
+module huawei-outport {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-outport";
+ prefix outport;
+ description
+ "Auto-generated modular YANG for huawei-outport" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping OUTPORT-attributes {
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf NAME {
+  type string {
+   length "0..50";
+  }
+  mandatory false;
+ }
+ leaf PN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..19";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..59";
+   }
+  }
+  mandatory false;
+ }
+ leaf SW {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,221 @@
+module ericsson-time-sync-io-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncTimeSyncIO";
+  prefix tsynciordo;
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Transport time SyncIO Model.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization" {
+    list TimeSyncIO {
+      description "Additional definitions from MOM:min/max-elements:0/8;root; The TimeSyncIO is used to indicate that a physical synchronization port is used for time synchronization.";
+      key "timeSyncIOId";
+      leaf timeSyncIOId {
+        type leafref {
+          path "../attributes/timeSyncIOId";
+        }
+      }
+      container attributes {
+      uses TimeSyncIO-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef PortDirection {
+    description "The direction of the synchronization interface.";
+    type enumeration {
+      enum INPUT_ONLY {
+        description "The port can only input signals. It cannot output any signals.";
+      }
+      enum OUTPUT_ONLY {
+        description "The port can only output signals. It cannot input any signals.";
+      }
+    }
+  }
+  typedef TimeSyncIOStatus {
+    description "Status of time synchronization IO.";
+    type enumeration {
+      enum NO_FAULT {
+        description "No faults detected.";
+      }
+      enum LOSS_OF_SIGNAL {
+        description "No signals received.";
+      }
+      enum HW_FAULT {
+        description "Hardware fault reported from the reference.";
+      }
+      enum NO_MESSAGES {
+        description "No messages received.";
+      }
+      enum PROTOCOL_NOT_RECOGNIZED {
+        description "The protocol used by the reference is not recognized.";
+      }
+      enum LOSS_OF_1PPS_SIGNAL {
+        description "1PPS synchronization signal lost.";
+      }
+      enum NO_SYNC_TO_SATELLITES {
+        description "GNSS receiver not synchronized to satellites.";
+      }
+      enum DEGRADED {
+        description "The stability of the 1PPS is considered degraded.";
+      }
+    }
+  }
+  grouping TimeSyncIO-attributes {
+    leaf adminPortDirection {
+      description "Specifies the direction of the time synchronization I/O port; Default value: INPUT_ONLY.";
+      type enumeration {
+        enum INPUT_ONLY;
+        enum OUTPUT_ONLY;
+      }
+      status deprecated;
+      default "INPUT_ONLY";
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf compensationDelay {
+      description "The delay of the input signal. The delay is calculated using the documentation of the GPS receiver System for RBS 6000.; range 0..65535; Default value: 0.";
+      type uint16 {
+        range "0..65535";
+      }
+      default "0";
+      units "ns";
+    }
+    leaf encapsulation {
+      description "Reference to the underlying encapsulation. The underlying encapsulation must be a SyncPort MO..";
+      type string;
+      mandatory true;
+    }
+    leaf filterTime {
+      description "Filter time for alarm TimeSyncIO Reference Failed.; range 1..12; Default value: 12.";
+      type uint16 {
+        range "1..12";
+      }
+      default "12";
+      units "min";
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf timeSyncIOId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf timeSyncIOStatus {
+      description "Status of TimeSyncIO MO as reference..";
+      type enumeration {
+        enum NO_FAULT;
+        enum LOSS_OF_SIGNAL;
+        enum HW_FAULT;
+        enum NO_MESSAGES;
+        enum PROTOCOL_NOT_RECOGNIZED;
+        enum LOSS_OF_1PPS_SIGNAL;
+        enum NO_SYNC_TO_SATELLITES;
+        enum DEGRADED;
+      }
+      config false;
+    }
+    leaf-list phaseJump {
+      description "Number of phase jumps of certain size on time synchronization reference, defined as abrupt change in mean level of signal. Ranges: Bin[0]: [..-500001] ns Bin[1]: [-500000..-200001] ns Bin[2]: [-200000..- 50001] ns Bin[3]: [-50000..-10001] ns Bin[4]: [-10000..-5001] ns Bin[5]: [-5000..-3001] ns Bin[6]: [-3000..- 1501] ns Bin[7]: [-1500..-1001] ns Bin[8]: [-1000..- 501] ns Bin[9]: [-500..-200] ns Bin[10]: [200..500] ns Bin[11]: [501..1000] ns Bin[12]: [1001..1500] ns Bin[13]: [1501..3000] ns Bin[14]: [3001..5000] ns Bin[15]: [5001..10000] ns Bin[16]: [10001..50000] ns Bin[17]: [50001.. 200000] ns Bin[18]: [200001..500000] ns Bin[19]: [500001..] ns.";
+      type uint64;
+      max-elements 20;
+    }
+    leaf gnssTimeOffsetActiveReference {
+      description "Indication of active reference during measurement period. If 1, gnssTimeOffset counters data was collected while GNSS reference was active. If 0, gnssTimeOffset counters data was collected while another synchronization reference was active. Note: If 0, data is valid only when PTP Time reference was active..";
+      type int64;
+      config false;
+    }
+    leaf gnssTimeOffsetMax {
+      description "Maximum absolute value of time offset. Presents maximum value of time offset between node clock and GNSS source. Use gnssTimeOffsetActiveReference PM counter to determine which reference is selected during measurement period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf gnssTimeOffsetStDev {
+      description "Standard deviation value of time offset. Presents standard deviation of time offset between node clock and GNSS source. Use gnssTimeOffsetActiveReference PM counter to determine which reference is selected during measurement period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf gnssTimeOffsetMin {
+      description "Minimum absolute value of time offset. Presents minimum value of time offset between node clock and GNSS source. Use gnssTimeOffsetActiveReference PM counter to determine which reference is selected during measurement period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+    leaf gnssTimeOffsetAvg {
+      description "Average absolute value of time offset. Presents average value of time offset between node clock and GNSS source. Use gnssTimeOffsetActiveReference PM counter to determine which reference is selected during measurement period. Unit: 1 ns.";
+      type int64;
+      config false;
+    }
+  }
+}

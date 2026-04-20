@@ -1,0 +1,144 @@
+module ericsson-rmesdsserver-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSdsServer";
+  prefix rmesdsse;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nService discovery MOM.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ServiceDiscoveryServer {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Configuration data the GSDS cluster members. This MO must be created for the vSD to be operational.";
+      key "serviceDiscoveryServerId";
+      status deprecated;
+      leaf serviceDiscoveryServerId {
+        type leafref {
+          path "../attributes/serviceDiscoveryServerId";
+        }
+        status deprecated;
+      }
+      container attributes {
+      uses ServiceDiscoveryServer-attributes;
+      }
+    }
+  }
+  typedef GsdsStatus {
+    description "Status of the service discovery cluster. A cluster is DEGRADED if 1 or 2 vSD are unoperational. A cluster is in the ERROR state if 3 or more vSD are unoperational.";
+    type enumeration {
+      enum OK {
+        description "The cluster is fully operational.";
+      }
+      enum ERROR {
+        description "The cluster is unoperational due to an error.";
+      }
+      enum BUILDING {
+        description "The cluster is being constructed and is not yet in operation.";
+      }
+      enum DEGRADED {
+        description "The cluster is operational with reduced redundancy due to one or more servers being unavailable.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping MemberStatus-struct {
+    description "Status information about a GSDS cluster member.";
+    leaf address {
+      type string;
+    }
+    leaf status {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+  }
+  grouping SdCluster-struct {
+    description "Connection details for a specific GSSD cluster.";
+    leaf host {
+      type string;
+    }
+    leaf port {
+      type string;
+    }
+    leaf serviceArea {
+      description "length 1..128; Default value: vrcs.";
+      type string {
+        length "1..128";
+        pattern "([A-Za-z0-9_-]+)";
+      }
+      default "vrcs";
+    }
+    leaf-list hostIPs {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 5;
+    }
+  }
+  grouping ServiceDiscoveryServer-attributes {
+    leaf serviceDiscoveryServerId {
+      description "The value component of the RDN.; MOM flags: restricted, noNotification; Status info: Since 22.Q3. Planned to be removed..";
+      type string;
+      mandatory true;
+      status deprecated;
+    }
+    leaf localAddress {
+      description "Local address used by the vSD to build the cluster and listen for client connections. In non-standalone mode, where node is part of vSD cluster: - cluster.host must be set to DNS. - localAddress must be set to fronthaul. In standalone mode, where node is configured as standalone gNodeB: - cluster.host must be set to localhost. - localAddress is left empty in all normal cases.; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      type string;
+      status deprecated;
+    }
+    list cluster {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      min-elements 1;
+      description "Configures the host name used for the cluster, as well as the service domain that the cluster represents. The vSD will use DNS name resolution to locate the other cluster members.; Takes effect: Node Restart; Status info: Since 22.Q3. Planned to be removed..";
+      uses SdCluster-struct;
+    }
+    leaf gsdsStatus {
+      description "Operational state of the cluster.; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      type enumeration {
+        enum OK;
+        enum ERROR;
+        enum BUILDING;
+        enum DEGRADED;
+      }
+      config false;
+      status deprecated;
+    }
+    list members {
+      config false;
+      min-elements 0;
+      uses MemberStatus-struct;
+    }
+    leaf trustCategory {
+      description "Trust Category for front haul network.; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      type string;
+      status deprecated;
+    }
+    leaf nodeCredential {
+      description "Node Credential for front haul network.; MOM flags: isNillable=true; Status info: Since 22.Q3. Planned to be removed..";
+      type string;
+      status deprecated;
+    }
+  }
+}

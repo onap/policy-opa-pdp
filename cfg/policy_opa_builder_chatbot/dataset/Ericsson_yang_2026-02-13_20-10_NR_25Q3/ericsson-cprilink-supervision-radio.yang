@@ -1,0 +1,39 @@
+module ericsson-cprilink-supervision-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeCpriLinkSupervision";
+  prefix crilnksprdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list CpriLinkSupervision {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO class contains configuration items for the CPRI link supervision service.";
+      key "cpriLinkSupervisionId";
+      leaf cpriLinkSupervisionId {
+        type leafref {
+          path "../attributes/cpriLinkSupervisionId";
+        }
+      }
+      container attributes {
+        uses CpriLinkSupervision-attributes;
+      }
+    }
+  }
+  grouping CpriLinkSupervision-attributes {
+    leaf cpriLinkSupervisionId {
+      type string;
+      mandatory true;
+    }
+    leaf-list cpriLinkFilterTime {
+      type int16;
+    }
+  }
+}

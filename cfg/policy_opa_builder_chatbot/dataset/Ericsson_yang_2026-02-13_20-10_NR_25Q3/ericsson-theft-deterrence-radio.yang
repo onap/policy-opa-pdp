@@ -1,0 +1,74 @@
+module ericsson-theft-deterrence-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqTheftDeterrence";
+  prefix thdrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list TheftDeterrence {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Theft protection. Locks Public Land Mobile Network identities with a password so that this equipment can only be used in assigned network. Created by system when hardware unit represented by parent of this MO supports this functionality. RDN for this MO is TheftDeterrence=1.";
+      key "theftDeterrenceId";
+      leaf theftDeterrenceId {
+        type leafref {
+          path "../attributes/theftDeterrenceId";
+        }
+      }
+      container attributes {
+        uses TheftDeterrence-attributes;
+      }
+    }
+  }
+  typedef ThdAuthenticationType {
+    type enumeration {
+      enum PASSWORD;
+      enum NO_AUTHENTICATION;
+    }
+  }
+  typedef ThdStatusType {
+    type enumeration {
+      enum UNLOCKED;
+      enum LOCKED;
+      enum LOCKED_PERMANENTLY;
+    }
+  }
+  grouping TheftDeterrence-attributes {
+    leaf theftDeterrenceId {
+      type string;
+      mandatory true;
+    }
+    leaf thdAuthentication {
+      type enumeration {
+        enum PASSWORD;
+        enum NO_AUTHENTICATION;
+      }
+      config false;
+    }
+    leaf thdStatus {
+      type enumeration {
+        enum UNLOCKED;
+        enum LOCKED;
+        enum LOCKED_PERMANENTLY;
+      }
+      config false;
+    }
+    leaf thdStoredId {
+      type string {
+        length "0..799";
+      }
+      config false;
+      description "length 0..799.";
+    }
+  }
+}

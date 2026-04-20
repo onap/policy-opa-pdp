@@ -1,0 +1,177 @@
+module ericsson-rcsrem-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsRem";
+  prefix rcsrem;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-rcssysm-radio {
+    prefix rcssysm;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/RuntimeExportM/EbsCounterSpecification" {
+    list NrEtcm {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; NR event to counter mapping models. The RDN of this MO is NrEtcm=<model name>.";
+      key "nrEtcmId";
+      leaf nrEtcmId {
+        type leafref {
+          path "../attributes/nrEtcmId";
+        }
+      }
+      container attributes {
+        uses NrEtcm-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/RuntimeExportM/EbsCounterSpecification" {
+    list NrFtem {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; NR filter to event mapping models. The RDN of this MO is NrFtem=<model name>.";
+      key "nrFtemId";
+      leaf nrFtemId {
+        type leafref {
+          path "../attributes/nrFtemId";
+        }
+      }
+      container attributes {
+        uses NrFtem-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/RuntimeExportM/PmEventSpecification" {
+    list NrPmEvents {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; The NR PM Event specification. The RDN for this MO is NrPmEvents=<name>.";
+      key "nrPmEventsId";
+      leaf nrPmEventsId {
+        type leafref {
+          path "../attributes/nrPmEventsId";
+        }
+      }
+      container attributes {
+        uses NrPmEvents-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/RuntimeExportM" {
+    list PmEventSpecification {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; PM event specifications. The RDN of this MO is PmEventSpecifcation=1.";
+      key "pmEventSpecificationId";
+      leaf pmEventSpecificationId {
+        type leafref {
+          path "../attributes/pmEventSpecificationId";
+        }
+      }
+      container attributes {
+        uses PmEventSpecification-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/RuntimeExportM" {
+    list EbsCounterSpecification {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; EBS Counter specifications. The RDN for this MO is EbsCounterSpecification=1.";
+      key "ebsCounterSpecificationId";
+      leaf ebsCounterSpecificationId {
+        type leafref {
+          path "../attributes/ebsCounterSpecificationId";
+        }
+      }
+      container attributes {
+        uses EbsCounterSpecification-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list RuntimeExportM {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Top MO class for runtime export management. The RDN of this MO class is RuntimeExportM=1.";
+      key "runtimeExportMId";
+      leaf runtimeExportMId {
+        type leafref {
+          path "../attributes/runtimeExportMId";
+        }
+      }
+      container attributes {
+        uses RuntimeExportM-attributes;
+      }
+    }
+  }
+  grouping EbsCounterSpecification-attributes {
+    leaf ebsCounterSpecificationId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping NrEtcm-attributes {
+    leaf nrEtcmId {
+      type string;
+      mandatory true;
+    }
+    leaf version {
+      type string;
+      config false;
+    }
+    leaf managedFunction {
+      type string;
+      config false;
+    }
+  }
+  grouping NrFtem-attributes {
+    leaf nrFtemId {
+      type string;
+      mandatory true;
+    }
+    leaf version {
+      type string;
+      config false;
+    }
+    leaf managedFunction {
+      type string;
+      config false;
+    }
+  }
+  grouping NrPmEvents-attributes {
+    leaf nrPmEventsId {
+      type string;
+      mandatory true;
+    }
+    leaf managedFunction {
+      type string;
+      config false;
+    }
+    leaf version {
+      type string;
+      config false;
+    }
+  }
+  grouping PmEventSpecification-attributes {
+    leaf pmEventSpecificationId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping RuntimeExportM-attributes {
+    leaf runtimeExportMId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+}

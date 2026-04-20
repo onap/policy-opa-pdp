@@ -1,0 +1,54 @@
+module huawei-nginterface {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nginterface";
+ prefix nginterface;
+ description
+ "Auto-generated modular YANG for huawei-nginterface" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NGINTERFACE-attributes {
+ leaf CNOPSHARINGGROUPID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CNOPERATORID {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf NGINTERFACEBLOCKINGSTATUS {
+  type boolean;
+  mandatory false;
+ }
+ leaf NGINTERFACECPBEARERID {
+  type union {
+   type uint32 {
+    range "0..79999";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_NGINTERFACEID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf NGINTERFACEID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

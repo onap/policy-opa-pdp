@@ -1,0 +1,38 @@
+module huawei-gnbasgrprelation {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbasgrprelation";
+ prefix gnbasgrprelation;
+ description
+ "Auto-generated modular YANG for huawei-gnbasgrprelation" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBASGRPRELATION-attributes {
+ leaf OLD_LTESPDTURBOGRPID {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf LTESPDTURBOGRPID {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRSPDTURBOGRPID {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf NRUSERPOLICY {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

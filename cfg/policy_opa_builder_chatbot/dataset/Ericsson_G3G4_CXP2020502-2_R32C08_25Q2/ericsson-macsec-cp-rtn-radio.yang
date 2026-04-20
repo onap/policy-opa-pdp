@@ -1,0 +1,233 @@
+module ericsson-macsec-cp-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnMacSecCp";
+  prefix macseccprdo;
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nRtnMacSecCp fragment contains Media Access Control Security (MACsec) MO.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list MacSecCp {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents Controlled Port that can exist regardless if underlying hardware supports MACsec. Only created when RiLink MO is created with following conditions: - When one MacSecProfile MO is associated with RiLink MO. - When Ethernet is detected on link.";
+      key "macSecCpId";
+      leaf macSecCpId {
+        type leafref {
+          path "../attributes/macSecCpId";
+        }
+      }
+      container attributes {
+      uses MacSecCp-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef MacSecCipher {
+    description "MACsec cipher suites.";
+    type enumeration {
+      enum GCM_AES_128 {
+        description "Specification: IEEE 802.1AE 2018";
+      }
+      enum GCM_AES_256 {
+        description "Specification: IEEE 802.1AE 2018";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping MacSecCp-attributes {
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf-list caRef {
+      description "Reference to MacSecCa MOs..";
+      type string;
+      min-elements 0;
+    }
+    leaf macSecCpId {
+      description "The value component of the RDN..";
+      type ietfyang:mac-address;
+      mandatory true;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list portRef {
+      description "Reference to RiPort MOs..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list profileRef {
+      description "Reference to MacSecProfile MOs..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list supportedCiphers {
+      description "Supported ciphers in hardware..";
+      type MacSecCipher;
+      min-elements 0;
+    }
+    leaf inOctetsDecrypted {
+      description "Number of plaintext octets recovered from packets that are integrity-protected and encrypted. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsNoTag {
+      description "Number of received packets without SecTAG discarded due to validateFrames is set to Strict. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsBadTag {
+      description "Number of received packets discarded with invalid SecTAG, zero value PN or invalid ICV. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsOverrun {
+      description "Number of packets discarded due to exceeded cryptographic performance capabilities. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsNoSAError {
+      description "Number of received packets with unknown SCI or unused SA discarded due to validateFrames is set to Strict or Changed Text bit in SecTAG is set. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsDelayed {
+      description "Number of received packets with PN lower than lowest acceptable PN and replayProtect is set to false. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inOctetsValidated {
+      description "Number of plaintext octets recovered from packets that are integrity-protected, but not encrypted. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf outPktsUntagged {
+      description "Number of packets transmitted without SecTAG due to protectFrames is set to false. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsUnchecked {
+      description "Number of packets received while validateFrames is set to Disabled. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf outOctetsEncrypted {
+      description "Number of plain text octets integrity-protected and encrypted in transmitted frames. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsNotValid {
+      description "Number of packets discarded due to validation failed and validateFrames is set to Strict or data is encrypted. Original frame cannot be recovered. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf outPktsTooLong {
+      description "Number of transmit packets discarded due to length greater than maximum acceptable length. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsLate {
+      description "Number of packets discarded due to received PN is lower than lowest acceptable PN and replayProtect attribute is set to true. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf outPktsProtected {
+      description "Number of integrity protected, but not encrypted transmitted packets. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsOk {
+      description "Number of received packets successfully validated and within replay window. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsNoSA {
+      description "Number of received packets with unknown SCI or unused SA. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsUntagged {
+      description "Number of packets without SecTAG received while validateFrames is not set to Strict. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf outPktsEncrypted {
+      description "Number of integrity-protected and encrypted transmitted packets. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf inPktsInvalid {
+      description "Number of packets with failed validation received and original frame recovered due to validateFrames is set to Check and data is not encrypted. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+    leaf outOctetsProtected {
+      description "Number of plain text octets integrity-protected, but not encrypted in transmitted frames. Standard reference: IEEE 802.1AE 2018.";
+      type uint64;
+      config false;
+    }
+  }
+}

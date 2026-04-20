@@ -1,0 +1,60 @@
+module huawei-uespecificpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-uespecificpara";
+ prefix uespecificpara;
+ description
+ "Auto-generated modular YANG for huawei-uespecificpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping UESPECIFICPARA-attributes {
+ leaf CONFIGVALUE {
+  type int32 {
+   range "-2147483648..2147483647";
+  }
+  mandatory false;
+ }
+ leaf MOID {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf PARABITID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf PARAID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf UESPECIFICCONFIGDESCR {
+  type string {
+   length "0..80";
+  }
+  mandatory false;
+ }
+ leaf OLD_UESPECIFICCONFIGINDEX {
+  type union {
+   type int16 {
+    range "-1..256";
+   }
+  }
+  mandatory false;
+ }
+ leaf UESPECIFICCONFIGINDEX {
+  type union {
+   type int16 {
+    range "-1..256";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

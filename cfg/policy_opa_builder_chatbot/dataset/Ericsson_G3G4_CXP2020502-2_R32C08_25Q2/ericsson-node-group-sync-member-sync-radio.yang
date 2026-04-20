@@ -1,0 +1,320 @@
+module ericsson-node-group-sync-member-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncNodeGroupSyncMember";
+  prefix ngsmbrrdo;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  import ericsson-radio-equipment-clock-sync-radio {
+    prefix rdoeqclkrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nNode group synchronization member.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization/rdoeqclkrdo:RadioEquipmentClock" {
+    list NodeGroupSyncMember {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents node group of Ericsson RBS nodes that must be radio-frame synchronized to each other. This MO is created for each member of node group. Each node group uses only one external synchronization reference. Node that uses external synchronization reference is called Synchronization Provider. Other nodes in node group are called Synchronization Receivers. All Synchronization Receivers synchronize their radio-frame to Synchronization Provider, either directly or to another Synchronization Receiver.";
+      key "nodeGroupSyncMemberId";
+      leaf nodeGroupSyncMemberId {
+        type leafref {
+          path "../attributes/nodeGroupSyncMemberId";
+        }
+      }
+      container attributes {
+      uses NodeGroupSyncMember-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "The administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef LocalStatus {
+    description "Node group member local status.";
+    type enumeration {
+      enum UNKNOWN {
+        description "Synchronization state of node group member is unknown.";
+      }
+      enum SYNC_PROVIDER {
+        description "Node group member is Synchronization Provider and is either locked to external synchronization reference, or in holdover mode. Reference in use is indicated by RadioEquipmentClock::currentRadioClockReference attribute. Clock state is indicated by RadioEquipmentClock::radioClockState attribute.";
+      }
+      enum SYNC_RECEIVER_TIME_LOCKED {
+        description "Node group member is Synchronization Receiver that is radio-frame time-locked to another node group member.";
+      }
+      enum SYNC_RECEIVER_TIME_HOLDOVER {
+        description "Node group member is Synchronization Receiver in time holdover state. Services are maintained.";
+      }
+      enum ENTERING_NODE_GROUP {
+        description "Node group member is entering into node group. Role in node group is not yet defined.";
+      }
+    }
+  }
+  typedef RiPortStatus {
+    description "Radio Interface port status.";
+    type enumeration {
+      enum UNKNOWN {
+        description "The synchronization status of the Radio Interface (RI) port is unknown.";
+      }
+      enum OK_ACTIVE {
+        description "The Synchronization RI port is OK and is selected as active reference for the node.";
+      }
+      enum OK_NOT_ACTIVE {
+        description "The Synchronization RI port is OK, but is not selected as active reference for the node.";
+      }
+      enum CPRI_LINK_NOT_AVAILABLE {
+        description "The RI port configured as synchronization candidate is not available for synchronization.";
+      }
+      enum FREQUENCY_ERROR {
+        description "The node cannot frequency-synchronize to the neighbor node connected to the RI port.";
+      }
+      enum PHASE_ERROR {
+        description "The node cannot phase-synchronize to the neighbor node connected to the RI port.";
+      }
+      enum LOSS_OF_FREQUENCY_MEASUREMENTS {
+        description "No measurements of frequency difference can be retrieved from the RI port.";
+      }
+      enum LOSS_OF_PHASE_MEASUREMENTS {
+        description "No measurements of phase difference can be retrieved from the RI port.";
+      }
+      enum FREQUENCY_LOCKING {
+        description "The Node Group Member is at the intermediate stage of frequency synchronization to the neighbor node connected to this RI port. The attribute syncRiPortStatus will be either OK_ACTIVE or OK_NOT_ACTIVE when frequency synchronization is successfully completed.";
+      }
+      enum CONNECTED_TO_RU_NOT_TO_NEIGHBOR {
+        description "Connection can be set up with shared RU, communication with neighbor not possible.";
+      }
+      enum NO_SYNC_COMMUNICATION {
+        description "Nodes are frequency aligned, there is no communication with neighbor.";
+      }
+      enum NODE_PRIORITY_COLLISION {
+        description "Same syncNodePriority used in two or more nodes.";
+      }
+      enum SELECTION_MODE_MISMATCH {
+        description "RI port disqualified due to selection mode mismatch.";
+      }
+    }
+  }
+  typedef SelectionMode {
+    description "Selection mode of node group sync member.";
+    type enumeration {
+      enum NODE_PRIORITY {
+        description "Selection based on syncNodePriority value.";
+      }
+      enum REFERENCE_AND_NODE_PRIORITY {
+        description "Selection based on best reference availability and syncNodePriority value.";
+      }
+    }
+  }
+  typedef SoCCStatus {
+    description "Synchronization over CPRI Connection (SoCC) status.";
+    type enumeration {
+      enum UNKNOWN {
+        description "Synchronization status of SoCC is unknown.";
+      }
+      enum OK_ACTIVE {
+        description "SoCC is selected as active reference for node.";
+      }
+      enum OK_NOT_ACTIVE {
+        description "SoCC is synchronization ready, but is not selected as active reference for node.";
+      }
+      enum CPRI_LINK_NOT_AVAILABLE {
+        description "CPRI link to shared unit used by SoCC is not available.";
+      }
+      enum FREQUENCY_ERROR {
+        description "Node cannot frequency-synchronize to shared unit used by SoCC.";
+      }
+      enum PHASE_ERROR {
+        description "Node cannot phase-synchronize through SoCC to neighbor node.";
+      }
+      enum FREQUENCY_MEASUREMENTS_LOSS {
+        description "Frequency difference measurements cannot be retrieved from shared unit used by SoCC.";
+      }
+      enum PHASE_MEASUREMENTS_LOSS {
+        description "Phase difference measurements cannot be retrieved from shared unit used by SoCC.";
+      }
+      enum ENTERING_NODE_GROUP {
+        description "Node group member is at intermediate stage of frequency synchronization to shared unit. SoCC establishment to collect broadcast message data from neighbor is ongoing. Attribute syncOverCpriConnStatus changes to OK_ACTIVE or OK_NOT_ACTIVE when node successfully enters node group.";
+      }
+      enum CONNECTED_TO_SHARED_UNIT_ONLY {
+        description "CPRI link only available to shared unit. SoCC cannot be established to neighbor node.";
+      }
+      enum NO_SYNC_COMMUNICATION {
+        description "Nodes are frequency-aligned, but no broadcast messages are received through SoCC.";
+      }
+      enum NODE_PRIORITY_COLLISION {
+        description "Same syncNodePriority attribute used in two or more nodes.";
+      }
+      enum SELECTION_MODE_MISMATCH {
+        description "SoCC disqualified due to selection mode mismatch.";
+      }
+    }
+  }
+  typedef SyncProviderState {
+    description "Synchronization state of Synchronization Provider.";
+    type enumeration {
+      enum UNKNOWN {
+        description "Synchronization state of Synchronization Provider is unknown, or no Synchronization Provider is reported within node group.";
+      }
+      enum TIME_MODE {
+        description "Synchronization Provider is operating in time-providing mode.";
+      }
+      enum FREQUENCY_MODE {
+        description "Synchronization Provider is operating in frequency-providing mode.";
+      }
+      enum FREE_RUNNING {
+        description "Synchronization Provider has lost all external references and frequency holdover period has expired. No other node has managed to take over role of Synchronization Provider.";
+      }
+    }
+  }
+  grouping LocalNodeInfo-struct {
+    description "Local node information.";
+    leaf hopsFromSyncProvider {
+      description "range 0..7.";
+      type eytypes:uint8_range_0-7;
+    }
+    leaf localState {
+      type enumeration {
+        enum UNKNOWN;
+        enum SYNC_PROVIDER;
+        enum SYNC_RECEIVER_TIME_LOCKED;
+        enum SYNC_RECEIVER_TIME_HOLDOVER;
+        enum ENTERING_NODE_GROUP;
+      }
+    }
+    leaf synchronizedTo {
+      description "range 0..15.";
+      type uint8 {
+        range "0..15";
+      }
+    }
+  }
+  grouping SyncOverCpriConnInfo-struct {
+    description "Synchronization over CPRI Connection (SoCC) information struct.";
+    leaf endpointRiPort {
+      type string;
+    }
+    leaf remoteNodePriority {
+      description "range 0..15.";
+      type uint8 {
+        range "0..15";
+      }
+    }
+    leaf sharedUnitRef {
+      type string;
+    }
+    leaf sharedUnitRiPortA {
+      type string;
+    }
+    leaf sharedUnitRiPortB {
+      type string;
+    }
+    leaf syncOverCpriConnStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum OK_ACTIVE;
+        enum OK_NOT_ACTIVE;
+        enum CPRI_LINK_NOT_AVAILABLE;
+        enum FREQUENCY_ERROR;
+        enum PHASE_ERROR;
+        enum FREQUENCY_MEASUREMENTS_LOSS;
+        enum PHASE_MEASUREMENTS_LOSS;
+        enum ENTERING_NODE_GROUP;
+        enum CONNECTED_TO_SHARED_UNIT_ONLY;
+        enum NO_SYNC_COMMUNICATION;
+        enum NODE_PRIORITY_COLLISION;
+        enum SELECTION_MODE_MISMATCH;
+      }
+    }
+  }
+  grouping SyncProviderInfo-struct {
+    description "Synchronization Provider information.";
+    leaf syncProviderNodePriority {
+      type string;
+    }
+    leaf syncProviderState {
+      type enumeration {
+        enum UNKNOWN;
+        enum TIME_MODE;
+        enum FREQUENCY_MODE;
+        enum FREE_RUNNING;
+      }
+    }
+  }
+  grouping NodeGroupSyncMember-attributes {
+    leaf administrativeState {
+      description "The administrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list localNodeInformation {
+      config false;
+      description "Synchronization information of node group member..";
+      uses LocalNodeInfo-struct;
+    }
+    leaf nodeGroupSyncMemberId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf selectionMode {
+      description "Role selection mode of node group member..";
+      type enumeration {
+        enum NODE_PRIORITY;
+        enum REFERENCE_AND_NODE_PRIORITY;
+      }
+    }
+    leaf syncNodePriority {
+      description "Identifies node group member and gives node priority value to select Synchronization Provider. Every node group member must have unique number. Value 1 has highest priority.; range 1..15.";
+      type eytypes:uint8_range_1-15;
+      mandatory true;
+    }
+    list syncOverCpriConnInfo {
+      config false;
+      min-elements 0;
+      uses SyncOverCpriConnInfo-struct;
+    }
+    list syncProviderInformation {
+      config false;
+      description "Information about Synchronization Provider. This means node group member synchronizing to reference external to node group..";
+      uses SyncProviderInfo-struct;
+    }
+    leaf-list syncRiPortCandidate {
+      description "Empty by default, which means NGSM will automatically detect available Synchronization over CPRI Connections (SoCCs). Attribute is configurable with list of RiPort MOs used to identify available SoCC. RiPort MOs must have available SoCCs to other nodes in NG, otherwise node startup is prolonged to its maximum value. For best performance of NG, attribute must be configured as recommended by “Manage Node Group Synchronization”..";
+      type string;
+      min-elements 0;
+      max-elements 18;
+    }
+    leaf-list syncRiPortStatus {
+      description "Status of Radio Interface (RI) ports configured as candidates for node group synchronization. Order of synchronization RI ports are same as for attribute syncRiPortCandidate.; MOM flags: noNotification; Status info: Replaced by syncOverCpriConnInfo attribute. Planned to be removed..";
+      type RiPortStatus;
+      min-elements 0;
+      max-elements 18;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

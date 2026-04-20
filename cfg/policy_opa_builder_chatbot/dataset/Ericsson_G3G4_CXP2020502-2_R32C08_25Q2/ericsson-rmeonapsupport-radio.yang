@@ -1,0 +1,297 @@
+module ericsson-rmeonapsupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeOnapSupport";
+  prefix rmeonaps;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nConfiguration data for the VES (Network Function Event Stream) clients.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef ConfigLevelOnap {
+    description "The stages of ONAP auto provisioning.";
+    type enumeration {
+      enum NOT_INTEGRATED {
+        description "Integration into ONAP not performed.";
+      }
+      enum INTEGRATION_COMPLETE {
+        description "Integration into ONAP completed.";
+      }
+      enum INTEGRATION_FAILED {
+        description "Integration into ONAP failed.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef VesClientType {
+    description "Type of VES client.";
+    type enumeration {
+      enum FM_VES_CLIENT {
+        description "FM alarm VES client.";
+      }
+      enum PM_VES_CLIENT {
+        description "PM statistics VES client.";
+      }
+      enum PNF_REG_VES_CLIENT {
+        description "PNF registration VES client.";
+      }
+      enum CELL_TRACE_VES_CLIENT {
+        description "Cell trace VES client.";
+      }
+    }
+  }
+  grouping EcimPassword-struct {
+    description "Stores the password.";
+    leaf cleartext {
+      type boolean;
+    }
+    leaf password {
+      type string;
+    }
+  }
+  grouping NetconfYangSsh-attributes {
+    leaf netconfYangSshId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state for Netconf Yang target. If set to LOCKED, all ongoing Netconf Yang connections are immediately terminated..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf port {
+      description "Netconf Yang port for SSH.; Default value: 840.";
+      type ietfinet:port-number;
+      default "840";
+    }
+    leaf operationalState {
+      description "The operational state. Specification: ITU-T Rec. X.731.";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState. Specification: ITU-T Rec. X.731.";
+      type AvailStatus;
+      min-elements 0;
+    }
+  }
+  grouping NetconfYangTls-attributes {
+    leaf netconfYangTlsId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state for Netconf Yang target. If set to LOCKED, all ongoing Netconf Yang connections are immediately terminated..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf trustCategory {
+      description "Set of certificates trusted by the Netconf Yang service. Specifies the DN of a TrustCategory MO in Certificate Management..";
+      type string;
+    }
+    leaf port {
+      description "Netconf Yang port for TLS..";
+      type ietfinet:port-number;
+    }
+    leaf nodeCredential {
+      description "Credential used for Netconf Yang service. Specifies the DN of a NodeCredential MO in Certificate Management..";
+      type string;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState. Specification: ITU-T Rec. X.731.";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state. Specification: ITU-T Rec. X.731.";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+  }
+  grouping OnapAutoProvisioning-attributes {
+    leaf onapAutoProvisioningId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf onapConfigLevel {
+      description "Shows the current stage of ONAP auto provisioning for this managed element..";
+      type enumeration {
+        enum NOT_INTEGRATED;
+        enum INTEGRATION_COMPLETE;
+        enum INTEGRATION_FAILED;
+      }
+    }
+    leaf pnfRegPeriodicity {
+      description "The periodicity for sending the PNF registration VES event to ONAP.; range 1..86400.";
+      type uint32 {
+        range "1..86400";
+      }
+      units "s";
+    }
+    leaf pnfRegStopTimer {
+      description "The time for when to stop sending the PNF registration event to ONAP if integration has not been completed. Value 0 means that the sending will go on infinitely until ONAP integration has been completed.; range 0..8760.";
+      type uint16 {
+        range "0..8760";
+      }
+      units "hour";
+    }
+  }
+  grouping OnapSupport-attributes {
+  }
+  grouping VesClient-attributes {
+    leaf vesClientId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState. Specification: ITU-T Rec. X.731.";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state. Specification: ITU-T Rec. X.731.";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf primaryAddress {
+      description "Primary VES Event Listener server URL. The URL takes the form http, an IP or DNS address and an optional port number and optional path. Specify the optional port designation by appending a colon followed by the port number to the host part, for example, 192.168.33.27:8080. If no port number is provided, the default port is used. Examples: https://ves.onap.cloud1.us:8443/ves https://110.112.111.102:8080/ves.";
+      type string;
+    }
+    list primaryPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password for the primary VES Listener, required when using HTTP Basic Authentication RFC2617..";
+      uses EcimPassword-struct;
+    }
+    leaf primaryUsername {
+      description "Username for the primary VES Listener, required when using HTTP Basic Authentication RFC2617..";
+      type string;
+    }
+    leaf secondaryAddress {
+      description "Secondary VES Event Listener server URL. The URL takes the form http, an IP or DNS address and an optional port number and optional path. Specify the optional port designation by appending a colon followed by the port number to the host part, for example, 192.168.33.27:8080. If no port number is provided, the default port is used. Examples: https://ves.onap.cloud1.us:8443/ves https://110.112.111.102:8080/ves.";
+      type string;
+    }
+    list secondaryPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password for the secondary VES Listener, required when using HTTP Basic Authentication RFC2617..";
+      uses EcimPassword-struct;
+    }
+    leaf secondaryUsername {
+      description "Username for the secondary VES Listener, required when using HTTP Basic Authentication RFC2617..";
+      type string;
+    }
+    leaf trustCategory {
+      description "Trust category to be used when authenticating the certificate provided by the VES Event Listener server. Specifies the DN of a TrustCategory MO in Certificate Management..";
+      type string;
+    }
+    leaf-list clientType {
+      description "List of VES client types handled by this client..";
+      type VesClientType;
+      min-elements 0;
+    }
+    leaf administrativeState {
+      description "The administrative state for the VES client. If set to LOCKED, sending of events for the VES client is immediately stopped..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf nodeCredential {
+      description "Credential used for VES Event Listener server. Specifies the DN of a NodeCredential MO in Certificate Management..";
+      type string;
+    }
+  }
+}

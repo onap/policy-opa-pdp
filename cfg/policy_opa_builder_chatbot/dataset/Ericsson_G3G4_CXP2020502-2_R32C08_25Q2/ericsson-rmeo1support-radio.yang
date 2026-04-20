@@ -1,0 +1,172 @@
+module ericsson-rmeo1support-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeO1Support";
+  prefix rmeo1sup;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nConfiguration for O1 Support.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmeo1sup:O1Support" {
+    list NtfClient {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Configuration for HTTP cleints for NtfSubscriptionControl. IOC NtfSubscriptionControl is defined in 3GPP TS 28.622. Allows secure communication over TLS with an HTTPS-server. The RDN for this MO is NtfClient=X.";
+      key "ntfClientId";
+      leaf ntfClientId {
+        type leafref {
+          path "../attributes/ntfClientId";
+        }
+      }
+      container attributes {
+      uses NtfClient-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list O1Support {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Support for O1 Services. The RDN for this MO is O1Support=X.";
+      key "o1SupportId";
+      leaf o1SupportId {
+        type leafref {
+          path "../attributes/o1SupportId";
+        }
+      }
+      container attributes {
+      uses O1Support-attributes;
+      }
+    }
+  }
+  typedef BatchType {
+    description "Batch type.";
+    type enumeration {
+      enum SINGLE {
+        description "One event per message.";
+      }
+      enum MULTIPLE {
+        description "Multiple events per message.";
+      }
+    }
+  }
+  typedef OnOffType {
+    description "On/off type.";
+    type enumeration {
+      enum OFF {
+        description "Off.";
+      }
+      enum ON {
+        description "On.";
+      }
+    }
+  }
+  typedef ProtocolType {
+    description "Protocol type.";
+    type enumeration {
+      enum VES {
+        description "Notification is emitted with VES-protocol header.";
+      }
+      enum SDO {
+        description "Notification is emitted with payload only. Only the message body as defined by the standards defining organization (SDO) will be sent.";
+      }
+    }
+  }
+  grouping EcimPassword-struct {
+    description "Stores the password.";
+    leaf cleartext {
+      type boolean;
+    }
+    leaf password {
+      type string;
+    }
+  }
+  grouping NtfClient-attributes {
+    leaf ntfClientId {
+      description "Value part of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      description "Node credential for secure communications. Node credential identifies notification sender. Required for mutual TLS connections. If empty, the sender side is unsecure..";
+      type string;
+    }
+    leaf trustCategory {
+      description "Trust category representing receiver certificate chain. If empty, the receiver cannot be authenticated..";
+      type string;
+    }
+    leaf address {
+      description "Notification receiver address..";
+      type string;
+      mandatory true;
+    }
+    leaf batchType {
+      description "Allow use of VES event batch. Not applicable if protocolType = SDO. If empty, SINGLE will be assumed if protocolType = VES..";
+      type enumeration {
+        enum SINGLE;
+        enum MULTIPLE;
+      }
+    }
+    leaf username {
+      description "Service user name. To be used if receiver requires authentication with username and password. If empty, no authentication with username and password will be performed..";
+      type string;
+    }
+    list password {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password. To be used if receiver requires authentication with username and password. If empty, authentication is made with username only..";
+      uses EcimPassword-struct;
+    }
+    leaf protocolType {
+      description "Protocol type. Messages are sent with VES header encapsulation or with payload only, as defined by SDO..";
+      type enumeration {
+        enum VES;
+        enum SDO;
+      }
+    }
+    leaf serverNameCheck {
+      description "Server name check. Server name is matched with name as stated in certificate chain..";
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf vesHeartbeatInterval {
+      description "VES heartbeat interval. Interval for VES protocol heartbeats. If empty, no heartbeat is emitted. Not applicable if protocolType = SDO.; range 30..300.";
+      type uint16 {
+        range "30..300";
+      }
+    }
+    leaf port {
+      description "Port number. Settings in this MO only apply to sessions towards this target port. If not set, settings apply to all sessions for the given address..";
+      type ietfinet:port-number;
+    }
+    leaf nativeForwardSlash {
+      description "Native forward slash. If turned on, JSON format does not escape the forward slash (\"/\") character..";
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+  }
+  grouping O1Support-attributes {
+    leaf o1SupportId {
+      description "Value part of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+}

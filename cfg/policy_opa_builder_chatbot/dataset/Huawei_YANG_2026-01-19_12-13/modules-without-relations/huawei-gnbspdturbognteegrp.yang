@@ -1,0 +1,56 @@
+module huawei-gnbspdturbognteegrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbspdturbognteegrp";
+ prefix gnbspdturbognteegrp;
+ description
+ "Auto-generated modular YANG for huawei-gnbspdturbognteegrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBSPDTURBOGNTEEGRP-attributes {
+ leaf EXPRATESTATTIMEWINDOW {
+  type uint16 {
+   range "200..3000";
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOALGOOPTSW {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_SPEEDTURBOGROUPID {
+  type union {
+   type int8 {
+    range "-1..9";
+   }
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOGROUPID {
+  type union {
+   type int8 {
+    range "-1..9";
+   }
+  }
+  mandatory false;
+ }
+ leaf TARGETDLEXPRATE {
+  type uint32 {
+   range "0..1000000";
+  }
+  mandatory false;
+ }
+ leaf TARGETRATESCGMGMTUERATIO {
+  type uint8 {
+   range "10..100";
+  }
+  mandatory false;
+ }
+ leaf TARGETULEXPRATE {
+  type uint32 {
+   range "0..1000000";
+  }
+  mandatory false;
+ }
+ }
+}

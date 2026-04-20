@@ -1,0 +1,84 @@
+module huawei-gnbrfsphplmn {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbrfsphplmn";
+ prefix gnbrfsphplmn;
+ description
+ "Auto-generated modular YANG for huawei-gnbrfsphplmn" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBRFSPHPLMN-attributes {
+ leaf OLD_ENDRFSPINDEX {
+  type union {
+   type int16 {
+    range "-1..256";
+   }
+  }
+  mandatory false;
+ }
+ leaf ENDRFSPINDEX {
+  type union {
+   type int16 {
+    range "-1..256";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_HOMEMCC {
+  type string {
+   length "3";
+  }
+  mandatory false;
+ }
+ leaf HOMEMCC {
+  type string {
+   length "3";
+  }
+  mandatory false;
+ }
+ leaf OLD_HOMEMNC {
+  type string {
+   length "2..3";
+  }
+  mandatory false;
+ }
+ leaf HOMEMNC {
+  type string {
+   length "2..3";
+  }
+  mandatory false;
+ }
+ leaf OLD_OPERATORID {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf OPERATORID {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_STARTRFSPINDEX {
+  type union {
+   type int16 {
+    range "-1..256";
+   }
+  }
+  mandatory false;
+ }
+ leaf STARTRFSPINDEX {
+  type union {
+   type int16 {
+    range "-1..256";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,46 @@
+module huawei-ipwrm {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ipwrm";
+ prefix ipwrm;
+ description
+ "Auto-generated modular YANG for huawei-ipwrm" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping IPWRM-attributes {
+ leaf LIBATTLOCKFLAG {
+  type boolean;
+  mandatory false;
+ }
+ leaf PMUTYPECHKSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PSUICESS {
+  type boolean;
+  mandatory false;
+ }
+ leaf SOCLVL1UTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf SOCLVL2UTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf SOCLVL3UTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf SOCLVLADJSW {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

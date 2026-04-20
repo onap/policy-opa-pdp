@@ -1,0 +1,50 @@
+module huawei-ul256qamuepara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ul256qamuepara";
+ prefix ul256qamuepara;
+ description
+ "Auto-generated modular YANG for huawei-ul256qamuepara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping UL256QAMUEPARA-attributes {
+ leaf POWERREDUCTIONIBLERTARGET {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf UL256QAMCSSMCSTAB {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf UL256QAMESTDPOWREDUCTVALUE {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_UL256QAMUECONFIGINDEX {
+  type union {
+   type int8 {
+    range "-1..127";
+   }
+  }
+  mandatory false;
+ }
+ leaf UL256QAMUECONFIGINDEX {
+  type union {
+   type int8 {
+    range "-1..127";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

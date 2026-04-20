@@ -1,0 +1,1134 @@
+module ericsson-yang-types {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:yang-types";
+  prefix eytypes;
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+  typedef int32_range_0-100 {
+    type int32 {
+      range "0..100";
+    }
+  }
+  typedef int32_range_1-255 {
+    type int32 {
+      range "1..255";
+    }
+  }
+  typedef int32_range_1-1000 {
+    type int32 {
+      range "1..1000";
+    }
+  }
+  typedef int32_range_-156--29 {
+    type int32 {
+      range "-156..-29";
+    }
+  }
+  typedef int32_range_22-32 {
+    type int32 {
+      range "22..32";
+    }
+  }
+  typedef int32_range_1-8 {
+    type int32 {
+      range "1..8";
+    }
+  }
+  typedef int32_range_0-3279165 {
+    type int32 {
+      range "0..3279165";
+    }
+  }
+  typedef int32_range_1-32 {
+    type int32 {
+      range "1..32";
+    }
+  }
+  typedef int32_range_-30-30 {
+    type int32 {
+      range "-30..30";
+    }
+  }
+  typedef int32_range_-100-100 {
+    type int32 {
+      range "-100..100";
+    }
+  }
+  typedef int32_range_0-255 {
+    type int32 {
+      range "0..255";
+    }
+  }
+  typedef int32_range_-1-7 {
+    type int32 {
+      range "-1..7";
+    }
+  }
+  typedef int32_range_-140--44 {
+    type int32 {
+      range "-140..-44";
+    }
+  }
+  typedef int32_range_0-62 {
+    type int32 {
+      range "0..62";
+    }
+  }
+  typedef int32_range_0-31 {
+    type int32 {
+      range "0..31";
+    }
+  }
+  typedef int32_range_1-60 {
+    type int32 {
+      range "1..60";
+    }
+  }
+  typedef int32_range_1-20 {
+    type int32 {
+      range "1..20";
+    }
+  }
+  typedef int32_range_1-7200 {
+    type int32 {
+      range "1..7200";
+    }
+  }
+  typedef int32_range_1-65535 {
+    type int32 {
+      range "1..65535";
+    }
+  }
+  typedef int32_range_0-7 {
+    type int32 {
+      range "0..7";
+    }
+  }
+  typedef int32_range_1-100 {
+    type int32 {
+      range "1..100";
+    }
+  }
+  typedef int32_range_1-15 {
+    type int32 {
+      range "1..15";
+    }
+  }
+  typedef int32_range_10-32 {
+    type int32 {
+      range "10..32";
+    }
+  }
+  typedef int64_range_0-4294967295 {
+    type int64 {
+      range "0..4294967295";
+    }
+  }
+  typedef int32_range_0-1000 {
+    type int32 {
+      range "0..1000";
+    }
+  }
+  typedef int32_range_0-1023 {
+    type int32 {
+      range "0..1023";
+    }
+  }
+  typedef int32_range_0-10000 {
+    type int32 {
+      range "0..10000";
+    }
+  }
+  typedef int32_range_0-3000 {
+    type int32 {
+      range "0..3000";
+    }
+  }
+  typedef int32_range_0-63 {
+    type int32 {
+      range "0..63";
+    }
+  }
+  typedef int32_range_0-10000-1 {
+    type int32 {
+      range "0..10000";
+    }
+  }
+  typedef int32_range_-43--12 {
+    type int32 {
+      range "-43..-12";
+    }
+  }
+  typedef int32_range_0-16777215 {
+    type int32 {
+      range "0..16777215";
+    }
+  }
+  typedef int32_range_0-1048575 {
+    type int32 {
+      range "0..1048575";
+    }
+  }
+  typedef int32_range_0-16383 {
+    type int32 {
+      range "0..16383";
+    }
+  }
+  typedef int64_range_0-68719476735 {
+    type int64 {
+      range "0..68719476735";
+    }
+  }
+  typedef int32_range_1-5 {
+    type int32 {
+      range "1..5";
+    }
+  }
+  typedef int32_range_0-159 {
+    type int32 {
+      range "0..159";
+    }
+  }
+  typedef int32_range_1-7 {
+    type int32 {
+      range "1..7";
+    }
+  }
+  typedef int32_range_0-100-2 {
+    type int32 {
+      range "0..100";
+    }
+  }
+  typedef int32_range_1-100-3 {
+    type int32 {
+      range "1..100";
+    }
+  }
+  typedef int32_range_1-12 {
+    type int32 {
+      range "1..12";
+    }
+  }
+  typedef int32_range_0-5000 {
+    type int32 {
+      range "0..5000";
+    }
+  }
+  typedef int32_range_0-5000-4 {
+    type int32 {
+      range "0..5000";
+    }
+  }
+  typedef int32_range_-400-400 {
+    type int32 {
+      range "-400..400";
+    }
+  }
+  typedef int32_range_5-600 {
+    type int32 {
+      range "5..600";
+    }
+  }
+  typedef int32_range_-400-1450 {
+    type int32 {
+      range "-400..1450";
+    }
+  }
+  typedef int32_range_0-100-5 {
+    type int32 {
+      range "0..100";
+    }
+  }
+  typedef int32_range_0-2000 {
+    type int32 {
+      range "0..2000";
+    }
+  }
+  typedef int32_range_1-64 {
+    type int32 {
+      range "1..64";
+    }
+  }
+  typedef int32_range_1-256 {
+    type int32 {
+      range "1..256";
+    }
+  }
+  typedef int32_range_0-65535 {
+    type int32 {
+      range "0..65535";
+    }
+  }
+  typedef int32_range_0-14400 {
+    type int32 {
+      range "0..14400";
+    }
+  }
+  typedef uint32_range_0-272 {
+    type uint32 {
+      range "0..272";
+    }
+  }
+  typedef int32_range_-40-40 {
+    type int32 {
+      range "-40..40";
+    }
+  }
+  typedef int32_range_0-60 {
+    type int32 {
+      range "0..60";
+    }
+  }
+  typedef int32_range_0-12 {
+    type int32 {
+      range "0..12";
+    }
+  }
+  typedef int32_range_-120--90 {
+    type int32 {
+      range "-120..-90";
+    }
+  }
+  typedef uint32_range_0-214748647 {
+    type uint32 {
+      range "0..214748647";
+    }
+  }
+  typedef int32_range_0-256 {
+    type int32 {
+      range "0..256";
+    }
+  }
+  typedef int32_range_0-32 {
+    type int32 {
+      range "0..32";
+    }
+  }
+  typedef int32_range_0-240 {
+    type int32 {
+      range "0..240";
+    }
+  }
+  typedef uint32_range_0-10000000 {
+    type uint32 {
+      range "0..10000000";
+    }
+  }
+  typedef uint16_range_0-700 {
+    type uint16 {
+      range "0..700";
+    }
+  }
+  typedef uint8_range_0-255 {
+    type uint8 {
+      range "0..255";
+    }
+  }
+  typedef uint16_range_0-65535 {
+    type uint16 {
+      range "0..65535";
+    }
+  }
+  typedef int64_range_-1-65535 {
+    type int64 {
+      range "-1..65535";
+    }
+  }
+  typedef int32_range_1-1000-6 {
+    type int32 {
+      range "1..1000";
+    }
+  }
+  typedef int32_range_-435-200 {
+    type int32 {
+      range "-435..200";
+    }
+  }
+  typedef int32_range_1-10 {
+    type int32 {
+      range "1..10";
+    }
+  }
+  typedef int32_range_-1-32000 {
+    type int32 {
+      range "-1..32000";
+    }
+  }
+  typedef int32_range_1-15-7 {
+    type int32 {
+      range "1..15";
+    }
+  }
+  typedef int32_range_5-300 {
+    type int32 {
+      range "5..300";
+    }
+  }
+  typedef int32_range_0-7-8 {
+    type int32 {
+      range "0..7";
+    }
+  }
+  typedef int32_range_0-503 {
+    type int32 {
+      range "0..503";
+    }
+  }
+  typedef int32_range_0-65535-9 {
+    type int32 {
+      range "0..65535";
+    }
+  }
+  typedef int32_range_0-20 {
+    type int32 {
+      range "0..20";
+    }
+  }
+  typedef int32_range_1-12000 {
+    type int32 {
+      range "1..12000";
+    }
+  }
+  typedef int32_range_0-150 {
+    type int32 {
+      range "0..150";
+    }
+  }
+  typedef int32_range_0-1000-10 {
+    type int32 {
+      range "0..1000";
+    }
+  }
+  typedef int32_range_1-1024 {
+    type int32 {
+      range "1..1024";
+    }
+  }
+  typedef int32_range_0-1000-11 {
+    type int32 {
+      range "0..1000";
+    }
+  }
+  typedef int32_range_1-99 {
+    type int32 {
+      range "1..99";
+    }
+  }
+  typedef int32_range_0-5 {
+    type int32 {
+      range "0..5";
+    }
+  }
+  typedef int32_range_0-95 {
+    type int32 {
+      range "0..95";
+    }
+  }
+  typedef int32_range_0-16 {
+    type int32 {
+      range "0..16";
+    }
+  }
+  typedef int32_range_0-100-12 {
+    type int32 {
+      range "0..100";
+    }
+  }
+  typedef int32_range_0-28 {
+    type int32 {
+      range "0..28";
+    }
+  }
+  typedef int32_range_0-50 {
+    type int32 {
+      range "0..50";
+    }
+  }
+  typedef int32_range_0-30 {
+    type int32 {
+      range "0..30";
+    }
+  }
+  typedef int32_range_0-2147483647 {
+    type int32 {
+      range "0..2147483647";
+    }
+  }
+  typedef int32_range_0-31-13 {
+    type int32 {
+      range "0..31";
+    }
+  }
+  typedef int32_range_0-15 {
+    type int32 {
+      range "0..15";
+    }
+  }
+  typedef int32_range_0-30000 {
+    type int32 {
+      range "0..30000";
+    }
+  }
+  typedef int32_range_0-6 {
+    type int32 {
+      range "0..6";
+    }
+  }
+  typedef int32_range_10-100 {
+    type int32 {
+      range "10..100";
+    }
+  }
+  typedef int32_range_0-837 {
+    type int32 {
+      range "0..837";
+    }
+  }
+  typedef int32_range_0-86400 {
+    type int32 {
+      range "0..86400";
+    }
+  }
+  typedef int32_range_0-2 {
+    type int32 {
+      range "0..2";
+    }
+  }
+  typedef int32_range_0-4095 {
+    type int32 {
+      range "0..4095";
+    }
+  }
+  typedef int32_range_-10-10 {
+    type int32 {
+      range "-10..10";
+    }
+  }
+  typedef int32_range_30-1800 {
+    type int32 {
+      range "30..1800";
+    }
+  }
+  typedef int32_range_-150-450 {
+    type int32 {
+      range "-150..450";
+    }
+  }
+  typedef int32_range_0-1000000 {
+    type int32 {
+      range "0..1000000";
+    }
+  }
+  typedef int32_range_1-2 {
+    type int32 {
+      range "1..2";
+    }
+  }
+  typedef int32_range_1-16 {
+    type int32 {
+      range "1..16";
+    }
+  }
+  typedef int32_range_0-100-14 {
+    type int32 {
+      range "0..100";
+    }
+  }
+  typedef int32_range_0-1000-15 {
+    type int32 {
+      range "0..1000";
+    }
+  }
+  typedef int32_range_0-1000000-16 {
+    type int32 {
+      range "0..1000000";
+    }
+  }
+  typedef int32_range_0-1000-17 {
+    type int32 {
+      range "0..1000";
+    }
+  }
+  typedef int32_range_0-14 {
+    type int32 {
+      range "0..14";
+    }
+  }
+  typedef int32_range_0-500 {
+    type int32 {
+      range "0..500";
+    }
+  }
+  typedef int32_range_0-75000 {
+    type int32 {
+      range "0..75000";
+    }
+  }
+  typedef int32_range_0-99 {
+    type int32 {
+      range "0..99";
+    }
+  }
+  typedef int32_range_0-20-18 {
+    type int32 {
+      range "0..20";
+    }
+  }
+  typedef int32_range_0-9 {
+    type int32 {
+      range "0..9";
+    }
+  }
+  typedef int32_range_1-32767 {
+    type int32 {
+      range "1..32767";
+    }
+  }
+  typedef int32_range_0-24 {
+    type int32 {
+      range "0..24";
+    }
+  }
+  typedef int32_range_-10-20 {
+    type int32 {
+      range "-10..20";
+    }
+  }
+  typedef int32_range_0-3 {
+    type int32 {
+      range "0..3";
+    }
+  }
+  typedef int32_range_-200-200 {
+    type int32 {
+      range "-200..200";
+    }
+  }
+  typedef int32_range_1-30 {
+    type int32 {
+      range "1..30";
+    }
+  }
+  typedef int32_range_-195--30 {
+    type int32 {
+      range "-195..-30";
+    }
+  }
+  typedef int32_range_-150-150 {
+    type int32 {
+      range "-150..150";
+    }
+  }
+  typedef int32_range_0-120000 {
+    type int32 {
+      range "0..120000";
+    }
+  }
+  typedef int32_range_1-5-19 {
+    type int32 {
+      range "1..5";
+    }
+  }
+  typedef int32_range_0-8 {
+    type int32 {
+      range "0..8";
+    }
+  }
+  typedef int32_range_0-62-20 {
+    type int32 {
+      range "0..62";
+    }
+  }
+  typedef int32_range_-24-0 {
+    type int32 {
+      range "-24..0";
+    }
+  }
+  typedef int32_range_-15-15 {
+    type int32 {
+      range "-15..15";
+    }
+  }
+  typedef int32_range_-240-240 {
+    type int32 {
+      range "-240..240";
+    }
+  }
+  typedef int32_range_-50-50 {
+    type int32 {
+      range "-50..50";
+    }
+  }
+  typedef int32_range_-24-24 {
+    type int32 {
+      range "-24..24";
+    }
+  }
+  typedef int32_range_0-32767 {
+    type int32 {
+      range "0..32767";
+    }
+  }
+  typedef int32_range_0-1023-21 {
+    type int32 {
+      range "0..1023";
+    }
+  }
+  typedef int32_range_0-511 {
+    type int32 {
+      range "0..511";
+    }
+  }
+  typedef int32_range_0-167 {
+    type int32 {
+      range "0..167";
+    }
+  }
+  typedef int32_range_-1-1048575 {
+    type int32 {
+      range "-1..1048575";
+    }
+  }
+  typedef int32_range_9-100 {
+    type int32 {
+      range "9..100";
+    }
+  }
+  typedef int32_range_-1-65535 {
+    type int32 {
+      range "-1..65535";
+    }
+  }
+  typedef int32_range_0-10 {
+    type int32 {
+      range "0..10";
+    }
+  }
+  typedef int32_range_0-10000-22 {
+    type int32 {
+      range "0..10000";
+    }
+  }
+  typedef int32_range_0-4000 {
+    type int32 {
+      range "0..4000";
+    }
+  }
+  typedef int32_range_-150-250 {
+    type int32 {
+      range "-150..250";
+    }
+  }
+  typedef int32_range_0-1 {
+    type int32 {
+      range "0..1";
+    }
+  }
+  typedef int32_range_0-22 {
+    type int32 {
+      range "0..22";
+    }
+  }
+  typedef int32_range_1-4095 {
+    type int32 {
+      range "1..4095";
+    }
+  }
+  typedef int32_range_-127--96 {
+    type int32 {
+      range "-127..-96";
+    }
+  }
+  typedef int32_range_-126-24 {
+    type int32 {
+      range "-126..24";
+    }
+  }
+  typedef int32_range_-90000000-90000000 {
+    type int32 {
+      range "-90000000..90000000";
+    }
+  }
+  typedef int32_range_-180000000-180000000 {
+    type int32 {
+      range "-180000000..180000000";
+    }
+  }
+  typedef int32_range_0-127 {
+    type int32 {
+      range "0..127";
+    }
+  }
+  typedef int32_range_0-100-23 {
+    type int32 {
+      range "0..100";
+    }
+  }
+  typedef int32_range_0-8-24 {
+    type int32 {
+      range "0..8";
+    }
+  }
+  typedef int32_range_-1-16777215 {
+    type int32 {
+      range "-1..16777215";
+    }
+  }
+  typedef int32_range_0-1600 {
+    type int32 {
+      range "0..1600";
+    }
+  }
+  typedef int32_range_0-32768 {
+    type int32 {
+      range "0..32768";
+    }
+  }
+  typedef int32_range_1-10000 {
+    type int32 {
+      range "1..10000";
+    }
+  }
+  typedef int32_range_0-24-25 {
+    type int32 {
+      range "0..24";
+    }
+  }
+  typedef int32_range_5-100 {
+    type int32 {
+      range "5..100";
+    }
+  }
+  typedef int32_range_0-4095-26 {
+    type int32 {
+      range "0..4095";
+    }
+  }
+  typedef int32_range_0-2000-27 {
+    type int32 {
+      range "0..2000";
+    }
+  }
+  typedef int32_range_0-36000 {
+    type int32 {
+      range "0..36000";
+    }
+  }
+  typedef int32_range_1-63 {
+    type int32 {
+      range "1..63";
+    }
+  }
+  typedef int32_range_1-200 {
+    type int32 {
+      range "1..200";
+    }
+  }
+  typedef int32_range_-20-20 {
+    type int32 {
+      range "-20..20";
+    }
+  }
+  typedef int32_range_10-50 {
+    type int32 {
+      range "10..50";
+    }
+  }
+  typedef int32_range_-150-400 {
+    type int32 {
+      range "-150..400";
+    }
+  }
+  typedef int32_range_0-5-28 {
+    type int32 {
+      range "0..5";
+    }
+  }
+  typedef int32_range_0-30000-29 {
+    type int32 {
+      range "0..30000";
+    }
+  }
+  typedef int32_range_1-10-30 {
+    type int32 {
+      range "1..10";
+    }
+  }
+  typedef int32_range_0-20-31 {
+    type int32 {
+      range "0..20";
+    }
+  }
+  typedef int32_range_1-1000-32 {
+    type int32 {
+      range "1..1000";
+    }
+  }
+  typedef int32_range_1-31 {
+    type int32 {
+      range "1..31";
+    }
+  }
+  typedef int32_range_1-800 {
+    type int32 {
+      range "1..800";
+    }
+  }
+  typedef int32_range_0-16000 {
+    type int32 {
+      range "0..16000";
+    }
+  }
+  typedef int32_range_0-90 {
+    type int32 {
+      range "0..90";
+    }
+  }
+  typedef int32_range_2-30 {
+    type int32 {
+      range "2..30";
+    }
+  }
+  typedef int32_range_-1-6 {
+    type int32 {
+      range "-1..6";
+    }
+  }
+  typedef int32_range_0-3000-33 {
+    type int32 {
+      range "0..3000";
+    }
+  }
+  typedef int32_range_1-120 {
+    type int32 {
+      range "1..120";
+    }
+  }
+  typedef int32_range_-120--24 {
+    type int32 {
+      range "-120..-24";
+    }
+  }
+  typedef int32_range_-245-0 {
+    type int32 {
+      range "-245..0";
+    }
+  }
+  typedef int32_range_-110--47 {
+    type int32 {
+      range "-110..-47";
+    }
+  }
+  typedef int32_range_-315-0 {
+    type int32 {
+      range "-315..0";
+    }
+  }
+  typedef int32_range_-1-10000 {
+    type int32 {
+      range "-1..10000";
+    }
+  }
+  typedef int32_range_-1-20000 {
+    type int32 {
+      range "-1..20000";
+    }
+  }
+  typedef int32_range_0-30-34 {
+    type int32 {
+      range "0..30";
+    }
+  }
+  typedef int32_range_-1-255 {
+    type int32 {
+      range "-1..255";
+    }
+  }
+  typedef int32_range_-100-0 {
+    type int32 {
+      range "-100..0";
+    }
+  }
+  typedef int32_range_-240-0 {
+    type int32 {
+      range "-240..0";
+    }
+  }
+  typedef int32_range_-1-5000 {
+    type int32 {
+      range "-1..5000";
+    }
+  }
+  typedef int32_range_0-5000-35 {
+    type int32 {
+      range "0..5000";
+    }
+  }
+  typedef int32_range_1-20-36 {
+    type int32 {
+      range "1..20";
+    }
+  }
+  typedef int32_range_1-5000 {
+    type int32 {
+      range "1..5000";
+    }
+  }
+  typedef int32_range_0-500-37 {
+    type int32 {
+      range "0..500";
+    }
+  }
+  typedef int32_range_-1-1000000 {
+    type int32 {
+      range "-1..1000000";
+    }
+  }
+  typedef int32_range_0-1600-38 {
+    type int32 {
+      range "0..1600";
+    }
+  }
+  typedef int32_range_-1-2147483647 {
+    type int32 {
+      range "-1..2147483647";
+    }
+  }
+  typedef int32_range_0-1000-39 {
+    type int32 {
+      range "0..1000";
+    }
+  }
+  typedef int32_range_0-1000000-40 {
+    type int32 {
+      range "0..1000000";
+    }
+  }
+  typedef uint32_range_1-65535 {
+    type uint32 {
+      range "1..65535";
+    }
+  }
+  typedef uint8_range_0-63 {
+    type uint8 {
+      range "0..63";
+    }
+  }
+  typedef int32_range_0-3600 {
+    type int32 {
+      range "0..3600";
+    }
+  }
+  typedef int32_range_-900-900 {
+    type int32 {
+      range "-900..900";
+    }
+  }
+  typedef int32_range_0-262143 {
+    type int32 {
+      range "0..262143";
+    }
+  }
+  typedef int32_range_-1-800000 {
+    type int32 {
+      range "-1..800000";
+    }
+  }
+  typedef int32_range_0-255-41 {
+    type int32 {
+      range "0..255";
+    }
+  }
+  typedef uint32_range_1-100 {
+    type uint32 {
+      range "1..100";
+    }
+  }
+  typedef int32_range_-900-900-42 {
+    type int32 {
+      range "-900..900";
+    }
+  }
+  typedef int32_range_-1-100 {
+    type int32 {
+      range "-1..100";
+    }
+  }
+  typedef int32_range_-1-999999 {
+    type int32 {
+      range "-1..999999";
+    }
+  }
+  typedef int32_range_-570--480 {
+    type int32 {
+      range "-570..-480";
+    }
+  }
+  typedef int32_range_0-10000000 {
+    type int32 {
+      range "0..10000000";
+    }
+  }
+  typedef uint8_range_1-15 {
+    type uint8 {
+      range "1..15";
+    }
+  }
+  typedef uint8_range_0-255-43 {
+    type uint8 {
+      range "0..255";
+    }
+  }
+  typedef uint16_range_1-65535 {
+    type uint16 {
+      range "1..65535";
+    }
+  }
+  typedef uint8_range_0-7 {
+    type uint8 {
+      range "0..7";
+    }
+  }
+  typedef uint8_range_1-20 {
+    type uint8 {
+      range "1..20";
+    }
+  }
+  typedef uint16_range_1-16384 {
+    type uint16 {
+      range "1..16384";
+    }
+  }
+  typedef int16_range_0-1 {
+    type int16 {
+      range "0..1";
+    }
+  }
+  typedef int16_range_0-100 {
+    type int16 {
+      range "0..100";
+    }
+  }
+  typedef int16_range_0-6016 {
+    type int16 {
+      range "0..6016";
+    }
+  }
+  typedef int16_range_0-100-44 {
+    type int16 {
+      range "0..100";
+    }
+  }
+  typedef int16_range_-350-150 {
+    type int16 {
+      range "-350..150";
+    }
+  }
+  typedef int16_range_0-100-45 {
+    type int16 {
+      range "0..100";
+    }
+  }
+}

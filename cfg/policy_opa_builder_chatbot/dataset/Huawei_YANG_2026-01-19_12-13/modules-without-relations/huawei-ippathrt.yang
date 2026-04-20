@@ -1,0 +1,70 @@
+module huawei-ippathrt {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ippathrt";
+ prefix ippathrt;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-ippathrt" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container ippathrt-ipv4 {
+  container attributes {
+   uses IPPATHRT-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping IPPATHRT-attributes {
+ leaf OLD_DSTIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf DSTIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf NEXTHOPIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf OLD_SRCIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf SRCIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf TRANRSCTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_VRFIDX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

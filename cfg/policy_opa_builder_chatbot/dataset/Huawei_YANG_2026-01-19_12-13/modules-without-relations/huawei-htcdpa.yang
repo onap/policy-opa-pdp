@@ -1,0 +1,78 @@
+module huawei-htcdpa {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-htcdpa";
+ prefix htcdpa;
+ description
+ "Auto-generated modular YANG for huawei-htcdpa" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping HTCDPA-attributes {
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf DBD {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf HTCP {
+  type int8 {
+   range "-99..70";
+  }
+  mandatory false;
+ }
+ leaf HTDO {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf LTCP {
+  type int8 {
+   range "-99..70";
+  }
+  mandatory false;
+ }
+ leaf NTDI {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf NTDO {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..3";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..14";
+   }
+  }
+  mandatory false;
+ }
+ leaf TLT {
+  type int8 {
+   range "-99..70";
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,93 @@
+module huawei-dnssrv {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-dnssrv";
+ prefix dnssrv;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-dnssrv" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container dnssrv-ipv4 {
+  container attributes {
+   uses DNSSRV-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ augment "/if:interfaces/if:interface/ip:ipv6" {
+ container dnssrv-ipv6 {
+  container attributes {
+   uses DNSSRV-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping DNSSRV-attributes {
+ leaf DNSCIP4 {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf DNSCIP6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf DNSSIP4 {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf DNSSIP6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf OLD_DNSSRVID {
+  type union {
+   type int8 {
+    range "-1..3";
+   }
+  }
+  mandatory false;
+ }
+ leaf DNSSRVID {
+  type union {
+   type int8 {
+    range "-1..3";
+   }
+  }
+  mandatory false;
+ }
+ leaf DSCP {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf IPVER {
+  type boolean;
+  mandatory false;
+ }
+ leaf PN {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type uint8 {
+   range "0..31";
+  }
+  mandatory false;
+ }
+ }
+}

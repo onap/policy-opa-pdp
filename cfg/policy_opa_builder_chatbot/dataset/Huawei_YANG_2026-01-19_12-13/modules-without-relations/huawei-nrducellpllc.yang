@@ -1,0 +1,26 @@
+module huawei-nrducellpllc {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellpllc";
+ prefix nrducellpllc;
+ description
+ "Auto-generated modular YANG for huawei-nrducellpllc" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLPLLC-attributes {
+ leaf CONRDUCELLID {
+  type uint16 {
+   range "0..65534";
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

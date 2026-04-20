@@ -1,0 +1,94 @@
+module huawei-almshldrule {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-almshldrule";
+ prefix almshldrule;
+ description
+ "Auto-generated modular YANG for huawei-almshldrule" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ALMSHLDRULE-attributes {
+ leaf AID {
+  type uint16 {
+   range "1..65533";
+  }
+  mandatory false;
+ }
+ leaf OLD_INDEX {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf INDEX {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf PARA1NAME {
+  type string {
+   length "0..55";
+  }
+  mandatory false;
+ }
+ leaf PARA1VALUE {
+  type string {
+   length "0..127";
+  }
+  mandatory false;
+ }
+ leaf PARA2NAME {
+  type string {
+   length "0..55";
+  }
+  mandatory false;
+ }
+ leaf PARA2VALUE {
+  type string {
+   length "0..127";
+  }
+  mandatory false;
+ }
+ leaf PARA3NAME {
+  type string {
+   length "0..55";
+  }
+  mandatory false;
+ }
+ leaf PARA3VALUE {
+  type string {
+   length "0..127";
+  }
+  mandatory false;
+ }
+ leaf PARA4NAME {
+  type string {
+   length "0..55";
+  }
+  mandatory false;
+ }
+ leaf PARA4VALUE {
+  type string {
+   length "0..127";
+  }
+  mandatory false;
+ }
+ leaf PARA5NAME {
+  type string {
+   length "0..55";
+  }
+  mandatory false;
+ }
+ leaf PARA5VALUE {
+  type string {
+   length "0..127";
+  }
+  mandatory false;
+ }
+ }
+}

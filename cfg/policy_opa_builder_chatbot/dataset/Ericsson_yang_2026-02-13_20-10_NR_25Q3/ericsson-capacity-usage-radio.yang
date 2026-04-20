@@ -1,0 +1,100 @@
+module ericsson-capacity-usage-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeCapacityUsage";
+  prefix cpusrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list CapacityUsage {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Contains PM counters for capacity usage. The RDN of this MO is CapacityUsage=1.";
+      key "capacityUsageId";
+      leaf capacityUsageId {
+        type leafref {
+          path "../attributes/capacityUsageId";
+        }
+      }
+      container attributes {
+        uses CapacityUsage-attributes;
+      }
+    }
+  }
+  grouping CapacityUsage-attributes {
+    leaf capacityUsageId {
+      type string;
+      mandatory true;
+    }
+    list hupInfo {
+      config false;
+      container attributes {
+      leaf totInstalled {
+        type string;
+      }
+      leaf totAllocated {
+        type string;
+      }
+      leaf totFree {
+        type string;
+      }
+      leaf lteAllocated {
+        type string;
+      }
+      leaf nrAllocated {
+        type string;
+      }
+      leaf lteAllocatedUnusedCapacity {
+        type string;
+      }
+      leaf nrAllocatedUnusedCapacity {
+        type string;
+      }
+      leaf licenseKeyId {
+        type string;
+      }
+      leaf licenseKeyName {
+        type string;
+      }
+      leaf wcdmaAllocated {
+        type string;
+      }
+      leaf wcdmaAllocatedUnusedCapacity {
+        type string;
+      }
+      leaf gsmAllocated {
+        type string;
+      }
+      leaf gsmAllocatedUnusedCapacity {
+        type string;
+      }
+      }
+    }
+    leaf pmLicCarrierBWHwac {
+      type int64;
+      config false;
+    }
+    leaf pmLicOutputPowerHwac {
+      type int32;
+      config false;
+    }
+    leaf pmLicMimoLayerHwac {
+      type int64;
+      config false;
+    }
+    leaf pmLicNrRrus32Air32Hwac {
+      type int32;
+      config false;
+    }
+    leaf pmLicAntennaBWHwac {
+      type int64;
+      config false;
+    }
+  }
+}

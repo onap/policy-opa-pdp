@@ -1,0 +1,85 @@
+module huawei-ethlm {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ethlm";
+ prefix ethlm;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-yang-types {
+ prefix yang;
+ }
+ description
+ "Auto-generated modular YANG for huawei-ethlm" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface" {
+ container attributes {
+  uses ETHLM-attributes {
+   /* opcjonalnie: IF-only subset */
+  }
+ }
+}
+ grouping ETHLM-attributes {
+ leaf DSTTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf INTERVAL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf MAC {
+  type yang:mac-address;
+  mandatory false;
+ }
+ leaf MANAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MDNAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MEPID {
+  type uint16 {
+   range "1..8191";
+  }
+  mandatory false;
+ }
+ leaf MODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf RMEPID {
+  type uint16 {
+   range "1..8191";
+  }
+  mandatory false;
+ }
+ leaf OLD_SESSIONID {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf SESSIONID {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

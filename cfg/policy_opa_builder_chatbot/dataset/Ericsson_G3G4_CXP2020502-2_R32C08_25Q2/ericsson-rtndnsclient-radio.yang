@@ -1,0 +1,132 @@
+module ericsson-rtndnsclient-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnDnsClient";
+  prefix rtndnscl;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nDomain Name Service Client.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/rtndnscl:DnsClient" {
+    list DomainFilter {
+      description "Additional definitions from MOM:min/max-elements:0/2; Represents domain filter, that enables sending DNS requests for one or more domains to special DNS server. Default DNS server is defined in DnsClient MO and DomainFilter MO can provide exceptions for specific domains.";
+      key "domainFilterId";
+      leaf domainFilterId {
+        type leafref {
+          path "../attributes/domainFilterId";
+        }
+      }
+      container attributes {
+      uses DomainFilter-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list DnsClient {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents DNS client.";
+      key "dnsClientId";
+      leaf dnsClientId {
+        type leafref {
+          path "../attributes/dnsClientId";
+        }
+      }
+      container attributes {
+      uses DnsClient-attributes;
+      }
+    }
+  }
+  typedef DnsConfigMode {
+    description "Method of IP address configuration.";
+    type enumeration {
+      enum MANUAL {
+        description "DNS server address(es) are configured manually.";
+      }
+      enum AUTOMATIC {
+        description "DNS server address(es) are configured automatically.";
+      }
+    }
+  }
+  grouping DnsClient-attributes {
+    leaf configurationMode {
+      description "Whether DNS server addresses are configured manually or are retrieved automatically using either DHCP, IPv6 autoconfiguration or IKE configuration payload method. If AUTOMATIC, up to three DNS server addresses are retrieved either from security gateway, DHCP server or router. Retrieved addresses are listed in usedServerAddresses..";
+      type enumeration {
+        enum MANUAL;
+        enum AUTOMATIC;
+      }
+    }
+    leaf dnsClientId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf dscp {
+      description "DSCP value for DNS related IP packets. Only IP packets originated from this node are tagged with DSCP value.; range 0..63; Default value: 40.";
+      type eytypes:uint8_range_0-63;
+      default "40";
+    }
+    leaf localIpAddress {
+      description "Reference to address. If set, DNS requests are sent from address configured by referenced MO type AddressIPv4 or AddressIPv6. If unset, DNS requests are sent from address, within Router MO, selected by system..";
+      type string;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list serverAddress {
+      description "List of configured DNS server addresses..";
+      type string;
+      min-elements 0;
+      max-elements 3;
+    }
+    leaf-list usedServerAddress {
+      description "List of used DNS server addresses. IPv4 address is specified in dotted quad notation, for example 130.100.92.154. RFC 791 describes syntax details. IPv6 address is specified by 8 groups of 16 bit hexadecimal values separated by colons, for example 2001:0db8:85a3:0000:0000:8a2e:0370:7334. RFC 4291 describes syntax details..";
+      type string;
+      min-elements 0;
+      max-elements 3;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+  grouping DomainFilter-attributes {
+    leaf-list domain {
+      description "DNS requests matching one of domains will be sent to servers specified in serverAddress instead of servers in DnsClient MO. Example: example.com will match requests like host.example.com..";
+      type string {
+        pattern "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])";
+      }
+      min-elements 1;
+      max-elements 5;
+    }
+    leaf domainFilterId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list serverAddress {
+      description "List of addresses of DNS servers..";
+      type string;
+      min-elements 1;
+      max-elements 3;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

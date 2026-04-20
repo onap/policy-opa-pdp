@@ -1,0 +1,42 @@
+module huawei-gnbexternalplmn {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbexternalplmn";
+ prefix gnbexternalplmn;
+ description
+ "Auto-generated modular YANG for huawei-gnbexternalplmn" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBEXTERNALPLMN-attributes {
+ leaf OLD_MCC {
+  type string {
+   length "3";
+  }
+  mandatory false;
+ }
+ leaf MCC {
+  type string {
+   length "3";
+  }
+  mandatory false;
+ }
+ leaf OLD_MNC {
+  type string {
+   length "2..3";
+  }
+  mandatory false;
+ }
+ leaf MNC {
+  type string {
+   length "2..3";
+  }
+  mandatory false;
+ }
+ leaf GNBIDLENGTH {
+  type uint8 {
+   range "22..32";
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,99 @@
+module ericsson-bridging-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnBridging";
+  prefix bdgrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Bridge {
+      description "Additional definitions from MOM:min/max-elements:0/256;root; Ethernet L2 forwarding technique. Network bridge connects multiple network segments at data link layer (Layer 2) of OSI model. In Ethernet networks, term bridge formally means device that behaves according to IEEE 802.1D standard. Bridging takes place at OSI Model Layer 2 (data-link layer), including MAC Bridge and Provider Bridge, that direct frames according to hardware assigned MAC addresses. Bridge MO can only refer to existing VlanPort MO.";
+      key "bridgeId";
+      leaf bridgeId {
+        type leafref {
+          path "../attributes/bridgeId";
+        }
+      }
+      container attributes {
+        uses Bridge-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping Bridge-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf bridgeId {
+      type string;
+      mandatory true;
+    }
+    leaf lowLatencySwitching {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf macAddress {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list port {
+      type ietfinet:port-number;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+  }
+}

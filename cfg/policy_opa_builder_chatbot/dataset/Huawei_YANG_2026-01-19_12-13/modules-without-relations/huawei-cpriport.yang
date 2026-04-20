@@ -1,0 +1,79 @@
+module huawei-cpriport {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cpriport";
+ prefix cpriport;
+ description
+ "Auto-generated modular YANG for huawei-cpriport" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CPRIPORT-attributes {
+ leaf ADMINISTRATIVESTATE {
+  type boolean;
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf MACSECCONNTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf OPTN {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf PT {
+  type enumeration {
+   enum val--1;
+   enum val-5;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-17;
+  }
+  mandatory false;
+ }
+ leaf SFPSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf SPN {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,66 @@
+module huawei-oidenuminfo {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-oidenuminfo";
+ prefix oidenuminfo;
+ description
+ "Auto-generated modular YANG for huawei-oidenuminfo" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping OIDENUMINFO-attributes {
+ leaf FUNCTIONENUMVALUE {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf OLD_FUNCTIONID {
+  type union {
+   type int16 {
+    range "-1..131";
+   }
+  }
+  mandatory false;
+ }
+ leaf FUNCTIONID {
+  type union {
+   type int16 {
+    range "-1..131";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_MIBINDEX {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf MIBINDEX {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_OIDENUMVALUE {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf OIDENUMVALUE {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

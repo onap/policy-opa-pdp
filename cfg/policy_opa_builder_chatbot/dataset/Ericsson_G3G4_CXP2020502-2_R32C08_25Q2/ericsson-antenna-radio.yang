@@ -1,0 +1,2401 @@
+module ericsson-antenna-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqAntennaSystem";
+  prefix antrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis MO represents a hardware unit installed in the antenna system that can be controlled and supervised by the system.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup/antrdo:AntennaNearUnit" {
+    list TmaSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents a TMA subunit which provides low noise amplification of the uplink received by the reserving branch. The RDN of this MO must be TmaSubUnit=n, where n is a number.";
+      key "tmaSubUnitId";
+      leaf tmaSubUnitId {
+        type leafref {
+          path "../attributes/tmaSubUnitId";
+        }
+      }
+      container attributes {
+      uses TmaSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup/antrdo:AntennaNearUnit" {
+    list RetSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/12; This MO represents the device, either a single RET subunit or a subunit of the multi RET subunit providing for remote electrical tilting of the antenna unit where it is mounted. The RDN of this MO must be RetSubUnit=n, where n is a number.";
+      key "retSubUnitId";
+      leaf retSubUnitId {
+        type leafref {
+          path "../attributes/retSubUnitId";
+        }
+      }
+      container attributes {
+      uses RetSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup/antrdo:AntennaNearUnit" {
+    list RaeSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents a Remote eAntenna Extension device (RAE). The RDN of this MO must be RaeSubUnit=n, where n is a number.";
+      key "raeSubUnitId";
+      leaf raeSubUnitId {
+        type leafref {
+          path "../attributes/raeSubUnitId";
+        }
+      }
+      container attributes {
+      uses RaeSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup/antrdo:AntennaNearUnit" {
+    list AsdSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents an Alignment Sensor Device (ASD). The RDN of this MO must be AsdSubUnit=n, where n is a number.";
+      key "asdSubUnitId";
+      leaf asdSubUnitId {
+        type leafref {
+          path "../attributes/asdSubUnitId";
+        }
+      }
+      container attributes {
+      uses AsdSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup/antrdo:AntennaNearUnit" {
+    list GlsSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents a Geographic Location Sensor (GLS). The RDN of this MO must be GlsSubUnit=n, where n is a number.";
+      key "glsSubUnitId";
+      leaf glsSubUnitId {
+        type leafref {
+          path "../attributes/glsSubUnitId";
+        }
+      }
+      container attributes {
+      uses GlsSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup/antrdo:AntennaUnit/antrdo:AntennaSubunit" {
+    list AuPort {
+      description "Additional definitions from MOM:min/max-elements:0/17; This MO represents an antenna feeder port on the Antenna Unit where the antenna branch is connected.";
+      key "auPortId";
+      leaf auPortId {
+        type leafref {
+          path "../attributes/auPortId";
+        }
+      }
+      container attributes {
+      uses AuPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup/antrdo:AntennaUnit" {
+    list AntennaSubunit {
+      description "Additional definitions from MOM:min/max-elements:0/12; This MO groups the antenna elements that, because of being controlled by the same RET radiate with the same tilt angle.";
+      key "antennaSubunitId";
+      leaf antennaSubunitId {
+        type leafref {
+          path "../attributes/antennaSubunitId";
+        }
+      }
+      container attributes {
+      uses AntennaSubunit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup" {
+    list RfBranch {
+      description "Additional definitions from MOM:min/max-elements:0/24; This MO represents the connection from an antenna feeder port on the RU to one antenna feeder connector on one or several antenna units. The MO represents all equipment between the radio and the antenna which isn't modelled by any other MO. That includes feeder, filters and non-supervised, non-controlled TMA.";
+      key "rfBranchId";
+      leaf rfBranchId {
+        type leafref {
+          path "../attributes/rfBranchId";
+        }
+      }
+      container attributes {
+      uses RfBranch-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup" {
+    list AntennaNearUnit {
+      description "Additional definitions from MOM:min/max-elements:0/48; This MO represents a hardware unit installed in the antenna system that can be controlled and supervised by the system. During MO creation RDN cannot make the LDN exceed 127 characters.";
+      key "antennaNearUnitId";
+      leaf antennaNearUnitId {
+        type leafref {
+          path "../attributes/antennaNearUnitId";
+        }
+      }
+      container attributes {
+      uses AntennaNearUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup" {
+    list AntennaUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents an antenna unit that contains several antenna subunits installed with a common mechanical tilt.";
+      key "antennaUnitId";
+      leaf antennaUnitId {
+        type leafref {
+          path "../attributes/antennaUnitId";
+        }
+      }
+      container attributes {
+      uses AntennaUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup" {
+    list TmfConfiguration {
+      description "Additional definitions from MOM:min/max-elements:0/1; Used to configure TMF and TTMF. MO enables support of automatic configuration of TMF and TTMF.";
+      key "tmfConfigurationId";
+      leaf tmfConfigurationId {
+        type leafref {
+          path "../attributes/tmfConfigurationId";
+        }
+      }
+      container attributes {
+      uses TmfConfiguration-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/antrdo:AntennaUnitGroup" {
+    list MulticastAntennaBranch {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents all UL and DL antenna streams representing the same carrier branch within an RDS Multicast Coverage Area.";
+      key "multicastAntennaBranchId";
+      leaf multicastAntennaBranchId {
+        type leafref {
+          path "../attributes/multicastAntennaBranchId";
+        }
+      }
+      container attributes {
+      uses MulticastAntennaBranch-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list AntennaUnitGroup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO is a container of references to the antenna and antenna near products (RET, TMA, RAE) serving a Sector.";
+      key "antennaUnitGroupId";
+      leaf antennaUnitGroupId {
+        type leafref {
+          path "../attributes/antennaUnitGroupId";
+        }
+      }
+      container attributes {
+      uses AntennaUnitGroup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list AntennaNearUnit {
+      description "Additional definitions from MOM:min/max-elements:0/48; This MO represents a hardware unit installed in the antenna system that can be controlled and supervised by the system. During MO creation RDN cannot make the LDN exceed 127 characters.";
+      key "antennaNearUnitId";
+      leaf antennaNearUnitId {
+        type leafref {
+          path "../attributes/antennaNearUnitId";
+        }
+      }
+      container attributes {
+      uses AntennaNearUnit-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "Administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AisgDataProvenanceType {
+    description "Source of information.";
+    type enumeration {
+      enum NOT_SET {
+        description "Value is not set.";
+      }
+      enum FACTORY {
+        description "Value is set according to ALD factory configuration.";
+      }
+      enum CONFIG_FILE {
+        description "Value is set according to ALD configuration file.";
+      }
+      enum AUTOMATIC {
+        description "Value is set by ALD automatically.";
+      }
+      enum MANUAL {
+        description "Manual customer setting.";
+      }
+    }
+  }
+  typedef AisgFileType {
+    description "File type defined by AISG 3.0 standard.";
+    type enumeration {
+      enum FIRMWARE_FILE {
+        description "Firmware file.";
+      }
+      enum CONFIGURATION_FILE {
+        description "Configuration file.";
+      }
+      enum LOG_FILE {
+        description "Log file.";
+      }
+      enum INFORMATION_FILE {
+        description "Information file.";
+      }
+    }
+  }
+  typedef AldState {
+    description "Current state of ALD. Controlled by logical state machine that is implemented into controller of this subunit.";
+    type enumeration {
+      enum IDLE {
+      }
+      enum OPERATING {
+      }
+      enum DOWNLOAD {
+      }
+      enum MALD_SETUP {
+      }
+      enum PINGER_RESTRICTED {
+      }
+      enum PINGER_RESTRICTED_TRANSMIT {
+      }
+      enum PINGER_BROADCAST_WAIT {
+      }
+      enum LISTENER_RESTRICTED_MONITOR {
+      }
+      enum LISTENER_RESTRICTED_PREPARATION {
+      }
+      enum LISTENER_BROADCAST_WAIT {
+      }
+      enum ALD_NOT_CONFIGURED {
+      }
+    }
+  }
+  typedef AntNearUnit {
+    description "The Ant type.";
+    type enumeration {
+      enum IUANT {
+      }
+      enum ASC {
+      }
+      enum ERET {
+      }
+    }
+  }
+  typedef AutosetState {
+    description "Autoset status.";
+    type enumeration {
+      enum DEACTIVATED {
+        description "Autoset function deactivated.";
+      }
+      enum ACTIVATED {
+        description "Autoset function activated.";
+      }
+      enum SUCCESS {
+        description "Autoset function succeeded.";
+      }
+      enum FAILED {
+        description "Autoset function failed.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef BeamformingPortMapping {
+    description "This enum is used to select between co-polarized and cross-polarized beamforming antenna port mapping.";
+    type enumeration {
+      enum CROSS_POLARIZED {
+      }
+      enum CO_POLARIZED {
+      }
+    }
+  }
+  typedef ConnectionState {
+    description "Current connection state.";
+    type enumeration {
+      enum NO_CONNECTION {
+      }
+      enum OPERATING {
+      }
+      enum MALD_SETUP {
+      }
+      enum UPLOAD {
+      }
+      enum DOWNLOAD {
+      }
+      enum DOWNLOAD_FAILED {
+      }
+      enum RESTRICTED {
+      }
+      enum DOWNLOAD_NOTIFICATION {
+      }
+      enum OFF_CONNECTION {
+      }
+      enum PINGER {
+      }
+      enum LISTENER {
+      }
+    }
+  }
+  typedef DCPowerMode {
+    description "Power mode.";
+    type enumeration {
+      enum STEADY_STATE {
+        description "The normal operating condition of the ALD.";
+      }
+      enum HIGH {
+        description "Higher DC power consumption compared to STEADY_STATE.";
+      }
+      enum SLEEP {
+        description "A specific condition saving DC power.";
+      }
+    }
+  }
+  typedef DownloadState {
+    description "Whether ALD is in download state.";
+    type enumeration {
+      enum IDLE {
+      }
+      enum STARTED {
+      }
+      enum FINISHED {
+      }
+      enum FAILED {
+      }
+    }
+  }
+  typedef MALDSetupStatus {
+    description "Status of MALD setup action.";
+    type enumeration {
+      enum IDLE {
+        description "MALD setup action is idle.";
+      }
+      enum STARTED {
+        description "MALD setup action started.";
+      }
+      enum FINISHED {
+        description "MALD setup action finished.";
+      }
+      enum FAILED {
+        description "MALD setup action failed.";
+      }
+    }
+  }
+  typedef MALDSetupType {
+    description "Types of MALD setup actions.";
+    type enumeration {
+      enum UNKNOWN {
+        description "Unknown MALD setup action.";
+      }
+      enum SET {
+        description "maldSetSetup action.";
+      }
+      enum GET {
+        description "maldGetSetup action.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef ResetCause {
+    description "Cause of last reset of a device.";
+    type enumeration {
+      enum SW_UPDATE {
+        description "Device received new firmware file.";
+      }
+      enum LAYER2_RESET {
+        description "Device received reset XID frame in transport layer.";
+      }
+      enum INTERNAL_ERROR {
+        description "Device encountered internal error.";
+      }
+      enum POWER_UP {
+        description "Device was powered on.";
+      }
+      enum MALD_SETUP_CHANGED {
+        description "Device MALD setup has changed.";
+      }
+      enum LAYER2_TIMEOUT {
+        description "Device encountered communication timeout.";
+      }
+    }
+  }
+  typedef RetStates {
+    description "RET state.";
+    type enumeration {
+      enum IDLE {
+      }
+      enum TILTING {
+      }
+    }
+  }
+  typedef RfBranchBandEnabled {
+    description "Specific band that RfBranch works on.";
+    type enumeration {
+      enum DISABLED {
+        description "Band is not used by RfBranch.";
+      }
+      enum ENABLED {
+        description "Band is used by RfBranch.";
+      }
+    }
+  }
+  typedef SupportedDeployment {
+    description "The supported deployment.";
+    type enumeration {
+      enum PSI_CONFIGURATION {
+        description "Supported with Psi coverage.";
+      }
+      enum Y_CONFIGURATION {
+        description "Supported with Y coverage.";
+      }
+    }
+  }
+  typedef SupportedOperatingMode {
+    description "The supported operating mode.";
+    type enumeration {
+      enum LTE_5MHZ {
+        description "LTE 5MHz carrier.";
+      }
+      enum LTE_10MHZ {
+        description "LTE 10 MHz carrier.";
+      }
+      enum WCDMA_1_CHANNEL {
+        description "WCDMA with 1 channel.";
+      }
+      enum WCDMA_2_CHANNELS {
+        description "WCDMA with 2 channels.";
+      }
+      enum LTE_MIXED_WITH_WCDMA_IN_10MHZ {
+        description "Mixed Mode, LTE and WCDMA within 10 MHz. LTE in channelNumber1, WCDMA in channelNumber2.";
+      }
+    }
+  }
+  typedef TcpStatus {
+    description "Status of TCP.";
+    type enumeration {
+      enum UNKNOWN {
+      }
+      enum STARTED {
+      }
+      enum FINISHED {
+      }
+      enum FAILED {
+      }
+      enum STOPPED {
+      }
+    }
+  }
+  typedef TmaType {
+    description "Type of tower mounted amplifier.";
+    type enumeration {
+      enum TMA {
+        description "Tower mounted amplifier.";
+      }
+      enum TMF {
+        description "Tower mounted amplifier with frequency shift.";
+      }
+    }
+  }
+  typedef UploadState {
+    description "State of upload procedure.";
+    type enumeration {
+      enum IDLE {
+        description "Procedure default state.";
+      }
+      enum STARTED {
+        description "Procedure started.";
+      }
+      enum FINISHED {
+        description "Procedure finished successfuly.";
+      }
+      enum FAILED {
+        description "Procedure was interupted by a failure.";
+      }
+    }
+  }
+  typedef VerticalBeamWidthMode {
+    description "Vertical beam width mode of antenna RET.";
+    type enumeration {
+      enum NARROW {
+        description "Narrow vertical beam width of antenna RET.";
+      }
+      enum WIDE {
+        description "Wide vertical beam width of antenna RET.";
+      }
+    }
+  }
+  grouping AisgVersion-struct {
+    description "AISG version.";
+    leaf majorVersion {
+      type string;
+    }
+    leaf minorVersion {
+      type string;
+    }
+    leaf releaseVersion {
+      type string;
+    }
+  }
+  grouping AldDataProvenance-struct {
+    description "Source of specified parameters.";
+    leaf baseStationId {
+      type enumeration {
+        enum NOT_SET;
+        enum FACTORY;
+        enum CONFIG_FILE;
+        enum AUTOMATIC;
+        enum MANUAL;
+      }
+    }
+    leaf installersId {
+      type enumeration {
+        enum NOT_SET;
+        enum FACTORY;
+        enum CONFIG_FILE;
+        enum AUTOMATIC;
+        enum MANUAL;
+      }
+    }
+  }
+  grouping AntennaDataProvenance-struct {
+    description "Source of specified parameters.";
+    leaf antennaModelNumberProvenance {
+      type enumeration {
+        enum NOT_SET;
+        enum FACTORY;
+        enum CONFIG_FILE;
+        enum AUTOMATIC;
+        enum MANUAL;
+      }
+    }
+    leaf antennaSerialNumberProvenance {
+      type enumeration {
+        enum NOT_SET;
+        enum FACTORY;
+        enum CONFIG_FILE;
+        enum AUTOMATIC;
+        enum MANUAL;
+      }
+    }
+    leaf mechanicalAntennaBearingProvenance {
+      type enumeration {
+        enum NOT_SET;
+        enum FACTORY;
+        enum CONFIG_FILE;
+        enum AUTOMATIC;
+        enum MANUAL;
+      }
+    }
+    leaf mechanicalAntennaTiltProvenance {
+      type enumeration {
+        enum NOT_SET;
+        enum FACTORY;
+        enum CONFIG_FILE;
+        enum AUTOMATIC;
+        enum MANUAL;
+      }
+    }
+    leaf numberOfLogicalArraysProvenance {
+      type enumeration {
+        enum NOT_SET;
+        enum FACTORY;
+        enum CONFIG_FILE;
+        enum AUTOMATIC;
+        enum MANUAL;
+      }
+    }
+    leaf positionWithinSectorProvenance {
+      type enumeration {
+        enum NOT_SET;
+        enum FACTORY;
+        enum CONFIG_FILE;
+        enum AUTOMATIC;
+        enum MANUAL;
+      }
+    }
+    leaf sectorLabelProvenance {
+      type enumeration {
+        enum NOT_SET;
+        enum FACTORY;
+        enum CONFIG_FILE;
+        enum AUTOMATIC;
+        enum MANUAL;
+      }
+    }
+  }
+  grouping AutosetStatus-struct {
+    description "Autoset attributes.";
+    leaf targetMechanicalAzimuth {
+      type enumeration {
+        enum DEACTIVATED;
+        enum ACTIVATED;
+        enum SUCCESS;
+        enum FAILED;
+      }
+    }
+    leaf targetMechanicalRoll {
+      type enumeration {
+        enum DEACTIVATED;
+        enum ACTIVATED;
+        enum SUCCESS;
+        enum FAILED;
+      }
+    }
+    leaf targetMechanicalTilt {
+      type enumeration {
+        enum DEACTIVATED;
+        enum ACTIVATED;
+        enum SUCCESS;
+        enum FAILED;
+      }
+    }
+  }
+  grouping Coordinates-struct {
+    description "Latitude and longitude.";
+    leaf latitude {
+      description "range -90000000..90000000; Default value: 0.";
+      type int32 {
+        range "-90000000..90000000";
+      }
+      default "0";
+      units "degree";
+    }
+    leaf longitude {
+      description "range -180000000..180000000; Default value: 0.";
+      type int32 {
+        range "-180000000..180000000";
+      }
+      default "0";
+      units "degree";
+    }
+  }
+  grouping GeolocationMonitorConfig-struct {
+    description "Configuration parameters of geolocation monitor.";
+    leaf altitudeTolerance {
+      description "Default value: -1.";
+      type int32 {
+        range "-1 | 1..100";
+      }
+      default "-1";
+      units "m";
+    }
+    leaf azimuthTolerance {
+      description "Default value: -1.";
+      type int32 {
+        range "-1 | 1..1800";
+      }
+      default "-1";
+      units "degree";
+    }
+    leaf boundingRadius {
+      description "Default value: -1.";
+      type int32 {
+        range "-1 | 1..1000";
+      }
+      default "-1";
+      units "m";
+    }
+    leaf downtiltTolerance {
+      description "Default value: -1.";
+      type int32 {
+        range "-1 | 1..900";
+      }
+      default "-1";
+      units "degree";
+    }
+    leaf sensitivity {
+      description "range 1..10; Default value: 3.";
+      type eytypes:int32_range_1-10;
+      default "3";
+    }
+    leaf verificationPeriod {
+      description "range 1..10080; Default value: 720.";
+      type int32 {
+        range "1..10080";
+      }
+      default "720";
+      units "min";
+    }
+  }
+  grouping LastReset-struct {
+    description "Detailed information about last reset cause.";
+    leaf resetCause {
+      type enumeration {
+        enum SW_UPDATE;
+        enum LAYER2_RESET;
+        enum INTERNAL_ERROR;
+        enum POWER_UP;
+        enum MALD_SETUP_CHANGED;
+        enum LAYER2_TIMEOUT;
+      }
+    }
+    leaf portNumber {
+      description "range -1..255; Default value: -1.";
+      type ietfinet:port-number;
+    }
+    leaf timestamp {
+      description "Default value: -1.";
+      type string;
+      default "-1";
+    }
+  }
+  grouping MALDSetupState-struct {
+    description "Type and status of MALD setup action.";
+    leaf setupStatus {
+      type enumeration {
+        enum IDLE;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+      }
+    }
+    leaf setupType {
+      type enumeration {
+        enum UNKNOWN;
+        enum SET;
+        enum GET;
+      }
+    }
+  }
+  grouping MechanicalAzimuth-struct {
+    description "ASD type attribute.";
+    leaf calculated {
+      description "range 0..3599.";
+      type uint16 {
+        range "0..3599";
+      }
+      units "degree";
+    }
+    leaf highestCalculated {
+      description "range 0..3599.";
+      type uint16 {
+        range "0..3599";
+      }
+      units "degree";
+    }
+    leaf lowestCalculated {
+      description "range 0..3599.";
+      type uint16 {
+        range "0..3599";
+      }
+      units "degree";
+    }
+    leaf precision {
+      description "range 0..3599.";
+      type uint16 {
+        range "0..3599";
+      }
+      units "degree";
+    }
+  }
+  grouping MechanicalRoll-struct {
+    description "ASD type attribute.";
+    leaf calculated {
+      description "range -1799..1799.";
+      type int16 {
+        range "-1799..1799";
+      }
+      units "degree";
+    }
+    leaf highestCalculated {
+      description "range -1799..1799.";
+      type int16 {
+        range "-1799..1799";
+      }
+      units "degree";
+    }
+    leaf lowestCalculated {
+      description "range -1799..1799.";
+      type int16 {
+        range "-1799..1799";
+      }
+      units "degree";
+    }
+    leaf precision {
+      description "range 0..1799.";
+      type uint16 {
+        range "0..1799";
+      }
+      units "degree";
+    }
+  }
+  grouping MechanicalThresholds-struct {
+    description "Acceptable deviations from mechanical angles target values.";
+    leaf lower {
+      description "Default value: 9999.";
+      type int16 {
+        range "0..1799 | 9999";
+      }
+      default "9999";
+      units "degree";
+    }
+    leaf upper {
+      description "Default value: 9999.";
+      type int16 {
+        range "0..1799 | 9999";
+      }
+      default "9999";
+      units "degree";
+    }
+  }
+  grouping MechanicalTilt-struct {
+    description "ASD type attribute.";
+    leaf calculated {
+      description "range -1799..1799.";
+      type int16 {
+        range "-1799..1799";
+      }
+      units "degree";
+    }
+    leaf highestCalculated {
+      description "range -1799..1799.";
+      type int16 {
+        range "-1799..1799";
+      }
+      units "degree";
+    }
+    leaf lowestCalculated {
+      description "range -1799..1799.";
+      type int16 {
+        range "-1799..1799";
+      }
+      units "degree";
+    }
+    leaf precision {
+      description "range 0..1799.";
+      type uint16 {
+        range "0..1799";
+      }
+      units "degree";
+    }
+  }
+  grouping PowerModeValues-struct {
+    description "DC power consumption information.";
+    leaf steadyStatePowerMode {
+      description "Default value: 0.";
+      type int32;
+      default "0";
+      units "W";
+    }
+    leaf highPowerMode {
+      description "Default value: 0.";
+      type int32;
+      default "0";
+      units "W";
+    }
+    leaf sleepPowerMode {
+      description "Default value: 0.";
+      type int32;
+      default "0";
+      units "W";
+    }
+  }
+  grouping PrecisionData-struct {
+    description "Precision for altitude, longitude and latitude parameters.";
+    leaf altitudePrecision {
+      description "Default value: 0.";
+      type uint32;
+      default "0";
+      units "m";
+    }
+    leaf latitudePrecision {
+      description "Default value: 0.";
+      type uint32;
+      default "0";
+      units "m";
+    }
+    leaf longitudePrecision {
+      description "Default value: 0.";
+      type uint32;
+      default "0";
+      units "m";
+    }
+  }
+  grouping SensorData-struct {
+    description "Sensor data.";
+    leaf downtilt {
+      description "Default value: -1.";
+      type int32;
+      default "-1";
+      units "degree";
+    }
+    leaf azimuth {
+      description "Default value: -1.";
+      type int32;
+      default "-1";
+      units "degree";
+    }
+    leaf altitude {
+      description "Default value: -1.";
+      type int32;
+      default "-1";
+      units "m";
+    }
+    leaf latitude {
+      description "Default value: -1.";
+      type int32;
+      default "-1";
+      units "degree";
+    }
+    leaf longitude {
+      description "Default value: -1.";
+      type int32;
+      default "-1";
+      units "degree";
+    }
+  }
+  grouping TmfDataStruct-struct {
+    description "TMF configuration data.";
+    leaf dlAttenuation {
+      description "range 0..200.";
+      type int32 {
+        range "0..200";
+      }
+      units "dB";
+    }
+    leaf dlTrafficDelay {
+      description "range 0..30000.";
+      type int32 {
+        range "0..30000";
+      }
+      units "ns";
+    }
+    leaf ifBandwidth {
+      description "range 0..65535.";
+      type int32 {
+        range "0..65535";
+      }
+      units "MHZ";
+    }
+    leaf ulAirFrequency {
+      description "range 0..65535.";
+      type int32 {
+        range "0..65535";
+      }
+      units "MHZ";
+    }
+    leaf ulFeederFrequency {
+      description "range 0..65535.";
+      type int32 {
+        range "0..65535";
+      }
+      units "MHZ";
+    }
+    leaf ulTrafficDelay {
+      description "range 0..30000.";
+      type int32 {
+        range "0..30000";
+      }
+      units "ns";
+    }
+  }
+  grouping UploadStatus-struct {
+    description "Status of upload action.";
+    leaf filetype {
+      type enumeration {
+        enum FIRMWARE_FILE;
+        enum CONFIGURATION_FILE;
+        enum LOG_FILE;
+        enum INFORMATION_FILE;
+      }
+    }
+    leaf subUnitNumber {
+      description "range -1..255; Default value: -1.";
+      type eytypes:int32_range_-1-255;
+      default "-1";
+    }
+    leaf state {
+      type enumeration {
+        enum IDLE;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+      }
+    }
+  }
+  grouping AntennaNearUnit-attributes {
+    leaf antennaNearUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf anuType {
+      description "Indicates if the antenna near unit is an IUANT or an Ericsson proprietary antenna unit..";
+      type enumeration {
+        enum IUANT;
+        enum ASC;
+        enum ERET;
+      }
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf hardwareVersion {
+      description "The hardware version of the Antenna Near Unit.; length 0..255.";
+      type string {
+        length "0..255";
+      }
+      config false;
+    }
+    leaf iuantDeviceType {
+      description "Type of Iuant-compliant Antenna Line Device (ALD). Takes following values after conversion from hexadecimal to decimal: - 1 indicates single-antenna RET device. - 2 indicates tower-mounted amplifier. - 17 indicates multi-antenna RET device. - 35 indicates ASD. - 37 indicates GLS device. - 49 indicates RAE device. - 64 indicates AISG3.0 Single-primary ALD. - 65 indicates AISG3.0 Multi-primary ALD. For more information, see following documentation: - Section 4.7 of 3GPP TS 25.462 - Section 7.1 of AISG ES-RAE - AISG ES-ASD - AISG ES-GLS - aisg.org.uk 3GPP TS 25.462 defines device types by providing hexadecimal codes. Code must be converted to decimal. If multi-antenna RET device is indicated as 0x11 in 3GPP TS 25.462, decimal equivalent, 17 must be used.; Default value: 1.";
+      type int32 {
+        range "1..2 | 17 | 35 | 37 | 49 | 64..65";
+      }
+      default "1";
+    }
+    leaf onUnitUniqueId {
+      description "The unique ID reported by the physical antenna near unit. The first two characters of the ID are the vendor code. The value is extracted from the response message sent by the antenna near unit during connection establishment. 3GPP TS 25.462 specifies the procedure in detail..";
+      type string;
+      config false;
+    }
+    leaf operationalState {
+      description "The operational State..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf productNumber {
+      description "Uniquely identifies the model of Antenna Near Unit.; length 0..255.";
+      type string {
+        length "0..255";
+      }
+      config false;
+    }
+    leaf rfPortRef {
+      description "Refers to an instance of an RfPort from which this antenna near unit is controlled and supplied with power..";
+      type string;
+    }
+    leaf selfTestStatus {
+      description "The status of ongoing selfTest operation. In case no selfTest has been performed since last Baseband restart it shows state UNKNOWN. NOTE: The selfTestStatus is not used to verify or confirm if a selfTest has been performed or not..";
+      type enumeration {
+        enum UNKNOWN;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+        enum STOPPED;
+      }
+      config false;
+    }
+    leaf serialNumber {
+      description "Unique number consisting of vendor code followed by a device serial number.; length 0..17.";
+      type string {
+        length "0..17";
+      }
+      config false;
+    }
+    leaf softwareVersion {
+      description "The software version of the Antenna Near Unit.; length 0..255.";
+      type string {
+        length "0..255";
+      }
+      config false;
+    }
+    leaf uniqueId {
+      description "Subset of the unique identifier of the Antenna Near Unit. It is used to support advanced antenna system configurations, such as cascaded RETs. Leave empty when the units are not cascaded. The value stated is a subset of the uniqueID(concatenation of the vendor code and the antenna near unit serial number) which must contain enough significant characters/digits to be unique among the antenna near units (with iuantDeviceType single antenna RET or multiple antenna RET) connected to the RfPort. See also 3GPP 25.462. Some vendors use specific modifications of the serial number on the device label to define the unique ID. Contact the vendor of the antenna near unit (RET) to obtain the mapping between the serial number taken from the label and the unique ID.; length 0..19.";
+      type string {
+        length "0..19";
+      }
+    }
+    leaf administrativeState {
+      description "The administrative state. If set to SHUTTINGDOWN, the state will immediately be brought to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf aldState {
+      description "Current state of ALD. Controlled by logical state machine that is implemented into controller of this subunit..";
+      type enumeration {
+        enum IDLE;
+        enum OPERATING;
+        enum DOWNLOAD;
+        enum MALD_SETUP;
+        enum PINGER_RESTRICTED;
+        enum PINGER_RESTRICTED_TRANSMIT;
+        enum PINGER_BROADCAST_WAIT;
+        enum LISTENER_RESTRICTED_MONITOR;
+        enum LISTENER_RESTRICTED_PREPARATION;
+        enum LISTENER_BROADCAST_WAIT;
+        enum ALD_NOT_CONFIGURED;
+      }
+      config false;
+    }
+    list configuredAisgVersion {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Version of AISG protocol that device runs on and expects commands from..";
+      uses AisgVersion-struct;
+    }
+    leaf connectionState {
+      description "Current connection state..";
+      type enumeration {
+        enum NO_CONNECTION;
+        enum OPERATING;
+        enum MALD_SETUP;
+        enum UPLOAD;
+        enum DOWNLOAD;
+        enum DOWNLOAD_FAILED;
+        enum RESTRICTED;
+        enum DOWNLOAD_NOTIFICATION;
+        enum OFF_CONNECTION;
+        enum PINGER;
+        enum LISTENER;
+      }
+      config false;
+    }
+    leaf downloadState {
+      description "Whether ALD is in download state. Download is also possible during execution of some other procedures..";
+      type enumeration {
+        enum IDLE;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+      }
+      config false;
+    }
+    list supportedAisgVersion {
+      config false;
+      min-elements 0;
+      max-elements 75;
+      uses AisgVersion-struct;
+    }
+    list uploadState {
+      config false;
+      description "Status of last upload action. For example: receiveLogFile. Supports only one action to be executed at a time..";
+      uses UploadStatus-struct;
+    }
+    leaf configurationChecksum {
+      description "Reads SHA1 checksum of device's current configuration..";
+      type string;
+      config false;
+    }
+    leaf powerMode {
+      description "Current power mode..";
+      type enumeration {
+        enum STEADY_STATE;
+        enum HIGH;
+        enum SLEEP;
+      }
+      config false;
+    }
+    list powerModeValues {
+      config false;
+      description "DC power consumption information for each power mode of ALD..";
+      uses PowerModeValues-struct;
+    }
+    list lastReset {
+      config false;
+      description "Detailed information about last reset cause..";
+      uses LastReset-struct;
+    }
+    leaf antennaUnitRef {
+      description "Refers to an instance of an AntennaUnit..";
+      type string;
+    }
+    leaf baseStationId {
+      description "Base station ID. Has no operational impact. Valid only for AISGv3.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    leaf installationDate {
+      description "Installation date.; length 0..6.";
+      type string {
+        length "0..6";
+      }
+    }
+    leaf installersId {
+      description "ID of responsible installer. Has no operational impact. Valid only for AISGv3.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    list aldDataProvenance {
+      config false;
+      description "Source of information for baseStationId and installerId. Has no operational impact. Valid only for AISGv3..";
+      uses AldDataProvenance-struct;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf fieldReplaceableUnitRef {
+      description "Reference to instance of FieldReplaceableUnit MO representing radio unit with attached AISG device..";
+      type string;
+    }
+    list maldSetupState {
+      config false;
+      description "State of maldGetSetup and maldSetSetup actions..";
+      uses MALDSetupState-struct;
+    }
+  }
+  grouping AntennaSubunit-attributes {
+    leaf antennaSubunitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf azimuthHalfPowerBeamwidth {
+      description "Specifies azimuth half power beamwidth for columns in antenna. For information regarding antenna column azimuth half power beamwidth please refer to manual from the antenna manufacturer. If empty, system uses value 65.; Default value: 65.";
+      type int32 {
+        range "65 | 90";
+      }
+      default "65";
+      units "degree";
+    }
+    leaf commonChBeamfrmPortMap {
+      description "Selects between co-polarized and cross-polarized beamforming antenna port mapping. Valid both for pre-defined antenna weights and custom antenna weights configured by customComChBeamfrmWtsAmplitude and customComChBeamfrmWtsPhase. CROSS_POLARIZED is always used for NR..";
+      type enumeration {
+        enum CROSS_POLARIZED;
+        enum CO_POLARIZED;
+      }
+    }
+    leaf-list customComChBeamfrmWtsAmplitude {
+      description "Array of eight amplitudes for custom common channel beamforming weights. Only first two are valid for 2T2R radio units. Only first four are valid for 4T4R radio units. At least one of the eight, four, or two valid amplitudes have to be non-zero for custom beamforming weights to take effect. Weight amplitudes must be sorted according to the following sequence: Amplitudes for one polarization in a left to right order facing front of antenna unit, followed by amplitudes for the other polarization in a left to right order facing front of antenna unit.; Default values sequence: 0,0,0,0,0,0,0,0.";
+      type uint32 {
+        range "0..100";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list customComChBeamfrmWtsPhase {
+      description "Array of eight phases for custom common channel beamforming weights. Only first two are valid for 2T2R radio units. Only first four are valid for 4T4R radio units. Weight phases must be sorted in the same order as weight amplitudes.; Default values sequence: 0,0,0,0,0,0,0,0.";
+      type uint32 {
+        range "0..359";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf maxTotalTilt {
+      description "The maximum antenna elevation including the installed tilt and the tilt applied by the Remote Electrical Tilt (RET). described by the inclination of the maximum of the antenna main beam with respect to the horizontal plane. It is a signed value. Positive indicates downtilt, and negative indicates uptilt. It sets a limitation on total tilt which is given by: TotalTilt = AntennaUnit.mechanicaAntennalTilt + RetSubunit.electricalTilt NOTE: If the antenna has no RET installed, this value does not account for the inclination that the antenna beam might have by default, with respect to the direction orthogonal to the antenna element axis.; range -900..900; Default value: 900.";
+      type eytypes:int32_range_-900-900;
+      default "900";
+      units "degree";
+    }
+    leaf minTotalTilt {
+      description "The minimum antenna elevation including the installed tilt and the tilt applied by the Remote Electrical Tilt (RET) described by the inclination of the maximum of the antenna main beam with respect to the horizontal plane. It is a signed value. Positive indicates downtilt, and negative indicates uptilt. The limitation on total tilt is found by the following equation: TotalTilt = AntennaUnit.mechanicaAntennalTilt + RetSubunit.electricalTilt NOTE: If the antenna has no RET installed, the total tilt value does not necessarily account for the inclination that the antenna beam might have by default, with respect to the direction orthogonal to the antenna element axis.; range -900..900; Default value: -900.";
+      type eytypes:int32_range_-900-900;
+      default "-900";
+      units "degree";
+    }
+    leaf retSubunitRef {
+      description "Reference to the RET subunit controlling the tilt of this antenna subunit..";
+      type string;
+    }
+    leaf totalTilt {
+      description "Total antenna elevation including the installed tilt and the tilt applied by the Remote Electrical Tilt (RET). Total tilt is defined as the inclination of the maximum of the antenna main beam with respect to the horizontal plane. Tilt is a signed value. Positive indicates downtilt, and negative indicates uptilt, found by the following equation: totalTilt = AntennaUnit.mechanicaAntennalTilt+RetSubunit.electricalTilt NOTE: If the antenna has no RET installed, this value does not account for the inclination that the antenna beam may have by default, with respect to the direction orthogonal to the antenna element axis.; range -900..900.";
+      type eytypes:int32_range_-900-900;
+      config false;
+      units "degree";
+    }
+    leaf raeSubunitRef {
+      description "Reference to the RAE subunit..";
+      type string;
+    }
+  }
+  grouping AntennaUnit-attributes {
+    leaf antennaUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf mechanicalAntennaTilt {
+      description "The fixed antenna tilt of the installation, defined as the inclination of the antenna element axis with respect to the vertical plane. It is a signed value. Positive indicates downtilt, and negative indicates uptilt.; range -900..900; Default value: 0.";
+      type eytypes:int32_range_-900-900;
+      default "0";
+      units "degree";
+    }
+    leaf raeSubunitRef {
+      description "Reference to the RAE subunit.; MOM flags: isNillable=true; Status info: Since 21.Q4. Replaced by AntennaNearUnit::antennaUnitRef. Planned to be removed..";
+      type string;
+      status deprecated;
+    }
+    leaf asdSubUnitRef {
+      description "Reference to the ASD subunit.; MOM flags: isNillable=true; Status info: Since 21.Q4. Replaced by AntennaNearUnit::antennaUnitRef. Planned to be removed..";
+      type string;
+      status deprecated;
+    }
+    leaf glsSubUnitRef {
+      description "Reference to the GLS subunit.; MOM flags: isNillable=true; Status info: Since 21.Q4. Replaced by AntennaNearUnit::antennaUnitRef. Planned to be removed..";
+      type string;
+      status deprecated;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MOinstance..";
+      type string;
+      min-elements 0;
+    }
+    leaf antennaModelNumber {
+      description "Vendor-specific antenna model identifier. This attribute is part of AISG v3 ADB Standard and has no operational impact.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    leaf antennaSerialNumber {
+      description "Unique hardware identifier of antenna. This attribute is part of AISG v3 ADB Standard and has no operational impact.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    leaf mechanicalAntennaBearing {
+      description "Antenna bearing on antenna subunit where antenna unit is installed. Antenna bearing is expressed as bearing value x 10. This attribute is part of AISG v3 ADB Standard and has no operational impact.; Default value: -1000.";
+      type int32 {
+        range "-1000 | 0..3599";
+      }
+      default "-1000";
+      units "0.1 degree";
+    }
+    leaf antennaOperatingBand {
+      description "Operating band used by antenna subunit connected to this antenna..";
+      type int64;
+    }
+    leaf-list antennaOperatingGain {
+      description "Antenna gain for each of four operating bands, starting with lowest value..";
+      type int32 {
+        range "-1000 | 0..255";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list antennaOperatingBeamwidth {
+      description "Beamwidth for each operating band in band order, beginning with lowest band..";
+      type int32 {
+        range "-1000 | 0..360";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf sectorLabel {
+      description "RBS internal sector label. This attribute is part of AISG v3 ADB Standard and has no operational impact.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    list antennaDataProvenance {
+      config false;
+      description "Source of specified parameters. This attribute is part of AISG v3 ADB Standard and has no operational impact..";
+      uses AntennaDataProvenance-struct;
+    }
+    leaf numberOfLogicalArrays {
+      description "Number of logical antenna arrays available in antenna unit. This attribute is part of AISG v3 ADB Standard and has no operational impact.; range 0..48.";
+      type uint8 {
+        range "0..48";
+      }
+      config false;
+    }
+    leaf positionWithinSector {
+      description "Antenna unit position within sector. This attribute is part of AISG v3 ADB Standard and has no operational impact..";
+      type string;
+    }
+  }
+  grouping AntennaUnitGroup-attributes {
+    leaf antennaUnitGroupId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf positionInformation {
+      description "Information on where the antenna unit group is located. This can be expressed in terms of a street address, building, floor, room, etc.; length 0..255.";
+      type string {
+        length "0..255";
+      }
+    }
+    leaf positionRef {
+      description "Reference to a HW group that the antenna unit group is located in..";
+      type string;
+    }
+  }
+  grouping AsdSubUnit-attributes {
+    leaf asdSubUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance.; Status info: Since 21.Q4. Replaced by AntennaUnit::reservedBy. Planned to be removed..";
+      type string;
+      min-elements 0;
+    }
+    leaf subunitNumber {
+      description "Subunit identifier carried on L7 messages in which subunits are pointed with the help of application level identifiers..";
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    list autosetStatus {
+      config false;
+      description "Autoset status for target mechanical tilt, roll, and azimuth..";
+      uses AutosetStatus-struct;
+    }
+    list mechanicalAzimuth {
+      config false;
+      description "Heading angle of ASD in horizontal plane..";
+      uses MechanicalAzimuth-struct;
+    }
+    leaf mechanicalAzimuthTarget {
+      description "Target alignment of antenna azimuth. If mechanicalAzimuthTarget is 9999, target is not supported or value from device is not set yet. If requested value is out of valid range defined by device manufacturer then attempt to save it will be rejected. Attribute restores previously known value or default one if none was present before on device.; Default value: 9999.";
+      type uint16 {
+        range "0..3599 | 9999";
+      }
+      default "9999";
+      units "degree";
+    }
+    list mechanicalAzimuthThresholds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Acceptable deviation from mechanicaAzimuthTarget. Exceeding range by calculated mechanicalAzimuth triggers RBS Physical and Configured Position Mismatch alarm. If requested value is out of valid range defined by device manufacturer then attempt to save it will be rejected. Attribute restores previously known value or default one if none was present before on device..";
+      uses MechanicalThresholds-struct;
+    }
+    list mechanicalRoll {
+      config false;
+      description "Roll angle of ASD in vertical plane between vertical and physical axes of antenna..";
+      uses MechanicalRoll-struct;
+    }
+    leaf mechanicalRollTarget {
+      description "Target alignment of antenna roll. If mechanicalRollTarget is 9999, target is not supported or value from device is not set yet. If requested value is out of valid range defined by device manufacturer then attempt to save it will be rejected. Attribute restores previously known value or default one if none was present before on device.; Default value: 9999.";
+      type int16 {
+        range "-1799..1799 | 9999";
+      }
+      default "9999";
+      units "degree";
+    }
+    list mechanicalRollThresholds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Acceptable deviation from mechanicaRollTarget. Exceeding range by calculated mechanicalRoll triggers RBS Physical and Configured Position Mismatch alarm. If requested value is out of valid range defined by device manufacturer then attempt to save it will be rejected. Attribute restores previously known value or default one if none was present before on device..";
+      uses MechanicalThresholds-struct;
+    }
+    list mechanicalTilt {
+      config false;
+      description "Tilt angle of ASD in vertical plane..";
+      uses MechanicalTilt-struct;
+    }
+    leaf mechanicalTiltTarget {
+      description "Target alignment of antenna tilt. If mechanicalTiltTarget is 9999, target is not supported or value from device is not set yet. If requested value is out of valid range defined by device manufacturer then attempt to save it will be rejected. Attribute restores previously known value or default one if none was present before on device; Default value: 9999.";
+      type int16 {
+        range "-1799..1799 | 9999";
+      }
+      default "9999";
+      units "degree";
+    }
+    list mechanicalTiltThresholds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Acceptable deviation from mechanicaTiltTarget. Exceeding range by calculated mechanicalTilt triggers RBS Physical and Configured Position Mismatch alarm. If requested value is out of valid range defined by device manufacturer then attempt to save it will be rejected. Attribute restores previously known value or default one if none was present before on device..";
+      uses MechanicalThresholds-struct;
+    }
+  }
+  grouping AuPort-attributes {
+    leaf auPortId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping GlsSubUnit-attributes {
+    leaf glsSubUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf subunitNumber {
+      description "Subunit identifier carried on L7 messages in which subunits are pointed with the help of application level identifiers..";
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance.; Status info: Since 21.Q4. Replaced by AntennaUnit::reservedBy. Planned to be removed..";
+      type string;
+      min-elements 0;
+    }
+    leaf altitude {
+      description "Elevation of point or object from surface of WGS84 geoid. Best estimate of GLS in altitude dimension. If GLS is operating as a position storage device and requested value is out of valid range defined by device manufacturer then attempt to save it will be rejected. Attribute restores previously known value or default one if none was present before on device.; range -5000..100000; Default value: 0.";
+      type int32 {
+        range "-5000..100000";
+      }
+      default "0";
+      units "m";
+    }
+    list coordinates {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Coordinates representing the ‘best estimate’ of GLS in two dimensions (latitude and longitude). If GLS is operating as a position storage device and requested value is out of valid range defined by device manufacturer then attempt to save it will be rejected. Attribute restores previously known value or default one if none was present before on device..";
+      uses Coordinates-struct;
+    }
+    list precision {
+      config false;
+      description "Standard deviation of values from their arithmetic mean in one of the three dimensions measured by GLS (latitude, longitude, altitude)..";
+      uses PrecisionData-struct;
+    }
+  }
+  grouping MulticastAntennaBranch-attributes {
+    leaf multicastAntennaBranchId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf-list transceiverRef {
+      description "Reference to the Transceiver MO instances being reserved..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping RaeSubUnit-attributes {
+    leaf raeSubUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance.; Status info: Since 21.Q4. Replaced by AntennaUnit::reservedBy. Planned to be removed..";
+      type string;
+      min-elements 0;
+    }
+    leaf subunitNumber {
+      description "Subunit identifier carried on L7 messages in which subunits are pointed with the help of application level identifiers..";
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf testRecord {
+      description "Facility test record.; length 1..70.";
+      type string {
+        length "1..70";
+      }
+    }
+    leaf iuantInstallationDate {
+      description "Installation date. Part of AISG-ES-RAE specification and has no operational impact. Valid only for AISGv2.; length 0..6.";
+      type string {
+        length "0..6";
+      }
+    }
+    leaf iuantBaseStationId {
+      description "Base station ID. Part of AISG-ES-RAE specification and has no operational impact. Valid only for AISGv2.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    leaf iuantSectorId {
+      description "RBS internal sector ID. Part of AISG-ES-RAE specification and has no operational impact. Valid only for AISGv2.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    leaf iuantInstallersId {
+      description "ID of the responsible installer. Part of AISG-ES-RAE specification and has no operational impact. Valid only for AISGv2.; length 0..5.";
+      type string {
+        length "0..5";
+      }
+    }
+    leaf iuantAntennaModelNumber {
+      description "Vendor-specific antenna model identifier. Part of AISG-ES-RAE specification and has no operational impact. Valid only for AISGv2.; length 0..15.";
+      type string {
+        length "0..15";
+      }
+    }
+    leaf iuantAntennaSerialNumber {
+      description "Unique hardware identifier of antenna where RAE is installed. Part of AISG-ES-RAE specification and has no operational impact. Valid only for AISGv2.; length 0..17.";
+      type string {
+        length "0..17";
+      }
+    }
+    leaf maxTilt {
+      description "Maximum electrical tilt supported by antenna. The electrical tilt is defined as the inclination of the maximum of the antenna main beam with respect to the direction orthogonal to the antenna element axis. Positive value indicates downtilt, and negative value indicates uptilt. This attribute is part of AISG-ES-RAE specification and has no operational impact.; Default value: -1000.";
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+    }
+    leaf minTilt {
+      description "Minimum electrical tilt supported by antenna. The electrical tilt is defined as the inclination of the maximum of the antenna main beam with respect to the direction orthogonal to the antenna element axis. Positive value indicates downtilt, and negative value indicates uptilt. This attribute is part of AISG-ES-RAE specification and has no operational impact.; Default value: -1000.";
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+    }
+    leaf-list iuantAntennaOperatingGain {
+      description "Antenna gain for each of four operating bands, starting with lowest value. Part of AISG-ES-RAE specification and has no operational impact. Valid only for AISGv2.; Default values sequence: -1000,-1000,-1000,-1000.";
+      type int32 {
+        range "-1000 | 0..255";
+      }
+      ordered-by user;
+      min-elements 1;
+      max-elements 4;
+    }
+    leaf iuantAntennaOperatingBand {
+      description "Operating band used by antenna subunit connected to this RAE subunit. Part of AISG-ES-RAE specification and has no operational impact. Valid only for AISGv2.; Default value: -1000.";
+      type int64;
+      default "-1000";
+    }
+    leaf-list iuantAntennaOperatingBeamwidth {
+      description "Beamwidth for each operating band in band order, beginning with lowest band. Part of AISG-ES-RAE specification and has no operational impact. Valid only for AISGv2.; Default values sequence: -1000,-1000,-1000,-1000.";
+      type int32 {
+        range "-1000 | 0..360";
+      }
+      ordered-by user;
+      min-elements 1;
+      max-elements 4;
+    }
+    list sensorData {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Position, altitude, azimuth and mechanical downtilt of unit..";
+      uses SensorData-struct;
+    }
+    leaf geolocationMonitorActive {
+      description "Whether monitoring of geolocation parameters is enabled for this RAE unit.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    list geolocationMonitorConfig {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Configuration parameters of geolocation monitor..";
+      uses GeolocationMonitorConfig-struct;
+    }
+    list targetSensorData {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Target position, altitude, azimuth, and mechanical downtilt of unit..";
+      uses SensorData-struct;
+    }
+  }
+  grouping RetSubUnit-attributes {
+    leaf retSubUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf calibrationStatus {
+      description "The status of ongoing calibration operation. In case no calibration has been performed since last Baseband restart it shows state UNKNOWN. NOTE: The calibrationStatus is not used to verify or confirm if the RET subunit is calibrated or not. The RET subunit is calibrated unless an alarm indicates otherwise..";
+      type enumeration {
+        enum UNKNOWN;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+        enum STOPPED;
+      }
+      config false;
+    }
+    leaf electricalAntennaTilt {
+      description "Electrically-controlled tilt of main beam maximum with respect to direction orthogonal to antenna element axis (see 3GPP TS 25.466). Value is signed; tilt down is positive, tilt up is negative. If electricalAntennaTilt is -999 at MO creation, actual value in RETU is used as antenna tilt setting. ElectricalAntennaTilt is overwritten. Dependencies: RetSubunit.minTilt =< RetSubunit.electricalAntennaTilt =< RetSubunit.maxTilt AND If reservedBy attribute contains AntennaSubunit MO: AntennaSubunit.minTotalTilt =< (AntennaUnit.mechanicalAntennaTilt + RetSubunit.electricalAntennaTilt) =< AntennaSubunit.maxTotalTilt If reservedBy attribute contains Transceiver MO: Transceiver.minTotalTilt =< (Transceiver.mechanicalAntennaTilt + RetSubunit.electricalAntennaTilt) =< Transceiver.maxTotalTilt Throws exception AttributeValueOutOfRangeException Disturbances: Change can affect traffic while the antenna beam is moving.; Default value: 0.";
+      type int32 {
+        range "-999 | -900..900";
+      }
+      default "0";
+      units "degree";
+    }
+    leaf iuantAntennaBearing {
+      description "Antenna bearing on the antenna subunit where the RET subunit is installed. Antenna bearing is expressed as bearing value x 10. Part of Iuant protocol definition (see 3GPP TS 25.466) and has no operational impact. Valid only for AISGv2.; Default value: -1000.";
+      type int32 {
+        range "-1000 | 0..3599";
+      }
+      default "-1000";
+      units "degree";
+    }
+    leaf iuantAntennaModelNumber {
+      description "Vendor-specific antenna model identifier. Part of Iuant protocol specification (see 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; length 0..15.";
+      type string {
+        length "0..15";
+      }
+    }
+    leaf iuantAntennaOperatingBand {
+      description "Operating band used by the antenna subunit connected to this RET subunit. Part of Iuant protocol specification and has no operational impact. Bit 0 in 0x03 is the least significant bit (For details on coding, see table B.2 of Annex B on 3GPP TS 25.466). Valid only for AISGv2.; Default value: -1000.";
+      type int64;
+      default "-1000";
+    }
+    leaf iuantAntennaSerialNumber {
+      description "Unique hardware identifier of antenna where RET subunit operates. Part of Iuant protocol specification (see 3GPP TS 25.466) and has no operational impact. Valid only for AISGv2.; length 0..17.";
+      type string {
+        length "0..17";
+      }
+    }
+    leaf iuantBaseStationId {
+      description "Base station ID. Part of Iuant protocol specification (see 3GPP TS 25.466) and has no operational impact. Valid only for AISGv2.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    leaf iuantInstallationDate {
+      description "Installation date. Part of Iuant protocol specification (see 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; length 0..6.";
+      type string {
+        length "0..6";
+      }
+    }
+    leaf iuantInstallersId {
+      description "ID of the responsible installer. Part of Iuant protocol specification (see 3GPP TS 25.466) and has no operational impact. Valid only for AISGv2.; length 0..5.";
+      type string {
+        length "0..5";
+      }
+    }
+    leaf iuantSectorId {
+      description "RBS internal sector ID. Part of Iuant protocol specification (see 3GPP TS 25.466) and has no operational impact. Valid only for AISGv2.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    leaf maxTilt {
+      description "Maximum electrical tilt supported by the RET subunit. The electrical tilt is defined as the inclination of the maximum of the antenna main beam with respect to the direction orthogonal to the antenna element axis. It is a signed value. Positive indicates downtilt, and negative indicates uptilt. This attribute is part of the IUANT protocol specification (see 3GPP TS 25.466) and has no operational impact.; Default value: -1000.";
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+    }
+    leaf minTilt {
+      description "Minimum electrical tilt supported by the RET subunit. The electrical tilt is defined as the inclination of the maximum of the antenna main beam with respect to the direction orthogonal to the antenna element axis. It is a signed value. Positive value indicates downtilt, and negative value indicates uptilt. This attribute is part of the IUANT protocol specification (see 3GPP TS 25.466) and has no operational impact.; Default value: -1000.";
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf subunitNumber {
+      description "Subunit identifier carried on L7 messages in which subunits are pointed with the help of application level identifiers..";
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf-list iuantAntennaOperatingGain {
+      description "Antenna gain for each of four operating bands, starting with lowest value. Part of Iuant protocol definition (see 3GPP TS 25.466) and has no operational impact. Valid only for AISGv2.; Default values sequence: -1000,-1000,-1000,-1000.";
+      type int32 {
+        range "-1000 | 0..255";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf tiltChangeStatus {
+      description "Status of tilt operation..";
+      type enumeration {
+        enum IDLE;
+        enum TILTING;
+      }
+      config false;
+    }
+    leaf verticalBeamWidthMode {
+      description "Vertical beam width mode of antenna RET..";
+      type enumeration {
+        enum NARROW;
+        enum WIDE;
+      }
+    }
+    list configuredAisgRetVersion {
+      config false;
+      description "Version of AISG protocol that device runs on and expects commands from..";
+      uses AisgVersion-struct;
+    }
+    list supportedAisgRetVersion {
+      config false;
+      min-elements 0;
+      max-elements 75;
+      uses AisgVersion-struct;
+    }
+  }
+  grouping RfBranch-attributes {
+    leaf rfBranchId {
+      description "The value component of the RDN. To provision the RfBranch not to be used for Tx transmission, even though it might be Tx-capable, the RfBranchId value should follow the format: \"any_string\"_NO_TX.";
+      type string;
+      mandatory true;
+    }
+    leaf-list auPortRef {
+      description "Refers to the AuPort MO that represents the physical antenna feeder connector on the antenna unit, to which this RfBranch is connected..";
+      type string;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list dlAttenuation {
+      description "Downlink attenuation between the connector on the radio and the connector on the antenna unit. The attenuation includes feeder, filters, and non-supervised, uncontrolled Tower Mounted Amplifiers (TMAs). The sequence contains 40 entries and each entry represents one 5-MHz interval. The first entry represents the attenuation value of the lowest frequency interval in the operating band, and so on. The number of intervals depends on the operating band. For information on different operating bands, refer to 3GPP TS 36.104. The value range for each entry is -500 to -2, -1, 0-500 (-50 to 50 dB). Unused entries are set to -1. Attribute is optionally replaced by dlAttenuationPerFqRange for configurations with radio supporting single band per RfPort. Attribute is replaced by dlAttenuationPerFqRange for configurations with radio supporting multi band per RfPort.; Default values sequence: -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1.";
+      type int32 {
+        range "-500..500 | 65535";
+      }
+      ordered-by user;
+      min-elements 1;
+      max-elements 40;
+    }
+    leaf-list dlTrafficDelay {
+      description "Downlink traffic delay between the connector on the radio and the connector on the antenna unit. The delay includes feeder, filter, and non-supervised, uncontrolled Tower Mounted Amplifiers (TMAs). The sequence contains 40 entries and each entry represents one 5-MHz interval. The first entry represents the traffic delay value of the lowest frequency interval in the operating band, and so on. The number of intervals used depends on the operating band. For information on the different operating bands, refer to 3GPP TS 36.104. The value range for each entry is 0-800000 (0-800000 ns). Unused entries are set to -1. Range for TDD and Distributed Antenna System (DAS) is limited: 0-5000 for NR and 0-8500 for NR+LTE. Exceeding these figures will result in degraded symbols and THP degradation. NOTE: If the range supported by the actual Radio Unit is smaller, it must be considered when configuring the antenna system. Attribute is optionally replaced by dlTrafficDelayPerFqRange for configurations with radio supporting single band per RfPort. Attribute is replaced by dlTrafficDelayPerFqRange for configurations with radio supporting multi band per RfPort.; Default values sequence: -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1.";
+      type eytypes:int32_range_-1-800000;
+      ordered-by user;
+      min-elements 0;
+      max-elements 40;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf rfPortRef {
+      description "Refers to the RfPort MO that represents the physical antenna feeder connector on the Radio Unit (RU)/Remote Radio Unit (RRU), to which this RfBranch is connected..";
+      type string;
+    }
+    leaf tmaRef {
+      description "Reference to a possible TMA that is connected to this RfBranch..";
+      type string;
+    }
+    leaf-list ulAttenuation {
+      description "Uplink attenuation between connector on radio and connector on the antenna unit. Attenuation includes feeder, filters, and non-supervised, uncontrolled TMAs. Sequence contains 40 entries and each entry represents one 5 MHz interval of NRSectorCarrier.earfcnUl attribute as DU works with EARFCN information. First entry represents attenuation value of lowest frequency interval in operating band, and so on. Number of intervals depends on operating band. For information on different operating bands, see 3GPP TS 36.104. Value range for each entry is -600 to -2, -1, 0-600 (-60 to 60 dB). Unused entries are set to -1. Attribute is optionally replaced by ulAttenuationPerFqRange for configurations with radios that support single-band for each RfPort. Attribute is replaced by ulAttenuationPerFqRange for configurations with radios that support multi-band for each RfPort.; Default values sequence: -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1.";
+      type int32 {
+        range "-600..600";
+      }
+      ordered-by user;
+      min-elements 1;
+      max-elements 40;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf-list ulTrafficDelay {
+      description "Uplink traffic delay between the connector on the radio unit and the connector on the antenna unit. The delay includes feeder, filter, and non-supervised, uncontrolled Tower Mounted Amplifiers (TMAs). The sequence contains 40 entries and each entry represents one 5-MHz interval. The first entry represents the traffic delay value of the lowest frequency interval in the operating band, and so on. The number of intervals used depends on the operating band. For information on the different operating bands, refer to 3GPP TS 36.104. The value range for each entry is 0-800000 (0-800000 ns). Unused entries are set to -1. Range for TDD and Distributed Antenna System (DAS) is limited: 0-5000 for NR and 0-8500 for NR+LTE. Exceeding these figures will result in degraded symbols and THP degradation. NOTE: If the range supported by actual Radio Unit is smaller, it must be considered when configuring the antenna system. Attribute is optionally replaced by ulTrafficDelayPerFqRange for configurations with radio supporting single band per RfPort. Attribute is replaced by ulTrafficDelayPerFqRange for configurations with radio supporting multi band per RfPort.; Default values sequence: -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1.";
+      type eytypes:int32_range_-1-800000;
+      ordered-by user;
+      min-elements 0;
+      max-elements 40;
+    }
+    leaf-list dlAttenuationPerFqRange {
+      description "Optionally replaces dlAttenuation for configurations with radio supporting single band for each RfPort. Replaces dlAttenuation for configurations with radio supporting multi band for each RfPort. Configures DL attenuation between radio connector and antenna unit connector. Attenuation includes feeder, filters, and non-supervised, uncontrolled TMAs. Attenuation value is valid for full frequency range. Attribute is a sequence containing 4 entries. Use each entry to configure attenuation for the corresponding frequency range in dlFrequencyRanges of RfPort to which RfBranch refers. The value range for each entry is -500 to -2, -1, 0-500 (-50 to 50 dB). Unused entries are set to -1. For information on different operating bands, refer to 3GPP TS 36.104.; Default values sequence: -1,-1,-1,-1.";
+      type int32 {
+        range "-500..500 | 65535";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list dlTrafficDelayPerFqRange {
+      description "Optionally replaces dlTrafficDelay for configurations with radio supporting single band for each RfPort. Replaces dlTrafficDelay for configurations with radio supporting multi band for each RfPort. Configures DL delay between radio connector and antenna unit connector. Delay includes feeder, filters, and non-supervised, uncontrolled TMAs. Delay value is valid for full frequency range. Attribute is a sequence containing 4 entries. Use each entry to configure delay for the corresponding frequency range in dlFrequencyRanges of RfPort to which RfBranch refers. The value range for each entry is 0-800000 (0-800000 ns). Unused entries are set to -1. Range for TDD and Distributed Antenna System (DAS) is limited: 0-5000 for NR and 0-8500 for NR+LTE. Exceeding these figures will result in degraded symbols and THP degradation. NOTE: If the range supported by individual radio units is smaller, it must be considered when configuring the antenna system. For information on the different operating bands, refer to 3GPP TS 36.104.; Default values sequence: -1,-1,-1,-1.";
+      type eytypes:int32_range_-1-800000;
+      ordered-by user;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list ulAttenuationPerFqRange {
+      description "Optionally replaces ulAttenuation for configurations with radio supporting single band for each RfPort. Replaces ulAttenuation for configurations with radio supporting multi band for each RfPort. Configures UL attenuation between radio connector and antenna unit connector. Attenuation includes feeder, filters, and non-supervised, uncontrolled TMAs. Attenuation value is valid for full frequency range. Attribute is a sequence containing 4 entries. Use each entry to configure attenuation for the corresponding frequency range in ulFrequencyRanges of RfPort to which RfBranch refers. The value range for each entry is -500 to -2, -1, 0-500 (-50 to 50 dB). Unused entries are set to -1. For information on the different operating bands, refer to 3GPP TS 36.104.; Default values sequence: -1,-1,-1,-1.";
+      type int32 {
+        range "-500..500";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list ulTrafficDelayPerFqRange {
+      description "Optionally replaces ulTrafficDelay for configurations with radio supporting single band for each RfPort. Replaces ulTrafficDelay for configurations with radio supporting multi band for each RfPort. Configures UL delay between radio connector and antenna unit connector. Delay includes feeder, filters, and non-supervised, uncontrolled TMAs. Delay value is valid for full frequency range. Attribute is a sequence containing 4 entries. Use each entry to configure delay for the corresponding frequency range in ulFrequencyRanges of RfPort to which RfBranch refers. The value range for each entry is 0-800000 (0-800000 ns). Unused entries are set to -1. Range for TDD and Distributed Antenna System (DAS) is limited: 0-5000 for NR and 0-8500 for NR+LTE. Exceeding these figures will result in degraded symbols and THP degradation. NOTE: If the range supported by individual radio units is smaller, it must be considered when configuring the antenna system. For information on the different operating bands, refer to 3GPP TS 36.104.; Default values sequence: -1,-1,-1,-1.";
+      type eytypes:int32_range_-1-800000;
+      ordered-by user;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list bandList {
+      description "Specific band that RfBranch works on..";
+      type RfBranchBandEnabled;
+      min-elements 0;
+      max-elements 4;
+    }
+  }
+  grouping TmaSubUnit-attributes {
+    leaf tmaSubUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf dlAttenuation {
+      description "Subunit internal attenuation in downlink.; range 0..20.";
+      type eytypes:int32_range_0-20-31;
+      units "dB";
+    }
+    leaf dlTrafficDelay {
+      description "Subunit internal traffic delay in downlink.; range 0..2000.";
+      type int32 {
+        range "0..2000";
+      }
+      units "ns";
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf iuantAntennaBearing {
+      description "Antenna bearing expressed as bearing value * 10. Part of Iuant protocol definition (see TS 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; Default value: -1000.";
+      type int32 {
+        range "-1000 | 0..3599";
+      }
+      default "-1000";
+      units "degree";
+    }
+    leaf iuantAntennaInstalledMechanicalTilt {
+      description "Antenna tilt fixed on the installation. Defined as inclination of antenna element axis with respect to vertical plane. A signed value. A positive value indicates downtilt, and a negative value indicates uptilt. Part of Iuant protocol definition (see TS 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; Default value: -1000.";
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+    }
+    leaf iuantAntennaModelNumber {
+      description "Vendor-specific antenna model identifier. Part of Iuant protocol definition (see TS 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; length 0..15.";
+      type string {
+        length "0..15";
+      }
+    }
+    leaf iuantAntennaOperatingBand {
+      description "Operating band used by antenna subunit connected to this TMA subunit. Part of Iuant protocol definition (see TS 3GPP 25.466) and has no operational impact. Bit 0 in 0x03 is the least significant bit. Valid only for AISGv2.; Default value: -1000.";
+      type int64;
+      default "-1000";
+    }
+    leaf-list iuantAntennaOperatingGain {
+      description "Antenna gain for each of four operating bands, starting with lowest value. Part of Iuant protocol definition (see TS 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; Default values sequence: -1000,-1000,-1000,-1000.";
+      type int32 {
+        range "-1000 | 0..255";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf iuantAntennaSerialNumber {
+      description "Unique hardware identifier for antenna where antenna near unit is installed. Part of Iuant protocol definition (see 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; length 0..17.";
+      type string {
+        length "0..17";
+      }
+    }
+    leaf iuantBaseStationId {
+      description "Base station ID. Part of Iuant protocol definition (see TS 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    leaf iuantInstallationDate {
+      description "Installation date. Part of Iuant protocol definition (see TS 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; length 0..6.";
+      type string {
+        length "0..6";
+      }
+    }
+    leaf iuantInstallersId {
+      description "ID of responsible installer. Part of Iuant protocol definition (see TS 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; length 0..5.";
+      type string {
+        length "0..5";
+      }
+    }
+    leaf iuantSectorId {
+      description "RBS internal sector ID. Part of Iuant protocol definition (see TS 3GPP 25.466) and has no operational impact. Valid only for AISGv2.; length 0..32.";
+      type string {
+        length "0..32";
+      }
+    }
+    leaf-list iuantTmaSubunitFreqRangeRx {
+      description "Uplink frequency band across the TMA subunit. It is a sequence of 2 values (16-bit unsigned) stating minimum and maximum frequencies for the TMA subunit transmission path. Part of the IUANT protocol definition (see 3GPP 25.466) and has no operational impact..";
+      type int32 {
+        range "0..65535";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 2;
+    }
+    leaf-list iuantTmaSubunitFreqRangeTx {
+      description "Downlink frequency band across the TMA subunit. It is a sequence of 2 values (16-bit unsigned) stating minimum and maximum frequencies for the TMA subunit transmission path. Part of the IUANT protocol definition (see 3GPP 25.466) and has no operational impact..";
+      type int32 {
+        range "0..65535";
+      }
+      ordered-by user;
+      min-elements 0;
+      max-elements 2;
+    }
+    leaf iuantTmaSubunitGainRes {
+      description "Gain resolution on the TMA subunit subunit expressed in gain value [dB] times 4. Part of the IUANT protocol definition (see 3GPP 25.466) and has no operational impact.; range 0..255.";
+      type eytypes:int32_range_0-255-41;
+      config false;
+      units "dB";
+    }
+    leaf iuantTmaSubunitMaxGain {
+      description "Maximum gain available on this TMA subunit.; range 0..255.";
+      type eytypes:int32_range_0-255-41;
+      config false;
+      units "dB";
+    }
+    leaf iuantTmaSubunitMinGain {
+      description "Minimum gain available on this TMA subunit.; range 0..255.";
+      type eytypes:int32_range_0-255-41;
+      config false;
+      units "dB";
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf subunitNumber {
+      description "Subunit identifier carried on L7 messages. While an antenna near unit is identified by one High-Level Data Link Control (HDLC) address (L2), subunits are identified by application level (L7) identifiers.; range 0..255.";
+      type eytypes:int32_range_0-255;
+      config false;
+    }
+    leaf ulGain {
+      description "Internal uplink gain of the TMA subunit. Part of the IUANT protocol definition (see 3GPP 25.466) and has no operational impact..";
+      type int32;
+      config false;
+      units "dB";
+    }
+    leaf ulTrafficDelay {
+      description "Subunit internal traffic delay in uplink.; range 0..2000.";
+      type int32 {
+        range "0..2000";
+      }
+      units "ns";
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    list tmfData {
+      config false;
+      description "TMF configuration data..";
+      uses TmfDataStruct-struct;
+    }
+    leaf tmaType {
+      description "Type of tower mounted amplifier..";
+      type enumeration {
+        enum TMA;
+        enum TMF;
+      }
+    }
+    list configuredAisgTmaVersion {
+      config false;
+      description "Version of AISG protocol that device runs on and expects commands from..";
+      uses AisgVersion-struct;
+    }
+    list supportedAisgTmaVersion {
+      config false;
+      min-elements 0;
+      max-elements 75;
+      uses AisgVersion-struct;
+    }
+  }
+  grouping TmfConfiguration-attributes {
+    leaf tmfConfigurationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf operatingBand {
+      description "Supported band for TMF/TTMF.; range 0..256.";
+      type eytypes:int32_range_0-256;
+      mandatory true;
+    }
+    leaf operatingMode {
+      description "Supported operating mode..";
+      type enumeration {
+        enum LTE_5MHZ;
+        enum LTE_10MHZ;
+        enum WCDMA_1_CHANNEL;
+        enum WCDMA_2_CHANNELS;
+        enum LTE_MIXED_WITH_WCDMA_IN_10MHZ;
+      }
+      mandatory true;
+    }
+    leaf channelNumber1 {
+      description "ARFCN for first uplink carrier.; range 0..262143.";
+      type eytypes:int32_range_0-262143;
+      mandatory true;
+    }
+    leaf channelNumber2 {
+      description "ARFCN for second uplink carrier.; range 0..262143; Default value: 0.";
+      type eytypes:int32_range_0-262143;
+      default "0";
+    }
+    leaf frequencyDistance {
+      description "Frequency distance between two carriers. If 0(default value), RBS automatically sets frequency distance according to TMF Rx frequency range and carrier bandwidth.; range 0..200; Default value: 0.";
+      type int32 {
+        range "0..200";
+      }
+      default "0";
+      units "MHz";
+    }
+    leaf antBtoRbsB {
+      description "If ANT port A,B and RBS port A,B are cross connected or not. false means direct connection. true means cross connection.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf dcMonitoringRbsA {
+      description "If DC monitoring of RBS port A is needed or not.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf dcMonitoringRbsB {
+      description "If DC monitoring of RBS port B is needed or not..";
+      type boolean;
+    }
+    leaf ifFilterBit {
+      description "Indicate what IF filter (5 or 10 MHz) is being used. 0 means 5MHz IF filter.; range 0..1.";
+      type eytypes:int32_range_0-1;
+    }
+    leaf dcToRetBlocked {
+      description "If DC to RET is blocked or not. false means DC to RET is not blocked. true means DC to RET is blocked if not connected.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf dcMonitoringAntA {
+      description "If DC monitoring of ANT port A is needed or not.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf dcMonitoringAntB {
+      description "If DC monitoring of ANT port B is needed or not.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf deploymentType {
+      description "Supported deployment type..";
+      type enumeration {
+        enum PSI_CONFIGURATION;
+        enum Y_CONFIGURATION;
+      }
+    }
+  }
+}

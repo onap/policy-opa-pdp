@@ -1,0 +1,72 @@
+module huawei-gnbarp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbarp";
+ prefix gnbarp;
+ description
+ "Auto-generated modular YANG for huawei-gnbarp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBARP-attributes {
+ leaf OLD_ARP {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf ARP {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf DLSCHPRIWEIGHTFACTOR {
+  type uint16 {
+   range "1..1000";
+  }
+  mandatory false;
+ }
+ leaf OLD_OPERATORID {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf OPERATORID {
+  type union {
+   type int8 {
+    range "-1..11";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_QCI {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf QCI {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULSCHPRIWEIGHTFACTOR {
+  type uint16 {
+   range "1..1000";
+  }
+  mandatory false;
+ }
+ }
+}

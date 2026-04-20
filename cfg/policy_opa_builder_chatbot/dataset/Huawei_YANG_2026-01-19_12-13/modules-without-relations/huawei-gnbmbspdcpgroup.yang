@@ -1,0 +1,83 @@
+module huawei-gnbmbspdcpgroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbmbspdcpgroup";
+ prefix gnbmbspdcpgroup;
+ description
+ "Auto-generated modular YANG for huawei-gnbmbspdcpgroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBMBSPDCPGROUP-attributes {
+ leaf DLPDCPDISCARDTIMER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+  }
+  mandatory false;
+ }
+ leaf OLD_MBSPDCPGROUPID {
+  type union {
+   type int8 {
+    range "-1..1";
+   }
+  }
+  mandatory false;
+ }
+ leaf MBSPDCPGROUPID {
+  type union {
+   type int8 {
+    range "-1..1";
+   }
+  }
+  mandatory false;
+ }
+ leaf UEPDCPREORDERINGTIMER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+  }
+  mandatory false;
+ }
+ }
+}

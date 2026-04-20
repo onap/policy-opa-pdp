@@ -1,0 +1,136 @@
+module huawei-aaru {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-aaru";
+ prefix aaru;
+ description
+ "Auto-generated modular YANG for huawei-aaru" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping AARU-attributes {
+ leaf ADMSTATE {
+  type boolean;
+  mandatory false;
+ }
+ leaf AN {
+  type string {
+   length "0..99";
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf FMBWH {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf IFOFFSET {
+  type int16 {
+   range "-250..250";
+  }
+  mandatory false;
+ }
+ leaf PSGID {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RS {
+  type enumeration {
+   enum val-8;
+   enum val-64;
+   enum val-72;
+   enum val-128;
+   enum val-136;
+   enum val-192;
+   enum val-200;
+   enum val-256;
+   enum val-264;
+   enum val-320;
+   enum val-328;
+   enum val-384;
+   enum val-392;
+   enum val-448;
+   enum val-456;
+  }
+  mandatory false;
+ }
+ leaf RXNUM {
+  type uint8 {
+   range "0..8";
+  }
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..3";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..3";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf TXNUM {
+  type uint8 {
+   range "0..8";
+  }
+  mandatory false;
+ }
+ leaf TXSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf VRETNO {
+  type uint8 {
+   range "60..254";
+  }
+  mandatory false;
+ }
+ }
+}

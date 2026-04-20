@@ -1,0 +1,189 @@
+module ericsson-rcsla-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsLA";
+  prefix rcsla;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThe model for Local access.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcsla:LocalAccessM" {
+    list LocalAccess {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Enables access to local management services. Controls access to SSH- and TLS-based services, for example, Ericsson CLI and NETCONF, and emergency access GUI. Services can be locked only if \"Disable LMT\" license is present. If license is not present, services are unlocked regardless of configuration in this class. The RDNs of these MOs are LocalAccess=cmSsh, LocalAccess=cmTls, and LocalAccess=web.";
+      key "localAccessId";
+      leaf localAccessId {
+        type leafref {
+          path "../attributes/localAccessId";
+        }
+      }
+      container attributes {
+      uses LocalAccess-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcsla:LocalAccessM" {
+    list LmtAlarmControl {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Controls the sending of alarm when a cable is connected to the LMT port. The RDN for this MO is LmtAlarmControl=1.";
+      key "lmtAlarmControlId";
+      leaf lmtAlarmControlId {
+        type leafref {
+          path "../attributes/lmtAlarmControlId";
+        }
+      }
+      container attributes {
+      uses LmtAlarmControl-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list LocalAccessM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Controls for the locally accessible terminal port. The RDNs of this MO is \"LocalAccessM=1\".";
+      key "localAccessMId";
+      leaf localAccessMId {
+        type leafref {
+          path "../attributes/localAccessMId";
+        }
+      }
+      container attributes {
+      uses LocalAccessM-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "Administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef EmergencyRestoreState {
+    description "Options for emergency restore";
+    type enumeration {
+      enum PHYSICALONLY {
+        description "Emergency restore can only be performed by pressing the physical 'Board restore' button.";
+      }
+      enum WEBENABLED {
+        description "Emergency restore can be initated by pressing the physical 'Board restore' button or through the Emergency access web service.";
+      }
+    }
+  }
+  typedef LinkStatus {
+    description "Link status.";
+    type enumeration {
+      enum UP {
+        description "The link is up.";
+      }
+      enum DOWN {
+        description "The link is down.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping LmtAlarmControl-attributes {
+    leaf lmtAlarmControlId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf linkStatus {
+      description "Link status..";
+      type enumeration {
+        enum UP;
+        enum DOWN;
+      }
+      config false;
+    }
+    leaf administrativeState {
+      description "The a dministrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping LocalAccess-attributes {
+    leaf localAccessId {
+      description "The value component of the RDN. \"LocalAccess=cmSsh\" object controls access to services like Ericsson CLI and NETCONF over SSH. \"LocalAccess=cmTls\" object controls access to service like Ericsson CLI and NETCONF over TLS. \"LocalAccess=web\" object controls access to Emergency access..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state. Not possible to set \"web\" MO to LOCKED until both LocalAccess MOs with RDN of \"cmSsh\" and \"cmTls\" are locked. Not possible to set \"cmSsh\" or \"cmTls\" to UNLOCKED unless LocalAccess MO with RDN of \"web\" is UNLOCKED. Setting SHUTTINGDOWN will immediately shut down services and the value bwill automatically be set to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping LocalAccessM-attributes {
+    leaf localAccessMId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf emergencyRestore {
+      description "Access to emergency restore ability. Emergency restore can be activated by pressing physical 'Board restore' button on boards which have this button. For boards that do not have physical 'Board restore' button, restore is initiated in \"Emergency access\" web interface. For boards that do have phsycial 'Board restore' button emergency restore can be enabled in \"Emergency access\" web interface with this attribute..";
+      type enumeration {
+        enum PHYSICALONLY;
+        enum WEBENABLED;
+      }
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+}

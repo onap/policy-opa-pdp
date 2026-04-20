@@ -1,0 +1,209 @@
+module ericsson-managed-element {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:managed-element";
+  prefix emael;
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis is the top level of the Ericsson Common Information Model (ECIM). This model contains the singleton, root Managed Object Class (MOC) ManagedElement under which the complete model is contained. Directly under ManagedElement are managed-function level classes SystemFunctions, Transport, Equipment and the root MOC of any managed functions. The Equipment Root MOC is in the Equipment Managed Object Model (MOM). The root MOC for a managed function is hosted in the managed function MOM.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+  list ManagedElement {
+    key "managedElementId";
+    description "Additional definitions from MOM:root;systemCreated;\\nThe top-level class in the Common Information Model is Managed Element root Managed Object Class. From this class, all model entities are contained. The Managed Object Class (MOC) has attributes that provide information on the Managed Element Identity, primary location and the products it contains.";
+    leaf managedElementId {
+      type leafref {
+        path "../attributes/managedElementId";
+      }
+    }
+    container attributes {
+      uses ManagedElement-attributes;
+    }
+  }
+
+  augment "/emael:ManagedElement" {
+    list SystemFunctions {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; This model has a purpose to group the management of the system functions of the Managed Element.";
+      key "systemFunctionsId";
+      leaf systemFunctionsId {
+        type leafref {
+          path "../attributes/systemFunctionsId";
+        }
+      }
+      container attributes {
+      uses SystemFunctions-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement" {
+    list Transport {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; This is a container for common transport functions used within the Managed Element.";
+      key "transportId";
+      leaf transportId {
+        type leafref {
+          path "../attributes/transportId";
+        }
+      }
+      container attributes {
+      uses Transport-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "The administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "The basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource partially or fully operable.";
+      }
+    }
+  }
+  typedef SchemaFormat {
+    description "The Schema formats of the supported data models.";
+    type enumeration {
+      enum MP_DTD {
+        description "The data model format is XML based on mp.dtd.";
+      }
+    }
+  }
+  grouping ProductIdentity-struct {
+    description "Deprecated, Contains product information for a Managed Element and ManagedFunction(s). Replaced by ProductData.";
+    leaf productNumber {
+      type string;
+    }
+    leaf productRevision {
+      type string;
+    }
+    leaf productDesignation {
+      type string;
+    }
+  }
+  grouping ManagedElement-attributes {
+    leaf managedElementId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf siteLocation {
+      description "A freetext attribute describing the geographic location of a Managed Element..";
+      type string;
+    }
+    leaf userLabel {
+      description "A freetext string for additional information to assist Managed Element identification..";
+      type string;
+    }
+    list productIdentity {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      uses ProductIdentity-struct;
+    }
+    leaf localDateTime {
+      description "Deprecated. This is the local date and time for the Managed Element. The following format is used: YYYY-MM-DDThh:mm:ss The meaning of each field is as follows: YYYY = four digit year MM = two digit month (01=January, etc.) DD = two digit day of month (01 through 31) T = time designator (shows start of time component) hh = two digits of hour (00 through 23, AM/PM not allowed) mm = two digits of minute (00 through 59) ss = two digits of second (00 through 59, leap second not allowed) The hyphen [-] and the colon [:] are used as separators within the date and time of day expressions, respectively.; MOM flags: isNillable=true; Status info: Deprecated at version 2.3. Functionality replaced by TimeM model.; Specification: ISO 8601:2004(E).";
+      type string;
+      config false;
+      status deprecated;
+    }
+    leaf timeZone {
+      description "DEPRECATED. This is the timeZone in which the Managed Element resides. The possible values for this attribute are defined in the public-domain zoneinfo or Olson database. Locations are identified by a string indicating the continent or ocean and then the name of the location, typically the largest city within the region. See http://www.iana.org/time-zones for more information. Example: Europe/Stockholm.; MOM flags: isNillable=true; Status info: Deprecated at version 2.3. Functionality replaced by TimeM model..";
+      type string;
+      config false;
+      status deprecated;
+    }
+    leaf dateTimeOffset {
+      description "Deprecated. Difference between the value of the localDateTime attribute and UTC.; MOM flags: isNillable=true; Status info: Deprecated at version 2.3. Functionality replaced by TimeM model..";
+      type string;
+      config false;
+      status deprecated;
+    }
+    leaf dnPrefix {
+      description "It provides naming context that allows the managed objects to be partitioned into logical domains. A Distingushed Name (DN) is defined by 3GPP TS 32.300, which splits the DN into a DN Prefix and Local DN, for example DN format: dnPrefix=<DN Prefix>, localDn =<Local DN> Fault Management: dnPrefix does not impact Fault Management, since an NMS recognises a Managed Element by IP address Performance Management (PM): The dnPrefix is present in the PM Data file, Result Output Period (ROP) file, if the dnPrefix attribute is specified, that is, not an empty string. Example: DC=ericsson.se,g3SubNetwork=Sweden Example: DC=ericsson.se,g3SubNetwork=Sweden.";
+      type string;
+    }
+    leaf managedElementType {
+      description "The type of product being managed. For example the type could be RBS or CSCF..";
+      type string;
+      config false;
+    }
+    leaf release {
+      description "The release of the product type specified by the attribute managedElementType. It commonly contains the Managed Element release, for example L12.0, 13A, R1A.";
+      type string;
+      config false;
+    }
+    leaf logicalName {
+      description "Optional identifier for the managed element. Used for legacy Ericsson model compatibility towards some third-party management systems..";
+      type string;
+    }
+    leaf locationName {
+      description "Provided for 3GPP alignment. The physical location (e.g. an address) of the Managed element..";
+      type string;
+      config false;
+    }
+    leaf vendorName {
+      description "Provided for 3GPP alignment. If set, it shall contain 'Ericsson AB'..";
+      type string;
+      config false;
+    }
+    leaf userDefinedState {
+      description "Provided for 3GPP alignment. It may hold an Operator-supplied state in free text form..";
+      type string;
+    }
+    leaf swVersion {
+      description "Provided for 3GPP alignment. The software version of the ManagedElement..";
+      type string;
+      config false;
+    }
+    leaf-list managedElementTypeList {
+      description "Provided for 3GPP alignment. If set, it should describe a Managed element's functionality or a combination of functionalities..";
+      type string;
+      min-elements 0;
+    }
+    leaf networkManagedElementId {
+      description "Replaces the value component of the RDN in the COM Northbound Interface. This attribute shall, if used, be set to a simple string which adheres to 3GPP MO Naming Convention . The value should be unique within the network namespace..";
+      type string;
+    }
+  }
+  grouping SystemFunctions-attributes {
+    leaf systemFunctionsId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping Transport-attributes {
+    leaf transportId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+  }
+}

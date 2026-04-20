@@ -1,0 +1,32 @@
+module huawei-enodebframeoffset {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-enodebframeoffset";
+ prefix enodebframeoffset;
+ description
+ "Auto-generated modular YANG for huawei-enodebframeoffset" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ENODEBFRAMEOFFSET-attributes {
+ leaf FDDFRAMEOFFSET {
+  type union {
+   type uint32 {
+    range "0..307200";
+   }
+  }
+  mandatory false;
+ }
+ leaf FRAMEOFFSETAUTOCORRECTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf TDDFRAMEOFFSET {
+  type union {
+   type uint32 {
+    range "0..307200";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

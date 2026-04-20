@@ -1,0 +1,48 @@
+module ericsson-rmesupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSupport";
+  prefix rmesuppo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement" {
+    list NodeSupport {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Top MO for the NodeSupport branch";
+      key "nodeSupportId";
+      leaf nodeSupportId {
+        type leafref {
+          path "../attributes/nodeSupportId";
+        }
+      }
+      container attributes {
+        uses NodeSupport-attributes;
+      }
+    }
+  }
+  grouping NodeSupport-attributes {
+    leaf nodeSupportId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf supportFunction {
+      type ietfinet:port-number;
+      config false;
+      description "Default value: true.";
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf release {
+      type string;
+      config false;
+    }
+  }
+}

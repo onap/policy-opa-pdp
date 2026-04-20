@@ -1,0 +1,58 @@
+module ericsson-integrity-protection-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqIntegrityProtection";
+  prefix intprotrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIntegrity Protection";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list IntegrityProtection {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Configuration for Integrity Protection of User Plane feature. Can only be created under FieldReplaceableUnit MO instance representing Baseband 6630 unit.";
+      key "integrityProtectionId";
+      leaf integrityProtectionId {
+        type leafref {
+          path "../attributes/integrityProtectionId";
+        }
+      }
+      container attributes {
+      uses IntegrityProtection-attributes;
+      }
+    }
+  }
+  typedef IntegProtUpSupport {
+    description "Status for supporting Integrity Protection of User Plane support on Baseband unit.";
+    type enumeration {
+      enum NOT_SUPPORTED {
+        description "Integrity Protection of User Plane feature on Baseband is not supported.";
+      }
+      enum SUPPORTED {
+        description "Integrity Protection of User Plane feature on Baseband is supported.";
+      }
+    }
+  }
+  grouping IntegrityProtection-attributes {
+    leaf integrityProtectionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf integProtUserPlaneCapability {
+      description "Whether Baseband hardware has capability to support Integrity Protection of User Plane. Setting this attribute to SUPPORTED enables capability..";
+      type enumeration {
+        enum NOT_SUPPORTED;
+        enum SUPPORTED;
+      }
+    }
+  }
+}

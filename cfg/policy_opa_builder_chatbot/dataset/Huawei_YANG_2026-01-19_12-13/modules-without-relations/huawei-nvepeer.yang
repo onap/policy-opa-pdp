@@ -1,0 +1,56 @@
+module huawei-nvepeer {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nvepeer";
+ prefix nvepeer;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-nvepeer" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container nvepeer-ipv4 {
+  container attributes {
+   uses NVEPEER-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping NVEPEER-attributes {
+ leaf NVEID {
+  type uint8 {
+   range "0..31";
+  }
+  mandatory false;
+ }
+ leaf OLD_NVEPEERID {
+  type union {
+   type int16 {
+    range "-1..9999";
+   }
+  }
+  mandatory false;
+ }
+ leaf NVEPEERID {
+  type union {
+   type int16 {
+    range "-1..9999";
+   }
+  }
+  mandatory false;
+ }
+ leaf PEERIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,257 @@
+module ericsson-rtnl2lagport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL2LagPort";
+  prefix rtnl2lag;
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nLag Port";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list LagPort {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; Represents group of Ethernet link ports bundled together to act as single link, to provide link redundancy and increased bandwidth. Dependencies: EthernetPort MO that is encapsulated by LagPort MO, cannot be used for MO types VlanPort, Dot1xSupplicant, InterfaceIPv4 or InterfaceIPv6.";
+      key "lagPortId";
+      leaf lagPortId {
+        type leafref {
+          path "../attributes/lagPortId";
+        }
+      }
+      container attributes {
+      uses LagPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "The administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping LagPort-attributes {
+    leaf administrativeState {
+      description "The administrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. Details about operationalState. DEGRADED if some of encapsulated EthernetPort MOs cannot be used due to Ethernet or LACP problems. FAILED or DEPENDENCY_FAILED if none of encapsulated EthernetPort MOs can be used due to Ethernet or LACP problems..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf-list encapsulation {
+      description "List of references to underlying encapsulations. Underlying encapsulations can be EthernetPort MOs. All encapsulated EthernetPort MOs must have same value on admOperatingMode and admOperatingMode, equal to ANY is not allowed..";
+      type string;
+      min-elements 1;
+      max-elements 4;
+    }
+    leaf lacpEnabled {
+      description "Specifies whether LACP is enabled or not on links in LAG. When true, LACP is enabled. When false LAG group is static and LACP is not used on ports. LACP is in active mode when enabled.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf lagPortId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf macAddress {
+      description "Assigned individual MAC address..";
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf mtu {
+      description "MTU. Largest PDU that Ethernet layer can pass on Ethernet port. PDU includes Ethernet header, Ethertype, payload and frame check sequence..";
+      type int32;
+      config false;
+      units "B";
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf ifHCInOctets {
+      description "The total number of octets received on the interface, including framing characters.Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutBroadcastPkts {
+      description "The total number of broadcast packets that are requested to be transmitted. Broadcast packets counted by ifOutDiscards and ifOutErrors are included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifInUnknownTags {
+      description "The number of packets received via the interface which were discarded because of an unknown VLAN ID..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInUcastPkts {
+      description "The number of unicast packets forwarded to a bridge or delivered to a higher (sub-)layer. Packets counted by ifInErrors, ifInUnknownProtos, ifInUnknownTags and ifInDiscards are not included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifMinLossOfSignalDuration {
+      description "Minimum duration in milliseconds where connection is lost due to that all links in Lag has Ethernet link failures, measured via loss of signal detection..";
+      type int64;
+      config false;
+    }
+    leaf ifHCInBroadcastPkts {
+      description "The number of broadcast packets forwarded to a bridge or delivered to a higher (sub-)layer. Packets counted by ifInErrors, ifInUnknownProtos, ifInUnknownTags and ifInDiscards are not included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf-list ifOutOctetRatePercentiles {
+      description "Distribution of the egress throughput on the ethernet interface measured in octets per second. The throughput samples are based on ifHCOutOctets and are taken every second..";
+      type int64;
+      max-elements 7;
+    }
+    leaf ifMaxLossOfSignalDuration {
+      description "Maximum duration in milliseconds where connection is lost due to that all links in Lag has Ethernet link failures, measured via loss of signal detection..";
+      type int64;
+      config false;
+    }
+    leaf ifInUnknownProtos {
+      description "The number of packets received via the interface which were discarded because of an unknown or unsupported protocol. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInMulticastPkts {
+      description "The number of multicast packets forwarded to a bridge or delivered to a higher (sub-)layer. Packets counted by ifInErrors, ifInUnknownProtos, ifInUnknownTags and ifInDiscards are not included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifTotalLossOfSignalDuration {
+      description "Total duration in milliseconds where LAG is operationally disabled due to Ethernet link failures for all encapsulated EthernetPorts , measured via loss of signal detection..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCLossOfSignal {
+      description "Total number of times connection is lost due to that all links in LAG has Ethernet link failures, measured via loss of signal detection..";
+      type uint64;
+      config false;
+    }
+    leaf-list ifInOctetRatePercentiles {
+      description "Distribution of the ingress throughput on the ethernet interface measured in octets per second. The throughput samples are based on ifHCInOctets and are taken every second..";
+      type int64;
+      max-elements 7;
+    }
+    leaf ifOutErrors {
+      description "The number of outbound packets that could not be transmitted because of errors. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutUcastPkts {
+      description "The total number of unicast packets that are requested to be transmitted. Unicast packets counted by ifOutDiscards and ifOutErrors are included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifInErrors {
+      description "Number of inbound packets contained errors preventing them from being deliverable to higher-layer protocol. Standard reference: RFC 2863, section 6. Counts received over-size packets and packets with FCS, alignment or symbol error..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutOctets {
+      description "The total number of octets transmitted out of the interface, including framing characters. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifOutDiscards {
+      description "The number of outbound packets which were discarded even though no errors had been detected, for example due to lack of buffer space or traffic shaping. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifInDiscards {
+      description "The number of inbound packets which were chosen to be discarded even though no errors had been detected to prevent their being deliverable to a higher-layer protocol. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutMulticastPkts {
+      description "The total number of multicast packets that are requested to be transmitted. Multicast packets counted by ifOutDiscards and ifOutErrors are included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+  }
+}

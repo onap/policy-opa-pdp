@@ -1,0 +1,78 @@
+module huawei-meb {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-meb";
+ prefix meb;
+ description
+ "Auto-generated modular YANG for huawei-meb" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping MEB-attributes {
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf MCN {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf MPN {
+  type uint8 {
+   range "0";
+  }
+  mandatory false;
+ }
+ leaf MSRN {
+  type uint8 {
+   range "60..254";
+  }
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..59";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..59";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

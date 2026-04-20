@@ -1,0 +1,717 @@
+module ericsson-qos-system-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnQoSSystem";
+  prefix qossysrdo;
+  import ericsson-l2-eth-port-rtn-radio {
+    prefix l2ethptrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort" {
+    list QueueSystem {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Quality of Service (QoS) queue system. Bandwidth and sizes (burst sizes, queue sizes) include the complete Ethernet frame. Dependencies: Must have one child element.";
+      key "queueSystemId";
+      leaf queueSystemId {
+        type leafref {
+          path "../attributes/queueSystemId";
+        }
+      }
+      container attributes {
+        uses QueueSystem-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/QoSClassifier/DscpToPCPMap" {
+    list DscpSetToPCP {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Mapping of a set of DSCP values to a PCP.";
+      key "dscpSetToPCPId";
+      leaf dscpSetToPCPId {
+        type leafref {
+          path "../attributes/dscpSetToPCPId";
+        }
+      }
+      container attributes {
+        uses DscpSetToPCP-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/QoSClassifier/PcpToQueueMap" {
+    list PcpSetToQueue {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Mapping of a set of PCP values to a queue.";
+      key "pcpSetToQueueId";
+      leaf pcpSetToQueueId {
+        type leafref {
+          path "../attributes/pcpSetToQueueId";
+        }
+      }
+      container attributes {
+        uses PcpSetToQueue-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/QoSClassifier" {
+    list DscpToPCPMap {
+      description "Additional definitions from MOM:min/max-elements:0/1; A DSCP to PCP map.";
+      key "dscpToPCPMapId";
+      leaf dscpToPCPMapId {
+        type leafref {
+          path "../attributes/dscpToPCPMapId";
+        }
+      }
+      container attributes {
+        uses DscpToPCPMap-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/QoSClassifier" {
+    list PcpToQueueMap {
+      description "Additional definitions from MOM:min/max-elements:1/unbounded; PCP to queue map.";
+      key "pcpToQueueMapId";
+      leaf pcpToQueueMapId {
+        type leafref {
+          path "../attributes/pcpToQueueMapId";
+        }
+      }
+      container attributes {
+        uses PcpToQueueMap-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem" {
+    list QoSClassifier {
+      description "Additional definitions from MOM:min/max-elements:1/1; Container of QoS Classifier schemes.";
+      key "qosClassifierId";
+      leaf qosClassifierId {
+        type leafref {
+          path "../attributes/qosClassifierId";
+        }
+      }
+      container attributes {
+        uses QoSClassifier-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem" {
+    list QueueRed {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents queue using Random Early Detection (RED) packet-dropping strategy.";
+      key "queueRedId";
+      leaf queueRedId {
+        type leafref {
+          path "../attributes/queueRedId";
+        }
+      }
+      container attributes {
+        uses QueueRed-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem" {
+    list QueueTailDrop {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents queue using tail-drop packet-dropping strategy.";
+      key "queueTailDropId";
+      leaf queueTailDropId {
+        type leafref {
+          path "../attributes/queueTailDropId";
+        }
+      }
+      container attributes {
+        uses QueueTailDrop-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem" {
+    list SchedulerDwrr {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents Deficit Weighted Round Robin (DWRR) scheduler. In hierarchical QoS context, SchedulerDwrr MO can contain multiple MO types as SchedulerDwrr, SchedulerSp, Shaper, QueueRed and QueueTailDrop as its children to construct hierarchical tree. Dependencies: SchedulerDwrr MO can have maximum 8 children.";
+      key "schedulerDwrrId";
+      leaf schedulerDwrrId {
+        type leafref {
+          path "../attributes/schedulerDwrrId";
+        }
+      }
+      container attributes {
+        uses SchedulerDwrr-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem" {
+    list SchedulerSp {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents Strict Priority (SP) scheduler. In hierarchical QoS context, scheduler can contain multiple queues, and/or schedulers, and/or shapers as its children to construct hierarchical tree.";
+      key "schedulerSpId";
+      leaf schedulerSpId {
+        type leafref {
+          path "../attributes/schedulerSpId";
+        }
+      }
+      container attributes {
+        uses SchedulerSp-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem" {
+    list Shaper {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents traffic shaping entity supporting: 1B1R.";
+      key "shaperId";
+      leaf shaperId {
+        type leafref {
+          path "../attributes/shaperId";
+        }
+      }
+      container attributes {
+        uses Shaper-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerDwrr" {
+    list QueueRed {
+      description "Additional definitions from MOM:min/max-elements:0/8; Represents queue using Random Early Detection (RED) packet-dropping strategy.";
+      key "queueRedId";
+      leaf queueRedId {
+        type leafref {
+          path "../attributes/queueRedId";
+        }
+      }
+      container attributes {
+        uses QueueRed-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerDwrr" {
+    list QueueTailDrop {
+      description "Additional definitions from MOM:min/max-elements:0/8; Represents queue using tail-drop packet-dropping strategy.";
+      key "queueTailDropId";
+      leaf queueTailDropId {
+        type leafref {
+          path "../attributes/queueTailDropId";
+        }
+      }
+      container attributes {
+        uses QueueTailDrop-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerDwrr" {
+    list SchedulerDwrr {
+      description "Additional definitions from MOM:min/max-elements:0/8; Represents Deficit Weighted Round Robin (DWRR) scheduler. In hierarchical QoS context, SchedulerDwrr MO can contain multiple MO types as SchedulerDwrr, SchedulerSp, Shaper, QueueRed and QueueTailDrop as its children to construct hierarchical tree. Dependencies: SchedulerDwrr MO can have maximum 8 children.";
+      key "schedulerDwrrId";
+      leaf schedulerDwrrId {
+        type leafref {
+          path "../attributes/schedulerDwrrId";
+        }
+      }
+      container attributes {
+        uses SchedulerDwrr-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerDwrr" {
+    list SchedulerSp {
+      description "Additional definitions from MOM:min/max-elements:0/8; Represents Strict Priority (SP) scheduler. In hierarchical QoS context, scheduler can contain multiple queues, and/or schedulers, and/or shapers as its children to construct hierarchical tree.";
+      key "schedulerSpId";
+      leaf schedulerSpId {
+        type leafref {
+          path "../attributes/schedulerSpId";
+        }
+      }
+      container attributes {
+        uses SchedulerSp-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerDwrr" {
+    list Shaper {
+      description "Additional definitions from MOM:min/max-elements:0/8; Represents traffic shaping entity supporting: 1B1R.";
+      key "shaperId";
+      leaf shaperId {
+        type leafref {
+          path "../attributes/shaperId";
+        }
+      }
+      container attributes {
+        uses Shaper-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerSp" {
+    list QueueRed {
+      description "Additional definitions from MOM:min/max-elements:0/4; Represents queue using Random Early Detection (RED) packet-dropping strategy.";
+      key "queueRedId";
+      leaf queueRedId {
+        type leafref {
+          path "../attributes/queueRedId";
+        }
+      }
+      container attributes {
+        uses QueueRed-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerSp" {
+    list QueueTailDrop {
+      description "Additional definitions from MOM:min/max-elements:0/4; Represents queue using tail-drop packet-dropping strategy.";
+      key "queueTailDropId";
+      leaf queueTailDropId {
+        type leafref {
+          path "../attributes/queueTailDropId";
+        }
+      }
+      container attributes {
+        uses QueueTailDrop-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerSp" {
+    list SchedulerDwrr {
+      description "Additional definitions from MOM:min/max-elements:0/4; Represents Deficit Weighted Round Robin (DWRR) scheduler. In hierarchical QoS context, SchedulerDwrr MO can contain multiple MO types as SchedulerDwrr, SchedulerSp, Shaper, QueueRed and QueueTailDrop as its children to construct hierarchical tree. Dependencies: SchedulerDwrr MO can have maximum 8 children.";
+      key "schedulerDwrrId";
+      leaf schedulerDwrrId {
+        type leafref {
+          path "../attributes/schedulerDwrrId";
+        }
+      }
+      container attributes {
+        uses SchedulerDwrr-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerSp" {
+    list SchedulerSp {
+      description "Additional definitions from MOM:min/max-elements:0/4; Represents Strict Priority (SP) scheduler. In hierarchical QoS context, scheduler can contain multiple queues, and/or schedulers, and/or shapers as its children to construct hierarchical tree.";
+      key "schedulerSpId";
+      leaf schedulerSpId {
+        type leafref {
+          path "../attributes/schedulerSpId";
+        }
+      }
+      container attributes {
+        uses SchedulerSp-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/SchedulerSp" {
+    list Shaper {
+      description "Additional definitions from MOM:min/max-elements:0/4; Represents traffic shaping entity supporting: 1B1R.";
+      key "shaperId";
+      leaf shaperId {
+        type leafref {
+          path "../attributes/shaperId";
+        }
+      }
+      container attributes {
+        uses Shaper-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/Shaper" {
+    list QueueRed {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents queue using Random Early Detection (RED) packet-dropping strategy.";
+      key "queueRedId";
+      leaf queueRedId {
+        type leafref {
+          path "../attributes/queueRedId";
+        }
+      }
+      container attributes {
+        uses QueueRed-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/Shaper" {
+    list QueueTailDrop {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents queue using tail-drop packet-dropping strategy.";
+      key "queueTailDropId";
+      leaf queueTailDropId {
+        type leafref {
+          path "../attributes/queueTailDropId";
+        }
+      }
+      container attributes {
+        uses QueueTailDrop-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/Shaper" {
+    list SchedulerDwrr {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents Deficit Weighted Round Robin (DWRR) scheduler. In hierarchical QoS context, SchedulerDwrr MO can contain multiple MO types as SchedulerDwrr, SchedulerSp, Shaper, QueueRed and QueueTailDrop as its children to construct hierarchical tree. Dependencies: SchedulerDwrr MO can have maximum 8 children.";
+      key "schedulerDwrrId";
+      leaf schedulerDwrrId {
+        type leafref {
+          path "../attributes/schedulerDwrrId";
+        }
+      }
+      container attributes {
+        uses SchedulerDwrr-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort/QueueSystem/Shaper" {
+    list SchedulerSp {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents Strict Priority (SP) scheduler. In hierarchical QoS context, scheduler can contain multiple queues, and/or schedulers, and/or shapers as its children to construct hierarchical tree.";
+      key "schedulerSpId";
+      leaf schedulerSpId {
+        type leafref {
+          path "../attributes/schedulerSpId";
+        }
+      }
+      container attributes {
+        uses SchedulerSp-attributes;
+      }
+    }
+  }
+  grouping DscpSetToPCP-attributes {
+    leaf dscpSet {
+      type string {
+        pattern "(([0-9]|[0-5][0-9]|6[0-3])(, ([0-9]|[0-5][0-9]|6[0-3]))*)";
+      }
+      mandatory true;
+    }
+    leaf dscpSetToPCPId {
+      type string;
+      mandatory true;
+    }
+    leaf pcp {
+      type eytypes:uint8_range_0-7;
+      mandatory true;
+      description "range 0..7.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping DscpToPCPMap-attributes {
+    leaf defaultPCP {
+      type eytypes:uint8_range_0-7;
+      mandatory true;
+      description "range 0..7.";
+    }
+    leaf dscpToPCPMapId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping PcpSetToQueue-attributes {
+    leaf pcpSet {
+      type string {
+        pattern "([0-7](, [0-7])*)";
+      }
+      mandatory true;
+    }
+    leaf pcpSetToQueueId {
+      type string;
+      mandatory true;
+    }
+    leaf queue {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping PcpToQueueMap-attributes {
+    leaf defaultQueue {
+      type string;
+      mandatory true;
+    }
+    leaf pcpToQueueMapId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping QoSClassifier-attributes {
+    leaf qosClassifierId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping QueueRed-attributes {
+    leaf exponentWeight {
+      type string;
+    }
+    list maxThreshold {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf percent {
+        type string;
+      }
+      }
+    }
+    list minThreshold {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf percent {
+        type string;
+      }
+      }
+    }
+    leaf order {
+      type uint16;
+      default "0";
+      description "Default value: 0.";
+    }
+    leaf queueRedId {
+      type string;
+      mandatory true;
+    }
+    list queueSize {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf bytes {
+        type string;
+      }
+      }
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf queueHCInPkts {
+      type uint64;
+      config false;
+    }
+    leaf filledUpperThreshold {
+      type uint64;
+      config false;
+    }
+    leaf queueHCDroppedOctets {
+      type uint64;
+      config false;
+    }
+    leaf queueHCOutPkts {
+      type uint64;
+      config false;
+    }
+    leaf filledLowerThreshold {
+      type uint64;
+      config false;
+    }
+    leaf queueHCDroppedPkts {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf queueHCOutOctets {
+      type uint64;
+      config false;
+    }
+    leaf queueHCInOctets {
+      type uint64;
+      config false;
+    }
+  }
+  grouping QueueSystem-attributes {
+    leaf queueSystemId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping QueueTailDrop-attributes {
+    leaf order {
+      type uint16;
+      default "0";
+      description "Default value: 0.";
+    }
+    list queueSize {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf bytes {
+        type string;
+      }
+      }
+    }
+    leaf queueTailDropId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf queueHCOutOctets {
+      type uint64;
+      config false;
+    }
+    leaf filledLowerThreshold {
+      type uint64;
+      config false;
+    }
+    leaf filledUpperThreshold {
+      type uint64;
+      config false;
+    }
+    leaf queueHCDroppedPkts {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf queueHCDroppedOctets {
+      type uint64;
+      config false;
+    }
+    leaf queueHCInOctets {
+      type uint64;
+      config false;
+    }
+    leaf queueHCOutPkts {
+      type uint64;
+      config false;
+    }
+    leaf queueHCInPkts {
+      type uint64;
+      config false;
+    }
+  }
+  grouping SchedulerDwrr-attributes {
+    leaf order {
+      type uint16;
+      default "0";
+      description "Default value: 0.";
+    }
+    leaf schedulerDwrrId {
+      type string;
+      mandatory true;
+    }
+    leaf-list schedulingWeight {
+      type uint32;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping SchedulerSp-attributes {
+    leaf order {
+      type uint16;
+      default "0";
+      description "Default value: 0.";
+    }
+    leaf schedulerSpId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping Shaper-attributes {
+    list committedBurstSize {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf bytes {
+        type string;
+      }
+      }
+    }
+    list committedInformationRate {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf kbps {
+        type string;
+      }
+      }
+    }
+    leaf order {
+      type uint16;
+      default "0";
+      description "Default value: 0.";
+    }
+    leaf shaperId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

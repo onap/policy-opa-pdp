@@ -1,0 +1,55 @@
+module ericsson-auto-recovery-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeAutoRecovery";
+  prefix autrecrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nConfiguration and activation of additional auto-recovery mechanism in case of detected fault.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list AutoRecovery {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Configuration and activation of additional auto-recovery mechanism in case of detected fault. Self-healing when there is no service in coverage area. The RDN of this MO is AutoRecovery=1.";
+      key "autoRecoveryId";
+      leaf autoRecoveryId {
+        type leafref {
+          path "../attributes/autoRecoveryId";
+        }
+      }
+      container attributes {
+      uses AutoRecovery-attributes;
+      }
+    }
+  }
+  typedef SwErrorExtendedRecovery {
+    description "Whether the AutoRecovery mechanism is enabled.";
+    type enumeration {
+      enum DISABLED {
+        description "AutoRecovery mechanism is disabled.";
+      }
+      enum ENABLED {
+        description "AutoRecovery mechanism is enabled.";
+      }
+    }
+  }
+  grouping AutoRecovery-attributes {
+    leaf autoRecoveryId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf bbSwErrorExtendedRecovery {
+      description "Controls additional auto-recovery mechanism in case of detected software error dedicated to RAN Compute Group..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+  }
+}

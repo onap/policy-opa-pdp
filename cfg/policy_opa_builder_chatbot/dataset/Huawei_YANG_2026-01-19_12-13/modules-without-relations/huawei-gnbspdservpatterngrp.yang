@@ -1,0 +1,82 @@
+module huawei-gnbspdservpatterngrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbspdservpatterngrp";
+ prefix gnbspdservpatterngrp;
+ description
+ "Auto-generated modular YANG for huawei-gnbspdservpatterngrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBSPDSERVPATTERNGRP-attributes {
+ leaf SERVPATNDLPKTNUMHIGHTHLD {
+  type uint16 {
+   range "0..5000";
+  }
+  mandatory false;
+ }
+ leaf SERVPATNULPKTNUMHIGHTHLD {
+  type uint16 {
+   range "0..5000";
+  }
+  mandatory false;
+ }
+ leaf SERVPATTERNDLIPPKTLEN {
+  type uint16 {
+   range "1..1500";
+  }
+  mandatory false;
+ }
+ leaf SERVPATTERNDLIPPKTLENOFS {
+  type uint8 {
+   range "0..150";
+  }
+  mandatory false;
+ }
+ leaf SERVPATTERNDLPKTNUMLOWTHLD {
+  type uint16 {
+   range "0..5000";
+  }
+  mandatory false;
+ }
+ leaf SERVPATTERNID {
+  type uint8 {
+   range "1..4";
+  }
+  mandatory false;
+ }
+ leaf SERVPATTERNINDEX {
+  type union {
+   type int8 {
+    range "-1..3";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVPATTERNULIPPKTLEN {
+  type uint16 {
+   range "1..1500";
+  }
+  mandatory false;
+ }
+ leaf SERVPATTERNULIPPKTLENOFS {
+  type uint8 {
+   range "0..150";
+  }
+  mandatory false;
+ }
+ leaf SERVPATTERNULPKTNUMLOWTHLD {
+  type uint16 {
+   range "0..5000";
+  }
+  mandatory false;
+ }
+ leaf SERVICESENSINGTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ }
+}

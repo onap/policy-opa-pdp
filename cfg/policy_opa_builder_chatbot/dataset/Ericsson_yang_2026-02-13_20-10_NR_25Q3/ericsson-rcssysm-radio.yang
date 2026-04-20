@@ -1,0 +1,393 @@
+module ericsson-rcssysm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsSysM";
+  prefix rcssysm;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list SysM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This is the System Management MO. It is a parent to the MOs that represent the system level functions, such as time handling and version handling, as well as file transfer capabilities and netconf configuration.";
+      key "sysMId";
+      leaf sysMId {
+        type leafref {
+          path "../attributes/sysMId";
+        }
+      }
+      container attributes {
+        uses SysM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list Cli {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; The common configuration attributes for CLI sessions.";
+      key "cliId";
+      leaf cliId {
+        type leafref {
+          path "../attributes/cliId";
+        }
+      }
+      container attributes {
+        uses Cli-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list CliSsh {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the CLI configuration management service over Secure Shell.";
+      key "cliSshId";
+      leaf cliSshId {
+        type leafref {
+          path "../attributes/cliSshId";
+        }
+      }
+      container attributes {
+        uses CliSsh-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list CliTls {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the CLI configuration management service over Transport Layer Security (TLS).";
+      key "cliTlsId";
+      leaf cliTlsId {
+        type leafref {
+          path "../attributes/cliTlsId";
+        }
+      }
+      container attributes {
+        uses CliTls-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list NetconfSsh {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the Netconf configuration management service over Secure Shell.";
+      key "netconfSshId";
+      leaf netconfSshId {
+        type leafref {
+          path "../attributes/netconfSshId";
+        }
+      }
+      container attributes {
+        uses NetconfSsh-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list NetconfTls {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Represents the Netconf configuration management service over Transport Layer Security (TLS).";
+      key "netconfTlsId";
+      leaf netconfTlsId {
+        type leafref {
+          path "../attributes/netconfTlsId";
+        }
+      }
+      container attributes {
+        uses NetconfTls-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list NtpServer {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; DEPRECATED Use the NtpServer MOC in ECIM TimeM. The NTP server configuration data. This MOC presents a persistent NTP client mode network association with a specified remote server or local reference clock address.";
+      key "ntpServerId";
+      leaf ntpServerId {
+        type leafref {
+          path "../attributes/ntpServerId";
+        }
+      }
+      container attributes {
+        uses NtpServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list OamAccessPoint {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; An OaM Access Point instance for the ME. Alternative access point has limited OaM support. It is recommended to use only to repair problems with primary access point.";
+      key "oamAccessPointId";
+      leaf oamAccessPointId {
+        type leafref {
+          path "../attributes/oamAccessPointId";
+        }
+      }
+      container attributes {
+        uses OamAccessPoint-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list OamTrafficClass {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Defines the traffic class and priority for IP packets.";
+      key "oamTrafficClassId";
+      leaf oamTrafficClassId {
+        type leafref {
+          path "../attributes/oamTrafficClassId";
+        }
+      }
+      container attributes {
+        uses OamTrafficClass-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list Schema {
+      description "Additional definitions from MOM:min/max-elements:2/unbounded;systemCreated; Represents a MIM model fragment whose corresponding functionality is operational in the ME.";
+      key "schemaId";
+      leaf schemaId {
+        type leafref {
+          path "../attributes/schemaId";
+        }
+      }
+      container attributes {
+        uses Schema-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SysM" {
+    list TopologySchema {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents a Topology model fragment whose corresponding functionality is operational in the ME.";
+      key "topologySchemaId";
+      leaf topologySchemaId {
+        type leafref {
+          path "../attributes/topologySchemaId";
+        }
+      }
+      container attributes {
+        uses TopologySchema-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  grouping Cli-attributes {
+    leaf cliId {
+      type string;
+      mandatory true;
+    }
+    leaf idleTimer {
+      type uint16 {
+        range "1..60";
+      }
+      default "15";
+      units "minutes";
+      description "range 1..60; Default value: 15.";
+    }
+  }
+  grouping CliSsh-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf cliSshId {
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+  }
+  grouping CliTls-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf cliTlsId {
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      type string;
+    }
+    leaf port {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf trustCategory {
+      type string;
+    }
+  }
+  grouping NetconfSsh-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf netconfSshId {
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      type ietfinet:port-number;
+      default "830";
+      description "Default value: 830.";
+    }
+  }
+  grouping NetconfTls-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf netconfTlsId {
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      type string;
+    }
+    leaf port {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf trustCategory {
+      type string;
+    }
+  }
+  grouping NtpServer-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf ntpServerId {
+      type string;
+      mandatory true;
+    }
+    leaf serverAddress {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping OamAccessPoint-attributes {
+    leaf accessPoint {
+      type string;
+    }
+    leaf dscp {
+      type eytypes:uint8_range_0-63;
+      default "0";
+      description "range 0..63; Default value: 0.";
+    }
+    leaf ipv4address {
+      type ietfinet:ipv4-address;
+    }
+    leaf netconfPort {
+      type ietfinet:port-number;
+    }
+    leaf oamAccessPointId {
+      type ietfyang:mac-address;
+      mandatory true;
+    }
+    leaf sshPort {
+      type ietfinet:port-number;
+    }
+  }
+  grouping OamTrafficClass-attributes {
+    leaf dscp {
+      type eytypes:uint8_range_0-63;
+      mandatory true;
+      description "range 0..63.";
+    }
+    leaf name {
+      type string;
+      config false;
+    }
+    leaf oamTrafficClassId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping Schema-attributes {
+    leaf baseModelIdentifier {
+      type string;
+      config false;
+    }
+    leaf baseModelVersion {
+      type string;
+      config false;
+    }
+    leaf identifier {
+      type string;
+      config false;
+    }
+    leaf schemaId {
+      type string;
+      mandatory true;
+    }
+    leaf-list selectedModelOptions {
+      type string;
+    }
+    leaf version {
+      type string;
+      config false;
+    }
+  }
+  grouping SysM-attributes {
+    leaf sysMId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping TopologySchema-attributes {
+    leaf name {
+      type string;
+      config false;
+    }
+    leaf topologySchemaId {
+      type string;
+      mandatory true;
+    }
+    leaf version {
+      type string;
+      config false;
+    }
+  }
+}

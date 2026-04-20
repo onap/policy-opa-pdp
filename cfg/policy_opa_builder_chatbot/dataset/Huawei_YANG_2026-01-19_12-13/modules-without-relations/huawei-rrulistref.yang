@@ -1,0 +1,44 @@
+module huawei-rrulistref {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rrulistref";
+ prefix rrulistref;
+ description
+ "Auto-generated modular YANG for huawei-rrulistref" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RRULISTREF-attributes {
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFRESQUOTAID {
+  type union {
+   type int8 {
+    range "-1..127";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

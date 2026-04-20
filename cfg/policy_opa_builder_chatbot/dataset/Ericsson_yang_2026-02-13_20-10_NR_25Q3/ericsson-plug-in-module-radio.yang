@@ -1,0 +1,169 @@
+module ericsson-plug-in-module-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqPlugInModule";
+  prefix pimodrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list PlugInModule {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; This MO represents a module that is inserted into a unit that has a modular building practise.";
+      key "plugInModuleId";
+      leaf plugInModuleId {
+        type leafref {
+          path "../attributes/plugInModuleId";
+        }
+      }
+      container attributes {
+        uses PlugInModule-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef ApcIndicatorStatus {
+    type enumeration {
+      enum NOT_APPLICABLE;
+      enum NOT_AVAILABLE;
+      enum OFF;
+      enum STEADY_ON;
+      enum SLOW_BLINK;
+      enum FAST_BLINK;
+      enum DOUBLE_FLASH_AND_STEADY_ON;
+      enum DOUBLE_FLASH_AND_OFF;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping PlugInModule-attributes {
+    leaf plugInModuleId {
+      type string;
+      mandatory true;
+    }
+    leaf faultIndicator {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf moduleType {
+      type string {
+        length "0..128";
+      }
+      mandatory true;
+      description "length 0..128.";
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list productData {
+      config false;
+      container attributes {
+      leaf productionDate {
+        type string {
+          length "5..8";
+        }
+        description "length 5..8.";
+      }
+      leaf productName {
+        type string {
+          length "1..32";
+        }
+        description "length 1..32.";
+      }
+      leaf productNumber {
+        type string {
+          length "1..24";
+        }
+        description "length 1..24.";
+      }
+      leaf productRevision {
+        type string {
+          length "1..7";
+        }
+        description "length 1..7.";
+      }
+      leaf serialNumber {
+        type string {
+          length "1..13";
+        }
+        description "length 1..13.";
+      }
+      }
+    }
+  }
+}

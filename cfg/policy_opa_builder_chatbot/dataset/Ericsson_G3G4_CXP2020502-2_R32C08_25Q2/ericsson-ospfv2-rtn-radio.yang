@@ -1,0 +1,374 @@
+module ericsson-ospfv2-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnOSPFv2";
+  prefix ospfv2rdo;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nOSPFv2 MOM is responsible for describing all the parameters of a OSPFv2 router instance. There are several OSPFv2 router instances.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list Ospfv2 {
+      description "Additional definitions from MOM:min/max-elements:0/32;root; Represents OSPFv2 routing instance. Dependencies: If AddressIPv4 MO with configurationMode DHCP exists within Router MO, this MO cannot be created. If IpsecTunnel MO exists within Router MO, this MO cannot be created.";
+      key "ospfv2Id";
+      leaf ospfv2Id {
+        type leafref {
+          path "../attributes/ospfv2Id";
+        }
+      }
+      container attributes {
+      uses Ospfv2-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/ospfv2rdo:Ospfv2/ospfv2rdo:Area" {
+    list Interface {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents OSPF area interface.";
+      key "interfaceId";
+      leaf interfaceId {
+        type leafref {
+          path "../attributes/interfaceId";
+        }
+      }
+      container attributes {
+      uses Interface-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/ospfv2rdo:Ospfv2/ospfv2rdo:Area" {
+    list Nssa {
+      description "Additional definitions from MOM:min/max-elements:0/1; Specifies the OSPF area to be an NSSA (Not-So-Stubby Area). Disturbances: Changing this attribute causes traffic disturbances. Takes effect: All Interface MOs are reconfigured. The OSPFv2 routes from these interfaces are removed from the routing table and traffic is impacted until OSPFv2 has converged.";
+      key "nssaId";
+      leaf nssaId {
+        type leafref {
+          path "../attributes/nssaId";
+        }
+      }
+      container attributes {
+      uses Nssa-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/ospfv2rdo:Ospfv2/ospfv2rdo:Area" {
+    list Stub {
+      description "Additional definitions from MOM:min/max-elements:0/1; Specifies the OSPF area to be a stub area. Disturbances: Changing this attribute causes traffic disturbances. Takes effect: All Interface MOs are reconfigured. The OSPFv2 routes from these interfaces are removed from the routing table and traffic is impacted until OSPFv2 has converged.";
+      key "stubId";
+      leaf stubId {
+        type leafref {
+          path "../attributes/stubId";
+        }
+      }
+      container attributes {
+      uses Stub-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/ospfv2rdo:Ospfv2/ospfv2rdo:Area/ospfv2rdo:Interface" {
+    list Md5 {
+      description "Additional definitions from MOM:min/max-elements:0/2; Represents password and key-id used in MD5 algorithm to authenticate OSPF messages. Configuration of this class is only valid if authenticationType is set to MD5. Cannot be configured at loopback interface.";
+      key "md5Id";
+      leaf md5Id {
+        type leafref {
+          path "../attributes/md5Id";
+        }
+      }
+      container attributes {
+      uses Md5-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/ospfv2rdo:Ospfv2" {
+    list Area {
+      description "Additional definitions from MOM:min/max-elements:0/1; Information related to the OSPF area of this router.";
+      key "areaId";
+      leaf areaId {
+        type leafref {
+          path "../attributes/areaId";
+        }
+      }
+      container attributes {
+      uses Area-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/ospfv2rdo:Ospfv2" {
+    list Redistribute {
+      description "Additional definitions from MOM:min/max-elements:0/2; Represents types and metrics of routes to be redistributed by OSPFv2. Only one of each routeType is allowed, static or connected.";
+      key "redistributeId";
+      leaf redistributeId {
+        type leafref {
+          path "../attributes/redistributeId";
+        }
+      }
+      container attributes {
+      uses Redistribute-attributes;
+      }
+    }
+  }
+  typedef InterfaceNetworkType {
+    description "OSPF area interface network type.";
+    type enumeration {
+      enum BROADCAST {
+        description "Broadcast network.";
+      }
+      enum POINT_TO_POINT {
+        description "Point-to-point network.";
+      }
+    }
+  }
+  typedef MetricType {
+    description "Metric type.";
+    type enumeration {
+      enum TYPE_1 {
+        description "OSPF external type 1 metric.";
+      }
+      enum TYPE_2 {
+        description "OSPF external type 2 metric.";
+      }
+    }
+  }
+  typedef OspfAuthentication {
+    description "Authentication type.";
+    type enumeration {
+      enum NONE {
+        description "No authentication.";
+      }
+      enum MD5 {
+        description "MD5 authentication.";
+      }
+    }
+  }
+  typedef RouterType {
+    description "Router type.";
+    type enumeration {
+      enum STATIC {
+        description "Static routes can be redistributed.";
+      }
+      enum CONNECTED {
+        description "Connected routes can be redistributed.";
+      }
+    }
+  }
+  grouping Area-attributes {
+    leaf areaId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf ospfAreaId {
+      description "The area identifier as an integer (0..4294967295) or as an IPv4 address in decimal-dot notation..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf noOfOspfSpfRuns {
+      description "Number of times that intra-area route table has been calculated using link-state database for this area, by using Dijkstras algorithm. Specification: RFC 4750.";
+      type uint64;
+      config false;
+    }
+  }
+  grouping Interface-attributes {
+    leaf adminCost {
+      description "Cost of traversing this interface. This attribute overrides result of automatic cost calculation, performed by default (uses referenceBandwidth in Ospfv2 MO). Set this attribute to empty, to revert to automatic cost calculation.; range 1..65535.";
+      type eytypes:uint32_range_1-65535;
+    }
+    leaf authenticationType {
+      description "Authentication type of this interface..";
+      type enumeration {
+        enum NONE;
+        enum MD5;
+      }
+    }
+    leaf bfdMonitoring {
+      description "Controls whether availability of this route depends on BFD session that monitors OSPF Interface. If set to true, availability of this route depends on session state, if BFD session monitors OSPF Interface. If set to false, availability of this route does not depend on session state, when BFD session monitors OSPF Interface.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf helloInterval {
+      description "Hello interval. Configure same hello interval for all routers in network. Shorter hello interval ensure faster detection of topological changes, but results in more routing traffic..";
+      type string;
+    }
+    leaf interfaceAddress {
+      description "Reference to AddressIPv4 MO that identifies layer 3 interface participating in OSPF..";
+      type string;
+    }
+    leaf interfaceId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf networkType {
+      description "Specifies network type of this interface. For some settings, this attribute changes OSPF behavior of electing designated router, sending of database descriptions, and content of LSAs..";
+      type enumeration {
+        enum BROADCAST;
+        enum POINT_TO_POINT;
+      }
+    }
+    leaf passive {
+      description "Enables passive mode on this interface. If this attribute is set to true, this interface does not participate in OSPF, and does not send routing updates or establish adjacencies while interface is still advertised to other routers.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf routerDeadInterval {
+      description "Router dead interval specifies time after which neighbor is declared as unavailable, if no hello packet is received during this interval. This value is advertised in hello packets from router and must be multiple of helloInterval. Same value must be set on all interfaces in network..";
+      type string;
+    }
+    leaf routerPriority {
+      description "Router priority used on this interface. This priority used to determine OSPF Designated Router (DR) for the network this interface is on. If two routers attempt to become the DR, router with higher router priority becomes DR. If router priority is same for two routers, router with higher router ID takes precedence. Only routers with nonzero router priority values are eligible to become designated or backup designated router..";
+      type string;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+  grouping Md5-attributes {
+    leaf md5Id {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf md5Key {
+      description "Key-id for MD5 authentication.; range 1..255.";
+      type uint8 {
+        range "1..255";
+      }
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+  grouping Nssa-attributes {
+    leaf nssaId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping Ospfv2-attributes {
+    leaf adminDistanceExternal {
+      description "The administrative distance applied to routes redistributed from other routing domains..";
+      type string;
+    }
+    leaf adminDistanceInter {
+      description "The administrative distance applied to routes learned in an OSPFv2 area different from the area that this router is located in..";
+      type string;
+    }
+    leaf adminDistanceIntra {
+      description "The administrative distance applied to routes learned in the same OSPFv2 area as this router is located in..";
+      type string;
+    }
+    leaf instanceId {
+      description "The ID of the OSPFv2 routing instance.; range 1..65535.";
+      type eytypes:uint16_range_1-65535;
+      mandatory true;
+    }
+    leaf maxHoldTime {
+      description "Maximum delay between receiving change to SPF calculation.; range 0..600000; Default value: 15000.";
+      type int32 {
+        range "0..600000";
+      }
+      default "15000";
+      units "ms";
+    }
+    leaf minHoldTime {
+      description "Minimum delay between receiving change to SPF calculation. Adjust route-calculation timers using exponential back-off delays. This attribute, together with maxHoldTime, configures minimum and maximum delay time between receipt of topology change and calculation of SPF.; range 0..600000; Default value: 50.";
+      type int32 {
+        range "0..600000";
+      }
+      default "50";
+      units "ms";
+    }
+    leaf ospfv2Id {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf referenceBandwidth {
+      description "Specifies the reference bandwidth used by for automatic interface cost calculation indicated by the attribute operCost in class Interface. This calculation divides the reference bandwidth by the interface bandwidth. If adminCost is set in class Interface then no automatic cost calculation is done and the administratively set cost is used for that interface..";
+      type string;
+    }
+    leaf routerId {
+      description "Specified the value for the router ID to be used as a fixed ID for the OSPFv2 instance. If the OSPFv2 router ID is not configured, OSPF chooses the lowest loopback interface address. If there are no loopback interfaces then the lowest interface address is used. When reset to empty OSPFv2 reverts to automatic router ID assignment. The OSPFv2 router process is automatically restarted when the router ID is changed..";
+      type string;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf noOfOspfOriginateNewLsas {
+      description "Number of new LSA that have been originated. This number is incremented each time router originates new LSA. Specification: RFC 4750..";
+      type uint64;
+      config false;
+    }
+  }
+  grouping Redistribute-attributes {
+    leaf metric {
+      description "External route metric of redistributed route.; range 0..16777214; Default value: 20.";
+      type uint32 {
+        range "0..16777214";
+      }
+      default "20";
+    }
+    leaf metricType {
+      description "Metric-type of external route to be announced..";
+      type enumeration {
+        enum TYPE_1;
+        enum TYPE_2;
+      }
+    }
+    leaf redistributeId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf routeType {
+      description "Type of route to be redistributed..";
+      type enumeration {
+        enum STATIC;
+        enum CONNECTED;
+      }
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+  grouping Stub-attributes {
+    leaf stubId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+}

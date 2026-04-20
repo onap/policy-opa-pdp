@@ -1,0 +1,71 @@
+module ericsson-lratrpupt-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:LratRpUpt";
+  prefix lratrpup;
+  import ericsson-lrat-radio {
+    prefix lrat;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/lrat:ENodeBFunction" {
+    list RpUserPlaneTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Local termination point of the radio processing user plane interface. System created when the first radio processing user plane link is established. System deleted when the last radio processing user plane link is released. The RDN of this MO is RpUserPlaneTermination=1.";
+      key "rpUserPlaneTerminationId";
+      leaf rpUserPlaneTerminationId {
+        type leafref {
+          path "../attributes/rpUserPlaneTerminationId";
+        }
+      }
+      container attributes {
+        uses RpUserPlaneTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/lrat:ENodeBFunction/RpUserPlaneTermination" {
+    list RpUserPlaneLink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; User plane link for the radio processing interface. System created when a radio processing user plane link is established. System deleted when a radio processing user plane link is released. The RDN of this MO is RpUserPlaneLink=[Remote Managed Element Identity].";
+      key "rpUserPlaneLinkId";
+      leaf rpUserPlaneLinkId {
+        type leafref {
+          path "../attributes/rpUserPlaneLinkId";
+        }
+      }
+      container attributes {
+        uses RpUserPlaneLink-attributes;
+      }
+    }
+  }
+  grouping RpUserPlaneLink-attributes {
+    leaf rpUserPlaneLinkId {
+      type string;
+      mandatory true;
+    }
+    leaf remoteEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf localEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+  }
+  grouping RpUserPlaneTermination-attributes {
+    leaf rpUserPlaneTerminationId {
+      type string;
+      mandatory true;
+    }
+  }
+}

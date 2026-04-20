@@ -1,0 +1,9 @@
+module ericsson-cbrs-info-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqCbrsInfo";
+  prefix cbrsinfrdo;
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nContains information intended for CBRS Domain Coordinator.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+}

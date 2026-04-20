@@ -1,0 +1,28 @@
+module huawei-gnbdunarfcncellgroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbdunarfcncellgroup";
+ prefix gnbdunarfcncellgroup;
+ description
+ "Auto-generated modular YANG for huawei-gnbdunarfcncellgroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBDUNARFCNCELLGROUP-attributes {
+ leaf OLD_NARFCNCELLGROUPID {
+  type union {
+   type int16 {
+    range "-1..191";
+   }
+  }
+  mandatory false;
+ }
+ leaf NARFCNCELLGROUPID {
+  type union {
+   type int16 {
+    range "-1..191";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

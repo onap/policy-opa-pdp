@@ -1,0 +1,118 @@
+module huawei-sctptemplate {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-sctptemplate";
+ prefix sctptemplate;
+ description
+ "Auto-generated modular YANG for huawei-sctptemplate" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping SCTPTEMPLATE-attributes {
+ leaf CHKSUMTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf DSCP {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ leaf DSCPSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HBINTER {
+  type uint16 {
+   range "1000..60000";
+  }
+  mandatory false;
+ }
+ leaf MAXASSOCRETR {
+  type uint8 {
+   range "2..254";
+  }
+  mandatory false;
+ }
+ leaf MAXPATHRETR {
+  type uint8 {
+   range "1..253";
+  }
+  mandatory false;
+ }
+ leaf MAXSCTPPDUSIZE {
+  type uint16 {
+   range "580..1480";
+  }
+  mandatory false;
+ }
+ leaf MAXSTREAM {
+  type uint8 {
+   range "1..34";
+  }
+  mandatory false;
+ }
+ leaf RTOALPHA {
+  type uint8 {
+   range "1..99";
+  }
+  mandatory false;
+ }
+ leaf RTOBETA {
+  type uint8 {
+   range "1..99";
+  }
+  mandatory false;
+ }
+ leaf RTOINIT {
+  type uint16 {
+   range "10..59999";
+  }
+  mandatory false;
+ }
+ leaf RTOMAX {
+  type uint16 {
+   range "11..60000";
+  }
+  mandatory false;
+ }
+ leaf RTOMIN {
+  type uint16 {
+   range "10..59999";
+  }
+  mandatory false;
+ }
+ leaf OLD_SCTPTEMPLATEID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SCTPTEMPLATEID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SWITCHBACHHBNUM {
+  type uint8 {
+   range "1..254";
+  }
+  mandatory false;
+ }
+ leaf SWITCHBACKFLAG {
+  type boolean;
+  mandatory false;
+ }
+ leaf TSACK {
+  type uint16 {
+   range "10..500";
+  }
+  mandatory false;
+ }
+ }
+}

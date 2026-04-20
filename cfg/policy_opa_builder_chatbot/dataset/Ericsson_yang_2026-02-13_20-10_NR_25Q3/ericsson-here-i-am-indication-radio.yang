@@ -1,0 +1,65 @@
+module ericsson-here-i-am-indication-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqHereIAmIndication";
+  prefix hriamindrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list HereIAmIndication {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Represents \"Here I am\" indication functionality of maintenance indicator. Created by system when hardware unit represented by parent of this MO supports this functionality. The RDN of this MO is HereIAmIndication=1.";
+      key "hereIAmIndicationId";
+      leaf hereIAmIndicationId {
+        type leafref {
+          path "../attributes/hereIAmIndicationId";
+        }
+      }
+      container attributes {
+        uses HereIAmIndication-attributes;
+      }
+    }
+  }
+  typedef HereIAmIndState {
+    type enumeration {
+      enum ACTIVE;
+      enum INACTIVE;
+    }
+  }
+  typedef HereIAmIndStatus {
+    type enumeration {
+      enum ACTIVE;
+      enum INACTIVE;
+    }
+  }
+  grouping HereIAmIndication-attributes {
+    leaf hereIAmIndicationId {
+      type string;
+      mandatory true;
+    }
+    leaf hereIAmIndicationStatus {
+      type enumeration {
+        enum ACTIVE;
+        enum INACTIVE;
+      }
+      config false;
+    }
+    leaf hereIAmIndicationState {
+      type enumeration {
+        enum ACTIVE;
+        enum INACTIVE;
+      }
+      config false;
+    }
+  }
+}

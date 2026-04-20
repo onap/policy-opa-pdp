@@ -1,0 +1,40 @@
+module huawei-ulintrffreqrange {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ulintrffreqrange";
+ prefix ulintrffreqrange;
+ description
+ "Auto-generated modular YANG for huawei-ulintrffreqrange" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ULINTRFFREQRANGE-attributes {
+ leaf ENDFREQ {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf OLD_INDEX {
+  type union {
+   type int8 {
+    range "-1..14";
+   }
+  }
+  mandatory false;
+ }
+ leaf INDEX {
+  type union {
+   type int8 {
+    range "-1..14";
+   }
+  }
+  mandatory false;
+ }
+ leaf STARTFREQ {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ }
+}

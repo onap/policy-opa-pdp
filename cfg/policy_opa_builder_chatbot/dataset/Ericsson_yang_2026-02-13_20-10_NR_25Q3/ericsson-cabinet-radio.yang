@@ -1,0 +1,163 @@
+module ericsson-cabinet-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqCabinet";
+  prefix cabrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list Cabinet {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO represents the cabinet where the node is hosted.";
+      key "cabinetId";
+      leaf cabinetId {
+        type leafref {
+          path "../attributes/cabinetId";
+        }
+      }
+      container attributes {
+        uses Cabinet-attributes;
+      }
+    }
+  }
+  typedef ApcClimateControlMode {
+    type enumeration {
+      enum NORMAL;
+      enum BATTERY_LIFE_EXTENSION;
+      enum BOOST;
+      enum ECO;
+      enum ENHANCED;
+    }
+  }
+  typedef ApcClimateRegulationSystem {
+    type enumeration {
+      enum NOT_APPLICABLE;
+      enum DAC;
+      enum TS;
+      enum HEX;
+    }
+  }
+  typedef ApcClimateSystem {
+    type enumeration {
+      enum STANDARD;
+      enum EXTENDED;
+    }
+  }
+  typedef ApcEnclosurePidSelection {
+    type enumeration {
+      enum CANCEL;
+      enum MOM_ENCLOSURE_PID;
+      enum SCU_ENCLOSURE_PID;
+    }
+  }
+  grouping Cabinet-attributes {
+    leaf cabinetId {
+      type string;
+      mandatory true;
+    }
+    leaf cabinetIdentifier {
+      type string;
+      config false;
+    }
+    leaf climateControlMode {
+      type enumeration {
+        enum NORMAL;
+        enum BATTERY_LIFE_EXTENSION;
+        enum BOOST;
+        enum ECO;
+        enum ENHANCED;
+      }
+      status deprecated;
+      default "NORMAL";
+      description "Default value: NORMAL; Status info: Since 16A. Replaced by climateControlMode on MO Climate..";
+    }
+    list productData {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf productionDate {
+        type string {
+          length "5..8";
+        }
+        description "length 5..8.";
+      }
+      leaf productName {
+        type string {
+          length "1..32";
+        }
+        description "length 1..32.";
+      }
+      leaf productNumber {
+        type string {
+          length "1..24";
+        }
+        description "length 1..24.";
+      }
+      leaf productRevision {
+        type string {
+          length "1..7";
+        }
+        description "length 1..7.";
+      }
+      leaf serialNumber {
+        type string {
+          length "1..13";
+        }
+        description "length 1..13.";
+      }
+      }
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf smokeDetector {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf climateSystem {
+      type enumeration {
+        enum STANDARD;
+        enum EXTENDED;
+      }
+    }
+    leaf climateRegulationSystem {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum DAC;
+        enum TS;
+        enum HEX;
+      }
+    }
+    leaf sharedCabinetIdentifier {
+      type string {
+        length "1..38";
+      }
+      description "length 1..38.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf positionRef {
+      type string;
+    }
+    leaf alarmInExternalMe {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+  }
+}

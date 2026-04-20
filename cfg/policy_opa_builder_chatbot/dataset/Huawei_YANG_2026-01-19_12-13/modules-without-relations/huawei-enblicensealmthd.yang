@@ -1,0 +1,40 @@
+module huawei-enblicensealmthd {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-enblicensealmthd";
+ prefix enblicensealmthd;
+ description
+ "Auto-generated modular YANG for huawei-enblicensealmthd" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ENBLICENSEALMTHD-attributes {
+ leaf LICENSECHECKCTRLSW {
+  type string;
+  mandatory false;
+ }
+ leaf OPRD {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf OTHD {
+  type uint8 {
+   range "50..100";
+  }
+  mandatory false;
+ }
+ leaf RPRD {
+  type uint16 {
+   range "1..65535";
+  }
+  mandatory false;
+ }
+ leaf RTHD {
+  type uint8 {
+   range "0..99";
+  }
+  mandatory false;
+ }
+ }
+}

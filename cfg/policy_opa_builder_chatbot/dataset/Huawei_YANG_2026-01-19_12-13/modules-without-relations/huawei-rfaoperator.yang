@@ -1,0 +1,46 @@
+module huawei-rfaoperator {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfaoperator";
+ prefix rfaoperator;
+ description
+ "Auto-generated modular YANG for huawei-rfaoperator" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFAOPERATOR-attributes {
+ leaf MCC {
+  type string {
+   length "3";
+  }
+  mandatory false;
+ }
+ leaf MNC {
+  type string {
+   length "2..3";
+  }
+  mandatory false;
+ }
+ leaf OLD_RFAOPERATORID {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFAOPERATORID {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFAOPERATORNAME {
+  type string {
+   length "0..99";
+  }
+  mandatory false;
+ }
+ }
+}

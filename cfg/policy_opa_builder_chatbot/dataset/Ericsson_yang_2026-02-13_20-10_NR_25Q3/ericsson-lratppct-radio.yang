@@ -1,0 +1,127 @@
+module ericsson-lratppct-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:LratPpCt";
+  prefix lratppct;
+  import ericsson-lrat-radio {
+    prefix lrat;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/lrat:ENodeBFunction" {
+    list PpControlTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Local Termination point of the packet processing control interface. System created when the first packet processing control link is established. System deleted when the last packet processing control link is released. The RDN of this MO is PpControlTermination=1.";
+      key "ppControlTerminationId";
+      leaf ppControlTerminationId {
+        type leafref {
+          path "../attributes/ppControlTerminationId";
+        }
+      }
+      container attributes {
+        uses PpControlTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/lrat:ENodeBFunction/PpControlTermination" {
+    list PpControlLink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Control link for the packet processing interface. System created when a packet processing control link is established. System deleted when a packet processing control link is released. The RDN of this MO is PpControlLink=[Remote Managed Element Identity].";
+      key "ppControlLinkId";
+      leaf ppControlLinkId {
+        type leafref {
+          path "../attributes/ppControlLinkId";
+        }
+      }
+      container attributes {
+        uses PpControlLink-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping PpControlLink-attributes {
+    leaf ppControlLinkId {
+      type string;
+      mandatory true;
+    }
+    leaf remoteEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf localEndPoint {
+      type string {
+        length "2..39";
+      }
+      config false;
+      description "length 2..39.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf detailedAvailabilityInfoTemp {
+      type string {
+        length "1..256";
+      }
+      config false;
+      description "length 1..256.";
+    }
+  }
+  grouping PpControlTermination-attributes {
+    leaf ppControlTerminationId {
+      type string;
+      mandatory true;
+    }
+  }
+}

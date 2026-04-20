@@ -1,0 +1,55 @@
+module ericsson-rmepmsupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmePmSupport";
+  prefix rmepmsup;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nModel for controlling multi ROP file support.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list PmSupport {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Holds control for multi ROP file behaviour.";
+      key "pmSupportId";
+      leaf pmSupportId {
+        type leafref {
+          path "../attributes/pmSupportId";
+        }
+      }
+      container attributes {
+      uses PmSupport-attributes;
+      }
+    }
+  }
+  typedef FileHandlingMethod {
+    description "Describes the possible file handling methods.";
+    type enumeration {
+      enum SINGLE_ROP_FILE {
+        description "The system collects all performance data in one ROP file.";
+      }
+      enum MULTIPLE_ROP_FILES {
+        description "The system produces multiple ROP files according to the jobGroup value in the defined PmJob MO's.";
+      }
+    }
+  }
+  grouping PmSupport-attributes {
+    leaf pmSupportId {
+      description "Holds the value identifying this MO..";
+      type string;
+      mandatory true;
+    }
+    leaf ropFileHandling {
+      description "Controls if all performance data is to be produced in a single ROP file or multiple ROP files..";
+      type enumeration {
+        enum SINGLE_ROP_FILE;
+        enum MULTIPLE_ROP_FILES;
+      }
+    }
+  }
+}

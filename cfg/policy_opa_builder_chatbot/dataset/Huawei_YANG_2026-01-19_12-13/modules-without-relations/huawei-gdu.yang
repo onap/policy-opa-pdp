@@ -1,0 +1,100 @@
+module huawei-gdu {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gdu";
+ prefix gdu;
+ description
+ "Auto-generated modular YANG for huawei-gdu" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GDU-attributes {
+ leaf ADDR {
+  type uint8 {
+   range "1";
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf EXTUSED {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf MCN {
+  type uint8 {
+   range "0..62";
+  }
+  mandatory false;
+ }
+ leaf MPN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf MSRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf PN {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..59";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..59";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

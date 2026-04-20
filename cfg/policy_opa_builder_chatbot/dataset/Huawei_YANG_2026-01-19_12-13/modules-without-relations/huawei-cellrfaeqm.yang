@@ -1,0 +1,26 @@
+module huawei-cellrfaeqm {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cellrfaeqm";
+ prefix cellrfaeqm;
+ description
+ "Auto-generated modular YANG for huawei-cellrfaeqm" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLRFAEQM-attributes {
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFAEQMID {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

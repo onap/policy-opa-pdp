@@ -1,0 +1,51 @@
+module ericsson-hw-group-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqHwGroup";
+  prefix hwgrrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list HwGroup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents HW unit group, adjacently mounted units. Each unit refers to HwGroup MO through attributes positionRef and controlDomainRef.";
+      key "hwGroupId";
+      leaf hwGroupId {
+        type leafref {
+          path "../attributes/hwGroupId";
+        }
+      }
+      container attributes {
+        uses HwGroup-attributes;
+      }
+    }
+  }
+  grouping HwGroup-attributes {
+    leaf hwGroupId {
+      type string;
+      mandatory true;
+    }
+    leaf positionInformation {
+      type string {
+        length "0..255";
+      }
+      description "length 0..255.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "0..128";
+      }
+      description "length 0..128.";
+    }
+  }
+}

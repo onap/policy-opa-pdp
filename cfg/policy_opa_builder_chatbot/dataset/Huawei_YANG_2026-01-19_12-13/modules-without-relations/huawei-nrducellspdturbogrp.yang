@@ -1,0 +1,157 @@
+module huawei-nrducellspdturbogrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellspdturbogrp";
+ prefix nrducellspdturbogrp;
+ description
+ "Auto-generated modular YANG for huawei-nrducellspdturbogrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLSPDTURBOGRP-attributes {
+ leaf DLGUARANTEEDRATE {
+  type uint16 {
+   range "0..20000";
+  }
+  mandatory false;
+ }
+ leaf DLINITTRANSMCSDECREASE {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf DLRLCRETRANSTIMESTHLD {
+  type uint8 {
+   range "1..32";
+  }
+  mandatory false;
+ }
+ leaf DLSCHPRIFACTOR {
+  type uint16 {
+   range "1..1000";
+  }
+  mandatory false;
+ }
+ leaf DLSCHPRIFACTORTIMERATIO {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf OLD_NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf NSAULFBTOLTESINRTHLDOFS {
+  type int8 {
+   range "-100..100";
+  }
+  mandatory false;
+ }
+ leaf PATHLOSSCOEFF {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf SPDTURBORLCPARAMGROUPID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SPDTURBOULMCSDECTHLD {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf OLD_SPEEDTURBOGROUPID {
+  type union {
+   type int8 {
+    range "-1..9";
+   }
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOGROUPID {
+  type union {
+   type int8 {
+    range "-1..9";
+   }
+  }
+  mandatory false;
+ }
+ leaf SPEEDTURBOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf UEINACTIVITYTIMER {
+  type uint16 {
+   range "0..3600";
+  }
+  mandatory false;
+ }
+ leaf ULGUARANTEEDRATE {
+  type uint16 {
+   range "0..20000";
+  }
+  mandatory false;
+ }
+ leaf ULINITTRANSMCSDECREASE {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf ULMINPREALLOCATIONPERIOD {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf ULPREALLOCATIONSIZE {
+  type uint16 {
+   range "1..65535";
+  }
+  mandatory false;
+ }
+ leaf ULPREALLOCATIONSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf ULSCHPRIFACTOR {
+  type uint16 {
+   range "1..1000";
+  }
+  mandatory false;
+ }
+ leaf ULSCHPRIFACTORTIMERATIO {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ }
+}

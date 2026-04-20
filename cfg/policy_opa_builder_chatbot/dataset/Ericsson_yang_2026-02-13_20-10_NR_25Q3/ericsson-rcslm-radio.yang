@@ -1,0 +1,673 @@
+module ericsson-rcslm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsLM";
+  prefix rcslm;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list Lm {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Supports activities and contains information related to license management.";
+      key "lmId";
+      leaf lmId {
+        type leafref {
+          path "../attributes/lmId";
+        }
+      }
+      container attributes {
+        uses Lm-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm/CapacityKey" {
+    list GracePeriod {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Grace period information of the associated capacity.";
+      key "gracePeriodId";
+      leaf gracePeriodId {
+        type leafref {
+          path "../attributes/gracePeriodId";
+        }
+      }
+      container attributes {
+        uses GracePeriod-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm/CapacityState" {
+    list GracePeriod {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Grace period information of the associated capacity.";
+      key "gracePeriodId";
+      leaf gracePeriodId {
+        type leafref {
+          path "../attributes/gracePeriodId";
+        }
+      }
+      container attributes {
+        uses GracePeriod-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm/KeyFileManagement" {
+    list KeyFileInformation {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Basic information about the key file installed on the Managed Element.";
+      key "keyFileInformationId";
+      leaf keyFileInformationId {
+        type leafref {
+          path "../attributes/keyFileInformationId";
+        }
+      }
+      container attributes {
+        uses KeyFileInformation-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm" {
+    list CapacityKey {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Key of a licensed capacity that is available for the Managed Element.";
+      key "capacityKeyId";
+      leaf capacityKeyId {
+        type leafref {
+          path "../attributes/capacityKeyId";
+        }
+      }
+      container attributes {
+        uses CapacityKey-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm" {
+    list FeatureKey {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Key of a licensed feature that is available for the Managed Element.";
+      key "featureKeyId";
+      leaf featureKeyId {
+        type leafref {
+          path "../attributes/featureKeyId";
+        }
+      }
+      container attributes {
+        uses FeatureKey-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm" {
+    list EmergencyUnlock {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Emergency Unlock state information.";
+      key "emergencyUnlockId";
+      leaf emergencyUnlockId {
+        type leafref {
+          path "../attributes/emergencyUnlockId";
+        }
+      }
+      container attributes {
+        uses EmergencyUnlock-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm" {
+    list IntegrationUnlock {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Integration Unlock state information.";
+      key "integrationUnlockId";
+      leaf integrationUnlockId {
+        type leafref {
+          path "../attributes/integrationUnlockId";
+        }
+      }
+      container attributes {
+        uses IntegrationUnlock-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm" {
+    list AutonomousMode {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Autonomous Mode state information.";
+      key "autonomousModeId";
+      leaf autonomousModeId {
+        type leafref {
+          path "../attributes/autonomousModeId";
+        }
+      }
+      container attributes {
+        uses AutonomousMode-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm" {
+    list KeyFileManagement {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Enables installation of key files and provides information about the installed key file.";
+      key "keyFileManagementId";
+      leaf keyFileManagementId {
+        type leafref {
+          path "../attributes/keyFileManagementId";
+        }
+      }
+      container attributes {
+        uses KeyFileManagement-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm" {
+    list CapacityState {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; States of capacities that are supported by a Managed Element.";
+      key "capacityStateId";
+      leaf capacityStateId {
+        type leafref {
+          path "../attributes/capacityStateId";
+        }
+      }
+      container attributes {
+        uses CapacityState-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm" {
+    list FeatureState {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; This MO class defines different licensing-related states of a feature.";
+      key "featureStateId";
+      leaf featureStateId {
+        type leafref {
+          path "../attributes/featureStateId";
+        }
+      }
+      container attributes {
+        uses FeatureState-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Lm" {
+    list SystemTriggeredUnlock {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; System Triggered Unlock state information.";
+      key "systemTriggeredUnlockId";
+      leaf systemTriggeredUnlockId {
+        type leafref {
+          path "../attributes/systemTriggeredUnlockId";
+        }
+      }
+      container attributes {
+        uses SystemTriggeredUnlock-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    type enumeration {
+      enum SUCCESS;
+      enum FAILURE;
+      enum NOT_AVAILABLE;
+    }
+  }
+  typedef ActionStateType {
+    type enumeration {
+      enum CANCELLING;
+      enum RUNNING;
+      enum FINISHED;
+      enum CANCELLED;
+    }
+  }
+  typedef LmActivationState {
+    type enumeration {
+      enum INACTIVE;
+      enum ACTIVATED;
+      enum ACTIVATED_EXPIRING;
+      enum EXPIRED;
+      enum UNAVAILABLE;
+    }
+  }
+  typedef LmFeatureState {
+    type enumeration {
+      enum DEACTIVATED;
+      enum ACTIVATED;
+    }
+  }
+  typedef LmLicenseState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+      enum ENTITLED;
+    }
+  }
+  typedef LmServiceState {
+    type enumeration {
+      enum INOPERABLE;
+      enum OPERABLE;
+    }
+  }
+  typedef LmState {
+    type enumeration {
+      enum LOCKED;
+      enum NORMAL;
+      enum INTEGRATION_UNLOCK;
+      enum MAINTENANCE_UNLOCK;
+      enum EMERGENCY_UNLOCK;
+      enum AUTONOMOUS_MODE;
+      enum SYSTEM_TRIGGERED_UNLOCK;
+    }
+  }
+  grouping AutonomousMode-attributes {
+    leaf autonomousModeId {
+      type string;
+      mandatory true;
+    }
+    leaf activationState {
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf expiration {
+      type string;
+      config false;
+    }
+  }
+  grouping CapacityKey-attributes {
+    leaf capacityKeyId {
+      type string;
+      mandatory true;
+    }
+    list licensedCapacityLimit {
+      config false;
+      container attributes {
+      leaf value {
+        type string;
+      }
+      leaf noLimit {
+        type boolean;
+        default "false";
+        description "Default value: false.";
+      }
+      }
+    }
+    leaf capacityUnit {
+      type string;
+      config false;
+    }
+    leaf grantedCapacityLevel {
+      type int32;
+      config false;
+    }
+    leaf licensedCapacityLimitReached {
+      type boolean;
+      config false;
+    }
+    leaf state {
+      type string;
+      config false;
+    }
+    leaf name {
+      type string;
+      config false;
+    }
+    leaf validFrom {
+      type string;
+      config false;
+    }
+    leaf expiration {
+      type string;
+      config false;
+    }
+    leaf shared {
+      type boolean;
+      config false;
+    }
+    leaf keyId {
+      type string;
+      config false;
+    }
+    leaf productType {
+      type string;
+      config false;
+    }
+  }
+  grouping CapacityState-attributes {
+    leaf capacityStateId {
+      type string;
+      mandatory true;
+    }
+    leaf licenseState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+        enum ENTITLED;
+      }
+      config false;
+    }
+    leaf description {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf-list capacityKey {
+      type string;
+    }
+    leaf keyId {
+      type string;
+      config false;
+    }
+    list currentCapacityLimit {
+      config false;
+      container attributes {
+      leaf value {
+        type string;
+      }
+      leaf noLimit {
+        type boolean;
+        default "false";
+        description "Default value: false.";
+      }
+      }
+    }
+    leaf capacityUnit {
+      type string;
+      config false;
+    }
+    leaf grantedCapacityLevel {
+      type int32;
+      config false;
+    }
+    leaf licensedCapacityLimitReached {
+      type boolean;
+      config false;
+    }
+    leaf serviceState {
+      type enumeration {
+        enum INOPERABLE;
+        enum OPERABLE;
+      }
+      config false;
+    }
+  }
+  grouping EmergencyUnlock-attributes {
+    leaf emergencyUnlockId {
+      type string;
+      mandatory true;
+    }
+    leaf activationState {
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf expiration {
+      type string;
+      config false;
+    }
+    leaf activationsLeft {
+      type uint8;
+      config false;
+    }
+  }
+  grouping FeatureKey-attributes {
+    leaf featureKeyId {
+      type string;
+      mandatory true;
+    }
+    leaf state {
+      type string;
+      config false;
+    }
+    leaf name {
+      type string;
+      config false;
+    }
+    leaf validFrom {
+      type string;
+      config false;
+    }
+    leaf expiration {
+      type string;
+      config false;
+    }
+    leaf shared {
+      type boolean;
+      config false;
+    }
+    leaf keyId {
+      type string;
+      config false;
+    }
+    leaf productType {
+      type string;
+      config false;
+    }
+  }
+  grouping FeatureState-attributes {
+    leaf featureStateId {
+      type string;
+      mandatory true;
+    }
+    leaf featureState {
+      type enumeration {
+        enum DEACTIVATED;
+        enum ACTIVATED;
+      }
+    }
+    leaf licenseState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+        enum ENTITLED;
+      }
+      config false;
+    }
+    leaf serviceState {
+      type enumeration {
+        enum INOPERABLE;
+        enum OPERABLE;
+      }
+      config false;
+    }
+    leaf description {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf-list featureKey {
+      type string;
+    }
+    leaf keyId {
+      type string;
+      config false;
+    }
+  }
+  grouping GracePeriod-attributes {
+    leaf gracePeriodId {
+      type string;
+      mandatory true;
+    }
+    leaf gracePeriodState {
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf gracePeriodExpiration {
+      type string;
+      config false;
+    }
+  }
+  grouping IntegrationUnlock-attributes {
+    leaf integrationUnlockId {
+      type string;
+      mandatory true;
+    }
+    leaf activationState {
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf expiration {
+      type string;
+      config false;
+    }
+    leaf activationsLeft {
+      type uint8;
+      config false;
+    }
+  }
+  grouping KeyFileInformation-attributes {
+    leaf keyFileInformationId {
+      type string;
+      mandatory true;
+    }
+    leaf sequenceNumber {
+      type int32;
+      config false;
+    }
+    leaf installationTime {
+      type string;
+      config false;
+    }
+    leaf locatable {
+      type boolean;
+      config false;
+    }
+    leaf productType {
+      type string;
+      config false;
+    }
+  }
+  grouping KeyFileManagement-attributes {
+    leaf keyFileManagementId {
+      type string;
+      mandatory true;
+    }
+    list reportProgress {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+  }
+  grouping Lm-attributes {
+    leaf lmId {
+      type string;
+      mandatory true;
+    }
+    leaf fingerprint {
+      type string;
+      mandatory true;
+    }
+    leaf fingerprintUpdateable {
+      type boolean;
+      config false;
+    }
+    leaf lmState {
+      type enumeration {
+        enum LOCKED;
+        enum NORMAL;
+        enum INTEGRATION_UNLOCK;
+        enum MAINTENANCE_UNLOCK;
+        enum EMERGENCY_UNLOCK;
+        enum AUTONOMOUS_MODE;
+        enum SYSTEM_TRIGGERED_UNLOCK;
+      }
+      config false;
+    }
+    leaf lastInventoryChange {
+      type string;
+      config false;
+    }
+    leaf lastLicenseInventoryRefresh {
+      type string;
+      config false;
+    }
+    leaf referenceToLicenseServer {
+      type string;
+      config false;
+    }
+  }
+  grouping SystemTriggeredUnlock-attributes {
+    leaf systemTriggeredUnlockId {
+      type string;
+      mandatory true;
+    }
+    leaf activationState {
+      type enumeration {
+        enum INACTIVE;
+        enum ACTIVATED;
+        enum ACTIVATED_EXPIRING;
+        enum EXPIRED;
+        enum UNAVAILABLE;
+      }
+      config false;
+    }
+    leaf expiration {
+      type string;
+      config false;
+    }
+  }
+}

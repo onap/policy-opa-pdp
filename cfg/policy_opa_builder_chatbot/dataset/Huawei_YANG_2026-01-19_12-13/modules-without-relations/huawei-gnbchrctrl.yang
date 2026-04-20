@@ -1,0 +1,34 @@
+module huawei-gnbchrctrl {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbchrctrl";
+ prefix gnbchrctrl;
+ description
+ "Auto-generated modular YANG for huawei-gnbchrctrl" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBCHRCTRL-attributes {
+ leaf OLD_DETAILCAUSEVAL {
+  type union {
+   type int64 {
+    range "-1..281474976710655";
+   }
+  }
+  mandatory false;
+ }
+ leaf DETAILCAUSEVAL {
+  type union {
+   type int64 {
+    range "-1..281474976710655";
+   }
+  }
+  mandatory false;
+ }
+ leaf SAMPLINGINTERVAL {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ }
+}

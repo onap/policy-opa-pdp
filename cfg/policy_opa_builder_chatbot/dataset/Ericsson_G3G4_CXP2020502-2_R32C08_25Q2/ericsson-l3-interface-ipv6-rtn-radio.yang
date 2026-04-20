@@ -1,0 +1,534 @@
+module ericsson-l3-interface-ipv6-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL3InterfaceIPv6";
+  prefix l3intfv6rdo;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIPv6-addressed termination point; interface on an IPv6 routing domain.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/l3intfv6rdo:InterfaceIPv6" {
+    list AddressIPv6 {
+      description "Additional definitions from MOM:min/max-elements:0/4; Assigned IPv6 address including information about subnet it resides on. Maximum number of AddressIPv6 MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120.";
+      key "addressIPv6Id";
+      leaf addressIPv6Id {
+        type leafref {
+          path "../attributes/addressIPv6Id";
+        }
+      }
+      container attributes {
+      uses AddressIPv6-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/l3intfv6rdo:InterfaceIPv6" {
+    list RaTransmitter {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents Router Advertisement Transmitter which advertises RA messages and responds to Router Solicitation messages on routing interface. Dependencies: Cannot be configured on IP loopback interface. Cannot be configured on IPsec inner interface. Can be created only if AddressIPv6 MO configurationMode attribute is MANUAL.";
+      key "raTransmitterId";
+      leaf raTransmitterId {
+        type leafref {
+          path "../attributes/raTransmitterId";
+        }
+      }
+      container attributes {
+      uses RaTransmitter-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list InterfaceIPv6 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents IPv6-addressed termination point, interface on IPv6 routing function. Maximum number of InterfaceIPv6 MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120. Dependencies: Maximum one InterfaceIPv6 MO can reserve LagPort MO.";
+      key "interfaceIPv6Id";
+      leaf interfaceIPv6Id {
+        type leafref {
+          path "../attributes/interfaceIPv6Id";
+        }
+      }
+      container attributes {
+      uses InterfaceIPv6-attributes;
+      }
+    }
+  }
+  typedef AdvertisingState {
+    description "Advertising interface state.";
+    type enumeration {
+      enum DISABLED {
+        description "Interface does not send out any Router Advertisement message.";
+      }
+      enum ENABLED {
+        description "Interface sends out Router Advertisment message.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef BfdStaticRoutesInterfaceType {
+    description "State of bfdStaticRoutes.";
+    type enumeration {
+      enum DISABLED {
+      }
+      enum ENABLED {
+      }
+    }
+  }
+  typedef DuidType {
+    description "Type of DUID.";
+    type enumeration {
+      enum DUID_LLT {
+        description "DUID is based on link-layer address and time.";
+      }
+      enum DUID_EN {
+        description "DUID is assigned by vendor, based on enterprise number, HW serial number and VLAN ID.";
+      }
+      enum DUID_EN_SERIAL_NUMBER {
+        description "DUID is assigned by vendor, based on enterprise number, and HW serial number. DUID option is aligned with DUID_EN option used by Zero Touch Integration to receive IP address for OAM access.";
+      }
+    }
+  }
+  typedef Ipv6ConfigMode {
+    description "Method of IP address configuration.";
+    type enumeration {
+      enum MANUAL {
+        description "Address is configured manually.";
+      }
+      enum IKE {
+        description "Address is retrieved from security gateway using IKEv2 configuration payload in IKE negotiation.";
+      }
+      enum AUTO {
+        description "IPv6 configuration is retrieved by RA messages which information controls if stateless or stateful autoconfiguration is used, and if additional configuration parameters from DHCPv6 server shall be retrieved. Recommended mode for IPv6 autoconfiguration purpose.";
+      }
+      enum AUTO_NO_DHCPV6 {
+        description "IPv6 configuration is retrieved by RA messages which only supporting stateless autoconfiguration and additional parameters by options in RA messages. For troubleshooting, as workaround if some configuration problem of DHCPv6 server occurs.";
+      }
+      enum AUTO_DHCPV6 {
+        description "IPv6 configuration is retrieved by RA messages for default route, and stateful autoconfiguration and additional parameters via DHCPv6 only. For troubleshooting, as workaround if some configuration problem of routers occurs.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping AddressIPv6-attributes {
+    leaf address {
+      description "Configured IPv6 address. IPv6 address + \"/\" + prefix length<0-128>. AddressIPv6 MOs that are children of same InterfaceIPv6 MO must either have identical prefix or different and non-overlapping prefixes..";
+      type string;
+    }
+    leaf addressIPv6Id {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf configurationMode {
+      description "Whether IP address is configured manually, or retrieved from network using IKEv2 configuration payload or IPv6 autoconfiguration. If MANUAL, address is manually configured. If IKE, address is retrieved from security gateway using IKEv2 configuration payload in IKE negotiation. If AUTO, AUTO_NO_DHCPV6, or AUTO_DHCPV6, address and default routes are retrieved from network using IPv6 autoconfiguration..";
+      type enumeration {
+        enum MANUAL;
+        enum IKE;
+        enum AUTO;
+        enum AUTO_NO_DHCPV6;
+        enum AUTO_DHCPV6;
+      }
+    }
+    leaf duid {
+      description "DHCP Unique Identifier (DUID)..";
+      type string;
+      config false;
+    }
+    leaf duidType {
+      description "Whether DUID is based on link-layer address and time (DUID_LLT), or on serial number using vendor specific option (DUID_EN or DUID_EN_SERIAL_NUMBER ). DUID is assigned to each DHCPv6 client and server. Used by DHCPv6 server to identify clients for selection of configuration parameters. Must be unique globally across all DHCPv6 clients and servers..";
+      type enumeration {
+        enum DUID_LLT;
+        enum DUID_EN;
+        enum DUID_EN_SERIAL_NUMBER;
+      }
+    }
+    leaf primaryAddress {
+      description "Selection of primary or secondary IP address. Must be set to true for exactly one of AddressIPv6 MOs that are children of specific InterfaceIPv6 MO.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf usedAddress {
+      description "Used IP address. If configurationMode is MANUAL, this attribute has same content as address attribute. If configurationMode is other than MANUAL, retrieved address is shown in this attribute..";
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+  grouping InterfaceIPv6-attributes {
+    leaf aclEgress {
+      description "Reference to AclIpv6 MO applied in egress direction. If this attribute is empty, no ACL filtering will take place in egress direction. When ACL entries are configured, ACL entry must be added for default action, otherwise non-matching packets will be silently discarded..";
+      type string;
+    }
+    leaf aclIngress {
+      description "Reference to AclIpv6 MO applied in ingress direction. If this attribute is empty, no ACL filtering will take place in ingress direction. When ACL entries are configured, ACL entry must be added for default action, otherwise non-matching packets will be silently discarded..";
+      type string;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf bfdProfile {
+      description "Reference to BfdProfile MO containing BFD parameters used for BFD sessions from this interface..";
+      type string;
+    }
+    leaf bfdStaticRoutes {
+      description "Enables or disables BFD monitoring of static route nexthops on this interface. This attribute works in conjunction with bfdProfile. To enable BFD monitoring for this interface, bfdStaticRoutes must be set to ENABLED and bfdProfile must be set. If BFD monitoring is enabled, all static routing nexthops on subnets of this IP interface are monitored, unless explicitly disabled on PeerIPv6 MO or NextHop MO. BFD monitoring of static routes for a specific peer can be enabled on PeerIPv6 MO even if this attribute is DISABLED..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf checksumZeroEnabled {
+      description "Whether UDP datagrams with checksum zero are accepted for processing by higher layers. Valid for UDP datagrams containing GTP-U messages, received on this interface. Other kinds of UDP datagrams with checksum zero are always dropped. Set to true increases vulnerability and risk of data corruption. Only to be set to true if network conditions, such as peer nodes lack proper support for UDP checksum calculation. Only supported for RAN Compute Group 4 and 5.; Default value: false; Takes effect: Node restart; Status info: Since 24.Q2. Planned to be removed..";
+      type boolean;
+      status deprecated;
+      default "false";
+      reference "Takes effect: Node restart.";
+    }
+    leaf dscpNdp {
+      description "Differentiated Services Code Point (DSCP) value for Neighbor Discovery Protocol (NDP).; range 0..63; Default value: 48.";
+      type eytypes:uint8_range_0-63;
+      default "48";
+    }
+    leaf egressQosMarking {
+      description "DSCP to PCP map used for marking DSCP tagged packets with PCP value. Packets marked are either host originated or routed into QoS domain. If empty, DSCP values are mapped to PCP values according to following: pcp0 = 0 pcp1 (empty) pcp2 = 10,12,14 pcp3 = 18,20,22 pcp4 = 8,16,26,28 pcp5 = 34,36,38,46 pcp6 = 32,40,48 pcp7 = 51,54.";
+      type string;
+    }
+    leaf encapsulation {
+      description "Reference to underlying encapsulation, which can be MO type EthernetPort, VlanPort, Bridge, IpsecTunnel or LagPort..";
+      type string;
+    }
+    leaf ingressQosMarking {
+      description "DSCP to DSCP map used for remarking ingress DSCP tagged packets. Empty string means no re-marking is done. This attribute is used to fix specific issues within QoS domain and should most often be empty. It can refer to DscpDscpMap MO..";
+      type string;
+    }
+    leaf interfaceIPv6Id {
+      description "Value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf loopback {
+      description "Specifies if interface is IP Loopback Interface..";
+      type boolean;
+    }
+    leaf mtu {
+      description "Maximum Transmission Unit (MTU). Real MTU is minimum of this configured value and MTU given by encapsulation.; range 1280..9000; Default value: 1500.";
+      type uint32 {
+        range "1280..9000";
+      }
+      default "1500";
+    }
+    leaf neighborDiscoveryTimeout {
+      description "Timeout value for neighbor entry. Configures how long remote IPv6 node is considered reachable after reachability confirmation event has occurred. Value of zero means that entries are never cleared from cache.; range 0..3600000; Default value: 30000.";
+      type uint32 {
+        range "0..3600000";
+      }
+      default "30000";
+      units "ms";
+    }
+    leaf neighborSolicitationInterval {
+      description "Interval between retransmitted neighbor solicitation messages on interface.; range 1..3600000; Default value: 1000.";
+      type uint32 {
+        range "1..3600000";
+      }
+      default "1000";
+      units "ms";
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf routesHoldDownTimer {
+      description "Hold-down timer used for static routes that use this interface. If this attribute is set, hold-down timer is started when conditions for static route to become available have been fulfilled. When hold-down timer expires, route becomes available. If this attribute is empty, there is no hold-down timer for routes. This attribute does not affect operational state of interface.; range 1..300.";
+      type uint16 {
+        range "1..300";
+      }
+      units "s";
+    }
+    leaf routingPolicyIngress {
+      description "Reference to RoutingPolicyIPv6 MO to be used for Policy Based Routing in ingress direction. If set, Policy Based Routing of incoming packets is enabled..";
+      type string;
+    }
+    leaf trackedInterface {
+      description "If set for loopback interface, operationalState and availabilityStatus from referred tunnel interface is inherited..";
+      type string;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf-list ipIfInOctetRatePercentiles {
+      description "Distribution of the ingress throughput on the IPv6 interface measured in octets per second. The throughput samples are based on ipIfStatsHCInOctets and are taken every second..";
+      type int64;
+      max-elements 7;
+    }
+    leaf ipIfStatsReasmFails {
+      description "The number of failures detected by the IP re-assembly algorithm. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCOutOctets {
+      description "The total number of octets in IP datagrams delivered to the lower layers for transmission. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCOutRequests {
+      description "The total number of IP datagrams that local IP user-protocols (including ICMP) supplied to IP in requests for transmission. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsOutFragCreates {
+      description "The number of output datagram fragments that have been generated as a result of IP fragmentation. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsInUnknownProtos {
+      description "The number of locally-addressed IP datagrams received successfully but discarded because of an unknown or unsupported protocol. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsOutFragOKs {
+      description "The number of IP datagrams that have been successfully fragmented. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsReasmOKs {
+      description "The number of IP datagrams successfully reassembled. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsOutFragFails {
+      description "The number of IP datagrams that have been discarded because they needed to be fragmented but could not be. This includes IPv6 packets that are being forwarded and exceed the outgoing link MTU. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsInHdrErrors {
+      description "The number of input IP datagrams discarded due to errors in their IP headers, including version number mismatch, other format errors, hop count exceeded, errors discovered in processing their IP options, etc. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCOutForwDatagrams {
+      description "The number of datagrams for which this entity was not their final IP destination and for which it was successful in finding a path to their final destination. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsInBlackHoles {
+      description "The number of packets that were forwarded to a null route. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsInTruncatedPkts {
+      description "The number of input IP datagrams discarded because the datagram frame did not carry enough data. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCInMcastOctets {
+      description "The total number of octets received in IP multicast datagrams. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsReasmReqds {
+      description "The number of IP fragments received that needed to be reassembled at this interface. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsInDiscards {
+      description "The number of input IP datagrams for which no problems were encountered to prevent their continued processing, but were discarded (e.g., for lack of buffer space). ). Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCInReceives {
+      description "The total number of input IP datagrams received, including those received in error. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsInAddrErrors {
+      description "The number of input IP datagrams discarded because the IP address in their IP header's field was not a valid address to be received at this entity. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCOutTransmits {
+      description "The total number of IP datagrams that this entity supplied to the lower layers for transmission. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCOutMcastOctets {
+      description "The total number of octets transmitted in IP multicast datagrams. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCInMcastPkts {
+      description "The number of IP multicast datagrams received. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCOutMcastPkts {
+      description "The number of IP multicast datagrams transmitted. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCInDelivers {
+      description "The total number of datagrams successfully delivered to IP user-protocols (including ICMP). Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCInForwDatagrams {
+      description "The number of input datagrams for which this entity was not their final IP destination and for which this entity attempted to find a route to forward them to that final destination. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsHCInOctets {
+      description "The total number of octets received in input IP datagrams, including those received in error. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsOutDiscards {
+      description "The number of output IP datagrams for which no problem was encountered to prevent their transmission to their destination, but were discarded (e.g., for lack of buffer space). Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf-list ipIfOutOctetRatePercentiles {
+      description "Distribution of the egress throughput on the IPv6 interface measured in octets per second. The throughput samples are based on ipIfStatsHCOutOctets and are taken every second..";
+      type int64;
+      max-elements 7;
+    }
+    leaf ipIfStatsOutFragReqds {
+      description "The number of IP datagrams that would require fragmentation in order to be transmitted. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsInSrcAddrErrors {
+      description "The number of input IP datagrams discarded because the IP address in their IP header's source field was not a valid address to be received at this entity. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsInNoRoutes {
+      description "The number of input IP datagrams that are discarded, because no route could be found to transmit them to their destination. Not applicable for an IP Loopback Interface, that is, if the attribute loopback is set. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+  }
+  grouping RaTransmitter-attributes {
+    leaf managedConfig {
+      description "1 bit managed address autoconfiguration flag. If false, address autoconfiguration is not available via DHCPv6. If true, address autoconfiguration is available via DHCPv6. If true, otherConfig is redundant and can be ignored because DHCPv6 will return all available configuration information.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf maxRtrAdvInterval {
+      description "Maximum time allowed between sending unsolicited multicast Router Advertisements from interface.; range 4..1800; Default value: 600.";
+      type uint16 {
+        range "4..1800";
+      }
+      default "600";
+      units "s";
+    }
+    leaf minRtrAdvInterval {
+      description "Minimum time allowed between sending unsolicited multicast Router Advertisements from interface. If MaxRtrAdvInterval >= 9 seconds, its value is 0.33 * MaxRtrAdvInterval, otherwise value is 0.75 * MaxRtrAdvInterval..";
+      type uint16;
+      config false;
+      units "s";
+    }
+    leaf otherConfig {
+      description "1-bit other configuration flag. If true, other configuration information, excluding address, is available via DHCPv6. If false, other configuration information is not available via DHCPv6.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf raTransmitterId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf sendAdvertisement {
+      description "Whether or not router sends periodic Router Advertisements and responds to Router Solicitations..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+module huawei-nrcellncgimeas {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrcellncgimeas";
+ prefix nrcellncgimeas;
+ description
+ "Auto-generated modular YANG for huawei-nrcellncgimeas" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRCELLNCGIMEAS-attributes {
+ leaf OLD_NRCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_TARGETPHYSICALCELLID {
+  type union {
+   type int16 {
+    range "-1..1007";
+   }
+  }
+  mandatory false;
+ }
+ leaf TARGETPHYSICALCELLID {
+  type union {
+   type int16 {
+    range "-1..1007";
+   }
+  }
+  mandatory false;
+ }
+ leaf TARGETSSBDESCMETHOD {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_TARGETSSBFREQPOS {
+  type union {
+   type int32 {
+    range "-1..3279165";
+   }
+  }
+  mandatory false;
+ }
+ leaf TARGETSSBFREQPOS {
+  type union {
+   type int32 {
+    range "-1..3279165";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

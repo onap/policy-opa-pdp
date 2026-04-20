@@ -1,0 +1,24 @@
+module huawei-nrducellresshrcfg {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellresshrcfg";
+ prefix nrducellresshrcfg;
+ description
+ "Auto-generated modular YANG for huawei-nrducellresshrcfg" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLRESSHRCFG-attributes {
+ leaf DYNPWRSHRALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

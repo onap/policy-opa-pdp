@@ -1,0 +1,176 @@
+module ericsson-rmeswmsupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSwMSupport";
+  prefix rmeswmsu;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nModel management of software management support.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list SwMSupport {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Additional Software management functions. The RDN for this MO is SwMSupport=1.";
+      key "swMSupportId";
+      leaf swMSupportId {
+        type leafref {
+          path "../attributes/swMSupportId";
+        }
+      }
+      container attributes {
+      uses SwMSupport-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmeswmsu:SwMSupport" {
+    list SwSigningCertM {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Management of software signing ceritificates. A UP contains a number of software signing certificates. This MO branch contains revocation timers as well as certificate information. The RDN of this MO is SwSigningCertM=1.";
+      key "swSigningCertMId";
+      leaf swSigningCertMId {
+        type leafref {
+          path "../attributes/swSigningCertMId";
+        }
+      }
+      container attributes {
+      uses SwSigningCertM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmeswmsu:SwMSupport" {
+    list SwImage {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Controls software version that can be installed. The RDN of this MO is SwImage=1.";
+      key "swImageId";
+      leaf swImageId {
+        type leafref {
+          path "../attributes/swImageId";
+        }
+      }
+      container attributes {
+      uses SwImage-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmeswmsu:SwMSupport/rmeswmsu:SwSigningCertM" {
+    list SwSigningCert {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Software signing certificate. The runnning upgrade package contains a number of software signing certificates used to validate running and other upgrade packages. These certificates have an expiration date. For optimal system performance, there should not be any expired certificates. If there are expired certificates, it is recommended that system is upgraded to a newer software release where expired certificates have been removed. The RDNs of these MOs are SwSigningCert=<OrganizationalUnitName>/<CommonName> as defined by the certificate.";
+      key "swSigningCertId";
+      leaf swSigningCertId {
+        type leafref {
+          path "../attributes/swSigningCertId";
+        }
+      }
+      container attributes {
+      uses SwSigningCert-attributes;
+      }
+    }
+  }
+  typedef AllowedSwType {
+    description "Shows software version that can be installed on the system.";
+    type enumeration {
+      enum ANY {
+        description "Any software version can be installed on the system.";
+      }
+      enum _2025 {
+        description "Software version from 2025 and onwards can be installed on the system.";
+      }
+    }
+  }
+  typedef MigrationStatusType {
+    description "Status of migration conversion from G3 to G4 software.";
+    type enumeration {
+      enum NO_MIGRATION {
+        description "No migration.";
+      }
+      enum MIGRATION_SUCCESSFUL {
+        description "Migration successful.";
+      }
+      enum MIGRATION_FAILED {
+        description "Migration failed.";
+      }
+      enum NOT_SUPPORTED_COMBINATION {
+        description "Migration combination is not supported.";
+      }
+    }
+  }
+  grouping SwImage-attributes {
+    leaf swImageId {
+      description "The value component for the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf allowedSw {
+      description "Software version that can be installed..";
+      type enumeration {
+        enum ANY;
+        enum _2025;
+      }
+      config false;
+    }
+  }
+  grouping SwMSupport-attributes {
+    leaf swMSupportId {
+      description "The value component for the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+    leaf migrationStatus {
+      description "Status of migration conversion from G3 to G4 software..";
+      type enumeration {
+        enum NO_MIGRATION;
+        enum MIGRATION_SUCCESSFUL;
+        enum MIGRATION_FAILED;
+        enum NOT_SUPPORTED_COMBINATION;
+      }
+      config false;
+    }
+  }
+  grouping SwSigningCert-attributes {
+    leaf swSigningCertId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf name {
+      description "The certificate subject name. The name has the form of a directory distinguished name..";
+      type string;
+      config false;
+    }
+    leaf expiration {
+      description "Date when this certificate expires..";
+      type string;
+      config false;
+    }
+  }
+  grouping SwSigningCertM-attributes {
+    leaf swSigningCertMId {
+      description "The value component for the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf crlGracePeriodExpiration {
+      description "Date and time when the grace period expires. A grace period is ongoing if this attribute is non-empty..";
+      type string;
+      config false;
+    }
+    leaf crlGracePeriodTimer {
+      description "CRL grace period timer. Specifies the length of grace period before a revokation of a software signing certificate takes effect. The grace period starts when system is upgraded and new UP contains an updated certificate revocation list in which an installed certificate is revoked. The grace period allows the operator to revert system to an older UP where the revocation has not occurred. When the grace period expires, it will no longer be possible to revert to any older UP signed using the expired certificate. Both those Upgrade packages and the associated backups will be removed automatically.; range 2..100; Default value: 8.";
+      type uint16 {
+        range "2..100";
+      }
+      default "8";
+      units "day";
+    }
+  }
+}

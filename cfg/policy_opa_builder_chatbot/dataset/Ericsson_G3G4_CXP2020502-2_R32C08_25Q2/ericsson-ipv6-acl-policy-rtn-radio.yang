@@ -1,0 +1,196 @@
+module ericsson-ipv6-acl-policy-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnIPv6ACLPolicy";
+  prefix v6aclplrdo;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIPv6 ACL Policy entities";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/v6aclplrdo:AclIpv6" {
+    list AclEntryIpv6 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; This MOC is used to configure entry in Access Control List. It contains set of filters for ACL entry as well as action and priority. All filters refer to fields in IP protocol header. When ACL entries are configured, ACL entry must be added for default action, otherwise non-matching packets will be silently discarded. Maximum number of AclEntryIPv6 MO in node is limited to 256. Maximum number of AclEntryIPv6 MO per AclIPv6 MO is limited to 64.";
+      key "aclEntryIpv6Id";
+      leaf aclEntryIpv6Id {
+        type leafref {
+          path "../attributes/aclEntryIpv6Id";
+        }
+      }
+      container attributes {
+      uses AclEntryIpv6-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list AclIpv6 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents ordered list of ACL entries. See attribute priority in AclEntryIpv6 MO for details on ordering. Maximum number of AclIPv6 MO in node is limited to 32.";
+      key "aclIpv6Id";
+      leaf aclIpv6Id {
+        type leafref {
+          path "../attributes/aclIpv6Id";
+        }
+      }
+      container attributes {
+      uses AclIpv6-attributes;
+      }
+    }
+  }
+  typedef AclAction {
+    description "ACL actions.";
+    type enumeration {
+      enum PERMIT {
+        description "Allow packet that matches ACL to flow.";
+      }
+      enum DENY {
+        description "Drop packet if it matches ACL.";
+      }
+    }
+  }
+  typedef FragmentType {
+    description "Type of IP fragment.";
+    type enumeration {
+      enum NOTFRAGMENTED {
+        description "The entry matches no fragment at all.";
+      }
+      enum FRAGFIRST {
+        description "The entry matches the first fragment. Optional to support - Flag: if-feature FragmentTypeFragFirst.";
+      }
+      enum FRAGLAST {
+        description "The entry matches the last fragment. Optional to support - Flag: if-feature FragmentTypeFragLast.";
+      }
+      enum FRAGMENT {
+        description "The entry matches all fragments. FO > 0 or MF != 0.";
+      }
+      enum INITIAL {
+        description "The entry matches complete (unfragmented) packets as well as initial fragments, FO==0.";
+      }
+      enum NONINITIAL {
+        description "The entry matches non-initial fragments. FO>0.";
+      }
+    }
+  }
+  grouping AclEntryIpv6-attributes {
+    leaf aclEntryIpv6Id {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf action {
+      description "The action of the ACL entry. The value can be either PERMIT or DENY. When a packet matches the filters in this entry, the action is executed. When the attribute has the value DENY, the packet is dropped silently. When the attribute has the value PERMIT, the packet is accepted..";
+      type enumeration {
+        enum PERMIT;
+        enum DENY;
+      }
+      mandatory true;
+    }
+    leaf-list addrDst {
+      description "Destination IP Address filter. The value is a list of IPv6 address prefixes: Value/prefix-length. The ACL entry matches if any address in the list matches. If the value list is empty, any IP address matches this ACL entry..";
+      type string;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list addrSrc {
+      description "Source IP Address filter. The value is a list of IPv6 address prefixes: Value/prefix-length. The ACL entry matches if any address in the list matches. If the value list is empty, any IP address matches this ACL entry..";
+      type string;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list dscp {
+      description "DSCP field filter. The value is a list of DSCP values: Ranges [dd..dd] or single-values [dd], where dd represents an integer in {0..63}. The ACL entry matches if any DSCP value in the list matches. If the value list is empty, any DSCP value will match this entry..";
+      type string;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf fragmentType {
+      description "Fragment type filter. The value is a fragment type. If the value is empty, state-less handling of fragments is performed..";
+      type enumeration {
+        enum NOTFRAGMENTED;
+        enum FRAGFIRST;
+        enum FRAGLAST;
+        enum FRAGMENT;
+        enum INITIAL;
+        enum NONINITIAL;
+      }
+    }
+    leaf-list icmpType {
+      description "ICMP type filter. The ACL entry matches if any element in the list matches. If the value list is empty, any ICMP types match this entry..";
+      type string;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list ipProtocol {
+      description "Protocol number filter. The value is a list of ranges [ddd..ddd] or single-values [ddd], where ddd represents an integer in the range {0..255}. The ACL entry matches if any protocol number in the list matches. If the value list is empty, any protocol number matches this entry..";
+      type string;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list portDst {
+      description "Transport layer destination port filter (UDP, TCP or SCTP only). The value is a list of port numbers: Ranges [ddddd..ddddd] or single values [ddddd], where ddddd represents an integer in the range {0..65535}. This attribute can be non-empty only if the protocol is non-empty and if it contains elements that are single values equal to UDP (17), TCP (6), or SCTP (132). The ACL entry matches if any port number in the list matches. If the value list is empty, any port number matches this entry..";
+      type string;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf-list portSrc {
+      description "Transport layer source port filter (UDP, TCP or SCTP only). The value is a list of port numbers: Ranges [ddddd..ddddd] or single values [ddddd], where ddddd represents an integer in the range {0..65535}. This attribute can be non-empty only if the protocol is non-empty and if it contains elements that are single values equal to UDP (17), TCP (6), or SCTP (132) The ACL entry matches if any port number in the list matches. If the value list is empty, any port number matches this entry..";
+      type string;
+      min-elements 0;
+      max-elements 4;
+    }
+    leaf priority {
+      description "Priority of this ACL entry relative to the other entries in the list..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf aclEntryPackets {
+      description "The number of IP packets that have matched the ACL entry..";
+      type uint64;
+      config false;
+    }
+  }
+  grouping AclIpv6-attributes {
+    leaf aclIpv6Id {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf permitNdpAndMld {
+      description "Specifies whether implicit rules are added to permit NDP and MLD protocol packets. If this attribute is set to true, packets with the following ICMP types are permitted: - 130 (Multicast Listener Query) - 131 (Multicast Listener Report v1) - 132 (Multicast Listener Done) - 133 (Router Solicitation) - 134 (Router Advertisement) - 135 (Neighbor Solicitation) - 136 (Neighbor Advertisement) - 137 (Redirect) - 143 (Multicast Listener Report v2); Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf aclNdpAndMldPermits {
+      description "This counter is incremented when an IP packet has been permitted by one of the auto-created rules for NDP and MLD..";
+      type uint64;
+      config false;
+    }
+    leaf aclTotalDiscards {
+      description "The number of packets that have been discarded due to matching an ACL Entry with action \"Deny\", or not matching any ACL Entry..";
+      type uint64;
+      config false;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+module huawei-rfafunction {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfafunction";
+ prefix rfafunction;
+ description
+ "Auto-generated modular YANG for huawei-rfafunction" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFAFUNCTION-attributes {
+ leaf TEMPLATENAME {
+  type string;
+  mandatory false;
+ }
+ leaf APPLICATIONREF {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf RFAFUNCTIONNAME {
+  type string {
+   length "1..128";
+  }
+  mandatory false;
+ }
+ leaf RFAID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..256";
+  }
+  mandatory false;
+ }
+ }
+}

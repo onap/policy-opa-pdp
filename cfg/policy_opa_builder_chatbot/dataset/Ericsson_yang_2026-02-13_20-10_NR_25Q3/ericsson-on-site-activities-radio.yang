@@ -1,0 +1,49 @@
+module ericsson-on-site-activities-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeOnSiteActivities";
+  prefix osardo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list OnSiteActivities {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Contains information about activities on a site. The RDN of this MO is OnSiteActivities=1.";
+      key "onSiteActivitiesId";
+      leaf onSiteActivitiesId {
+        type leafref {
+          path "../attributes/onSiteActivitiesId";
+        }
+      }
+      container attributes {
+        uses OnSiteActivities-attributes;
+      }
+    }
+  }
+  typedef TechnicianPresentType {
+    type enumeration {
+      enum NOT_PRESENT;
+      enum PRESENT;
+    }
+  }
+  grouping OnSiteActivities-attributes {
+    leaf onSiteActivitiesId {
+      type string;
+      mandatory true;
+    }
+    leaf technicianPresent {
+      type enumeration {
+        enum NOT_PRESENT;
+        enum PRESENT;
+      }
+      config false;
+    }
+  }
+}

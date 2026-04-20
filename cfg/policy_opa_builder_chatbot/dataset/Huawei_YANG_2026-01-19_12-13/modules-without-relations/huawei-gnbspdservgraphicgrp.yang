@@ -1,0 +1,46 @@
+module huawei-gnbspdservgraphicgrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbspdservgraphicgrp";
+ prefix gnbspdservgraphicgrp;
+ description
+ "Auto-generated modular YANG for huawei-gnbspdservgraphicgrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBSPDSERVGRAPHICGRP-attributes {
+ leaf SERVGRAPHICCONFIG {
+  type string {
+   length "0..64";
+  }
+  mandatory false;
+ }
+ leaf SERVGRAPHICINDEX {
+  type union {
+   type int8 {
+    range "-1..2";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVGRAPHICMATCHRATETHLD {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf SERVPATTERNTIMEWINLEN {
+  type uint16 {
+   range "100..1500";
+  }
+  mandatory false;
+ }
+ leaf SERVICESENSINGTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ }
+}

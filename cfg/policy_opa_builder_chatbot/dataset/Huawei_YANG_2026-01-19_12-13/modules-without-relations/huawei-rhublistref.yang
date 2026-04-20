@@ -1,0 +1,44 @@
+module huawei-rhublistref {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rhublistref";
+ prefix rhublistref;
+ description
+ "Auto-generated modular YANG for huawei-rhublistref" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RHUBLISTREF-attributes {
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf RHUBRESQUOTAID {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

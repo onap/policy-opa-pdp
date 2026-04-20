@@ -1,0 +1,157 @@
+module ericsson-fronthaul-reference-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncFronthaulReference";
+  prefix frefrdo;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  import ericsson-radio-equipment-clock-sync-radio {
+    prefix rdoeqclkrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nSynchronization Fronthaul model.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization/rdoeqclkrdo:RadioEquipmentClock" {
+    list FronthaulReference {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; Represents synchronization reference for Fronthaul. Dependencies: FronthaulReference MO must refer to FronthaulBoundaryOrdinaryClock MO.";
+      key "fronthaulReferenceId";
+      leaf fronthaulReferenceId {
+        type leafref {
+          path "../attributes/fronthaulReferenceId";
+        }
+      }
+      container attributes {
+      uses FronthaulReference-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "The administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef FronthaulReferenceStatus {
+    description "Status of Fronthaul Reference.";
+    type enumeration {
+      enum NO_FAULT {
+      }
+      enum PTP_FAULT {
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping FronthaulReference-attributes {
+    leaf administrativeState {
+      description "The administrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf encapsulation {
+      description "Reference to underlying encapsulation..";
+      type string;
+      mandatory true;
+    }
+    leaf fronthaulReferenceId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf fronthaulReferenceStatus {
+      description "Status of Fronthaul reference..";
+      type enumeration {
+        enum NO_FAULT;
+        enum PTP_FAULT;
+      }
+      config false;
+    }
+    leaf nodePriority {
+      description "Node priority value used in selection mechanism. Nodes with FronthaulReference MO must have unique priority number. Lower value has precedence.; range 1..15.";
+      type eytypes:uint8_range_1-15;
+      mandatory true;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+  }
+}

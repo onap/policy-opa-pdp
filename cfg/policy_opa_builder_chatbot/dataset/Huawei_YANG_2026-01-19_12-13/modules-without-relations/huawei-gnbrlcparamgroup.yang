@@ -1,0 +1,571 @@
+module huawei-gnbrlcparamgroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbrlcparamgroup";
+ prefix gnbrlcparamgroup;
+ description
+ "Auto-generated modular YANG for huawei-gnbrlcparamgroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBRLCPARAMGROUP-attributes {
+ leaf DLRLCSNSIZE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf RADIOBEARERTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf RLCMODE {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf OLD_RLCPARAMGROUPID {
+  type union {
+   type int16 {
+    range "-1..172";
+   }
+  }
+  mandatory false;
+ }
+ leaf RLCPARAMGROUPID {
+  type union {
+   type int16 {
+    range "-1..172";
+   }
+  }
+  mandatory false;
+ }
+ leaf UEAMBYTETHLDFORTRIGPOLL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+  }
+  mandatory false;
+ }
+ leaf UEAMSTATUSRPTPROHIBITTMR {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+   enum val-44;
+   enum val-45;
+   enum val-46;
+   enum val-47;
+   enum val-48;
+   enum val-49;
+   enum val-50;
+   enum val-51;
+   enum val-52;
+   enum val-53;
+   enum val-54;
+   enum val-55;
+   enum val-56;
+   enum val-57;
+   enum val-58;
+   enum val-59;
+   enum val-60;
+   enum val-61;
+  }
+  mandatory false;
+ }
+ leaf UEPDUNUMTHLDFORTRIGPOLL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+  }
+  mandatory false;
+ }
+ leaf UEPOLLINGPDURETRANSTIMER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+   enum val-44;
+   enum val-45;
+   enum val-46;
+   enum val-47;
+   enum val-48;
+   enum val-49;
+   enum val-50;
+   enum val-51;
+   enum val-52;
+   enum val-53;
+   enum val-54;
+   enum val-55;
+   enum val-56;
+   enum val-57;
+   enum val-58;
+  }
+  mandatory false;
+ }
+ leaf UERLCREASSEMBLYTIMER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+  }
+  mandatory false;
+ }
+ leaf ULRLCSNSIZE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf GNBAMBYTETHLDFORTRIGPOLL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+  }
+  mandatory false;
+ }
+ leaf GNBAMSTATUSRPTPROHIBITTMR {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+   enum val-44;
+   enum val-45;
+   enum val-46;
+   enum val-47;
+   enum val-48;
+   enum val-49;
+   enum val-50;
+   enum val-51;
+   enum val-52;
+   enum val-53;
+   enum val-54;
+   enum val-55;
+   enum val-56;
+   enum val-57;
+   enum val-58;
+   enum val-59;
+   enum val-60;
+   enum val-61;
+  }
+  mandatory false;
+ }
+ leaf GNBMAXVONRAMRETRANSNUM {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+  }
+  mandatory false;
+ }
+ leaf GNBPDUNUMTHLDFORTRIGPOLL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+  }
+  mandatory false;
+ }
+ leaf GNBPOLLINGPDURETRANSTIMER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+   enum val-44;
+   enum val-45;
+   enum val-46;
+   enum val-47;
+   enum val-48;
+   enum val-49;
+   enum val-50;
+   enum val-51;
+   enum val-52;
+   enum val-53;
+   enum val-54;
+   enum val-55;
+   enum val-56;
+   enum val-57;
+   enum val-58;
+  }
+  mandatory false;
+ }
+ leaf GNBRLCREASSEMBLYTIMER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,429 @@
+module ericsson-field-replaceable-unit-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqFieldReplaceableUnit";
+  prefix frurdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list FieldReplaceableUnit {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO models a Field Replaceable Unit (FRU).";
+      key "fieldReplaceableUnitId";
+      leaf fieldReplaceableUnitId {
+        type leafref {
+          path "../attributes/fieldReplaceableUnitId";
+        }
+      }
+      container attributes {
+        uses FieldReplaceableUnit-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef DeepSleepStatus {
+    type enumeration {
+      enum NOT_SUPPORTED;
+      enum DEACTIVATED;
+      enum ACTIVATED;
+      enum REQUESTED;
+      enum ACTIVATION_IN_PROGRESS;
+      enum DEACTIVATION_IN_PROGRESS;
+    }
+  }
+  typedef HwTestStatusEnum {
+    type enumeration {
+      enum NO_TEST_RESULT;
+      enum TEST_RESULT_OK;
+      enum TEST_RESULT_CEF;
+      enum TEST_RESULT_PEF;
+    }
+  }
+  typedef IndicatorStatus {
+    type enumeration {
+      enum NOT_APPLICABLE;
+      enum NOT_AVAILABLE;
+      enum OFF;
+      enum STEADY_ON;
+      enum SLOW_BLINK;
+      enum FAST_BLINK;
+      enum DOUBLE_FLASH_AND_STEADY_ON;
+      enum DOUBLE_FLASH_AND_OFF;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef RestartRank {
+    type enumeration {
+      enum RESTART_WARM;
+      enum RESTART_COLD;
+      enum RESTART_COLDWTEST;
+      enum RESTART_POWERCYCLE;
+    }
+  }
+  typedef RestartReason {
+    type enumeration {
+      enum PLANNED_RECONFIGURATION;
+      enum UNPLANNED_NODE_EXTERNAL_PROBLEMS;
+      enum UNPLANNED_NODE_UPGRADE_PROBLEMS;
+      enum UNPLANNED_O_AND_M_ISSUE;
+      enum UNPLANNED_CYCLIC_RECOVERY;
+      enum UNPLANNED_LOCKED_RESOURCES;
+      enum UNPLANNED_COLD_WITH_HW_TEST;
+      enum UNPLANNED_CALL_PROCESSING_DEGRADATION;
+      enum UNPLANNED_LOW_COVERAGE;
+      enum OPERATOR_CLASSIFIED_PROBLEMS;
+    }
+  }
+  typedef UnitOpticalIndicatorControl {
+    type enumeration {
+      enum NOT_SET;
+      enum ACTIVATED;
+      enum DEACTIVATED;
+    }
+  }
+  typedef UnitOpticalIndicatorCtrlStatus {
+    type enumeration {
+      enum NOT_AVAILABLE;
+      enum ACTIVATED;
+      enum DEACTIVATED;
+      enum ACTIVATED_WITH_DURATION;
+    }
+  }
+  grouping FieldReplaceableUnit-attributes {
+    leaf fieldReplaceableUnitId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf climateZoneRef {
+      type string;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 16A, replaced by positionRef. Has no functional behavior..";
+    }
+    leaf operationalIndicator {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf statusIndicator {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf faultIndicator {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf maintenanceIndicator {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    list productData {
+      config false;
+      container attributes {
+      leaf productionDate {
+        type string;
+      }
+      leaf productName {
+        type string;
+      }
+      leaf productNumber {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf serialNumber {
+        type string;
+      }
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    list hwTestResult {
+      config false;
+      container attributes {
+      leaf timeStamp {
+        type string;
+      }
+      leaf hwTestStatus {
+        type enumeration {
+          enum NO_TEST_RESULT;
+          enum TEST_RESULT_OK;
+          enum TEST_RESULT_CEF;
+          enum TEST_RESULT_PEF;
+        }
+      }
+      }
+    }
+    list specialIndicator {
+      config false;
+      container attributes {
+      leaf indicatorStatus {
+        type enumeration {
+          enum NOT_APPLICABLE;
+          enum NOT_AVAILABLE;
+          enum OFF;
+          enum STEADY_ON;
+          enum SLOW_BLINK;
+          enum FAST_BLINK;
+          enum DOUBLE_FLASH_AND_STEADY_ON;
+          enum DOUBLE_FLASH_AND_OFF;
+        }
+      }
+      leaf indicatorName {
+        type string {
+          length "0..128";
+        }
+        description "length 0..128.";
+      }
+      }
+    }
+    leaf positionRef {
+      type string;
+    }
+    leaf-list positionInformation {
+      type string;
+    }
+    leaf-list supportUnitRef {
+      type ietfinet:port-number;
+    }
+    list positionCoordinates {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf altitude {
+        type int32 {
+          range "-8388608..8388607";
+        }
+        default "0";
+        units "meter";
+        description "range -8388608..8388607; Default value: 0.";
+      }
+      leaf geoDatum {
+        type string {
+          length "5";
+        }
+        default "WGS84";
+        description "length 5..5; Default value: WGS84.";
+      }
+      leaf latitude {
+        type eytypes:int32_range_-90000000-90000000;
+        default "0";
+        units "degrees";
+        description "range -90000000..90000000; Default value: 0.";
+      }
+      leaf longitude {
+        type eytypes:int32_range_-180000000-180000000;
+        default "0";
+        units "degrees";
+        description "range -180000000..180000000; Default value: 0.";
+      }
+      }
+    }
+    leaf isSharedWithExternalMe {
+      type boolean;
+    }
+    list floorInformation {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf floorNumber {
+        type int16 {
+          range "-101..1000";
+        }
+        default "-101";
+        description "range -101..1000; Default value: -101.";
+      }
+      leaf heightOfDot {
+        type int16 {
+          range "-1..500";
+        }
+        default "-1";
+        units "m";
+        description "range -1..500; Default value: -1.";
+      }
+      }
+    }
+    leaf deepSleepStatus {
+      type enumeration {
+        enum NOT_SUPPORTED;
+        enum DEACTIVATED;
+        enum ACTIVATED;
+        enum REQUESTED;
+        enum ACTIVATION_IN_PROGRESS;
+        enum DEACTIVATION_IN_PROGRESS;
+      }
+      config false;
+    }
+    leaf unitOpticalIndicatorControl {
+      type enumeration {
+        enum NOT_SET;
+        enum ACTIVATED;
+        enum DEACTIVATED;
+      }
+    }
+    leaf unitOpticalIndicatorCtrlStatus {
+      type enumeration {
+        enum NOT_AVAILABLE;
+        enum ACTIVATED;
+        enum DEACTIVATED;
+        enum ACTIVATED_WITH_DURATION;
+      }
+      config false;
+    }
+    leaf preferredHwIdentity {
+      type string;
+    }
+    leaf operationalStateChangeTime {
+      type string;
+      config false;
+    }
+    leaf managedByNeutralHost {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf lastUnitRestart {
+      type string;
+      config false;
+    }
+    leaf-list pmUnitTemperatureLevelExtremeCold {
+      type int32;
+    }
+    leaf pmPowerFailure {
+      type uint32;
+      config false;
+    }
+    leaf-list pmUnitTemperatureLevel {
+      type int32;
+    }
+    leaf pmFruDeepSleepTime {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPowerFailureDistr {
+      type uint32;
+    }
+  }
+}

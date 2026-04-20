@@ -1,0 +1,63 @@
+module ericsson-enclosure-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEnclosure";
+  prefix enclrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list Enclosure {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents enclosure in which power system is located.";
+      key "enclosureId";
+      leaf enclosureId {
+        type leafref {
+          path "../attributes/enclosureId";
+        }
+      }
+      container attributes {
+        uses Enclosure-attributes;
+      }
+    }
+  }
+  grouping Enclosure-attributes {
+    leaf enclosureId {
+      type string;
+      mandatory true;
+    }
+    list productData {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf productionDate {
+        type string;
+      }
+      leaf productName {
+        type string;
+      }
+      leaf productNumber {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf serialNumber {
+        type string;
+      }
+      }
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+  }
+}

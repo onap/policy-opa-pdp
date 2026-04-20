@@ -1,0 +1,72 @@
+module ericsson-fan-group-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqFanGroup";
+  prefix fangrrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-cabinet-radio {
+    prefix cabrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/cabrdo:Cabinet" {
+    list FanGroup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; This MO models a fan group. A fan group is one or more fans which are supervised and controlled as a group. The MO ID will match the physical fan group ID. Number of MOs created depends on cabinet type and climate system. The RDNs of these MOs are FanGroup=1, FanGroup=2, and so on. Dependencies: Can only exist in the node when the attribute supportSystemControl on MO EquipmentSupportFunction is set to true.";
+      key "fanGroupId";
+      leaf fanGroupId {
+        type leafref {
+          path "../attributes/fanGroupId";
+        }
+      }
+      container attributes {
+        uses FanGroup-attributes;
+      }
+    }
+  }
+  typedef ApcIndicatorStatus {
+    type enumeration {
+      enum NOT_APPLICABLE;
+      enum NOT_AVAILABLE;
+      enum OFF;
+      enum STEADY_ON;
+      enum SLOW_BLINK;
+      enum FAST_BLINK;
+      enum DOUBLE_FLASH_AND_STEADY_ON;
+      enum DOUBLE_FLASH_AND_OFF;
+    }
+  }
+  grouping FanGroup-attributes {
+    leaf fanGroupFaultIndicator {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf fanPort {
+      type ietfinet:port-number;
+      config false;
+      description "range 1..10.";
+    }
+    leaf fanGroupId {
+      type string;
+      mandatory true;
+    }
+  }
+}

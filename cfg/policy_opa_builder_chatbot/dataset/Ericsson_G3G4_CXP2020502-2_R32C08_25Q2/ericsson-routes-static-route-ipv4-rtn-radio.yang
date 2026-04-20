@@ -1,0 +1,107 @@
+module ericsson-routes-static-route-ipv4-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnRoutesStaticRouteIPv4";
+  prefix rtsstv4rdo;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nConfigure IPv4 Static Routes.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list RouteTableIPv4Static {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Contains manually defined IPv4 static routes defined by Dst MOs and their child NextHop MOs. Dependencies: All Dst MOs under RouteTableIPv4Static MO must have unique dst attributes.";
+      key "routeTableIPv4StaticId";
+      leaf routeTableIPv4StaticId {
+        type leafref {
+          path "../attributes/routeTableIPv4StaticId";
+        }
+      }
+      container attributes {
+      uses RouteTableIPv4Static-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/rtsstv4rdo:RouteTableIPv4Static/rtsstv4rdo:Dst" {
+    list NextHop {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Contains information about the route defined by this MO and its parent Dst MO. Dependencies: Max number of NextHop MOs are 10000 within all RouteTableIpv4Static MOs in the node.";
+      key "nextHopId";
+      leaf nextHopId {
+        type leafref {
+          path "../attributes/nextHopId";
+        }
+      }
+      container attributes {
+      uses NextHop-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/rtsstv4rdo:RouteTableIPv4Static" {
+    list Dst {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents IPv4 destination of routes defined by one or more NextHop child MOs.";
+      key "dstId";
+      leaf dstId {
+        type leafref {
+          path "../attributes/dstId";
+        }
+      }
+      container attributes {
+      uses Dst-attributes;
+      }
+    }
+  }
+  grouping Dst-attributes {
+    leaf dst {
+      description "IPv4 destination prefix for routes defined by NextHop child MOs. Default route is expressed as 0.0.0.0/0..";
+      type string;
+      mandatory true;
+    }
+    leaf dstId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping NextHop-attributes {
+    leaf address {
+      description "IP address of nexthop gateway of this route..";
+      type string;
+    }
+    leaf adminDistance {
+      description "Defines priority of this MO relative to other NextHop MOs under the same Dst MO. Defines priority of this MO relative to routes to the same destination network learned from dynamic routing protocols. Used to select the preferred path when two or more routes lead to the same destination..";
+      type string;
+    }
+    leaf bfdMonitoring {
+      description "Controls whether availability of this route depends on BFD session that monitors nexthop. If set to true, availability of this route depends on session state, if BFD session monitors nexthop. If set to false, availability of this route does not depend on session state, even when BFD session monitors nexthop. To enable BFD monitoring of a nexthop, see details in InterfaceIPv4::bfdStaticRoutes and PeerIPv4::bfdStaticRoutes.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf discard {
+      description "Packets with destination that matches this route are discarded..";
+      type boolean;
+    }
+    leaf nextHopId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf reference {
+      description "Only applicable if IPsec functionality is supported on node, or if matching flows need to be routed to another Router MO. Route traffic from inner network through IPsec VPN connection, or to route flows to another router. If referring to Router MO only originated traffic is supported, external traffic which means IP traffic arriving over TN port will not be routed to another Router MO..";
+      type string;
+    }
+  }
+  grouping RouteTableIPv4Static-attributes {
+    leaf routeTableIPv4StaticId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+}

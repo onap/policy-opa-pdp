@@ -1,0 +1,106 @@
+module huawei-glocellalgpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-glocellalgpara";
+ prefix glocellalgpara;
+ description
+ "Auto-generated modular YANG for huawei-glocellalgpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GLOCELLALGPARA-attributes {
+ leaf AHRCOMPCOEFF {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf AHRCOMPOFFVAL {
+  type int8 {
+   range "-100..100";
+  }
+  mandatory false;
+ }
+ leaf DIVERT16QAMDELAY {
+  type uint8 {
+   range "4..32";
+  }
+  mandatory false;
+ }
+ leaf DIVERT32QAMDELAY {
+  type uint8 {
+   range "4..32";
+  }
+  mandatory false;
+ }
+ leaf DIVERT8PSKDELAY {
+  type uint8 {
+   range "4..32";
+  }
+  mandatory false;
+ }
+ leaf GLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf GMSKDELAY {
+  type uint8 {
+   range "4..32";
+  }
+  mandatory false;
+ }
+ leaf GMSKDELAYDYNADJSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf GU2000KHZMAXVAL {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf GU2200KHZMAXVAL {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf GUDEGRATEPWRCTRL {
+  type boolean;
+  mandatory false;
+ }
+ leaf GUDEGRATEPWRPRI {
+  type boolean;
+  mandatory false;
+ }
+ leaf NAHRCOMPCOEFF {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf NAHRCOMPOFFVAL {
+  type int8 {
+   range "-100..100";
+  }
+  mandatory false;
+ }
+ leaf UMTSFREQNUM1 {
+  type uint16 {
+   range "0..16383";
+  }
+  mandatory false;
+ }
+ leaf UMTSFREQNUM2 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

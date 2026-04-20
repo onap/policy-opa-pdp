@@ -1,0 +1,44 @@
+module huawei-lswport {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-lswport";
+ prefix lswport;
+ description
+ "Auto-generated modular YANG for huawei-lswport" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping LSWPORT-attributes {
+ leaf ETHPORTID {
+  type uint16 {
+   range "0..9999";
+  }
+  mandatory false;
+ }
+ leaf OLD_PORTIDX {
+  type union {
+   type int8 {
+    range "-1..32";
+   }
+  }
+  mandatory false;
+ }
+ leaf PORTIDX {
+  type union {
+   type int8 {
+    range "-1..32";
+   }
+  }
+  mandatory false;
+ }
+ leaf PT {
+  type boolean;
+  mandatory false;
+ }
+ leaf USERLABLE {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

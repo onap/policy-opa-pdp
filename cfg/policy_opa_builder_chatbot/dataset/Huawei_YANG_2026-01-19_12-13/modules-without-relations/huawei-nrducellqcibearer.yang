@@ -1,0 +1,213 @@
+module huawei-nrducellqcibearer {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellqcibearer";
+ prefix nrducellqcibearer;
+ description
+ "Auto-generated modular YANG for huawei-nrducellqcibearer" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLQCIBEARER-attributes {
+ leaf AMRLCPARAMGROUPID {
+  type uint8 {
+   range "0..172";
+  }
+  mandatory false;
+ }
+ leaf ANBRMULTIPLIER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf CELLRESID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf DLSERVICEDIFFRATELIMIT {
+  type uint16 {
+   range "0..10000";
+  }
+  mandatory false;
+ }
+ leaf DUDRXPARAMGROUPID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf HSCELLLOWSPEEDUEINACTTIMER {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf INACTIVEUEINACTIVITYTIMER {
+  type uint16 {
+   range "0..43200";
+  }
+  mandatory false;
+ }
+ leaf MACPARAMGROUPID {
+  type uint8 {
+   range "0..172";
+  }
+  mandatory false;
+ }
+ leaf MAXCLOUDSERVSCHTRANSTIME {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf OLD_NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_QCI {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf QCI {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf QCIALGOPARAMGROUPID {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf QCIBWP1TOBWP2DLTHPTTHLD {
+  type uint16 {
+   range "0..50000";
+  }
+  mandatory false;
+ }
+ leaf QCIBWP1TOBWP2ULTHPTTHLD {
+  type uint16 {
+   range "0..50000";
+  }
+  mandatory false;
+ }
+ leaf QCIBWP2IND {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf QCIDLSTTRANSITBUFVOLTHLD {
+  type union {
+   type uint16 {
+    range "1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf QCISPECIFICSRSPERIOD {
+  type enumeration {
+   enum val-5;
+   enum val-7;
+   enum val-9;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+  }
+  mandatory false;
+ }
+ leaf REDCAPBLBPARAMGROUPID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf REDCAPDUDRXPARAMGROUPID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf REDCAPUEINACTIVITYTIMER {
+  type uint16 {
+   range "0..43200";
+  }
+  mandatory false;
+ }
+ leaf SCHEDULEPARAMGROUPID {
+  type union {
+   type uint8 {
+    range "1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVICEDIFFALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf SERVICEDIFFRIRESTR {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf UEINACTIVITYTIMER {
+  type uint16 {
+   range "0..43200";
+  }
+  mandatory false;
+ }
+ leaf ULLIVESERVGUARRATE {
+  type uint32 {
+   range "0..1000000";
+  }
+  mandatory false;
+ }
+ leaf UMRLCPARAMGROUPID {
+  type uint8 {
+   range "0..172";
+  }
+  mandatory false;
+ }
+ }
+}

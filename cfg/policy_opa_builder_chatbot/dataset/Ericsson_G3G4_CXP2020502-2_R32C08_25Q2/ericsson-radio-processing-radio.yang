@@ -1,0 +1,127 @@
+module ericsson-radio-processing-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRadioProcessing";
+  prefix rdoprrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nManaged Object Model RadioProcessing";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list RadioProcessing {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Represents radio real time performance data. This MO is created by the system when FieldReplaceableUnit supports radio measurements. The RDN of this MO is RadioProcessing=1.";
+      key "radioProcessingId";
+      leaf radioProcessingId {
+        type leafref {
+          path "../attributes/radioProcessingId";
+        }
+      }
+      container attributes {
+      uses RadioProcessing-attributes;
+      }
+    }
+  }
+  typedef CapabilityStatus {
+    description "Capability for measurement support reported from radio hardware unit.";
+    type enumeration {
+      enum NOT_SUPPORTED {
+        description "Given FRU has no capability for measurements.";
+      }
+      enum SUPPORTED {
+        description "Given FRU has capability for measurements.";
+      }
+    }
+  }
+  grouping AntennaDcDcMeasurements-struct {
+    description "Voltage measurements from antenna DC-DC converter block.";
+    leaf blockDcDc {
+      type string;
+    }
+    leaf capabilityStatus {
+      type enumeration {
+        enum NOT_SUPPORTED;
+        enum SUPPORTED;
+      }
+    }
+    leaf sampleTime {
+      type string;
+    }
+    leaf voltageAvgValue {
+      type string;
+    }
+    leaf voltageMaxValue {
+      type string;
+    }
+    leaf voltageMinValue {
+      type string;
+    }
+  }
+  grouping CarrierPowerMeasurementResult-struct {
+    description "Result of carrier power measurements.";
+    leaf capabilityStatus {
+      type enumeration {
+        enum NOT_SUPPORTED;
+        enum SUPPORTED;
+      }
+    }
+    leaf carrierRef {
+      type string;
+    }
+    leaf powerAvgValue {
+      type string;
+    }
+    leaf powerMaxValue {
+      type string;
+    }
+    leaf powerMinValue {
+      type string;
+    }
+    leaf rfPort {
+      type string;
+    }
+    leaf sampleTime {
+      type string;
+    }
+  }
+  grouping RadioProcessing-attributes {
+    leaf radioProcessingId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list antennaDcVoltage {
+      config false;
+      min-elements 0;
+      uses AntennaDcDcMeasurements-struct;
+    }
+    list carrierRxPower {
+      config false;
+      min-elements 0;
+      uses CarrierPowerMeasurementResult-struct;
+    }
+    list carrierTxPower {
+      config false;
+      min-elements 0;
+      uses CarrierPowerMeasurementResult-struct;
+    }
+    leaf pmTxOffTime {
+      description "Average time transmission power off for RF ports or antenna elements. Unit: 1 ms..";
+      type uint32;
+      config false;
+    }
+    leaf-list pmTxOffRatio {
+      description "Average relative time transmission power off for RF ports or antenna elements recorded in regular periodic intervals during one ROP. Unit: %. Bins: [0] Transmission power off in [0..5] seconds in ROP. [1] Transmission power off in [6..11] seconds in ROP. ... [148] Transmission power off in [888..893] seconds in ROP. [149] Transmission power off in [894..899] seconds in ROP..";
+      type int32;
+      max-elements 150;
+    }
+  }
+}

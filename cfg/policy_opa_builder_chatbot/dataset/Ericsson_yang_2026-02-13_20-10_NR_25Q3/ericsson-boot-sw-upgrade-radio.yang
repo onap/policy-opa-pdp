@@ -1,0 +1,44 @@
+module ericsson-boot-sw-upgrade-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqBootSwUpgrade";
+  prefix bswupgrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list BootSwUpgrade {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Controls upgrade of AUBOOT software inventory of FRU.";
+      key "bootSwUpgradeId";
+      leaf bootSwUpgradeId {
+        type leafref {
+          path "../attributes/bootSwUpgradeId";
+        }
+      }
+      container attributes {
+        uses BootSwUpgrade-attributes;
+      }
+    }
+  }
+  grouping BootSwUpgrade-attributes {
+    leaf bootSwUpgradeId {
+      type string;
+      mandatory true;
+    }
+    leaf bootSwUpgradeEnabled {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+  }
+}

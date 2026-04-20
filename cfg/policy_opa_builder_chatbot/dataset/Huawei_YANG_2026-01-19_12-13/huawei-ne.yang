@@ -1,0 +1,32 @@
+module huawei-ne {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ne";
+ prefix ne;
+ import huawei-yang-types {
+  prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-ne" ;
+ revision "2026-01-19" {
+ description "Auto-generated revision from input files: CMEMRAT_5900_NRM_Spec_V1R21C10.xsd CMESRANGenericNRM.xsd CMESRANcfgCMData_spec.xsd BTS3900&BTS5900 V100R021C10SPC230 eNodeBFunction Northbound Interface MOC Relation.xml BTS3900&BTS5900 V100R021C10SPC230 GBTSFunction Northbound Interface MOC Relation.xml BTS3900&BTS5900 V100R021C10SPC230 gNodeBFunction Northbound Interface MOC Relation.xml BTS3900&BTS5900 V100R021C10SPC230 Node Northbound Interface MOC Relation.xml BTS3900&BTS5900 V100R021C10SPC230 NodeBFunction Northbound Interface MOC Relation.xml Generated at 2026-01-19 12:13.";
+ }
+ list NE {
+  key "neid";
+  leaf neid { type string; mandatory true; }
+  container attributes {
+   leaf modifier {
+    type hwat:modifier_M;
+    mandatory false;
+   }
+   leaf remark {
+    type string;
+    mandatory false;
+   }
+   leaf template {
+    type string;
+    mandatory false;
+   }
+  }
+  description "Root NE list (key=neid).";
+ }
+}

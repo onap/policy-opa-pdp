@@ -1,0 +1,83 @@
+module ericsson-rmesf-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSf";
+  prefix rmesf;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/ServiceFinder" {
+    list ServiceFinderServerInfo {
+      description "Additional definitions from MOM:min/max-elements:0/32; Represents Service Finder Server Info MO. Configuration data of service discovery server hosts. When this MO class is created, the service discovery client will connect to the service discovery server defined in dstHost and dstPort.";
+      key "serviceFinderServerInfoId";
+      leaf serviceFinderServerInfoId {
+        type leafref {
+          path "../attributes/serviceFinderServerInfoId";
+        }
+      }
+      container attributes {
+        uses ServiceFinderServerInfo-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ServiceFinder {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents Service Finder MO. Configuration data for service discovery clients. This MO class and at least one ServiceFinderServerInfo MO class must be created to activate node external service discovery function. Observe this MO is not needed for node internal service discovery function, which is automatically activated at node startup.";
+      key "serviceFinderId";
+      leaf serviceFinderId {
+        type leafref {
+          path "../attributes/serviceFinderId";
+        }
+      }
+      container attributes {
+        uses ServiceFinder-attributes;
+      }
+    }
+  }
+  grouping ServiceFinder-attributes {
+    leaf serviceFinderId {
+      type string;
+      mandatory true;
+    }
+    leaf accessPoint {
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      type string;
+      mandatory true;
+    }
+    leaf trustCategory {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping ServiceFinderServerInfo-attributes {
+    leaf serviceFinderServerInfoId {
+      type string;
+      mandatory true;
+    }
+    leaf dstHost {
+      type string;
+      mandatory true;
+    }
+    leaf dstPort {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+}

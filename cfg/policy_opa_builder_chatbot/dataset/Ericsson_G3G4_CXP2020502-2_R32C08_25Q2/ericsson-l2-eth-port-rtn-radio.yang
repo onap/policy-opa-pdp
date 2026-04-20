@@ -1,0 +1,453 @@
+module ericsson-l2-eth-port-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL2EthernetPort";
+  prefix l2ethptrdo;
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-extended-transport-rtn-radio {
+    prefix exttrrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nEthernet port.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list EthernetPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents Ethernet MAC service access point. Dependencies: All EthernetPort MOs refering to TnPort MO must be configured on same FieldReplaceableUnit MO. All EthernetPort MOs configuring TnPort MO must be configured on primary core FieldReplaceableUnit MO. EthernetPort MO, reserved by LagPort MO, cannot refer to Dot1xSupplicant MO. EthernetPort MO, reserved by LagPort MO, cannot have child of MO type Dot1xAuthenticatorPort. EthernetPort MO, reserved by InterfaceIPv4 MO or InterfaceIPv6 MO, cannot configure Dot1xAuthenticatorPort MO. If EthernetPort MO is created by user, RDN of this MO cannot contain prefix ”auto_”. If EthernetPort MO is not created by user for RiPort MO using transmission standard Ethernet and part of eCPRI link, it is created automatically. For EthernetPort MO that encapsulates RiPort MO: - If EthernetPort MO encapsulates RiPort MO that belongs to FieldReplaceableUnit MO that represents external unit to primary core, EthernetPort MO must have ExtendedTransport MO as parent. - If EthernetPort MO is created automatically, RDN of this MO is EthernetPort=auto_<riPortId>. VlanPort MO cannot refer this MO if both following apply: If this MO has Dot1xAuthenticatorPort MO as child. If VlanPort MO is reserved by MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction, or ExtGNBDUPartnerFunction. If Dot1xAuthenticatorPort MO exists, supplicant attribute cannot be set, or if supplicant attribute is set Dot1xAuthenticatorPort MO cannot be created in same EthernetPort MO. QueueSystem and egress traffic shaping has no effect on low latency traffic.";
+      key "ethernetPortId";
+      leaf ethernetPortId {
+        type leafref {
+          path "../attributes/ethernetPortId";
+        }
+      }
+      container attributes {
+      uses EthernetPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/exttrrdo:ExtendedTransport" {
+    list EthernetPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents Ethernet MAC service access point. Dependencies: All EthernetPort MOs refering to TnPort MO must be configured on same FieldReplaceableUnit MO. All EthernetPort MOs configuring TnPort MO must be configured on primary core FieldReplaceableUnit MO. EthernetPort MO, reserved by LagPort MO, cannot refer to Dot1xSupplicant MO. EthernetPort MO, reserved by LagPort MO, cannot have child of MO type Dot1xAuthenticatorPort. EthernetPort MO, reserved by InterfaceIPv4 MO or InterfaceIPv6 MO, cannot configure Dot1xAuthenticatorPort MO. If EthernetPort MO is created by user, RDN of this MO cannot contain prefix ”auto_”. If EthernetPort MO is not created by user for RiPort MO using transmission standard Ethernet and part of eCPRI link, it is created automatically. For EthernetPort MO that encapsulates RiPort MO: - If EthernetPort MO encapsulates RiPort MO that belongs to FieldReplaceableUnit MO that represents external unit to primary core, EthernetPort MO must have ExtendedTransport MO as parent. - If EthernetPort MO is created automatically, RDN of this MO is EthernetPort=auto_<riPortId>. VlanPort MO cannot refer this MO if both following apply: If this MO has Dot1xAuthenticatorPort MO as child. If VlanPort MO is reserved by MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction, or ExtGNBDUPartnerFunction. If Dot1xAuthenticatorPort MO exists, supplicant attribute cannot be set, or if supplicant attribute is set Dot1xAuthenticatorPort MO cannot be created in same EthernetPort MO. QueueSystem and egress traffic shaping has no effect on low latency traffic.";
+      key "ethernetPortId";
+      leaf ethernetPortId {
+        type leafref {
+          path "../attributes/ethernetPortId";
+        }
+      }
+      container attributes {
+      uses EthernetPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "The administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef EthPortOperatingMode {
+    description "Operating modes specify speed, duplex and master or slave states.";
+    type enumeration {
+      enum ANY {
+      }
+      enum _10M_HALF {
+      }
+      enum _10M_FULL {
+      }
+      enum _100M_HALF {
+      }
+      enum _100M_FULL {
+      }
+      enum _1G_FULL {
+      }
+      enum _1G_FULL_SLAVE {
+      }
+      enum _1G_FULL_MASTER {
+      }
+      enum _10G_FULL {
+      }
+      enum _10G_FULL_MASTER {
+      }
+      enum _10G_FULL_SLAVE {
+      }
+      enum _40G_FULL {
+      }
+      enum _100G_FULL {
+      }
+      enum _25G_AUTO_FEC {
+        description "25G with auto-negotiation of FEC algorithm.";
+      }
+      enum _25G_NO_FEC {
+        description "25G with FEC disabled.";
+      }
+      enum _25G_RS_FEC {
+        description "25G with Reed-Solomon (RS) FEC enabled.";
+      }
+      enum _25G_BASER_FEC {
+        description "25G with Firecode (BASE-R) FEC algorithm enabled.";
+      }
+      enum _50G_NO_FEC {
+        description "50G with FEC disabled.";
+      }
+      enum _50G_RS_FEC {
+        description "50G with RS FEC enabled.";
+      }
+      enum _100G_NO_FEC {
+        description "100G with FEC disabled.";
+      }
+      enum _100G_RS_FEC {
+        description "100G with RS FEC enabled.";
+      }
+      enum _2_5G_FULL {
+      }
+      enum _2_5G_FULL_MASTER {
+      }
+      enum _2_5G_FULL_SLAVE {
+      }
+      enum _5G_FULL {
+      }
+      enum _5G_FULL_MASTER {
+      }
+      enum _5G_FULL_SLAVE {
+      }
+    }
+  }
+  typedef LldpTransmit {
+    description "Enables Tx mode of Link Layer Discovery Protocol (LLDP) on specific EthernetPort MO.";
+    type enumeration {
+      enum DISABLED {
+        description "LLDP Tx is disabled on this port.";
+      }
+      enum ENABLED {
+        description "LLDP Tx is enabled on this port.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping EthernetPort-attributes {
+    leaf administrativeState {
+      description "The administrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf admOperatingMode {
+      description "Administrative operating mode of Ethernet port. Used when auto-negotiation is enabled or disabled..";
+      type enumeration {
+        enum ANY;
+        enum _10M_HALF;
+        enum _10M_FULL;
+        enum _100M_HALF;
+        enum _100M_FULL;
+        enum _1G_FULL;
+        enum _1G_FULL_SLAVE;
+        enum _1G_FULL_MASTER;
+        enum _10G_FULL;
+        enum _10G_FULL_MASTER;
+        enum _10G_FULL_SLAVE;
+        enum _40G_FULL;
+        enum _100G_FULL;
+        enum _25G_AUTO_FEC;
+        enum _25G_NO_FEC;
+        enum _25G_RS_FEC;
+        enum _25G_BASER_FEC;
+        enum _50G_NO_FEC;
+        enum _50G_RS_FEC;
+        enum _100G_NO_FEC;
+        enum _100G_RS_FEC;
+        enum _2_5G_FULL;
+        enum _2_5G_FULL_MASTER;
+        enum _2_5G_FULL_SLAVE;
+        enum _5G_FULL;
+        enum _5G_FULL_MASTER;
+        enum _5G_FULL_SLAVE;
+      }
+    }
+    leaf autoNegEnable {
+      description "Whether auto-negotiation of operating mode is enabled or disabled for this Ethernet port. If true, auto-negotiation is enabled. If false, auto-negotiation is disabled. If true, 1Gbps Ethernet over twisted-pair cable can be used with RJ45 connector. If admOperatingMode is 25G_AUTO_FEC, this attribute must not be set to false. If admOperatingMode is 10G_FULL, this attribute must not be set to true. Can only support: - Ethernet over twisted-pair cable with RJ45 connector. - 1Gbps over twinaxial copper or fiber-optical cable with SFP connector. Cannot be set to false if underlying encapsulation is RiPort MO.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. Details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf egressQosClassification {
+      description "Not supported in this release. DSCP to PCP map. Used to classify DSCP tagged packets to PCP value for egress traffic in order to be handled correctly by queue system. It can refer to an DscpPcpMap MO. Empty string means no classification is done on DSCP. That is, PCP value is trusted. Attribute is used for specific issues within QoS domain and should most often be empty..";
+      type string;
+    }
+    leaf egressQosMarking {
+      description "Not supported in this release. DSCP to PCP map. Used to re-mark DSCP tagged packets to PCP value for egress traffic. It can refer to DscpPcpMap MO. Empty string means no re-marking is done on DSCP. Attribute is used for specific issues within QoS domain and should most often be empty..";
+      type string;
+    }
+    leaf egressQosQueueMap {
+      description "PcpToQueueMap MO used by configuring EthernetPort MO..";
+      type string;
+    }
+    leaf encapsulation {
+      description "Reference to underlying encapsulation. Underlying encapsulation can be TnPort MO or RiPort MO..";
+      type string;
+      mandatory true;
+    }
+    leaf ethernetPortId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf holdDownTimer {
+      description "Delay until operationalState changes to ENABLED. Starts when physical port comes up. When attribute is empty, there is no hold-down timer for Ethernet port.; range 100..10000.";
+      type uint32 {
+        range "100..10000";
+      }
+      units "ms";
+    }
+    leaf-list ingressQosMarking {
+      description "DSCP to DSCP and/or PCP to PCP map used to re-mark DSCP and/or PCP tagged packets. Empty string means no re-marking is done. Attribute is used to fix specific issues within QoS domain and should most often be empty. It can refer to DscpDscpMap and/or PcpPcpMap MO..";
+      type string;
+      min-elements 0;
+      max-elements 2;
+    }
+    leaf lldpTransmit {
+      description "Enables Tx mode of Link Layer Discovery Protocol (LLDP) on EthernetPort MO with underlying encapsulation set as TnPort MO. Works in conjunction with Lldp MO. To activate LLDP Tx for Ethernet port, lldpTransmit must be set to ENABLED and Lldp MO must exist..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf macAddress {
+      description "Assigned individual MAC address..";
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf mtu {
+      description "MTU. Largest PDU that Ethernet layer can pass on Ethernet port. PDU includes Ethernet header, Ethertype, payload and frame check sequence. When underlying encapsulation is RiPort MO, value is 0 (zero)..";
+      type int32;
+      config false;
+      units "B";
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf operOperatingMode {
+      description "Operational speed, duplex, and master or slave state of Ethernet port..";
+      type enumeration {
+        enum ANY;
+        enum _10M_HALF;
+        enum _10M_FULL;
+        enum _100M_HALF;
+        enum _100M_FULL;
+        enum _1G_FULL;
+        enum _1G_FULL_SLAVE;
+        enum _1G_FULL_MASTER;
+        enum _10G_FULL;
+        enum _10G_FULL_MASTER;
+        enum _10G_FULL_SLAVE;
+        enum _40G_FULL;
+        enum _100G_FULL;
+        enum _25G_AUTO_FEC;
+        enum _25G_NO_FEC;
+        enum _25G_RS_FEC;
+        enum _25G_BASER_FEC;
+        enum _50G_NO_FEC;
+        enum _50G_RS_FEC;
+        enum _100G_NO_FEC;
+        enum _100G_RS_FEC;
+        enum _2_5G_FULL;
+        enum _2_5G_FULL_MASTER;
+        enum _2_5G_FULL_SLAVE;
+        enum _5G_FULL;
+        enum _5G_FULL_MASTER;
+        enum _5G_FULL_SLAVE;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf supplicant {
+      description "Reference to Dot1xSupplicant MO. Empty string means supplicant is not used..";
+      type string;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf ifOutErrors {
+      description "Number of outbound packets that could not be transmitted because of errors. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutOctets {
+      description "Total number of octets transmitted out of interface, including framing characters. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifInErrors {
+      description "Number of inbound packets contained errors preventing them from being deliverable to higher-layer protocol. Standard reference: RFC 2863, section 6. Counts received over-size packets and packets with FCS, alignment or symbol error..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutMulticastPkts {
+      description "Total number of multicast packets that are requested to be transmitted. Multicast packets counted by ifOutDiscards and ifOutErrors are included. Low latency switching traffic is not included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifInUnknownTags {
+      description "Number of packets received via interface are discarded due to unknown VLAN ID. E-RAN supervision traffic is included for following equipment: - Baseband5212 - Baseband5216 - Baseband6303 - Baseband6318 - Baseband6502 - Baseband6620 - Baseband6630 For different equipment E-RAN supervision traffic is not included. This counter is not supported for EthernetPort MO when using RI port..";
+      type uint64;
+      config false;
+    }
+    leaf ifInDiscards {
+      description "Number of inbound packets which were chosen to be discarded, even though no errors had been detected to prevent their being deliverable to higher-layer protocol. Standard reference: RFC 2863, section 6. This counter is not supported for EthernetPort MO when using RI port..";
+      type uint64;
+      config false;
+    }
+    leaf ifMaxLossOfSignalDuration {
+      description "Maximum duration in milliseconds where connection is lost due to Ethernet link failures, measured via loss of signal detection. This counter is not supported for EthernetPort MO when using RI port..";
+      type int64;
+      config false;
+    }
+    leaf ifHCLossOfSignal {
+      description "Total number of times connection is lost due to Ethernet link failures, measured via loss of signal detection. This counter is not supported for EthernetPort MO when using RI port..";
+      type uint64;
+      config false;
+    }
+    leaf ifMinLossOfSignalDuration {
+      description "Minimum duration in milliseconds where connection is lost due to Ethernet link failures, measured via the loss of signal detection. This counter is not supported for EthernetPort MO when using RI port..";
+      type int64;
+      config false;
+    }
+    leaf ifHCInUcastPkts {
+      description "Number of unicast packets forwarded to bridge or delivered to higher layer or sublayer. Packets counted by following counters are not included: - ifInErrors - ifInUnknownProtos - ifInUnknownTags - ifInDiscards Standard reference: RFC 2863, section 6. Low latency switching traffic is not included. E-RAN supervision traffic is included for following equipment: - Baseband5212 - Baseband5216 - Baseband6303 - Baseband6318 - Baseband6502 - Baseband6620 - Baseband6630 For other equipment E-RAN supervision traffic is not included..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutBroadcastPkts {
+      description "Total number of broadcast packets that are requested to be transmitted. Broadcast packets counted by ifOutDiscards and ifOutErrors are included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInMulticastPkts {
+      description "Number of multicast packets forwarded to bridge or delivered to higher (sub-)layer. Packets counted by ifInErrors, ifInUnknownProtos, ifInUnknownTags and ifInDiscards are not included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutUcastPkts {
+      description "Total number of unicast packets that are requested to be transmitted. Unicast packets counted by ifOutDiscards and ifOutErrors are included. Low latency switching traffic is not included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInBroadcastPkts {
+      description "Number of broadcast packets forwarded to bridge or delivered to higher (sub-)layer. Packets counted by ifInErrors, ifInUnknownProtos, ifInUnknownTags and ifInDiscards are not included. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf-list ifInOctetRatePercentiles {
+      description "Distribution of ingress throughput on Ethernet interface measured in octets per second. Throughput samples are based on ifHCInOctets and are taken every second. This counter is not supported for EthernetPort MO when using IDL port..";
+      type int64;
+      max-elements 7;
+    }
+    leaf-list ifOutOctetRatePercentiles {
+      description "Distribution of egress throughput on Ethernet interface measured in octets per second. Throughput samples are based on ifHCOutOctets and are taken every second. This counter is not supported for EthernetPort MO when using IDL port..";
+      type int64;
+      max-elements 7;
+    }
+    leaf ifOutDiscards {
+      description "Number of outbound packets which were discarded even though no errors had been detected, for example due to lack of buffer space or traffic shaping. Standard reference: RFC 2863, section 6. This counter is not supported for EthernetPort MO when using RI port..";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInOctets {
+      description "Total number of octets received on interface, including framing characters. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+    leaf ifInUnknownProtos {
+      description "Number of packets received via interface are discarded due to unknown or unsupported protocol. Standard reference: RFC 2863, section 6. E-RAN supervision traffic is included for following equipment: - Baseband5212 - Baseband5216 - Baseband6303 - Baseband6318 - Baseband6502 - Baseband6620 - Baseband6630 For other equipment E-RAN supervision traffic is not included. This counter is not supported for EthernetPort MO when using RI port..";
+      type uint64;
+      config false;
+    }
+    leaf ifTotalLossOfSignalDuration {
+      description "Total duration in milliseconds where connection is lost due to Ethernet link failures, measured via the loss of signal detection. This counter is not supported for EthernetPort MO when using RI port..";
+      type uint64;
+      config false;
+    }
+  }
+}

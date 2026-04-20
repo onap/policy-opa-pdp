@@ -1,0 +1,210 @@
+module ericsson-rcslocalauthorization-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsLocalAuthorization";
+  prefix rcslocal;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/LocalAuthorizationMethod" {
+    list Role {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Authorization roles that may be assigned to users. Roles have a containment relationship to the rules which define the access controls to objects.";
+      key "roleId";
+      leaf roleId {
+        type leafref {
+          path "../attributes/roleId";
+        }
+      }
+      container attributes {
+        uses Role-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/LocalAuthorizationMethod" {
+    list CustomRole {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Authorization roles defined by the MS that may be assigned to users. CustomRole MO instances are associated to CustomRule MO instances, which define the access controls to objects.";
+      key "customRoleId";
+      leaf customRoleId {
+        type leafref {
+          path "../attributes/customRoleId";
+        }
+      }
+      container attributes {
+        uses CustomRole-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/LocalAuthorizationMethod" {
+    list CustomRule {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; The rules created by the MS that define the access control to objects. The CustomRule MO instances are associated with CustomRole MO instances, which may be then applied to users.";
+      key "customRuleId";
+      leaf customRuleId {
+        type leafref {
+          path "../attributes/customRuleId";
+        }
+      }
+      container attributes {
+        uses CustomRule-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/LocalAuthorizationMethod/Role" {
+    list Rule {
+      description "Additional definitions from MOM:min/max-elements:1/unbounded;systemCreated; The rules that define the access control to objects. A Rule MO is contained by a Role MO which may be then applied to users.";
+      key "ruleId";
+      leaf ruleId {
+        type leafref {
+          path "../attributes/ruleId";
+        }
+      }
+      container attributes {
+        uses Rule-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement" {
+    list LocalAuthorizationMethod {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The Root MOC of the Local Authorization method. Roles and authorization rules are defined to build a Role Based Access Control (RBAC) model for controlling access to Managed Element resources such as Managed Objects, attributes, actions and CLI commands.";
+      key "localAuthorizationMethodId";
+      leaf localAuthorizationMethodId {
+        type leafref {
+          path "../attributes/localAuthorizationMethodId";
+        }
+      }
+      container attributes {
+        uses LocalAuthorizationMethod-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef PermissionType {
+    type enumeration {
+      enum R;
+      enum RW;
+      enum X;
+      enum RX;
+      enum RWX;
+      enum NO_ACCESS;
+    }
+  }
+  grouping CustomRole-attributes {
+    leaf customRoleId {
+      type string;
+      mandatory true;
+    }
+    leaf roleName {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf-list rules {
+      type string;
+      min-elements 1;
+    }
+  }
+  grouping CustomRule-attributes {
+    leaf customRuleId {
+      type string;
+      mandatory true;
+    }
+    leaf ruleName {
+      type string;
+    }
+    leaf permission {
+      type enumeration {
+        enum R;
+        enum RW;
+        enum X;
+        enum RX;
+        enum RWX;
+        enum NO_ACCESS;
+      }
+      mandatory true;
+    }
+    leaf ruleData {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedByRoles {
+      type string;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping LocalAuthorizationMethod-attributes {
+    leaf localAuthorizationMethodId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping Role-attributes {
+    leaf roleId {
+      type string;
+      mandatory true;
+    }
+    leaf roleName {
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping Rule-attributes {
+    leaf ruleId {
+      type string;
+      mandatory true;
+    }
+    leaf ruleName {
+      type string;
+      config false;
+    }
+    leaf permission {
+      type enumeration {
+        enum R;
+        enum RW;
+        enum X;
+        enum RX;
+        enum RWX;
+        enum NO_ACCESS;
+      }
+      config false;
+    }
+    leaf ruleData {
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+}

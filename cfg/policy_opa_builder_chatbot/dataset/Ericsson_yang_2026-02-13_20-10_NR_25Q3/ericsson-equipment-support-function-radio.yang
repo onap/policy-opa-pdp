@@ -1,0 +1,64 @@
+module ericsson-equipment-support-function-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ResEquipmentSupportFunction";
+  prefix eqsupfnrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement" {
+    list EquipmentSupportFunction {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; This MO represents the logical functions needed for other equipment to function properly. These are functions like Power Supply and Climate. One instance of this MO is created by the system.";
+      key "equipmentSupportFunctionId";
+      leaf equipmentSupportFunctionId {
+        type leafref {
+          path "../attributes/equipmentSupportFunctionId";
+        }
+      }
+      container attributes {
+        uses EquipmentSupportFunction-attributes;
+      }
+    }
+  }
+  grouping EquipmentSupportFunction-attributes {
+    leaf equipmentSupportFunctionId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf supportSystemControl {
+      type ietfinet:port-number;
+      description "Default value: true.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf autoCreateUnits {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf autoCreateExternalNodes {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf supportFunction {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf release {
+      type string;
+      config false;
+    }
+  }
+}

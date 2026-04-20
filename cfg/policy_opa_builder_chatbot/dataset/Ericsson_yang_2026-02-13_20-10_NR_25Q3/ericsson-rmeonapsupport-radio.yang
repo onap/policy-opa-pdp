@@ -1,0 +1,267 @@
+module ericsson-rmeonapsupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeOnapSupport";
+  prefix rmeonaps;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef ConfigLevelOnap {
+    type enumeration {
+      enum NOT_INTEGRATED;
+      enum INTEGRATION_COMPLETE;
+      enum INTEGRATION_FAILED;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef VesClientType {
+    type enumeration {
+      enum FM_VES_CLIENT;
+      enum PM_VES_CLIENT;
+      enum PNF_REG_VES_CLIENT;
+      enum CELL_TRACE_VES_CLIENT;
+    }
+  }
+  grouping NetconfYangSsh-attributes {
+    leaf netconfYangSshId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf port {
+      type ietfinet:port-number;
+      default "840";
+      description "Default value: 840.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+  }
+  grouping NetconfYangTls-attributes {
+    leaf netconfYangTlsId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf trustCategory {
+      type string;
+    }
+    leaf port {
+      type ietfinet:port-number;
+    }
+    leaf nodeCredential {
+      type string;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+  }
+  grouping OnapAutoProvisioning-attributes {
+    leaf onapAutoProvisioningId {
+      type string;
+      mandatory true;
+    }
+    leaf onapConfigLevel {
+      type enumeration {
+        enum NOT_INTEGRATED;
+        enum INTEGRATION_COMPLETE;
+        enum INTEGRATION_FAILED;
+      }
+    }
+    leaf pnfRegPeriodicity {
+      type uint32 {
+        range "1..86400";
+      }
+      units "s";
+      description "range 1..86400.";
+    }
+    leaf pnfRegStopTimer {
+      type uint16 {
+        range "0..8760";
+      }
+      units "hour";
+      description "range 0..8760.";
+    }
+  }
+  grouping OnapSupport-attributes {
+  }
+  grouping VesClient-attributes {
+    leaf vesClientId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf primaryAddress {
+      type string;
+    }
+    list primaryPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf primaryUsername {
+      type string;
+    }
+    leaf secondaryAddress {
+      type string;
+    }
+    list secondaryPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf secondaryUsername {
+      type string;
+    }
+    leaf trustCategory {
+      type string;
+    }
+    leaf-list clientType {
+      type enumeration {
+        enum FM_VES_CLIENT;
+        enum PM_VES_CLIENT;
+        enum PNF_REG_VES_CLIENT;
+        enum CELL_TRACE_VES_CLIENT;
+      }
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf nodeCredential {
+      type string;
+    }
+  }
+}

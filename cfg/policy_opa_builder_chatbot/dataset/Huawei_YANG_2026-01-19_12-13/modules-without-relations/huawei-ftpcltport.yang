@@ -1,0 +1,56 @@
+module huawei-ftpcltport {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ftpcltport";
+ prefix ftpcltport;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-ftpcltport" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container ftpcltport-ipv4 {
+  container attributes {
+   uses FTPCLTPORT-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping FTPCLTPORT-attributes {
+ leaf ENDDATAPORT {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf PORT {
+  type uint16 {
+   range "21..65535";
+  }
+  mandatory false;
+ }
+ leaf OLD_SERVERIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf SERVERIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf STARTDATAPORT {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,62 @@
+module huawei-digiantinfo {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-digiantinfo";
+ prefix digiantinfo;
+ description
+ "Auto-generated modular YANG for huawei-digiantinfo" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping DIGIANTINFO-attributes {
+ leaf OLD_DEVICENO {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf DEVICENO {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_EFFECTIVERANGE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+  }
+  mandatory false;
+ }
+ leaf EFFECTIVERANGE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+  }
+  mandatory false;
+ }
+ leaf OPTIONALFUNCTION {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_SUBUNITNO {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SUBUNITNO {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

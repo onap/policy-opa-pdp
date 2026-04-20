@@ -1,0 +1,408 @@
+module ericsson-rcsfm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsFm";
+  prefix rcsfm;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list Fm {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The root MOC of the Fault Management branch.";
+      key "fmId";
+      leaf fmId {
+        type leafref {
+          path "../attributes/fmId";
+        }
+      }
+      container attributes {
+        uses Fm-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Fm" {
+    list FmAlarmModel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; This is a container for grouping FM alarm types.";
+      key "fmAlarmModelId";
+      leaf fmAlarmModelId {
+        type leafref {
+          path "../attributes/fmAlarmModelId";
+        }
+      }
+      container attributes {
+        uses FmAlarmModel-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Fm" {
+    list FmAlarm {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; An FmAlarm instance represents an active alarm. An alarm is a persistent indication of a fault that clears only when the triggering condition has been resolved.";
+      key "fmAlarmId";
+      leaf fmAlarmId {
+        type leafref {
+          path "../attributes/fmAlarmId";
+        }
+      }
+      container attributes {
+        uses FmAlarm-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Fm" {
+    list FmFilterModel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Container for grouping FM notification filters.";
+      key "fmFilterModelId";
+      leaf fmFilterModelId {
+        type leafref {
+          path "../attributes/fmFilterModelId";
+        }
+      }
+      container attributes {
+        uses FmFilterModel-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Fm/FmAlarmModel" {
+    list FmAlarmType {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; A specific kind of alarm that can be reported, for example \"power failure\". In an X.733 context it maps to event type, probable cause, and specific problem. The same principle is used for alert types as for alarm types.";
+      key "fmAlarmTypeId";
+      leaf fmAlarmTypeId {
+        type leafref {
+          path "../attributes/fmAlarmTypeId";
+        }
+      }
+      container attributes {
+        uses FmAlarmType-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/Fm/FmFilterModel" {
+    list FmFilter {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; User defined filter for suppressing FM alarms and alerts.";
+      key "fmFilterId";
+      leaf fmFilterId {
+        type leafref {
+          path "../attributes/fmFilterId";
+        }
+      }
+      container attributes {
+        uses FmFilter-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef EventType {
+    type enumeration {
+      enum OTHER;
+      enum COMMUNICATIONSALARM;
+      enum QUALITYOFSERVICEALARM;
+      enum PROCESSINGERRORALARM;
+      enum EQUIPMENTALARM;
+      enum ENVIRONMENTALALARM;
+      enum INTEGRITYVIOLATION;
+      enum OPERATIONALVIOLATION;
+      enum PHYSICALVIOLATION;
+      enum SECURITYSERVICEORMECHANISMVIOLATION;
+      enum TIMEDOMAINVIOLATION;
+    }
+  }
+  typedef NotificationState {
+    type enumeration {
+      enum NOTIFIED;
+      enum SUPPRESSED;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef SeverityLevel {
+    type enumeration {
+      enum CRITICAL;
+      enum MAJOR;
+      enum MINOR;
+      enum WARNING;
+    }
+  }
+  grouping Fm-attributes {
+    leaf fmId {
+      type string;
+      mandatory true;
+    }
+    leaf lastSequenceNo {
+      type uint64;
+      config false;
+    }
+    leaf sumCritical {
+      type uint32;
+      config false;
+    }
+    leaf sumMajor {
+      type uint32;
+      config false;
+    }
+    leaf sumMinor {
+      type uint32;
+      config false;
+    }
+    leaf sumWarning {
+      type uint32;
+      config false;
+    }
+    leaf totalActive {
+      type uint32;
+      config false;
+    }
+    leaf lastChanged {
+      type string;
+      config false;
+    }
+    leaf heartbeatInterval {
+      type uint32;
+      default "60";
+      description "Default value: 60.";
+    }
+  }
+  grouping FmAlarm-attributes {
+    leaf fmAlarmId {
+      type string;
+      mandatory true;
+    }
+    leaf source {
+      type string;
+      config false;
+    }
+    leaf lastEventTime {
+      type string;
+      config false;
+    }
+    leaf sequenceNumber {
+      type int64;
+      config false;
+    }
+    leaf activeSeverity {
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+      config false;
+    }
+    leaf additionalText {
+      type string;
+      config false;
+    }
+    leaf majorType {
+      type uint32;
+      config false;
+    }
+    leaf minorType {
+      type uint32;
+      config false;
+    }
+    leaf specificProblem {
+      type string;
+      config false;
+    }
+    leaf eventType {
+      type enumeration {
+        enum OTHER;
+        enum COMMUNICATIONSALARM;
+        enum QUALITYOFSERVICEALARM;
+        enum PROCESSINGERRORALARM;
+        enum EQUIPMENTALARM;
+        enum ENVIRONMENTALALARM;
+        enum INTEGRITYVIOLATION;
+        enum OPERATIONALVIOLATION;
+        enum PHYSICALVIOLATION;
+        enum SECURITYSERVICEORMECHANISMVIOLATION;
+        enum TIMEDOMAINVIOLATION;
+      }
+      config false;
+    }
+    leaf probableCause {
+      type string;
+      config false;
+    }
+    list additionalInfo {
+      config false;
+      container attributes {
+      leaf name {
+        type string;
+      }
+      leaf value {
+        type string;
+      }
+      }
+    }
+    leaf originalEventTime {
+      type string;
+      config false;
+    }
+    leaf originalSeverity {
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+      config false;
+    }
+    leaf originalAdditionalText {
+      type string;
+      config false;
+    }
+    leaf isNotified {
+      type enumeration {
+        enum NOTIFIED;
+        enum SUPPRESSED;
+      }
+      config false;
+    }
+  }
+  grouping FmAlarmModel-attributes {
+    leaf fmAlarmModelId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping FmAlarmType-attributes {
+    leaf fmAlarmTypeId {
+      type string;
+      mandatory true;
+    }
+    leaf majorType {
+      type uint32;
+      config false;
+    }
+    leaf minorType {
+      type uint32;
+      config false;
+    }
+    leaf moClasses {
+      type string;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification, isNillable=true; Status info: This attribute has no purpose and is not used by anyone..";
+    }
+    leaf specificProblem {
+      type string;
+      config false;
+    }
+    leaf eventType {
+      type enumeration {
+        enum OTHER;
+        enum COMMUNICATIONSALARM;
+        enum QUALITYOFSERVICEALARM;
+        enum PROCESSINGERRORALARM;
+        enum EQUIPMENTALARM;
+        enum ENVIRONMENTALALARM;
+        enum INTEGRITYVIOLATION;
+        enum OPERATIONALVIOLATION;
+        enum PHYSICALVIOLATION;
+        enum SECURITYSERVICEORMECHANISMVIOLATION;
+        enum TIMEDOMAINVIOLATION;
+      }
+      config false;
+    }
+    leaf probableCause {
+      type string;
+      config false;
+    }
+    leaf isStateful {
+      type boolean;
+      config false;
+    }
+    leaf additionalText {
+      type string;
+      config false;
+    }
+    leaf configuredSeverity {
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+    }
+    leaf defaultSeverity {
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+      config false;
+    }
+    leaf isNotified {
+      type enumeration {
+        enum NOTIFIED;
+        enum SUPPRESSED;
+      }
+      mandatory true;
+    }
+    leaf-list filterList {
+      type string;
+    }
+    leaf-list filterOperationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+  }
+  grouping FmFilter-attributes {
+    leaf fmFilterId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf filterCriteria {
+      type string;
+    }
+    leaf activeUntil {
+      type string;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping FmFilterModel-attributes {
+    leaf fmFilterModelId {
+      type string;
+      mandatory true;
+    }
+  }
+}

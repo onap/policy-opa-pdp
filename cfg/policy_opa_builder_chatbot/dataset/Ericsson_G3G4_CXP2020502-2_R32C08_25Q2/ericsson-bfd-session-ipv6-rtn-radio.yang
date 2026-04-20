@@ -1,0 +1,202 @@
+module ericsson-bfd-session-ipv6-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnBfdSessionIPv6";
+  prefix bfdsv6rdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIPv6 Bfd Session Information.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list BfdSessionIPv6 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; IPv6 BFD session information. Maximum number of BfdSessionIPv6 and BfdSessionIPv4 MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 64, - For Baseband in RAN Compute Group 4 or higher: 120.";
+      key "bfdSessionIPv6Id";
+      leaf bfdSessionIPv6Id {
+        type leafref {
+          path "../attributes/bfdSessionIPv6Id";
+        }
+      }
+      container attributes {
+      uses BfdSessionIPv6-attributes;
+      }
+    }
+  }
+  typedef BfdSessionDiagnosticCode {
+    description "Common BFD diagnostic codes.";
+    type enumeration {
+      enum NO_DIAG {
+      }
+      enum CONTROL_DETECTION_TIME_EXPIRED {
+      }
+      enum ECHO_FUNCTION_FAILED {
+      }
+      enum NEIGHBOR_SIGNALED_SESSION_DOWN {
+      }
+      enum FORWARDING_PLANE_RESET {
+      }
+      enum PATH_DOWN {
+      }
+      enum CONCATENATED_PATH_DOWN {
+      }
+      enum ADMIN_DOWN {
+      }
+      enum REVERSE_CONCATENATED_PATH_DOWN {
+      }
+    }
+  }
+  typedef BfdSessionOperState {
+    description "The operational states of a BFD session.";
+    type enumeration {
+      enum ADMIN_DOWN {
+      }
+      enum DOWN {
+      }
+      enum INIT {
+      }
+      enum FAILING {
+      }
+      enum UP {
+      }
+    }
+  }
+  grouping BfdSessionIPv6-attributes {
+    leaf addrDst {
+      description "Remote IP address of BFD session..";
+      type string;
+      config false;
+    }
+    leaf addrSrc {
+      description "Local IP address of BFD session..";
+      type string;
+      config false;
+    }
+    leaf bfdSessionIPv6Id {
+      description "The value component of the RDN. Value of this attribute identifies session between pair of endpoints, defined by their IP addresses..";
+      type string;
+      mandatory true;
+    }
+    leaf detectionTime {
+      description "Period of time lapsed without receiving BFD packets, after which local endpoint declares session down. RFC 5880 specifies that Detection Time calculated in local endpoint is equal to value of detection multiplier received from remote endpoint, multiplied by agreed transmit interval of remote system. If remote endpoint has shorter detection time value, this is be effective detection time for session..";
+      type uint32;
+      config false;
+      units "ms";
+    }
+    leaf diagCode {
+      description "Diagnostic code that specifies reason for latest transition of sessionState from UP to another state..";
+      type enumeration {
+        enum NO_DIAG;
+        enum CONTROL_DETECTION_TIME_EXPIRED;
+        enum ECHO_FUNCTION_FAILED;
+        enum NEIGHBOR_SIGNALED_SESSION_DOWN;
+        enum FORWARDING_PLANE_RESET;
+        enum PATH_DOWN;
+        enum CONCATENATED_PATH_DOWN;
+        enum ADMIN_DOWN;
+        enum REVERSE_CONCATENATED_PATH_DOWN;
+      }
+      config false;
+    }
+    leaf intervalRxNegotiated {
+      description "Negotiated interval at which local node expects to receive BFD control packets..";
+      type uint32;
+      config false;
+      units "ms";
+    }
+    leaf intervalTxNegotiated {
+      description "Negotiated interval at which local node transmits BFD control packets..";
+      type uint32;
+      config false;
+      units "ms";
+    }
+    leaf localDiscriminator {
+      description "Local discriminator for this BFD session used for unique identification..";
+      type uint32;
+      config false;
+    }
+    leaf portSrc {
+      description "Source UDP port for BFD session control packets. RFC 5881 specifies value to be within range of 49152 through 65535..";
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf remoteDiscriminator {
+      description "Remote discriminator defined by remote endpoint for this BFD session..";
+      type uint32;
+      config false;
+    }
+    leaf remoteHeardFlag {
+      description "Status of BFD packet reception from remote endpoint. It is set to true if local endpoint actively receives BFD packets from remote endpoint. It is set to false if local endpoint has not recently received BFD packets, that is within detection time, or if local endpoint is attempting to tear down BFD session. Initial value is false..";
+      type boolean;
+      config false;
+    }
+    leaf sessionState {
+      description "State of this BFD session..";
+      type enumeration {
+        enum ADMIN_DOWN;
+        enum DOWN;
+        enum INIT;
+        enum FAILING;
+        enum UP;
+      }
+      config false;
+    }
+    leaf timeDown {
+      description "System time value from most recent occasion last time communication with neighbor was lost. This attribute is empty if no time down event exists..";
+      type string;
+      config false;
+    }
+    leaf timeUp {
+      description "System time from most recent occasion when session started. This attribute is empty if no time up event exists..";
+      type string;
+      config false;
+    }
+    leaf bfdSessDownDurationTotal {
+      description "Total duration in milliseconds where connection is lost, measured via sessionState signal..";
+      type uint64;
+      config false;
+    }
+    leaf bfdSessDownDurationMax {
+      description "Maximum duration in milliseconds where connection is lost, measured via sessionState signal..";
+      type int64;
+      config false;
+    }
+    leaf bfdSessTxPackets {
+      description "Number of control packets sent..";
+      type uint64;
+      config false;
+    }
+    leaf bfdSessDownCount {
+      description "Number of times this session has gone into DOWN state, measured via sessionState signal..";
+      type uint64;
+      config false;
+    }
+    leaf bfdSessRxPackets {
+      description "Number of control packets received..";
+      type uint64;
+      config false;
+    }
+    leaf bfdSessDownDurationMin {
+      description "Minimum duration in milliseconds where connection is lost, measured via sessionState signal..";
+      type int64;
+      config false;
+    }
+    leaf bfdSessUpCount {
+      description "Number of times this session has gone into UP state..";
+      type uint64;
+      config false;
+    }
+    leaf bfdSessDroppedPackets {
+      description "Number of control packets dropped..";
+      type uint64;
+      config false;
+    }
+  }
+}

@@ -1,0 +1,95 @@
+module ericsson-lratmp-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:LratMp";
+  prefix lratmp;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nRepresents the MP processing resource in a DU or Baseband used for the eNB application in the RBS. MO is created automatically when the first EUtranCell is unlocked. In DU, attribute autoConfigurationAllowed must be set to TRUE in MO ManagedElementData, to enable the auto-configuration function. MO can be deleted manually. The RDN of this MO is MpProcessingResource=1.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list MpProcessingResource {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents the MP processing resource in a DU or Baseband used for the eNB application in the RBS. MO is created automatically when the first EUtranCell is unlocked. In DU, attribute autoConfigurationAllowed must be set to TRUE in MO ManagedElementData, to enable the auto-configuration function. MO can be deleted manually. The RDN of this MO is MpProcessingResource=1.";
+      key "mpProcessingResourceId";
+      leaf mpProcessingResourceId {
+        type leafref {
+          path "../attributes/mpProcessingResourceId";
+        }
+      }
+      container attributes {
+      uses MpProcessingResource-attributes;
+      }
+    }
+  }
+  grouping MpProcessingResource-attributes {
+    leaf mpProcessingResourceId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list pmProcessorLoadLcDynDistr {
+      description "Histogram counter of MP Load value used by MP Load Control. Moving average of CPU load measurements with current number of CPU cores. PDF ranges: [0]: [0..20] % [1]: ]20..30] % [2]: ]30..40] % [3]: ]40..50] % [4]: ]50..60] % [5]: ]60..70] % [6]: ]70..80] % [7]: ]80..85] % [8]: ]85..90] % [9]: ]90..95] % [10]:]95..100] % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 11;
+    }
+    leaf-list pmAdjustAccessMpLoadCtrlDistr {
+      description "Distribution of DU Connection Intensity Control for new RRC Connection Establishment, RRC Connection Resume and Handover accesses. 100% means that DU Connection Intensity Control keeps its maximum value during ROP. PDF ranges: [0]: [0..5[ % [1]: [5..10[ % [2]: [10..15[ % [3]: [15..20[ % [4]: [20..25[ % [5]: [25..30[ % [6]: [30..35[ % [7]: [35..40[ % [8]: [40..45[ % [9]: [45..50[ % [10]: [50..55[ % [11]: [55..60[ % [12]: [60..65[ % [13]: [65..70[ % [14]: [70..75[ % [15]: [75..80[ % [16]: [80..85[ % [17]: [85..90[ % [18]: [90..95[ % [19]: [95..100[ % [20]: 100 % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 21;
+    }
+    leaf pmZtemporary109 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmDuIntensRrcConnReqDistr {
+      description "The distribution of the RRC connection request signal intensity in the DU or Baseband compared to the DU connection intensity control limit. PDF ranges: [0]: [0..5] % [1]: ]5..10] % [2]: ]10..15] % ... [19]: ]95..100] % [20]: ]100..110] % [21]: ]110..150] % [22]: greater than150 % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 23;
+    }
+    leaf-list pmDuIntensRrcConnResumeReqDistr {
+      description "Distribution of RRC Connection Resume Request signal intensity in DU or Baseband compared to DU Connection Intensity Control limit. PDF ranges: [0]: [0..5] % [1]: ]5..10] % [2]: ]10..15] % [3]: ]15..20] % [4]: ]20..25] % [5]: ]25..30] % [6]: ]30..35] % [7]: ]35..40] % [8]: ]40..45] % [9]: ]45..50] % [10]: ]50..55] % [11]: ]55..60] % [12]: ]60..65] % [13]: ]65..70] % [14]: ]70..75] % [15]: ]75..80] % [16]: ]80..85] % [17]: ]85..90] % [18]: ]90..95] % [19]: ]95..100] % [20]: ]100..110] % [21]: ]110..150] % [22]: greater than150 % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 23;
+    }
+    leaf-list pmDuIntensHoReqDistr {
+      description "The distribution of the handover request signal intensity in the DU or Baseband compared to the DU or Baseband connection intensity control limit. PDF ranges: [0]: [0..5] % [1]: ]5..10] % [2]: ]10..15] % ... [19]: ]95..100] % [20]: ]100..110] % [21]: ]110..150] % [22]: greater than150 % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 23;
+    }
+    leaf-list pmMpMemUsageDistr {
+      description "Histogram counter of MP memory usage. PDF ranges: [0]: [0..30] % [1]: ]30..40] % [2]: ]40..50] % [3]: ]50..60] % [4]: ]60..70] % [5]: ]70..75] % [6]: ]75..80] % [7]: ]80..85] % [8]: ]85..90] % [9]: ]90..95] % [10]: ]95..100] % Deprecated: Since 20.Q1. Has no functional behavior. Planned to be removed. Scanner: Not included in any predefined scanner; MOM flags: noNotification.";
+      type uint32;
+      max-elements 11;
+    }
+    leaf-list pmProcessorLoadLcDistr {
+      description "Histogram counter of MP Load value used by MP Load Control. Moving average of CPU load measurements with max number of CPU cores. PDF ranges: [0]: [0..20] % [1]: ]20..30] % [2]: ]30..40] % [3]: ]40..50] % [4]: ]50..60] % [5]: ]60..70] % [6]: ]70..80] % [7]: ]80..85] % [8]: ]85..90] % [9]: ]90..95] % [10]:]95..100] % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 11;
+    }
+    leaf pmZtemporary108 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmDuIntensHoRrcConnReqResumeReqDistr {
+      description "Distribution of sum of Handover, RRC Connection Resume and RRC Connection request signal intensity in the DU or Baseband compared to the DU or Baseband Connection Intensity Control limit. PDF ranges: [0]: [0..5] % [1]: ]5..10] % [2]: ]10..15] % [3]: ]15..20] % [4]: ]20..25] % [5]: ]25..30] % [6]: ]30..35] % [7]: ]35..40] % [8]: ]40..45] % [9]: ]45..50] % [10]: ]50..55] % [11]: ]55..60] % [12]: ]60..65] % [13]: ]65..70] % [14]: ]70..75] % [15]: ]75..80] % [16]: ]80..85] % [17]: ]85..90] % [18]: ]90..95] % [19]: ]95..100] % [20]: ]100..110] % [21]: ]110..150] % [22]: greater than150 % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 23;
+    }
+    leaf-list pmDuIntensHoRrcConnReqDistr {
+      description "The distribution of the sum of handovers, and RRC Connection request signal intensity, in the DU or Baseband compared to the DU or Baseband connection intensity control limit. PDF ranges: [0]: [0..5] % [1]: ]5..10] % [2]: ]10..15] % ... [19]: ]95..100] % [20]: ]100..110] % [21]: ]110..150] % [22]: greater than150 % Deprecated: Since 20.Q3. Replaced by pmDuIntensHoRrcConnReqResumeReqDistr. Planned to be removed. Scanner: Not included in any predefined scanner; MOM flags: noNotification.";
+      type uint32;
+      max-elements 23;
+    }
+  }
+}

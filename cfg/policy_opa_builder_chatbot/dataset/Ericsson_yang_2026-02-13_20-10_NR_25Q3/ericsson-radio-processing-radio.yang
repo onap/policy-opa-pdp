@@ -1,0 +1,139 @@
+module ericsson-radio-processing-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRadioProcessing";
+  prefix rdoprrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list RadioProcessing {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Represents radio real time performance data. This MO is created by the system when FieldReplaceableUnit supports radio measurements. The RDN of this MO is RadioProcessing=1.";
+      key "radioProcessingId";
+      leaf radioProcessingId {
+        type leafref {
+          path "../attributes/radioProcessingId";
+        }
+      }
+      container attributes {
+        uses RadioProcessing-attributes;
+      }
+    }
+  }
+  typedef CapabilityStatus {
+    type enumeration {
+      enum NOT_SUPPORTED;
+      enum SUPPORTED;
+    }
+  }
+  grouping RadioProcessing-attributes {
+    leaf radioProcessingId {
+      type string;
+      mandatory true;
+    }
+    list antennaDcVoltage {
+      config false;
+      container attributes {
+      leaf blockDcDc {
+        type string;
+      }
+      leaf capabilityStatus {
+        type enumeration {
+          enum NOT_SUPPORTED;
+          enum SUPPORTED;
+        }
+      }
+      leaf sampleTime {
+        type string;
+      }
+      leaf voltageAvgValue {
+        type string;
+      }
+      leaf voltageMaxValue {
+        type string;
+      }
+      leaf voltageMinValue {
+        type string;
+      }
+      }
+    }
+    list carrierRxPower {
+      config false;
+      container attributes {
+      leaf capabilityStatus {
+        type enumeration {
+          enum NOT_SUPPORTED;
+          enum SUPPORTED;
+        }
+      }
+      leaf carrierRef {
+        type string;
+      }
+      leaf powerAvgValue {
+        type string;
+      }
+      leaf powerMaxValue {
+        type string;
+      }
+      leaf powerMinValue {
+        type string;
+      }
+      leaf rfPort {
+        type ietfinet:port-number;
+      }
+      leaf sampleTime {
+        type string;
+      }
+      }
+    }
+    list carrierTxPower {
+      config false;
+      container attributes {
+      leaf capabilityStatus {
+        type enumeration {
+          enum NOT_SUPPORTED;
+          enum SUPPORTED;
+        }
+      }
+      leaf carrierRef {
+        type string;
+      }
+      leaf powerAvgValue {
+        type string;
+      }
+      leaf powerMaxValue {
+        type string;
+      }
+      leaf powerMinValue {
+        type string;
+      }
+      leaf rfPort {
+        type ietfinet:port-number;
+      }
+      leaf sampleTime {
+        type string;
+      }
+      }
+    }
+    leaf pmTxOffTime {
+      type uint32;
+      config false;
+    }
+    leaf-list pmTxOffRatio {
+      type int32;
+    }
+  }
+}

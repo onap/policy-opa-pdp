@@ -1,0 +1,44 @@
+module huawei-cellmcxparacfg {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cellmcxparacfg";
+ prefix cellmcxparacfg;
+ description
+ "Auto-generated modular YANG for huawei-cellmcxparacfg" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLMCXPARACFG-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf MCVIDEOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf MCPTTALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf PTTQLTYINTERFHOPKTLOSSTHLD {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf PTTQLTYRECOVERYPKTLOSSTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ }
+}

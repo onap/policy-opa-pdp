@@ -1,0 +1,54 @@
+module huawei-abnrrcaccesscfg {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-abnrrcaccesscfg";
+ prefix abnrrcaccesscfg;
+ description
+ "Auto-generated modular YANG for huawei-abnrrcaccesscfg" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ABNRRCACCESSCFG-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf ACCESSPERIOD {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf ACCESSPERIODOFFSET {
+  type uint16 {
+   range "0..5000";
+  }
+  mandatory false;
+ }
+ leaf ACCESSTIMESTHLD {
+  type uint8 {
+   range "10..50";
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf TA {
+  type uint16 {
+   range "0..1282";
+  }
+  mandatory false;
+ }
+ leaf TAOFFSET {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ }
+}

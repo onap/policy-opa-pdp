@@ -1,0 +1,548 @@
+module ericsson-rcssnmp-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsSnmp";
+  prefix rcssnmp;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-rcssysm-radio {
+    prefix rcssysm;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/Snmp" {
+    list SnmpTargetV2C {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP target defines a trap receiver and gives access privileges. This class, defines V2C protocol attributes.";
+      key "snmpTargetV2CId";
+      leaf snmpTargetV2CId {
+        type leafref {
+          path "../attributes/snmpTargetV2CId";
+        }
+      }
+      container attributes {
+        uses SnmpTargetV2C-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/Snmp" {
+    list SnmpTargetV3 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP target defines a trap receiver and gives access privileges. This class, defines V3 USM protocol attributes.";
+      key "snmpTargetV3Id";
+      leaf snmpTargetV3Id {
+        type leafref {
+          path "../attributes/snmpTargetV3Id";
+        }
+      }
+      container attributes {
+        uses SnmpTargetV3-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/Snmp" {
+    list SnmpTargetV1 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; An SNMP target defines a trap receiver and gives access privileges. This class, defines V1 protocol attributes.";
+      key "snmpTargetV1Id";
+      leaf snmpTargetV1Id {
+        type leafref {
+          path "../attributes/snmpTargetV1Id";
+        }
+      }
+      container attributes {
+        uses SnmpTargetV1-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/Snmp" {
+    list SnmpViewV1 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP view gives users access to SNMP MIBs. This class explicitly defines a view for SNMP V1 users. Users are identified by community name. Communities that are not configured in any view, are given by default access to the following SNMP MIBs: - Ericsson Alarm MIB - SNMP-FRAMEWORK-MIB - MIB-2 Default status denies access to other SNMP MIBs. Create a new view configuration if default behaviour is insufficient.";
+      key "snmpViewV1Id";
+      leaf snmpViewV1Id {
+        type leafref {
+          path "../attributes/snmpViewV1Id";
+        }
+      }
+      container attributes {
+        uses SnmpViewV1-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/Snmp" {
+    list SnmpViewV2C {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP view gives users access to SNMP MIBs. This class explicitly defines a view for SNMP V2C users. Users are identified by community name. Communities that are not configured in any view, are given by default access to the following SNMP MIBs: - Ericsson Alarm MIB - SNMP-FRAMEWORK-MIB - MIB-2 Default status denies access to other SNMP MIBs. Create a new view configuration if default behaviour is insufficient.";
+      key "snmpViewV2CId";
+      leaf snmpViewV2CId {
+        type leafref {
+          path "../attributes/snmpViewV2CId";
+        }
+      }
+      container attributes {
+        uses SnmpViewV2C-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/Snmp" {
+    list SnmpViewV3 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP view gives users access to SNMP MIBs. This class explicitly defines a view for SNMP V3 users. Users are identified by community name. Communities that are not configured in any view, are given by default access to the following SNMP MIBs: - Ericsson Alarm MIB - SNMP-FRAMEWORK-MIB - MIB-2 Default status denies access to other SNMP MIBs. Create a new view configuration if default behaviour is insufficient.";
+      key "snmpViewV3Id";
+      leaf snmpViewV3Id {
+        type leafref {
+          path "../attributes/snmpViewV3Id";
+        }
+      }
+      container attributes {
+        uses SnmpViewV3-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/Snmp" {
+    list SnmpTargetV3Dtls {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; SNMP target defines a trap receiver and gives access privileges. This class defines attributes needed for SNMP over DTLS. Attributes nodeCredential and trustCategory defined in the Snmp MO class/instance are used. DTLS is used as transport protocol for incoming requests, outgoing responses and SNMP notifications.";
+      key "snmpTargetV3DtlsId";
+      leaf snmpTargetV3DtlsId {
+        type leafref {
+          path "../attributes/snmpTargetV3DtlsId";
+        }
+      }
+      container attributes {
+        uses SnmpTargetV3Dtls-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list Snmp {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Configuration of the SNMP protocol, for example IP addresses and ports.";
+      key "snmpId";
+      leaf snmpId {
+        type leafref {
+          path "../attributes/snmpId";
+        }
+      }
+      container attributes {
+        uses Snmp-attributes;
+      }
+    }
+  }
+  typedef AuthProtocol {
+    type enumeration {
+      enum NONE;
+      enum MD5;
+      enum SHA1;
+      enum SHA224;
+      enum SHA256;
+      enum SHA384;
+      enum SHA512;
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef NotifyType {
+    type enumeration {
+      enum TRAP;
+      enum INFORM;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef PrivProtocol {
+    type enumeration {
+      enum NONE;
+      enum DES;
+      enum AES128;
+    }
+  }
+  typedef SecurityLevel {
+    type enumeration {
+      enum NO_AUTH_NO_PRIV;
+      enum AUTH_NO_PRIV;
+      enum AUTH_PRIV;
+    }
+  }
+  grouping Snmp-attributes {
+    leaf snmpId {
+      type string;
+      mandatory true;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    list agentAddress {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      container attributes {
+      leaf host {
+        type string;
+      }
+      leaf port {
+        type ietfinet:port-number;
+        description "range 1..65535.";
+      }
+      }
+    }
+    leaf nodeCredential {
+      type string;
+    }
+    list agentAddressDtls {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      container attributes {
+      leaf host {
+        type string;
+      }
+      leaf port {
+        type ietfinet:port-number;
+        description "range 1..65535.";
+      }
+      }
+    }
+    leaf trustCategory {
+      type string;
+    }
+    leaf enableSourceCheckForV1V2C {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf port {
+      type ietfinet:port-number;
+      default "161";
+      description "Default value: 161.";
+    }
+    leaf portDtls {
+      type ietfinet:port-number;
+      default "10161";
+      description "Default value: 10161.";
+    }
+    leaf engineId {
+      type string {
+        length "5..32";
+      }
+      description "length 5..32.";
+    }
+  }
+  grouping SnmpTargetV1-attributes {
+    leaf snmpTargetV1Id {
+      type string;
+      mandatory true;
+    }
+    leaf community {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf address {
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      type ietfinet:port-number;
+      default "162";
+      description "range 1..65535; Default value: 162.";
+    }
+    leaf isMibWritable {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf networkPrefixLength {
+      type ietfinet:ip-prefix;
+      description "range 1..128.";
+    }
+  }
+  grouping SnmpTargetV2C-attributes {
+    leaf snmpTargetV2CId {
+      type string;
+      mandatory true;
+    }
+    leaf community {
+      type string;
+      mandatory true;
+    }
+    leaf informRetryCount {
+      type uint32;
+      default "1";
+      description "Default value: 1.";
+    }
+    leaf address {
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      type ietfinet:port-number;
+      default "162";
+      description "range 1..65535; Default value: 162.";
+    }
+    leaf informTimeout {
+      type string;
+    }
+    leaf transportMethod {
+      type ietfinet:port-number;
+    }
+    leaf isMibWritable {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf networkPrefixLength {
+      type ietfinet:ip-prefix;
+      description "range 1..128.";
+    }
+  }
+  grouping SnmpTargetV3-attributes {
+    leaf snmpTargetV3Id {
+      type string;
+      mandatory true;
+    }
+    leaf user {
+      type string;
+      mandatory true;
+    }
+    leaf authProtocol {
+      type enumeration {
+        enum NONE;
+        enum MD5;
+        enum SHA1;
+        enum SHA224;
+        enum SHA256;
+        enum SHA384;
+        enum SHA512;
+      }
+    }
+    leaf privProtocol {
+      type enumeration {
+        enum NONE;
+        enum DES;
+        enum AES128;
+      }
+    }
+    leaf informRetryCount {
+      type uint32;
+      default "1";
+      description "Default value: 1.";
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf address {
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      type ietfinet:port-number;
+      default "162";
+      description "range 1..65535; Default value: 162.";
+    }
+    leaf informTimeout {
+      type string;
+    }
+    leaf transportMethod {
+      type ietfinet:port-number;
+    }
+    leaf snmpSecurityLevel {
+      type enumeration {
+        enum NO_AUTH_NO_PRIV;
+        enum AUTH_NO_PRIV;
+        enum AUTH_PRIV;
+      }
+    }
+    list privKey {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    list authKey {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf isMibWritable {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+  }
+  grouping SnmpTargetV3Dtls-attributes {
+    leaf snmpTargetV3DtlsId {
+      type string;
+      mandatory true;
+    }
+    leaf informRetryCount {
+      type uint32;
+      default "1";
+      description "Default value: 1.";
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf address {
+      type string;
+      mandatory true;
+    }
+    leaf port {
+      type ietfinet:port-number;
+      default "10162";
+      description "range 1..65535; Default value: 10162.";
+    }
+    leaf informTimeout {
+      type string;
+    }
+    leaf transportMethod {
+      type ietfinet:port-number;
+    }
+    leaf isMibWritable {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf user {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping SnmpViewV1-attributes {
+    leaf snmpViewV1Id {
+      type string;
+      mandatory true;
+    }
+    leaf-list community {
+      type string;
+    }
+    leaf-list readOids {
+      type string;
+    }
+    leaf-list writeOids {
+      type string;
+    }
+  }
+  grouping SnmpViewV2C-attributes {
+    leaf snmpViewV2CId {
+      type string;
+      mandatory true;
+    }
+    leaf-list community {
+      type string;
+    }
+    leaf-list readOids {
+      type string;
+    }
+    leaf-list writeOids {
+      type string;
+    }
+  }
+  grouping SnmpViewV3-attributes {
+    leaf snmpViewV3Id {
+      type string;
+      mandatory true;
+    }
+    leaf-list user {
+      type string;
+    }
+    leaf-list readOids {
+      type string;
+    }
+    leaf-list writeOids {
+      type string;
+    }
+  }
+}

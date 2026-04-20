@@ -1,0 +1,548 @@
+module ericsson-rf-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRfPort";
+  prefix rfportrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list RfPort {
+      description "Additional definitions from MOM:min/max-elements:0/10;root; Represents a port on a radio depending on rfPortId of Port MO. Represents an antenna feeder port on radio when having rfPortId like A, B, C and so on. Represents a cross connection port on radio when having any of rfPortIds RXA_IO or RXB_IO. Represents a RET port on external radio when having rfPortId R. Represents an AC port on external radio when having rfPortId AC.This port needs to be configured if AC port is used to connect RET.";
+      key "rfPortId";
+      leaf rfPortId {
+        type leafref {
+          path "../attributes/rfPortId";
+        }
+      }
+      container attributes {
+        uses RfPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/RfPort" {
+    list FreqBandData {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents a band configured on RfPort MO. Created by the system for multi-band radio when radio is connected. The RDNs of these MOs are \"FreqBandData=1\" to \"FreqBandData=4\".";
+      key "freqBandDataId";
+      leaf freqBandDataId {
+        type leafref {
+          path "../attributes/freqBandDataId";
+        }
+      }
+      container attributes {
+        uses FreqBandData-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef MicroSleepTxRadioCapability {
+    type enumeration {
+      enum NO_SUPPORT;
+      enum FULL_SUPPORT;
+      enum LIMITED_SUPPORT;
+    }
+  }
+  typedef MicroSleepTxRadioStatus {
+    type enumeration {
+      enum ENABLED;
+      enum DISABLED;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef PimdMeasDuration {
+    type enumeration {
+      enum SHORT;
+      enum LONG;
+    }
+  }
+  typedef RlFreqSweepFailedReason {
+    type enumeration {
+      enum UNDEFINED;
+      enum INVALID_PARAMETERS;
+      enum HW_NOT_SUPPORTED;
+      enum NO_AVAILABLE_CARRIER_BRANCH;
+      enum INTERNAL_ERROR;
+      enum UPLOAD_FAILURE;
+    }
+  }
+  typedef TcpStatus {
+    type enumeration {
+      enum UNKNOWN;
+      enum STARTED;
+      enum FINISHED;
+      enum FAILED;
+      enum STOPPED;
+    }
+  }
+  grouping FreqBandData-attributes {
+    leaf freqBandDataId {
+      type string;
+      mandatory true;
+    }
+    leaf vswrSupervisionActive {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf minFrequency {
+      type int32;
+      config false;
+    }
+    leaf maxFrequency {
+      type int32;
+      config false;
+    }
+    leaf vswrSupervisionSensitivity {
+      type int32 {
+        range "-1 | 1..100";
+      }
+      default "-1";
+      units "percent";
+      description "Default value: -1.";
+    }
+    list vswrValue {
+      config false;
+      container attributes {
+      leaf returnLoss {
+        type string {
+          length "0..5";
+        }
+        description "length 0..5.";
+      }
+      leaf sampleTime {
+        type string {
+          length "0..23";
+        }
+        description "length 0..23.";
+      }
+      leaf message {
+        type string {
+          length "0..160";
+        }
+        description "length 0..160.";
+      }
+      }
+    }
+    leaf dlFrequencyRange {
+      type string {
+        length "0..256";
+      }
+      config false;
+      description "length 0..256.";
+    }
+    leaf ulFrequencyRange {
+      type string {
+        length "0..256";
+      }
+      config false;
+      description "length 0..256.";
+    }
+    leaf pmTxPowerMin {
+      type int32;
+      config false;
+    }
+    leaf-list pmTxPower {
+      type int32;
+    }
+    leaf pmTxPowerAvg {
+      type int32;
+      config false;
+    }
+    leaf pmTxOffTime {
+      type uint32;
+      config false;
+    }
+    leaf pmNoOfPwrOBLimSlots {
+      type int32;
+      config false;
+    }
+    leaf pmTxPowerMax {
+      type int32;
+      config false;
+    }
+    leaf pmReturnLossDiff {
+      type int32;
+      config false;
+    }
+    leaf pmReturnLossAvg {
+      type int32;
+      config false;
+    }
+    leaf-list pmTxOffRatio {
+      type int32;
+    }
+    leaf pmReturnLossMin {
+      type int32;
+      config false;
+    }
+    leaf-list pmReturnLoss {
+      type uint32;
+    }
+  }
+  grouping RfPort-attributes {
+    leaf rfPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf nodeUniqueRfPortId {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf vswrSupervisionActive {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf vswrSupervisionSensitivity {
+      type int32 {
+        range "-1 | 1..100";
+      }
+      default "-1";
+      units "percent";
+      description "Default value: -1.";
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list vswrValue {
+      config false;
+      container attributes {
+      leaf returnLoss {
+        type string {
+          length "0..5";
+        }
+        description "length 0..5.";
+      }
+      leaf sampleTime {
+        type string {
+          length "0..23";
+        }
+        description "length 0..23.";
+      }
+      leaf message {
+        type string {
+          length "0..160";
+        }
+        description "length 0..160.";
+      }
+      }
+    }
+    leaf dlFrequencyRanges {
+      type string {
+        length "0..256";
+      }
+      config false;
+      description "length 0..256.";
+    }
+    leaf ulFrequencyRanges {
+      type string {
+        length "0..256";
+      }
+      config false;
+      description "length 0..256.";
+    }
+    leaf antennaSupervisionActive {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf microSleepTxRadioCapability {
+      type enumeration {
+        enum NO_SUPPORT;
+        enum FULL_SUPPORT;
+        enum LIMITED_SUPPORT;
+      }
+      config false;
+    }
+    leaf microSleepTxRadioStatus {
+      type enumeration {
+        enum ENABLED;
+        enum DISABLED;
+      }
+      config false;
+    }
+    leaf rlFreqSweepFailedReason {
+      type enumeration {
+        enum UNDEFINED;
+        enum INVALID_PARAMETERS;
+        enum HW_NOT_SUPPORTED;
+        enum NO_AVAILABLE_CARRIER_BRANCH;
+        enum INTERNAL_ERROR;
+        enum UPLOAD_FAILURE;
+      }
+      config false;
+    }
+    leaf rlFreqSweepStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+        enum STOPPED;
+      }
+      config false;
+    }
+    leaf pimdAlarmActive {
+      type ietfyang:mac-address;
+      description "Default value: false.";
+    }
+    leaf pimdMeasDuration {
+      type enumeration {
+        enum SHORT;
+        enum LONG;
+      }
+    }
+    leaf pimdThreshold {
+      type uint32 {
+        range "60..300";
+      }
+      default "300";
+      units "dB";
+      description "range 60..300; Default value: 300.";
+    }
+    leaf automaticANUrecovery {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf pmTxPowerMax {
+      type int32;
+      config false;
+    }
+    leaf pmPimDesenseSuccess {
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseMaxDiscardLatest {
+      type int64;
+      config false;
+    }
+    leaf pmPimPwrMax {
+      type int64;
+      config false;
+    }
+    leaf pmTxPowerMin {
+      type int32;
+      config false;
+    }
+    leaf pmPimPwrSuccessLatest {
+      type int64;
+      config false;
+    }
+    leaf pmPimPwrAttempts {
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseLowCount {
+      type uint64;
+      config false;
+    }
+    leaf pmTxOffTime {
+      type uint32;
+      config false;
+    }
+    leaf-list pmReturnLoss {
+      type uint32;
+    }
+    leaf pmPimDesenseAttempts {
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseMaxDiscard {
+      type int64;
+      config false;
+    }
+    leaf-list pmPimcCancellationDepth {
+      type uint32;
+    }
+    leaf pmPimDesenseSuccessLatest {
+      type uint64;
+      config false;
+    }
+    leaf-list pmPimcPowerSignalInjected {
+      type uint32;
+    }
+    leaf pmPimDesenseMaxDiagnosticLatest {
+      type int64;
+      config false;
+    }
+    leaf pmReturnLossDiff {
+      type int32;
+      config false;
+    }
+    leaf pmPimPwrSuccess {
+      type uint64;
+      config false;
+    }
+    leaf pmPimPwrMaxLatest {
+      type int64;
+      config false;
+    }
+    leaf-list pmTxOffRatio {
+      type int32;
+    }
+    leaf pmPimPwrFailResUnavailLatest {
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseConfidenceLatest {
+      type int64;
+      config false;
+    }
+    leaf pmPimPwrVarianceSum {
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseMeas {
+      type uint64;
+      config false;
+    }
+    leaf pmPimPwrMeas {
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseLowCountLatest {
+      type uint64;
+      config false;
+    }
+    leaf-list pmTxPower {
+      type int32;
+    }
+    leaf pmReturnLossAvg {
+      type int32;
+      config false;
+    }
+    leaf pmTxPowerAvg {
+      type int32;
+      config false;
+    }
+    leaf pmPimPwrSum {
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseHighCount {
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseHighCountLatest {
+      type int64;
+      config false;
+    }
+    leaf pmReturnLossMin {
+      type int32;
+      config false;
+    }
+    leaf pmPimPwrFailResUnavail {
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseAttemptsLatest {
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseConfidence {
+      type int64;
+      config false;
+    }
+    leaf pmPimPwrSumLatest {
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseMax {
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseMaxDiagnostic {
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseMaxLatest {
+      type int64;
+      config false;
+    }
+  }
+}

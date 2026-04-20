@@ -1,0 +1,134 @@
+module huawei-nrducellbwp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellbwp";
+ prefix nrducellbwp;
+ description
+ "Auto-generated modular YANG for huawei-nrducellbwp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLBWP-attributes {
+ leaf BWPCONFIGSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf DLMINCARRIERBW {
+  type enumeration {
+   enum val-0;
+   enum val-10;
+   enum val-15;
+   enum val-20;
+   enum val-30;
+   enum val-40;
+   enum val-50;
+   enum val-60;
+   enum val-70;
+   enum val-80;
+   enum val-90;
+  }
+  mandatory false;
+ }
+ leaf DLMINCARRIERBWSTARTRB {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf DLOFFSETTOCARRIER {
+  type uint8 {
+   range "0..140";
+  }
+  mandatory false;
+ }
+ leaf DLOPTIONALCARRIERBW {
+  type enumeration {
+   enum val-0;
+   enum val-30;
+   enum val-40;
+   enum val-45;
+  }
+  mandatory false;
+ }
+ leaf HIGHQUALITYRBENDINDEX {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf HIGHQUALITYRBSTARTINDEX {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULBWP0CONFIGPOLICY {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULMINCARRIERBW {
+  type enumeration {
+   enum val-0;
+   enum val-10;
+   enum val-15;
+   enum val-20;
+   enum val-30;
+   enum val-40;
+   enum val-50;
+   enum val-60;
+   enum val-70;
+   enum val-80;
+   enum val-90;
+  }
+  mandatory false;
+ }
+ leaf ULMINCARRIERBWSTARTRB {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULMINCBWHFINTRFAVOIDRBNUM {
+  type uint8 {
+   range "0..105";
+  }
+  mandatory false;
+ }
+ leaf ULMINCBWLFINTRFAVOIDRBNUM {
+  type uint8 {
+   range "0..105";
+  }
+  mandatory false;
+ }
+ leaf ULOFFSETTOCARRIER {
+  type uint8 {
+   range "0..140";
+  }
+  mandatory false;
+ }
+ leaf ULOPTIONALCARRIERBW {
+  type enumeration {
+   enum val-0;
+   enum val-30;
+   enum val-40;
+   enum val-45;
+  }
+  mandatory false;
+ }
+ }
+}

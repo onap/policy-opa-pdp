@@ -1,0 +1,58 @@
+module huawei-gbtsbbres {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gbtsbbres";
+ prefix gbtsbbres;
+ description
+ "Auto-generated modular YANG for huawei-gbtsbbres" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GBTSBBRES-attributes {
+ leaf ADMSTATE {
+  type boolean;
+  mandatory false;
+ }
+ leaf CAPACITY {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf OLD_GBTSBBRESID {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf GBTSBBRESID {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "0..6";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ }
+}

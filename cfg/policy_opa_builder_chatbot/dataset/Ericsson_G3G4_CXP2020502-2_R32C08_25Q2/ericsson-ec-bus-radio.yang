@@ -1,0 +1,55 @@
+module ericsson-ec-bus-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEcBus";
+  prefix ebusrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\n.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list EcBus {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents the EC bus used to communicate with the support system.";
+      key "ecBusId";
+      leaf ecBusId {
+        type leafref {
+          path "../attributes/ecBusId";
+        }
+      }
+      container attributes {
+      uses EcBus-attributes;
+      }
+    }
+  }
+  grouping EcBus-attributes {
+    leaf ecBusId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf ecBusConnectorRef {
+      description "Reference to processing unit connected to EC bus in cabinet..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf ecBusConnectionType {
+      description "Type of EC-bus connection..";
+      type string;
+    }
+    leaf equipmentSupportFunctionRef {
+      description "References to the EquipmentSupportFunction MO instances that the EC bus belongs..";
+      type string;
+    }
+  }
+}

@@ -1,0 +1,443 @@
+module ericsson-l3-interface-ipv6-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL3InterfaceIPv6";
+  prefix l3intfv6rdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/InterfaceIPv6" {
+    list AddressIPv6 {
+      description "Additional definitions from MOM:min/max-elements:0/4; Assigned IPv6 address including information about subnet it resides on. Maximum number of AddressIPv6 MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120.";
+      key "addressIPv6Id";
+      leaf addressIPv6Id {
+        type leafref {
+          path "../attributes/addressIPv6Id";
+        }
+      }
+      container attributes {
+        uses AddressIPv6-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/InterfaceIPv6" {
+    list RaTransmitter {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents Router Advertisement Transmitter which advertises RA messages and responds to Router Solicitation messages on routing interface. Dependencies: Cannot be configured on IP loopback interface. Cannot be configured on IPsec inner interface. Can be created only if AddressIPv6 MO configurationMode attribute is MANUAL.";
+      key "raTransmitterId";
+      leaf raTransmitterId {
+        type leafref {
+          path "../attributes/raTransmitterId";
+        }
+      }
+      container attributes {
+        uses RaTransmitter-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list InterfaceIPv6 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents IPv6-addressed termination point, interface on IPv6 routing function. Maximum number of InterfaceIPv6 MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120. Dependencies: Maximum one InterfaceIPv6 MO can reserve LagPort MO.";
+      key "interfaceIPv6Id";
+      leaf interfaceIPv6Id {
+        type leafref {
+          path "../attributes/interfaceIPv6Id";
+        }
+      }
+      container attributes {
+        uses InterfaceIPv6-attributes;
+      }
+    }
+  }
+  typedef AdvertisingState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef BfdStaticRoutesInterfaceType {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef DuidType {
+    type enumeration {
+      enum DUID_LLT;
+      enum DUID_EN;
+      enum DUID_EN_SERIAL_NUMBER;
+    }
+  }
+  typedef Ipv6ConfigMode {
+    type enumeration {
+      enum MANUAL;
+      enum IKE;
+      enum AUTO;
+      enum AUTO_NO_DHCPV6;
+      enum AUTO_DHCPV6;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping AddressIPv6-attributes {
+    leaf address {
+      type string;
+    }
+    leaf addressIPv6Id {
+      type ietfinet:ipv6-address;
+      mandatory true;
+    }
+    leaf configurationMode {
+      type enumeration {
+        enum MANUAL;
+        enum IKE;
+        enum AUTO;
+        enum AUTO_NO_DHCPV6;
+        enum AUTO_DHCPV6;
+      }
+    }
+    leaf duid {
+      type string;
+      config false;
+    }
+    leaf duidType {
+      type enumeration {
+        enum DUID_LLT;
+        enum DUID_EN;
+        enum DUID_EN_SERIAL_NUMBER;
+      }
+    }
+    leaf primaryAddress {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf usedAddress {
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping InterfaceIPv6-attributes {
+    leaf aclEgress {
+      type string;
+    }
+    leaf aclIngress {
+      type string;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf bfdProfile {
+      type string;
+    }
+    leaf bfdStaticRoutes {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf checksumZeroEnabled {
+      type boolean;
+      status deprecated;
+      default "false";
+      description "Default value: false; Takes effect: Node restart; Status info: Since 24.Q2. Planned to be removed..";
+      reference "Takes effect: Node restart.";
+    }
+    leaf dscpNdp {
+      type eytypes:uint8_range_0-63;
+      default "48";
+      description "range 0..63; Default value: 48.";
+    }
+    leaf egressQosMarking {
+      type string;
+    }
+    leaf encapsulation {
+      type string;
+    }
+    leaf ingressQosMarking {
+      type string;
+    }
+    leaf interfaceIPv6Id {
+      type ietfinet:ipv6-address;
+      mandatory true;
+    }
+    leaf ipOptionsDisabled {
+      type ietfinet:ip-address;
+      description "Default value: false.";
+    }
+    leaf loopback {
+      type boolean;
+    }
+    leaf mtu {
+      type uint32 {
+        range "1280..9000";
+      }
+      default "1500";
+      description "range 1280..9000; Default value: 1500.";
+    }
+    leaf neighborDiscoveryTimeout {
+      type uint32 {
+        range "0..3600000";
+      }
+      default "30000";
+      units "ms";
+      description "range 0..3600000; Default value: 30000.";
+    }
+    leaf neighborSolicitationInterval {
+      type uint32 {
+        range "1..3600000";
+      }
+      default "1000";
+      units "ms";
+      description "range 1..3600000; Default value: 1000.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf routesHoldDownTimer {
+      type uint16 {
+        range "1..300";
+      }
+      units "s";
+      description "range 1..300.";
+    }
+    leaf routingPolicyIngress {
+      type string;
+    }
+    leaf trackedInterface {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list ipIfInOctetRatePercentiles {
+      type ietfinet:ip-address;
+    }
+    leaf ipIfStatsReasmFails {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutOctets {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutRequests {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsOutFragCreates {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInUnknownProtos {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsOutFragOKs {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsReasmOKs {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsOutFragFails {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInHdrErrors {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutForwDatagrams {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInBlackHoles {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInTruncatedPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInMcastOctets {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsReasmReqds {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsIpOptDroppedPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInDiscards {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInReceives {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInAddrErrors {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutTransmits {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutMcastOctets {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInMcastPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutMcastPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInDelivers {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInForwDatagrams {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInOctets {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsOutDiscards {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf-list ipIfOutOctetRatePercentiles {
+      type ietfinet:ip-address;
+    }
+    leaf ipIfStatsOutFragReqds {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInSrcAddrErrors {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInNoRoutes {
+      type ietfinet:ip-address;
+      config false;
+    }
+  }
+  grouping RaTransmitter-attributes {
+    leaf managedConfig {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf maxRtrAdvInterval {
+      type uint16 {
+        range "4..1800";
+      }
+      default "600";
+      units "s";
+      description "range 4..1800; Default value: 600.";
+    }
+    leaf minRtrAdvInterval {
+      type uint16;
+      config false;
+      units "s";
+    }
+    leaf otherConfig {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf raTransmitterId {
+      type string;
+      mandatory true;
+    }
+    leaf sendAdvertisement {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

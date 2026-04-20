@@ -1,0 +1,303 @@
+module ericsson-rtntwampinitiator-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnTwampInitiator";
+  prefix rtntwamp;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list TwampInitiator {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Two-Way Active Measurement Protocol (TWAMP) Initiator. Grouping all defined TwampTestSession MOs on a specific Router MO to make it possible to lock or unlock all TwampTestSession MOs.";
+      key "twampInitiatorId";
+      leaf twampInitiatorId {
+        type leafref {
+          path "../attributes/twampInitiatorId";
+        }
+      }
+      container attributes {
+        uses TwampInitiator-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/TwampInitiator" {
+    list TwampTestSession {
+      description "Additional definitions from MOM:min/max-elements:0/500; Two-Way Active Measurement Protocol (TWAMP) session sender in a TWAMP light architecture, according to RFC 5357. When activated, the TWAMP test packets will send towards a specified TWAMP session responder IP address and UDP port. Dependencies: The combination of srcUdpPort, srcIpAddress, dstUdpPort and dstIpAddress for TwampTestSession must be unique in the same router.";
+      key "twampTestSessionId";
+      leaf twampTestSessionId {
+        type leafref {
+          path "../attributes/twampTestSessionId";
+        }
+      }
+      container attributes {
+        uses TwampTestSession-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef ProfileType {
+    type enumeration {
+      enum FULL_RESOLUTION_50;
+      enum FULL_RESOLUTION_10;
+    }
+  }
+  typedef ResponderType {
+    type enumeration {
+      enum LIGHT;
+      enum LIGHT_SL;
+    }
+  }
+  grouping TwampInitiator-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf twampInitiatorId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping TwampTestSession-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf dscp {
+      type eytypes:uint8_range_0-63;
+      default "0";
+      description "range 0..63; Default value: 0.";
+    }
+    leaf dstIpAddress {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf dstUdpPort {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf mode {
+      type enumeration {
+        enum LIGHT;
+        enum LIGHT_SL;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf payload {
+      type uint32 {
+        range "41..1472";
+      }
+      default "50";
+      units "byte";
+      description "range 41..1472; Default value: 50.";
+    }
+    leaf profileType {
+      type enumeration {
+        enum FULL_RESOLUTION_50;
+        enum FULL_RESOLUTION_10;
+      }
+    }
+    leaf srcIpAddress {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf srcUdpPort {
+      type ietfinet:port-number;
+      mandatory true;
+      description "range 4032..4063.";
+    }
+    leaf twampTestSessionId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list rxPkts {
+      type int64;
+    }
+    leaf-list ipdvFwdP95 {
+      type ietfinet:ip-address;
+    }
+    leaf-list lostPeriodMinFwd {
+      type int64;
+    }
+    leaf-list ttlMinRev {
+      type int64;
+    }
+    leaf-list ipdvRevMax {
+      type ietfinet:ip-address;
+    }
+    leaf-list lostPktsRev {
+      type int64;
+    }
+    leaf-list reorderPktRev {
+      type int64;
+    }
+    leaf-list ipdvRevP99 {
+      type ietfinet:ip-address;
+    }
+    leaf-list ipdvRevAvg {
+      type ietfinet:ip-address;
+    }
+    leaf-list ipdvRevP95 {
+      type ietfinet:ip-address;
+    }
+    leaf-list reorderPktFwd {
+      type int64;
+    }
+    leaf-list lostPeriodsFwd {
+      type int64;
+    }
+    leaf-list duplicPktRev {
+      type int64;
+    }
+    leaf-list ipdvFwdMin {
+      type ietfinet:ip-address;
+    }
+    leaf-list delayRtMax {
+      type int64;
+    }
+    leaf-list dscpRecMax {
+      type int64;
+    }
+    leaf-list ttlMaxFwd {
+      type int64;
+    }
+    leaf-list lostPeriodsRev {
+      type int64;
+    }
+    leaf-list lostPeriodMaxFwd {
+      type int64;
+    }
+    leaf-list ttlMinFwd {
+      type int64;
+    }
+    leaf-list delayRtP99 {
+      type int64;
+    }
+    leaf-list delayRtMin {
+      type int64;
+    }
+    leaf-list ipdvFwdAvg {
+      type ietfinet:ip-address;
+    }
+    leaf-list lostPeriodMaxRev {
+      type int64;
+    }
+    leaf-list ipdvRevMin {
+      type ietfinet:ip-address;
+    }
+    leaf-list ttlMaxRev {
+      type int64;
+    }
+    leaf-list ipdvFwdP99 {
+      type ietfinet:ip-address;
+    }
+    leaf-list delayRtP95 {
+      type int64;
+    }
+    leaf-list ipdvRevP98 {
+      type ietfinet:ip-address;
+    }
+    leaf-list ipdvFwdMax {
+      type ietfinet:ip-address;
+    }
+    leaf-list lostPktsFwd {
+      type int64;
+    }
+    leaf-list duplicPktFwd {
+      type int64;
+    }
+    leaf-list txPkts {
+      type int64;
+    }
+    leaf-list ipdvFwdP98 {
+      type ietfinet:ip-address;
+    }
+    leaf-list dscpRecMin {
+      type int64;
+    }
+    leaf-list lostPeriodMinRev {
+      type int64;
+    }
+    leaf-list delayRtAvg {
+      type int64;
+    }
+    leaf-list delayRtP98 {
+      type int64;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+module ericsson-rcsautomaticfailsafe-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsAutomaticFailsafe";
+  prefix rcsautom;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list AutomaticFailsafe {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Automatic failsafe. Automatic failsafe creates a backup that is used in case OAM fails unexpectedly. The RDN for this MO is AutomaticFailsafe=1.";
+      key "automaticFailsafeId";
+      leaf automaticFailsafeId {
+        type leafref {
+          path "../attributes/automaticFailsafeId";
+        }
+      }
+      container attributes {
+        uses AutomaticFailsafe-attributes;
+      }
+    }
+  }
+  grouping AutomaticFailsafe-attributes {
+    leaf automaticFailsafeId {
+      type string;
+      mandatory true;
+    }
+    leaf timeoutLength {
+      type int64 {
+        range "30..240";
+      }
+      default "60";
+      units "minute";
+      description "range 30..240; Default value: 60.";
+    }
+    leaf expiryDate {
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+}

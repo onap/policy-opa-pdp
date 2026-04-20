@@ -1,0 +1,42 @@
+module ericsson-rmetlssupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeTlsSupport";
+  prefix rmetlssu;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list TlsSupport {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Proprietary parameters for TLS.";
+      key "tlsSupportId";
+      leaf tlsSupportId {
+        type leafref {
+          path "../attributes/tlsSupportId";
+        }
+      }
+      container attributes {
+        uses TlsSupport-attributes;
+      }
+    }
+  }
+  grouping TlsSupport-attributes {
+    leaf tlsSupportId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf maxTlsSessions {
+      type string;
+    }
+  }
+}

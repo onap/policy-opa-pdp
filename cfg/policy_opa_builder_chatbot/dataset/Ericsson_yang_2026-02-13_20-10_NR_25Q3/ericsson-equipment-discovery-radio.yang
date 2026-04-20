@@ -1,0 +1,125 @@
+module ericsson-equipment-discovery-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEquipmentDiscovery";
+  prefix equipdcrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list EquipmentDiscovery {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Used to perform AISG device scan. Scan finds all radio RF and RET ports in RBS. Lists all AISG units with unique hardware IDs and how these units are connected. Operator can select file storage. The RDN of this MO is EquipmentDiscovery=1.";
+      key "equipmentDiscoveryId";
+      leaf equipmentDiscoveryId {
+        type leafref {
+          path "../attributes/equipmentDiscoveryId";
+        }
+      }
+      container attributes {
+        uses EquipmentDiscovery-attributes;
+      }
+    }
+  }
+  typedef AisgDataRate {
+    type enumeration {
+      enum BITRATE_9600;
+      enum BITRATE_38400;
+      enum BITRATE_115200;
+    }
+  }
+  typedef DeviceScanDcVoltage {
+    type enumeration {
+      enum DC_12V;
+      enum DC_17V;
+      enum DC_30V;
+    }
+  }
+  typedef DeviceScanPortConfiguration {
+    type enumeration {
+      enum SCAN_ALL_PORTS_WITH_DEFAULT_VOLTAGE;
+      enum SCAN_ALL_PORTS_WITH_CHOSEN_VOLTAGE;
+      enum SCAN_RET_PORT_ONLY;
+      enum SCAN_AC_PORTS_ONLY;
+      enum SCAN_RF_PORTS_ONLY;
+    }
+  }
+  typedef EquipmentDiscoveryStatus {
+    type enumeration {
+      enum UNKNOWN;
+      enum SCAN_STARTED;
+      enum SCAN_FINISHED;
+      enum SCAN_FAILED;
+      enum CONFIGURING;
+      enum CONFIG_PARTIAL;
+      enum CONFIG_MISSING_DEPENDENCY;
+      enum CONFIG_FAILED;
+      enum MO_CREATION_FAILURE;
+      enum SCANNED_AND_CONFIGURED;
+    }
+  }
+  grouping EquipmentDiscovery-attributes {
+    leaf equipmentDiscoveryId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf antennaDeviceScanInBackground {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf sftpServerIpAddress {
+      type ietfinet:ip-address;
+      description "length 0..255.";
+    }
+    leaf sftpServerPath {
+      type string {
+        length "0..255";
+      }
+      description "length 0..255.";
+    }
+    leaf sftpUsername {
+      type string {
+        length "0..254";
+      }
+      description "length 0..254.";
+    }
+    leaf sftpPassword {
+      type string;
+    }
+    leaf dataRate {
+      type enumeration {
+        enum BITRATE_9600;
+        enum BITRATE_38400;
+        enum BITRATE_115200;
+      }
+    }
+    leaf portVoltage {
+      type ietfinet:port-number;
+    }
+    leaf portConfiguration {
+      type ietfinet:port-number;
+    }
+    leaf autoCreateAisgUnits {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf equipmentDiscoveryStatus {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf-list targetLdn {
+      type string;
+    }
+  }
+}

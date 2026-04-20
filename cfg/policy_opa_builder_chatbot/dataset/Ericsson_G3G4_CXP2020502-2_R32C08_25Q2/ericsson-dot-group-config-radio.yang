@@ -1,0 +1,151 @@
+module ericsson-dot-group-config-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqDotGroupConfig";
+  prefix dgrpcfrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nReqDotGroupConfig";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list DotGroupConfig {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Configuration of radio dot groups. Created automatically for IRU which supports Radio Dot grouping. Can also be created manually. MO can only be deleted when parent FieldReplaceableUnit MO has administrativeState LOCKED. When created automatically, the RDN of this MO is DotGroupConfig=1.";
+      key "dotGroupConfigId";
+      leaf dotGroupConfigId {
+        type leafref {
+          path "../attributes/dotGroupConfigId";
+        }
+      }
+      container attributes {
+      uses DotGroupConfig-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping DotGroup-struct {
+    description "Radio dot groups.";
+    leaf noOfBranchesInGrp3 {
+      description "Default value: 0.";
+      type int32 {
+        range "0 | 2 | 4 | 6 | 8";
+      }
+      default "0";
+    }
+    leaf noOfBranchesInGrp4 {
+      description "Default value: 0.";
+      type int32 {
+        range "0 | 2 | 4 | 6 | 8";
+      }
+      default "0";
+    }
+    leaf noOfBranchesInGrp1 {
+      description "Default value: 0.";
+      type int32 {
+        range "0 | 2 | 4 | 6 | 8";
+      }
+      default "0";
+    }
+    leaf noOfBranchesInGrp2 {
+      description "Default value: 0.";
+      type int32 {
+        range "0 | 2 | 4 | 6 | 8";
+      }
+      default "0";
+    }
+  }
+  grouping DotGroupConfig-attributes {
+    leaf dotGroupConfigId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list dotGroup {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Number of required dot groups wanted and branches in each dot group of parent FRU representing IRU. Values must be set starting with dot group 1, in ascending and consecutive order. Number of elements with non-zero value represents the number of required dot groups wanted. If all elements have value 0, no dot group is configured and this attribute has no effect. If IRU has no dot grouping capability, this attribute must have value 0, otherwise IRU cannot function correctly and alarm is raised. Number of dot groups can be 1, 2, or 4, which means the following configuration options can be selected: 1. Setting value for noOfBranchesInGrp1 while leaving other elements 0. 2. Setting values for noOfBranchesInGrp1 and noOfBranchesInGrp2 while leaving other elements 0. 3. Setting values for all elements. Sum of branch numbers of all dot groups must not exceed 16. For example {4,4,4,8} is not allowed because 4 + 4 + 4 + 8 > 16. Takes effect: Next unlock of parent FieldReplaceableUnit MO. Precondition: Value can only be set when parent FieldReplaceableUnit MO has administrativeState LOCKED..";
+      uses DotGroup-struct;
+    }
+    leaf operationalState {
+      description "The operational state. Set by the application in the RBS..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+  }
+}

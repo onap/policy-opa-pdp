@@ -1,0 +1,63 @@
+module huawei-localwap {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-localwap";
+ prefix localwap;
+ description
+ "Auto-generated modular YANG for huawei-localwap" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping LOCALWAP-attributes {
+ leaf AUTODISABLETIME {
+  type uint16 {
+   range "0..1440";
+  }
+  mandatory false;
+ }
+ leaf CHANNEL {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-255;
+   enum val-4294967295;
+  }
+  mandatory false;
+ }
+ leaf REGIONCODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf SHOWSSID {
+  type boolean;
+  mandatory false;
+ }
+ leaf SSID {
+  type string {
+   length "1..32";
+  }
+  mandatory false;
+ }
+ leaf SWITCH {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

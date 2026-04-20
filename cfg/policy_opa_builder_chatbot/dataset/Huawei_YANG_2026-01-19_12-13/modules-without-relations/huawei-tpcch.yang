@@ -1,0 +1,48 @@
+module huawei-tpcch {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-tpcch";
+ prefix tpcch;
+ description
+ "Auto-generated modular YANG for huawei-tpcch" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping TPCCH-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf TPCCHPAGINGCYCLE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf TPCCHPAGINGSTARTFRAME {
+  type uint8 {
+   range "0..127";
+  }
+  mandatory false;
+ }
+ leaf TPCCHPAGINGSTARTSUBFRAME {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ }
+}

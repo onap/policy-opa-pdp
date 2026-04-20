@@ -1,0 +1,24 @@
+module huawei-qoehocommoncfg {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-qoehocommoncfg";
+ prefix qoehocommoncfg;
+ description
+ "Auto-generated modular YANG for huawei-qoehocommoncfg" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping QOEHOCOMMONCFG-attributes {
+ leaf QOEBASEDHANDOVERLAST {
+  type uint8 {
+   range "0..60";
+  }
+  mandatory false;
+ }
+ leaf QOEBASEDHANDOVERSTAT {
+  type uint8 {
+   range "0..60";
+  }
+  mandatory false;
+ }
+ }
+}

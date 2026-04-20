@@ -1,0 +1,125 @@
+module huawei-nrcellmntpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrcellmntpara";
+ prefix nrcellmntpara;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-nrcellmntpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRCELLMNTPARA-attributes {
+ leaf DLMNTUETARGETFREQ {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf HOCOMPENSATIONOFFSET {
+  type int8 {
+   range "-30..30";
+  }
+  mandatory false;
+ }
+ leaf LOWTHPTMNTUETARGETFREQ {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf MNTDLSPLITPREFERDUR {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf MNTDURATION {
+  type union {
+   type uint8 {
+    range "1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf MNTINTRFCTRLALGOSW {
+  type string;
+  mandatory false;
+ }
+ leaf MNTRESALGOSW {
+  type string;
+  mandatory false;
+ }
+ leaf MNTSTARTDATE {
+  type hwat:yyyy_mm_dd;
+  mandatory false;
+ }
+ leaf MNTUEINTERFREQHOA1THLDOFS {
+  type int8 {
+   range "-125..125";
+  }
+  mandatory false;
+ }
+ leaf MNTUEINTERFREQHOA2THLDOFS {
+  type int8 {
+   range "-125..125";
+  }
+  mandatory false;
+ }
+ leaf MNTUEINTERFREQHOA4RSRPTHLD {
+  type int16 {
+   range "-156..-31";
+  }
+  mandatory false;
+ }
+ leaf MNTVONRALGOSW {
+  type string;
+  mandatory false;
+ }
+ leaf MNTVONRUETARGETFREQ {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf NORMUEINTERFREQHOA4RSRPTHD {
+  type int16 {
+   range "-156..-31";
+  }
+  mandatory false;
+ }
+ leaf NORMUENUMTHLD {
+  type uint16 {
+   range "0..10000";
+  }
+  mandatory false;
+ }
+ leaf NORMUETARGETFREQ {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf NRCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf UENUMTHLD {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf ULMNTUETARGETFREQ {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ }
+}

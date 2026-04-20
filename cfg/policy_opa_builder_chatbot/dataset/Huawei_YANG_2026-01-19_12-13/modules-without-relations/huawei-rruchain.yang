@@ -1,0 +1,468 @@
+module huawei-rruchain {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rruchain";
+ prefix rruchain;
+ description
+ "Auto-generated modular YANG for huawei-rruchain" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RRUCHAIN-attributes {
+ leaf AT {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf BITRATESET {
+  type string;
+  mandatory false;
+ }
+ leaf BM {
+  type boolean;
+  mandatory false;
+ }
+ leaf BRKPOS1 {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf BRKPOS2 {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNCN1 {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf CONNCN2 {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf CONNCN3 {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf CONNCN4 {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf CONNCR1 {
+  type enumeration {
+   enum val-1;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-9;
+   enum val-10;
+   enum val-12;
+   enum val-13;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-254;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf CONNCR2 {
+  type enumeration {
+   enum val-1;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-9;
+   enum val-10;
+   enum val-12;
+   enum val-13;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-254;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf CONNCR3 {
+  type enumeration {
+   enum val-1;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-9;
+   enum val-10;
+   enum val-12;
+   enum val-13;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-254;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf CONNCR4 {
+  type enumeration {
+   enum val-1;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-9;
+   enum val-10;
+   enum val-12;
+   enum val-13;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-254;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf CONNPN1 {
+  type uint8 {
+   range "0..8";
+  }
+  mandatory false;
+ }
+ leaf CONNPN2 {
+  type uint8 {
+   range "0..8";
+  }
+  mandatory false;
+ }
+ leaf CONNPN3 {
+  type uint8 {
+   range "0..8";
+  }
+  mandatory false;
+ }
+ leaf CONNPN4 {
+  type uint8 {
+   range "0..8";
+  }
+  mandatory false;
+ }
+ leaf CONNPORTNUM {
+  type uint8 {
+   range "1..4";
+  }
+  mandatory false;
+ }
+ leaf CONNSBT1 {
+  type enumeration {
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+  }
+  mandatory false;
+ }
+ leaf CONNSBT2 {
+  type enumeration {
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+  }
+  mandatory false;
+ }
+ leaf CONNSBT3 {
+  type enumeration {
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+  }
+  mandatory false;
+ }
+ leaf CONNSBT4 {
+  type enumeration {
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+  }
+  mandatory false;
+ }
+ leaf CONNSN1 {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf CONNSN2 {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf CONNSN3 {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf CONNSN4 {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf CONNSPN1 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf CONNSPN2 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf CONNSPN3 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf CONNSPN4 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf CONNSRN1 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf CONNSRN2 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf CONNSRN3 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf CONNSRN4 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf CR {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-9;
+   enum val-10;
+   enum val-12;
+   enum val-13;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-254;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf HCN {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf HPN {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf HSN {
+  type uint8 {
+   range "0..6";
+  }
+  mandatory false;
+ }
+ leaf HSPN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf HSRN {
+  type union {
+   type uint8 {
+    range "0..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf LCN {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LSN {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LSRN {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf PROTOCOL {
+  type enumeration {
+   enum val-0;
+   enum val-3;
+   enum val-254;
+  }
+  mandatory false;
+ }
+ leaf RATECHGPERIOD {
+  type uint8 {
+   range "1..3";
+  }
+  mandatory false;
+ }
+ leaf OLD_RCN {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf RCN {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf RESVBW {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf SBT {
+  type enumeration {
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+  }
+  mandatory false;
+ }
+ leaf TCN {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf TPN {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf TSN {
+  type uint8 {
+   range "0..6";
+  }
+  mandatory false;
+ }
+ leaf TSPN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf TSRN {
+  type union {
+   type uint8 {
+    range "0..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf TT {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf USERDEFRATENEGOSW {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,40 @@
+module huawei-nrcellrsvdext01 {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrcellrsvdext01";
+ prefix nrcellrsvdext01;
+ description
+ "Auto-generated modular YANG for huawei-nrcellrsvdext01" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRCELLRSVDEXT01-attributes {
+ leaf NRCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf RSVDSWPARAM0 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM1 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM2 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM3 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM4 {
+  type string;
+  mandatory false;
+ }
+ }
+}

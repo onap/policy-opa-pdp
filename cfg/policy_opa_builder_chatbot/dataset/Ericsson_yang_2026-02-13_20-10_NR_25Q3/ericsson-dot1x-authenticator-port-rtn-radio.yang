@@ -1,0 +1,126 @@
+module ericsson-dot1x-authenticator-port-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnDot1xAuthenticatorPort";
+  prefix dot1xaptrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l2-eth-port-rtn-radio {
+    prefix l2ethptrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l2ethptrdo:EthernetPort" {
+    list Dot1xAuthenticatorPort {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents IEEE 802.1X authenticator. Only applicable if EthernetPort MO is child of Transport MO. If EthernetPort MO refers to RiPort MO, OHybrid MO must exist. RiLink MO represents link between Digital Unit (DU) and Radio Unit (RU). If MO types RiPort, EthernetPort and Dot1xAuthenticatorPort are all configured for one RiLink MO, they must be configured for all RiLink MOs to same RU. If EthernetPort MO refers to RiPort MO, internal authentication server is used with node credential and trust category configured in NetconfTls MO.";
+      key "dot1xAuthenticatorPortId";
+      leaf dot1xAuthenticatorPortId {
+        type leafref {
+          path "../attributes/dot1xAuthenticatorPortId";
+        }
+      }
+      container attributes {
+        uses Dot1xAuthenticatorPort-attributes;
+      }
+    }
+  }
+  typedef AccessControl {
+    type enumeration {
+      enum NOT_ENFORCED;
+      enum FULLY_ENFORCED;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef Dot1xStatusType {
+    type enumeration {
+      enum UNAUTHORIZED;
+      enum AUTHORIZED;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping Dot1xAuthenticatorPort-attributes {
+    leaf accessControl {
+      type enumeration {
+        enum NOT_ENFORCED;
+        enum FULLY_ENFORCED;
+      }
+    }
+    leaf authenticationServer {
+      type string;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf dot1xAuthenticatorPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf dot1xStatus {
+      type enumeration {
+        enum UNAUTHORIZED;
+        enum AUTHORIZED;
+      }
+      config false;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf reAuthPeriod {
+      type uint32 {
+        range "0 | 300..7200";
+      }
+      default "0";
+      units "s";
+      description "Default value: 0.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

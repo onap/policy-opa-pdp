@@ -1,0 +1,77 @@
+module ericsson-radio-power-overbooking-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeRadioPowerOverbooking";
+  prefix rdopwrovbrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis MO contains configuration items for feature Radio Power Overbooking.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list RadioPowerOverbooking {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO contains configuration items for feature Radio Power Overbooking. The RDN of this MO is RadioPowerOverbooking=1.";
+      key "radioPowerOverbookingId";
+      leaf radioPowerOverbookingId {
+        type leafref {
+          path "../attributes/radioPowerOverbookingId";
+        }
+      }
+      container attributes {
+      uses RadioPowerOverbooking-attributes;
+      }
+    }
+  }
+  typedef FeatCtrlState {
+    description "Possible states set by operator for licensed or unlicensed feature.";
+    type enumeration {
+      enum OFF {
+        description "Operator does not allow usage of the feature.";
+      }
+      enum ON {
+        description "Operator allows usage of the feature.";
+      }
+    }
+  }
+  typedef RadioPowerSharingType {
+    description "Possible type of radio type sharing, indicating if Tx power of radio unit is shared based on nominal Tx power or on other specific requirements.";
+    type enumeration {
+      enum RADIO_POWER_SHARING_DEFAULT {
+        description "Default power sharing type. Power is shared based on value of nominal Tx power in radio.";
+      }
+      enum RADIO_POWER_SHARING_A {
+        description "Power sharing variant A.";
+      }
+      enum RADIO_POWER_SHARING_B {
+        description "Power sharing variant B.";
+      }
+    }
+  }
+  grouping RadioPowerOverbooking-attributes {
+    leaf radioPowerOverbookingId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf featCtrlRadioPowerOverbooking {
+      description "Whether function radio power sharing is ON or OFF. Function radio power sharing includes radio power overbooking. Note: Power configuration must be checked when enabling or disabling function..";
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf radioPowerSharingType {
+      description "Type of radio power sharing..";
+      type enumeration {
+        enum RADIO_POWER_SHARING_DEFAULT;
+        enum RADIO_POWER_SHARING_A;
+        enum RADIO_POWER_SHARING_B;
+      }
+    }
+  }
+}

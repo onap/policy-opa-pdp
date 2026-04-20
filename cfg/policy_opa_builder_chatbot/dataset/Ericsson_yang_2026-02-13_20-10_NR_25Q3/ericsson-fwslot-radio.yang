@@ -1,0 +1,76 @@
+module ericsson-fwslot-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqFwSlot";
+  prefix fwslotrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-support-unit-radio {
+    prefix supurdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/supurdo:SupportUnit" {
+    list FwSlot {
+      description "Additional definitions from MOM:min/max-elements:0/2;root;systemCreated; Firmware slots available for a unit. When unit has capability of firmware download support, this MO serves as container for downloaded firmware revisions. The RDNs of these MOs are FwSlot=1, 2, 3, and so on.";
+      key "fwSlotId";
+      leaf fwSlotId {
+        type leafref {
+          path "../attributes/fwSlotId";
+        }
+      }
+      container attributes {
+        uses FwSlot-attributes;
+      }
+    }
+  }
+  typedef FwSlotStatus {
+    type enumeration {
+      enum EMPTY;
+      enum CHECKING;
+      enum FAILED;
+      enum LOADED;
+      enum LOADING;
+      enum ERROR;
+    }
+  }
+  grouping FwSlot-attributes {
+    leaf fwSlotId {
+      type string;
+      mandatory true;
+    }
+    leaf slotStatus {
+      type enumeration {
+        enum EMPTY;
+        enum CHECKING;
+        enum FAILED;
+        enum LOADED;
+        enum LOADING;
+        enum ERROR;
+      }
+      config false;
+    }
+    leaf name {
+      type string;
+      config false;
+    }
+    leaf activated {
+      type boolean;
+      config false;
+    }
+    leaf prioritized {
+      type boolean;
+      config false;
+    }
+    leaf revision {
+      type string;
+      config false;
+    }
+  }
+}

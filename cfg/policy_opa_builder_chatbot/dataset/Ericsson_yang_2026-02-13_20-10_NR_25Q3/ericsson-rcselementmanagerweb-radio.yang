@@ -1,0 +1,42 @@
+module ericsson-rcselementmanagerweb-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsElementManagerWeb";
+  prefix rcseleme;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ElementManagerWeb {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Common configuration attributes for Element Manager web-based sessions. The RDN of this MO is ElementManagerWeb=1.";
+      key "elementManagerWebId";
+      leaf elementManagerWebId {
+        type leafref {
+          path "../attributes/elementManagerWebId";
+        }
+      }
+      container attributes {
+        uses ElementManagerWeb-attributes;
+      }
+    }
+  }
+  grouping ElementManagerWeb-attributes {
+    leaf elementManagerWebId {
+      type string;
+      mandatory true;
+    }
+    leaf idleTimer {
+      type string;
+    }
+    leaf absoluteTimer {
+      type string;
+    }
+  }
+}

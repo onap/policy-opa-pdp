@@ -1,0 +1,64 @@
+module huawei-cellmetroalgopara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cellmetroalgopara";
+ prefix cellmetroalgopara;
+ description
+ "Auto-generated modular YANG for huawei-cellmetroalgopara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLMETROALGOPARA-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf CBTCHIGHLOADTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf CBTCLOWLOADTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf CBTCPDCPFIRSTPKTDELAYMAX {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf CBTCSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SPSADAPTRBHIGHRATIO {
+  type uint8 {
+   range "30..80";
+  }
+  mandatory false;
+ }
+ leaf SPSADAPTRBLOWRATIO {
+  type uint8 {
+   range "30..80";
+  }
+  mandatory false;
+ }
+ leaf SPSADAPTRBMIDRATIO {
+  type uint8 {
+   range "30..80";
+  }
+  mandatory false;
+ }
+ }
+}

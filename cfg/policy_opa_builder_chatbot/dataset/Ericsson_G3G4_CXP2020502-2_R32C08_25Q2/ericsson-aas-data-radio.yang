@@ -1,0 +1,119 @@
+module ericsson-aas-data-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqAasData";
+  prefix aasdrdo;
+  import ericsson-transceiver-radio {
+    prefix trsvrrdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis MO contains configuration parameters for the Array Antenna Module in an AAS radio.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/trsvrrdo:Transceiver" {
+    list AasData {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; This MO contains configuration parameters for the Array Antenna Module in an AAS radio.";
+      key "aasDataId";
+      leaf aasDataId {
+        type leafref {
+          path "../attributes/aasDataId";
+        }
+      }
+      container attributes {
+      uses AasData-attributes;
+      }
+    }
+  }
+  typedef AntSegmentationType {
+    description "Antenna Segmentation requested for an embedded array antenna module.";
+    type enumeration {
+      enum AUTO {
+        description "Automatic antenna segmentation selection.";
+      }
+      enum WHOLE_100 {
+        description "Entire array without segmentation.";
+      }
+      enum SPLIT_H_50_50 {
+        description "Array is split evenly 50/50 horizontally top-down.";
+      }
+      enum SPLIT_V_50_50 {
+        description "Array is split evenly 50/50 vertically left-to-right.";
+      }
+      enum SPLIT_H_75_25 {
+        description "Array is split 75/25 horizontally top-down.";
+      }
+      enum SPLIT_V_75_25 {
+        description "Array is split 75/25 vertically left-to-right.";
+      }
+      enum SPLIT_H_50_25_25 {
+        description "Array is split 50/25/25 horizontally top-down.";
+      }
+      enum SPLIT_V_50_25_25 {
+        description "Array is split 50/25/25 vertically left-to-right.";
+      }
+      enum SPLIT_H_25_25_25_25 {
+        description "Array is split 25/25/25/25 horizontally top-down.";
+      }
+      enum SPLIT_V_25_25_25_25 {
+        description "Array is split 25/25/25/25 vertically left-to-right.";
+      }
+      enum AUTO_SPLIT {
+        description "Automatic split selection based on majority coverage (sector) shapes.";
+      }
+      enum SPLIT_GRID_25_25_25_25 {
+        description "Array is split evenly, both horizontally and vertically, in four equal quadrants.";
+      }
+    }
+  }
+  grouping AasData-attributes {
+    leaf aasDataId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf usedAntSegmentation {
+      description "Selected antenna segmentation for an embedded array antenna module..";
+      type enumeration {
+        enum AUTO;
+        enum WHOLE_100;
+        enum SPLIT_H_50_50;
+        enum SPLIT_V_50_50;
+        enum SPLIT_H_75_25;
+        enum SPLIT_V_75_25;
+        enum SPLIT_H_50_25_25;
+        enum SPLIT_V_50_25_25;
+        enum SPLIT_H_25_25_25_25;
+        enum SPLIT_V_25_25_25_25;
+        enum AUTO_SPLIT;
+        enum SPLIT_GRID_25_25_25_25;
+      }
+      config false;
+    }
+    leaf antSegmentation {
+      description "Antenna Segmentation requested for an embedded array antenna module. usedAntSegmentation shows the antenna segmentation in use..";
+      type enumeration {
+        enum AUTO;
+        enum WHOLE_100;
+        enum SPLIT_H_50_50;
+        enum SPLIT_V_50_50;
+        enum SPLIT_H_75_25;
+        enum SPLIT_V_75_25;
+        enum SPLIT_H_50_25_25;
+        enum SPLIT_V_50_25_25;
+        enum SPLIT_H_25_25_25_25;
+        enum SPLIT_V_25_25_25_25;
+        enum AUTO_SPLIT;
+        enum SPLIT_GRID_25_25_25_25;
+      }
+    }
+  }
+}

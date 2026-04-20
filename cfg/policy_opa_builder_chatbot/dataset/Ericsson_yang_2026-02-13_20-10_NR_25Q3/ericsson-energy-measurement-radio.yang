@@ -1,0 +1,139 @@
+module ericsson-energy-measurement-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ResEnergyMeasurement";
+  prefix enmrntrdo;
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-equipment-support-function-radio {
+    prefix eqsupfnrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/eqsupfnrdo:EquipmentSupportFunction" {
+    list EnergyMeasurement {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO displays the energy consumption for an RBS or part of an RBS.";
+      key "energyMeasurementId";
+      leaf energyMeasurementId {
+        type leafref {
+          path "../attributes/energyMeasurementId";
+        }
+      }
+      container attributes {
+        uses EnergyMeasurement-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping EnergyMeasurement-attributes {
+    leaf energyMeasurementId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf energyConsumption {
+      type int32;
+      config false;
+      units "kWh";
+    }
+    leaf-list energyMeterListRef {
+      type string;
+      min-elements 1;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf powerConsumption {
+      type int32;
+      config false;
+      units "W";
+    }
+    leaf startTime {
+      type string {
+        length "14";
+      }
+      description "length 14..14.";
+    }
+    leaf stopTime {
+      type string {
+        length "14";
+      }
+      description "length 14..14.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf pmMaxPowerConsumption {
+      type int32;
+      config false;
+    }
+    leaf-list pmPowerConsumption {
+      type int32;
+    }
+    leaf pmAccumulatedEnergyConsumption {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmEnergyConsumption {
+      type uint32;
+      config false;
+    }
+    leaf pmMinPowerConsumption {
+      type int32;
+      config false;
+    }
+  }
+}

@@ -1,0 +1,78 @@
+module ericsson-rtndhcprelayipv4-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnDhcpRelayIPv4";
+  prefix rtndhcpr;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nDhcpRelay MOM";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list DhcpRelayIPv4 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents DHCP relay agent, that can relay IPv4 DHCP messages between DHCP clients and DHCP servers.";
+      key "dhcpRelayIPv4Id";
+      leaf dhcpRelayIPv4Id {
+        type leafref {
+          path "../attributes/dhcpRelayIPv4Id";
+        }
+      }
+      container attributes {
+      uses DhcpRelayIPv4-attributes;
+      }
+    }
+  }
+  grouping DhcpRelayIPv4-attributes {
+    leaf dhcpRelayIPv4Id {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list server {
+      description "Reference to PeerIPv4 MO that DHCP packets will be relayed to..";
+      type string;
+      min-elements 1;
+      max-elements 10;
+    }
+    leaf-list subnet {
+      description "IP subnets that DHCP relay agent must serve..";
+      type string;
+      min-elements 1;
+    }
+    leaf dhcpOutClientMsgsHC {
+      description "Number of DHCPv4 messages attempted to send to DHCPv4 clients..";
+      type uint64;
+      config false;
+    }
+    leaf dhcpInServerMsgsHC {
+      description "Number of DHCPv4 messages received from DHCPv4 servers. Note that this counter includes all those counted by dhcpInServerErrorsHC..";
+      type uint64;
+      config false;
+    }
+    leaf dhcpOutServerMsgsHC {
+      description "Number of DHCPv4 messages attempted to send to DHCPv4 servers..";
+      type uint64;
+      config false;
+    }
+    leaf dhcpInServerErrorsHC {
+      description "Number of DHCPv4 messages received from DHCPv4 servers that are discarded because of DHCPv4-specific errors..";
+      type uint64;
+      config false;
+    }
+    leaf dhcpInClientErrorsHC {
+      description "Number of DHCPv4 messages received from DHCPv4 clients that are discarded because of DHCPv4-specific errors..";
+      type uint64;
+      config false;
+    }
+    leaf dhcpInClientMsgsHC {
+      description "Number of DHCPv4 messages received from DHCPv4 clients. Note that this counter includes all those counted by dhcpInClientErrorsHC..";
+      type uint64;
+      config false;
+    }
+  }
+}

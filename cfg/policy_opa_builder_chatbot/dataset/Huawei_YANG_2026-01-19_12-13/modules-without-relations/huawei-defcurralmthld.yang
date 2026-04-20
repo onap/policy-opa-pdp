@@ -1,0 +1,88 @@
+module huawei-defcurralmthld {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-defcurralmthld";
+ prefix defcurralmthld;
+ description
+ "Auto-generated modular YANG for huawei-defcurralmthld" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping DEFCURRALMTHLD-attributes {
+ leaf OCTHD {
+  type uint16 {
+   range "0..3500";
+  }
+  mandatory false;
+ }
+ leaf OOTHD {
+  type uint16 {
+   range "0..3500";
+  }
+  mandatory false;
+ }
+ leaf OLD_PORTTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+  }
+  mandatory false;
+ }
+ leaf PORTTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+  }
+  mandatory false;
+ }
+ leaf OLD_THRESHOLDTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+  }
+  mandatory false;
+ }
+ leaf THRESHOLDTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+  }
+  mandatory false;
+ }
+ leaf UCTHD {
+  type uint16 {
+   range "0..3500";
+  }
+  mandatory false;
+ }
+ leaf UOTHD {
+  type uint16 {
+   range "0..3500";
+  }
+  mandatory false;
+ }
+ }
+}

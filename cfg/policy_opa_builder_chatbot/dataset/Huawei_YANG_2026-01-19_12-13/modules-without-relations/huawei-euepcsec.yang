@@ -1,0 +1,23 @@
+module huawei-euepcsec {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-euepcsec";
+ prefix euepcsec;
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-euepcsec" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping EUEPCSEC-attributes {
+ leaf CIPHALGO {
+  type inet:ip-address;
+  mandatory false;
+ }
+ leaf INTALGO {
+  type string;
+  mandatory false;
+ }
+ }
+}

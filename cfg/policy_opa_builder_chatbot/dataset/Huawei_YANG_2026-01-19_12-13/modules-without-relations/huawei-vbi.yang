@@ -1,0 +1,52 @@
+module huawei-vbi {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-vbi";
+ prefix vbi;
+ description
+ "Auto-generated modular YANG for huawei-vbi" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping VBI-attributes {
+ leaf MACAGINGTIME {
+  type union {
+   type uint32 {
+    range "0..1000000";
+   }
+  }
+  mandatory false;
+ }
+ leaf SUPPLALMCLRTHD {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf SUPPLALMOCRTHD {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf SUPPLALMSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_VBIID {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf VBIID {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

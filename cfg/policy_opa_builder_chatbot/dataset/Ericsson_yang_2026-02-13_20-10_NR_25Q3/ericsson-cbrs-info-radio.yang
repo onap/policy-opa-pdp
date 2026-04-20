@@ -1,0 +1,49 @@
+module ericsson-cbrs-info-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqCbrsInfo";
+  prefix cbrsinfrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list CbrsInfo {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Represents information intended for CBRS Domain Coordinator. This MO is created by system only if equipment supports CBRS. The RDN of this MO is CbrsInfo=1.";
+      key "cbrsInfoId";
+      leaf cbrsInfoId {
+        type leafref {
+          path "../attributes/cbrsInfoId";
+        }
+      }
+      container attributes {
+        uses CbrsInfo-attributes;
+      }
+    }
+  }
+  grouping CbrsInfo-attributes {
+    leaf cbrsInfoId {
+      type string;
+      mandatory true;
+    }
+    leaf availablePower {
+      type int32;
+      config false;
+      units "mW";
+    }
+    leaf aasAntennaGain {
+      type int32;
+      config false;
+      units "dB";
+    }
+  }
+}

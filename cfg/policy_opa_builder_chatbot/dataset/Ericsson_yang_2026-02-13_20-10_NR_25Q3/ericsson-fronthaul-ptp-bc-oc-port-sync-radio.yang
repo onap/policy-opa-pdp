@@ -1,0 +1,184 @@
+module ericsson-fronthaul-ptp-bc-oc-port-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncFronthaulPtpBcOcPort";
+  prefix fptpbcocptrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-ptp-sync-radio {
+    prefix ptprdo;
+  }
+  import ericsson-fronthaul-sync-radio {
+    prefix fsyncrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/ptprdo:Ptp/fsyncrdo:FronthaulBoundaryOrdinaryClock" {
+    list FronthaulPtpBcOcPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents PTP port to communicate with other 1588 devices.";
+      key "fronthaulPtpBcOcPortId";
+      leaf fronthaulPtpBcOcPortId {
+        type leafref {
+          path "../attributes/fronthaulPtpBcOcPortId";
+        }
+      }
+      container attributes {
+        uses FronthaulPtpBcOcPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef DelayMechanism {
+    type enumeration {
+      enum E2E;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef PortState {
+    type enumeration {
+      enum INITIALIZING;
+      enum FAULTY;
+      enum DISABLED;
+      enum LISTENING;
+      enum PRE_MASTER;
+      enum MASTER;
+      enum PASSIVE;
+      enum UNCALIBRATED;
+      enum SLAVE;
+    }
+  }
+  typedef PtpPortStatus {
+    type enumeration {
+      enum NO_FAULT;
+      enum UNRESOLVED_SERVER_ADDRESS;
+      enum NEGOTIATION_FAILED;
+      enum NEGOTIATION_NO_REPLY;
+      enum UNKNOWN;
+    }
+  }
+  grouping FronthaulPtpBcOcPort-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf asymmetryCompensation {
+      type int32 {
+        range "-100000..100000";
+      }
+      default "0";
+      units "ns";
+      description "range -100000..100000; Default value: 0.";
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf fronthaulPtpBcOcPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    list portDS {
+      config false;
+      container attributes {
+      leaf announceInterval {
+        type string;
+      }
+      leaf announceReceiptTimeout {
+        type ietfinet:ip-address;
+      }
+      leaf delayMechanism {
+        type enumeration {
+          enum E2E;
+        }
+      }
+      leaf minDelayReqInterval {
+        type string;
+      }
+      leaf minPdelayReqInterval {
+        type string;
+      }
+      leaf peerMeanPathDelay {
+        type string;
+      }
+      leaf portClockIdentity {
+        type ietfinet:port-number;
+      }
+      leaf portNumber {
+        type ietfinet:port-number;
+      }
+      leaf portState {
+        type ietfinet:port-number;
+      }
+      leaf syncInterval {
+        type string;
+      }
+      leaf versionNumber {
+        type string;
+      }
+      }
+    }
+    leaf ptpPortStatus {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf transportInterface {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+  }
+}

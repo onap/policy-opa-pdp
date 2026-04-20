@@ -1,0 +1,352 @@
+module ericsson-l2-eth-port-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL2EthernetPort";
+  prefix l2ethptrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-extended-transport-rtn-radio {
+    prefix exttrrdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list EthernetPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents Ethernet MAC service access point. Dependencies: EthernetPort MO, reserved by LagPort MO, cannot refer to Dot1xSupplicant MO. EthernetPort MO, reserved by LagPort MO, cannot have child of MO type Dot1xAuthenticatorPort. EthernetPort MO, reserved by InterfaceIPv4 MO or InterfaceIPv6 MO, cannot configure Dot1xAuthenticatorPort MO. If EthernetPort MO is created by user, RDN of this MO cannot contain prefix ”auto_”. If EthernetPort MO is not created by user for RiPort MO using transmission standard Ethernet and part of eCPRI link, it is created automatically. For EthernetPort MO that encapsulates RiPort MO: - If EthernetPort MO encapsulates RiPort MO that belongs to FieldReplaceableUnit MO that represents external unit to primary core, EthernetPort MO must have ExtendedTransport MO as parent. - If EthernetPort MO is created automatically, RDN of this MO is EthernetPort=auto_<riPortId>. VlanPort MO cannot refer this MO if both following apply: If this MO has Dot1xAuthenticatorPort MO as child. If VlanPort MO is reserved by MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction, or ExtGNBDUPartnerFunction. If EthernetPort MO is not child of Transport MO, Dot1xAuthenticator MO cannot be created. QueueSystem and egress traffic shaping has no effect on low latency traffic.";
+      key "ethernetPortId";
+      leaf ethernetPortId {
+        type leafref {
+          path "../attributes/ethernetPortId";
+        }
+      }
+      container attributes {
+        uses EthernetPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/exttrrdo:ExtendedTransport" {
+    list EthernetPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents Ethernet MAC service access point. Dependencies: EthernetPort MO, reserved by LagPort MO, cannot refer to Dot1xSupplicant MO. EthernetPort MO, reserved by LagPort MO, cannot have child of MO type Dot1xAuthenticatorPort. EthernetPort MO, reserved by InterfaceIPv4 MO or InterfaceIPv6 MO, cannot configure Dot1xAuthenticatorPort MO. If EthernetPort MO is created by user, RDN of this MO cannot contain prefix ”auto_”. If EthernetPort MO is not created by user for RiPort MO using transmission standard Ethernet and part of eCPRI link, it is created automatically. For EthernetPort MO that encapsulates RiPort MO: - If EthernetPort MO encapsulates RiPort MO that belongs to FieldReplaceableUnit MO that represents external unit to primary core, EthernetPort MO must have ExtendedTransport MO as parent. - If EthernetPort MO is created automatically, RDN of this MO is EthernetPort=auto_<riPortId>. VlanPort MO cannot refer this MO if both following apply: If this MO has Dot1xAuthenticatorPort MO as child. If VlanPort MO is reserved by MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction, or ExtGNBDUPartnerFunction. If EthernetPort MO is not child of Transport MO, Dot1xAuthenticator MO cannot be created. QueueSystem and egress traffic shaping has no effect on low latency traffic.";
+      key "ethernetPortId";
+      leaf ethernetPortId {
+        type leafref {
+          path "../attributes/ethernetPortId";
+        }
+      }
+      container attributes {
+        uses EthernetPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef EthPortOperatingMode {
+    type enumeration {
+      enum ANY;
+      enum _10M_HALF;
+      enum _10M_FULL;
+      enum _100M_HALF;
+      enum _100M_FULL;
+      enum _1G_FULL;
+      enum _1G_FULL_SLAVE;
+      enum _1G_FULL_MASTER;
+      enum _10G_FULL;
+      enum _10G_FULL_MASTER;
+      enum _10G_FULL_SLAVE;
+      enum _40G_FULL;
+      enum _100G_FULL;
+      enum _25G_AUTO_FEC;
+      enum _25G_NO_FEC;
+      enum _25G_RS_FEC;
+      enum _25G_BASER_FEC;
+      enum _50G_NO_FEC;
+      enum _50G_RS_FEC;
+      enum _100G_NO_FEC;
+      enum _100G_RS_FEC;
+      enum _2_5G_FULL;
+      enum _2_5G_FULL_MASTER;
+      enum _2_5G_FULL_SLAVE;
+      enum _5G_FULL;
+      enum _5G_FULL_MASTER;
+      enum _5G_FULL_SLAVE;
+    }
+  }
+  typedef LldpTransmit {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping EthernetPort-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf admOperatingMode {
+      type enumeration {
+        enum ANY;
+        enum _10M_HALF;
+        enum _10M_FULL;
+        enum _100M_HALF;
+        enum _100M_FULL;
+        enum _1G_FULL;
+        enum _1G_FULL_SLAVE;
+        enum _1G_FULL_MASTER;
+        enum _10G_FULL;
+        enum _10G_FULL_MASTER;
+        enum _10G_FULL_SLAVE;
+        enum _40G_FULL;
+        enum _100G_FULL;
+        enum _25G_AUTO_FEC;
+        enum _25G_NO_FEC;
+        enum _25G_RS_FEC;
+        enum _25G_BASER_FEC;
+        enum _50G_NO_FEC;
+        enum _50G_RS_FEC;
+        enum _100G_NO_FEC;
+        enum _100G_RS_FEC;
+        enum _2_5G_FULL;
+        enum _2_5G_FULL_MASTER;
+        enum _2_5G_FULL_SLAVE;
+        enum _5G_FULL;
+        enum _5G_FULL_MASTER;
+        enum _5G_FULL_SLAVE;
+      }
+    }
+    leaf autoNegEnable {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf egressQosClassification {
+      type string;
+    }
+    leaf egressQosMarking {
+      type string;
+    }
+    leaf egressQosQueueMap {
+      type string;
+    }
+    leaf encapsulation {
+      type string;
+      mandatory true;
+    }
+    leaf ethernetPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf holdDownTimer {
+      type uint32 {
+        range "100..10000";
+      }
+      units "ms";
+      description "range 100..10000.";
+    }
+    leaf-list ingressQosMarking {
+      type string;
+    }
+    leaf lldpTransmit {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      status deprecated;
+      default "DISABLED";
+      description "Default value: DISABLED; Status info: Since 25.Q3. Replaced by Lldp::transmitEnableRef. Planned to be removed..";
+    }
+    leaf macAddress {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf mtu {
+      type int32;
+      config false;
+      units "B";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf operOperatingMode {
+      type enumeration {
+        enum ANY;
+        enum _10M_HALF;
+        enum _10M_FULL;
+        enum _100M_HALF;
+        enum _100M_FULL;
+        enum _1G_FULL;
+        enum _1G_FULL_SLAVE;
+        enum _1G_FULL_MASTER;
+        enum _10G_FULL;
+        enum _10G_FULL_MASTER;
+        enum _10G_FULL_SLAVE;
+        enum _40G_FULL;
+        enum _100G_FULL;
+        enum _25G_AUTO_FEC;
+        enum _25G_NO_FEC;
+        enum _25G_RS_FEC;
+        enum _25G_BASER_FEC;
+        enum _50G_NO_FEC;
+        enum _50G_RS_FEC;
+        enum _100G_NO_FEC;
+        enum _100G_RS_FEC;
+        enum _2_5G_FULL;
+        enum _2_5G_FULL_MASTER;
+        enum _2_5G_FULL_SLAVE;
+        enum _5G_FULL;
+        enum _5G_FULL_MASTER;
+        enum _5G_FULL_SLAVE;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf supplicant {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf ifHCInMulticastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifOutErrors {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutOctets {
+      type uint64;
+      config false;
+    }
+    leaf ifInErrors {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutMulticastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifInUnknownTags {
+      type uint64;
+      config false;
+    }
+    leaf ifInDiscards {
+      type uint64;
+      config false;
+    }
+    leaf ifMaxLossOfSignalDuration {
+      type int64;
+      config false;
+    }
+    leaf ifHCLossOfSignal {
+      type uint64;
+      config false;
+    }
+    leaf ifMinLossOfSignalDuration {
+      type int64;
+      config false;
+    }
+    leaf ifHCInUcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutBroadcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutUcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifHCInBroadcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf-list ifInOctetRatePercentiles {
+      type int64;
+    }
+    leaf-list ifOutOctetRatePercentiles {
+      type int64;
+    }
+    leaf ifOutDiscards {
+      type uint64;
+      config false;
+    }
+    leaf ifHCInOctets {
+      type uint64;
+      config false;
+    }
+    leaf ifInUnknownProtos {
+      type uint64;
+      config false;
+    }
+    leaf ifTotalLossOfSignalDuration {
+      type uint64;
+      config false;
+    }
+  }
+}

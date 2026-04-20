@@ -1,0 +1,153 @@
+module huawei-bfant {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-bfant";
+ prefix bfant;
+ description
+ "Auto-generated modular YANG for huawei-bfant" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping BFANT-attributes {
+ leaf BEAMWIDTH {
+  type union {
+   type uint16 {
+    range "30..360";
+   }
+  }
+  mandatory false;
+ }
+ leaf BFANTBEARING {
+  type int8 {
+   range "-90..90";
+  }
+  mandatory false;
+ }
+ leaf BAND {
+  type union {
+   type uint8 {
+    range "0..64";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNCN {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf CONNSN {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf CONNSRN {
+  type uint8 {
+   range "60..254";
+  }
+  mandatory false;
+ }
+ leaf COVERAGESCENARIO {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-201;
+   enum val-202;
+   enum val-203;
+  }
+  mandatory false;
+ }
+ leaf CRSSPLITBEAMINDICATOR {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_DEVICENO {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf DEVICENO {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf MODELNO {
+  type string {
+   length "0..128";
+  }
+  mandatory false;
+ }
+ leaf MANUFACTORY {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+  }
+  mandatory false;
+ }
+ leaf TILT {
+  type int8 {
+   range "-30..30";
+  }
+  mandatory false;
+ }
+ leaf TYPE {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf TILTFRACTIONALPART {
+  type int8 {
+   range "-9..9";
+  }
+  mandatory false;
+ }
+ leaf VERTICALBEAMWIDTH {
+  type uint16 {
+   range "0..900";
+  }
+  mandatory false;
+ }
+ }
+}

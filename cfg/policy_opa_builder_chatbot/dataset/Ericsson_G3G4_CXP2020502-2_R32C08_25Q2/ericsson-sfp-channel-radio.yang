@@ -1,0 +1,69 @@
+module ericsson-sfp-channel-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqSfpChannel";
+  prefix sfpchrdo;
+  import ericsson-sfp-module-radio {
+    prefix sfpmdrdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nReqSfpChannel.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/sfpmdrdo:SfpModule" {
+    list SfpChannel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents SFP channel. The RDNs of this MOs are SfpChannel=1 to SfpChannel=4.";
+      key "sfpChannelId";
+      leaf sfpChannelId {
+        type leafref {
+          path "../attributes/sfpChannelId";
+        }
+      }
+      container attributes {
+      uses SfpChannel-attributes;
+      }
+    }
+  }
+  grouping SfpChannel-attributes {
+    leaf sfpChannelId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf wavelength {
+      description "Configured wavelength for channel..";
+      type uint32;
+      config false;
+      units "pm";
+    }
+    leaf pmChannelTxPower {
+      description "Measured TX output power for the SFP Channel. Unit: 0.01 dBm. Value is reported with offset of +3000. To convert to dBm value use the formula dBm = ((value_reported - 3000)/100). For example, a reported value of 602 represents -23.98dBm.For Xcede module, this counter is not very accurate due to the compensation of the losses between VCSEL and the fiber. Counter is marked as suspect when the SFP module is not supported by Ericsson..";
+      type int32;
+      config false;
+    }
+    leaf pmChannelRxPower {
+      description "Measured RX input power for the SFP Channel. Unit: 0.01 dBm. Value is reported with offset of +3000. To convert to dBm value use the formula dBm = ((value_reported - 3000)/100). For example, a reported value of 602 represents -23.98dBm. Counter is marked as suspect when the SFP module is not supported by Ericsson..";
+      type int32;
+      config false;
+    }
+    leaf pmChannelTxBias {
+      description "Measured TX bias current for the SFP Channel. Unit: 0.01 mA.For Xcede module, this counter is not very accurate due to the compensation of the losses between VCSEL and the fiber. Counter is marked as suspect when the SFP module is not supported by Ericsson..";
+      type int32;
+      config false;
+    }
+  }
+}

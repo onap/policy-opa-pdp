@@ -1,0 +1,28 @@
+module huawei-nrducellrsvdparam {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellrsvdparam";
+ prefix nrducellrsvdparam;
+ description
+ "Auto-generated modular YANG for huawei-nrducellrsvdparam" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLRSVDPARAM-attributes {
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf RSVDSWPARAM1 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARAM4 {
+  type string;
+  mandatory false;
+ }
+ }
+}

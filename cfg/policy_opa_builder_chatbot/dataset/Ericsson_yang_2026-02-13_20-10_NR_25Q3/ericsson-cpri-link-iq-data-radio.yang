@@ -1,0 +1,53 @@
+module ericsson-cpri-link-iq-data-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqCpriLinkIqData";
+  prefix cpriiqdatardo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list CpriLinkIqData {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO handles specific settings for IQ user data. Only valid for CPRI links.";
+      key "cpriLinkIqDataId";
+      leaf cpriLinkIqDataId {
+        type leafref {
+          path "../attributes/cpriLinkIqDataId";
+        }
+      }
+      container attributes {
+        uses CpriLinkIqData-attributes;
+      }
+    }
+  }
+  typedef CpriCompressionState {
+    type enumeration {
+      enum DEFAULT;
+      enum DISABLED;
+      enum RESERVED;
+    }
+  }
+  grouping CpriLinkIqData-attributes {
+    leaf cpriLinkIqDataId {
+      type string;
+      mandatory true;
+    }
+    leaf-list riLinkRef {
+      type string;
+    }
+    leaf cpriCompression {
+      type enumeration {
+        enum DEFAULT;
+        enum DISABLED;
+        enum RESERVED;
+      }
+    }
+  }
+}

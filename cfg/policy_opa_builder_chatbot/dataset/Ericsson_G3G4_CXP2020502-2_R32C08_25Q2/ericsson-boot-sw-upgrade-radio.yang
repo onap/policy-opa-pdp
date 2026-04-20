@@ -1,0 +1,45 @@
+module ericsson-boot-sw-upgrade-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqBootSwUpgrade";
+  prefix bswupgrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nControls upgrade of AUBOOT software inventory of FRU.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list BootSwUpgrade {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Controls upgrade of AUBOOT software inventory of FRU.";
+      key "bootSwUpgradeId";
+      leaf bootSwUpgradeId {
+        type leafref {
+          path "../attributes/bootSwUpgradeId";
+        }
+      }
+      container attributes {
+      uses BootSwUpgrade-attributes;
+      }
+    }
+  }
+  grouping BootSwUpgrade-attributes {
+    leaf bootSwUpgradeId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf bootSwUpgradeEnabled {
+      description "Whether AUBOOT software upgrade is enabled on FRU. Setting this field to true alone does not have any effect, but restartUnit action on FRU does trigger upgrade if there is newer software available in upgrade package.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+  }
+}

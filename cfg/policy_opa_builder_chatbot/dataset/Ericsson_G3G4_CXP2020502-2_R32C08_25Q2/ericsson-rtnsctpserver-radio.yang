@@ -1,0 +1,149 @@
+module ericsson-rtnsctpserver-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnSctpServer";
+  prefix rtnsctps;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nSCCTP class";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Sctp {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; The Sctp is an abstraction of the SCTP system. The only purpose of this class is PM counters. Created automatically when the first SctpEndpoint is created.";
+      key "sctpId";
+      leaf sctpId {
+        type leafref {
+          path "../attributes/sctpId";
+        }
+      }
+      container attributes {
+      uses Sctp-attributes;
+      }
+    }
+  }
+  grouping Sctp-attributes {
+    leaf sctpId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf sctpOutUnorderChunks {
+      description "Number of unordered chunks transmitted to the peers..";
+      type uint64;
+      config false;
+    }
+    leaf sctpShutdowns {
+      description "Number of times that SCTP associations have made a direct transition to the CLOSED state from either the SHUTDOWN-SENT state or the SHUTDOWN-ACK-SENT state..";
+      type uint64;
+      config false;
+    }
+    leaf sctpChecksumErrors {
+      description "Number of SCTP packets received from the peers, with an invalid checksum..";
+      type uint64;
+      config false;
+    }
+    leaf sctpReasmUsrMsgs {
+      description "Number of reassembled user messages, incremented when the first data chunk of a fragmented message is received..";
+      type uint64;
+      config false;
+    }
+    leaf sctpActiveEstabs {
+      description "Number of times that SCTP associations have made a direct transition to the ESTABLISHED state from the COOKIE-ECHOED state..";
+      type uint64;
+      config false;
+    }
+    leaf sctpOutOfBlues {
+      description "Number of out-of-the-blue packets that are received by the host. These are SCTP packets that are correctly formed (with a correct checksum), but where the receiver is not able to identify the association to which this packet belongs..";
+      type uint64;
+      config false;
+    }
+    leaf sctpCommResume {
+      description "Number of times SCTP has sent a congestion ceased indication to the user..";
+      type uint64;
+      config false;
+    }
+    leaf sctpOutOrderChunks {
+      description "Number of transmitted ordered DATA chunks (excluding retransmissions)..";
+      type uint64;
+      config false;
+    }
+    leaf sctpInErrors {
+      description "The number of received SCTP datagrams for which an SCTP association could not be determined..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAborteds {
+      description "Number of times that SCTP associations have made a direct transition to the CLOSED state from any state, using the chunk ABORT..";
+      type uint64;
+      config false;
+    }
+    leaf sctpOutSCTPPacks {
+      description "Number of transmitted packets..";
+      type uint64;
+      config false;
+    }
+    leaf sctpInUnorderChunks {
+      description "Number of unordered chunks received from the peers..";
+      type uint64;
+      config false;
+    }
+    leaf sctpInCtrlChunks {
+      description "Number of received control chunks. The counter does not include abnormal or discarded chunks..";
+      type uint64;
+      config false;
+    }
+    leaf sctpOutDiscardedChunks {
+      description "Number of outgoing user messages originating from the application for this SCTP for which no problems were encountered to prevent their transmission but were discarded. User messages are discarded due to lack of thrTransmitBuffer..";
+      type uint64;
+      config false;
+    }
+    leaf sctpOutCtrlChunks {
+      description "Number of transmitted control chunks..";
+      type uint64;
+      config false;
+    }
+    leaf sctpInSCTPPacks {
+      description "Number of received packets, including duplicates and those received in error..";
+      type uint64;
+      config false;
+    }
+    leaf sctpPassiveEstabs {
+      description "Number of times that SCTP associations have made a direct transition from the CLOSED state to the ESTABLISHED state.";
+      type uint64;
+      config false;
+    }
+    leaf sctpRtxChunks {
+      description "Number of DATA chunks retransmitted to the peers..";
+      type uint64;
+      config false;
+    }
+    leaf sctpInDiscardedChunks {
+      description "Number of received chunks dropped for the following reasons: - Invalid association state - Duplicated data - Invalid stream identity in the DATA_CHUNK - Invalid verification tag in the packet - Stale SACK_CHUNK received - Lack of receiving buffer - ULP buffer overflow..";
+      type uint64;
+      config false;
+    }
+    leaf sctpFragUsrMsgs {
+      description "Number of fragmented user messages, incremented when the first data chunk of fragmented message is sent..";
+      type uint64;
+      config false;
+    }
+    leaf sctpInNoPorts {
+      description "The number of received SCTP datagrams for which an SCTP association and endpoint could not be determined (for example if there was no user application at the destination port)..";
+      type uint64;
+      config false;
+    }
+    leaf sctpCommStop {
+      description "Number of times SCTP has sent a congestion indication to the user..";
+      type uint64;
+      config false;
+    }
+    leaf sctpInOrderChunks {
+      description "Number of received ordered DATA chunks. The counter does NOT include abnormal or discarded chunks..";
+      type uint64;
+      config false;
+    }
+  }
+}

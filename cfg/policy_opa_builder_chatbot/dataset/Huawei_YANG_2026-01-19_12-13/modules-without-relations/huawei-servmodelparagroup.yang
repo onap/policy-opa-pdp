@@ -1,0 +1,43 @@
+module huawei-servmodelparagroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-servmodelparagroup";
+ prefix servmodelparagroup;
+ description
+ "Auto-generated modular YANG for huawei-servmodelparagroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping SERVMODELPARAGROUP-attributes {
+ leaf PREDICTSERVCHARACTERISTICS {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf OLD_SERVMODELPARAGROUPID {
+  type union {
+   type int8 {
+    range "-1..64";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVMODELPARAGROUPID {
+  type union {
+   type int8 {
+    range "-1..64";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVTYPEPARAGROUPID {
+  type uint8 {
+   range "1..10";
+  }
+  mandatory false;
+ }
+ }
+}

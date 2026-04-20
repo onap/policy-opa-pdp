@@ -1,0 +1,38 @@
+module huawei-bandgroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-bandgroup";
+ prefix bandgroup;
+ description
+ "Auto-generated modular YANG for huawei-bandgroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping BANDGROUP-attributes {
+ leaf OLD_BANDGROUPID {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf BANDGROUPID {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf STANDARD {
+  type boolean;
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

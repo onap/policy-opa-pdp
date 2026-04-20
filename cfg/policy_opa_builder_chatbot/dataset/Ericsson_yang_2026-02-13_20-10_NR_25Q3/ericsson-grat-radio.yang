@@ -1,0 +1,878 @@
+module ericsson-grat-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:Grat";
+  prefix grat;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement" {
+    list BtsFunction {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; MO BtsFunction represents the GSM functionality in the Radio Node.";
+      key "btsFunctionId";
+      leaf btsFunctionId {
+        type leafref {
+          path "../attributes/btsFunctionId";
+        }
+      }
+      container attributes {
+        uses BtsFunction-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/BtsFunction" {
+    list GsmSector {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; A GSM Sector is a geographical area with GSM functionality. A GSM Sector is mapped to one Sector TG in BSC. The MO GsmSector groups a number of TRXs, each represented by a MO Trx. The GSM Sector is, via its TRXs, tied to one or more SectorEquipmentFunctions with the same antenna location and antenna direction. The GSM Sector can handle TRXs for one or more frequency bands. However one TRX is always single band and connected to one SectorEquipmentFunction. Transport related data is configured in the MO AbisIp.";
+      key "gsmSectorId";
+      leaf gsmSectorId {
+        type leafref {
+          path "../attributes/gsmSectorId";
+        }
+      }
+      container attributes {
+        uses GsmSector-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/BtsFunction/GsmSector" {
+    list Trx {
+      description "Additional definitions from MOM:min/max-elements:0/12; This MO represents a GSM TRX and corresponding functionality for a GSM carrier on Air interface. GSM uses narrowband (< 200 kHz bandwidth) channels in the air interface (one downlink and one uplink) handled by one TRX. A TRX handles normally 1 downlink carrier (TX) and 2 uplink carriers (RX) over a wide bandwidth by using frequency hopping. A MO Trx is connected to one SectorEquipmentFunction MO which represents the radio and antenna equipment.";
+      key "trxId";
+      leaf trxId {
+        type leafref {
+          path "../attributes/trxId";
+        }
+      }
+      container attributes {
+        uses Trx-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/BtsFunction/GsmSector" {
+    list AbisIp {
+      description "Additional definitions from MOM:min/max-elements:0/1; MO AbisIp handles configuration of L2TP tunnels for GSM Sector. The L2TP tunnels carry Abis traffic over the IP transport network between the GSM Sector and BSC. All AbisIp instances on same RAN Compute unit must be either IPv4 or IPv6. Otherwise, Inconsistent Configuration alarm is raised at AbisIp MO unlock.";
+      key "abisIpId";
+      leaf abisIpId {
+        type leafref {
+          path "../attributes/abisIpId";
+        }
+      }
+      container attributes {
+        uses AbisIp-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/BtsFunction/GsmSector/Trx" {
+    list ExtTrx {
+      description "Additional definitions from MOM:min/max-elements:0/11; GSM extension TRX functionality on extension antenna site in a combined cell configuration. Extension antenna sites are used to provide coverage in areas where Main antenna site fails to provide coverage.";
+      key "extTrxId";
+      leaf extTrxId {
+        type leafref {
+          path "../attributes/extTrxId";
+        }
+      }
+      container attributes {
+        uses ExtTrx-attributes;
+      }
+    }
+  }
+  typedef AbisAoState {
+    type enumeration {
+      enum RESET;
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef AbisLinkState {
+    type enumeration {
+      enum DOWN;
+      enum UP;
+    }
+  }
+  typedef AbisOperCondition {
+    type enumeration {
+      enum OPERATIONAL;
+      enum DEGRADED;
+      enum NOT_OPERATIONAL;
+    }
+  }
+  typedef AbisSoState {
+    type enumeration {
+      enum RESET;
+      enum STARTED;
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef CombinedCellType {
+    type enumeration {
+      enum NON_COMBINED_CELL;
+      enum COMBINED_CELL_TYPE1;
+      enum COMBINED_CELL_TYPE2;
+      enum COMBINED_CELL_TYPE3;
+      enum COMBINED_CELL_TYPE4;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef TfMode {
+    type enumeration {
+      enum MASTER;
+      enum STANDALONE;
+      enum SLAVE;
+      enum UNDEFINED;
+    }
+  }
+  grouping AbisIp-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf abisIpId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf bscBrokerIpAddress {
+      type ietfinet:ip-address;
+    }
+    leaf peerIpAddress {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf gsmSectorName {
+      type string {
+        length "1..20";
+      }
+      description "length 1..20.";
+    }
+    leaf dscpSectorControlUL {
+      type eytypes:uint8_range_0-63;
+      default "46";
+      description "range 0..63; Default value: 46.";
+    }
+    leaf keepAlivePeriod {
+      type uint16 {
+        range "1..100";
+      }
+      default "1";
+      units "s";
+      description "range 1..100; Default value: 1.";
+    }
+    leaf maxRetransmission {
+      type uint16 {
+        range "1..10";
+      }
+      default "5";
+      description "range 1..10; Default value: 5.";
+    }
+    leaf retransmissionCap {
+      type uint16 {
+        range "1..10";
+      }
+      default "4";
+      units "s";
+      description "range 1..10; Default value: 4.";
+    }
+    leaf initialRetransmissionPeriod {
+      type uint16 {
+        range "1..10";
+      }
+      default "1";
+      units "s";
+      description "range 1..10; Default value: 1.";
+    }
+    leaf ipv4Address {
+      type ietfinet:ipv4-address;
+    }
+    leaf ipv6Address {
+      type ietfinet:ipv6-address;
+    }
+    leaf bscBrokerIpv6Address {
+      type ietfinet:ipv6-address;
+    }
+    leaf peerIpv6Address {
+      type ietfinet:ipv6-address;
+      config false;
+    }
+    leaf pmL2tpRecPack {
+      type uint64;
+      config false;
+    }
+    leaf pmL2tpSentPack {
+      type uint64;
+      config false;
+    }
+    leaf pmL2tpLostPack {
+      type uint64;
+      config false;
+    }
+  }
+  grouping BtsFunction-attributes {
+    leaf btsFunctionId {
+      type string;
+      mandatory true;
+    }
+    leaf btsVersion {
+      type string {
+        length "12";
+      }
+      config false;
+      description "length 12..12.";
+    }
+    leaf gsmMcpaIpmCapacity {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf release {
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping ExtTrx-attributes {
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf sectorEquipmentFunctionRef {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf extTrxId {
+      type string;
+      mandatory true;
+    }
+    leaf configuredMaxTxPower {
+      type eytypes:uint32_range_0-10000000;
+      default "20000";
+      units "mW";
+      description "range 0..10000000; Default value: 20000.";
+    }
+    leaf reservedMaxTxPower {
+      type eytypes:uint32_range_0-10000000;
+      units "mW";
+      description "range 0..10000000.";
+    }
+    leaf maxTxPowerCapability {
+      type eytypes:uint16_range_0-700;
+      config false;
+      units "dBm";
+      description "range 0..700.";
+    }
+    leaf-list rfBranchRx {
+      type string;
+    }
+    leaf-list rfBranchRxRef {
+      type string;
+    }
+    leaf-list rfBranchTx {
+      type string;
+    }
+    leaf-list rfBranchTxRef {
+      type string;
+    }
+    leaf rxImbAlarmThreshold {
+      type uint8 {
+        range "1..255";
+      }
+      default "60";
+      units "dB";
+      description "range 1..255; Default value: 60.";
+    }
+    leaf rxImbAvgDeltaMeas1 {
+      type eytypes:uint8_range_0-255;
+      config false;
+      units "dB";
+      description "range 0..255.";
+    }
+    leaf rxImbMinNoOfSamples {
+      type eytypes:uint16_range_1-65535;
+      default "7000";
+      description "range 1..65535; Default value: 7000.";
+    }
+    leaf rxImbNoOfSamples1 {
+      type eytypes:uint16_range_0-65535;
+      config false;
+      description "range 0..65535.";
+    }
+    leaf rxImbSupTimeElapsed {
+      type uint16 {
+        range "0..600";
+      }
+      config false;
+      units "minutes";
+      description "range 0..600.";
+    }
+    leaf rxImbSupWindowSize {
+      type uint16 {
+        range "1..600";
+      }
+      default "288";
+      units "minutes";
+      description "range 1..600; Default value: 288.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf extTrxDistance {
+      type uint16 {
+        range "0..350";
+      }
+      default "0";
+      units "meters";
+      description "range 0..350; Default value: 0.";
+    }
+    leaf extTrxRadius {
+      type uint8 {
+        range "1..20";
+      }
+      default "1";
+      units "meters";
+      description "range 1..20; Default value: 1.";
+    }
+    leaf extAntSiteIndex {
+      type eytypes:uint8_range_0-63;
+      default "7";
+      description "range 0..63; Default value: 7.";
+    }
+    leaf antSiteIndex {
+      type uint8 {
+        range "1..7";
+      }
+      mandatory true;
+      description "range 1..7.";
+    }
+    leaf-list pmPowerBackoffTotalNumOfBursts {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffNumOfBurstsBackedOff {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffTotalNumOfBurstsTxB {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffAccumulatedPowerReduction {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffAccumulatedPowerReductionTxB {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffNumOfBurstsBackedOffTxB {
+      type uint64;
+    }
+  }
+  grouping GsmSector-attributes {
+    leaf gsmSectorId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf abisScfState {
+      type enumeration {
+        enum RESET;
+        enum STARTED;
+      }
+      config false;
+    }
+    leaf abisTfState {
+      type enumeration {
+        enum RESET;
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf abisAtState {
+      type enumeration {
+        enum RESET;
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf abisScfOmlState {
+      type enumeration {
+        enum DOWN;
+        enum UP;
+      }
+      config false;
+    }
+    leaf bscNodeIdentity {
+      type string;
+      config false;
+    }
+    leaf bscTgIdentity {
+      type string;
+      config false;
+    }
+    leaf abisClusterGroupId {
+      type uint16 {
+        range "0..16383";
+      }
+      config false;
+      description "range 0..16383.";
+    }
+    leaf abisTfMode {
+      type enumeration {
+        enum MASTER;
+        enum STANDALONE;
+        enum SLAVE;
+        enum UNDEFINED;
+      }
+      config false;
+    }
+    leaf abisAtOperCondition {
+      type enumeration {
+        enum OPERATIONAL;
+        enum DEGRADED;
+        enum NOT_OPERATIONAL;
+      }
+      config false;
+    }
+    leaf abisScfOperCondition {
+      type enumeration {
+        enum OPERATIONAL;
+        enum DEGRADED;
+        enum NOT_OPERATIONAL;
+      }
+      config false;
+    }
+    leaf abisTfOperCondition {
+      type enumeration {
+        enum OPERATIONAL;
+        enum DEGRADED;
+        enum NOT_OPERATIONAL;
+      }
+      config false;
+    }
+    leaf-list pmPowerUtilization {
+      type uint64;
+    }
+    leaf pmJitBufDelSumSq {
+      type uint64;
+      config false;
+    }
+    leaf pmCsSentUl {
+      type uint64;
+      config false;
+    }
+    leaf pmPsLostDl {
+      type uint64;
+      config false;
+    }
+    leaf pmPsSentUl {
+      type uint64;
+      config false;
+    }
+    leaf pmCpriExtDelayChange {
+      type uint64;
+      config false;
+    }
+    leaf pmMicroTxSleepGsmTime {
+      type uint64;
+      config false;
+    }
+    leaf pmJitBufDelSamp {
+      type uint64;
+      config false;
+    }
+    leaf pmJitBufDelSum {
+      type uint64;
+      config false;
+    }
+    leaf pmCsLostDl {
+      type uint64;
+      config false;
+    }
+    leaf pmMicroTxSleepGsmMeasPeriod {
+      type uint64;
+      config false;
+    }
+  }
+  grouping Trx-attributes {
+    leaf trxId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf abisRxState {
+      type enumeration {
+        enum RESET;
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf abisTxState {
+      type enumeration {
+        enum RESET;
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf abisTrxcOmlState {
+      type enumeration {
+        enum DOWN;
+        enum UP;
+      }
+      config false;
+    }
+    leaf abisTrxcState {
+      type enumeration {
+        enum RESET;
+        enum STARTED;
+      }
+      config false;
+    }
+    leaf abisTrxRslState {
+      type enumeration {
+        enum DOWN;
+        enum UP;
+      }
+      config false;
+    }
+    leaf-list abisTsState {
+      type enumeration {
+        enum RESET;
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf arfcnMax {
+      type uint16 {
+        range "0..1023";
+      }
+      mandatory true;
+      description "range 0..1023.";
+    }
+    leaf arfcnMin {
+      type uint16 {
+        range "0..1023";
+      }
+      mandatory true;
+      description "range 0..1023.";
+    }
+    leaf frequencyBand {
+      type uint8 {
+        range "0 | 2..3 | 5 | 8";
+      }
+      mandatory true;
+    }
+    leaf noOfRxAntennas {
+      type uint8 {
+        range "1..2 | 4";
+      }
+      default "2";
+      description "Default value: 2.";
+    }
+    leaf noOfTxAntennas {
+      type uint8 {
+        range "1..2";
+      }
+      default "1";
+      description "range 1..2; Default value: 1.";
+    }
+    leaf trxIndex {
+      type uint8 {
+        range "0..126";
+      }
+      config false;
+      description "range 0..126.";
+    }
+    leaf sectorEquipmentFunctionRef {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf configuredMaxTxPower {
+      type eytypes:uint32_range_0-10000000;
+      default "20000";
+      units "mW";
+      description "range 0..10000000; Default value: 20000.";
+    }
+    leaf maxTxPowerCapability {
+      type eytypes:uint16_range_0-700;
+      config false;
+      units "dBm";
+      description "range 0..700.";
+    }
+    leaf bscMaxTxPower {
+      type eytypes:uint16_range_0-700;
+      config false;
+      units "dBm";
+      description "range 0..700.";
+    }
+    leaf-list rfBranchRxRef {
+      type string;
+    }
+    leaf-list rfBranchTxRef {
+      type string;
+    }
+    leaf-list rfBranchTx {
+      type string;
+    }
+    leaf reservedMaxTxPower {
+      type eytypes:uint32_range_0-10000000;
+      units "mW";
+      description "range 0..10000000.";
+    }
+    leaf abisRxOperCondition {
+      type enumeration {
+        enum OPERATIONAL;
+        enum DEGRADED;
+        enum NOT_OPERATIONAL;
+      }
+      config false;
+    }
+    leaf abisTxOperCondition {
+      type enumeration {
+        enum OPERATIONAL;
+        enum DEGRADED;
+        enum NOT_OPERATIONAL;
+      }
+      config false;
+    }
+    leaf abisTrxcOperCondition {
+      type enumeration {
+        enum OPERATIONAL;
+        enum DEGRADED;
+        enum NOT_OPERATIONAL;
+      }
+      config false;
+    }
+    leaf-list abisTsOperCondition {
+      type enumeration {
+        enum OPERATIONAL;
+        enum DEGRADED;
+        enum NOT_OPERATIONAL;
+      }
+    }
+    leaf-list rfBranchRx {
+      type string;
+    }
+    leaf rxImbAvgDeltaMeas2 {
+      type eytypes:uint8_range_0-255;
+      config false;
+      units "dB";
+      description "range 0..255.";
+    }
+    leaf rxImbNoOfSamples2 {
+      type eytypes:uint16_range_0-65535;
+      config false;
+      description "range 0..65535.";
+    }
+    leaf rxImbAvgDeltaMeas1 {
+      type eytypes:uint8_range_0-255;
+      config false;
+      units "dB";
+      description "range 0..255.";
+    }
+    leaf rxImbNoOfSamples1 {
+      type eytypes:uint16_range_0-65535;
+      config false;
+      description "range 0..65535.";
+    }
+    leaf rxImbSupTimeElapsed {
+      type uint16 {
+        range "0..600";
+      }
+      config false;
+      units "minutes";
+      description "range 0..600.";
+    }
+    leaf rxImbSupWindowSize {
+      type uint16 {
+        range "1..600";
+      }
+      default "288";
+      units "minutes";
+      description "range 1..600; Default value: 288.";
+    }
+    leaf rxImbMinNoOfSamples {
+      type eytypes:uint16_range_1-65535;
+      default "7000";
+      description "range 1..65535; Default value: 7000.";
+    }
+    leaf rxImbAlarmThreshold {
+      type uint8 {
+        range "1..255";
+      }
+      default "60";
+      units "dB";
+      description "range 1..255; Default value: 60.";
+    }
+    leaf combinedCellType {
+      type enumeration {
+        enum NON_COMBINED_CELL;
+        enum COMBINED_CELL_TYPE1;
+        enum COMBINED_CELL_TYPE2;
+        enum COMBINED_CELL_TYPE3;
+        enum COMBINED_CELL_TYPE4;
+      }
+    }
+    leaf-list pmPowerBackoffTotalNumOfBurstsTxB {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffNumOfBurstsBackedOffTxB {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffTotalNumOfBursts {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffNumOfBurstsBackedOff {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffAccumulatedPowerReductionTxB {
+      type uint64;
+    }
+    leaf-list pmPowerBackoffAccumulatedPowerReduction {
+      type uint64;
+    }
+  }
+}

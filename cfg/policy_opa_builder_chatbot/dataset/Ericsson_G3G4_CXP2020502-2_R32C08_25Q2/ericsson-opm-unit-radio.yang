@@ -1,0 +1,202 @@
+module ericsson-opm-unit-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqOpmUnit";
+  prefix opmurdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis Managed Object (MO) is created when an OpmUnit is detected.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list OpmUnit {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO represents an optical protection module.";
+      key "opmUnitId";
+      leaf opmUnitId {
+        type leafref {
+          path "../attributes/opmUnitId";
+        }
+      }
+      container attributes {
+      uses OpmUnit-attributes;
+      }
+    }
+  }
+  typedef ActiveLine {
+    description "Indicator if any optical line and which is currently active.";
+    type enumeration {
+      enum NONE {
+        description "No active line.";
+      }
+      enum FIRST {
+        description "First line is active.";
+      }
+      enum SECOND {
+        description "Second line is active.";
+      }
+    }
+  }
+  typedef AdmState {
+    description "Administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping OpmProductData-struct {
+    description "Opm product data";
+    leaf manufacturerDesignation {
+      description "length 0..16.";
+      type string {
+        length "0..16";
+      }
+    }
+    leaf manufacturerId {
+      description "length 0..16.";
+      type string {
+        length "0..16";
+      }
+    }
+    leaf manufacturerRevision {
+      description "length 0..8.";
+      type string {
+        length "0..8";
+      }
+    }
+    leaf productionDate {
+      type string;
+    }
+    leaf productNumber {
+      description "length 0..14.";
+      type string {
+        length "0..14";
+      }
+    }
+    leaf productRevision {
+      description "length 0..8.";
+      type string {
+        length "0..8";
+      }
+    }
+    leaf serialNumber {
+      description "length 0..16.";
+      type string {
+        length "0..16";
+      }
+    }
+  }
+  grouping OpmUnit-attributes {
+    leaf opmUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf riPortRef {
+      description "Reference to RiPort on the Baseband Unit to which the OPM is connected. Port used only to control OPM..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf activeLine {
+      description "The active optical line..";
+      type enumeration {
+        enum NONE;
+        enum FIRST;
+        enum SECOND;
+      }
+      config false;
+    }
+    leaf administrativeState {
+      description "The administrative state. If set to SHUTTINGDOWN, the state will immediately be brought to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list productData {
+      config false;
+      description "Information about installed OPM Unit. If empty, data is unavailable..";
+      uses OpmProductData-struct;
+    }
+  }
+}

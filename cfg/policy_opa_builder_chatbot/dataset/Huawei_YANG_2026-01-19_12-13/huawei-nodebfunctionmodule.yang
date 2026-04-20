@@ -1,0 +1,3093 @@
+module huawei-nodebfunctionmodule {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nodebfunctionmodule";
+ prefix nodebfunctionmodule;
+ import huawei-ne {
+ prefix ne;
+ }
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-nodebfunctionmodule" ;
+ revision "2026-01-19" {
+ description "Auto-generated abstract group module (aggregated lists from relations.xml). Generated at 2026-01-19 12:13.";
+ }
+ augment "/ne:NE" {
+ container NodeBFunctionModule {
+  description "Abstract group container injected between NE and its direct child.";
+  container attributes {
+    leaf neName {
+     type string;
+     mandatory false;
+    }
+    leaf productversion {
+     type string;
+     mandatory false;
+    }
+  }
+ }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list BEAMCELLGROUP {
+   max-elements 24;
+   key "BEAMCELLGROUPID";
+   leaf BEAMCELLGROUPID {
+    type leafref {
+     path "../attributes/BEAMCELLGROUPID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses BEAMCELLGROUP-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION/BEAMCELLGROUP" {
+  list BEAMCELLGROUPITEM {
+   max-elements 8;
+   key "BEAMCELLGROUPID";
+   leaf BEAMCELLGROUPID {
+    type leafref {
+     path "../attributes/BEAMCELLGROUPID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses BEAMCELLGROUPITEM-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list IUB {
+   max-elements 1;
+   key "IUBID";
+   leaf IUBID {
+    type leafref {
+     path "../attributes/IUBID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses IUB-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list IUBCP {
+   max-elements 100;
+   key "CPBEARID";
+   leaf CPBEARID {
+    type leafref {
+     path "../attributes/CPBEARID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses IUBCP-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION/NODEBMULTICELLGRP" {
+  list LOCELLIDLISTTYPE {
+   max-elements 6;
+   key "MULTICELLGRPID";
+   leaf MULTICELLGRPID {
+    type leafref {
+     path "../attributes/MULTICELLGRPID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses LOCELLIDLISTTYPE-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBALGPARA {
+   max-elements 1;
+   key "ADPETADJFLAG";
+   leaf ADPETADJFLAG {
+    type leafref {
+     path "../attributes/ADPETADJFLAG";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBALGPARA-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBEXSECCELLGRP {
+   max-elements 96;
+   key "ULOCELLID";
+   leaf ULOCELLID {
+    type leafref {
+     path "../attributes/ULOCELLID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBEXSECCELLGRP-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule" {
+  list NODEBFUNCTION {
+   max-elements 1;
+   key "NODEBID";
+   leaf NODEBID {
+    type leafref {
+     path "../attributes/NODEBID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBFUNCTION-attributes;
+    leaf modifier {
+     type hwat:modifier_M;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBMULTICELLGRP {
+   max-elements 96;
+   key "MULTICELLGRPID";
+   leaf MULTICELLGRPID {
+    type leafref {
+     path "../attributes/MULTICELLGRPID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBMULTICELLGRP-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBOPTDYNADJPARA {
+   max-elements 1;
+   key "DYNADJENDTIME";
+   leaf DYNADJENDTIME {
+    type leafref {
+     path "../attributes/DYNADJENDTIME";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBOPTDYNADJPARA-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBPATH {
+   max-elements 128;
+   key "PATHID";
+   leaf PATHID {
+    type leafref {
+     path "../attributes/PATHID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBPATH-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBREMOTECELLGRP {
+   max-elements 48;
+   key "REMOTECELLGRPINDEX";
+   leaf REMOTECELLGRPINDEX {
+    type leafref {
+     path "../attributes/REMOTECELLGRPINDEX";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBREMOTECELLGRP-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBRESALLOCRULE {
+   max-elements 1;
+   key "CELLDEGRADEREBUILDSW";
+   leaf CELLDEGRADEREBUILDSW {
+    type leafref {
+     path "../attributes/CELLDEGRADEREBUILDSW";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBRESALLOCRULE-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBSMTHPWR {
+   max-elements 1;
+   key "PERIOD";
+   leaf PERIOD {
+    type leafref {
+     path "../attributes/PERIOD";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBSMTHPWR-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBUEQOSENHANCE {
+   max-elements 1;
+   key "DLCOPPERUEBPS";
+   leaf DLCOPPERUEBPS {
+    type leafref {
+     path "../attributes/DLCOPPERUEBPS";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBUEQOSENHANCE-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list NODEBULCOMPGRP {
+   max-elements 528;
+   key "NODEBID";
+   leaf NODEBID {
+    type leafref {
+     path "../attributes/NODEBID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses NODEBULCOMPGRP-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION/ULOCELL/ULOCELLSECEQMGRP" {
+  list SECTOREQMIDLISTTYPE {
+   max-elements 32;
+   key "ULOCELLID SECTOREQMGRPID";
+   leaf ULOCELLID {
+    type leafref {
+     path "../attributes/ULOCELLID";
+     require-instance true;
+    }
+   }
+   leaf SECTOREQMGRPID {
+    type leafref {
+     path "../attributes/SECTOREQMGRPID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses SECTOREQMIDLISTTYPE-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list ULOCELL {
+   max-elements 48;
+   key "ULOCELLID";
+   leaf ULOCELLID {
+    type leafref {
+     path "../attributes/ULOCELLID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses ULOCELL-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION/ULOCELL" {
+  list ULOCELLALGPARA {
+   max-elements 1;
+   key "ULOCELLID";
+   leaf ULOCELLID {
+    type leafref {
+     path "../attributes/ULOCELLID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses ULOCELLALGPARA-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION/ULOCELL" {
+  list ULOCELLMACEPARA {
+   max-elements 1;
+   key "ULOCELLID";
+   leaf ULOCELLID {
+    type leafref {
+     path "../attributes/ULOCELLID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses ULOCELLMACEPARA-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION/ULOCELL" {
+  list ULOCELLMACHSPARA {
+   max-elements 1;
+   key "ULOCELLID";
+   leaf ULOCELLID {
+    type leafref {
+     path "../attributes/ULOCELLID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses ULOCELLMACHSPARA-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION/ULOCELL" {
+  list ULOCELLRSCLMTPARA {
+   max-elements 1;
+   key "ULOCELLID";
+   leaf ULOCELLID {
+    type leafref {
+     path "../attributes/ULOCELLID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses ULOCELLRSCLMTPARA-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION/ULOCELL" {
+  list ULOCELLSECEQMGRP {
+   max-elements 12;
+   key "ULOCELLID";
+   leaf ULOCELLID {
+    type leafref {
+     path "../attributes/ULOCELLID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses ULOCELLSECEQMGRP-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION/ULOCELL" {
+  list ULOCELLSECTOREQM {
+   max-elements 96;
+   key "ULOCELLID";
+   leaf ULOCELLID {
+    type leafref {
+     path "../attributes/ULOCELLID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses ULOCELLSECTOREQM-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/nodebfunctionmodule:NodeBFunctionModule/NODEBFUNCTION" {
+  list UX2 {
+   max-elements 1;
+   key "UX2ID";
+   leaf UX2ID {
+    type leafref {
+     path "../attributes/UX2ID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses UX2-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ grouping BEAMCELLGROUP-attributes {
+ leaf OLD_BEAMCELLGROUPID {
+  type union {
+   type int8 {
+    range "-1..23";
+   }
+  }
+  mandatory false;
+ }
+ leaf BEAMCELLGROUPID {
+  type union {
+   type int8 {
+    range "-1..23";
+   }
+  }
+  mandatory false;
+ }
+ leaf BEAMCELLGROUPTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+  }
+  mandatory false;
+ }
+ }
+ grouping BEAMCELLGROUPITEM-attributes {
+ leaf BEAMAZIMUTH {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf BEAMCELLGROUPID {
+  type union {
+   type int8 {
+    range "-1..23";
+   }
+  }
+  mandatory false;
+ }
+ leaf BEAMINDEX {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping IUB-attributes {
+ leaf OLD_IUBID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf IUBID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf UPEPGROUPID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..256";
+  }
+  mandatory false;
+ }
+ }
+ grouping IUBCP-attributes {
+ leaf OLD_BELONG {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+  }
+  mandatory false;
+ }
+ leaf BELONG {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+  }
+  mandatory false;
+ }
+ leaf CPBEARID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf OLD_CPPN {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf CPPN {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_CPPT {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+  }
+  mandatory false;
+ }
+ leaf CPPT {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+  }
+  mandatory false;
+ }
+ }
+ grouping LOCELLIDLISTTYPE-attributes {
+ leaf MULTICELLGRPID {
+  type union {
+   type int8 {
+    range "-1..95";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping NODEBALGPARA-attributes {
+ leaf ADPETADJFLAG {
+  type boolean;
+  mandatory false;
+ }
+ leaf ADPRETRANSSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ALMCLEARPRD {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf ALMOCCURPRD {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf AMRTRANSBWCOMP {
+  type boolean;
+  mandatory false;
+ }
+ leaf BAKPWRSAVPOLICY {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf BUFFERSMSWENH {
+  type boolean;
+  mandatory false;
+ }
+ leaf CCPICPH2SIRTARMODSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CCPICPHASESWCTRL {
+  type enumeration {
+   enum val-0;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf CEDETECTPERIODLEVEL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf CEIMPROVEMENT2MSSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CELLCFGEXPDECTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CERSVFOR2MSUSER {
+  type uint8 {
+   range "1..8";
+  }
+  mandatory false;
+ }
+ leaf CPCFDPCHDTXSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf DLAUTORESHUFFLESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf DLFPWINADJSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf DLSIMEDGECOVOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf DLTXPWRMEASPERIOD {
+  type enumeration {
+   enum val-10;
+   enum val-100;
+  }
+  mandatory false;
+ }
+ leaf FEATRIALSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf FIXEDCERSVFOR2MS {
+  type uint8 {
+   range "0..8";
+  }
+  mandatory false;
+ }
+ leaf FRTRJT {
+  type uint8 {
+   range "80..90";
+  }
+  mandatory false;
+ }
+ leaf HSDPASCHPOOLSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSDPASERCELLCHOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSPAMCINTERBRDSCHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSUPASCHPOOLSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf INITSINGLEHARQSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf INTERBOARDICSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf INTERBRDFAULTDETECTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf IUBCONGESTKPIIMPROVESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf KPIFAULTAUTORCVRMTHD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf KPIFAULTDETECT {
+  type string;
+  mandatory false;
+ }
+ leaf LOWPWRCONSUMEMODEEXTSW {
+  type string;
+  mandatory false;
+ }
+ leaf LOWPWRCONSUMPMODESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf MMCARRIERSPECIMPROVSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf NBISADAPTIVESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf NBISINIACTTHD {
+  type int8 {
+   range "-106..-50";
+  }
+  mandatory false;
+ }
+ leaf NBISRESELPERIOD {
+  type uint8 {
+   range "0..31";
+  }
+  mandatory false;
+ }
+ leaf NREXPPRISWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf OPERATORINDEXSELECTION {
+  type string;
+  mandatory false;
+ }
+ leaf OPERATORSHARECEMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf PDMEASMSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf POWERCTLPERFOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PROCUNITFAULTCLEARTHD {
+  type uint8 {
+   range "0..50";
+  }
+  mandatory false;
+ }
+ leaf PROCUNITFAULTTHD {
+  type uint8 {
+   range "50..100";
+  }
+  mandatory false;
+ }
+ leaf PROTECTIONTHD {
+  type uint8 {
+   range "0..50";
+  }
+  mandatory false;
+ }
+ leaf PWRCHKSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PWRPREDICTSWFORCAC {
+  type boolean;
+  mandatory false;
+ }
+ leaf R99FAULTTHD {
+  type uint8 {
+   range "50..100";
+  }
+  mandatory false;
+ }
+ leaf RLDETECTDEMODULATEOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RRUINTELDORFEQBAND {
+  type string;
+  mandatory false;
+ }
+ leaf RTWPIMBALANCEALMTHD {
+  type uint16 {
+   range "100..320";
+  }
+  mandatory false;
+ }
+ leaf SFSSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf SHUTDOWNFAULTDETECTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SLEEPINGCELLALARMSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SLEEPINGCELLDETECTOPTION {
+  type string;
+  mandatory false;
+ }
+ leaf SMARTSCHELEARNMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf TDPWRSAVOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf TFCIDEMOPTISW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULCCHOLPCMINSIRTARGET {
+  type uint8 {
+   range "0..80";
+  }
+  mandatory false;
+ }
+ leaf ULCOVEXPCFGMOD {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULHITHPMACESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULPWRSHARETM {
+  type string;
+  mandatory false;
+ }
+ leaf ULRESWORKMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf UPAFAULTTHD {
+  type uint8 {
+   range "50..100";
+  }
+  mandatory false;
+ }
+ leaf UPCEIMPROVEFORAMRWBSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf UX2SONSETUPSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf VAMPWRSAVEXITJUDGEPERIOD {
+  type uint8 {
+   range "5..60";
+  }
+  mandatory false;
+ }
+ leaf VAMPWRSAVSTARTTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf VAMPWRSAVSTOPTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf VAMPWRSAVSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf VAMPWRSAVTRIGJUDGEPERIOD {
+  type uint16 {
+   range "10..300";
+  }
+  mandatory false;
+ }
+ leaf VAMPWRSAVTXPWRHIGHTHD {
+  type uint8 {
+   range "20..45";
+  }
+  mandatory false;
+ }
+ leaf VAMPWRSAVTXPWRLOWTHD {
+  type uint8 {
+   range "20..45";
+  }
+  mandatory false;
+ }
+ }
+ grouping NODEBEXSECCELLGRP-attributes {
+ leaf EXSECULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping NODEBFUNCTION-attributes {
+ leaf TEMPLATENAME {
+  type string;
+  mandatory false;
+ }
+ leaf APPLICATIONREF {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf OLD_NODEBFUNCTIONNAME {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf NODEBFUNCTIONNAME {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf NODEBID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..256";
+  }
+  mandatory false;
+ }
+ }
+ grouping NODEBMULTICELLGRP-attributes {
+ leaf OLD_MULTICELLGRPID {
+  type union {
+   type int8 {
+    range "-1..95";
+   }
+  }
+  mandatory false;
+ }
+ leaf MULTICELLGRPID {
+  type union {
+   type int8 {
+    range "-1..95";
+   }
+  }
+  mandatory false;
+ }
+ leaf MULTICELLGRPTYPE {
+  type boolean;
+  mandatory false;
+ }
+ }
+ grouping NODEBOPTDYNADJPARA-attributes {
+ leaf DYNADJENDTIME {
+  type uint8 {
+   range "0..23";
+  }
+  mandatory false;
+ }
+ leaf DYNADJSTARTTIME {
+  type uint8 {
+   range "0..23";
+  }
+  mandatory false;
+ }
+ leaf DYNADJSW {
+  type boolean;
+  mandatory false;
+ }
+ }
+ grouping NODEBPATH-attributes {
+ leaf PATHID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping NODEBREMOTECELLGRP-attributes {
+ leaf OLD_REMOTECELLGRPINDEX {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf REMOTECELLGRPINDEX {
+  type union {
+   type int64 {
+    range "-1..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf REMOTECELLGRPNAME {
+  type string {
+   length "1..31";
+  }
+  mandatory false;
+ }
+ }
+ grouping NODEBRESALLOCRULE-attributes {
+ leaf CELLDEGRADEREBUILDSW {
+  type string;
+  mandatory false;
+ }
+ leaf CSUSERNUM {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf MULTICELLREBUILDSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PSUSERNUM {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RESREAVESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RULE {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf SW {
+  type boolean;
+  mandatory false;
+ }
+ }
+ grouping NODEBSMTHPWR-attributes {
+ leaf PERIOD {
+  type uint8 {
+   range "1..5";
+  }
+  mandatory false;
+ }
+ leaf SMTHPWRSWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf STEP {
+  type uint8 {
+   range "1..20";
+  }
+  mandatory false;
+ }
+ }
+ grouping NODEBUEQOSENHANCE-attributes {
+ leaf DLCOPPERUEBPS {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf DLGOLDUEBPS {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf DLSILVERUEBPS {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf ULCOPPERUEBPS {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf ULGOLDUEBPS {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf ULSILVERUEBPS {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ }
+ grouping NODEBULCOMPGRP-attributes {
+ leaf OLD_HOSTLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf HOSTLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_NEIGHBOURLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf NEIGHBOURLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_NODEBID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf NODEBID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULCOMP {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULCOVEXP {
+  type boolean;
+  mandatory false;
+ }
+ }
+ grouping SECTOREQMIDLISTTYPE-attributes {
+ leaf SECTOREQMGRPID {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf SECTOREQMID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping ULOCELL-attributes {
+ leaf TEMPLATENAME {
+  type string;
+  mandatory false;
+ }
+ leaf BFMODE {
+  type enumeration {
+   enum val-0;
+   enum val-2;
+   enum val-3;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf BOOST {
+  type boolean;
+  mandatory false;
+ }
+ leaf CELLSCALEIND {
+  type boolean;
+  mandatory false;
+ }
+ leaf COVERTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf DCHSDPASHAREDWITHGSM {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf DCHSDPASHAREDWITHLTE {
+  type boolean;
+  mandatory false;
+ }
+ leaf DEFPWRLVL {
+  type uint8 {
+   range "10..100";
+  }
+  mandatory false;
+ }
+ leaf DI {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf DL64QAM {
+  type boolean;
+  mandatory false;
+ }
+ leaf DL64QAMMIMO {
+  type boolean;
+  mandatory false;
+ }
+ leaf DLADAPTIVEBPFILTER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf DLASYMFILTER {
+  type boolean;
+  mandatory false;
+ }
+ leaf DLASYMFILTERNFCELLID {
+  type uint32 {
+   range "0..268435455";
+  }
+  mandatory false;
+ }
+ leaf DLASYMLEFTBANDWIDTH {
+  type enumeration {
+   enum val-3;
+   enum val-5;
+   enum val-7;
+   enum val-9;
+   enum val-11;
+   enum val-13;
+   enum val-15;
+   enum val-25;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf DLASYMRIGHTBANDWIDTH {
+  type enumeration {
+   enum val-3;
+   enum val-5;
+   enum val-7;
+   enum val-9;
+   enum val-11;
+   enum val-13;
+   enum val-15;
+   enum val-25;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf DLBASEBANDEQMID {
+  type uint8 {
+   range "0..23";
+  }
+  mandatory false;
+ }
+ leaf DLFREQ {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf DLLEFTSHAREDBANDWIDTH {
+  type uint16 {
+   range "0..499";
+  }
+  mandatory false;
+ }
+ leaf DLRESMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf DLRIGHTSHAREDBANDWIDTH {
+  type uint16 {
+   range "0..499";
+  }
+  mandatory false;
+ }
+ leaf DYNAMICBANDWIDTHOPT {
+  type boolean;
+  mandatory false;
+ }
+ leaf ERACH {
+  type boolean;
+  mandatory false;
+ }
+ leaf ERACHHSDPCCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf FDEMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf FOURTXDEPLOYMENTMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf FREQUENCYBANDWIDTH {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf GSMQLBASEDROTDYNACTRL {
+  type boolean;
+  mandatory false;
+ }
+ leaf GU5MHZPERFOPT {
+  type string;
+  mandatory false;
+ }
+ leaf GUBUFZONECELLTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf GUPOWERSHARE {
+  type boolean;
+  mandatory false;
+ }
+ leaf HISPM {
+  type boolean;
+  mandatory false;
+ }
+ leaf HORAD {
+  type uint32 {
+   range "0..200000";
+  }
+  mandatory false;
+ }
+ leaf HSDPA4C {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSDPA4CMIMO {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSDPADBMIMO {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSDPADCMIMO {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSPAUSERNUMEXT {
+  type boolean;
+  mandatory false;
+ }
+ leaf ICMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf INTEL2TVAM {
+  type boolean;
+  mandatory false;
+ }
+ leaf INTERNODEBHSDPCCHCOMP {
+  type boolean;
+  mandatory false;
+ }
+ leaf INTERNODEBULCOMP {
+  type boolean;
+  mandatory false;
+ }
+ leaf IRCSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf LOCELLPRI {
+  type uint8 {
+   range "0..23";
+  }
+  mandatory false;
+ }
+ leaf LOCELLTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf MAXPWR {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf MFHSDPASW {
+  type boolean;
+  mandatory false;
+ }
+ leaf MULTIRRUSTATICDESSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf NBIS {
+  type boolean;
+  mandatory false;
+ }
+ leaf NBISADAPTIVEFORBIDSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf NONSTABANDDLFILTEROPT {
+  type boolean;
+  mandatory false;
+ }
+ leaf PRECDWSRSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PRECISECHEST2MS {
+  type boolean;
+  mandatory false;
+ }
+ leaf RADIUS {
+  type uint32 {
+   range "150..200000";
+  }
+  mandatory false;
+ }
+ leaf RFTXCHANNELGRP {
+  type boolean;
+  mandatory false;
+ }
+ leaf RMTCGRPID {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RMTCM {
+  type boolean;
+  mandatory false;
+ }
+ leaf RSV {
+  type boolean;
+  mandatory false;
+ }
+ leaf SMART8TDEPLOYMENTMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf SMART8TSPLITDEPLOYMENTMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf SPEEDBASEDDEMODSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SPR {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf TIMELIMIT {
+  type boolean;
+  mandatory false;
+ }
+ leaf TTW {
+  type boolean;
+  mandatory false;
+ }
+ leaf TURBOIC {
+  type boolean;
+  mandatory false;
+ }
+ leaf TURBOICPHASE2 {
+  type boolean;
+  mandatory false;
+ }
+ leaf UL0BUFFERZONE {
+  type boolean;
+  mandatory false;
+ }
+ leaf UL0BUFFERZONEFILTER {
+  type boolean;
+  mandatory false;
+ }
+ leaf UL16QAM {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULBASEBANDEQMID {
+  type uint8 {
+   range "0..23";
+  }
+  mandatory false;
+ }
+ leaf ULCOMPSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULCOVEXPANSION {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULFREQ {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf ULFREQIND {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULL2PLUS {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULLEFTSHAREDBANDWIDTH {
+  type uint16 {
+   range "0..499";
+  }
+  mandatory false;
+ }
+ leaf OLD_ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULPOWERSHARE {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULRIGHTSHAREDBANDWIDTH {
+  type uint16 {
+   range "0..499";
+  }
+  mandatory false;
+ }
+ leaf ULSPECTRUMSHARINGSWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULSUPERNARROWBANDFILTER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..256";
+  }
+  mandatory false;
+ }
+ leaf UU0DCHSDPA {
+  type boolean;
+  mandatory false;
+ }
+ leaf VAM {
+  type boolean;
+  mandatory false;
+ }
+ leaf VIRTUALCPC {
+  type boolean;
+  mandatory false;
+ }
+ }
+ grouping ULOCELLALGPARA-attributes {
+ leaf ADPPWRSAVSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf AMRIMPBASEDONPLVASW {
+  type boolean;
+  mandatory false;
+ }
+ leaf AMRIMPBASEDPWROPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ANTIANTENNAIMBALANCESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CELLSWITCHOFFBSDONCCISW {
+  type boolean;
+  mandatory false;
+ }
+ leaf COREBWSHARINGOUTAGEMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf COVERIMPBASEDONADVDEM {
+  type boolean;
+  mandatory false;
+ }
+ leaf CQISAMPLEPERIOD {
+  type enumeration {
+   enum val-0;
+   enum val-12;
+   enum val-24;
+   enum val-36;
+   enum val-48;
+   enum val-60;
+  }
+  mandatory false;
+ }
+ leaf CQIUSERNUM {
+  type uint8 {
+   range "1..128";
+  }
+  mandatory false;
+ }
+ leaf DIGITTILT {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf DLPWRLOADTHD {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf DPCHMAXPWRRTRLOADSTAT {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf DPCHMAXTXPWRRESTRSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf DPCHTPCPOADJSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf DYNPWRSAVTXPWRHIGHTHD {
+  type uint8 {
+   range "20..45";
+  }
+  mandatory false;
+ }
+ leaf DYNPWRSAVTXPWRLOWTHD {
+  type uint8 {
+   range "20..45";
+  }
+  mandatory false;
+ }
+ leaf GUTDPWRSAVENHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HIGHSPEEDRAKESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSDPACELLTHPTHD {
+  type uint16 {
+   range "0..42000";
+  }
+  mandatory false;
+ }
+ leaf HSDPAPWRMGNCANCELSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HTOHPWSHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HTOHRTPWSHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf INITSINGLEHARQDEMOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf INTERNODEBULCOMPENSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf MAXSHARINGRATIO {
+  type uint8 {
+   range "1..50";
+  }
+  mandatory false;
+ }
+ leaf MULTIRATCHANNELSHUTDOWNSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf OMSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf PWRRSTRBASEDDYNENRSAVMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf PWRSAVSTARTTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf PWRSAVSTOPTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf PWRSAVTXPWRHIGHTHD {
+  type uint8 {
+   range "20..45";
+  }
+  mandatory false;
+ }
+ leaf PWRSAVTXPWRLOWTHD {
+  type uint8 {
+   range "20..45";
+  }
+  mandatory false;
+ }
+ leaf R99FLOWCTRLSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf R99TOHPWSHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RADIOQUALITYDPCHPCENHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RADIOQUALITYDPCHPCLOADSTAT {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf RADIOQUALITYDPCHPCPO {
+  type uint8 {
+   range "0..150";
+  }
+  mandatory false;
+ }
+ leaf RADIOQUALITYDPCHPCSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RADIOQUALITYFDPCHPCPO {
+  type uint8 {
+   range "0..150";
+  }
+  mandatory false;
+ }
+ leaf RFCHANNELMUTPWRSAVMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf RFCHANNELMUTPWRSAVSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RFCHNDYNMUTINGEVALPERIOD {
+  type uint16 {
+   range "2..6000";
+  }
+  mandatory false;
+ }
+ leaf RFCHNDYNMUTINGMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf RTWPSIRTGTADJSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SHAREDBWPERSHRINKTIMERATIO {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf SHARINGMARGIN {
+  type uint8 {
+   range "10..50";
+  }
+  mandatory false;
+ }
+ leaf SIB7MAXRTWP {
+  type uint8 {
+   range "0..60";
+  }
+  mandatory false;
+ }
+ leaf SIB7RTWPOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SINGLEHARQACTTHRD {
+  type uint8 {
+   range "0..20";
+  }
+  mandatory false;
+ }
+ leaf SMARTPCPICHOPTSWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf SMARTRRMPARAOPTSWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf SRBOVERHSDPAOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf TDPWRSAVPERIOD {
+  type uint8 {
+   range "50..70";
+  }
+  mandatory false;
+ }
+ leaf TDPWRSAVSHUTDOWNDURATION {
+  type uint8 {
+   range "10..20";
+  }
+  mandatory false;
+ }
+ leaf TDPWRSAVSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf TDPWRSAVTHD {
+  type uint16 {
+   range "1000..3600";
+  }
+  mandatory false;
+ }
+ leaf THINNETVOICEEXPFIRSTPH2SW {
+  type boolean;
+  mandatory false;
+ }
+ leaf THINNETVOICEFIRSTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf TURBOICENHANCEDSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULCARLEVELSCHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULCCHOLPCLOADHIGHTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ULCCHOLPCLOADLOWTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ULCCHOLPCSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf VOICEQUALITYOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf VOICERATETRANSCODERSW {
+  type boolean;
+  mandatory false;
+ }
+ }
+ grouping ULOCELLMACEPARA-attributes {
+ leaf EAGCHPCMOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf EAGCHPCPARA {
+  type boolean;
+  mandatory false;
+ }
+ leaf EAGCHPOWER {
+  type int16 {
+   range "-350..150";
+  }
+  mandatory false;
+ }
+ leaf EAGCHPWROFFSET {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf HSUPAOLSCHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSUPATDALIGNUENUM {
+  type uint8 {
+   range "1..64";
+  }
+  mandatory false;
+ }
+ leaf HSUPATDSCHENSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSUPATDSCHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSUPATOTALTHRGUARANTEESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSUPATOTALTHRTHD {
+  type enumeration {
+   enum val-160;
+   enum val-320;
+   enum val-640;
+   enum val-1024;
+  }
+  mandatory false;
+ }
+ leaf LOADTHRESH4MINULCOV {
+  type uint8 {
+   range "0..40";
+  }
+  mandatory false;
+ }
+ leaf MAXAGCHPOWER {
+  type int16 {
+   range "-350..150";
+  }
+  mandatory false;
+ }
+ leaf MAXDELTAOFTARGETROT {
+  type uint8 {
+   range "0..6";
+  }
+  mandatory false;
+ }
+ leaf MINAGCHPOWER {
+  type int16 {
+   range "-350..150";
+  }
+  mandatory false;
+ }
+ leaf NSEHICHPOWER {
+  type int16 {
+   range "-350..150";
+  }
+  mandatory false;
+ }
+ leaf NSEHICHPWROFFSET {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf NSERGCHPCMOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf NSERGCHPCPARA {
+  type boolean;
+  mandatory false;
+ }
+ leaf NSERGCHPOWER {
+  type int16 {
+   range "-350..150";
+  }
+  mandatory false;
+ }
+ leaf NSERGCHPWROFFSET {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf OUTERSYSINTERSCHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf OWNCELLULLOADRATIO {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf RTWPMEAOPTIMSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SCHEDULEPARA {
+  type boolean;
+  mandatory false;
+ }
+ leaf SEHICHPOWER {
+  type int16 {
+   range "-350..150";
+  }
+  mandatory false;
+ }
+ leaf SEHICHPWROFFSET {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf SERGCHPCMOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf SERGCHPCPARA {
+  type boolean;
+  mandatory false;
+ }
+ leaf SERGCHPOWER {
+  type int16 {
+   range "-350..150";
+  }
+  mandatory false;
+ }
+ leaf SERGCHPWROFFSET {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf SGALGFOR2MSUSER {
+  type boolean;
+  mandatory false;
+ }
+ leaf SINGLERLEHICHPOWER {
+  type int16 {
+   range "-350..150";
+  }
+  mandatory false;
+ }
+ leaf SRLEHICHPWROFFSET {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULSCHOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULSECCELLACTOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULSECCELLDEACTCOVTHR {
+  type uint16 {
+   range "0..1000";
+  }
+  mandatory false;
+ }
+ }
+ grouping ULOCELLMACHSPARA-attributes {
+ leaf ACTSECCELLDATABUFTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ACTSECCELLTHPTHD {
+  type uint16 {
+   range "0..1024";
+  }
+  mandatory false;
+ }
+ leaf BUFFERSMSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf BURSTBLEROPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CME16QAMSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CODEOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf COMBITFRCSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CQIADJALGOFCON {
+  type boolean;
+  mandatory false;
+ }
+ leaf CQIADJALGOFNONCON {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf CQIADJBYDYNBLERADJSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CQIADJBYIBLERADJSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf CQIFA {
+  type uint8 {
+   range "0..99";
+  }
+  mandatory false;
+ }
+ leaf DEASECCELLDATABUFTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf DEASECCELLTHPTHD {
+  type uint16 {
+   range "0..1024";
+  }
+  mandatory false;
+ }
+ leaf DF3CMACEHSDSCTMR {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+  }
+  mandatory false;
+ }
+ leaf DLBESCHWHENULURLBSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf DTXALGOSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf DYNCODESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf EFACHDTCHRSCALLOCMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf EXTRAPOWER {
+  type uint8 {
+   range "0..40";
+  }
+  mandatory false;
+ }
+ leaf EXTRAPOWERFORSRB {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf HARQRTSCHOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSDPAFULLBUFDATATHD {
+  type uint32 {
+   range "0..84000000";
+  }
+  mandatory false;
+ }
+ leaf HSDPAFULLBUFTHROUTHD {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf HSDPAL2OPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSSCCHCQIPWRINDCHOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSSCCHFERTRGTINDCH {
+  type uint16 {
+   range "1..999";
+  }
+  mandatory false;
+ }
+ leaf HSSCCHPWRCMINDCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf HSSCCHPWRCMINEFACH {
+  type boolean;
+  mandatory false;
+ }
+ leaf IBLERTARGET {
+  type uint8 {
+   range "1..50";
+  }
+  mandatory false;
+ }
+ leaf IICSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf INDEPTCARSCHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf LOCWEIGHT {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf MAXEFACHHARQRT {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf MAXEFACHHSHARQRT {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf MAXEXTRAPWRFORHSSCCHINDCH {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf MAXNONCONVERHARQRT {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf MCDELTACQITHD {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf MIMOPRIMESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf MXPWRPHUSR {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf PREALLOCBWOPTISW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PWRMGN {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf PWRMGNDELTAFORPT {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf RBLERTARGET {
+  type uint8 {
+   range "1..50";
+  }
+  mandatory false;
+ }
+ leaf RSCALLOCM {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf RSCLMSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SCCHPWR {
+  type uint8 {
+   range "0..80";
+  }
+  mandatory false;
+ }
+ leaf SECCELLACTDEASW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SECCELLSTATUSSYNCOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SERVICECQITHD {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf SFDCMACEHSDSCTMR {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+  }
+  mandatory false;
+ }
+ leaf SM {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf VIDEOCQITHD {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ }
+ grouping ULOCELLRSCLMTPARA-attributes {
+ leaf CME1024KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME128KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME1536KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME16KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME1800KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME256KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME32KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME384KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME512KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME64KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME768KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CME8KRSCLMT {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping ULOCELLSECEQMGRP-attributes {
+ leaf OLD_SECTOREQMGRPID {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf SECTOREQMGRPID {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping ULOCELLSECTOREQM-attributes {
+ leaf MAXPWR {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SECTOREQMID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SECTOREQMPROPERTY {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping UX2-attributes {
+ leaf CPEPGROUPID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf STATICCHKSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf UPEPGROUPID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..256";
+  }
+  mandatory false;
+ }
+ leaf OLD_UX2ID {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf UX2ID {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

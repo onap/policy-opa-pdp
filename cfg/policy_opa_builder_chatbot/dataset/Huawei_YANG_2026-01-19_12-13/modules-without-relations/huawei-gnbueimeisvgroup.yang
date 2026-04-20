@@ -1,0 +1,58 @@
+module huawei-gnbueimeisvgroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbueimeisvgroup";
+ prefix gnbueimeisvgroup;
+ description
+ "Auto-generated modular YANG for huawei-gnbueimeisvgroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBUEIMEISVGROUP-attributes {
+ leaf OLD_IMEISVINDEX {
+  type union {
+   type int16 {
+    range "-1..1999";
+   }
+  }
+  mandatory false;
+ }
+ leaf IMEISVINDEX {
+  type union {
+   type int16 {
+    range "-1..1999";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_UEIMEISVGROUPID {
+  type union {
+   type int16 {
+    range "-1..1023";
+   }
+  }
+  mandatory false;
+ }
+ leaf UEIMEISVGROUPID {
+  type union {
+   type int16 {
+    range "-1..1023";
+   }
+  }
+  mandatory false;
+ }
+ leaf UEIMEISVSVN {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf UEIMEISVTAC {
+  type uint32 {
+   range "0..99999999";
+  }
+  mandatory false;
+ }
+ }
+}

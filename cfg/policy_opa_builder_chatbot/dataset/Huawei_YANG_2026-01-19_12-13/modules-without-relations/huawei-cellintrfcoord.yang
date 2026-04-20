@@ -1,0 +1,134 @@
+module huawei-cellintrfcoord {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cellintrfcoord";
+ prefix cellintrfcoord;
+ description
+ "Auto-generated modular YANG for huawei-cellintrfcoord" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLINTRFCOORD-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf ASUENCELLA3OFFSET {
+  type int8 {
+   range "-30..30";
+  }
+  mandatory false;
+ }
+ leaf ASUENCELLA6OFFSET {
+  type int8 {
+   range "-30..30";
+  }
+  mandatory false;
+ }
+ leaf ASUENCELLREPORTINTERVAL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+  }
+  mandatory false;
+ }
+ leaf BUNDLEDSCHPERIOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf BUNDLEDSCHTIMERATIO {
+  type uint8 {
+   range "0..90";
+  }
+  mandatory false;
+ }
+ leaf INTRFCOORDDTXNUMTHLD {
+  type uint8 {
+   range "1..5";
+  }
+  mandatory false;
+ }
+ leaf INTRFCOORDPOLICY {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_INTRFCOORDUSERTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf INTRFCOORDUSERTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf OLD_LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULBUNDLEDSCHPERIOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf ULBUNDLEDSCHRATIO {
+  type uint8 {
+   range "0..90";
+  }
+  mandatory false;
+ }
+ leaf ULRSVDRBRATIO {
+  type uint8 {
+   range "0..90";
+  }
+  mandatory false;
+ }
+ leaf ULSCHRBRATIOUPPERLIMIT {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ }
+}

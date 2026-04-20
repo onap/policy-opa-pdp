@@ -1,0 +1,898 @@
+module ericsson-rcscertm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsCertM";
+  prefix rcscertm;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThe CertM MOM.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM" {
+    list EnrollmentServerGroup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Maintains a group of enrollment servers for load balancing.";
+      key "enrollmentServerGroupId";
+      leaf enrollmentServerGroupId {
+        type leafref {
+          path "../attributes/enrollmentServerGroupId";
+        }
+      }
+      container attributes {
+      uses EnrollmentServerGroup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM" {
+    list EnrollmentAuthority {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents a Certification or Registration Authority for certificate enrollment.";
+      key "enrollmentAuthorityId";
+      leaf enrollmentAuthorityId {
+        type leafref {
+          path "../attributes/enrollmentAuthorityId";
+        }
+      }
+      container attributes {
+      uses EnrollmentAuthority-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM" {
+    list TrustedCertificate {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents a trusted certificate. TrustedCertificate=VCTA_[CN] is a read-only system created instance which represents a Vendor Credential Trust Anchor certificate. [CN] is certificate's subject Common Name.";
+      key "trustedCertificateId";
+      leaf trustedCertificateId {
+        type leafref {
+          path "../attributes/trustedCertificateId";
+        }
+      }
+      container attributes {
+      uses TrustedCertificate-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM" {
+    list VendorCredential {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents the vendor credential pre-installed on the ME.";
+      key "vendorCredentialId";
+      leaf vendorCredentialId {
+        type leafref {
+          path "../attributes/vendorCredentialId";
+        }
+      }
+      container attributes {
+      uses VendorCredential-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM" {
+    list NodeCredential {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents the node credential and contains information about the corresponding certificate.";
+      key "nodeCredentialId";
+      leaf nodeCredentialId {
+        type leafref {
+          path "../attributes/nodeCredentialId";
+        }
+      }
+      container attributes {
+      uses NodeCredential-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM" {
+    list TrustCategory {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents a group of trusted certificates that can be referenced by Credential Users on the ME. TrustCategory=VCTA_CONTAINER is a read-only system created instance which contains Vendor Credential Trust Anchor certificates.";
+      key "trustCategoryId";
+      leaf trustCategoryId {
+        type leafref {
+          path "../attributes/trustCategoryId";
+        }
+      }
+      container attributes {
+      uses TrustCategory-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM" {
+    list CertMCapabilities {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Contains the certificate management capabilities of the ME.";
+      key "certMCapabilitiesId";
+      leaf certMCapabilitiesId {
+        type leafref {
+          path "../attributes/certMCapabilitiesId";
+        }
+      }
+      container attributes {
+      uses CertMCapabilities-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM" {
+    list ExternalTrustCategory {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents a group of external trusted certificates that can be referenced by Credential Users on the ME.";
+      key "externalTrustCategoryId";
+      leaf externalTrustCategoryId {
+        type leafref {
+          path "../attributes/externalTrustCategoryId";
+        }
+      }
+      container attributes {
+      uses ExternalTrustCategory-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM" {
+    list ExternalTrustedCertificate {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; A trusted certificate provided by a third party. These certificates are deployed through upgrade packages and cannot be altered or replaced in any other way.";
+      key "externalTrustedCertificateId";
+      leaf externalTrustedCertificateId {
+        type leafref {
+          path "../attributes/externalTrustedCertificateId";
+        }
+      }
+      container attributes {
+      uses ExternalTrustedCertificate-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM/rcscertm:EnrollmentServerGroup" {
+    list EnrollmentServer {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents an enrollment server. An enrollment server implementing the Certificate Management Protocol (CMP).";
+      key "enrollmentServerId";
+      leaf enrollmentServerId {
+        type leafref {
+          path "../attributes/enrollmentServerId";
+        }
+      }
+      container attributes {
+      uses EnrollmentServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM/rcscertm:NodeCredential" {
+    list ChainCertificate {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Chain certificate belonging to the credential.";
+      key "chainCertificateId";
+      leaf chainCertificateId {
+        type leafref {
+          path "../attributes/chainCertificateId";
+        }
+      }
+      container attributes {
+      uses ChainCertificate-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcscertm:CertM/rcscertm:VendorCredential" {
+    list ChainCertificate {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Chain certificate belonging to the credential.";
+      key "chainCertificateId";
+      leaf chainCertificateId {
+        type leafref {
+          path "../attributes/chainCertificateId";
+        }
+      }
+      container attributes {
+      uses ChainCertificate-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list CertM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The top class of the Certificate Management model. Certificate management encompasses management of node credentials and trusted certificates.";
+      key "certMId";
+      leaf certMId {
+        type leafref {
+          path "../attributes/certMId";
+        }
+      }
+      container attributes {
+      uses CertM-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    description "Lists the different results of an action.";
+    type enumeration {
+      enum SUCCESS {
+        description "The asynchronous action ended with success.";
+      }
+      enum FAILURE {
+        description "The asynchronous action ended with failure.";
+      }
+      enum NOT_AVAILABLE {
+        description "No result is available yet.";
+      }
+    }
+  }
+  typedef ActionStateType {
+    description "Lists the action states.";
+    type enumeration {
+      enum CANCELLING {
+        description "Cancellation is in progress.";
+      }
+      enum RUNNING {
+        description "The execution of the action is currently in progress.";
+      }
+      enum FINISHED {
+        description "The action is finished.";
+      }
+      enum CANCELLED {
+        description "The action has been cancelled and cancellation has been done.";
+      }
+    }
+  }
+  typedef AuthorityType {
+    description "Enrollment authority types. This type is deprecated.";
+    type enumeration {
+      enum CERTIFICATION_AUTHORITY {
+        description "An entity that issues certificates.";
+      }
+      enum REGISTRATION_AUTHORITY {
+        description "An intermediate PKI entity, separate from the Certification Authority. Used for registration purposes and certificate enrollment.";
+      }
+    }
+  }
+  typedef CertificateState {
+    description "Certificate states.";
+    type enumeration {
+      enum NOT_VALID_YET {
+        description "Based on the validFrom date, the certificate is not yet valid.";
+      }
+      enum VALID {
+        description "Based on the validFrom and validTo dates, the certificate is valid.";
+      }
+      enum EXPIRED {
+        description "Based on the validTo date having passed, the certificate expired.";
+      }
+      enum REVOKED {
+        description "The certificate was revoked by a trusted CA.";
+      }
+    }
+  }
+  typedef EnrollmentProtocol {
+    description "Enrollment protocols.";
+    type enumeration {
+      enum SCEP {
+        description "Simple Certificate Enrollment Protocol.";
+      }
+      enum CMP {
+        description "Certificate Management Protocol.";
+      }
+    }
+  }
+  typedef EnrollmentSupport {
+    description "Supportable enrollment methods.";
+    type enumeration {
+      enum OFFLINE_CSR {
+        description "Certificate Signing Request-based (CSR) offline enrollment. The certificate for a node credential is manually provided by the MS using a CSR in PKCS#10 format.";
+      }
+      enum OFFLINE_PKCS12 {
+        description "PKCS#12-based offline enrollment. The node credential is manually provided by the MS using a PKCS#12 format, a certificate accompanied by a private key.";
+      }
+      enum ONLINE_SCEP {
+        description "Online enrollment. The node credential is acquired by the Simple Certificate Enrollment Protocol.";
+      }
+      enum ONLINE_CMP {
+        description "Online enrollment. The node credential is acquired by the Certificate Management Protocol.";
+      }
+    }
+  }
+  typedef FeatureState {
+    description "Indicates whether a feature is Activated or Deactivated.";
+    type enumeration {
+      enum ACTIVATED {
+        description "The feature is administratively activated.";
+      }
+      enum DEACTIVATED {
+        description "The feature is administratively deactivated.";
+      }
+    }
+  }
+  typedef FingerprintSupport {
+    description "The SHA fingerprint algorithm the ME supports.";
+    type enumeration {
+      enum SHA_1 {
+        description "The SHA-1 secure hash algorithm.";
+      }
+      enum SHA_224 {
+        description "The SHA-224 secure hash algorithm.";
+      }
+      enum SHA_256 {
+        description "The SHA-256 secure hash algorithm.";
+      }
+      enum SHA_384 {
+        description "The SHA-384 secure hash algorithm.";
+      }
+      enum SHA_512 {
+        description "The SHA-512 secure hash algorithm.";
+      }
+    }
+  }
+  typedef KeyInfo {
+    description "Indicates the key type and length in bits. This enumeration supports Rivest Shamir Adleman (RSA) and Elliptic Curve Digital Signature Algorithm (ECDSA).";
+    type enumeration {
+      enum RSA_1024 {
+        description "1024-bit long key generated for the RSA algorithm.";
+      }
+      enum RSA_2048 {
+        description "2048-bit long key generated for the RSA algorithm.";
+      }
+      enum RSA_3072 {
+        description "3072-bit long key generated for the RSA algorithm.";
+      }
+      enum RSA_4096 {
+        description "4096-bit long key generated for the RSA algorithm.";
+      }
+      enum ECDSA_160 {
+        description "ECDSA algorithm with P-160 curve.";
+      }
+      enum ECDSA_224 {
+        description "ECDSA algorithm with P-224 curve.";
+      }
+      enum ECDSA_256 {
+        description "ECDSA algorithm with P-256 curve.";
+      }
+      enum ECDSA_384 {
+        description "ECDSA algorithm with P-384 curve.";
+      }
+      enum ECDSA_512 {
+        description "ECDSA algorithm with P-512 curve.";
+      }
+      enum ECDSA_521 {
+        description "ECDSA algorithm with P-521 curve.";
+      }
+      enum ECDSA_BRAINPOOL_256 {
+        description "ECDSA algorithm with Brainpool P-256 r1 curve.";
+      }
+      enum ECDSA_BRAINPOOL_320 {
+        description "ECDSA algorithm with Brainpool P-320 r1 curve.";
+      }
+      enum ECDSA_BRAINPOOL_384 {
+        description "ECDSA algorithm with Brainpool P-384 r1 curve.";
+      }
+      enum ECDSA_BRAINPOOL_512 {
+        description "ECDSA algorithm with Brainpool P-512 r1 curve.";
+      }
+      enum ECDSA_SECP_256_R1 {
+        description "ECDSA algorithm with SECP 256 r1 curve.";
+      }
+      enum ECDSA_SECP_384_R1 {
+        description "ECDSA algorithm with SECP 384 r1 curve.";
+      }
+      enum ECDSA_SECP_521_R1 {
+        description "ECDSA algorithm with SECP 521 r1 curve.";
+      }
+    }
+  }
+  typedef ManagedCertificateState {
+    description "The states the MS may set for a certificate.";
+    type enumeration {
+      enum ENABLED {
+        description "The certificate is enabled.";
+      }
+      enum DISABLED {
+        description "The certificate is disabled.";
+      }
+    }
+  }
+  typedef RenewalMode {
+    description "Modes for certificate renewal.";
+    type enumeration {
+      enum MANUAL {
+        description "Certificate renewal is manually performed by the MS. This renewal mode requires the MS to start an enrollment by manually invoking one of the enrollment actions.";
+      }
+      enum AUTOMATIC {
+        description "Certificate renewal is automatically performed by the ME.";
+      }
+    }
+  }
+  grouping AsyncActionProgress-struct {
+    description "Records the progress of an asynchronous action.";
+    leaf actionName {
+      type string;
+    }
+    leaf-list additionalInfo {
+      type string;
+      min-elements 0;
+    }
+    leaf progressInfo {
+      type string;
+    }
+    leaf progressPercentage {
+      type string;
+    }
+    leaf result {
+      type enumeration {
+        enum SUCCESS;
+        enum FAILURE;
+        enum NOT_AVAILABLE;
+      }
+    }
+    leaf resultInfo {
+      type string;
+    }
+    leaf state {
+      type enumeration {
+        enum CANCELLING;
+        enum RUNNING;
+        enum FINISHED;
+        enum CANCELLED;
+      }
+    }
+    leaf actionId {
+      type string;
+    }
+    leaf timeActionStarted {
+      type string;
+    }
+    leaf timeActionCompleted {
+      type string;
+    }
+    leaf timeOfLastStatusUpdate {
+      type string;
+    }
+  }
+  grouping CertificateContent-struct {
+    description "The content of the X.509 certificate.";
+    leaf version {
+      type string;
+    }
+    leaf serialNumber {
+      type string;
+    }
+    leaf signatureAlgorithm {
+      type string;
+    }
+    leaf issuer {
+      type string;
+    }
+    leaf validFrom {
+      type string;
+    }
+    leaf validTo {
+      type string;
+    }
+    leaf publicKey {
+      type string;
+    }
+    leaf publicKeyAlgorithm {
+      type string;
+    }
+    leaf keyUsage {
+      type string;
+    }
+    leaf-list extensionContent {
+      type string;
+      min-elements 0;
+    }
+    leaf subject {
+      type string;
+    }
+  }
+  grouping CertM-attributes {
+    leaf certMId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    list reportProgress {
+      config false;
+      description "Reports the progress of the ongoing action on this MO..";
+      uses AsyncActionProgress-struct;
+    }
+    leaf localFileStorePath {
+      description "Contains a file sytem path for locally stored certificates. The default directory path on the ME file system where certificates or credential containers are stored. It may store locally generated files or files generated after push download..";
+      type string;
+      config false;
+    }
+    leaf activeVendorCredential {
+      description "Indicates the active vendor credential for initial enrollments. Contains the DN of a VendorCredential MO..";
+      type string;
+      config false;
+    }
+  }
+  grouping CertMCapabilities-attributes {
+    leaf certMCapabilitiesId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list enrollmentSupport {
+      description "Indicates the enrollment methods supported by the ME..";
+      type EnrollmentSupport;
+      min-elements 1;
+    }
+    leaf fingerprintSupport {
+      description "The secure hash algorithm the ME supports for fingerprint calculation. The attributes and parameters in the CertM model taking a fingerprint must be provided by calculating the fingerprint using the indicated algorithm..";
+      type enumeration {
+        enum SHA_1;
+        enum SHA_224;
+        enum SHA_256;
+        enum SHA_384;
+        enum SHA_512;
+      }
+      config false;
+    }
+    leaf-list keySupport {
+      description "List of the key types the ME supports..";
+      type KeyInfo;
+      min-elements 1;
+    }
+  }
+  grouping ChainCertificate-attributes {
+    leaf chainCertificateId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list certificateContent {
+      config false;
+      description "The X.509 content of the certificate..";
+      uses CertificateContent-struct;
+    }
+    leaf certificateState {
+      description "The current state of the certificate..";
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+  grouping EnrollmentAuthority-attributes {
+    leaf enrollmentAuthorityId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf enrollmentCaCertificate {
+      description "The trusted cerificate of the RA or CA used for enrollment authentication. Represents the certificate by the DN of the appropriate TrustedCertificate MO. The RA or CA certificate provided in the PKI response is authenticated by this trusted certificate. If this attribute has any value, the attribute enrollmentCaFingerprint is ignored..";
+      type string;
+    }
+    leaf enrollmentCaFingerprint {
+      description "The SHA fingerprint of the trusted cerificate of the RA or CA used for enrollment authentication. If the trusted certificate is not stored on the ME as a TrustedCertificate MO, the enrollmentCaCertificate attribute cannot refer to the appropriate TrustedCertificate MO, so this attribute at least must be provided. If enrollmentCaCertificate references a TrustedCertificate MO, this attribute displays the fingerprint of the certificate defined by enrollmentCaCertificate, and cannot be modified. The fingerprint of the trusted certificate provided by the PKI response is calculated and compared to this attribute. If a match is found, the certificate is used for authenticating the CA or RA. The hash must be calculated by the Secure Hash Algorithm (SHA) algorithm indicated in fingerprintSupport of the CertMCapabilities MO..";
+      type string;
+    }
+    leaf authorityType {
+      description "Indicates the type of the enrollment authority. Used for the verification of the Public Key Infrastructure (PKI) response message. In case of a Certification Authority (CA), the self-signed certificate of the CA is accepted by ME given that the certificate is configured either in attribute enrollmentCaCertificate or enrollmentCaFingerprint. In case of a Registration Authority (RA), the RA certificate is verified using the CA certificate of the RA configured in attribute enrollmentCaCertificate. This entity is deprecated as implemented redundant functionality.; MOM flags: isNillable=true; Status info: Deprecated in version 2.0. Redundant functionality..";
+      type enumeration {
+        enum CERTIFICATION_AUTHORITY;
+        enum REGISTRATION_AUTHORITY;
+      }
+      status deprecated;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf enrollmentAuthorityName {
+      description "Specifies the name of the issuing CA. The X.501 distinguished name of the issuing CA used for addressing and reference identity..";
+      type string;
+    }
+    leaf-list reservedBy {
+      description "The MO Distinguished Names using this EnrollmentAuthority..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping EnrollmentServer-attributes {
+    leaf enrollmentServerId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf enrollmentAuthority {
+      description "The Certification Authority or Registration Authority used by this enrollment server. Represents the enrollment authority by the DN of the EnrollmentAuthority MO. This entity is deprecated. If this attribute is specified, the enrollmentAuthority attribute in the NodeCredential MO referring to the EnrollmentServerGroup MO of this EnrollmentServer MO is ignored.; MOM flags: isNillable=true; Status info: Deprecated in version 2.0. Function replaced by enrollmentAuthority attribute in NodeCredential MOC..";
+      type string;
+      status deprecated;
+    }
+    leaf uri {
+      description "The URI of the enrollment server. The URI consists of a protocol, an IP or DNS address and an optional port number. Specify the optional port designation by appending a colon followed by the port number to the host part, for example, 192.168.33.27:8080. If no port number is provided, the default port is used. Example for CMP: http://192.168.33.27:8080 or cmp://192.168.33.27.";
+      type string;
+      mandatory true;
+    }
+    leaf protocol {
+      description "The enrollment protocol..";
+      type enumeration {
+        enum SCEP;
+        enum CMP;
+      }
+      mandatory true;
+    }
+    leaf enrollmentInterface {
+      description "Address object under an interface, either IPv4 or IPv6..";
+      type string;
+    }
+  }
+  grouping EnrollmentServerGroup-attributes {
+    leaf enrollmentServerGroupId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf-list reservedBy {
+      description "The Distinguished Names of MOs using this EnrollmentServerGroup..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping ExternalTrustCategory-attributes {
+    leaf externalTrustCategoryId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf-list externalTrustedCertificates {
+      description "The list of external trusted certificates that belongs to this external trust category. Contains the Distinguished Names of the ExternalTrustedCertificate Managed Objects..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list reservedByUser {
+      description "Indicates the users of this ExternalTrustCategory MO. The users are identified by Distinguished Names of Credential User Managed Objects..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping ExternalTrustedCertificate-attributes {
+    leaf externalTrustedCertificateId {
+      description "The value component of the RDN. The RDN is ExternalTrustedCertificate=1, ExternalTrustedCertificate=2, ....";
+      type string;
+      mandatory true;
+    }
+    leaf managedState {
+      description "The state of the trusted certificate set by the MS. If set to ENABLED, the certificate is trusted and the state of the certificate is represented by certificateState. If set to DISABLED, the trusted certificate is quarantined, and thus the trust relationship is suspended..";
+      type enumeration {
+        enum ENABLED;
+        enum DISABLED;
+      }
+    }
+    leaf-list reservedBy {
+      description "The Distinguished Names of MOs using this ExternalTrustedCertificate MO..";
+      type string;
+      min-elements 0;
+    }
+    list certificateContent {
+      config false;
+      description "The X.509 content of the certificate..";
+      uses CertificateContent-struct;
+    }
+    leaf certificateState {
+      description "The current state of the certificate..";
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+  grouping NodeCredential-attributes {
+    leaf nodeCredentialId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf subjectName {
+      description "The X.501 DN to be used in the subject field of the requested certificate. For instance: \"C=SE,O=Ericsson,CN=someserialnumber.ericsson.com\".";
+      type string;
+    }
+    leaf-list reservedByUser {
+      description "Indicates the users of this NodeCredential MO. The users are identified by Distinguished Names of Credential User Managed Objects..";
+      type string;
+      min-elements 0;
+    }
+    leaf enrollmentTimer {
+      description "The enrollment poll timer in minutes. If the time indicated by this timer elapses before the enrollment is finished, the enrollment fails. No value means the timer is disabled. Used only for online enrollment.; range 1..max; Default value: 60.";
+      type uint16 {
+        range "1..max";
+      }
+      default "60";
+      units "minutes";
+    }
+    leaf enrollmentServerGroup {
+      description "The DN of the EnrollmentServerGroup used for online enrollments..";
+      type string;
+    }
+    leaf keyInfo {
+      description "Specifies the key type and length that is used for the next enrollment. Mandatory for actions startOfflineCsrEnrollment or startOnlineEnrollment. For the supported key types see CertMCapabilities MO keySupport attribute. Deprecated key types are not recommended for new enrollments..";
+      type enumeration {
+        enum RSA_1024;
+        enum RSA_2048;
+        enum RSA_3072;
+        enum RSA_4096;
+        enum ECDSA_160;
+        enum ECDSA_224;
+        enum ECDSA_256;
+        enum ECDSA_384;
+        enum ECDSA_512;
+        enum ECDSA_521;
+        enum ECDSA_BRAINPOOL_256;
+        enum ECDSA_BRAINPOOL_320;
+        enum ECDSA_BRAINPOOL_384;
+        enum ECDSA_BRAINPOOL_512;
+        enum ECDSA_SECP_256_R1;
+        enum ECDSA_SECP_384_R1;
+        enum ECDSA_SECP_521_R1;
+      }
+    }
+    list enrollmentProgress {
+      config false;
+      description "Reports the progress of the ongoing enrollment..";
+      uses AsyncActionProgress-struct;
+    }
+    leaf renewalMode {
+      description "The certificate renewal mode for online enrollment. Renewals use subjectName, keyInfo and enrollmentServerGroup attributes as inputs. If configured to AUTOMATIC, manually initiated offline and online renewals fail. If an automatic enrollment failed alarm is present on the MO, setting this attribute to MANUAL clears the alarm..";
+      type enumeration {
+        enum MANUAL;
+        enum AUTOMATIC;
+      }
+    }
+    leaf enrollmentAuthority {
+      description "The DN of the EnrollmentAuthority used for online enrollments..";
+      type string;
+    }
+    leaf expiryAlarmThreshold {
+      description "Threshold value for remaining number of days of certificate validity. When threshold is reached, action will be triggered based on value of renewalMode. If renewalMode is set to MANUAL, following options apply: - Certificate Management the Certificate is to Expire alarm with severity WARNING is raised if remaining time to expiry is reduced to configured threshold. - Certificate Management the Certificate is to Expire alarm with severity MINOR is raised if remaining time to expiry is reduced to a third of the configured threshold. - Certificate Management the Certificate is to Expire alarm with severity MAJOR is raised if remaining time to expiry is reduced to a tenth of the configured threshold, or one week. - Certificate Management the Certificate is to Expire alarm is cleared and Certificate Management Valid Certificate Unavailable alarm is raised when certificate expires. If renewalMode is set to AUTOMATIC, following options apply: When remaining time to expiry is reduced to configured threshold, automatic enrollment is started. If automatic enrollment fails, Automatic Enrollment Failed alarm is raised..";
+      type string;
+    }
+    leaf subjectAltName {
+      description "Alternative name used in requested certificate. This attribute supports three types of formats: 1. Type and Value Pair (type:value): This format explicitly specifies type of alternative name (e.g., DNS, IP, email) followed by its corresponding value. 2. Multiple Type-Value Pairs (type1:value1;type2:value2;...): This format allows multiple alternative names to be specified. Type-Value Pairs are separated by semicolons and each pair is preceded by its type. 3. Value Only (value): In this format, only value of alternative name is provided. Type is implied and inferred based on context. Type is either 'IP' or 'DNS'. Examples: someserialnumber.ericsson.com DNS:someserialnumber.ericsson.com IP:145.34.23.123 IP:2001:DB8::8:800:200C:417A DNS:www.example.com;IP:192.168.0.1;DirName:C=C,ST=City,L=Locale,O=Company,OU=RND,CN=John;rfc822Name:John@example.com.";
+      type string {
+        pattern "((((IP|DNS|URI|email|rfc822Name|directoryName|DirName):[^;]+)(;(IP|DNS|URI|email|rfc822Name|directoryName|DirName):[^;]+)*)$|(([0-9]{1,3}\\.){3}[0-9]{1,3})$|((([0-9A-Fa-f]{1,4}:){1,5}:((25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(([0-9A-Fa-f]{1,4}:){6,7}:)|(([0-9A-Fa-f]{1,4}:){6}((25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3}))|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}(:[0-9A-Fa-f]{1,4}){1,2})|(([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?))|(([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){2,3})|((([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){1,2})(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){3,4})|(([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){1,3}(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){4,5})|(([0-9A-Fa-f]{1,4}:)(:[0-9A-Fa-f]{1,4}){1,4}(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(([0-9A-Fa-f]{1,4}:)(:[0-9A-Fa-f]{1,4}){5,6})|((:(:[0-9A-Fa-f]{1,4}){1,5})(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})?)|(:(:[0-9A-Fa-f]{1,4}){6,7})|(([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(((::FFFF)|(0:0:0:0:0:FFFF))(:(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})){3})))$|(([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,})$)";
+      }
+    }
+    list certificateContent {
+      config false;
+      description "The X.509 content of the certificate..";
+      uses CertificateContent-struct;
+    }
+    leaf certificateState {
+      description "The current state of the certificate..";
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+  grouping TrustCategory-attributes {
+    leaf trustCategoryId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf-list trustedCertificates {
+      description "The list of trusted certificates that belongs to this trust category. Contains the Distinguished Names of the TrustedCertificate Managed Objects..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list reservedByUser {
+      description "Indicates the users of this TrustCategory MO. The users are identified by Distinguished Names of Credential User Managed Objects..";
+      type string;
+      min-elements 0;
+    }
+    leaf crlCheck {
+      description "Toggles CRL control. Toggles CRL control for the certificates validated in the chain of a trusted certificate in this TrustCategory MO. If ACTIVATED, CRLs are checked. If DEACTVATED, CRLs are not checked..";
+      type enumeration {
+        enum ACTIVATED;
+        enum DEACTIVATED;
+      }
+    }
+    leaf crlInterface {
+      description "Address object under an interface, either IPv4 or IPv6..";
+      type string;
+    }
+  }
+  grouping TrustedCertificate-attributes {
+    leaf trustedCertificateId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedByCategory {
+      description "Indicates the trust categories this trusted certificate belongs to. Contains the Distinguished Names of the TrustCategory Managed Objects.; MOM flags: noNotification; Status info: Deprecated in version 3.0. Restrictive to TrustCategory objects. Replaced by reservedBy..";
+      type string;
+      ordered-by user;
+      min-elements 0;
+    }
+    leaf managedState {
+      description "The state of the trusted certificate set by the MS. If set to ENABLED, the certificate is trusted and the state of the certificate is represented by certificateState. If set to DISABLED, the trusted certificate is quarantined, and thus the trust relationship is suspended..";
+      type enumeration {
+        enum ENABLED;
+        enum DISABLED;
+      }
+    }
+    leaf-list reservedBy {
+      description "The Distinguished Names of MOs using this TrustedCertificate..";
+      type string;
+      min-elements 0;
+    }
+    leaf expiryAlarmThreshold {
+      description "This attribute has no effect..";
+      type string;
+    }
+    list certificateContent {
+      config false;
+      description "The X.509 content of the certificate..";
+      uses CertificateContent-struct;
+    }
+    leaf certificateState {
+      description "The current state of the certificate..";
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+  grouping VendorCredential-attributes {
+    leaf vendorCredentialId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list certificateContent {
+      config false;
+      description "The X.509 content of the certificate..";
+      uses CertificateContent-struct;
+    }
+    leaf certificateState {
+      description "The current state of the certificate..";
+      type enumeration {
+        enum NOT_VALID_YET;
+        enum VALID;
+        enum EXPIRED;
+        enum REVOKED;
+      }
+      config false;
+    }
+  }
+}

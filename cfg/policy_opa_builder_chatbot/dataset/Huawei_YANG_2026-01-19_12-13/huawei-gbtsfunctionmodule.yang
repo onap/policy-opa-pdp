@@ -1,0 +1,551 @@
+module huawei-gbtsfunctionmodule {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gbtsfunctionmodule";
+ prefix gbtsfunctionmodule;
+ import huawei-ne {
+ prefix ne;
+ }
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-gbtsfunctionmodule" ;
+ revision "2026-01-19" {
+ description "Auto-generated abstract group module (aggregated lists from relations.xml). Generated at 2026-01-19 12:13.";
+ }
+ augment "/ne:NE" {
+ container GbtsFunctionModule {
+  description "Abstract group container injected between NE and its direct child.";
+  container attributes {
+    leaf neName {
+     type string;
+     mandatory false;
+    }
+    leaf productversion {
+     type string;
+     mandatory false;
+    }
+  }
+ }
+ }
+ augment "/ne:NE/gbtsfunctionmodule:GbtsFunctionModule/GBTSFUNCTION" {
+  list ABIS {
+   max-elements 1;
+   key "ABISID";
+   leaf ABISID {
+    type leafref {
+     path "../attributes/ABISID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses ABIS-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/gbtsfunctionmodule:GbtsFunctionModule/GBTSFUNCTION" {
+  list GBTSABISCP {
+   max-elements 24;
+   key "ABISCPID";
+   leaf ABISCPID {
+    type leafref {
+     path "../attributes/ABISCPID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses GBTSABISCP-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/gbtsfunctionmodule:GbtsFunctionModule/GBTSFUNCTION" {
+  list GBTSENERGYMGTPARA {
+   max-elements 1;
+   key "BAKPWRSAVMETHOD";
+   leaf BAKPWRSAVMETHOD {
+    type leafref {
+     path "../attributes/BAKPWRSAVMETHOD";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses GBTSENERGYMGTPARA-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/gbtsfunctionmodule:GbtsFunctionModule" {
+  list GBTSFUNCTION {
+   max-elements 1;
+   key "GBTSFUNCTIONNAME";
+   leaf GBTSFUNCTIONNAME {
+    type leafref {
+     path "../attributes/GBTSFUNCTIONNAME";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses GBTSFUNCTION-attributes;
+    leaf modifier {
+     type hwat:modifier_M;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/gbtsfunctionmodule:GbtsFunctionModule/GBTSFUNCTION" {
+  list GBTSPATH {
+   max-elements 128;
+   key "PATHID";
+   leaf PATHID {
+    type leafref {
+     path "../attributes/PATHID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses GBTSPATH-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/gbtsfunctionmodule:GbtsFunctionModule/GBTSFUNCTION" {
+  list GLOCELL {
+   max-elements 32;
+   key "GLOCELLID";
+   leaf GLOCELLID {
+    type leafref {
+     path "../attributes/GLOCELLID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses GLOCELL-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/gbtsfunctionmodule:GbtsFunctionModule/GBTSFUNCTION" {
+  list GTRXGROUP {
+   max-elements 72;
+   key "GTRXGROUPID";
+   leaf GTRXGROUPID {
+    type leafref {
+     path "../attributes/GTRXGROUPID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses GTRXGROUP-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ augment "/ne:NE/gbtsfunctionmodule:GbtsFunctionModule/GBTSFUNCTION/GTRXGROUP" {
+  list GTRXGROUPSECTOREQM {
+   max-elements 30;
+   key "GTRXGROUPID";
+   leaf GTRXGROUPID {
+    type leafref {
+     path "../attributes/GTRXGROUPID";
+     require-instance true;
+    }
+   }
+   container attributes {
+    uses GTRXGROUPSECTOREQM-attributes;
+    leaf modifier {
+     type hwat:modifier_AMD;
+     mandatory false;
+    }
+    leaf remark {
+     type string;
+     mandatory false;
+    }
+    leaf template {
+     type string;
+     mandatory false;
+    }
+   }
+  }
+ }
+ grouping ABIS-attributes {
+ leaf OLD_ABISID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf ABISID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf UPEPGRPID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..256";
+  }
+  mandatory false;
+ }
+ }
+ grouping GBTSABISCP-attributes {
+ leaf OLD_ABISCPID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf ABISCPID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_CPBEARID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf CPBEARID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping GBTSENERGYMGTPARA-attributes {
+ leaf BAKPWRSAVMETHOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf BAKPWRSAVPOLICY {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf DEEPBAKPWRSAVALLOW {
+  type boolean;
+  mandatory false;
+ }
+ leaf DROPPWRINTERVAL {
+  type uint8 {
+   range "1..60";
+  }
+  mandatory false;
+ }
+ leaf ENBAKPWRSAVALLOW {
+  type boolean;
+  mandatory false;
+ }
+ leaf LOWPWRCONSUMPMODESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PAADJVOL {
+  type boolean;
+  mandatory false;
+ }
+ leaf PWROFFPROTECTSTARTTIME {
+  type uint16 {
+   range "0..720";
+  }
+  mandatory false;
+ }
+ leaf SECPHRASESTARTTIME {
+  type uint8 {
+   range "0..12";
+  }
+  mandatory false;
+ }
+ leaf SHUTDOWNTRXOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SOCLVLLOWPWRMODESW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SOCLVLPWRSAVPOLICY {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ }
+ grouping GBTSFUNCTION-attributes {
+ leaf TEMPLATENAME {
+  type string;
+  mandatory false;
+ }
+ leaf APPLICATIONREF {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf OLD_GBTSFUNCTIONNAME {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf GBTSFUNCTIONNAME {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..256";
+  }
+  mandatory false;
+ }
+ }
+ grouping GBTSPATH-attributes {
+ leaf PATHID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ }
+ grouping GLOCELL-attributes {
+ leaf TEMPLATENAME {
+  type string;
+  mandatory false;
+ }
+ leaf BASEBANDEQMID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf BASEBANDPOLICY {
+  type boolean;
+  mandatory false;
+ }
+ leaf BBEQMPOLICY {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf OLD_GLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf GLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCELLTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..256";
+  }
+  mandatory false;
+ }
+ }
+ grouping GTRXGROUP-attributes {
+ leaf GLOCELLID {
+  type uint32 {
+   range "0..268435455";
+  }
+  mandatory false;
+ }
+ leaf OLD_GTRXGROUPID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf GTRXGROUPID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf RCVMD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf SNDMD {
+  type boolean;
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..256";
+  }
+  mandatory false;
+ }
+ leaf WORKMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ }
+ grouping GTRXGROUPSECTOREQM-attributes {
+ leaf GTRXGROUPID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf MAXPOWER {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SECTOREQMID {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVETYPE {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

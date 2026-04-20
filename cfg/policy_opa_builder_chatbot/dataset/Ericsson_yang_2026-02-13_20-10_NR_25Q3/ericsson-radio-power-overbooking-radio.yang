@@ -1,0 +1,62 @@
+module ericsson-radio-power-overbooking-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeRadioPowerOverbooking";
+  prefix rdopwrovbrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list RadioPowerOverbooking {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO contains configuration items for feature Radio Power Overbooking. The RDN of this MO is RadioPowerOverbooking=1.";
+      key "radioPowerOverbookingId";
+      leaf radioPowerOverbookingId {
+        type leafref {
+          path "../attributes/radioPowerOverbookingId";
+        }
+      }
+      container attributes {
+        uses RadioPowerOverbooking-attributes;
+      }
+    }
+  }
+  typedef FeatCtrlState {
+    type enumeration {
+      enum OFF;
+      enum ON;
+    }
+  }
+  typedef RadioPowerSharingType {
+    type enumeration {
+      enum RADIO_POWER_SHARING_DEFAULT;
+      enum RADIO_POWER_SHARING_A;
+      enum RADIO_POWER_SHARING_B;
+    }
+  }
+  grouping RadioPowerOverbooking-attributes {
+    leaf radioPowerOverbookingId {
+      type string;
+      mandatory true;
+    }
+    leaf featCtrlRadioPowerOverbooking {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf radioPowerSharingType {
+      type enumeration {
+        enum RADIO_POWER_SHARING_DEFAULT;
+        enum RADIO_POWER_SHARING_A;
+        enum RADIO_POWER_SHARING_B;
+      }
+    }
+  }
+}

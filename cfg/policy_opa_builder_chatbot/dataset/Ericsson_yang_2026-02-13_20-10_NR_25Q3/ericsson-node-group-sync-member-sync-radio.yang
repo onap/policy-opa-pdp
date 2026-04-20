@@ -1,0 +1,220 @@
+module ericsson-node-group-sync-member-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncNodeGroupSyncMember";
+  prefix ngsmbrrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-radio-equipment-clock-sync-radio {
+    prefix rdoeqclkrdo;
+  }
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization/rdoeqclkrdo:RadioEquipmentClock" {
+    list NodeGroupSyncMember {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents node group of Ericsson RBS nodes that must be radio-frame synchronized to each other. This MO is created for each member of node group. Each node group uses only one external synchronization reference. Node that uses external synchronization reference is called Synchronization Provider. Other nodes in node group are called Synchronization Receivers. All Synchronization Receivers synchronize their radio-frame to Synchronization Provider, either directly or to another Synchronization Receiver.";
+      key "nodeGroupSyncMemberId";
+      leaf nodeGroupSyncMemberId {
+        type leafref {
+          path "../attributes/nodeGroupSyncMemberId";
+        }
+      }
+      container attributes {
+        uses NodeGroupSyncMember-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef LocalStatus {
+    type enumeration {
+      enum UNKNOWN;
+      enum SYNC_PROVIDER;
+      enum SYNC_RECEIVER_TIME_LOCKED;
+      enum SYNC_RECEIVER_TIME_HOLDOVER;
+      enum ENTERING_NODE_GROUP;
+    }
+  }
+  typedef RiPortStatus {
+    type enumeration {
+      enum UNKNOWN;
+      enum OK_ACTIVE;
+      enum OK_NOT_ACTIVE;
+      enum CPRI_LINK_NOT_AVAILABLE;
+      enum FREQUENCY_ERROR;
+      enum PHASE_ERROR;
+      enum LOSS_OF_FREQUENCY_MEASUREMENTS;
+      enum LOSS_OF_PHASE_MEASUREMENTS;
+      enum FREQUENCY_LOCKING;
+      enum CONNECTED_TO_RU_NOT_TO_NEIGHBOR;
+      enum NO_SYNC_COMMUNICATION;
+      enum NODE_PRIORITY_COLLISION;
+      enum SELECTION_MODE_MISMATCH;
+    }
+  }
+  typedef SelectionMode {
+    type enumeration {
+      enum NODE_PRIORITY;
+      enum REFERENCE_AND_NODE_PRIORITY;
+    }
+  }
+  typedef SoCCStatus {
+    type enumeration {
+      enum UNKNOWN;
+      enum OK_ACTIVE;
+      enum OK_NOT_ACTIVE;
+      enum CPRI_LINK_NOT_AVAILABLE;
+      enum FREQUENCY_ERROR;
+      enum PHASE_ERROR;
+      enum FREQUENCY_MEASUREMENTS_LOSS;
+      enum PHASE_MEASUREMENTS_LOSS;
+      enum ENTERING_NODE_GROUP;
+      enum CONNECTED_TO_SHARED_UNIT_ONLY;
+      enum NO_SYNC_COMMUNICATION;
+      enum NODE_PRIORITY_COLLISION;
+      enum SELECTION_MODE_MISMATCH;
+    }
+  }
+  typedef SyncProviderState {
+    type enumeration {
+      enum UNKNOWN;
+      enum TIME_MODE;
+      enum FREQUENCY_MODE;
+      enum FREE_RUNNING;
+    }
+  }
+  grouping NodeGroupSyncMember-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list localNodeInformation {
+      config false;
+      container attributes {
+      leaf hopsFromSyncProvider {
+        type eytypes:uint8_range_0-7;
+        description "range 0..7.";
+      }
+      leaf localState {
+        type enumeration {
+          enum UNKNOWN;
+          enum SYNC_PROVIDER;
+          enum SYNC_RECEIVER_TIME_LOCKED;
+          enum SYNC_RECEIVER_TIME_HOLDOVER;
+          enum ENTERING_NODE_GROUP;
+        }
+      }
+      leaf synchronizedTo {
+        type uint8 {
+          range "0..15";
+        }
+        description "range 0..15.";
+      }
+      }
+    }
+    leaf nodeGroupSyncMemberId {
+      type string;
+      mandatory true;
+    }
+    leaf selectionMode {
+      type enumeration {
+        enum NODE_PRIORITY;
+        enum REFERENCE_AND_NODE_PRIORITY;
+      }
+    }
+    leaf syncNodePriority {
+      type eytypes:uint8_range_1-15;
+      mandatory true;
+      description "range 1..15.";
+    }
+    list syncOverCpriConnInfo {
+      config false;
+      container attributes {
+      leaf endpointRiPort {
+        type ietfinet:ip-address;
+      }
+      leaf remoteNodePriority {
+        type uint8 {
+          range "0..15";
+        }
+        description "range 0..15.";
+      }
+      leaf sharedUnitRef {
+        type string;
+      }
+      leaf sharedUnitRiPortA {
+        type ietfinet:ip-address;
+      }
+      leaf sharedUnitRiPortB {
+        type ietfinet:ip-address;
+      }
+      leaf syncOverCpriConnStatus {
+        type enumeration {
+          enum UNKNOWN;
+          enum OK_ACTIVE;
+          enum OK_NOT_ACTIVE;
+          enum CPRI_LINK_NOT_AVAILABLE;
+          enum FREQUENCY_ERROR;
+          enum PHASE_ERROR;
+          enum FREQUENCY_MEASUREMENTS_LOSS;
+          enum PHASE_MEASUREMENTS_LOSS;
+          enum ENTERING_NODE_GROUP;
+          enum CONNECTED_TO_SHARED_UNIT_ONLY;
+          enum NO_SYNC_COMMUNICATION;
+          enum NODE_PRIORITY_COLLISION;
+          enum SELECTION_MODE_MISMATCH;
+        }
+      }
+      }
+    }
+    list syncProviderInformation {
+      config false;
+      container attributes {
+      leaf syncProviderNodePriority {
+        type string;
+      }
+      leaf syncProviderState {
+        type enumeration {
+          enum UNKNOWN;
+          enum TIME_MODE;
+          enum FREQUENCY_MODE;
+          enum FREE_RUNNING;
+        }
+      }
+      }
+    }
+    leaf-list syncRiPortCandidate {
+      type ietfinet:ip-address;
+    }
+    leaf-list syncRiPortStatus {
+      type ietfinet:ip-address;
+      description "MOM flags: noNotification; Status info: Replaced by syncOverCpriConnInfo attribute. Planned to be removed..";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

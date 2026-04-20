@@ -1,0 +1,68 @@
+module huawei-trp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-trp";
+ prefix trp;
+ description
+ "Auto-generated modular YANG for huawei-trp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping TRP-attributes {
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..6";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..6";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..1";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..1";
+   }
+  }
+  mandatory false;
+ }
+ leaf SUBTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-4;
+   enum val-10;
+  }
+  mandatory false;
+ }
+ }
+}

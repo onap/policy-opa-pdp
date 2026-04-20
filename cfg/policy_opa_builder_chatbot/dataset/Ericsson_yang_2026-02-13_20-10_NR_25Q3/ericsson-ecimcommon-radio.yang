@@ -1,0 +1,11 @@
+module ericsson-ecimcommon-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:EcimCommon";
+  prefix EcimComm;
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+  grouping ManagedObject-attributes {
+  }
+}

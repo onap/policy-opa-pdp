@@ -1,0 +1,123 @@
+module ericsson-fronthaul-reference-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncFronthaulReference";
+  prefix frefrdo;
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  import ericsson-radio-equipment-clock-sync-radio {
+    prefix rdoeqclkrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization/rdoeqclkrdo:RadioEquipmentClock" {
+    list FronthaulReference {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; Represents synchronization reference for Fronthaul. Dependencies: FronthaulReference MO must refer to FronthaulBoundaryOrdinaryClock MO.";
+      key "fronthaulReferenceId";
+      leaf fronthaulReferenceId {
+        type leafref {
+          path "../attributes/fronthaulReferenceId";
+        }
+      }
+      container attributes {
+        uses FronthaulReference-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef FronthaulReferenceStatus {
+    type enumeration {
+      enum NO_FAULT;
+      enum PTP_FAULT;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping FronthaulReference-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf encapsulation {
+      type string;
+      mandatory true;
+    }
+    leaf fronthaulReferenceId {
+      type string;
+      mandatory true;
+    }
+    leaf fronthaulReferenceStatus {
+      type enumeration {
+        enum NO_FAULT;
+        enum PTP_FAULT;
+      }
+      config false;
+    }
+    leaf nodePriority {
+      type eytypes:uint8_range_1-15;
+      mandatory true;
+      description "range 1..15.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+  }
+}

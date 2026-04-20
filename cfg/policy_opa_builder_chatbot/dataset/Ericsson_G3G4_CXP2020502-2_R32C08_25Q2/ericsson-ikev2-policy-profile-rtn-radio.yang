@@ -1,0 +1,246 @@
+module ericsson-ikev2-policy-profile-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnIkev2PolicyProfile";
+  prefix ikev2plpfrdo;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIpsec Ikev2PolicyProfile package";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Ikev2PolicyProfile {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Contains common parameters used by IKE SA negotiation in node. Maximum number of Ikev2PolicyProfile MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 8, - For Baseband in RAN Compute Group 4 or higher: 60.";
+      key "ikev2PolicyProfileId";
+      leaf ikev2PolicyProfileId {
+        type leafref {
+          path "../attributes/ikev2PolicyProfileId";
+        }
+      }
+      container attributes {
+      uses Ikev2PolicyProfile-attributes;
+      }
+    }
+  }
+  typedef DiffieHellmanGroup {
+    description "Diffie-Hellman groups.";
+    type enumeration {
+      enum MODP_1024_GROUP_2 {
+      }
+      enum MODP_2048_GROUP_14 {
+      }
+      enum ECP_256_GROUP_19 {
+      }
+      enum ECP_384_GROUP_20 {
+      }
+    }
+  }
+  typedef IkeEncryptionAlgorithm {
+    description "Ike encryption algorithms.";
+    type enumeration {
+      enum ENCR_3DES {
+      }
+      enum ENCR_CHACHA20_POLY1305 {
+      }
+      enum ENCR_AES_CBC_128 {
+      }
+      enum ENCR_AES_CBC_256 {
+      }
+      enum AES_GCM_16_128 {
+      }
+      enum AES_GCM_16_256 {
+      }
+    }
+  }
+  typedef IkeIntegrityAlgorithm {
+    description "Ike integrity algorithms.";
+    type enumeration {
+      enum AUTH_HMAC_MD5_96 {
+      }
+      enum AUTH_HMAC_SHA1_96 {
+      }
+      enum AUTH_AES_XCBC_96 {
+      }
+      enum AUTH_HMAC_SHA2_256_128 {
+      }
+      enum AUTH_HMAC_SHA2_384_192 {
+      }
+      enum AUTH_HMAC_SHA2_512_256 {
+      }
+    }
+  }
+  typedef PseudoRandomFunction {
+    description "Available pseudo-random functions.";
+    type enumeration {
+      enum PRF_HMAC_MD5 {
+      }
+      enum PRF_HMAC_SHA1 {
+      }
+      enum PRF_AES128_XCBC {
+      }
+      enum PRF_HMAC_SHA2_256 {
+      }
+      enum PRF_HMAC_SHA2_384 {
+      }
+      enum PRF_HMAC_SHA2_512 {
+      }
+    }
+  }
+  grouping Ikev2Proposal-struct {
+    description "Holds IKEv2 transform proposal used during IKE SA negotiation. It contains set of cryptographic algorithms used by IKE SA.";
+    leaf diffieHellmanGroup {
+      type enumeration {
+        enum MODP_1024_GROUP_2;
+        enum MODP_2048_GROUP_14;
+        enum ECP_256_GROUP_19;
+        enum ECP_384_GROUP_20;
+      }
+    }
+    leaf encryptionAlgorithm {
+      type enumeration {
+        enum ENCR_3DES;
+        enum ENCR_CHACHA20_POLY1305;
+        enum ENCR_AES_CBC_128;
+        enum ENCR_AES_CBC_256;
+        enum AES_GCM_16_128;
+        enum AES_GCM_16_256;
+      }
+    }
+    leaf integrityAlgorithm {
+      type enumeration {
+        enum AUTH_HMAC_MD5_96;
+        enum AUTH_HMAC_SHA1_96;
+        enum AUTH_AES_XCBC_96;
+        enum AUTH_HMAC_SHA2_256_128;
+        enum AUTH_HMAC_SHA2_384_192;
+        enum AUTH_HMAC_SHA2_512_256;
+      }
+    }
+    leaf pseudoRandomFunction {
+      type enumeration {
+        enum PRF_HMAC_MD5;
+        enum PRF_HMAC_SHA1;
+        enum PRF_AES128_XCBC;
+        enum PRF_HMAC_SHA2_256;
+        enum PRF_HMAC_SHA2_384;
+        enum PRF_HMAC_SHA2_512;
+      }
+    }
+  }
+  grouping RetransmissionScheme-struct {
+    description "Scheme for retransmission of DPD requests and all other IKE requests.";
+    leaf base {
+      description "range 10..20; Default value: 20.";
+      type uint8 {
+        range "10..20";
+      }
+      default "20";
+    }
+    leaf timeout {
+      description "range 1..5; Default value: 3.";
+      type uint8 {
+        range "1..5";
+      }
+      default "3";
+      units "s";
+    }
+    leaf tries {
+      description "range 1..10; Default value: 2.";
+      type uint8 {
+        range "1..10";
+      }
+      default "2";
+    }
+  }
+  grouping Ikev2PolicyProfile-attributes {
+    leaf credential {
+      description "If certificate based authentication is used, attribute refers to NodeCredential MO including IPsec node certificate to be used in IKE SA negotiation. If credential and trustCategory not specified, pre-shared key-based authentication is used. Referring Ikev2Session MO must have pre-shared keys installed..";
+      type string;
+    }
+    leaf dpdInterval {
+      description "Time between Dead Peer Detection (DPD) requests in case of no incoming IKE messages or ESP traffic. Can be set to tune DPD mechanism instead of using dpdTime. Relevant if retransmissionScheme is set. For direct Ipsec for X2 or Xn, DPD interval is twice configured value.; range 1..805; Default value: 19.";
+      type uint16 {
+        range "1..805";
+      }
+      default "19";
+      units "s";
+    }
+    leaf dpdTime {
+      description "Maximum time to detect that IKE SA is down. If node detects that IKE SA is down, alarm is raised. Node tries continually re-establish IKE SA. Relevant if retransmissionScheme is not set.; range 5..1800; Default value: 60.";
+      type uint32 {
+        range "5..1800";
+      }
+      default "60";
+      units "s";
+    }
+    leaf ikeDscp {
+      description "DSCP value that node uses when transmitting IKE messages.; range 0..63; Default value: 48.";
+      type eytypes:uint8_range_0-63;
+      default "48";
+    }
+    leaf ikeSaLifetime {
+      description "Lifetime for IKE SA. Node initiates re-keying according to soft lifetime in order to complete process before lifetime expires. Soft lifetime is calculated as (0.8+0.1*R)*ikeSaLifetime, where R is random factor between 0 and 1.; range 60..5000; Default value: 1440.";
+      type uint32 {
+        range "60..5000";
+      }
+      default "1440";
+      units "min";
+    }
+    leaf ikev2Fragmentation {
+      description "IKEv2 fragmentation functionality. IKEv2 fragmentation is only applicable if both peers enable fragmentation. If false, fragmentation is disabled. If true, fragmentation is enabled.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf ikev2PolicyProfileId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list ikev2Proposal {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      max-elements 2;
+      uses Ikev2Proposal-struct;
+    }
+    leaf randomDelay {
+      description "Enable random delay before new IKE negotiation after DPD. If not set, there is no random delay before new IKE negotiation after DPD. If set, upper limit of random delay is configured and lower limit is 10s. Random delay applies after: - IKE SA down after DPD. - Each retransmission period for IKE negotiation.; range 15..30.";
+      type uint8 {
+        range "15..30";
+      }
+      units "s";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    list retransmissionScheme {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Scheme for retransmissions of DPD requests and all other IKE requests. Can be set to tune retransmission scheme instead of using dpdTime. If not set, configured dpdTime apply..";
+      uses RetransmissionScheme-struct;
+    }
+    leaf trustCategory {
+      description "Reference to TrustCategory MO containing list of trusted certificates used in IKE SA negotiation. Referred TrustCategory MO must contain CA certificates for both peer node and this node. Must be set if certificate based authentication is used. If credential and trustCategory not set, pre-shared key based authentication is used. Referring Ikev2Session MO must have pre-shared keys installed..";
+      type string;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+module ericsson-rmeautoesi-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeAutoEsi";
+  prefix rmeautoe;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/AutoEsiM" {
+    list PreRestartEsi {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; System can collect ESI data immediately before an operator-initiated system restart. The RDN of this MO is PreRestarEsi=1.";
+      key "preRestartEsiId";
+      leaf preRestartEsiId {
+        type leafref {
+          path "../attributes/preRestartEsiId";
+        }
+      }
+      container attributes {
+        uses PreRestartEsi-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list AutoEsiM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Automatic ESI data collection. The RDN of this MO is AutoEsiM=1.";
+      key "autoEsiMId";
+      leaf autoEsiMId {
+        type leafref {
+          path "../attributes/autoEsiMId";
+        }
+      }
+      container attributes {
+        uses AutoEsiM-attributes;
+      }
+    }
+  }
+  typedef CollectionPolicy {
+    type enumeration {
+      enum ALWAYS;
+      enum NEVER;
+    }
+  }
+  grouping AutoEsiM-attributes {
+    leaf autoEsiMId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping PreRestartEsi-attributes {
+    leaf preRestartEsiId {
+      type string;
+      mandatory true;
+    }
+    leaf volatileDataCollection {
+      type enumeration {
+        enum ALWAYS;
+        enum NEVER;
+      }
+    }
+  }
+}

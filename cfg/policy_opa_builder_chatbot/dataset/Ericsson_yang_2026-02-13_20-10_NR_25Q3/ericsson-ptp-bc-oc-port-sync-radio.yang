@@ -1,0 +1,385 @@
+module ericsson-ptp-bc-oc-port-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncPtpBcOcPort";
+  prefix ptpbcocptrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-ptp-sync-radio {
+    prefix ptprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/ptprdo:Ptp/ptprdo:BoundaryOrdinaryClock" {
+    list PtpBcOcPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents PTP port to communicate with other 1588 devices. Grandmaster ordinary clock can have more than one port. Slave-only ordinary clock can only have one port.";
+      key "ptpBcOcPortId";
+      leaf ptpBcOcPortId {
+        type leafref {
+          path "../attributes/ptpBcOcPortId";
+        }
+      }
+      container attributes {
+        uses PtpBcOcPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef DelayMechanism {
+    type enumeration {
+      enum E2E;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef PortState {
+    type enumeration {
+      enum INITIALIZING;
+      enum FAULTY;
+      enum DISABLED;
+      enum LISTENING;
+      enum PRE_MASTER;
+      enum MASTER;
+      enum PASSIVE;
+      enum UNCALIBRATED;
+      enum SLAVE;
+    }
+  }
+  typedef PtpMulticastAddress {
+    type enumeration {
+      enum FORWARDABLE;
+      enum NON_FORWARDABLE;
+    }
+  }
+  typedef PtpPortStatus {
+    type enumeration {
+      enum NO_FAULT;
+      enum UNRESOLVED_SERVER_ADDRESS;
+      enum NEGOTIATION_FAILED;
+      enum NEGOTIATION_NO_REPLY;
+      enum UNKNOWN;
+    }
+  }
+  grouping PtpBcOcPort-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf announceMessageInterval {
+      type int8 {
+        range "-3..4";
+      }
+      default "1";
+      description "range -3..4; Default value: 1.";
+    }
+    leaf associatedGrandmaster {
+      type string {
+        pattern "(([1-9]|22[0-3]|2[01][0-9]|1[013456789][0-9]|12[012345689]|[1-9][0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]))$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$|(^[]*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(%.+)?[]*$)";
+      }
+    }
+    leaf asymmetryCompensation {
+      type int32 {
+        range "-100000..100000";
+      }
+      default "0";
+      units "ns";
+      description "range -100000..100000; Default value: 0.";
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf cachedIpAddress {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf dscp {
+      type eytypes:uint8_range_0-63;
+      default "54";
+      description "range 0..63; Default value: 54.";
+    }
+    leaf durationField {
+      type uint16 {
+        range "60..1000";
+      }
+      default "300";
+      units "s";
+      description "range 60..1000; Default value: 300.";
+    }
+    leaf localPriority {
+      type eytypes:uint8_range_0-255-51;
+      default "128";
+      description "range 0..255; Default value: 128.";
+    }
+    leaf masterOnly {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf pBit {
+      type eytypes:uint8_range_0-7;
+      default "1";
+      description "range 0..7; Default value: 1.";
+    }
+    list portDS {
+      config false;
+      container attributes {
+      leaf announceInterval {
+        type string;
+      }
+      leaf announceReceiptTimeout {
+        type ietfinet:ip-address;
+      }
+      leaf delayMechanism {
+        type enumeration {
+          enum E2E;
+        }
+      }
+      leaf minDelayReqInterval {
+        type string;
+      }
+      leaf minPdelayReqInterval {
+        type string;
+      }
+      leaf peerMeanPathDelay {
+        type string;
+      }
+      leaf portClockIdentity {
+        type ietfinet:port-number;
+      }
+      leaf portNumber {
+        type ietfinet:port-number;
+      }
+      leaf portState {
+        type ietfinet:port-number;
+      }
+      leaf syncInterval {
+        type string;
+      }
+      leaf versionNumber {
+        type string;
+      }
+      }
+    }
+    leaf ptpBcOcPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf ptpMulticastAddress {
+      type enumeration {
+        enum FORWARDABLE;
+        enum NON_FORWARDABLE;
+      }
+    }
+    leaf ptpPathTimeError {
+      type uint16 {
+        range "0..65535";
+      }
+      default "750";
+      units "ns";
+      description "range 0..65535; Default value: 750.";
+    }
+    leaf ptpPortStatus {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf syncMessageInterval {
+      type int8 {
+        range "-7..1";
+      }
+      default "-4";
+      description "range -7..1; Default value: -4.";
+    }
+    leaf transportInterface {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf transportVlan {
+      type ietfinet:port-number;
+    }
+    leaf ptpDownLinkDelayAvg {
+      type int64;
+      config false;
+    }
+    leaf ptpPacketsTx {
+      type uint64;
+      config false;
+    }
+    leaf ptpFollowUpRx {
+      type uint64;
+      config false;
+    }
+    leaf ptpAnnounceTx {
+      type uint64;
+      config false;
+    }
+    leaf ptpDelayRspTx {
+      type uint64;
+      config false;
+    }
+    leaf ptpAnnounceForeignMasterRx {
+      type uint64;
+      config false;
+    }
+    leaf ptpSyncRx {
+      type uint64;
+      config false;
+    }
+    leaf ptpDelayReqRx {
+      type uint64;
+      config false;
+    }
+    leaf ptpMeanPathDelayMax {
+      type int64;
+      config false;
+    }
+    leaf ptpDownLinkDelayMin {
+      type int64;
+      config false;
+    }
+    leaf ptpMeanPathDelayMin {
+      type int64;
+      config false;
+    }
+    leaf ptpValidMeasurement {
+      type int64;
+      config false;
+    }
+    leaf ptpSyncTx {
+      type uint64;
+      config false;
+    }
+    leaf ptpDownLinkDelayMax {
+      type int64;
+      config false;
+    }
+    leaf ptpOffsetFromMasterAvg {
+      type int64;
+      config false;
+    }
+    leaf ptpFollowUpTx {
+      type uint64;
+      config false;
+    }
+    leaf ptpUpLinkDelayAvg {
+      type int64;
+      config false;
+    }
+    leaf ptpDownLinkDelayStDev {
+      type int64;
+      config false;
+    }
+    leaf ptpMeanPathDelayAvg {
+      type int64;
+      config false;
+    }
+    leaf ptpUpLinkDelayMin {
+      type int64;
+      config false;
+    }
+    leaf ptpOffsetFromMasterStDev {
+      type int64;
+      config false;
+    }
+    leaf ptpPacketsRx {
+      type uint64;
+      config false;
+    }
+    leaf ptpRefDefectTime {
+      type uint64;
+      config false;
+    }
+    leaf-list phaseJump {
+      type uint64;
+    }
+    leaf ptpUpLinkDelayStDev {
+      type int64;
+      config false;
+    }
+    leaf ptpOffsetFromMasterMin {
+      type int64;
+      config false;
+    }
+    leaf ptpMeanPathDelayStDev {
+      type int64;
+      config false;
+    }
+    leaf ptpUpLinkDelayMax {
+      type int64;
+      config false;
+    }
+    leaf ptpDelayReqTx {
+      type uint64;
+      config false;
+    }
+    leaf ptpAnnounceRx {
+      type uint64;
+      config false;
+    }
+    leaf ptpOffsetFromMasterMax {
+      type int64;
+      config false;
+    }
+    leaf ptpDelayRspRx {
+      type uint64;
+      config false;
+    }
+  }
+}

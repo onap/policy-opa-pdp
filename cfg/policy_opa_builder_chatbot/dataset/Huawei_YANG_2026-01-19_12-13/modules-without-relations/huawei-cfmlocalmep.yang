@@ -1,0 +1,69 @@
+module huawei-cfmlocalmep {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cfmlocalmep";
+ prefix cfmlocalmep;
+ description
+ "Auto-generated modular YANG for huawei-cfmlocalmep" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CFMLOCALMEP-attributes {
+ leaf CCSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_MANAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MANAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf OLD_MDNAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MDNAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf OLD_MEPID {
+  type union {
+   type int16 {
+    range "-1..8191";
+   }
+  }
+  mandatory false;
+ }
+ leaf MEPID {
+  type union {
+   type int16 {
+    range "-1..8191";
+   }
+  }
+  mandatory false;
+ }
+ leaf PORTID {
+  type uint16 {
+   range "0..9999";
+  }
+  mandatory false;
+ }
+ leaf PT {
+  type enumeration {
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,111 @@
+module ericsson-transport-automation-agent-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnTransportAutomationAgent";
+  prefix tramagtrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list TransportAutomationAgent {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; For future release.";
+      key "transportAutomationAgentId";
+      leaf transportAutomationAgentId {
+        type leafref {
+          path "../attributes/transportAutomationAgentId";
+        }
+      }
+      container attributes {
+        uses TransportAutomationAgent-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef ElasticRan {
+    type enumeration {
+      enum __UNDEFINED__;
+    }
+  }
+  typedef EndcX2 {
+    type enumeration {
+      enum __UNDEFINED__;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping TransportAutomationAgent-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf localIpAddress {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      type string;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf serverAddress {
+      type string;
+      mandatory true;
+    }
+    leaf transportAutomationAgentId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf trustCategory {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

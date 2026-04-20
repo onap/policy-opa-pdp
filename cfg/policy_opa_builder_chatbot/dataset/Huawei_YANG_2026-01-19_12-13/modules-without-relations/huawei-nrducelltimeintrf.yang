@@ -1,0 +1,80 @@
+module huawei-nrducelltimeintrf {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducelltimeintrf";
+ prefix nrducelltimeintrf;
+ description
+ "Auto-generated modular YANG for huawei-nrducelltimeintrf" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLTIMEINTRF-attributes {
+ leaf CROSSLINKINTRFAVOIDMETHOD {
+  type string;
+  mandatory false;
+ }
+ leaf CROSSLINKINTRFCFG {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf DLINTRFAVOIDSLOTCONFIG {
+  type uint32 {
+   range "0..1048575";
+  }
+  mandatory false;
+ }
+ leaf INTRFTOLERANCETHLD {
+  type uint8 {
+   range "1..90";
+  }
+  mandatory false;
+ }
+ leaf INTRFULSLOTMCSOFFSET {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf INTRFULSLOTMCSOPT {
+  type uint32 {
+   range "0..1048575";
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf TIMEDOMAINRSVMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-101;
+   enum val-102;
+  }
+  mandatory false;
+ }
+ leaf TIMEINTRFAVOIDSW {
+  type string;
+  mandatory false;
+ }
+ leaf ULINTRFDIFFTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ }
+}

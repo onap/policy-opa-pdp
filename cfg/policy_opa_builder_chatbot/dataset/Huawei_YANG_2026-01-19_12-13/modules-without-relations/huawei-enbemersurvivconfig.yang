@@ -1,0 +1,177 @@
+module huawei-enbemersurvivconfig {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-enbemersurvivconfig";
+ prefix enbemersurvivconfig;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-enbemersurvivconfig" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ENBEMERSURVIVCONFIG-attributes {
+ leaf BANDINDICATOR {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX1 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX10 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX11 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX12 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX2 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX3 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX4 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX5 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX6 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX7 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX8 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf GERANARFCNINDEX9 {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_INDEX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf INDEX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf MCC {
+  type string {
+   length "3";
+  }
+  mandatory false;
+ }
+ leaf MNC {
+  type string {
+   length "2..3";
+  }
+  mandatory false;
+ }
+ leaf STARTINGARFCN {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf TARGETRAT {
+  type boolean;
+  mandatory false;
+ }
+ leaf UTRANDLARFCN {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf VALIDITYDURATION {
+  type uint8 {
+   range "1..48";
+  }
+  mandatory false;
+ }
+ leaf VALIDITYSTARTTIME {
+  type hwat:yyyy_mm_dd_HH_MM_SS_Time;
+  mandatory false;
+ }
+ }
+}

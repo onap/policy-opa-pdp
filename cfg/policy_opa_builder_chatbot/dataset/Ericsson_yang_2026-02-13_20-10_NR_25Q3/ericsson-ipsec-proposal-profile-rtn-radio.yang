@@ -1,0 +1,117 @@
+module ericsson-ipsec-proposal-profile-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnIpsecProposalProfile";
+  prefix ipsecprpfrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list IpsecProposalProfile {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Common configuration parameters used by Child SAs. Maximum number of IpsecProposalProfile MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 8, - For Baseband in RAN Compute Group 4 or higher: 60.";
+      key "ipsecProposalProfileId";
+      leaf ipsecProposalProfileId {
+        type leafref {
+          path "../attributes/ipsecProposalProfileId";
+        }
+      }
+      container attributes {
+        uses IpsecProposalProfile-attributes;
+      }
+    }
+  }
+  typedef ChildSaEncryptionAlgorithm {
+    type enumeration {
+      enum ENCR_NULL;
+      enum ENCR_CHACHA20_POLY1305;
+      enum ENCR_AES_CBC_128;
+      enum ENCR_AES_CBC_256;
+      enum AES_GCM_16_128;
+      enum AES_GCM_16_256;
+    }
+  }
+  typedef ChildSaIntegrityAlgorithm {
+    type enumeration {
+      enum AUTH_HMAC_MD5_96;
+      enum AUTH_HMAC_SHA1_96;
+      enum AUTH_AES_XCBC_96;
+      enum AUTH_AES_128_GMAC;
+      enum AUTH_AES_256_GMAC;
+      enum AUTH_HMAC_SHA2_256_128;
+      enum AUTH_HMAC_SHA2_512_256;
+    }
+  }
+  grouping IpsecProposalProfile-attributes {
+    list childSaLifetime {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf dataLimit {
+        type string;
+      }
+      leaf timeLimit {
+        type string;
+      }
+      }
+    }
+    list ipsecProposal {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      ordered-by user;
+      container attributes {
+      leaf encryptionAlgorithm {
+        type enumeration {
+          enum ENCR_NULL;
+          enum ENCR_CHACHA20_POLY1305;
+          enum ENCR_AES_CBC_128;
+          enum ENCR_AES_CBC_256;
+          enum AES_GCM_16_128;
+          enum AES_GCM_16_256;
+        }
+      }
+      leaf integrityAlgorithm {
+        type enumeration {
+          enum AUTH_HMAC_MD5_96;
+          enum AUTH_HMAC_SHA1_96;
+          enum AUTH_AES_XCBC_96;
+          enum AUTH_AES_128_GMAC;
+          enum AUTH_AES_256_GMAC;
+          enum AUTH_HMAC_SHA2_256_128;
+          enum AUTH_HMAC_SHA2_512_256;
+        }
+      }
+      }
+    }
+    leaf ipsecProposalProfileId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf pfs {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

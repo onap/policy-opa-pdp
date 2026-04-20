@@ -1,0 +1,58 @@
+module ericsson-tn-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqTnPort";
+  prefix tnptrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list TnPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents physical connector towards Transport Network and connectors for internal transport between nodes. Physical connector can be situated on board FRU or on SFP-module SfpModule.";
+      key "tnPortId";
+      leaf tnPortId {
+        type leafref {
+          path "../attributes/tnPortId";
+        }
+      }
+      container attributes {
+        uses TnPort-attributes;
+      }
+    }
+  }
+  grouping TnPort-attributes {
+    leaf-list channelRef {
+      type string;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf sfpModuleRef {
+      type string;
+      config false;
+    }
+    leaf tnPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

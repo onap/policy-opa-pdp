@@ -1,0 +1,92 @@
+module ericsson-external-power-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ResExternalPower";
+  prefix expwrdo;
+  import ericsson-equipment-support-function-radio {
+    prefix eqsupfnrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/eqsupfnrdo:EquipmentSupportFunction" {
+    list ExternalPower {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Logical resource providing power to radio node. One instance per radio node, child of first instance of EquipmentSupportFunction. RDN of this MO is ExternalPower=1.";
+      key "externalPowerId";
+      status deprecated;
+      leaf externalPowerId {
+        type leafref {
+          path "../attributes/externalPowerId";
+        }
+        status deprecated;
+      }
+      container attributes {
+        uses ExternalPower-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping ExternalPower-attributes {
+    leaf externalPowerId {
+      type string;
+      mandatory true;
+      status deprecated;
+      description "MOM flags: restricted, noNotification; Status info: Since 23.Q2. Planned to be removed..";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+      status deprecated;
+      description "Status info: Since 23.Q2. Reflected in operationalState of dependent MOs. Planned to be removed.; Specification: ITU-T Rec. X.731.";
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+      description "Status info: Since 23.Q2. Reflected in availabilityStatus of dependent MOs. Planned to be removed.; Specification: ITU-T Rec. X.731.";
+    }
+  }
+}

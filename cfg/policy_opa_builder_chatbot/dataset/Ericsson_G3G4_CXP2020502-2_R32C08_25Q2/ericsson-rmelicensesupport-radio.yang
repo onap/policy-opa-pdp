@@ -1,0 +1,577 @@
+module ericsson-rmelicensesupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeLicenseSupport";
+  prefix rmelicen;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThe root MOC of the License Support branch. The RDN of this MO is LicenseSupport=1.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmelicen:LicenseSupport" {
+    list InstantaneousLicensing {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides support for Instantaneous Licensing. The RDN of this MO is InstantaneousLicensing=1. Cardinality changed [1..1] -> [0..1] in version 3.0.";
+      key "instantaneousLicensingId";
+      leaf instantaneousLicensingId {
+        type leafref {
+          path "../attributes/instantaneousLicensingId";
+        }
+      }
+      container attributes {
+      uses InstantaneousLicensing-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmelicen:LicenseSupport" {
+    list NetworkLicensing {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides support for Network-level Licensing. The RDN of this MO is NetworkLicensing=1.";
+      key "networkLicensingId";
+      leaf networkLicensingId {
+        type leafref {
+          path "../attributes/networkLicensingId";
+        }
+      }
+      container attributes {
+      uses NetworkLicensing-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmelicen:LicenseSupport" {
+    list KeyFileSupport {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides support for key file handling. The RDN of this MO is KeyFileSupport=1.";
+      key "keyFileSupportId";
+      leaf keyFileSupportId {
+        type leafref {
+          path "../attributes/keyFileSupportId";
+        }
+      }
+      container attributes {
+      uses KeyFileSupport-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmelicen:LicenseSupport/rmelicen:NetworkLicensing" {
+    list LicenseServer {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Configuration data for Network License Server (NeLS).";
+      key "licenseServerId";
+      leaf licenseServerId {
+        type leafref {
+          path "../attributes/licenseServerId";
+        }
+      }
+      container attributes {
+      uses LicenseServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list LicenseSupport {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The root MOC of the License Support branch. The RDN of this MO is LicenseSupport=1.";
+      key "licenseSupportId";
+      leaf licenseSupportId {
+        type leafref {
+          path "../attributes/licenseSupportId";
+        }
+      }
+      container attributes {
+      uses LicenseSupport-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    description "Lists the different results of an action.";
+    type enumeration {
+      enum SUCCESS {
+        description "The asynchronous action ended with success.";
+      }
+      enum FAILURE {
+        description "The asynchronous action ended with failure.";
+      }
+      enum NOT_AVAILABLE {
+        description "No result is available yet.";
+      }
+    }
+  }
+  typedef ActionStateType {
+    description "Lists the action states.";
+    type enumeration {
+      enum CANCELLING {
+        description "Cancellation is in progress.";
+      }
+      enum RUNNING {
+        description "The execution of the action is currently in progress.";
+      }
+      enum FINISHED {
+        description "The action is finished.";
+      }
+      enum CANCELLED {
+        description "The action has been cancelled and cancellation has been done.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef ConnectionModeSelection {
+    description "Instantaneous licensing connection mode.";
+    type enumeration {
+      enum IL_NOT_USED {
+        description "Instantaneous licensing not used.";
+      }
+      enum CONNECTED_MODE {
+        description "Instantaneous licensing used with node connected to ENM, and ENM connected to ELIS.";
+      }
+      enum OFFLINE_MODE {
+        description "Instantaneous licensing used without connection to ENM configured.";
+      }
+    }
+  }
+  typedef KeyFileRequestStatus {
+    description "Status of LKF request activity.";
+    type enumeration {
+      enum NOT_STARTED {
+        description "No LKF request recieved.";
+      }
+      enum KEY_FILE_REQUESTED {
+        description "LKF request pending.";
+      }
+      enum KEY_FILE_REQUEST_SENT {
+        description "LKF request sent to ENM.";
+      }
+      enum KEY_FILE_SUCCESSFUL {
+        description "Requested LKF successfully installed.";
+      }
+      enum KEY_FILE_FAILED {
+        description "LKF request failed.";
+      }
+      enum CONNECTION_ERROR {
+        description "No connectivity to ENM.";
+      }
+      enum REQUIRED_CAPACITY_NOT_GRANTED {
+        description "LKF request denied because capacity is not granted. Current configuration requires more capacity licenses than allowed in ELIS system.";
+      }
+      enum TIMEOUT {
+        description "LKF request timed out.";
+      }
+      enum KEY_FILE_INSTALLATION_FAILURE {
+        description "Installation of requested LKF failed.";
+      }
+      enum REQUIRED_LICENSE_NOT_GRANTED {
+        description "LKF request denied because license is not granted. Current configuration requires optional feature or capacity license level that is not allowed in ELIS system.";
+      }
+      enum REQUIRED_FEATURE_KEY_NOT_GRANTED {
+        description "LKF request denied because feature key is not granted. Current configuration requires optional feature keys that are not allowed in ELIS system.";
+      }
+      enum REQUESTED_FEATURE_KEY_OMITTED {
+        description "LKF successfully installed, but some feature keys are omitted since they are not compatible with hardware type or node configuration.";
+      }
+      enum CANCELLED {
+        description "LKF request cancelled.";
+      }
+    }
+  }
+  typedef LicenseCalculationStatus {
+    description "Status of license need calculation.";
+    type enumeration {
+      enum SUCCESS {
+        description "License calculation successful. Result provided.";
+      }
+      enum MISSING_FP {
+        description "Fingerprint not configured.";
+      }
+      enum MISSING_BB_HWAC {
+        description "Value not used.";
+      }
+      enum OTHER_ERROR {
+        description "Any other error.";
+      }
+      enum MISSING_EUFT {
+        description "EUFT not configured and no LKF installed.";
+      }
+      enum MISSING_SWLTID {
+        description "LCS not configured and no LKF installed.";
+      }
+      enum MISSING_MANDATORY_ATTRIBUTES {
+        description "More than one of mandatory attributes not set (fingerprint, euft, swltId).";
+      }
+      enum MISSING_LICENSE_DEMAND {
+        description "No request for BB HWAC present.";
+      }
+    }
+  }
+  typedef LicenseNeedScope {
+    description "License need scope selection.";
+    type enumeration {
+      enum DELTA_DEMAND {
+        description "Include used capacity and activated entitled features.";
+      }
+      enum FULL_DEMAND {
+        description "Include used capacity and all activated features.";
+      }
+    }
+  }
+  typedef ModeSelection {
+    description "Mode selection for Instantaneous Licensing feature.";
+    type enumeration {
+      enum FULL_ACTIVATION {
+        description "LKF Refresh and Capacity Expansion modes are activated.";
+      }
+      enum LKF_REFRESH {
+        description "LKF Refresh and Capacity Expansion modes are activated.";
+      }
+      enum RESET {
+        description "Reset mode for Instantaneous Licensing. Reset of the feature is triggered by locking and unlocking the InstantaneousLicensing MO when in this mode. Action and activity IDs are reset, ongoing requests are cancelled, and timers are reset. Mode is changed to FULL_ACTIVATION by the system when the reset is completed.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping AsyncActionProgress-struct {
+    description "Records the progress of an asynchronous action.";
+    leaf actionName {
+      type string;
+    }
+    leaf-list additionalInfo {
+      type string;
+      min-elements 0;
+    }
+    leaf progressInfo {
+      type string;
+    }
+    leaf progressPercentage {
+      type string;
+    }
+    leaf result {
+      type enumeration {
+        enum SUCCESS;
+        enum FAILURE;
+        enum NOT_AVAILABLE;
+      }
+    }
+    leaf resultInfo {
+      type string;
+    }
+    leaf state {
+      type enumeration {
+        enum CANCELLING;
+        enum RUNNING;
+        enum FINISHED;
+        enum CANCELLED;
+      }
+    }
+    leaf actionId {
+      type string;
+    }
+    leaf timeActionStarted {
+      type string;
+    }
+    leaf timeActionCompleted {
+      type string;
+    }
+    leaf timeOfLastStatusUpdate {
+      type string;
+    }
+  }
+  grouping ExpansionStatus-struct {
+    description "Status for LKF requests because of capacity or harfware expansion, or optional feature activation.";
+    leaf activityID {
+      type string;
+    }
+    leaf expansionStatus {
+      type enumeration {
+        enum NOT_STARTED;
+        enum KEY_FILE_REQUESTED;
+        enum KEY_FILE_REQUEST_SENT;
+        enum KEY_FILE_SUCCESSFUL;
+        enum KEY_FILE_FAILED;
+        enum CONNECTION_ERROR;
+        enum REQUIRED_CAPACITY_NOT_GRANTED;
+        enum TIMEOUT;
+        enum KEY_FILE_INSTALLATION_FAILURE;
+        enum REQUIRED_LICENSE_NOT_GRANTED;
+        enum REQUIRED_FEATURE_KEY_NOT_GRANTED;
+        enum REQUESTED_FEATURE_KEY_OMITTED;
+        enum CANCELLED;
+      }
+    }
+    leaf timeActivityStarted {
+      type string;
+    }
+    leaf timeOfLastStatusUpdate {
+      type string;
+    }
+    leaf timeActivityCompleted {
+      type string;
+    }
+    leaf expansionResultInfo {
+      type string;
+    }
+    leaf activityName {
+      type string;
+    }
+    leaf expansionProgressInfo {
+      type string;
+    }
+    leaf-list additionalInfo {
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping LicenseCalculationResult-struct {
+    description "Result of license need calculation.";
+    leaf nodeLicenseDemand {
+      type string;
+    }
+    leaf status {
+      type enumeration {
+        enum SUCCESS;
+        enum MISSING_FP;
+        enum MISSING_BB_HWAC;
+        enum OTHER_ERROR;
+        enum MISSING_EUFT;
+        enum MISSING_SWLTID;
+        enum MISSING_MANDATORY_ATTRIBUTES;
+        enum MISSING_LICENSE_DEMAND;
+      }
+    }
+  }
+  grouping InstantaneousLicensing-attributes {
+    leaf instantaneousLicensingId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "Indicates if Instantaneous Licensing is administratively activated or not. Specification: ITU-T Rec. X.731.";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf euft {
+      description "End User for Foreign Trade number. If not previously set, attribute is automatically set by system the first time an LKF is installed..";
+      type string;
+    }
+    list progressReport {
+      config false;
+      description "Current status of ongoing action on MO..";
+      uses AsyncActionProgress-struct;
+    }
+    leaf swltId {
+      description "Software License Target ID. Defines License Configuration Set (LCS) used by this ME..";
+      type string;
+    }
+    leaf operationalState {
+      description "The operational state. Specification: ITU-T Rec. X.731.";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    list expansionProgressReport {
+      config false;
+      description "Execution status of LKF request triggered by hardware or capacity expansion, or optional feature activation...";
+      uses ExpansionStatus-struct;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState. Specification: ITU-T Rec. X.731.";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf mode {
+      description "Activated mode of Instantanteous Licensing..";
+      type enumeration {
+        enum FULL_ACTIVATION;
+        enum LKF_REFRESH;
+        enum RESET;
+      }
+    }
+    leaf lrfName {
+      description "Name of License Request File (LRF) given in latest execution of calculateLicenseDemand MO action..";
+      type string;
+      config false;
+    }
+    leaf connectionMode {
+      description "Selected connection mode for instantaneous licensing..";
+      type enumeration {
+        enum IL_NOT_USED;
+        enum CONNECTED_MODE;
+        enum OFFLINE_MODE;
+      }
+    }
+    leaf licenseSwReleaseTarget {
+      description "Target software release for requested LKF. Syntax is yy.Qx where yy = year, range {00..99} x = quarter number, range {1..4} Example: 25.Q3 If attribute is not set, then current software release is used..";
+      type string;
+    }
+    leaf refreshStatus {
+      description "Status of LKF refresh request..";
+      type enumeration {
+        enum NOT_STARTED;
+        enum KEY_FILE_REQUESTED;
+        enum KEY_FILE_REQUEST_SENT;
+        enum KEY_FILE_SUCCESSFUL;
+        enum KEY_FILE_FAILED;
+        enum CONNECTION_ERROR;
+        enum REQUIRED_CAPACITY_NOT_GRANTED;
+        enum TIMEOUT;
+        enum KEY_FILE_INSTALLATION_FAILURE;
+        enum REQUIRED_LICENSE_NOT_GRANTED;
+        enum REQUIRED_FEATURE_KEY_NOT_GRANTED;
+        enum REQUESTED_FEATURE_KEY_OMITTED;
+        enum CANCELLED;
+      }
+      config false;
+    }
+  }
+  grouping KeyFileSupport-attributes {
+    leaf keyFileSupportId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list progressReport {
+      config false;
+      description "Current status of ongoing action on MO..";
+      uses AsyncActionProgress-struct;
+    }
+  }
+  grouping LicenseServer-attributes {
+    leaf licenseServerId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf priority {
+      description "Connection priority of license server. Managed Element tries to connect to site with highest priority first. Number ranging from 0 to 100 where 0 is highest priority..";
+      type uint16;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf fqdn {
+      description "Fully qualified domain name (fqdn). DNS domain name of NeLS site..";
+      type ietfinet:domain-name;
+      mandatory true;
+    }
+    leaf port {
+      description "Port used for connection with license server..";
+      type ietfinet:port-number;
+    }
+    leaf lastConnection {
+      description "Indicates date and time of latest successful connection to license server..";
+      type string;
+      config false;
+    }
+    leaf address {
+      description "License server address..";
+      type string;
+    }
+  }
+  grouping LicenseSupport-attributes {
+    leaf licenseSupportId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping NetworkLicensing-attributes {
+    leaf networkLicensingId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf euft {
+      description "End User for Foreign Trade number (EUFT). if empty, network licensing is not available..";
+      type string;
+    }
+    leaf swltId {
+      description "Software License Target ID Defines License Configuration Set (LCS) used by this Managed Element..";
+      type string;
+    }
+    list progressReport {
+      config false;
+      description "Current status of ongoing action on MO..";
+      uses AsyncActionProgress-struct;
+    }
+  }
+}

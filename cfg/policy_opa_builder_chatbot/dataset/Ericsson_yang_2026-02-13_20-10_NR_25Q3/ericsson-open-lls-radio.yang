@@ -1,0 +1,39 @@
+module ericsson-open-lls-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqOpenLls";
+  prefix ollsrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list OpenLls {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Created for observability when parent FieldReplaceableUnit instance is using Open Lower-Layer Split as fronthaul functional split. Deleted at node restart. The RDN of this MO is OpenLls=1.";
+      key "openLlsId";
+      leaf openLlsId {
+        type leafref {
+          path "../attributes/openLlsId";
+        }
+      }
+      container attributes {
+        uses OpenLls-attributes;
+      }
+    }
+  }
+  grouping OpenLls-attributes {
+    leaf openLlsId {
+      type string;
+      mandatory true;
+    }
+  }
+}

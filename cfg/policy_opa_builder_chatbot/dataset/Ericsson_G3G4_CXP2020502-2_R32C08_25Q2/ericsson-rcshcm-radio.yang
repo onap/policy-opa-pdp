@@ -1,0 +1,752 @@
+module ericsson-rcshcm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsHcm";
+  prefix rcshcm;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nHealth Check Management function MOM.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list HealthCheckM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Root MOC for Health Check Management function. Health Check Management function reports summary views of the managed element current state highlighting any deviations from a normal behavior. Can be used to attend upgrades and to support preventive maintenance and problem resolution. Health status is obtained by verifying a set of rules according to severity, grouped in predefined categories. For instance, if result of at least one critical rule is not as expected, node status is evaluated as not healthy, and requires immediate action. Rule categories of Health Check Management function are system-installed. Health check job can be created selecting one or more rule categories that evaluate ME health. Report file is generated for each executed health check job and stored in predefined folder with a compressed archive file. This file contains logs used for rule evaluations to be used for further investigation.";
+      key "healthCheckMId";
+      leaf healthCheckMId {
+        type leafref {
+          path "../attributes/healthCheckMId";
+        }
+      }
+      container attributes {
+      uses HealthCheckM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcshcm:HealthCheckM/rcshcm:HcJob" {
+    list HcRuleFailed {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Failed health check rule result from last job execution. An MO is created for each failed health check rule when health check is completed. When a new health check is executed for the same HcJob, all HcRuleFailed MOs are deleted. New MOs are created again when health check is completed. The RDNs of these MOs are hcRuleFailedId=1, 2, 3, and so on.";
+      key "hcRuleFailedId";
+      leaf hcRuleFailedId {
+        type leafref {
+          path "../attributes/hcRuleFailedId";
+        }
+      }
+      container attributes {
+      uses HcRuleFailed-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcshcm:HealthCheckM/rcshcm:HcJob" {
+    list HcRuleSuccess {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Successful health check rule result from last job execution. An MO is created for each successful health check rule when health check is completed. When a new health check is executed for the same HcJob all HcRuleSuccess MOs are deleted. New MOs are created again when health check is completed. The RDNs of these MOs are hcRuleSuccessId=1, 2, 3, and so on.";
+      key "hcRuleSuccessId";
+      leaf hcRuleSuccessId {
+        type leafref {
+          path "../attributes/hcRuleSuccessId";
+        }
+      }
+      container attributes {
+      uses HcRuleSuccess-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcshcm:HealthCheckM/rcshcm:HcJob" {
+    list HcRuleLocked {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Locked health check rule from last job execution. An MO is created for each locked health check rule when health check is completed. When a new health check is executed for the same HcJob all HcRuleLocked MOs are deleted. New MOs are created again when health check is completed. The RDNs of these MOs are hcRuleLockedId=1, 2, 3, and so on.";
+      key "hcRuleLockedId";
+      leaf hcRuleLockedId {
+        type leafref {
+          path "../attributes/hcRuleLockedId";
+        }
+      }
+      container attributes {
+      uses HcRuleLocked-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcshcm:HealthCheckM/rcshcm:HcJob/rcshcm:HcRuleFailed" {
+    list FailedHcRuleEntity {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Entity result for failed health check rule. An MO is created for each entity that a failed health check rule checks. When a new health check is executed for the same HcJob all FailedHcRuleEntity MOs are deleted. New MOs are created again when health check is completed. The RDNs of these MOs are failedHcRuleEntityId=1, 2, 3, and so on.";
+      key "failedHcRuleEntityId";
+      leaf failedHcRuleEntityId {
+        type leafref {
+          path "../attributes/failedHcRuleEntityId";
+        }
+      }
+      container attributes {
+      uses FailedHcRuleEntity-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcshcm:HealthCheckM/rcshcm:HcJob/rcshcm:HcRuleSuccess" {
+    list SuccessHcRuleEntity {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Entity result for successful health check rule. An MO is created for each entity that a successful health check rule checks. When new health check is executed for the same HcJob all SuccessHcRuleEntity MOs are deleted. New MOs are created again when health check is completed. The RDNs of these MOs are successHcRuleEntityId=1, 2, 3, and so on.";
+      key "successHcRuleEntityId";
+      leaf successHcRuleEntityId {
+        type leafref {
+          path "../attributes/successHcRuleEntityId";
+        }
+      }
+      container attributes {
+      uses SuccessHcRuleEntity-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcshcm:HealthCheckM" {
+    list HcJob {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Health check job which can be executed on ME. Supports execution of one or more categories of health check rules. After each job execution, HealthCheckM::lastUpdateTime and HealthCheckM::lastStatus attributes are updated accordingly. Job can be executed on demand or by a scheduler. Report file is generated for each executed health check job and stored in predefined folder with compressed archive file containing logs for further investigation.";
+      key "hcJobId";
+      leaf hcJobId {
+        type leafref {
+          path "../attributes/hcJobId";
+        }
+      }
+      container attributes {
+      uses HcJob-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcshcm:HealthCheckM" {
+    list HcRule {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Health check rule. Provides detailed information about individual health check rules. Each rule belongs to one or more health check categories. Each rule is associated with severity value, warning or critical, which affects evaluation of overall NE health. For example, if result of at least one critical rule is not as expected, node status is evaluated as not healthy, and requires immediate action. Some health check rules accept optional parameters as input for evaluation. If no values are provided, system default input parameters are used. Some health check rules provide optional output parameters with measurement data or other specific information. The RDNs of these MOs are HcRule=<unique identifier for application>_<specific rule name or number>. Example: HcRule=CommonFunction_CheckVswrStatus.";
+      key "hcRuleId";
+      leaf hcRuleId {
+        type leafref {
+          path "../attributes/hcRuleId";
+        }
+      }
+      container attributes {
+      uses HcRule-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    description "Lists the different results of an action.";
+    type enumeration {
+      enum SUCCESS {
+        description "The asynchronous action ended with success.";
+      }
+      enum FAILURE {
+        description "The asynchronous action ended with failure.";
+      }
+      enum NOT_AVAILABLE {
+        description "No result is available yet.";
+      }
+    }
+  }
+  typedef ActionStateType {
+    description "Lists the action states.";
+    type enumeration {
+      enum CANCELLING {
+        description "Cancellation is in progress.";
+      }
+      enum RUNNING {
+        description "The execution of the action is currently in progress.";
+      }
+      enum FINISHED {
+        description "The action is finished.";
+      }
+      enum CANCELLED {
+        description "The action has been cancelled and cancellation has been done.";
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef DeletionType {
+    description "MO deletion type.";
+    type enumeration {
+      enum AUTOMATIC_DELETION {
+        description "System is allowed to automatically delete MO.";
+      }
+      enum MANUAL_DELETION {
+        description "Only manual deletion of MO is allowed.";
+      }
+    }
+  }
+  typedef EntityResult {
+    description "Possible results of entity health check.";
+    type enumeration {
+      enum SUCCESS {
+        description "Entity result is successful.";
+      }
+      enum FAILED {
+        description "Entity result is failed.";
+      }
+      enum LOCKED {
+        description "Entity is locked.";
+      }
+    }
+  }
+  typedef HcCategory {
+    description "Lists the possible categories to which a health check rule can belong to. A category aims to facilitate the execution of rules to help customers the planning of their execution according to specific O&M activity.";
+    type enumeration {
+      enum BACKOFFICE {
+        description "Indicates that the rule should be executed for backoffice operation tests.";
+      }
+      enum DAILY {
+        description "Indicates that the rule should be executed daily.";
+      }
+      enum MANDATORY {
+        description "Indicates that the rule should always be executed.";
+      }
+      enum POSTUPDATE {
+        description "Indicates that the rule should be executed after an update.";
+      }
+      enum POSTUPGRADE {
+        description "Indicates that the rule should be executed after an upgrade.";
+      }
+      enum PREINSTALL {
+        description "Indicates that the rule be executed before an installation.";
+      }
+      enum PREUPDATE {
+        description "Indicates that the rule should be executed before an update.";
+      }
+      enum PREUPGRADE {
+        description "Indicates that the rule should be executed before an upgrade.";
+      }
+      enum SHORT {
+        description "Indicates that the rule should be executed for quick checks.";
+      }
+      enum TROUBLESHOOT {
+        description "Indicates that the rule should be executed for troubleshooting.";
+      }
+      enum OTHER {
+        description "Indicates that the rule is not included in any of other categories.";
+      }
+    }
+  }
+  typedef HealthStatus {
+    description "Lists the possible health statuses, based on result of all executed rules.";
+    type enumeration {
+      enum HEALTHY {
+        description "Indicates that the NE status is healthy. The result of all executed rules is as expected.";
+      }
+      enum NOT_HEALTHY {
+        description "Indicates that the NE status is not healthy. The result of at least one rule, which severity is CRITICAL, is not as expected.";
+      }
+      enum WARNING {
+        description "Indicates that the NE status is warning. The result of at least one rule, which severity is WARNING, is not as expected and the result of all CRITICAL ones is as expected.";
+      }
+      enum NOT_AVAILABLE {
+        description "Indicates that the NE status is not available. The result of all executed rules is still not available or the execution never started.";
+      }
+    }
+  }
+  typedef LockedInfo {
+    description "Alternatives for locking a rule.";
+    type enumeration {
+      enum LOCKED_BY_ADMINISTRATIVE_STATE {
+        description "Rule is locked by HC rule administrativeState.";
+      }
+      enum LOCKED_BY_INPUT_PARAMETER {
+        description "Rule is locked by HcJob::inputParameters.";
+      }
+    }
+  }
+  typedef RuleSeverity {
+    description "Possible severity values of rules. Each value describes how the node health status is affected when rule result is not as expected.";
+    type enumeration {
+      enum CRITICAL {
+        description "Rule failure is critical for ME health. ME requires immediate actions.";
+      }
+      enum WARNING {
+        description "Rule failure is warning for ME health. ME requires user attention.";
+      }
+    }
+  }
+  grouping AsyncActionProgress-struct {
+    description "Records the progress of an asynchronous action.";
+    leaf actionName {
+      type string;
+    }
+    leaf-list additionalInfo {
+      type string;
+      min-elements 0;
+    }
+    leaf progressInfo {
+      type string;
+    }
+    leaf progressPercentage {
+      type string;
+    }
+    leaf result {
+      type enumeration {
+        enum SUCCESS;
+        enum FAILURE;
+        enum NOT_AVAILABLE;
+      }
+    }
+    leaf resultInfo {
+      type string;
+    }
+    leaf state {
+      type enumeration {
+        enum CANCELLING;
+        enum RUNNING;
+        enum FINISHED;
+        enum CANCELLED;
+      }
+    }
+    leaf actionId {
+      type string;
+    }
+    leaf timeActionStarted {
+      type string;
+    }
+    leaf timeActionCompleted {
+      type string;
+    }
+    leaf timeOfLastStatusUpdate {
+      type string;
+    }
+  }
+  grouping FailedHcRule-struct {
+    description "Information about failed health check rule.";
+    leaf hcRule {
+      type string;
+    }
+    leaf reason {
+      type string;
+    }
+    leaf severity {
+      type enumeration {
+        enum CRITICAL;
+        enum WARNING;
+      }
+    }
+    leaf-list entity {
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping HcParameter-struct {
+    description "Optional output parameter for health check result.";
+    leaf name {
+      type string;
+    }
+    leaf value {
+      type string;
+    }
+  }
+  grouping HcRuleCategory-struct {
+    description "Health check rule category.";
+    leaf category {
+      type string;
+    }
+    leaf description {
+      type string;
+    }
+  }
+  grouping HcRuleInputParameter-struct {
+    description "Indicates a parameter into a rule that can be changed before a health check evaluation. The name, a brief description and the default value are indicated. The default value is used in case no user-defined value is provided into attribute inputParameters under MOC HcJob.";
+    leaf name {
+      type string;
+    }
+    leaf value {
+      type string;
+    }
+    leaf description {
+      type string;
+    }
+  }
+  grouping HcRuleOutputParameter-struct {
+    description "Name and description of output parameter.";
+    leaf description {
+      type string;
+    }
+    leaf name {
+      type string;
+    }
+  }
+  grouping HcRuleParameter-struct {
+    description "Optional parameter that could be provided for rule evaluation.";
+    leaf name {
+      type string;
+    }
+    leaf value {
+      type string;
+    }
+    leaf hcRule {
+      type string;
+    }
+  }
+  grouping HcRuleType-struct {
+    description "Rule type.";
+    leaf subTypeDescription {
+      type string;
+    }
+    leaf typeName {
+      type string;
+    }
+    leaf subTypeName {
+      type string;
+    }
+  }
+  grouping HcSubTypeStatus-struct {
+    description "Health status based on health check rule sub-type level.";
+    leaf subTypeName {
+      type string;
+    }
+    leaf status {
+      type enumeration {
+        enum HEALTHY;
+        enum NOT_HEALTHY;
+        enum WARNING;
+        enum NOT_AVAILABLE;
+      }
+    }
+  }
+  grouping HcTypeStatus-struct {
+    description "Health status based on type level.";
+    leaf typeName {
+      type string;
+    }
+    leaf status {
+      type enumeration {
+        enum HEALTHY;
+        enum NOT_HEALTHY;
+        enum WARNING;
+        enum NOT_AVAILABLE;
+      }
+    }
+  }
+  grouping FailedHcRuleEntity-attributes {
+    leaf failedHcRuleEntityId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf entity {
+      description "Evaluated entity..";
+      type string;
+      config false;
+    }
+    leaf resultInfo {
+      description "Description of entity test result..";
+      type string;
+      config false;
+    }
+    list outputParameters {
+      config false;
+      min-elements 0;
+      uses HcParameter-struct;
+    }
+    leaf entityResult {
+      description "Result of entity check..";
+      type enumeration {
+        enum SUCCESS;
+        enum FAILED;
+        enum LOCKED;
+      }
+      config false;
+    }
+  }
+  grouping HcJob-attributes {
+    leaf hcJobId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list progressReport {
+      config false;
+      description "Execution status and result of health check job..";
+      uses AsyncActionProgress-struct;
+    }
+    leaf lastReportFileName {
+      description "Report file name generated from latest execution of the job. All the report files are placed in predefined folder indicated by localFileStorePath attribute. Archive with log files is generated as well. Name format of report file is <MEId>_<JobName>_<Timestamp>. Timestamp is in format YYYYMMDDTHHmmSS with the following information: - Four digits for year - Two digits for month - Two digits for day - T as delimiter between date and time - Two digits for hours - Two digits for minutes - Two digits for seconds If job is executed by action, suffix _man is added at the end of file name..";
+      type string;
+      config false;
+    }
+    leaf status {
+      description "Health status based on result of all executed rules..";
+      type enumeration {
+        enum HEALTHY;
+        enum NOT_HEALTHY;
+        enum WARNING;
+        enum NOT_AVAILABLE;
+      }
+      config false;
+    }
+    leaf-list rulesCategories {
+      description "Categories of health check rules to be executed.; Status info: Since 19.Q4. Replaced by ruleCategoryList. Planned to be removed..";
+      type HcCategory;
+      min-elements 0;
+    }
+    leaf lastRunTime {
+      description "Date and time of last job execution..";
+      type string;
+      config false;
+    }
+    leaf jobToTrigger {
+      description "DN of another job to be executed when current job reports that ME is not healthy. Execution of a different job might give more detailed status information..";
+      type string;
+    }
+    list failedRules {
+      config false;
+      min-elements 0;
+      uses FailedHcRule-struct;
+    }
+    leaf localFileStorePath {
+      description "Filesystem path where ouput report files can be fetched. Empty if FileM is not installed and configured..";
+      type string;
+      config false;
+    }
+    list inputParameters {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      uses HcRuleParameter-struct;
+    }
+    leaf-list ruleCategoryList {
+      description "Health check rule categories to be executed..";
+      type string;
+      min-elements 0;
+    }
+    list subTypeStatus {
+      config false;
+      min-elements 0;
+      uses HcSubTypeStatus-struct;
+    }
+    list typeStatus {
+      config false;
+      min-elements 0;
+      uses HcTypeStatus-struct;
+    }
+    leaf deletionPolicy {
+      description "Whether automated housekeeping of MO is allowed..";
+      type enumeration {
+        enum AUTOMATIC_DELETION;
+        enum MANUAL_DELETION;
+      }
+    }
+  }
+  grouping HcRule-attributes {
+    leaf hcRuleId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf description {
+      description "Health check rule description..";
+      type string;
+      config false;
+    }
+    leaf name {
+      description "Name of health check rule..";
+      type string;
+      config false;
+    }
+    leaf recommendedAction {
+      description "Step to be performed when health check rule execution fails..";
+      type string;
+      config false;
+    }
+    leaf severity {
+      description "Severity of rule for evaluation of overall NE health..";
+      type enumeration {
+        enum CRITICAL;
+        enum WARNING;
+      }
+      config false;
+    }
+    list inputParameters {
+      config false;
+      min-elements 0;
+      uses HcRuleInputParameter-struct;
+    }
+    leaf administrativeState {
+      description "The administrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf-list categories {
+      description "Categories that rule belongs to.; Status info: Since 19.Q4. Replaced by categoryList. Planned to be removed..";
+      type HcCategory;
+      min-elements 1;
+    }
+    list categoryList {
+      config false;
+      min-elements 1;
+      uses HcRuleCategory-struct;
+    }
+    list ruleType {
+      config false;
+      description "Rule type of health check rule..";
+      uses HcRuleType-struct;
+    }
+    list outputParameters {
+      config false;
+      min-elements 0;
+      uses HcRuleOutputParameter-struct;
+    }
+  }
+  grouping HcRuleFailed-attributes {
+    leaf hcRuleFailedId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf hcRule {
+      description "LDN of failed health check rule..";
+      type string;
+      config false;
+    }
+    leaf severity {
+      description "Severity of failed health check rule..";
+      type enumeration {
+        enum CRITICAL;
+        enum WARNING;
+      }
+      config false;
+    }
+    leaf resultInfo {
+      description "Reason for failed health check result..";
+      type string;
+      config false;
+    }
+    list usedInputParameters {
+      config false;
+      min-elements 0;
+      uses HcParameter-struct;
+    }
+  }
+  grouping HcRuleLocked-attributes {
+    leaf hcRuleLockedId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf hcRule {
+      description "LDN of locked health check rule..";
+      type string;
+      config false;
+    }
+    leaf lockedInfo {
+      description "Specifies how the HC rule is locked..";
+      type enumeration {
+        enum LOCKED_BY_ADMINISTRATIVE_STATE;
+        enum LOCKED_BY_INPUT_PARAMETER;
+      }
+      config false;
+    }
+    list usedInputParameters {
+      config false;
+      min-elements 0;
+      uses HcParameter-struct;
+    }
+  }
+  grouping HcRuleSuccess-attributes {
+    leaf hcRuleSuccessId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf hcRule {
+      description "LDN of successful health check rule..";
+      type string;
+      config false;
+    }
+    leaf resultInfo {
+      description "Reason for successful health check result..";
+      type string;
+      config false;
+    }
+    list usedInputParameters {
+      config false;
+      min-elements 0;
+      uses HcParameter-struct;
+    }
+  }
+  grouping HealthCheckM-attributes {
+    leaf healthCheckMId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf lastUpdateTime {
+      description "Date and time of last system health update..";
+      type string;
+      config false;
+    }
+    leaf lastExecutedJob {
+      description "DN of last job executed to check ME health..";
+      type string;
+      config false;
+    }
+    leaf lastStatus {
+      description "ME health status according to last executed job..";
+      type enumeration {
+        enum HEALTHY;
+        enum NOT_HEALTHY;
+        enum WARNING;
+        enum NOT_AVAILABLE;
+      }
+      config false;
+    }
+    leaf maxNoOfReportFiles {
+      description "Maximum number of report files with related archive log files maintained in ME. If new file is created and limit is exceeded, oldest file is deleted.; Default value: 10.";
+      type uint16;
+      default "10";
+    }
+    list supportedCategories {
+      config false;
+      min-elements 0;
+      uses HcRuleCategory-struct;
+    }
+  }
+  grouping SuccessHcRuleEntity-attributes {
+    leaf successHcRuleEntityId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf entity {
+      description "Evaluated entity..";
+      type string;
+      config false;
+    }
+    list outputParameters {
+      config false;
+      min-elements 0;
+      uses HcParameter-struct;
+    }
+    leaf entityResult {
+      description "Result of entity check..";
+      type enumeration {
+        enum SUCCESS;
+        enum FAILED;
+        enum LOCKED;
+      }
+      config false;
+    }
+    leaf resultInfo {
+      description "Description of entity test result..";
+      type string;
+      config false;
+    }
+  }
+}

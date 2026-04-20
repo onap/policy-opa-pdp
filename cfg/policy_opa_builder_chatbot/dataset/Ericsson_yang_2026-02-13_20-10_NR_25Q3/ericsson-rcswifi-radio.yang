@@ -1,0 +1,139 @@
+module ericsson-rcswifi-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsWifi";
+  prefix rcswifi;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list WifiAccessM {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Controls for Wifi interface. The RDN of this MO is WifiAccessM=1.";
+      key "wifiAccessMId";
+      leaf wifiAccessMId {
+        type leafref {
+          path "../attributes/wifiAccessMId";
+        }
+      }
+      container attributes {
+        uses WifiAccessM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/WifiAccessM" {
+    list WifiAccess {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Enables access to management services over Wifi. Controls access to SSH- and TLS-based services, for example, Ericsson CLI and NETCONF, and emergency access GUI. The RDNs of these MOs are WifiAccess=cmSsh, WifiAccess=cmTls, and WifiAccess=web.";
+      key "wifiAccessId";
+      leaf wifiAccessId {
+        type leafref {
+          path "../attributes/wifiAccessId";
+        }
+      }
+      container attributes {
+        uses WifiAccess-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef WifiStatus {
+    type enumeration {
+      enum OFF;
+      enum CONNECTING;
+      enum ERROR;
+      enum PRESHARED_KEY_MISMATCH;
+      enum CONNECTED;
+    }
+  }
+  grouping WifiAccess-attributes {
+    leaf wifiAccessId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping WifiAccessM-attributes {
+    leaf wifiAccessMId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf connectionTime {
+      type uint16 {
+        range "30..480";
+      }
+      default "60";
+      units "minutes";
+      description "range 30..480; Default value: 60.";
+    }
+    leaf expirationTime {
+      type string;
+      config false;
+    }
+    list preSharedKey {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf-list ssid {
+      type string;
+    }
+    leaf status {
+      type enumeration {
+        enum OFF;
+        enum CONNECTING;
+        enum ERROR;
+        enum PRESHARED_KEY_MISMATCH;
+        enum CONNECTED;
+      }
+      config false;
+    }
+  }
+}

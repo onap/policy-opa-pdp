@@ -1,0 +1,73 @@
+module ericsson-rtnroutespeeripv6-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnRoutesPeerIPv6";
+  prefix rtnroute;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIPv6 Peer. Used when static route next hop is the IP Address";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list PeerIPv6 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Provides IPv6 peer information.";
+      key "peerIPv6Id";
+      leaf peerIPv6Id {
+        type leafref {
+          path "../attributes/peerIPv6Id";
+        }
+      }
+      container attributes {
+      uses PeerIPv6-attributes;
+      }
+    }
+  }
+  typedef BfdStaticRoutesInterfaceType {
+    description "State of bfdStaticRoutes.";
+    type enumeration {
+      enum DISABLED {
+      }
+      enum ENABLED {
+      }
+    }
+  }
+  grouping PeerIPv6-attributes {
+    leaf address {
+      description "IPv6 address or fully qualified domain name of peer..";
+      type union {
+        type ietfinet:ip-address;
+        type ietfinet:domain-name;
+      }
+      mandatory true;
+    }
+    leaf bfdProfile {
+      description "A reference to BfdProfile MO containing BFD parameters used for BFD sessions towards this IP peer..";
+      type string;
+    }
+    leaf bfdStaticRoutes {
+      description "Enables/disables BFD monitoring of static routes with this peer as netxthop. If this attribute is set to ENABLED, BFD monitoring is enabled for static routes where the address of the NextHop MO is equal to the address of this PeerIPv6 MO. If bfdProfile is set on this MO, the BFD session uses parameters configured in the referred BfdProfile MO. If bfdProfile is not set on this MO, the BFD session uses parameters configured in the BfdProfile MO referred from the InterfaceIPv6 MO bfdProfile attribute. If bfdProfile is not set on this MO neither the InterfaceIPv6 MO, BFD monitoring is not enabled. If this attribute is set to DISABLED, BFD monitoring is disabled for static routes where the address of the NextHop MO is equal to the address of this PeerIPv6 MO. This overrides the bfdStaticRoutes attribute on InterfaceIPv6 MO. If this attribute is not set, BFD monitoring can still be enabled towards this peer by setting the bfdStaticRoutes attribute to ENABLED on InterfaceIPv6 MO. The bfdProfile on this PeerIPv6 MO is in this case not used. If BFD monitoring is enabled, all static routes with this peer as nexthop are monitored, unless explicitly disabled per NextHop MO..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf peerIPv6Id {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+  }
+}

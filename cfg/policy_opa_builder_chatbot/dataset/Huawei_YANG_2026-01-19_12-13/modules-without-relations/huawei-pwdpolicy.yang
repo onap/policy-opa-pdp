@@ -1,0 +1,80 @@
+module huawei-pwdpolicy {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-pwdpolicy";
+ prefix pwdpolicy;
+ description
+ "Auto-generated modular YANG for huawei-pwdpolicy" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping PWDPOLICY-attributes {
+ leaf AUTOUNLOCKTIME {
+  type uint16 {
+   range "1..65535";
+  }
+  mandatory false;
+ }
+ leaf COMPLICACY {
+  type string;
+  mandatory false;
+ }
+ leaf FIRSTLOGINMUSTMODPWD {
+  type boolean;
+  mandatory false;
+ }
+ leaf MAXCCUN {
+  type uint8 {
+   range "0..32";
+  }
+  mandatory false;
+ }
+ leaf MAXMISSTIMES {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf MAXPERIOD {
+  type uint16 {
+   range "7..366";
+  }
+  mandatory false;
+ }
+ leaf MAXREPEATCHARTIMES {
+  type uint8 {
+   range "2..32";
+  }
+  mandatory false;
+ }
+ leaf MINPERIOD {
+  type uint16 {
+   range "1..10080";
+  }
+  mandatory false;
+ }
+ leaf PASSREPLMT {
+  type uint8 {
+   range "1..10";
+  }
+  mandatory false;
+ }
+ leaf PWDEXPRT {
+  type uint8 {
+   range "1..30";
+  }
+  mandatory false;
+ }
+ leaf PWDMINLEN {
+  type uint8 {
+   range "8..64";
+  }
+  mandatory false;
+ }
+ leaf RESETINTERVAL {
+  type uint8 {
+   range "1..60";
+  }
+  mandatory false;
+ }
+ }
+}

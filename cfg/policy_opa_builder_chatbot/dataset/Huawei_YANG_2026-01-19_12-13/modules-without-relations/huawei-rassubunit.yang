@@ -1,0 +1,122 @@
+module huawei-rassubunit {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rassubunit";
+ prefix rassubunit;
+ description
+ "Auto-generated modular YANG for huawei-rassubunit" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RASSUBUNIT-attributes {
+ leaf AER {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf AZIMUTH {
+  type union {
+   type int16 {
+    range "-1800..32767";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNCN1 {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNCN2 {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNPN1 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf CONNPN2 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf CONNSN1 {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNSN2 {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNSRN1 {
+  type union {
+   type uint8 {
+    range "4..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNSRN2 {
+  type union {
+   type uint8 {
+    range "4..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf DEVICENO {
+  type union {
+   type int16 {
+    range "-1..1023";
+   }
+  }
+  mandatory false;
+ }
+ leaf SUBNAME {
+  type string {
+   length "0..83";
+  }
+  mandatory false;
+ }
+ leaf SUBUNITNO {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,62 @@
+module ericsson-sfp-channel-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqSfpChannel";
+  prefix sfpchrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-sfp-module-radio {
+    prefix sfpmdrdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/sfpmdrdo:SfpModule" {
+    list SfpChannel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents SFP channel. The RDNs of this MOs are SfpChannel=1 to SfpChannel=4.";
+      key "sfpChannelId";
+      leaf sfpChannelId {
+        type leafref {
+          path "../attributes/sfpChannelId";
+        }
+      }
+      container attributes {
+        uses SfpChannel-attributes;
+      }
+    }
+  }
+  grouping SfpChannel-attributes {
+    leaf sfpChannelId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf wavelength {
+      type uint32;
+      config false;
+      units "pm";
+    }
+    leaf pmChannelTxPower {
+      type int32;
+      config false;
+    }
+    leaf pmChannelRxPower {
+      type int32;
+      config false;
+    }
+    leaf pmChannelTxBias {
+      type int32;
+      config false;
+    }
+  }
+}

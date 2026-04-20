@@ -1,0 +1,37 @@
+module huawei-nodebpoweroutage {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nodebpoweroutage";
+ prefix nodebpoweroutage;
+ description
+ "Auto-generated modular YANG for huawei-nodebpoweroutage" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NODEBPOWEROUTAGE-attributes {
+ leaf BAKPWRSAVPOLICY {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf ISDSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PHASE1PERIOD {
+  type uint16 {
+   range "60..36000";
+  }
+  mandatory false;
+ }
+ leaf PHASE2PERIOD {
+  type uint16 {
+   range "120..36000";
+  }
+  mandatory false;
+ }
+ }
+}

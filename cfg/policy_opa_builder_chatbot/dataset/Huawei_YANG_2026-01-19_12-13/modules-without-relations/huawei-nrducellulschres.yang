@@ -1,0 +1,40 @@
+module huawei-nrducellulschres {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellulschres";
+ prefix nrducellulschres;
+ description
+ "Auto-generated modular YANG for huawei-nrducellulschres" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLULSCHRES-attributes {
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULCHNESTENHRSVDRBNUM {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+  }
+  mandatory false;
+ }
+ leaf ULSCHRESALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ }
+}

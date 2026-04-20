@@ -1,0 +1,76 @@
+module ericsson-lratmp-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:LratMp";
+  prefix lratmp;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list MpProcessingResource {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents the MP processing resource in a DU or Baseband used for the eNB application in the RBS. MO is created automatically when the first EUtranCell is unlocked. In DU, attribute autoConfigurationAllowed must be set to TRUE in MO ManagedElementData, to enable the auto-configuration function. MO can be deleted manually. The RDN of this MO is MpProcessingResource=1.";
+      key "mpProcessingResourceId";
+      leaf mpProcessingResourceId {
+        type leafref {
+          path "../attributes/mpProcessingResourceId";
+        }
+      }
+      container attributes {
+        uses MpProcessingResource-attributes;
+      }
+    }
+  }
+  grouping MpProcessingResource-attributes {
+    leaf mpProcessingResourceId {
+      type string;
+      mandatory true;
+    }
+    leaf-list pmProcessorLoadLcDynDistr {
+      type uint32;
+    }
+    leaf-list pmAdjustAccessMpLoadCtrlDistr {
+      type uint32;
+    }
+    leaf pmZtemporary109 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmDuIntensRrcConnReqDistr {
+      type uint32;
+    }
+    leaf-list pmDuIntensRrcConnResumeReqDistr {
+      type uint32;
+    }
+    leaf-list pmDuIntensHoReqDistr {
+      type uint32;
+    }
+    leaf-list pmMpMemUsageDistr {
+      type uint32;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmProcessorLoadLcDistr {
+      type uint32;
+    }
+    leaf pmZtemporary108 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmDuIntensHoRrcConnReqResumeReqDistr {
+      type uint32;
+    }
+    leaf-list pmDuIntensHoRrcConnReqDistr {
+      type uint32;
+      description "MOM flags: noNotification.";
+    }
+  }
+}

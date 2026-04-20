@@ -1,0 +1,114 @@
+module huawei-fmu {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-fmu";
+ prefix fmu;
+ description
+ "Auto-generated modular YANG for huawei-fmu" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping FMU-attributes {
+ leaf ADDR {
+  type uint8 {
+   range "1..30";
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf INLETTEMPERATUREALMTHLD {
+  type uint8 {
+   range "20..100";
+  }
+  mandatory false;
+ }
+ leaf MCN {
+  type uint8 {
+   range "0..62";
+  }
+  mandatory false;
+ }
+ leaf MPN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf MSRN {
+  type uint8 {
+   range "0..254";
+  }
+  mandatory false;
+ }
+ leaf SBAF {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..12";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..12";
+   }
+  }
+  mandatory false;
+ }
+ leaf STC {
+  type boolean;
+  mandatory false;
+ }
+ leaf TCMODE {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf TEMPERATUREALMDETENHSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf TEMPERATUREDELTAALMTHLD {
+  type uint8 {
+   range "10..50";
+  }
+  mandatory false;
+ }
+ }
+}

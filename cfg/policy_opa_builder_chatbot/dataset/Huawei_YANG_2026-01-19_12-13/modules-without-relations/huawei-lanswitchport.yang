@@ -1,0 +1,62 @@
+module huawei-lanswitchport {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-lanswitchport";
+ prefix lanswitchport;
+ description
+ "Auto-generated modular YANG for huawei-lanswitchport" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping LANSWITCHPORT-attributes {
+ leaf CN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf PN {
+  type uint8 {
+   range "0..3";
+  }
+  mandatory false;
+ }
+ leaf OLD_PORTIDX {
+  type union {
+   type int8 {
+    range "-1..32";
+   }
+  }
+  mandatory false;
+ }
+ leaf PORTIDX {
+  type union {
+   type int8 {
+    range "-1..32";
+   }
+  }
+  mandatory false;
+ }
+ leaf PORTTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "6..7";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf USERLABLE {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

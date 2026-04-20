@@ -1,0 +1,47 @@
+module huawei-transalgextpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-transalgextpara";
+ prefix transalgextpara;
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-transalgextpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping TRANSALGEXTPARA-attributes {
+ leaf ETHADAPTSW {
+  type string;
+  mandatory false;
+ }
+ leaf FLOWCTRLALGSW {
+  type string;
+  mandatory false;
+ }
+ leaf IPPROTOCOLSW {
+  type inet:ip-address;
+  mandatory false;
+ }
+ leaf OMCHMNGSW {
+  type string;
+  mandatory false;
+ }
+ leaf SBMALGSW {
+  type string;
+  mandatory false;
+ }
+ leaf TNLBEARERMNGALGSW {
+  type string;
+  mandatory false;
+ }
+ leaf TRANSCFGSW {
+  type string;
+  mandatory false;
+ }
+ leaf TRANSRESCHKSW {
+  type string;
+  mandatory false;
+ }
+ }
+}

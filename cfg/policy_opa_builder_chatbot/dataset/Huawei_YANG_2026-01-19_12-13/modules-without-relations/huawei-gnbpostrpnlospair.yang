@@ -1,0 +1,28 @@
+module huawei-gnbpostrpnlospair {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbpostrpnlospair";
+ prefix gnbpostrpnlospair;
+ description
+ "Auto-generated modular YANG for huawei-gnbpostrpnlospair" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBPOSTRPNLOSPAIR-attributes {
+ leaf POSTRPID1 {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf POSTRPID2 {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

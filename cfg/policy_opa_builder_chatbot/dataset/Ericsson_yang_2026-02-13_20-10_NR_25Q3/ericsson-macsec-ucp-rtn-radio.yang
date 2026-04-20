@@ -1,0 +1,93 @@
+module ericsson-macsec-ucp-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnMacSecUcp";
+  prefix macsecucprdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list MacSecUcp {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents Uncontrolled Port and it can exist regardless if underlying hardware supports MACsec. Only created when RiLink MO is created with following conditions: - When one MacSecProfile MO is associated with RiLink MO. - When Ethernet is detected on link.";
+      key "macSecUcpId";
+      leaf macSecUcpId {
+        type leafref {
+          path "../attributes/macSecUcpId";
+        }
+      }
+      container attributes {
+        uses MacSecUcp-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping MacSecUcp-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf-list caRef {
+      type string;
+    }
+    leaf macSecUcpId {
+      type ietfyang:mac-address;
+      mandatory true;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list portRef {
+      type ietfinet:port-number;
+    }
+    leaf-list profileRef {
+      type string;
+    }
+  }
+}

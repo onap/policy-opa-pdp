@@ -1,0 +1,163 @@
+module ericsson-opm-unit-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqOpmUnit";
+  prefix opmurdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list OpmUnit {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO represents an optical protection module.";
+      key "opmUnitId";
+      leaf opmUnitId {
+        type leafref {
+          path "../attributes/opmUnitId";
+        }
+      }
+      container attributes {
+        uses OpmUnit-attributes;
+      }
+    }
+  }
+  typedef ActiveLine {
+    type enumeration {
+      enum NONE;
+      enum FIRST;
+      enum SECOND;
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping OpmUnit-attributes {
+    leaf opmUnitId {
+      type string;
+      mandatory true;
+    }
+    leaf riPortRef {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf activeLine {
+      type enumeration {
+        enum NONE;
+        enum FIRST;
+        enum SECOND;
+      }
+      config false;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list productData {
+      config false;
+      container attributes {
+      leaf manufacturerDesignation {
+        type string {
+          length "0..16";
+        }
+        description "length 0..16.";
+      }
+      leaf manufacturerId {
+        type string {
+          length "0..16";
+        }
+        description "length 0..16.";
+      }
+      leaf manufacturerRevision {
+        type string {
+          length "0..8";
+        }
+        description "length 0..8.";
+      }
+      leaf productionDate {
+        type string;
+      }
+      leaf productNumber {
+        type string {
+          length "0..14";
+        }
+        description "length 0..14.";
+      }
+      leaf productRevision {
+        type string {
+          length "0..8";
+        }
+        description "length 0..8.";
+      }
+      leaf serialNumber {
+        type string {
+          length "0..16";
+        }
+        description "length 0..16.";
+      }
+      }
+    }
+  }
+}

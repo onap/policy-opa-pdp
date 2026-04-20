@@ -1,0 +1,46 @@
+module huawei-nrcellspectrum {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrcellspectrum";
+ prefix nrcellspectrum;
+ description
+ "Auto-generated modular YANG for huawei-nrcellspectrum" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRCELLSPECTRUM-attributes {
+ leaf MULTIFREQMEASALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf NRCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf OFFLOADMAXUENUM {
+  type uint16 {
+   range "0..10000";
+  }
+  mandatory false;
+ }
+ leaf OFFLOADUENUMOFFSET {
+  type uint16 {
+   range "0..10000";
+  }
+  mandatory false;
+ }
+ leaf OFFLOADUENUMTHLD {
+  type uint16 {
+   range "1..10000";
+  }
+  mandatory false;
+ }
+ leaf SPCTEFFOPTALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,83 @@
+module huawei-directipsecwhitelist {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-directipsecwhitelist";
+ prefix directipsecwhitelist;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-directipsecwhitelist" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container directipsecwhitelist-ipv4 {
+  container attributes {
+   uses DIRECTIPSECWHITELIST-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ augment "/if:interfaces/if:interface/ip:ipv6" {
+ container directipsecwhitelist-ipv6 {
+  container attributes {
+   uses DIRECTIPSECWHITELIST-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping DIRECTIPSECWHITELIST-attributes {
+ leaf OLD_DIRECTIPSECWHITELISTID {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf DIRECTIPSECWHITELISTID {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf IPV6PFXLEN {
+  type uint8 {
+   range "1..128";
+  }
+  mandatory false;
+ }
+ leaf IPVERSION {
+  type boolean;
+  mandatory false;
+ }
+ leaf MASK {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf SECURITYPEERIPV4 {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf SECURITYPEERIPV6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type uint8 {
+   range "0..31";
+  }
+  mandatory false;
+ }
+ }
+}

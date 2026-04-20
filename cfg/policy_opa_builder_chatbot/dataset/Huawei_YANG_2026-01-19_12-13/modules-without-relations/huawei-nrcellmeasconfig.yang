@@ -1,0 +1,59 @@
+module huawei-nrcellmeasconfig {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrcellmeasconfig";
+ prefix nrcellmeasconfig;
+ description
+ "Auto-generated modular YANG for huawei-nrcellmeasconfig" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRCELLMEASCONFIG-attributes {
+ leaf INTERFREQPRDCMRLAYER {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf INTRAFPRDCMRMAXCELLNUMBER {
+  type uint8 {
+   range "1..8";
+  }
+  mandatory false;
+ }
+ leaf INTRFCELLIDENTSSBRSRPTHLD {
+  type int16 {
+   range "-156..-31";
+  }
+  mandatory false;
+ }
+ leaf MEASSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf NRCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf NSASASELOPTMEASPROTTIMER {
+  type union {
+   type uint8 {
+    range "0..60";
+   }
+  }
+  mandatory false;
+ }
+ leaf SULCOVHORSRPTHLDOFFSET {
+  type int8 {
+   range "-10..0";
+  }
+  mandatory false;
+ }
+ }
+}

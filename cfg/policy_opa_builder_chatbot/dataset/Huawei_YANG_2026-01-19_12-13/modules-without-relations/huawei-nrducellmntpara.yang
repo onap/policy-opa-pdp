@@ -1,0 +1,411 @@
+module huawei-nrducellmntpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellmntpara";
+ prefix nrducellmntpara;
+ description
+ "Auto-generated modular YANG for huawei-nrducellmntpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLMNTPARA-attributes {
+ leaf DLLARGEPKTDATAVOLTHLD {
+  type uint32 {
+   range "1..1024000";
+  }
+  mandatory false;
+ }
+ leaf DLLARGEPKTTTINUMTHLD {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf DLRETRANSMINRBRATIO {
+  type union {
+   type uint8 {
+    range "0..100";
+   }
+  }
+  mandatory false;
+ }
+ leaf DLSCHFACTORTIMERATIO {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf DLSLOTOPTPATTERN {
+  type uint32 {
+   range "0..1048575";
+  }
+  mandatory false;
+ }
+ leaf DLVONRMAXMCS {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf LNRINTRFCTRLPOL {
+  type string;
+  mandatory false;
+ }
+ leaf MNTDLLARGEPKTEVALNUM {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf MNTDLLARGEPKTFAIRPOLTHLD {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf MNTDLSMALLPKTAVAILRBNUM {
+  type uint8 {
+   range "0..50";
+  }
+  mandatory false;
+ }
+ leaf MNTDLVONRRSVDRBNUM {
+  type uint8 {
+   range "0..48";
+  }
+  mandatory false;
+ }
+ leaf MNTEXITDELAYCOEFF {
+  type uint8 {
+   range "0..20";
+  }
+  mandatory false;
+ }
+ leaf MNTGROUNDAERIALMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf MNTINTRFAVOIDROLLBACKPOL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf MNTINTRFCTRLOPTSW {
+  type string;
+  mandatory false;
+ }
+ leaf MNTNCELLCSISCHINTERVAL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLDLAVOIDRBNUM {
+  type uint8 {
+   range "0..50";
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLDLAVAILSLOT {
+  type uint32 {
+   range "0..1048575";
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLDLMAXAVAILRBPCT {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLDLSLOTSCHPOLTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLPDCCHSINROFFSET {
+  type uint8 {
+   range "0..40";
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLPDSCHSINROFFSET {
+  type uint8 {
+   range "0..40";
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLPUSCHTARGETMCS {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLSSBSINROFFSET {
+  type uint8 {
+   range "0..40";
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLULAVAILRBPCT {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf MNTNCELLULAVAILSLOT {
+  type uint32 {
+   range "0..1048575";
+  }
+  mandatory false;
+ }
+ leaf MNTRESOURCEOPTSW {
+  type string;
+  mandatory false;
+ }
+ leaf MNTRSSCENARIOCELLALGOSW {
+  type string;
+  mandatory false;
+ }
+ leaf MNTSCHOPTSW {
+  type string;
+  mandatory false;
+ }
+ leaf MNTUEDLSMALLPKTSCHINTVL {
+  type uint8 {
+   range "0..80";
+  }
+  mandatory false;
+ }
+ leaf MNTUEEVALPRD {
+  type uint8 {
+   range "1..10";
+  }
+  mandatory false;
+ }
+ leaf MNTUEULINTRFAVOIDRBNUM {
+  type uint8 {
+   range "0..50";
+  }
+  mandatory false;
+ }
+ leaf MNTULSTARTRBPOSANDDIR {
+  type union {
+   type uint16 {
+    range "0..781";
+   }
+  }
+  mandatory false;
+ }
+ leaf MNTULVONRCOMPENSCHPRD {
+  type enumeration {
+   enum val-0;
+   enum val-5;
+   enum val-10;
+   enum val-20;
+   enum val-40;
+   enum val-60;
+  }
+  mandatory false;
+ }
+ leaf MNTVONROPTSW {
+  type string;
+  mandatory false;
+ }
+ leaf NCELLDLSLOTOPTPATTERN {
+  type uint32 {
+   range "0..1048575";
+  }
+  mandatory false;
+ }
+ leaf NCELLTRSPOWEROFFSET {
+  type uint8 {
+   range "0..80";
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf PDCCHPWROPTVOLUME {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf PDSCHPWROPTTHLD {
+  type uint8 {
+   range "1..27";
+  }
+  mandatory false;
+ }
+ leaf PDSCHPWROPTVOLUME {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf POWERADJTHPTGAINTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf PUCCHBLERTARGET {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf SRDATAVOLUME {
+  type uint32 {
+   range "0..100000";
+  }
+  mandatory false;
+ }
+ leaf SRPERIOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf SRSCARRSWITCHOPTPOLICY {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf SRSP0OFFSET {
+  type uint8 {
+   range "0..226";
+  }
+  mandatory false;
+ }
+ leaf SRSPERIOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+  }
+  mandatory false;
+ }
+ leaf UEINACTIVITYTIMER {
+  type uint16 {
+   range "0..3601";
+  }
+  mandatory false;
+ }
+ leaf ULDLDATAVOLFACTOR {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ULDLMNTEXITDELAYCOEFF {
+  type uint8 {
+   range "0..20";
+  }
+  mandatory false;
+ }
+ leaf ULDLMNTUEEVALPRD {
+  type uint8 {
+   range "1..10";
+  }
+  mandatory false;
+ }
+ leaf ULLARGEPKTDATAVOLTHLD {
+  type uint32 {
+   range "1..1024000";
+  }
+  mandatory false;
+ }
+ leaf ULLARGEPKTTTINUMTHLD {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf ULPREALLOCATIONDATAVOLUME {
+  type uint16 {
+   range "0..65534";
+  }
+  mandatory false;
+ }
+ leaf ULRBNUMBER {
+  type uint16 {
+   range "0..273";
+  }
+  mandatory false;
+ }
+ leaf ULSCHDELAYTIME {
+  type uint8 {
+   range "0..80";
+  }
+  mandatory false;
+ }
+ leaf ULSCHFACTORTIMERATIO {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ULSLOTCONVPATTERN {
+  type uint32 {
+   range "0..1048575";
+  }
+  mandatory false;
+ }
+ leaf ULVINRMAXMCS {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf ULVONRMAXMCS {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf VOICEUEINACTIVITYTIMER {
+  type uint16 {
+   range "0..3600";
+  }
+  mandatory false;
+ }
+ leaf VONRCOORDSLOTPATTERN {
+  type uint32 {
+   range "0..1048575";
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,91 @@
+module huawei-srciproute4 {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-srciproute4";
+ prefix srciproute4;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-srciproute4" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container srciproute4-ipv4 {
+  container attributes {
+   uses SRCIPROUTE4-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping SRCIPROUTE4-attributes {
+ leaf NEXTHOP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf PORTID {
+  type uint16 {
+   range "0..1499";
+  }
+  mandatory false;
+ }
+ leaf PREF {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf PT {
+  type enumeration {
+   enum val-0;
+   enum val-2;
+   enum val-8;
+   enum val-18;
+  }
+  mandatory false;
+ }
+ leaf RTTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf SRCIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf OLD_SRCRTIDX {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRCRTIDX {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type uint8 {
+   range "0..31";
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,106 @@
+module huawei-intrafreqhotopncell {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-intrafreqhotopncell";
+ prefix intrafreqhotopncell;
+ description
+ "Auto-generated modular YANG for huawei-intrafreqhotopncell" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping INTRAFREQHOTOPNCELL-attributes {
+ leaf OLD_INTERFREQMEASDLEARFCN {
+  type union {
+   type int32 {
+    range "-1..229575";
+   }
+  }
+  mandatory false;
+ }
+ leaf INTERFREQMEASDLEARFCN {
+  type union {
+   type int32 {
+    range "-1..229575";
+   }
+  }
+  mandatory false;
+ }
+ leaf INTRAFREQHOSRCRSRP {
+  type int16 {
+   range "-140..-43";
+  }
+  mandatory false;
+ }
+ leaf OLD_INTRAFREQNCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf INTRAFREQNCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_INTRAFREQNENODEBID {
+  type union {
+   type int32 {
+    range "-1..1048575";
+   }
+  }
+  mandatory false;
+ }
+ leaf INTRAFREQNENODEBID {
+  type union {
+   type int32 {
+    range "-1..1048575";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_MCC {
+  type string {
+   length "3";
+  }
+  mandatory false;
+ }
+ leaf MCC {
+  type string {
+   length "3";
+  }
+  mandatory false;
+ }
+ leaf OLD_MNC {
+  type string {
+   length "2..3";
+  }
+  mandatory false;
+ }
+ leaf MNC {
+  type string {
+   length "2..3";
+  }
+  mandatory false;
+ }
+ }
+}

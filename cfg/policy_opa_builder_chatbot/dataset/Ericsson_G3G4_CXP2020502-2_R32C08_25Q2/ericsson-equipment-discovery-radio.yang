@@ -1,0 +1,197 @@
+module ericsson-equipment-discovery-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEquipmentDiscovery";
+  prefix equipdcrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nUsed to perform AISG device scan. Scan finds all radio RF and RET ports in RBS. Lists all AISG units with unique hardware IDs and how these units are connected. Operator can select file storage.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list EquipmentDiscovery {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Used to perform AISG device scan. Scan finds all radio RF and RET ports in RBS. Lists all AISG units with unique hardware IDs and how these units are connected. Operator can select file storage. The RDN of this MO is EquipmentDiscovery=1.";
+      key "equipmentDiscoveryId";
+      leaf equipmentDiscoveryId {
+        type leafref {
+          path "../attributes/equipmentDiscoveryId";
+        }
+      }
+      container attributes {
+      uses EquipmentDiscovery-attributes;
+      }
+    }
+  }
+  typedef AisgDataRate {
+    description "The bit rate used for communication with the AISG units.";
+    type enumeration {
+      enum BITRATE_9600 {
+        description "The transmission bit rate is 9600 bps.";
+      }
+      enum BITRATE_38400 {
+        description "The transmission bit rate is 38400 bps.";
+      }
+      enum BITRATE_115200 {
+        description "The transmission bit rate is 115200 bps.";
+      }
+    }
+  }
+  typedef DeviceScanDcVoltage {
+    description "The value represents the nominal DC voltage supplied to the antenna system during device scan. Please note that choosing a higher voltage than the maximum voltage capability of the antenna equipment may cause permanent damage to the antenna equipment. Choosing a too low voltage may cause unsuccessful result for large installations due to maximum current supply limitation in the Radio.";
+    type enumeration {
+      enum DC_12V {
+      }
+      enum DC_17V {
+      }
+      enum DC_30V {
+      }
+    }
+  }
+  typedef DeviceScanPortConfiguration {
+    description "Port Configuration used for full device scan.";
+    type enumeration {
+      enum SCAN_ALL_PORTS_WITH_DEFAULT_VOLTAGE {
+        description "All ports are scanned with highest voltage supported by Radio, up to 30V.";
+      }
+      enum SCAN_ALL_PORTS_WITH_CHOSEN_VOLTAGE {
+        description "All ports are scanned using chosen voltage.";
+      }
+      enum SCAN_RET_PORT_ONLY {
+        description "Sets output DC voltage to 0 for RF Ports. Only RET ports are scanned.";
+      }
+      enum SCAN_AC_PORTS_ONLY {
+        description "Sets output DC voltage to 0 for all ports, except AC. Only AC ports are scanned.";
+      }
+      enum SCAN_RF_PORTS_ONLY {
+        description "Sets output DC voltage to 0 for all ports, except RF. Only RF ports are scanned.";
+      }
+    }
+  }
+  typedef EquipmentDiscoveryStatus {
+    description "Status of Equipment Discovery operations.";
+    type enumeration {
+      enum UNKNOWN {
+        description "Status for Equipment Discovery is unknown.";
+      }
+      enum SCAN_STARTED {
+        description "Antenna Device Scan is started.";
+      }
+      enum SCAN_FINISHED {
+        description "Antenna Device Scan is finished.";
+      }
+      enum SCAN_FAILED {
+        description "Antenna Device Scan failed.";
+      }
+      enum CONFIGURING {
+        description "Automated configuration of AISG units is in progress.";
+      }
+      enum CONFIG_PARTIAL {
+        description "AISG units cannot be configured for at least one radio.";
+      }
+      enum CONFIG_MISSING_DEPENDENCY {
+        description "Automated configuration of AISG units is finished but some MO references cannot be resolved.";
+      }
+      enum CONFIG_FAILED {
+        description "Automated configuration of AISG units failed.";
+      }
+      enum MO_CREATION_FAILURE {
+        description "Automated configuration of AISG units finished with MO creation failure. One of the MOs could not be created.";
+      }
+      enum SCANNED_AND_CONFIGURED {
+        description "Antenna equipment is scanned and configured.";
+      }
+    }
+  }
+  grouping EquipmentDiscovery-attributes {
+    leaf equipmentDiscoveryId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf antennaDeviceScanInBackground {
+      description "If true, Antenna Device Scan is run periodically in background. Scan results contain only ALDs that are not configured. Only configured ports are scanned. Result file is stored in SFTP location indicated by sftpServerIpAddress and sftpServerPath.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf sftpServerIpAddress {
+      description "IP address or hostname of SFTP server that stores file.; length 0..255.";
+      type string {
+        length "0..255";
+      }
+    }
+    leaf sftpServerPath {
+      description "File path to result file.; length 0..255.";
+      type string {
+        length "0..255";
+      }
+    }
+    leaf sftpUsername {
+      description "User name to SFTP server that stores file.; length 0..254.";
+      type string {
+        length "0..254";
+      }
+    }
+    leaf sftpPassword {
+      description "Password to SFTP server that stores file..";
+      type string;
+    }
+    leaf dataRate {
+      description "Bit rate used for communication with AISG units during execution of performFullAntennaDeviceScan action. Not used by Device Scan in background..";
+      type enumeration {
+        enum BITRATE_9600;
+        enum BITRATE_38400;
+        enum BITRATE_115200;
+      }
+    }
+    leaf portVoltage {
+      description "Nominal DC antenna voltage supplied to system during execution of performFullAntennaDeviceScan action. NOTE: High voltage can cause permanent damage to some antenna system equipment. Low voltage can cause unsuccessful result for large antenna system configurations. Not used by Device Scan in background..";
+      type enumeration {
+        enum DC_12V;
+        enum DC_17V;
+        enum DC_30V;
+      }
+    }
+    leaf portConfiguration {
+      description "Can choose which ports are configured with given DC voltage. Not used by Device Scan in background. If SCAN_ALL_PORTS_WITH_DEFAULT_VOLTAGE, PortVoltage is ignored..";
+      type enumeration {
+        enum SCAN_ALL_PORTS_WITH_DEFAULT_VOLTAGE;
+        enum SCAN_ALL_PORTS_WITH_CHOSEN_VOLTAGE;
+        enum SCAN_RET_PORT_ONLY;
+        enum SCAN_AC_PORTS_ONLY;
+        enum SCAN_RF_PORTS_ONLY;
+      }
+    }
+    leaf autoCreateAisgUnits {
+      description "Whether detection of unconfigured AISG units resulting in autocreation is enabled for corresponding MOs.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf equipmentDiscoveryStatus {
+      description "Status of Equipment Discovery operations, including Antenna Device Scan and automated configuration of AISG devices..";
+      type enumeration {
+        enum UNKNOWN;
+        enum SCAN_STARTED;
+        enum SCAN_FINISHED;
+        enum SCAN_FAILED;
+        enum CONFIGURING;
+        enum CONFIG_PARTIAL;
+        enum CONFIG_MISSING_DEPENDENCY;
+        enum CONFIG_FAILED;
+        enum MO_CREATION_FAILURE;
+        enum SCANNED_AND_CONFIGURED;
+      }
+      config false;
+    }
+    leaf-list targetLdn {
+      description "List of LDNs to be scanned..";
+      type string;
+      min-elements 0;
+      max-elements 50;
+    }
+  }
+}

@@ -1,0 +1,109 @@
+module ericsson-capacity-usage-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeCapacityUsage";
+  prefix cpusrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nContains PM counters for capacity usage.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list CapacityUsage {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Contains PM counters for capacity usage. The RDN of this MO is CapacityUsage=1.";
+      key "capacityUsageId";
+      leaf capacityUsageId {
+        type leafref {
+          path "../attributes/capacityUsageId";
+        }
+      }
+      container attributes {
+      uses CapacityUsage-attributes;
+      }
+    }
+  }
+  grouping HupInfo-struct {
+    description "Hardware Utilization Package (HUP) information. Initial Package (IP) or Expansion Package (EP) content is presented in the following format: <HUP type>:[<Baseband>]:<Size>:<Count>; HUP type: IP or EP. Baseband: Baseband type the IP is applicable to. [ ] means optional field, not present for EP. Size: Number of HWACs forming an indivisible allocation unit. Count: Number of indivisible allocation units.";
+    leaf totInstalled {
+      type string;
+    }
+    leaf totAllocated {
+      type string;
+    }
+    leaf totFree {
+      type string;
+    }
+    leaf lteAllocated {
+      type string;
+    }
+    leaf nrAllocated {
+      type string;
+    }
+    leaf lteAllocatedUnusedCapacity {
+      type string;
+    }
+    leaf nrAllocatedUnusedCapacity {
+      type string;
+    }
+    leaf licenseKeyId {
+      type string;
+    }
+    leaf licenseKeyName {
+      type string;
+    }
+    leaf wcdmaAllocated {
+      type string;
+    }
+    leaf wcdmaAllocatedUnusedCapacity {
+      type string;
+    }
+    leaf gsmAllocated {
+      type string;
+    }
+    leaf gsmAllocatedUnusedCapacity {
+      type string;
+    }
+  }
+  grouping CapacityUsage-attributes {
+    leaf capacityUsageId {
+      description "Holds the name used when identifying this MO..";
+      type string;
+      mandatory true;
+    }
+    list hupInfo {
+      config false;
+      min-elements 0;
+      uses HupInfo-struct;
+    }
+    leaf pmLicCarrierBWHwac {
+      description "Number of used 60 MHz carrier bandwidth HWACs (CXC 401 2473)..";
+      type int64;
+      config false;
+    }
+    leaf pmLicOutputPowerHwac {
+      description "Number of used 20 W output power HWACs (CXC 401 2338)..";
+      type int32;
+      config false;
+    }
+    leaf pmLicMimoLayerHwac {
+      description "Number of used 6 MIMO layer HWACs (CXC 401 2474)..";
+      type int64;
+      config false;
+    }
+    leaf pmLicNrRrus32Air32Hwac {
+      description "Number of NR activation on RRUS32 and AIR32 HWAC allocated in the node (CXC 401 2395)..";
+      type int32;
+      config false;
+    }
+    leaf pmLicAntennaBWHwac {
+      description "Number of used 60 MHz antenna bandwidth HWACs (CXC 401 2472)..";
+      type int64;
+      config false;
+    }
+  }
+}

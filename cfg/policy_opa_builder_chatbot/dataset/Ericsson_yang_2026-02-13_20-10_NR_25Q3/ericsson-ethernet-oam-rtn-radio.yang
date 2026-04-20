@@ -1,0 +1,284 @@
+module ericsson-ethernet-oam-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnEthernetOam";
+  prefix ethoamrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list EthernetOamLocalMep {
+      description "Additional definitions from MOM:min/max-elements:0/16;root; Ethernet OAM Local Maintenance association End Point. Represents MEP for Ethernet OAM service. MEP is local to DU. Ethernet OAM Service includes support for Connectivity Fault Management (CFM) capabilities for detecting, isolating, and reporting L2 connectivity faults.";
+      key "ethernetOamLocalMepId";
+      leaf ethernetOamLocalMepId {
+        type leafref {
+          path "../attributes/ethernetOamLocalMepId";
+        }
+      }
+      container attributes {
+        uses EthernetOamLocalMep-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/EthernetOamLocalMep" {
+    list EthernetOamRemoteMep {
+      description "Additional definitions from MOM:min/max-elements:0/510; Ethernet OAM Remote Maintenance association End Point. Represents MEP for Ethernet OAM service in another node. Facilitates supervision of CCM from specific remote MEP.";
+      key "ethernetOamRemoteMepId";
+      leaf ethernetOamRemoteMepId {
+        type leafref {
+          path "../attributes/ethernetOamRemoteMepId";
+        }
+      }
+      container attributes {
+        uses EthernetOamRemoteMep-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef MaintenanceAssociationType {
+    type enumeration {
+      enum PRIMARY_VID;
+      enum STRING;
+      enum INTEGER;
+    }
+  }
+  typedef MaintenanceDomainType {
+    type enumeration {
+      enum NO_NAME;
+      enum DNS_BASED;
+      enum MAC;
+      enum STRING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef RemoteMepState {
+    type enumeration {
+      enum RMEP_IDLE;
+      enum RMEP_START;
+      enum RMEP_FAILED;
+      enum RMEP_OK;
+    }
+  }
+  grouping EthernetOamLocalMep-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf ccmEnabled {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf ccmInterval {
+      type int32 {
+        range "100 | 1000 | 10000 | 60000 | 600000";
+      }
+      default "1000";
+      units "ms";
+      description "Default value: 1000.";
+    }
+    leaf encapsulation {
+      type string;
+      mandatory true;
+    }
+    leaf ethernetOamLocalMepId {
+      type string;
+      mandatory true;
+    }
+    leaf maintenanceAssociationName {
+      type string;
+    }
+    leaf maintenanceAssociationType {
+      type enumeration {
+        enum PRIMARY_VID;
+        enum STRING;
+        enum INTEGER;
+      }
+    }
+    leaf maintenanceDomainLevel {
+      type eytypes:int32_range_0-7;
+      mandatory true;
+      description "range 0..7.";
+    }
+    leaf maintenanceDomainName {
+      type ietfinet:domain-name;
+      description "length 0..43.";
+    }
+    leaf maintenanceDomainType {
+      type enumeration {
+        enum NO_NAME;
+        enum DNS_BASED;
+        enum MAC;
+        enum STRING;
+      }
+    }
+    list mepDefect {
+      config false;
+      container attributes {
+      leaf errorCcmDefect {
+        type string;
+      }
+      leaf rdiCcmDefect {
+        type string;
+      }
+      leaf remoteCcmDefect {
+        type string;
+      }
+      leaf xConCcmDefect {
+        type string;
+      }
+      }
+    }
+    leaf mepIdentifier {
+      type int32 {
+        range "1..8191";
+      }
+      default "1";
+      description "range 1..8191; Default value: 1.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf pcp {
+      type eytypes:int32_range_0-7;
+      default "7";
+      description "range 0..7; Default value: 7.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf remoteCcmDefectDuration {
+      type uint64;
+      config false;
+    }
+    leaf cciSentCcms {
+      type uint64;
+      config false;
+    }
+    leaf xconCcmDefectDuration {
+      type uint64;
+      config false;
+    }
+    leaf unexpLtrIn {
+      type uint64;
+      config false;
+    }
+    leaf errorCcmDefectDuration {
+      type uint64;
+      config false;
+    }
+    leaf lbrOut {
+      type uint64;
+      config false;
+    }
+    leaf lbrIn {
+      type uint64;
+      config false;
+    }
+    leaf lbrBadMsdu {
+      type uint64;
+      config false;
+    }
+    leaf ccmSequenceErrors {
+      type uint64;
+      config false;
+    }
+    leaf rdiCcmDefectDuration {
+      type uint64;
+      config false;
+    }
+  }
+  grouping EthernetOamRemoteMep-attributes {
+    leaf ethernetOamRemoteMepId {
+      type string;
+      mandatory true;
+    }
+    leaf failedOrOkTime {
+      type string;
+      config false;
+    }
+    leaf macAddress {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf mepIdentifier {
+      type int32 {
+        range "1..8191";
+      }
+      mandatory true;
+      description "range 1..8191.";
+    }
+    leaf rdi {
+      type boolean;
+      config false;
+    }
+    leaf remoteMepState {
+      type enumeration {
+        enum RMEP_IDLE;
+        enum RMEP_START;
+        enum RMEP_FAILED;
+        enum RMEP_OK;
+      }
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

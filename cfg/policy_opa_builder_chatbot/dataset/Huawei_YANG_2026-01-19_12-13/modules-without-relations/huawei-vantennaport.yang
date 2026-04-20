@@ -1,0 +1,75 @@
+module huawei-vantennaport {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-vantennaport";
+ prefix vantennaport;
+ description
+ "Auto-generated modular YANG for huawei-vantennaport" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping VANTENNAPORT-attributes {
+ leaf CONNCN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNSN {
+  type union {
+   type int8 {
+    range "-1..3";
+   }
+  }
+  mandatory false;
+ }
+ leaf CONNSRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf PN {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-16;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-48;
+   enum val-49;
+   enum val-50;
+   enum val-51;
+   enum val-64;
+   enum val-65;
+   enum val-66;
+   enum val-67;
+   enum val-80;
+   enum val-81;
+   enum val-82;
+   enum val-83;
+   enum val-96;
+   enum val-97;
+   enum val-98;
+   enum val-99;
+   enum val-112;
+   enum val-113;
+   enum val-114;
+   enum val-115;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ }
+}

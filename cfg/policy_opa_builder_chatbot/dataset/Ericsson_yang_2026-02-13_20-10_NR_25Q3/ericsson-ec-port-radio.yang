@@ -1,0 +1,123 @@
+module ericsson-ec-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEcPort";
+  prefix eprtrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-external-node-radio {
+    prefix exndrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/exndrdo:ExternalNode" {
+    list EcPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO represents one port in a FieldReplaceableUnit MO.";
+      key "ecPortId";
+      leaf ecPortId {
+        type leafref {
+          path "../attributes/ecPortId";
+        }
+      }
+      container attributes {
+        uses EcPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list EcPort {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO represents one port in a FieldReplaceableUnit MO.";
+      key "ecPortId";
+      leaf ecPortId {
+        type leafref {
+          path "../attributes/ecPortId";
+        }
+      }
+      container attributes {
+        uses EcPort-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping EcPort-attributes {
+    leaf ecPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf cascadingOrder {
+      type eytypes:int32_range_0-7;
+      default "0";
+      description "range 0..7; Default value: 0.";
+    }
+    leaf hubPosition {
+      type string;
+    }
+    leaf ecBusRef {
+      type string;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+  }
+}

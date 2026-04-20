@@ -1,0 +1,42 @@
+module huawei-gnbfreqselectionarea {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbfreqselectionarea";
+ prefix gnbfreqselectionarea;
+ description
+ "Auto-generated modular YANG for huawei-gnbfreqselectionarea" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBFREQSELECTIONAREA-attributes {
+ leaf FREQUENCYSELECTIONAREAID {
+  type uint32 {
+   range "0..16777215";
+  }
+  mandatory false;
+ }
+ leaf OLD_FSACONFIGINDEX {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf FSACONFIGINDEX {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf SSBNRARFCN {
+  type union {
+   type uint32 {
+    range "123400..2279165";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

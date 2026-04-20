@@ -1,0 +1,398 @@
+module ericsson-rcslogm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsLogM";
+  prefix rcslogm;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list LogM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Enables configuration of the LogM general properties. This is the root MO for the log management fragment. It contains various parameters concerning the log management service.";
+      key "logMId";
+      leaf logMId {
+        type leafref {
+          path "../attributes/logMId";
+        }
+      }
+      container attributes {
+        uses LogM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/LogM/Log" {
+    list LogPushTransfer {
+      description "Additional definitions from MOM:min/max-elements:0/5; Enables configuration of the connection parameters for both LogM and LogM. An MO shall be created to cause the system to transfer a specific log whenever it reaches a maximum level or as a continuous stream. A rotating log will transfer a file whenever a new file is rotated in. If there is no instance of this class for a specific log, the log service will simply stop writing to a non-wrapping log when it has reached its maximum size. A wrap log will wrap as usual when reaching its maximum size. Log data transfer for wrap files occurs before the log is wrapped.";
+      key "logPushTransferId";
+      leaf logPushTransferId {
+        type leafref {
+          path "../attributes/logPushTransferId";
+        }
+      }
+      container attributes {
+        uses LogPushTransfer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/LogM" {
+    list Log {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Enables configuration of the Log general properties. The Log MO contains parameters for a specific log file/stream in the system.";
+      key "logId";
+      leaf logId {
+        type leafref {
+          path "../attributes/logId";
+        }
+      }
+      container attributes {
+        uses Log-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    type enumeration {
+      enum SUCCESS;
+      enum FAILURE;
+      enum NOT_AVAILABLE;
+    }
+  }
+  typedef ActionStateType {
+    type enumeration {
+      enum CANCELLING;
+      enum RUNNING;
+      enum FINISHED;
+      enum CANCELLED;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef LogSeverity {
+    type enumeration {
+      enum EMERGENCY;
+      enum ALERT;
+      enum CRITICAL;
+      enum ERROR;
+      enum WARNING;
+      enum NOTICE;
+      enum INFO;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef TransferType {
+    type enumeration {
+      enum STREAM;
+      enum BULK;
+    }
+  }
+  grouping Log-attributes {
+    leaf logId {
+      type string;
+      mandatory true;
+    }
+    leaf-list severityFilter {
+      type enumeration {
+        enum EMERGENCY;
+        enum ALERT;
+        enum CRITICAL;
+        enum ERROR;
+        enum WARNING;
+        enum NOTICE;
+        enum INFO;
+      }
+    }
+    list reportProgress {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    list progressReport {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+  }
+  grouping LogM-attributes {
+    leaf logMId {
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      type string;
+    }
+    leaf trustCategory {
+      type string;
+    }
+    list reportProgress {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    list progressReport {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+  }
+  grouping LogPushTransfer-attributes {
+    leaf logPushTransferId {
+      type string;
+      mandatory true;
+    }
+    leaf uri {
+      type string;
+      mandatory true;
+    }
+    leaf transferType {
+      type enumeration {
+        enum STREAM;
+        enum BULK;
+      }
+    }
+    list password {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf-list availStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+  }
+}

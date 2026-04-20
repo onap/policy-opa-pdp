@@ -1,0 +1,40 @@
+module huawei-groupinfosharepolicy {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-groupinfosharepolicy";
+ prefix groupinfosharepolicy;
+ description
+ "Auto-generated modular YANG for huawei-groupinfosharepolicy" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GROUPINFOSHAREPOLICY-attributes {
+ leaf CNOPERATORID {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf GROUPNUMSHARINGGROUPID {
+  type union {
+   type uint8 {
+    range "1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf GROUPNUMSHARINGRATE {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf MAXGROUPNUMRATE {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ }
+}

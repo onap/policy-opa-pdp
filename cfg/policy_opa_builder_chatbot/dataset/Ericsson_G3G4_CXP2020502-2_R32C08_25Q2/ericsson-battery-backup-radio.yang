@@ -1,0 +1,641 @@
+module ericsson-battery-backup-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ResBatteryBackup";
+  prefix btbckrdo;
+  import ericsson-equipment-support-function-radio {
+    prefix eqsupfnrdo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\n.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/eqsupfnrdo:EquipmentSupportFunction" {
+    list BatteryBackup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO models a battery backup controlled by a BFU or BPA unit. The functionality represented by this MO is dependent on the existence of a FieldReplaceableUnit MO of type BFU or BPA. From 18.Q1 the reservedBy attribute must be empty before MO can be deleted..";
+      key "batteryBackupId";
+      leaf batteryBackupId {
+        type leafref {
+          path "../attributes/batteryBackupId";
+        }
+      }
+      container attributes {
+      uses BatteryBackup-attributes;
+      }
+    }
+  }
+  typedef ApcBatteryTestInitiation {
+    type enumeration {
+      enum UNDEFINED {
+      }
+      enum AUTOMATIC_PERIODIC {
+      }
+      enum CONFIGURED_PERIODIC {
+      }
+      enum MAINS_FAILURE_PERIODIC {
+      }
+      enum ON_DEMAND {
+      }
+      enum ON_DEMAND_FORCED {
+      }
+    }
+  }
+  typedef ApcBatteryTestMode {
+    type enumeration {
+      enum AUTOMATIC {
+      }
+      enum CONFIGURED {
+      }
+      enum DISABLED {
+      }
+    }
+  }
+  typedef ApcBatteryTestOutcome {
+    type enumeration {
+      enum UNDEFINED {
+      }
+      enum PASSED {
+      }
+      enum FAILED {
+      }
+    }
+  }
+  typedef ApcBatteryTestState {
+    type enumeration {
+      enum UNDEFINED {
+      }
+      enum PENDING {
+      }
+      enum IN_PROGRESS {
+      }
+    }
+  }
+  typedef ApcBatteryTestType {
+    description "PERIODIC ON_DEMAND";
+    type enumeration {
+      enum PERIODIC {
+      }
+      enum ON_DEMAND {
+      }
+    }
+  }
+  typedef ApcBatteryType {
+    type enumeration {
+      enum UNKNOWN {
+      }
+      enum TYPE01 {
+      }
+      enum TYPE02 {
+      }
+    }
+  }
+  typedef ApcChargingMode {
+    type enumeration {
+      enum AUTOMATIC {
+      }
+      enum USER_DEFINED {
+      }
+    }
+  }
+  typedef ApcMonth {
+    type enumeration {
+      enum JANUARY {
+      }
+      enum FEBRUARY {
+      }
+      enum MARCH {
+      }
+      enum APRIL {
+      }
+      enum JUNE {
+      }
+      enum JULY {
+      }
+      enum AUGUST {
+      }
+      enum MAY {
+      }
+      enum SEPTEMBER {
+      }
+      enum OCTOBER {
+      }
+      enum NOVEMBER {
+      }
+      enum DECEMBER {
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping ApcBatteryTestResult-struct {
+    description ".";
+    leaf estimatedBatteryStateOfHealth {
+      description "range -1..100.";
+      type eytypes:int32_range_-1-100;
+      units "percent";
+    }
+    leaf estimatedNominalBatteryCapacity {
+      description "range -1..99999999.";
+      type int32 {
+        range "-1..99999999";
+      }
+      units "Ah";
+    }
+    leaf initiation {
+      type enumeration {
+        enum UNDEFINED;
+        enum AUTOMATIC_PERIODIC;
+        enum CONFIGURED_PERIODIC;
+        enum MAINS_FAILURE_PERIODIC;
+        enum ON_DEMAND;
+        enum ON_DEMAND_FORCED;
+      }
+    }
+    leaf measuredBackupTime {
+      description "range -1..99999999.";
+      type int32 {
+        range "-1..99999999";
+      }
+      units "Minute";
+    }
+    leaf measuredConsumedCapacity {
+      description "range -1..99999999.";
+      type int32 {
+        range "-1..99999999";
+      }
+      units "Ah";
+    }
+    leaf outcome {
+      type enumeration {
+        enum UNDEFINED;
+        enum PASSED;
+        enum FAILED;
+      }
+    }
+    leaf startDate {
+      description "length 8..8.";
+      type string {
+        length "8";
+      }
+    }
+    leaf startTime {
+      description "length 5..5.";
+      type string {
+        length "5";
+      }
+    }
+  }
+  grouping ApcBatteryTestStatus-struct {
+    description ".";
+    leaf estimatedRemainingBackupTime {
+      description "range -1..99999999.";
+      type int32 {
+        range "-1..99999999";
+      }
+    }
+    leaf measuredConsumedCapacityInTest {
+      description "range -1..99999999.";
+      type int32 {
+        range "-1..99999999";
+      }
+    }
+    leaf measuredElapsedTime {
+      description "range -1..99999999.";
+      type int32 {
+        range "-1..99999999";
+      }
+    }
+    leaf testState {
+      type enumeration {
+        enum UNDEFINED;
+        enum PENDING;
+        enum IN_PROGRESS;
+      }
+    }
+  }
+  grouping BatteryBackup-attributes {
+    leaf batteryBackupId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf batteryCurrent {
+      description "The total measured battery backup current. When the batteries are charging, the current is positive. When the batteries are discharging, the current is negative. Undefined value: -9999 indicates no contact with battery interfacing unit such as a BFU or BPA unit..";
+      type int32 {
+        range "-9999 | -1000..1000";
+      }
+      config false;
+      units "A";
+    }
+    leaf batteryDisconnectTempCeaseOffset {
+      description "The offset for the disconnect temperature below which the battery will be reconnected. Applies to both main and priority loads. The battery is reconnected when batteryTemperature < batteryDisconnectedTemp - batteryDisconnectTempCeaseOffset.; range 1..20; Default value: 5.";
+      type int32 {
+        range "1..20";
+      }
+      default "5";
+      units "°C";
+    }
+    leaf batteryInstallationDate {
+      description "The date when the batteries in the battery backup of the RBS were installed and taken into service. Format: YYYYMMDD.; length 8..8; MOM flags: isNillable=true; Status info: Since 18A. Replaced by installationDate in MO BatteryUnit. Planned to be removed..";
+      type string {
+        length "8";
+      }
+      status deprecated;
+    }
+    leaf batteryTemperature {
+      description "The current temperature reported by the battery temperature sensor installed on the battery. Undefined value represented by nil, indicates no contact with BFU, BFU has no battery or BFU has no temperature sensor.; range -55..125.";
+      type int32 {
+        range "-55..125";
+      }
+      config false;
+      units "°C";
+    }
+    leaf batteryTestIsRunning {
+      description "State whether a battery test is running or not. Possible values: - true: A battery test cycle has been started - false: Either the battery test is disabled or there is not any ongoing battery test..";
+      type boolean;
+      config false;
+    }
+    leaf batteryType {
+      description "The type of battery to which the installed battery conforms. The type is related to the capabilities of the battery.; Default value: TYPE01; Status info: Deprecated since 16A.";
+      type enumeration {
+        enum UNKNOWN;
+        enum TYPE01;
+        enum TYPE02;
+      }
+      status deprecated;
+      default "TYPE01";
+    }
+    leaf batteryVoltage {
+      description "The measured battery voltage. It is equal to the attribute systemVoltage, PowerdDistribution MO, when the battery is connected. 0 means the battery is disconnected. Undefined value represented by nil, indicates no contact with the battery interfacing unit, such as a BFU or a BPA unit..";
+      type int32 {
+        range "-600..-380 | 0";
+      }
+      config false;
+      units "V";
+    }
+    leaf boostChargeTime {
+      description "The time in boost charge. Value zero (0) means that boost charging is disabled.; range 0..48; Default value: 5.";
+      type int32 {
+        range "0..48";
+      }
+      default "5";
+      units "h";
+    }
+    leaf boostChargeTriggerVoltage {
+      description "Defines the trigger voltage for boost charge. When the trigger voltage is surpassed during discharge, the consecutive charging is boost charging.; range -500..-420; Default value: -470.";
+      type int32 {
+        range "-500..-420";
+      }
+      default "-470";
+      units "V";
+    }
+    leaf chargeMaxCurrent {
+      description "Maximum allowed battery current during charging. The maximum battery current is limited if the maximum current supported by the BFU is lower than this defined value.; range 20..1000; Default value: 80.";
+      type int32 {
+        range "20..1000";
+      }
+      default "80";
+      units "A";
+    }
+    leaf chargingMode {
+      description "The type of battery charging used. If charging is user-defined, the charging algorithm and parameters must be specified. If chargingMode = AUTOMATIC, the following attributes are not used: • floatChargeVoltage • tempCompVoltageSlope • nominalTemp • tempCompMinVoltage • tempCompMaxVoltage • elevatedChargeVoltage • boostChargeTime • boostChargeTriggerVoltage • equalizeChargeTime • equalizeChargeCyclicInterval • intermittentChargeConnectVoltage • intermittentChargeConnectTime • intermittentChargeDisconnectTime.";
+      type enumeration {
+        enum AUTOMATIC;
+        enum USER_DEFINED;
+      }
+    }
+    leaf chargingVoltage {
+      description "The desired battery voltage for charging at 25 degrees Celsius.; range -570..-480; Default value: -545; Status info: Deprecated since 16A, replaced by FloatChargeVoltage.";
+      type eytypes:int32_range_-570--480;
+      status deprecated;
+      default "-545";
+      units "V";
+    }
+    leaf equalizeChargeCyclicInterval {
+      description "The number of days between equalize charging. The cycle is reset at restart.; range 0..365; Default value: 30.";
+      type int32 {
+        range "0..365";
+      }
+      default "30";
+      units "day";
+    }
+    leaf equalizeChargeTime {
+      description "The time in equalize charge. Value zero (0) means that equalize charging is disabled. To enable equalize charging, the value must be set to a number other than zero (0).; range 0..24; Default value: 4.";
+      type int32 {
+        range "0..24";
+      }
+      default "4";
+      units "h";
+    }
+    leaf increasedChargeVoltage {
+      description "The charge voltage used at boost charging and equalize charging.; range -585..-555; Default value: -564; Status info: Deprecated since 16A, replaced by ElevatedChargeVoltage.";
+      type int32 {
+        range "-585..-555";
+      }
+      status deprecated;
+      default "-564";
+      units "V";
+    }
+    leaf intermittentChargeConnectTime {
+      description "Defines the period following disconnection after which the battery is reconnected. Used in intermittent charging.; range 0..72; Default value: 0.";
+      type int32 {
+        range "0..72";
+      }
+      default "0";
+      units "h";
+    }
+    leaf intermittentChargeConnectVoltage {
+      description "Defines the minimum battery voltage level allowed for a disconnected battery. When minimum level is reached, the battery is reconnected. Used in intermittent charging.; range -530..-460; Default value: -500.";
+      type int32 {
+        range "-530..-460";
+      }
+      default "-500";
+      units "V";
+    }
+    leaf intermittentChargeDisconnectTime {
+      description "Defines the time until the batteries are disconnected (during this time the batteries are connected). Value zero (0) means that intermittent charging is not enabled.; range 0..2400; Default value: 0.";
+      type int32 {
+        range "0..2400";
+      }
+      default "0";
+      units "h";
+    }
+    leaf minimumBackupTime {
+      description "The minimum requirement for backup time for the installed batteries when conducting a battery backup time test. An alarm is raised if measured backup time is shorter than minimumBackupTime.; range 0..10080; Default value: 60.";
+      type int32 {
+        range "0..10080";
+      }
+      default "60";
+      units "minute";
+    }
+    leaf minimumStateOfHealth {
+      description "The minimum value for the State-of-Health of the battery backup system. An alarm is raised if stateOfHealth value for the battery backup system is lower than minimumStateOfHealth value.; range 0..100; Default value: 70.";
+      type eytypes:int32_range_0-100;
+      default "70";
+      units "percent";
+    }
+    leaf nextScheduledTestDate {
+      description "Date of next scheduled periodic battery test. Format: \"YYYYMMDD\".; length 8..8.";
+      type string {
+        length "8";
+      }
+      config false;
+    }
+    leaf nominalTemp {
+      description "Nominal temperature for temperature compensated charging.; range 170..280; Default value: 250.";
+      type int32 {
+        range "170..280";
+      }
+      default "250";
+      units "°C";
+    }
+    leaf referenceBatteryCapacity {
+      description "The initial nominal battery capacity. The value is extracted from intelligent batteries as a sum of all installed batteries’ nominal capacity. For batteries that cannot communicate, the value is calculated at the first battery capacity test. If the capacity value becomes significantly higher at a succeeding battery capacity test, the value is replaced with the highest value. Undefined value: -1 indicates that no value has been retrieved.; range -1..999999.";
+      type eytypes:int32_range_-1-999999;
+      config false;
+      units "Ah";
+    }
+    leaf sharedBattery {
+      description "Indicates if the RBS shares a battery with another RBS or other power consumer on the site. The setting of this attributes has a great impact on the system behavior.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf tempCompMaxVoltage {
+      description "The maximum voltage allowed for temperature compensated charging.; range -570..-480; Default value: -569.";
+      type eytypes:int32_range_-570--480;
+      default "-569";
+      units "V";
+    }
+    leaf tempCompMinVoltage {
+      description "The minimum voltage allowed for temperature compensated charging.; range -570..-480; Default value: -528.";
+      type eytypes:int32_range_-570--480;
+      default "-528";
+      units "V";
+    }
+    leaf tempCompVoltageSlope {
+      description "A compensation factor that expresses the amount of voltage changes caused by temperature. Used in temperature compensated charging. Higher temperature gives a lower charging voltage. Fixed battery charging is achieved by assigning this attribute the value zero. Example: The default value -96 = -0.096 V per 1 degree Celsius, gives that a 10 degree temperature increase changes the voltage from e.g. -50.000 V to -49.040 V.; range -10000..0; Default value: -96.";
+      type int32 {
+        range "-10000..0";
+      }
+      default "-96";
+      units "V/°C";
+    }
+    leaf testMode {
+      description "The mode of the battery test..";
+      type enumeration {
+        enum AUTOMATIC;
+        enum CONFIGURED;
+        enum DISABLED;
+      }
+    }
+    leaf testStartDay {
+      description "The day of month for periodic battery tests.; range 1..31; Default value: 25.";
+      type eytypes:int32_range_1-31;
+      default "25";
+    }
+    leaf-list testStartMonths {
+      description "The months in which periodic battery tests are performed. A battery test is performed in the months listed in the parameter. A month may be listed only once in the parameter..";
+      type ApcMonth;
+      min-elements 1;
+      max-elements 12;
+    }
+    leaf testStartTime {
+      description "The time of day to start periodic battery tests. Format: HH:MM, 24-hour format.; length 5..5; Default value: 01:00.";
+      type string {
+        length "5";
+      }
+      default "01:00";
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf operationalState {
+      description "Defines the operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf extendedSoftwareControl {
+      description "Shows if the software has extended control over battery charging, that is, the BFU has a reduced autonomous behavior..";
+      type boolean;
+      config false;
+    }
+    leaf batteryDisconnectTemp {
+      description "The temperature at which the battery is disconnected. Applies to both main and priority loads. The battery is disconnected when batteryTemperature > batteryDisconnectTemp.; range 40..70; Default value: 60; Status info: Deprecated since 16A, replaced by BatteryDisconnectHighTemp.";
+      type int32 {
+        range "40..70";
+      }
+      status deprecated;
+      default "60";
+      units "°C";
+    }
+    leaf elevatedChargeVoltage {
+      description "The charge voltage used at boost charging and equalize charging.; range -573..-555; Default value: -570.";
+      type int32 {
+        range "-573..-555";
+      }
+      default "-570";
+      units "V";
+    }
+    leaf floatChargeVoltage {
+      description "The desired battery voltage for charging at 25 degrees Celsius.; range -555..-510; Default value: -545.";
+      type int32 {
+        range "-555..-510";
+      }
+      default "-545";
+      units "V";
+    }
+    leaf batteryDisconnectHighTemp {
+      description "The temperature at which the battery is disconnected. Applies to both main and priority loads. The battery is disconnected when batteryTemperature > batteryDisconnectHighTemp.; range 40..60; Default value: 60.";
+      type int32 {
+        range "40..60";
+      }
+      default "60";
+      units "°C";
+    }
+    leaf controlDomainRef {
+      description "The cabinet or hwGroup where functions represented by this MO are deployed..";
+      type string;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf batteryDisconnectLevel {
+      description "The relative level of the total capacity at which batteries are disconnected and node is shut down. Not applicable for Lithium-Ion batteries. Undefined value: -1 indicates that no value has been set. Batteries will not be disconnected. During deprecation period, a setting of the batteryDisconnectLevel is converted and mirrored to deprecated attribute priorityLoadUndervoltageDisconnect of MO PowerDistribution. Since the valid range of priorityLoadUndervoltageDisconnect does not span the entire range of batteryDisconnectLevel, a value of batteryDisconnectLevel that is beyond the upper range of priorityLoadUndervoltageDisconnect will result in a mirrored value that is the maximum value of priorityLoadUndervoltageDisconnect. It is the value of the batteryDisconnectLevel that is used in the application.; range -1..100; Default value: 5.";
+      type eytypes:int32_range_-1-100;
+      default "5";
+      units "percent";
+    }
+    leaf capacityAlarmLevel {
+      description "The relative level of the total capacity at which an alarm for low remaining battery backup capacity is raised. Undefined value: -1 indicates that no value has been set. Alarm will not be raised.; range -1..100; Default value: 40.";
+      type eytypes:int32_range_-1-100;
+      default "40";
+      units "percent";
+    }
+    leaf estimatedRemainingBackupTime {
+      description "Estimated remaining backup time at current load conditions. For lead-acid batteries, attribute is estimated only during battery capacity test. For Lithium-ion batteries, attribute is updated only during discharge period. Attribute shows highest value from last estimation performed, based on stated conditions. estimatedRemaingBackupTime value is indicative and varies as load conditions vary. Undefined value: -1 indicates that no value has been retrieved.; range -1..999999.";
+      type int32 {
+        range "-1..999999";
+      }
+      config false;
+      units "minute";
+    }
+    leaf fullyChargedCapacity {
+      description "Current maximum capacity of the battery backup system. Undefined value: -1 indicates that no value has been retrieved.; range -1..999999.";
+      type eytypes:int32_range_-1-999999;
+      config false;
+      units "Ah";
+    }
+    leaf mainLoadDisconnectLevel {
+      description "The relative level of the total capacity at which the main load is disconnected. Undefined value: -1 indicates that no value has been set. Main load will not be disconnected. During deprecation period, a setting of the mainLoadDisconnectLevel is converted and mirrored to deprecated attribute mainLoadUndervoltageDisconnect of MO PowerDistribution. Since the valid range of mainLoadUndervoltageDisconnect does not span the entire range of mainLoadDisconnectLevel, a value of mainLoadDisconnectLevel that is beyond the upper range of mainLoadUndervoltageDisconnect will result in a mirrored value that is the maximum value of mainLoadUndervoltageDisconnect. It is the value of the mainLoadDisconnectLevel that is used in the application.; range -1..100; Default value: 25.";
+      type eytypes:int32_range_-1-100;
+      default "25";
+      units "percent";
+    }
+    leaf stateOfHealth {
+      description "State of health of the battery backup system. Undefined value: -1 indicates that no value has been retrieved.; range -1..100.";
+      type eytypes:int32_range_-1-100;
+      config false;
+      units "percent";
+    }
+    leaf-list pmBatteryDepthOfDischargeDistr {
+      description "Distribution of battery Depth of Discharge (DoD). Initial counter value is internal measurement result since battery installation. Counter is marked as suspect when attribute batteryInstallationDate of MO BatteryBackup is changed. PDF ranges: [0]: Number of times battery voltage less than 40.8 V. [1]: Number of times battery voltage in range [40.8..41.9] V. [2]: Number of times battery voltage in range [42.0..43.1] V. [3]: Number of times battery voltage in range [43.2..44.3] V. [4]: Number of times battery voltage in range [44.4..45.4] V. [5]: Number of times battery voltage in range [45.5..46.8] V. [6]: Number of times battery voltage greater than 46.8 V..";
+      type uint32;
+      max-elements 7;
+    }
+    leaf-list pmBatteryMainLoadUnderVoltDiscTimeDistr {
+      description "Distribution of battery discharge durations when main load is disconnected. Initial counter value is internal measurement result since battery installation. Counter is marked as suspect when attribute batteryInstallationDate of MO BatteryBackup is changed. PDF ranges: [0]: Number of main load disconnection, where battery discharge duration less than 3 minutes. [1]: Number of main load disconnection, where battery discharge duration in range [3..9] minutes. [2]: Number of main load disconnection, where battery discharge duration in range [10..29] minutes. [3]: Number of main load disconnection, where battery discharge duration in range [30..59] minutes. [4]: Number of main load disconnection, where battery discharge duration in range [60..119] minutes. [5]: Number of main load disconnection, where battery discharge duration in range [120..239] minutes. [6]: Number of main load disconnection, where battery discharge duration in range [240..479] minutes. [7]: Number of main load disconnection, where battery discharge duration greater than 479 minutes..";
+      type uint32;
+      max-elements 8;
+    }
+    leaf pmBatteryCapacityTotalDelivered {
+      description "Total capacity delivered by battery backup system in Ah..";
+      type uint32;
+      config false;
+    }
+    leaf-list pmBatteryTemperatureDistr {
+      description "Distribution of battery operating temperatures. Initial counter value is internal measurement results since battery installation. Counter is marked as suspect when attribute batteryInstallationDate of MO BatteryBackup is changed. PDF ranges: [0]: Minutes when temperature less than -5 Celsius degree. [1]: Minutes when temperature in range [-5..-1] Celsius degree. [2]: Minutes when temperature in range [0..4] Celsius degree. [3]: Minutes when temperature in range [5..9] Celsius degree. [4]: Minutes when temperature in range [10..14] Celsius degree. [5]: Minutes when temperature in range [15..19] Celsius degree. [6]: Minutes when temperature in range [20..24] Celsius degree. [7]: Minutes when temperature in range [25..29] Celsius degree. [8]: Minutes when temperature in range [30..34] Celsius degree. [9]: Minutes when temperature in range [35..39] Celsius degree. [10]: Minutes when temperature in range [40..44] Celsius degree. [11]: Minutes when temperature in range [45..49] Celsius degree. [12]: Minutes when temperature in range [50..54] Celsius degree. [13]: Minutes when temperature in range [55..59] Celsius degree. [14]: Minutes when temperature in range [60..64] Celsius degree. [15]: Minutes when temperature in range [65..69] Celsius degree. [16]: Minutes when temperature greater than 70 Celsius degree..";
+      type uint32;
+      max-elements 17;
+    }
+    leaf-list pmBatteryDischargeTimeDistr {
+      description "Distribution of battery discharge durations. Initial counter value is internal measurement result since battery installation. Counter is marked as suspect when attribute batteryInstallationDate of MO BatteryBackup is changed. PDF ranges: [0]: Number of battery discharges, duration less than 3 minutes. [1]: Number of battery discharges, duration in range [3..9] minutes. [2]: Number of battery discharges, duration in range [10..29] minutes. [3]: Number of battery discharges, duration in range [30..59] minutes. [4]: Number of battery discharges, duration in range [60..119] minutes. [5]: Number of battery discharges, duration in range [120..239] minutes. [6]: Number of battery discharges, duration in range [240..479] minutes. [7]: Number of battery discharges, duration greater than 479 minutes..";
+      type uint32;
+      max-elements 8;
+    }
+  }
+}

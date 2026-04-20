@@ -1,0 +1,60 @@
+module huawei-deployment {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-deployment";
+ prefix deployment;
+ description
+ "Auto-generated modular YANG for huawei-deployment" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping DEPLOYMENT-attributes {
+ leaf SUBNETWORK {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf SUBAREA {
+  type string {
+   length "0..64";
+  }
+  mandatory false;
+ }
+ leaf ESN {
+  type string;
+  mandatory false;
+ }
+ leaf CONNECTIONTYPE {
+  type boolean;
+  mandatory true;
+ }
+ leaf AUTHTYPE {
+  type boolean;
+  mandatory true;
+ }
+ leaf EXTENDEDSOFTWAREVERSION {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf SOFTWAREVERSION {
+  type string {
+   length "1..64";
+  }
+  mandatory true;
+ }
+ leaf COLDPATCHVERSION {
+  type string {
+   length "0..64";
+  }
+  mandatory false;
+ }
+ leaf HOTPATCHVERSION {
+  type string {
+   length "0..64";
+  }
+  mandatory false;
+ }
+ }
+}

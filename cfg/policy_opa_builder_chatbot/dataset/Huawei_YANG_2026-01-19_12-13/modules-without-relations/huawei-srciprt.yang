@@ -1,0 +1,111 @@
+module huawei-srciprt {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-srciprt";
+ prefix srciprt;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-srciprt" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv4" {
+ container srciprt-ipv4 {
+  container attributes {
+   uses SRCIPRT-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping SRCIPRT-attributes {
+ leaf CN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf IFNO {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ leaf IFT {
+  type enumeration {
+   enum val-0;
+   enum val-2;
+   enum val-8;
+  }
+  mandatory false;
+ }
+ leaf NEXTHOP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf PREF {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf RTTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf SBT {
+  type enumeration {
+   enum val-0;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf SRCIP {
+  type inet:ipv4-address;
+  mandatory false;
+ }
+ leaf OLD_SRCRTIDX {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRCRTIDX {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

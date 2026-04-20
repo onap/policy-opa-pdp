@@ -1,0 +1,48 @@
+module ericsson-optical-indicator-control-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeOpticalIndicatorControl";
+  prefix opinctlrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list OpticalIndicatorControl {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Configuration of optical indicator control functionality on managed element level. When optical indicator control is activated, optical indicators work as normal. When optical indicator control is deactivated, all optical indicators are turned off. Applicable for hardware units that support the functionality.";
+      key "opticalIndicatorControlId";
+      leaf opticalIndicatorControlId {
+        type leafref {
+          path "../attributes/opticalIndicatorControlId";
+        }
+      }
+      container attributes {
+        uses OpticalIndicatorControl-attributes;
+      }
+    }
+  }
+  typedef OpticalIndicatorCtrl {
+    type enumeration {
+      enum ACTIVATED;
+      enum DEACTIVATED;
+    }
+  }
+  grouping OpticalIndicatorControl-attributes {
+    leaf opticalIndicatorControlId {
+      type string;
+      mandatory true;
+    }
+    leaf opticalIndicatorControl {
+      type enumeration {
+        enum ACTIVATED;
+        enum DEACTIVATED;
+      }
+    }
+  }
+}

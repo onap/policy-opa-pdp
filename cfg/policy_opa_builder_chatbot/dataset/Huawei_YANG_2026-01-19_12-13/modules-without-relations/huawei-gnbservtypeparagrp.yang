@@ -1,0 +1,58 @@
+module huawei-gnbservtypeparagrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbservtypeparagrp";
+ prefix gnbservtypeparagrp;
+ description
+ "Auto-generated modular YANG for huawei-gnbservtypeparagrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBSERVTYPEPARAGRP-attributes {
+ leaf DLDATAVOLUMELOWERTHLD {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf DLDATAVOLUMEUPPERTHLD {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf SERVICETYPELABEL {
+  type string {
+   length "0..99";
+  }
+  mandatory false;
+ }
+ leaf OLD_SERVICETYPEPARAGRPID {
+  type union {
+   type int8 {
+    range "-1..10";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVICETYPEPARAGRPID {
+  type union {
+   type int8 {
+    range "-1..10";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULDATAVOLUMELOWERTHLD {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf ULDATAVOLUMEUPPERTHLD {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ }
+}

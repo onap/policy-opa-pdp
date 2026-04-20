@@ -1,0 +1,72 @@
+module huawei-nrducellchncalib {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellchncalib";
+ prefix nrducellchncalib;
+ description
+ "Auto-generated modular YANG for huawei-nrducellchncalib" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLCHNCALIB-attributes {
+ leaf ALPHAFILTERCOEFF {
+  type uint8 {
+   range "1..100";
+  }
+  mandatory false;
+ }
+ leaf CALIBRATIONALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf CHNCALIBSYMCONFIG {
+  type uint8 {
+   range "0..2";
+  }
+  mandatory false;
+ }
+ leaf CHNCALIBTHLDOFFSET {
+  type uint8 {
+   range "0..12";
+  }
+  mandatory false;
+ }
+ leaf INTERCELLCALIBCHNCONFIG {
+  type uint8 {
+   range "0..127";
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf PHASECALIBTIMEINTERVAL {
+  type uint16 {
+   range "1..2880";
+  }
+  mandatory false;
+ }
+ leaf RRUCALIBPORTCBLCONNCHKTHLD {
+  type int8 {
+   range "-6..10";
+  }
+  mandatory false;
+ }
+ leaf SLIDINGWINDOWFILTERCOEFF {
+  type uint8 {
+   range "0..160";
+  }
+  mandatory false;
+ }
+ leaf VALIDSAMPLENUMBERTHRESHOLD {
+  type uint8 {
+   range "1..50";
+  }
+  mandatory false;
+ }
+ }
+}

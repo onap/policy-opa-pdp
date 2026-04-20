@@ -1,0 +1,52 @@
+module huawei-bits {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-bits";
+ prefix bits;
+ description
+ "Auto-generated modular YANG for huawei-bits" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping BITS-attributes {
+ leaf OLD_BN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf BN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf PRI {
+  type uint8 {
+   range "1..4";
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ }
+}

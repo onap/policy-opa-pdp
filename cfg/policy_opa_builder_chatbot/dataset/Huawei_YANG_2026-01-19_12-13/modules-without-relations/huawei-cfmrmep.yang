@@ -1,0 +1,69 @@
+module huawei-cfmrmep {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cfmrmep";
+ prefix cfmrmep;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-yang-types {
+ prefix yang;
+ }
+ description
+ "Auto-generated modular YANG for huawei-cfmrmep" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface" {
+ container attributes {
+  uses CFMRMEP-attributes {
+   /* opcjonalnie: IF-only subset */
+  }
+ }
+}
+ grouping CFMRMEP-attributes {
+ leaf MAC {
+  type yang:mac-address;
+  mandatory false;
+ }
+ leaf OLD_MANAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MANAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf OLD_MDNAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf MDNAME {
+  type string {
+   length "1..43";
+  }
+  mandatory false;
+ }
+ leaf OLD_RMEPID {
+  type union {
+   type int16 {
+    range "-1..8191";
+   }
+  }
+  mandatory false;
+ }
+ leaf RMEPID {
+  type union {
+   type int16 {
+    range "-1..8191";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,162 @@
+module huawei-gnbfreqbandconfig {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbfreqbandconfig";
+ prefix gnbfreqbandconfig;
+ description
+ "Auto-generated modular YANG for huawei-gnbfreqbandconfig" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBFREQBANDCONFIG-attributes {
+ leaf ADDITIONALFRAMEOFFSET {
+  type union {
+   type uint32 {
+    range "0..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf ADDLSPCTEMSNCONFIGSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf FRAMEOFFSET {
+  type union {
+   type uint32 {
+    range "0..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_FREQUENCYBAND {
+  type enumeration {
+   enum val--1;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-5;
+   enum val-7;
+   enum val-8;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-18;
+   enum val-20;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-28;
+   enum val-30;
+   enum val-31;
+   enum val-34;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-46;
+   enum val-48;
+   enum val-50;
+   enum val-51;
+   enum val-53;
+   enum val-54;
+   enum val-65;
+   enum val-66;
+   enum val-70;
+   enum val-71;
+   enum val-72;
+   enum val-74;
+   enum val-75;
+   enum val-77;
+   enum val-78;
+   enum val-79;
+   enum val-85;
+   enum val-90;
+   enum val-91;
+   enum val-92;
+   enum val-93;
+   enum val-94;
+   enum val-96;
+   enum val-100;
+   enum val-101;
+   enum val-102;
+   enum val-104;
+   enum val-105;
+   enum val-106;
+   enum val-109;
+   enum val-257;
+   enum val-258;
+   enum val-259;
+   enum val-260;
+   enum val-261;
+   enum val-262;
+   enum val-263;
+  }
+  mandatory false;
+ }
+ leaf FREQUENCYBAND {
+  type enumeration {
+   enum val--1;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-5;
+   enum val-7;
+   enum val-8;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-18;
+   enum val-20;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-28;
+   enum val-30;
+   enum val-31;
+   enum val-34;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-46;
+   enum val-48;
+   enum val-50;
+   enum val-51;
+   enum val-53;
+   enum val-54;
+   enum val-65;
+   enum val-66;
+   enum val-70;
+   enum val-71;
+   enum val-72;
+   enum val-74;
+   enum val-75;
+   enum val-77;
+   enum val-78;
+   enum val-79;
+   enum val-85;
+   enum val-90;
+   enum val-91;
+   enum val-92;
+   enum val-93;
+   enum val-94;
+   enum val-96;
+   enum val-100;
+   enum val-101;
+   enum val-102;
+   enum val-104;
+   enum val-105;
+   enum val-106;
+   enum val-109;
+   enum val-257;
+   enum val-258;
+   enum val-259;
+   enum val-260;
+   enum val-261;
+   enum val-262;
+   enum val-263;
+  }
+  mandatory false;
+ }
+ }
+}

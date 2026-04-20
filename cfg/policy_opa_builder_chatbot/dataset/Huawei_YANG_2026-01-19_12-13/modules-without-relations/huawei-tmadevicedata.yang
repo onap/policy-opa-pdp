@@ -1,0 +1,400 @@
+module huawei-tmadevicedata {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-tmadevicedata";
+ prefix tmadevicedata;
+ description
+ "Auto-generated modular YANG for huawei-tmadevicedata" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping TMADEVICEDATA-attributes {
+ leaf BAND1 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+   enum val-44;
+   enum val-45;
+   enum val-46;
+   enum val-48;
+   enum val-49;
+   enum val-50;
+   enum val-51;
+   enum val-52;
+   enum val-65;
+   enum val-66;
+   enum val-67;
+   enum val-68;
+   enum val-69;
+   enum val-70;
+   enum val-71;
+   enum val-72;
+   enum val-73;
+   enum val-74;
+   enum val-75;
+   enum val-76;
+   enum val-85;
+  }
+  mandatory false;
+ }
+ leaf BAND2 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+   enum val-44;
+   enum val-45;
+   enum val-46;
+   enum val-48;
+   enum val-49;
+   enum val-50;
+   enum val-51;
+   enum val-52;
+   enum val-65;
+   enum val-66;
+   enum val-67;
+   enum val-68;
+   enum val-69;
+   enum val-70;
+   enum val-71;
+   enum val-72;
+   enum val-73;
+   enum val-74;
+   enum val-75;
+   enum val-76;
+   enum val-85;
+  }
+  mandatory false;
+ }
+ leaf BAND3 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+   enum val-44;
+   enum val-45;
+   enum val-46;
+   enum val-48;
+   enum val-49;
+   enum val-50;
+   enum val-51;
+   enum val-52;
+   enum val-65;
+   enum val-66;
+   enum val-67;
+   enum val-68;
+   enum val-69;
+   enum val-70;
+   enum val-71;
+   enum val-72;
+   enum val-73;
+   enum val-74;
+   enum val-75;
+   enum val-76;
+   enum val-85;
+  }
+  mandatory false;
+ }
+ leaf BAND4 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-17;
+   enum val-18;
+   enum val-19;
+   enum val-20;
+   enum val-21;
+   enum val-22;
+   enum val-23;
+   enum val-24;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-29;
+   enum val-30;
+   enum val-31;
+   enum val-32;
+   enum val-33;
+   enum val-34;
+   enum val-35;
+   enum val-36;
+   enum val-37;
+   enum val-38;
+   enum val-39;
+   enum val-40;
+   enum val-41;
+   enum val-42;
+   enum val-43;
+   enum val-44;
+   enum val-45;
+   enum val-46;
+   enum val-48;
+   enum val-49;
+   enum val-50;
+   enum val-51;
+   enum val-52;
+   enum val-65;
+   enum val-66;
+   enum val-67;
+   enum val-68;
+   enum val-69;
+   enum val-70;
+   enum val-71;
+   enum val-72;
+   enum val-73;
+   enum val-74;
+   enum val-75;
+   enum val-76;
+   enum val-85;
+  }
+  mandatory false;
+ }
+ leaf BEAMWIDTH1 {
+  type uint16 {
+   range "0..359";
+  }
+  mandatory false;
+ }
+ leaf BEAMWIDTH2 {
+  type uint16 {
+   range "0..359";
+  }
+  mandatory false;
+ }
+ leaf BEAMWIDTH3 {
+  type uint16 {
+   range "0..359";
+  }
+  mandatory false;
+ }
+ leaf BEAMWIDTH4 {
+  type uint16 {
+   range "0..359";
+  }
+  mandatory false;
+ }
+ leaf BEARING {
+  type union {
+   type uint32 {
+    range "0..4294967295";
+   }
+  }
+  mandatory false;
+ }
+ leaf BSID {
+  type string {
+   length "0..32";
+  }
+  mandatory false;
+ }
+ leaf DATE {
+  type string {
+   length "0..6";
+  }
+  mandatory false;
+ }
+ leaf DEVICENO {
+  type union {
+   type int16 {
+    range "-1..1023";
+   }
+  }
+  mandatory false;
+ }
+ leaf GAIN1 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf GAIN2 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf GAIN3 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf GAIN4 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf INSTALLERID {
+  type string {
+   length "0..5";
+  }
+  mandatory false;
+ }
+ leaf MODELNO {
+  type string {
+   length "0..15";
+  }
+  mandatory false;
+ }
+ leaf SECTORID {
+  type string {
+   length "0..32";
+  }
+  mandatory false;
+ }
+ leaf SERIALNO {
+  type string {
+   length "0..17";
+  }
+  mandatory false;
+ }
+ leaf SUBUNITNO {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf TILT {
+  type union {
+   type int32 {
+    range "-900..2147483647";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

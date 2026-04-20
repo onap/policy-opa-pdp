@@ -1,0 +1,48 @@
+module huawei-gnbduredcapblbgrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbduredcapblbgrp";
+ prefix gnbduredcapblbgrp;
+ description
+ "Auto-generated modular YANG for huawei-gnbduredcapblbgrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBDUREDCAPBLBGRP-attributes {
+ leaf DLBWPLBWEIGHTFACTOR {
+  type union {
+   type uint16 {
+    range "0..1000";
+   }
+  }
+  mandatory false;
+ }
+ leaf REDCAPBLBALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_REDCAPBLBPARAMGROUPID {
+  type union {
+   type int8 {
+    range "-1..9";
+   }
+  }
+  mandatory false;
+ }
+ leaf REDCAPBLBPARAMGROUPID {
+  type union {
+   type int8 {
+    range "-1..9";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULBWPLBWEIGHTFACTOR {
+  type union {
+   type uint16 {
+    range "0..1000";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

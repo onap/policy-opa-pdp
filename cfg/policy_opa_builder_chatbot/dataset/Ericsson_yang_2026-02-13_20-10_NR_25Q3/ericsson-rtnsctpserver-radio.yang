@@ -1,0 +1,128 @@
+module ericsson-rtnsctpserver-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnSctpServer";
+  prefix rtnsctps;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Sctp {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; The Sctp is an abstraction of the SCTP system. The only purpose of this class is PM counters. Created automatically when the first SctpEndpoint is created.";
+      key "sctpId";
+      leaf sctpId {
+        type leafref {
+          path "../attributes/sctpId";
+        }
+      }
+      container attributes {
+        uses Sctp-attributes;
+      }
+    }
+  }
+  grouping Sctp-attributes {
+    leaf sctpId {
+      type string;
+      mandatory true;
+    }
+    leaf sctpOutUnorderChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpShutdowns {
+      type uint64;
+      config false;
+    }
+    leaf sctpChecksumErrors {
+      type uint64;
+      config false;
+    }
+    leaf sctpReasmUsrMsgs {
+      type uint64;
+      config false;
+    }
+    leaf sctpActiveEstabs {
+      type uint64;
+      config false;
+    }
+    leaf sctpOutOfBlues {
+      type uint64;
+      config false;
+    }
+    leaf sctpCommResume {
+      type uint64;
+      config false;
+    }
+    leaf sctpOutOrderChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpInErrors {
+      type uint64;
+      config false;
+    }
+    leaf sctpAborteds {
+      type uint64;
+      config false;
+    }
+    leaf sctpOutSCTPPacks {
+      type uint64;
+      config false;
+    }
+    leaf sctpInUnorderChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpInCtrlChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpOutDiscardedChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpOutCtrlChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpInSCTPPacks {
+      type uint64;
+      config false;
+    }
+    leaf sctpPassiveEstabs {
+      type uint64;
+      config false;
+    }
+    leaf sctpRtxChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpInDiscardedChunks {
+      type uint64;
+      config false;
+    }
+    leaf sctpFragUsrMsgs {
+      type uint64;
+      config false;
+    }
+    leaf sctpInNoPorts {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf sctpCommStop {
+      type uint64;
+      config false;
+    }
+    leaf sctpInOrderChunks {
+      type uint64;
+      config false;
+    }
+  }
+}

@@ -1,0 +1,82 @@
+module huawei-srciproute6 {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-srciproute6";
+ prefix srciproute6;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-srciproute6" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv6" {
+ container srciproute6-ipv6 {
+  container attributes {
+   uses SRCIPROUTE6-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping SRCIPROUTE6-attributes {
+ leaf ITFID {
+  type uint16 {
+   range "0..1499";
+  }
+  mandatory false;
+ }
+ leaf NEXTHOP {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf PREF {
+  type uint8 {
+   range "1..255";
+  }
+  mandatory false;
+ }
+ leaf RTTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf SRCIP {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf OLD_SRCRTIDX {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRCRTIDX {
+  type union {
+   type int32 {
+    range "-1..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type uint8 {
+   range "0..31";
+  }
+  mandatory false;
+ }
+ }
+}

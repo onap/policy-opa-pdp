@@ -1,0 +1,110 @@
+module ericsson-peer-ipsec-tunnel-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnPeerIpsecTunnel";
+  prefix pipsectlrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list PeerIpsecTunnel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents direct IPsec VPN connection to X2 or Xn neighbor node. One direct IPsec VPN connection can be shared by multiple X2 or Xn connections between two nodes. In this case, there can be multiple local inner and peer inner addresses.";
+      key "peerIpsecTunnelId";
+      leaf peerIpsecTunnelId {
+        type leafref {
+          path "../attributes/peerIpsecTunnelId";
+        }
+      }
+      container attributes {
+        uses PeerIpsecTunnel-attributes;
+      }
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping PeerIpsecTunnel-attributes {
+    leaf localInnerAddress {
+      type string;
+      config false;
+    }
+    leaf-list localInnerAddresses {
+      type string;
+    }
+    leaf localOuterAddress {
+      type string;
+      config false;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf operationalStateIPv4 {
+      type ietfinet:ipv4-address;
+      config false;
+    }
+    leaf operationalStateIPv6 {
+      type ietfinet:ipv6-address;
+      config false;
+    }
+    leaf-list peerInnerAddresses {
+      type string;
+    }
+    leaf peerIpsecTunnelId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf peerOuterAddress {
+      type string;
+      config false;
+    }
+    leaf ipIfStatsOutFragCreates {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf unavailableSecondsIPv4 {
+      type ietfinet:ipv4-address;
+      config false;
+    }
+    leaf ikeFailures {
+      type uint64;
+      config false;
+    }
+    leaf unavailableSecondsIPv6 {
+      type ietfinet:ipv6-address;
+      config false;
+    }
+    leaf ipsecInError {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf unavailableSeconds {
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsOutDiscards {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInError {
+      type ietfinet:ip-address;
+      config false;
+    }
+  }
+}

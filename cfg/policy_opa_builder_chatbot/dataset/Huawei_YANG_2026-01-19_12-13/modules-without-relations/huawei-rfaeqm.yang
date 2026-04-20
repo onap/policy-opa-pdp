@@ -1,0 +1,162 @@
+module huawei-rfaeqm {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfaeqm";
+ prefix rfaeqm;
+ description
+ "Auto-generated modular YANG for huawei-rfaeqm" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFAEQM-attributes {
+ leaf CN1 {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf CN2 {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf CN3 {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf CN4 {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf DLULMODE1 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf DLULMODE2 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf DLULMODE3 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf DLULMODE4 {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf PN1 {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf PN2 {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf PN3 {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf PN4 {
+  type uint8 {
+   range "0..9";
+  }
+  mandatory false;
+ }
+ leaf PORTNUM {
+  type uint8 {
+   range "1..4";
+  }
+  mandatory false;
+ }
+ leaf OLD_RFAEQMID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf RFAEQMID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN1 {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf SN2 {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf SN3 {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf SN4 {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf SRN1 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf SRN2 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf SRN3 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf SRN4 {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ }
+}

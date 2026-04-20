@@ -1,0 +1,84 @@
+module huawei-glocellothpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-glocellothpara";
+ prefix glocellothpara;
+ description
+ "Auto-generated modular YANG for huawei-glocellothpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GLOCELLOTHPARA-attributes {
+ leaf FIRSTMROPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf GLOCELLID {
+  type union {
+   type int32 {
+    range "-1..268435455";
+   }
+  }
+  mandatory false;
+ }
+ leaf IMMOCCUPYPCHDELAY {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf IMMOCCUPYPCHOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf MULTRXBRDSTABMONITUNNSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf MULTRXBRDUNSTABMONITUNNSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf NOTRAFFICSELFHEALSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PAGINGOVLDPROCOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PCHFORBIDRPTLOADSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PTCCHPOWEROPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RFMODULESTDETECTPNTHRD {
+  type uint8 {
+   range "0..120";
+  }
+  mandatory false;
+ }
+ leaf RFMODULESTDETECTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SPEECHBADFRAMEOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SPEECHDELAYOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf TRAFFICMUTESELFHEALSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf UMSFOPTSW {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

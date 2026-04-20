@@ -1,0 +1,44 @@
+module huawei-nrducellmobility {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellmobility";
+ prefix nrducellmobility;
+ description
+ "Auto-generated modular YANG for huawei-nrducellmobility" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLMOBILITY-attributes {
+ leaf CARRSHDNEVENTEVALPRBTHLD {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CARRSHUTDFASTEVALPRBTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf MOBILITYALGOSW {
+  type string;
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf VONREPSFBADAPTCQITHLD {
+  type uint8 {
+   range "0..15";
+  }
+  mandatory false;
+ }
+ }
+}

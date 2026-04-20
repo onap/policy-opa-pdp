@@ -1,0 +1,72 @@
+module huawei-ctrllnk {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ctrllnk";
+ prefix ctrllnk;
+ description
+ "Auto-generated modular YANG for huawei-ctrllnk" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CTRLLNK-attributes {
+ leaf CN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf OLD_LN {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LN {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf UPCN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf UPPT {
+  type union {
+   type uint8 {
+    range "0..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf UPSN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf UPSRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ }
+}

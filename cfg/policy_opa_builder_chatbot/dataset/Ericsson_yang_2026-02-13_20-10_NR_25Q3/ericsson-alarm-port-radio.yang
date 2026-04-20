@@ -1,0 +1,178 @@
+module ericsson-alarm-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqAlarmPort";
+  prefix alprtrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list AlarmPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO models an Alarm Port. It is used to detect a fault indication from external equipment and report it as external alarm to the Network Management System.";
+      key "alarmPortId";
+      leaf alarmPortId {
+        type leafref {
+          path "../attributes/alarmPortId";
+        }
+      }
+      container attributes {
+        uses AlarmPort-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef ApcFilterAlgorithm {
+    type enumeration {
+      enum NONE;
+      enum FIXED;
+      enum AUTO;
+    }
+  }
+  typedef ApcPerceivedSeverity {
+    type enumeration {
+      enum CRITICAL;
+      enum MAJOR;
+      enum MINOR;
+      enum WARNING;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping AlarmPort-attributes {
+    leaf alarmPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf filterDelay {
+      type int32 {
+        range "60..28800";
+      }
+      default "60";
+      units "s";
+      description "range 60..28800; Default value: 60.";
+    }
+    leaf activeExternalAlarm {
+      type boolean;
+      config false;
+    }
+    leaf alarmSlogan {
+      type string {
+        length "1..63";
+      }
+      description "length 1..63.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf normallyOpen {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf perceivedSeverity {
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+    }
+    leaf alarmInExternalMe {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf filterTime {
+      type eytypes:int32_range_0-3600;
+      default "0";
+      units "s";
+      description "range 0..3600; Default value: 0.";
+    }
+    leaf filterAlgorithm {
+      type enumeration {
+        enum NONE;
+        enum FIXED;
+        enum AUTO;
+      }
+    }
+  }
+}

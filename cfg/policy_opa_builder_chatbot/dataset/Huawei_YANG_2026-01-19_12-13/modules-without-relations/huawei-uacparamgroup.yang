@@ -1,0 +1,32 @@
+module huawei-uacparamgroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-uacparamgroup";
+ prefix uacparamgroup;
+ description
+ "Auto-generated modular YANG for huawei-uacparamgroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping UACPARAMGROUP-attributes {
+ leaf OLD_ACCESSCONTROLPARAMGRPID {
+  type union {
+   type int8 {
+    range "-1..127";
+   }
+  }
+  mandatory false;
+ }
+ leaf ACCESSCONTROLPARAMGRPID {
+  type union {
+   type int8 {
+    range "-1..127";
+   }
+  }
+  mandatory false;
+ }
+ leaf BARSTATEFORSPECIFICACSID {
+  type string;
+  mandatory false;
+ }
+ }
+}

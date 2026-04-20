@@ -1,0 +1,199 @@
+module huawei-rhub {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rhub";
+ prefix rhub;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-rhub" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RHUB-attributes {
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf ET {
+  type hwat:yyyy_mm_dd_HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf ETHPT0RATE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf ETHPT1RATE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf ETHPT2RATE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf ETHPT3RATE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf FMBWH {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+  }
+  mandatory false;
+ }
+ leaf LOCATIONNAME {
+  type string {
+   length "0..128";
+  }
+  mandatory false;
+ }
+ leaf MMSETREMARK {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ leaf MNTMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+  }
+  mandatory false;
+ }
+ leaf PS {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf RCN {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RHUBSPEC {
+  type string {
+   length "0..15";
+  }
+  mandatory false;
+ }
+ leaf RN {
+  type string {
+   length "0..128";
+  }
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf ST {
+  type hwat:yyyy_mm_dd_HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf TCMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf TXDUPSW {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ }
+}

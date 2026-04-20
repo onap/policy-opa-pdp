@@ -1,0 +1,74 @@
+module ericsson-ru-flexible-bw-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeRuFlexibleBw";
+  prefix flxbwrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list RuFlexibleBw {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Configuration of flexible frequency ranges for IRU. One instance defines frequency ranges for one or several IRUs. Same FieldReplaceableUnit instance can only be referenced by one RuFlexibleBw instance. Frequency ranges must not overlap.";
+      key "ruFlexibleBwId";
+      leaf ruFlexibleBwId {
+        type leafref {
+          path "../attributes/ruFlexibleBwId";
+        }
+      }
+      container attributes {
+        uses RuFlexibleBw-attributes;
+      }
+    }
+  }
+  grouping RuFlexibleBw-attributes {
+    leaf ruFlexibleBwId {
+      type string;
+      mandatory true;
+    }
+    list flexibleBwLimit {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      ordered-by user;
+      container attributes {
+      leaf ulLowerEdgeFrequency {
+        type int32;
+        default "0";
+        units "kHz";
+        description "Default value: 0.";
+      }
+      leaf ulInstantaneousBandwidth {
+        type int32;
+        default "0";
+        units "MHz";
+        description "Default value: 0.";
+      }
+      leaf dlLowerEdgeFrequency {
+        type int32;
+        default "0";
+        units "kHz";
+        description "Default value: 0.";
+      }
+      leaf dlInstantaneousBandwidth {
+        type int32;
+        default "0";
+        units "MHz";
+        description "Default value: 0.";
+      }
+      }
+    }
+    leaf-list fieldReplaceableUnitRef {
+      type string;
+      min-elements 1;
+    }
+  }
+}

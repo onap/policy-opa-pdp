@@ -1,0 +1,61 @@
+module ericsson-synchronization-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncSynchronization";
+  prefix syncrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Transport Synchronization Model. This is the root of Sync fragment.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Synchronization {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO class is the top class for synchronization management.";
+      key "synchronizationId";
+      leaf synchronizationId {
+        type leafref {
+          path "../attributes/synchronizationId";
+        }
+      }
+      container attributes {
+      uses Synchronization-attributes;
+      }
+    }
+  }
+  typedef TelecomStandard {
+    description "Telecom standard of the synchronization networks.";
+    type enumeration {
+      enum OPTION_I {
+        description "Option I synchronization networks for ETSI (European standard).";
+      }
+      enum OPTION_II {
+        description "Option II synchronization networks for ANSI (US standard).";
+      }
+      enum OPTION_III {
+        description "Option III synchronization networks for TTC (Japanese standard).";
+      }
+    }
+  }
+  grouping Synchronization-attributes {
+    leaf fixedPosition {
+      description "Whether node has fixed position. If node does not move, this attribute is set to true. GNSS receiver may lock its position to enhance receiver performance. If node may move, for example on cruise ship, this attribute is set to false. GNSS receiver needs to continuously track its position.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf synchronizationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf telecomStandard {
+      description "Regional telecom standard option to I, II, or III for ETSI (European Standard), ANSI (US Standard) or TTC (Japanese Standard) respectively. This attribute is not applicable, if RadioEquipmentClock::selectionProcessMode attribute is set to QL_DISABLED..";
+      type enumeration {
+        enum OPTION_I;
+        enum OPTION_II;
+        enum OPTION_III;
+      }
+    }
+  }
+}

@@ -1,0 +1,259 @@
+module ericsson-o-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqORadio";
+  prefix ordo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list ORadio {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO is used to configure and monitor an ORadio. Created automatically when connection is established to the radio unit represented by parent FieldReplaceableUnit MO, if OHybrid MO exists. Can also be created and deleted manually. When created automatically, the RDN of this MO is ORadio=1.";
+      key "oRadioId";
+      leaf oRadioId {
+        type leafref {
+          path "../attributes/oRadioId";
+        }
+      }
+      container attributes {
+        uses ORadio-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef CipherVersion {
+    type enumeration {
+      enum V1_CIPHERS;
+      enum V2_CIPHERS;
+    }
+  }
+  typedef FileOperationStatus {
+    type enumeration {
+      enum FAILURE;
+      enum SUCCESS;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping ORadio-attributes {
+    leaf oRadioId {
+      type string;
+      mandatory true;
+    }
+    leaf serialNumber {
+      type string;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf defaultUserName {
+      type string;
+    }
+    list defaultUserPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf sudoUserName {
+      type string;
+    }
+    list sudoUserPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf commandResult {
+      type string;
+      config false;
+    }
+    leaf notificationResult {
+      type string;
+      config false;
+    }
+    leaf nmsUserName {
+      type string;
+    }
+    list nmsUserPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf oamConnectionResult {
+      type string;
+      config false;
+    }
+    leaf serialNumberValidation {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf nmsAddress {
+      type string;
+    }
+    leaf subnet {
+      type string;
+    }
+    leaf sshKeyValidation {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf pmActivated {
+      type ietfyang:mac-address;
+      description "Default value: false.";
+    }
+    leaf pmConfigString {
+      type string;
+    }
+    leaf pmActivatedStatus {
+      type ietfyang:mac-address;
+      config false;
+    }
+    list readFileListResult {
+      config false;
+      container attributes {
+      leaf status {
+        type enumeration {
+          enum FAILURE;
+          enum SUCCESS;
+        }
+      }
+      leaf fileList {
+        type string;
+      }
+      leaf rejectReason {
+        type string;
+      }
+      }
+    }
+    list uploadFileNotificationResult {
+      config false;
+      container attributes {
+      leaf status {
+        type enumeration {
+          enum FAILURE;
+          enum SUCCESS;
+        }
+      }
+      leaf localLogicalFilePath {
+        type string;
+      }
+      leaf rejectReason {
+        type string {
+          length "0..1";
+        }
+        description "length 0..1.";
+      }
+      leaf remoteFilePath {
+        type string;
+      }
+      }
+    }
+    leaf txArrayCarriersGain {
+      type int64;
+      default "0";
+      units "dB";
+      description "Default value: 0.";
+    }
+    leaf cipherVersion {
+      type ietfinet:ip-address;
+    }
+    leaf txPowerGain {
+      type int32 {
+        range "-100000..0";
+      }
+      default "0";
+      units "dB";
+      description "range -100000..0; Default value: 0.";
+    }
+  }
+}

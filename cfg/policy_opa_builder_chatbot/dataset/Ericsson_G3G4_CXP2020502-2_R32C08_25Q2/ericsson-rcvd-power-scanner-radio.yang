@@ -1,0 +1,105 @@
+module ericsson-rcvd-power-scanner-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRcvdPowerScanner";
+  prefix rcvdpwrsrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nMeasures power at receive antenna when O&M interface requests it. The RDN of this MO is RcvdPowerScanner=1.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list RcvdPowerScanner {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Measures power at receive antenna when O&M interface requests it. The RDN of this MO is RcvdPowerScanner=1.";
+      key "rcvdPowerScannerId";
+      leaf rcvdPowerScannerId {
+        type leafref {
+          path "../attributes/rcvdPowerScannerId";
+        }
+      }
+      container attributes {
+      uses RcvdPowerScanner-attributes;
+      }
+    }
+  }
+  typedef RcvdPowerScanType {
+    description "Received power scan types. Determines whether the scan shall be performed on frequency ranges with or without active carriers.";
+    type enumeration {
+      enum RCVD_POWER_WITHOUT_CARRIER {
+        description "A scan on a frequency range without carriers.";
+      }
+      enum RCVD_POWER_WITH_CARRIER {
+        description "A scan on a frequency range with carrier(s).";
+      }
+    }
+  }
+  grouping RcvdPowerFreqRange-struct {
+    description "Specifies a frequency range. The range is given as a start frequency and a bandwidth.";
+    leaf freq {
+      description "range 3550000..3700000.";
+      type int32 {
+        range "3550000..3700000";
+      }
+      units "kHz";
+    }
+    leaf bandwidth {
+      type int32 {
+        range "5000 | 10000";
+      }
+      units "kHz";
+    }
+  }
+  grouping RcvdPowerReport-struct {
+    description "Received power scan result. Represents a sequence of data points. Each data point is given by start frequency, bandwidth and received power. Specifically, the i:th data point is given by (freq[i], bandwidth[i], rcvdPower[i]).";
+    leaf-list freq {
+      type int32 {
+        range "3550000..3700000";
+      }
+      ordered-by user;
+      min-elements 1;
+      max-elements 30;
+    }
+    leaf-list bandwidth {
+      type int32 {
+        range "5000 | 10000";
+      }
+      ordered-by user;
+      min-elements 1;
+      max-elements 30;
+    }
+    leaf-list rcvdPower {
+      type int32 {
+        range "-10000..10000";
+      }
+      ordered-by user;
+      min-elements 1;
+      max-elements 30;
+    }
+  }
+  grouping RcvdPowerScanner-attributes {
+    leaf scanId {
+      description "Identifier for the last completed scan contained in attribute scanResult. A value of 0 means that no scan has been completed, no results are available..";
+      type uint32;
+      config false;
+    }
+    list scanResult {
+      config false;
+      min-elements 0;
+      max-elements 16;
+      uses RcvdPowerReport-struct;
+    }
+    leaf rcvdPowerScannerId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+}

@@ -1,0 +1,64 @@
+module ericsson-over-the-air-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncOverTheAirSync";
+  prefix otardo;
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nOver The Air Sync Model. Copyright (c) 2011-2021 Ericsson AB. All rights reserved.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization" {
+    list OverTheAirSync {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents properties of termination of Over-The-Air (OTA) synchronization.";
+      key "overTheAirSyncId";
+      leaf overTheAirSyncId {
+        type leafref {
+          path "../attributes/overTheAirSyncId";
+        }
+      }
+      container attributes {
+      uses OverTheAirSync-attributes;
+      }
+    }
+  }
+  typedef OverTheAirSyncStatus {
+    description "Over-The-Air reference status.";
+    type enumeration {
+      enum UNKNOWN {
+        description "No status information available.";
+      }
+      enum NO_FAULT {
+        description "No fault detected.";
+      }
+      enum NO_MEASUREMENTS {
+        description "Measurements not received.";
+      }
+      enum UNSTABLE_MEASUREMENTS {
+        description "Measurements received. None considered usable to support synchronization.";
+      }
+    }
+  }
+  grouping OverTheAirSync-attributes {
+    leaf overTheAirSyncId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list overTheAirSyncStatus {
+      description "Status of Over-The-Air synchronization..";
+      type OverTheAirSyncStatus;
+      min-elements 0;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+  }
+}

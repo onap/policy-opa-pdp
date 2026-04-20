@@ -1,0 +1,51 @@
+module ericsson-network-identity-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqNetworkIdentity";
+  prefix nwrkidrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list NetworkIdentity {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Identity of FieldReplaceableUnit MO in network represented by RiNetwork MO.";
+      key "networkIdentityId";
+      leaf networkIdentityId {
+        type leafref {
+          path "../attributes/networkIdentityId";
+        }
+      }
+      container attributes {
+        uses NetworkIdentity-attributes;
+      }
+    }
+  }
+  grouping NetworkIdentity-attributes {
+    leaf networkIdentityId {
+      type string;
+      mandatory true;
+    }
+    leaf serialNumber {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list neighborPortId {
+      type ietfinet:port-number;
+    }
+  }
+}

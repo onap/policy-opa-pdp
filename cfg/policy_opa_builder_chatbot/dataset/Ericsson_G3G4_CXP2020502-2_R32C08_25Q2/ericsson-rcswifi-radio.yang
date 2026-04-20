@@ -1,0 +1,175 @@
+module ericsson-rcswifi-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsWifi";
+  prefix rcswifi;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThe model for Wifi access.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list WifiAccessM {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Controls for Wifi interface. The RDN of this MO is WifiAccessM=1.";
+      key "wifiAccessMId";
+      leaf wifiAccessMId {
+        type leafref {
+          path "../attributes/wifiAccessMId";
+        }
+      }
+      container attributes {
+      uses WifiAccessM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcswifi:WifiAccessM" {
+    list WifiAccess {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Enables access to management services over Wifi. Controls access to SSH- and TLS-based services, for example, Ericsson CLI and NETCONF, and emergency access GUI. The RDNs of these MOs are WifiAccess=cmSsh, WifiAccess=cmTls, and WifiAccess=web.";
+      key "wifiAccessId";
+      leaf wifiAccessId {
+        type leafref {
+          path "../attributes/wifiAccessId";
+        }
+      }
+      container attributes {
+      uses WifiAccess-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "Administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef WifiStatus {
+    description "WifiStatus.";
+    type enumeration {
+      enum OFF {
+        description "Wifi is off.";
+      }
+      enum CONNECTING {
+        description "Wifi is searching for an access point. The access point must have one of the configured SSIDs.";
+      }
+      enum ERROR {
+        description "Wifi is inoperable due to an error.";
+      }
+      enum PRESHARED_KEY_MISMATCH {
+        description "Configured pre-shared keys do not match any access point.";
+      }
+      enum CONNECTED {
+        description "Wifi is connected to an access point.";
+      }
+    }
+  }
+  grouping EcimPassword-struct {
+    description "Stores the password.";
+    leaf cleartext {
+      type boolean;
+    }
+    leaf password {
+      type string;
+    }
+  }
+  grouping WifiAccess-attributes {
+    leaf wifiAccessId {
+      description "The value component of the RDN. \"WifiAccess=cmSsh\" object controls access to services like Ericsson CLI and NETCONF over SSH. \"WifiAccess=cmTls\" object controls access to service like Ericsson CLI and NETCONF over TLS. \"WifiAccess=web\" object controls access to Emergency access..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state. Not possible to set \"web\" MO to LOCKED until both WifiAccess MOs with RDN of \"cmSsh\" and \"cmTls\" are locked. Not possible to set \"cmSsh\" or \"cmTls\" to UNLOCKED unless WifiAccess MO with RDN of \"web\" is UNLOCKED. Setting SHUTTINGDOWN immediately shuts down services and the value automatically changes to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping WifiAccessM-attributes {
+    leaf wifiAccessMId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+    leaf connectionTime {
+      description "Allowed interface uptime. When interface is up, expirationTime attribute states when interface is shut down.; range 30..480; Default value: 60.";
+      type uint16 {
+        range "30..480";
+      }
+      default "60";
+      units "minutes";
+    }
+    leaf expirationTime {
+      description "Wifi interface shutdown time..";
+      type string;
+      config false;
+    }
+    list preSharedKey {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Pre-shared key. If empty, unlocking any WifiAccess MO is not possible..";
+      uses EcimPassword-struct;
+    }
+    leaf-list ssid {
+      description "Wifi service set identifiers. Node tries to connect to wifi network with assigned SSIDs. If empty, unlocking any WifiAccess MO is not possible..";
+      type string;
+      min-elements 0;
+    }
+    leaf status {
+      description "Wifi status..";
+      type enumeration {
+        enum OFF;
+        enum CONNECTING;
+        enum ERROR;
+        enum PRESHARED_KEY_MISMATCH;
+        enum CONNECTED;
+      }
+      config false;
+    }
+  }
+}

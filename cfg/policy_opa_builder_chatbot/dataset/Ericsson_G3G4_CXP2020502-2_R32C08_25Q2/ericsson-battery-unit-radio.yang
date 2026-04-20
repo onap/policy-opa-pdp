@@ -1,0 +1,230 @@
+module ericsson-battery-unit-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqBatteryUnit";
+  prefix bturdo;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis MO represents a battery unit connected to the system. The battery unit can be of lithium-ion type or lead-acid type.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list BatteryUnit {
+      description "Additional definitions from MOM:min/max-elements:0/32;root;systemCreated; This MO represents a battery unit connected to the system. The battery unit can be of lithium-ion type or lead-acid type. This MO is created automatically. MO can only be deleted by action delete(). To prevent the system from recreating the BatteryUnit MO, battery hardware must be disconnected. RDNs of these MOs are BatteryUnit=1, BatteryUnit=2 and so on.";
+      key "batteryUnitId";
+      leaf batteryUnitId {
+        type leafref {
+          path "../attributes/batteryUnitId";
+        }
+      }
+      container attributes {
+      uses BatteryUnit-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping ApcProductData-struct {
+    description ".";
+    leaf productionDate {
+      description "length 5..8.";
+      type string {
+        length "5..8";
+      }
+    }
+    leaf productName {
+      description "length 1..32.";
+      type string {
+        length "1..32";
+      }
+    }
+    leaf productNumber {
+      description "length 1..24.";
+      type string {
+        length "1..24";
+      }
+    }
+    leaf productRevision {
+      description "length 1..7.";
+      type string {
+        length "1..7";
+      }
+    }
+    leaf serialNumber {
+      description "length 1..13.";
+      type string {
+        length "1..13";
+      }
+    }
+  }
+  grouping BatteryUnit-attributes {
+    leaf batteryUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf fullyChargedCapacity {
+      description "Current maximum capacity of the battery unit. Undefined value: -1 indicates that no value has been retrieved.; range -1..999999.";
+      type eytypes:int32_range_-1-999999;
+      config false;
+      units "Ah";
+    }
+    leaf nominalCapacity {
+      description "Nominal capacity of battery unit. Undefined value: -1 indicates that no value has been retrieved.; range -1..999999.";
+      type eytypes:int32_range_-1-999999;
+      config false;
+      units "Ah";
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    list productData {
+      config false;
+      description "Product data for battery unit. Matches product data on hardware unit label..";
+      uses ApcProductData-struct;
+    }
+    leaf stateOfHealth {
+      description "State of health for the battery unit. Undefined value: -1 indicates that no value has been retrieved.; range -1..100.";
+      type eytypes:int32_range_-1-100;
+      config false;
+      units "percent";
+    }
+    leaf batteryBackupRef {
+      description "Reference to instance of the BatteryBackup MO which the battery unit refers to..";
+      type string;
+      config false;
+    }
+    leaf batteryFuseUnitRef {
+      description "Reference to instance of FieldReplaceableUnit MO that represents physical battery fuse unit (BFU) connected to this battery unit..";
+      type string;
+      config false;
+    }
+    leaf batteryProtocolAdapterRef {
+      description "Reference to instance of FieldReplaceableUnit MO that represents the HW that realizes the battery protocol adapter (BPA) function and is connected to this battery unit..";
+      type string;
+      config false;
+    }
+    leaf installationDate {
+      description "Date when battery unit was installed and taken into service. Format: YYYYMMDD. Undefined value: \"00000000\" indicates that no date has been set.; length 8..8; Default value: 00000000.";
+      type string {
+        length "8";
+      }
+      default "00000000";
+    }
+    leaf userLabel {
+      description "Label for free use.; length 0..128.";
+      type string {
+        length "0..128";
+      }
+    }
+    leaf-list pmBatteryCellVoltageMin {
+      description "Distribution of minimum cell voltage for battery unit. Lifecycle totals. PDF ranges: [0]: Number of minutes cell voltage is less than 2.7 V. [1]: Number of minutes cell voltage is in range [2.7..2.8] V. [2]: Number of minutes cell voltage is in range [2.8..2.9] V. [3]: Number of minutes cell voltage is in range [2.9..3.0] V. [4]: Number of minutes cell voltage is in range [3.0..3.1] V. [5]: Number of minutes cell voltage is in range [3.1..3.2] V. [6]: Number of minutes cell voltage is in range [3.2..3.3] V. [7]: Number of minutes cell voltage is in range [3.3..3.4] V. [8]: Number of minutes cell voltage is in range [3.4..3.5] V. [9]: Number of minutes cell voltage is in range [3.5..3.6] V. [10]: Number of minutes cell voltage is in range [3.6..3.7] V. [11]: Number of minutes cell voltage is in range [3.7..3.8] V. [12]: Number of minutes cell voltage is in range [3.8..3.9] V. [13]: Number of minutes cell voltage is in range [3.9..4.0] V. [14]: Number of minutes cell voltage is in range [4.0..4.1] V. [15]: Number of minutes cell voltage is in range [4.1..4.2] V. [16]: Number of minutes cell voltage is in range [4.2..4.3] V. [17]: Number of minutes cell voltage is above 4.3 V..";
+      type uint32;
+      max-elements 18;
+    }
+    leaf-list pmBatteryCellVoltageDelta {
+      description "Distribution of number of maximum voltage differences between highest and lowest cell voltage for a battery unit during a ROP. PDF ranges: [0]: Number of times maximum cell voltage difference is less than 0.05 V. [1]: Number of times maximum cell voltage difference is in range [0.05..0.10] V. [2]: Number of times maximum cell voltage difference is in range [0.10..0.20] V. [3]: Number of times maximum cell voltage difference is in range [0.20..0.30] V. [4]: Number of times maximum cell voltage difference is in range [0.30..0.40] V. [5]: Number of times maximum cell voltage difference is in range [0.40..0.50] V. [6]: Number of times maximum cell voltage difference is in range [0.50..0.60] V. [7]: Number of times maximum cell voltage difference is in range [0.60..0.70] V. [8]: Number of times maximum cell voltage difference is in range [0.70..0.80] V. [9]: Number of times maximum cell voltage difference is in range [0.80..0.90] V. [10]: Number of times maximum cell voltage difference is in range [0.90..1.00] V. [11]: Number of times maximum cell voltage difference is above 1.00 V..";
+      type uint32;
+      max-elements 12;
+    }
+    leaf-list pmBatteryUnitTemp {
+      description "Distribution of operating temperatures for each battery unit. PDF ranges: [0]: Number of minutes when temperature is less than -5 Celsius degree. [1]: Number of minutes when temperature is in range [-5..0] Celsius degree. [2]: Number of minutes when temperature is in range [0..5] Celsius degree. [3]: Number of minutes when temperature is in range [5..10] Celsius degree. [4]: Number of minutes when temperature is in range [10..15] Celsius degree. [5]: Number of minutes when temperature is in range [15..20] Celsius degree. [6]: Number of minutes when temperature is in range [20..25] Celsius degree. [7]: Number of minutes when temperature is in range [25..30] Celsius degree. [8]: Number of minutes when temperature is in range [30..35] Celsius degree. [9]: Number of minutes when temperature is in range [35..40] Celsius degree. [10]: Number of minutes when temperature is in range [40..45] Celsius degree. [11]: Number of minutes when temperature is in range [45..50] Celsius degree. [12]: Number of minutes when temperature is in range [50..55] Celsius degree. [13]: Number of minutes when temperature is in range [55..60] Celsius degree. [14]: Number of minutes when temperature is in range [60..65] Celsius degree. [15]: Number of minutes when temperature is in range [65..70] Celsius degree. [16]: Number of minutes when temperature is greater than 70 Celsius degree..";
+      type uint32;
+      max-elements 17;
+    }
+    leaf pmUnderTempAlarms {
+      description "Number of times when an undertemp alarm is raised within a battery since installation. Marked as suspect when attribute installationDate of MO BatteryUnit is changed..";
+      type uint32;
+      config false;
+    }
+    leaf-list pmBatteryCellVoltageMax {
+      description "Distribution of maximum cell voltage for battery unit. Lifecycle totals. PDF ranges: [0]: Number of minutes cell voltage is less than 2.7 V. [1]: Number of minutes cell voltage is in range [2.7..2.8] V. [2]: Number of minutes cell voltage is in range [2.8..2.9] V. [3]: Number of minutes cell voltage is in range [2.9..3.0] V. [4]: Number of minutes cell voltage is in range [3.0..3.1] V. [5]: Number of minutes cell voltage is in range [3.1..3.2] V. [6]: Number of minutes cell voltage is in range [3.2..3.3] V. [7]: Number of minutes cell voltage is in range [3.3..3.4] V. [8]: Number of minutes cell voltage is in range [3.4..3.5] V. [9]: Number of minutes cell voltage is in range [3.5..3.6] V. [10]: Number of minutes cell voltage is in range [3.6..3.7] V. [11]: Number of minutes cell voltage is in range [3.7..3.8] V. [12]: Number of minutes cell voltage is in range [3.8..3.9] V. [13]: Number of minutes cell voltage is in range [3.9..4.0] V. [14]: Number of minutes cell voltage is in range [4.0..4.1] V. [15]: Number of minutes cell voltage is in range [4.1..4.2] V. [16]: Number of minutes cell voltage is in range [4.2..4.3] V. [17]: Number of minutes cell voltage is above 4.3 V..";
+      type uint32;
+      max-elements 18;
+    }
+    leaf pmOverTempAlarms {
+      description "Number of times when an overtemp alarm is raised within a battery since installation. Marked as suspect when attribute installationDate of MO BatteryUnit is changed..";
+      type uint32;
+      config false;
+    }
+    leaf pmDisconnectsAtCharge {
+      description "Number of times when battery unit disconnects due to over current at charging. Marked as suspect when attribute installationDate of MO BatteryUnit is changed..";
+      type uint32;
+      config false;
+    }
+  }
+}

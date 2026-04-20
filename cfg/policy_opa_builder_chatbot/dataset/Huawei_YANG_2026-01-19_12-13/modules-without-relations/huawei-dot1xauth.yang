@@ -1,0 +1,46 @@
+module huawei-dot1xauth {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-dot1xauth";
+ prefix dot1xauth;
+ description
+ "Auto-generated modular YANG for huawei-dot1xauth" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping DOT1XAUTH-attributes {
+ leaf AM {
+  type enumeration {
+   enum val-13;
+  }
+  mandatory false;
+ }
+ leaf OLD_DOT1XAUTHID {
+  type union {
+   type int8 {
+    range "-1..64";
+   }
+  }
+  mandatory false;
+ }
+ leaf DOT1XAUTHID {
+  type union {
+   type int8 {
+    range "-1..64";
+   }
+  }
+  mandatory false;
+ }
+ leaf PORTID {
+  type uint16 {
+   range "0..9999";
+  }
+  mandatory false;
+ }
+ leaf PT {
+  type enumeration {
+   enum val-3;
+  }
+  mandatory false;
+ }
+ }
+}

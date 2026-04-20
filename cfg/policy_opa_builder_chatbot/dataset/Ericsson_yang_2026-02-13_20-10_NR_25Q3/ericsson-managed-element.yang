@@ -1,0 +1,173 @@
+module ericsson-managed-element {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:managed-element";
+  prefix emael;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+  list ManagedElement {
+    key "managedElementId";
+    description "Additional definitions from MOM:root;systemCreated;\\nThe top-level class in the Common Information Model is Managed Element root Managed Object Class. From this class, all model entities are contained. The Managed Object Class (MOC) has attributes that provide information on the Managed Element Identity, primary location and the products it contains.";
+    leaf managedElementId {
+      type leafref {
+        path "../attributes/managedElementId";
+      }
+    }
+    container attributes {
+      uses ManagedElement-attributes;
+    }
+  }
+
+  augment "/ManagedElement" {
+    list SystemFunctions {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; This model has a purpose to group the management of the system functions of the Managed Element.";
+      key "systemFunctionsId";
+      leaf systemFunctionsId {
+        type leafref {
+          path "../attributes/systemFunctionsId";
+        }
+      }
+      container attributes {
+        uses SystemFunctions-attributes;
+      }
+    }
+  }
+
+  augment "/ManagedElement" {
+    list Transport {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; This is a container for common transport functions used within the Managed Element.";
+      key "transportId";
+      leaf transportId {
+        type leafref {
+          path "../attributes/transportId";
+        }
+      }
+      container attributes {
+        uses Transport-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef SchemaFormat {
+    type enumeration {
+      enum MP_DTD;
+    }
+  }
+  grouping ManagedElement-attributes {
+    leaf managedElementId {
+      type string;
+      mandatory true;
+    }
+    leaf siteLocation {
+      type string;
+    }
+    leaf userLabel {
+      type string;
+    }
+    list productIdentity {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      container attributes {
+      leaf productNumber {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf productDesignation {
+        type string;
+      }
+      }
+    }
+    leaf localDateTime {
+      type string;
+      config false;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Deprecated at version 2.3. Functionality replaced by TimeM model.; Specification: ISO 8601:2004(E).";
+    }
+    leaf timeZone {
+      type string;
+      config false;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Deprecated at version 2.3. Functionality replaced by TimeM model..";
+    }
+    leaf dateTimeOffset {
+      type string;
+      config false;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Deprecated at version 2.3. Functionality replaced by TimeM model..";
+    }
+    leaf dnPrefix {
+      type ietfinet:ip-prefix;
+    }
+    leaf managedElementType {
+      type string;
+      config false;
+    }
+    leaf release {
+      type string;
+      config false;
+    }
+    leaf logicalName {
+      type string;
+    }
+    leaf locationName {
+      type string;
+      config false;
+    }
+    leaf vendorName {
+      type string;
+      config false;
+    }
+    leaf userDefinedState {
+      type string;
+    }
+    leaf swVersion {
+      type string;
+      config false;
+    }
+    leaf-list managedElementTypeList {
+      type string;
+    }
+    leaf networkManagedElementId {
+      type string;
+    }
+  }
+  grouping SystemFunctions-attributes {
+    leaf systemFunctionsId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping Transport-attributes {
+    leaf transportId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+  }
+}

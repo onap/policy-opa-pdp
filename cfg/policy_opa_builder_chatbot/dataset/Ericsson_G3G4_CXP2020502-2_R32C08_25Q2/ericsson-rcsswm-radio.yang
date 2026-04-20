@@ -1,0 +1,438 @@
+module ericsson-rcsswm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsSwM";
+  prefix rcsswm;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Software management model.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list SwM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The root structural element of SW management activities.";
+      key "swMId";
+      leaf swMId {
+        type leafref {
+          path "../attributes/swMId";
+        }
+      }
+      container attributes {
+      uses SwM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsswm:SwM" {
+    list UpgradePackage {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Controls the change process of the software configuration of a ME. An instance of UpgradePackage (UP) represents a specific change of software configuration from the existing one to the new one identified by the attribute administrativeData. The execution of the change process described by UP class is the normal way to change the content of the SW inventory. An UP can be seen as a modification agent. It can add new, remove, or modify functionality. The sequence in which a Software upgrade executes is as follows: 1. Prepare 2. Verify, which is optional 3. Activate 4. Confirm When the upgrade package MO is created the upgrade control file is downloaded to specify the administrative data and the activation steps for this upgrade.";
+      key "upgradePackageId";
+      leaf upgradePackageId {
+        type leafref {
+          path "../attributes/upgradePackageId";
+        }
+      }
+      container attributes {
+      uses UpgradePackage-attributes;
+      }
+    }
+  }
+  typedef ActionCapabilityState {
+    description "Indicates the readiness of Software Management function for executing actions.";
+    type enumeration {
+      enum CAPABLE {
+        description "The Software Management function is in a state where it is capable to execute all actions.";
+      }
+      enum WAIT {
+        description "The Software Management function is in a state where some actions are unavailable.";
+      }
+    }
+  }
+  typedef ActionResultType {
+    description "Lists the different results of an action.";
+    type enumeration {
+      enum SUCCESS {
+        description "The asynchronous action ended with success.";
+      }
+      enum FAILURE {
+        description "The asynchronous action ended with failure.";
+      }
+      enum NOT_AVAILABLE {
+        description "No result is available yet.";
+      }
+    }
+  }
+  typedef ActionStateType {
+    description "Lists the action states.";
+    type enumeration {
+      enum CANCELLING {
+        description "Cancellation is in progress.";
+      }
+      enum RUNNING {
+        description "The execution of the action is currently in progress.";
+      }
+      enum FINISHED {
+        description "The action is finished.";
+      }
+      enum CANCELLED {
+        description "The action has been cancelled and cancellation has been done.";
+      }
+    }
+  }
+  typedef RestartType {
+    description "Represents the node restart type when upgrading from the current active UP.";
+    type enumeration {
+      enum COLD {
+        description "Perform restart type as COLD.";
+      }
+      enum ADAPTIVE {
+        description "Perform restart type as ADAPTIVE.";
+      }
+    }
+  }
+  typedef SwMTimeoutFallbackCapability {
+    description "Fallback support.";
+    type enumeration {
+      enum SUPPORTED {
+        description "Shows that the fallback capability is supported.";
+      }
+      enum NOT_SUPPORTED {
+        description "Shows that the fallback capability is not supported.";
+      }
+    }
+  }
+  typedef UpgradePackageState {
+    description "Lists possible states of the Upgrade Package.";
+    type enumeration {
+      enum INITIALIZED {
+        description "The Upgrade Package is initialized. The administrative data and activation steps of the UP can be read.In this state, only the prepare() action can be called.";
+      }
+      enum PREPARE_IN_PROGRESS {
+        description "Prepare action in progress. In this state, only the cancel() action can be called. If the prepare() action completes successfully, the UP moves to state PREPARE_COMPLETED . If the prepare() action fails, or cancel() is called, the UP moves back to state INITIALIZED .";
+      }
+      enum PREPARE_COMPLETED {
+        description "Prepare action has finished successfully. In this state, only the verify() or the activate() action can be called. If the activate() action is called, the UP moves to state ACTIVATION_IN_PROGRESS .";
+      }
+      enum ACTIVATION_IN_PROGRESS {
+        description "Activation is in progress. In this state, only the cancel() action can be called. If the cancel() action is called, the UP moves to state DEACTIVATION_IN_PROGRESS. If the activation step completes successfully, the UP moves to state ACTIVATION_STEP_COMPLETED .";
+      }
+      enum ACTIVATION_STEP_COMPLETED {
+        description "The previous activation step completed successfully. There are still more activation steps left. In this state, only the activate() or the cancel() action can be called. If the cancel() action is called, the UP moves to state DEACTIVATION_IN_PROGRESS . If the activate() action is called, the ME starts the activation of the next activation step and the UP moves to state ACTIVATION_IN_PROGRESS . If the fallback timer expires in this state, the UP moves to state DEACTIVATION_IN_PROGRESS .";
+      }
+      enum WAITING_FOR_COMMIT {
+        description "The last activation step completed successfully. The operator must confirm the upgrade. In this state, only the confirm() or the cancel() action can be called. If the cancel() action is called, the UP moves to state DEACTIVATION_IN_PROGRESS. If the confirm() action is called, the UP moves to state COMMIT_COMPLETED .";
+      }
+      enum COMMIT_COMPLETED {
+        description "The upgrade is confirmed.The whole upgrade procedure has completed.";
+      }
+      enum DEACTIVATION_IN_PROGRESS {
+        description "Deactivation of the UP is in progress. This can be the result of a cancel() action, or the fallback timer has expired. In this state, no action can be called. At the end of fallback operation, the UP moves back to state PREPARE_COMPLETED.";
+      }
+    }
+  }
+  typedef UpgradeRestartType {
+    description "Shows node restart type when upgrading from the current active UP.";
+    type enumeration {
+      enum COLD {
+        description "System only supports legacy upgrade behavior.";
+      }
+      enum ADAPTIVE {
+        description "System Adaptive restart is supported.";
+      }
+    }
+  }
+  typedef UpgradeType {
+    description "Special upgrade modes that may be supported by activate function in some managed element types.";
+    type enumeration {
+      enum HARD {
+        description "Traffic-disrupting hard upgrade mode.";
+      }
+      enum SOFT {
+        description "Non traffic-disrupting upgrade mode.";
+      }
+    }
+  }
+  grouping ActivationStep-struct {
+    description "Activation step details.";
+    leaf serialNumber {
+      type string;
+    }
+    leaf name {
+      type string;
+    }
+    leaf description {
+      type string;
+    }
+  }
+  grouping AsyncActionProgress-struct {
+    description "Records the progress of an asynchronous action.";
+    leaf actionName {
+      type string;
+    }
+    leaf-list additionalInfo {
+      type string;
+      min-elements 0;
+    }
+    leaf progressInfo {
+      type string;
+    }
+    leaf progressPercentage {
+      type string;
+    }
+    leaf result {
+      type enumeration {
+        enum SUCCESS;
+        enum FAILURE;
+        enum NOT_AVAILABLE;
+      }
+    }
+    leaf resultInfo {
+      type string;
+    }
+    leaf state {
+      type enumeration {
+        enum CANCELLING;
+        enum RUNNING;
+        enum FINISHED;
+        enum CANCELLED;
+      }
+    }
+    leaf actionId {
+      type string;
+    }
+    leaf timeActionStarted {
+      type string;
+    }
+    leaf timeActionCompleted {
+      type string;
+    }
+    leaf timeOfLastStatusUpdate {
+      type string;
+    }
+  }
+  grouping AsyncActionProgressWithSteps-struct {
+    description "The progress of an ongoing action. Some actions can have 1 or more breakpoints.Breakpoints allow an action to be divided into defined steps. A breakpoint is an intentional stop of an executing action, for example, the Activate action in the ECIM SwM MOM. The activate action puts an upgrade package into operation. A breakpoint represents a part of the upgrade,after which the functionality of the ME can be observed manually.In other words, the breakpoints give the operator an option to verify manually that the upgrade step has been executed correctly. The ProgressReport MOC models a standard action. This MOC struct has the same attributes as the ProgressReport MOC, plus two extra attributes, step and stepProgressPercentage.step stores the current execution action step. stepProgressPercentage stores the progress percentage of the currently executing action step.";
+    leaf actionName {
+      type string;
+    }
+    leaf-list additionalInfo {
+      type string;
+      min-elements 0;
+    }
+    leaf progressInfo {
+      type string;
+    }
+    leaf progressPercentage {
+      type string;
+    }
+    leaf result {
+      type enumeration {
+        enum SUCCESS;
+        enum FAILURE;
+        enum NOT_AVAILABLE;
+      }
+    }
+    leaf resultInfo {
+      type string;
+    }
+    leaf state {
+      type enumeration {
+        enum CANCELLING;
+        enum RUNNING;
+        enum FINISHED;
+        enum CANCELLED;
+      }
+    }
+    leaf actionId {
+      type string;
+    }
+    leaf timeActionStarted {
+      type string;
+    }
+    leaf timeActionCompleted {
+      type string;
+    }
+    leaf timeOfLastStatusUpdate {
+      type string;
+    }
+    leaf step {
+      type string;
+    }
+    leaf stepProgressPercentage {
+      type string;
+    }
+  }
+  grouping EcimPassword-struct {
+    description "Stores the password.";
+    leaf cleartext {
+      type boolean;
+    }
+    leaf password {
+      type string;
+    }
+  }
+  grouping ProductData-struct {
+    description "Represents an Ericsson product. The product name, product number, and product revision represent product information stored in PRIM realization part.";
+    leaf productName {
+      type string;
+    }
+    leaf productNumber {
+      type string;
+    }
+    leaf productRevision {
+      type string;
+    }
+    leaf productionDate {
+      type string;
+    }
+    leaf description {
+      type string;
+    }
+    leaf type {
+      type string;
+    }
+  }
+  grouping SwM-attributes {
+    list reportProgress {
+      config false;
+      description "Represents the progress report, including the result, of the ongoing action. This MO supports only one action execution at a time..";
+      uses AsyncActionProgress-struct;
+    }
+    leaf fallbackTimer {
+      description "Maximum interval in seconds within which the next action must be invoked to avoid fallback. The maximum number of seconds allowed to elapse between the finish of an activation step and the start of the next new activate() action or new confirm() action. This attribute holds the value to which attribute timeRemainingBeforeFallback is set after the action activate() is successfully completed. For Radionode and C6610 only positive non zero values are allowed.; Default value: 1800.";
+      type int16;
+      default "1800";
+    }
+    leaf swMId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf timeRemainingBeforeFallback {
+      description "Remaining number of seconds before performing fallback. Value -1 indicates an infinite number of seconds. Fallback means that the system returns to state PREPARE_COMPLETED ..";
+      type int16;
+      config false;
+    }
+    leaf localFileStorePath {
+      description "URI of the directory where the UPs are stored on the ME..";
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      description "Used for free-text description..";
+      type string;
+    }
+    leaf timeoutFallbackCapability {
+      description "Shows whether fallback capability is supported or not. If fallback capability is not supported, setting SwM fallbackTimer has no effect and automatic fallback does not occur..";
+      type enumeration {
+        enum SUPPORTED;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf actionCapable {
+      description "Shows whether the Software Management function is in a state of readiness to execute actions. The Managed Element sets it to WAIT during any operations and maintenance activity that causes one or more of the Software Management function related actions to become unavailable. The Management System should wait until the state returns to CAPABLE before invoking any Software Management action..";
+      type enumeration {
+        enum CAPABLE;
+        enum WAIT;
+      }
+      config false;
+    }
+    leaf actionCapableInfo {
+      description "Additional information relating to actionCapable. Provides free-text information if available about the managed element operation or maintenance activity causing actionCapable to be at state WAIT..";
+      type string;
+      config false;
+    }
+    leaf defaultUri {
+      description "Uniform resource indicator for the location of upgrade packages. Set during initial configuration of the system to provide the external source of UP software in case the UpgradePackage::uri attribute is unset. It has the same format as UpgradePackage::uri..";
+      type string;
+    }
+    list defaultPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password for the default URI. Set during initial installation of the system in order to prove access to the external UP software storage if the UpgradePackage::password attribute is unset. It has the same format as the UpgradePackage::password attribute..";
+      uses EcimPassword-struct;
+    }
+  }
+  grouping UpgradePackage-attributes {
+    leaf state {
+      description "Current state of Upgrade Package..";
+      type enumeration {
+        enum INITIALIZED;
+        enum PREPARE_IN_PROGRESS;
+        enum PREPARE_COMPLETED;
+        enum ACTIVATION_IN_PROGRESS;
+        enum ACTIVATION_STEP_COMPLETED;
+        enum WAITING_FOR_COMMIT;
+        enum COMMIT_COMPLETED;
+        enum DEACTIVATION_IN_PROGRESS;
+      }
+      config false;
+    }
+    list reportProgress {
+      config false;
+      description "Represents the progress report, including the result, of the ongoing action. This MO supports only one action execution at a time..";
+      uses AsyncActionProgressWithSteps-struct;
+    }
+    leaf upgradePackageId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf ignoreBreakPoints {
+      description "Influences the behavior of the activate() action. False means there is a breakpoint between each activation step. Activation process stops at each breakpoint. True means execution ignores breakpoints between activation steps and instead executes the end-to-end activation process. This invokes all activation steps in sequence, assuming no errors occur.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf userLabel {
+      description "Free-text description of the Upgrade Package..";
+      type string;
+    }
+    list administrativeData {
+      config false;
+      min-elements 1;
+      uses ProductData-struct;
+    }
+    list activationStep {
+      config false;
+      min-elements 1;
+      uses ActivationStep-struct;
+    }
+    leaf created {
+      description "Date and time this Upgrade Package instance is created..";
+      type string;
+      config false;
+    }
+    leaf uri {
+      description "A URI that points to the directory where the UP can be found. The URI can be local, for example, file://data/dir/subdir. It can also be remote, for example, ftp://hostname/dir/subdir..";
+      type string;
+    }
+    leaf creatorActionId {
+      description "The Id of the action that created this UpgradePackage MO. Default value 0 shows that the ME does not record this information..";
+      type uint16;
+      config false;
+    }
+    list password {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password to the server that provides the UpgradePackage..";
+      uses EcimPassword-struct;
+    }
+    leaf upgradeRestartType {
+      description "Shows the node restart type when upgrading from the current active UP..";
+      type enumeration {
+        enum COLD;
+        enum ADAPTIVE;
+      }
+      config false;
+    }
+  }
+}

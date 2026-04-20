@@ -1,0 +1,182 @@
+module huawei-yang-types {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-yang-types";
+ prefix hwat;
+ description
+ "Auto-generated modular YANG for huawei-yang-types" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ typedef ListStr {
+ type string {
+ pattern "([0-9])+(,([0-9])+)*";
+ }
+ }
+ typedef IpV4 {
+ type string {
+ pattern "((25[0-5]|2[0-4]([0-9])|1([0-9]){2}|([0-9]){1,2})\\.){3}(25[0-5]|2[0-4]([0-9])|1([0-9]){2}|([0-9]){1,2})";
+ }
+ }
+ typedef IpV6 {
+ type string;
+ }
+ typedef BitMap {
+ type string;
+ }
+ typedef BITMAP {
+ type string;
+ }
+ typedef SMLCCELLTime {
+ type string {
+ length "0..16";
+ pattern "[0-9]{3}:[0-9]{2}:[0-9]{2}.[0-9]{4}";
+ }
+ }
+ typedef CELLDYNSHUTDOWNTime {
+ type string {
+ length "0..5";
+ pattern "[0-9]{2}:[0-9]{2}";
+ }
+ }
+ typedef HH_MM_Time {
+ type string {
+ length "0..5";
+ pattern "[0-9]{2}:[0-9]{2}";
+ }
+ }
+ typedef HH_MM_SS_Time {
+ type string {
+ length "0..8";
+ pattern "[0-9]{2}:[0-9]{2}:[0-9]{2}";
+ }
+ }
+ typedef yyyy_mm_dd {
+ type string {
+ length "0..10";
+ pattern "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+ }
+ }
+ typedef yyyy_mm_dd_HH_MM_SS_Time {
+ type string {
+ length "0..19";
+ pattern "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}";
+ }
+ }
+ typedef SITENAME {
+ type string {
+ length "1..31";
+ pattern "[^&<>!\\?\\\\\"']+";
+ }
+ }
+ typedef NSAP {
+ type string {
+ length "0..42";
+ pattern "H'[0-9,A-F,a-f]{40}";
+ }
+ }
+ typedef opmodetype {
+ type enumeration {
+ enum "BestEffort";
+ enum "BreakonFailure";
+ }
+ }
+ typedef netype {
+ type enumeration {
+ enum "Co-MPT BTS";
+ enum "eGSM";
+ enum "NodeB";
+ enum "LTE";
+ enum "USU";
+ }
+ }
+ typedef modifier {
+ type enumeration {
+ enum "create";
+ enum "delete";
+ enum "update";
+ enum "reparent";
+ }
+ }
+ typedef modifier_A {
+ type enumeration {
+ enum "create";
+ }
+ }
+ typedef modifier_M {
+ type enumeration {
+ enum "update";
+ }
+ }
+ typedef modifier_D {
+ type enumeration {
+ enum "delete";
+ }
+ }
+ typedef modifier_AM {
+ type enumeration {
+ enum "create";
+ enum "update";
+ }
+ }
+ typedef modifier_AD {
+ type enumeration {
+ enum "create";
+ enum "delete";
+ }
+ }
+ typedef modifier_MD {
+ type enumeration {
+ enum "delete";
+ enum "update";
+ }
+ }
+ typedef modifier_AMD {
+ type enumeration {
+ enum "create";
+ enum "delete";
+ enum "update";
+ }
+ }
+ typedef filetype {
+ type enumeration {
+ enum "ExportFile";
+ enum "ImportFile";
+ }
+ }
+ typedef importmode {
+ type enumeration {
+ enum "complete";
+ enum "delta";
+ enum "fallback";
+ }
+ }
+ typedef scenarioType {
+ type enumeration {
+ enum "installation";
+ enum "bulkCM";
+ }
+ }
+ typedef neversionType {
+ type string;
+ }
+ typedef operationType {
+ type enumeration {
+ enum "CreateSite";
+ enum "BulkModify";
+ enum "MODIUB";
+ enum "CreateCellWithTemplate";
+ enum "UpdateLOCALCELLID";
+ enum "UpdateFreq";
+ enum "UpdateKey";
+ enum "SiteProfile";
+ enum "DeleteSite";
+ enum "ReplaceSite";
+ }
+ }
+ typedef plancheckpolicy {
+ type enumeration {
+ enum "strict";
+ enum "loose";
+ }
+ }
+}

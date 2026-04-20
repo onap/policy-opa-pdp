@@ -1,0 +1,79 @@
+module ericsson-rmeccpdservice-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeCcpdService";
+  prefix rmeccpds;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nModel management of continuous collection of product data.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list CcpdService {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Continuous collection of product data. The RDN of this MO is CcpdService=1.";
+      key "ccpdServiceId";
+      leaf ccpdServiceId {
+        type leafref {
+          path "../attributes/ccpdServiceId";
+        }
+      }
+      container attributes {
+      uses CcpdService-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping CcpdService-attributes {
+    leaf ccpdServiceId {
+      description "The value component for the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf operationalState {
+      description "The operational State.";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf fileLocation {
+      description "Contains the path on node from which to fetch files..";
+      type string;
+      config false;
+    }
+  }
+}

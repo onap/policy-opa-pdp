@@ -1,0 +1,50 @@
+module huawei-lldpglobal {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-lldpglobal";
+ prefix lldpglobal;
+ description
+ "Auto-generated modular YANG for huawei-lldpglobal" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping LLDPGLOBAL-attributes {
+ leaf DELAY {
+  type uint16 {
+   range "1..8192";
+  }
+  mandatory false;
+ }
+ leaf HOLDMULTI {
+  type uint8 {
+   range "2..10";
+  }
+  mandatory false;
+ }
+ leaf NOTIFYINTERVAL {
+  type uint16 {
+   range "5..3600";
+  }
+  mandatory false;
+ }
+ leaf NOTIFYSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PORTCFGMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf REINITDELAY {
+  type uint8 {
+   range "1..10";
+  }
+  mandatory false;
+ }
+ leaf TXINTVAL {
+  type uint16 {
+   range "5..32768";
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,84 @@
+module huawei-eth3ah {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-eth3ah";
+ prefix eth3ah;
+ description
+ "Auto-generated modular YANG for huawei-eth3ah" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ETH3AH-attributes {
+ leaf DTPRD {
+  type union {
+   type uint16 {
+    range "10..1000";
+   }
+  }
+  mandatory false;
+ }
+ leaf ERRFRMEVTPRD {
+  type uint8 {
+   range "1..60";
+  }
+  mandatory false;
+ }
+ leaf ERRFRMEVTTHD {
+  type uint16 {
+   range "1..65535";
+  }
+  mandatory false;
+ }
+ leaf ERRFRMSCDEVTPRD {
+  type uint16 {
+   range "10..900";
+  }
+  mandatory false;
+ }
+ leaf ERRFRMSCDEVTTHD {
+  type uint16 {
+   range "1..900";
+  }
+  mandatory false;
+ }
+ leaf OLD_ETH0AM3AHID {
+  type union {
+   type int8 {
+    range "-1..47";
+   }
+  }
+  mandatory false;
+ }
+ leaf ETH0AM3AHID {
+  type union {
+   type int8 {
+    range "-1..47";
+   }
+  }
+  mandatory false;
+ }
+ leaf ETHPORTID {
+  type uint16 {
+   range "0..9999";
+  }
+  mandatory false;
+ }
+ leaf FLTINDFLG {
+  type boolean;
+  mandatory false;
+ }
+ leaf PDUSIZE {
+  type uint16 {
+   range "64..1518";
+  }
+  mandatory false;
+ }
+ leaf RMTLBFLG {
+  type boolean;
+  mandatory false;
+ }
+ leaf WORKMODE {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

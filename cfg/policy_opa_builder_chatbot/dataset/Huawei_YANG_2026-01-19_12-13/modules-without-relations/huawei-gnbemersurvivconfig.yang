@@ -1,0 +1,61 @@
+module huawei-gnbemersurvivconfig {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbemersurvivconfig";
+ prefix gnbemersurvivconfig;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-gnbemersurvivconfig" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBEMERSURVIVCONFIG-attributes {
+ leaf OLD_INDEX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf INDEX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf MCC {
+  type string {
+   length "3";
+  }
+  mandatory false;
+ }
+ leaf MNC {
+  type string {
+   length "2..3";
+  }
+  mandatory false;
+ }
+ leaf TARGETFREQUENCY {
+  type union {
+   type uint32 {
+    range "0..229575";
+   }
+  }
+  mandatory false;
+ }
+ leaf VALIDITYDURATION {
+  type uint8 {
+   range "1..48";
+  }
+  mandatory false;
+ }
+ leaf VALIDITYSTARTTIME {
+  type hwat:yyyy_mm_dd_HH_MM_SS_Time;
+  mandatory false;
+ }
+ }
+}

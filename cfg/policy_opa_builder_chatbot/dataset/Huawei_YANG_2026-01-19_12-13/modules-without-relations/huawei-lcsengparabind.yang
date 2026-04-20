@@ -1,0 +1,69 @@
+module huawei-lcsengparabind {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-lcsengparabind";
+ prefix lcsengparabind;
+ description
+ "Auto-generated modular YANG for huawei-lcsengparabind" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping LCSENGPARABIND-attributes {
+ leaf BINDTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf EPTID {
+  type uint16 {
+   range "0..1499";
+  }
+  mandatory false;
+ }
+ leaf PN {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+   enum val-15;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

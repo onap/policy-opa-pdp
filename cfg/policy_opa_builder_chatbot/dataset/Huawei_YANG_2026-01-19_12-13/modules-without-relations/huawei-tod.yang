@@ -1,0 +1,72 @@
+module huawei-tod {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-tod";
+ prefix tod;
+ description
+ "Auto-generated modular YANG for huawei-tod" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping TOD-attributes {
+ leaf CABLE_LEN {
+  type uint16 {
+   range "0..1000";
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf LOCRCVSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf PN {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf PRI {
+  type uint8 {
+   range "1..4";
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf OLD_TN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf TN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf TYPE {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

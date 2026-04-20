@@ -1,0 +1,151 @@
+module ericsson-ipv6-acl-policy-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnIPv6ACLPolicy";
+  prefix v6aclplrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/AclIpv6" {
+    list AclEntryIpv6 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; This MOC is used to configure entry in Access Control List. It contains set of filters for ACL entry as well as action and priority. All filters refer to fields in IP protocol header. When ACL entries are configured, ACL entry must be added for default action, otherwise non-matching packets will be silently discarded. Maximum number of AclEntryIPv6 MO in node is limited to 256. Maximum number of AclEntryIPv6 MO per AclIPv6 MO is limited to 64.";
+      key "aclEntryIpv6Id";
+      leaf aclEntryIpv6Id {
+        type leafref {
+          path "../attributes/aclEntryIpv6Id";
+        }
+      }
+      container attributes {
+        uses AclEntryIpv6-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list AclIpv6 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents ordered list of ACL entries. See attribute priority in AclEntryIpv6 MO for details on ordering. Maximum number of AclIPv6 MO in node is limited to 32.";
+      key "aclIpv6Id";
+      leaf aclIpv6Id {
+        type leafref {
+          path "../attributes/aclIpv6Id";
+        }
+      }
+      container attributes {
+        uses AclIpv6-attributes;
+      }
+    }
+  }
+  typedef AclAction {
+    type enumeration {
+      enum PERMIT;
+      enum DENY;
+    }
+  }
+  typedef FragmentType {
+    type enumeration {
+      enum NOTFRAGMENTED;
+      enum FRAGFIRST;
+      enum FRAGLAST;
+      enum FRAGMENT;
+      enum INITIAL;
+      enum NONINITIAL;
+    }
+  }
+  grouping AclEntryIpv6-attributes {
+    leaf aclEntryIpv6Id {
+      type ietfinet:ipv6-address;
+      mandatory true;
+    }
+    leaf action {
+      type enumeration {
+        enum PERMIT;
+        enum DENY;
+      }
+      mandatory true;
+    }
+    leaf-list addrDst {
+      type string;
+    }
+    leaf-list addrSrc {
+      type string;
+    }
+    leaf-list dscp {
+      type string;
+    }
+    leaf fragmentType {
+      type enumeration {
+        enum NOTFRAGMENTED;
+        enum FRAGFIRST;
+        enum FRAGLAST;
+        enum FRAGMENT;
+        enum INITIAL;
+        enum NONINITIAL;
+      }
+    }
+    leaf-list icmpType {
+      type string;
+      ordered-by user;
+    }
+    leaf-list ipProtocol {
+      type ietfinet:ip-address;
+    }
+    leaf-list portDst {
+      type ietfinet:port-number;
+    }
+    leaf-list portSrc {
+      type ietfinet:port-number;
+    }
+    leaf priority {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf aclEntryPackets {
+      type uint64;
+      config false;
+    }
+  }
+  grouping AclIpv6-attributes {
+    leaf aclIpv6Id {
+      type ietfinet:ipv6-address;
+      mandatory true;
+    }
+    leaf permitNdpAndMld {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf aclNdpAndMldPermits {
+      type uint64;
+      config false;
+    }
+    leaf aclTotalDiscards {
+      type uint64;
+      config false;
+    }
+  }
+}

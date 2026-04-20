@@ -1,0 +1,102 @@
+module huawei-rxbranch {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rxbranch";
+ prefix rxbranch;
+ description
+ "Auto-generated modular YANG for huawei-rxbranch" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RXBRANCH-attributes {
+ leaf ATTEN {
+  type uint8 {
+   range "0..60";
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf RTWPINITADJ0 {
+  type int16 {
+   range "-130..130";
+  }
+  mandatory false;
+ }
+ leaf RTWPINITADJ1 {
+  type int16 {
+   range "-130..130";
+  }
+  mandatory false;
+ }
+ leaf RTWPINITADJ2 {
+  type int16 {
+   range "-130..130";
+  }
+  mandatory false;
+ }
+ leaf RTWPINITADJ3 {
+  type int16 {
+   range "-130..130";
+  }
+  mandatory false;
+ }
+ leaf RTWPINITADJ4 {
+  type int16 {
+   range "-130..130";
+  }
+  mandatory false;
+ }
+ leaf RTWPINITADJ5 {
+  type int16 {
+   range "-130..130";
+  }
+  mandatory false;
+ }
+ leaf RTWPINITADJ6 {
+  type int16 {
+   range "-130..130";
+  }
+  mandatory false;
+ }
+ leaf RTWPINITADJ7 {
+  type int16 {
+   range "-130..130";
+  }
+  mandatory false;
+ }
+ leaf RXNO {
+  type union {
+   type int8 {
+    range "-1..63";
+   }
+  }
+  mandatory false;
+ }
+ leaf RXSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..8";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

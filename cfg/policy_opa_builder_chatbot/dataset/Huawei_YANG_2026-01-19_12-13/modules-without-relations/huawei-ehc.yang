@@ -1,0 +1,84 @@
+module huawei-ehc {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ehc";
+ prefix ehc;
+ description
+ "Auto-generated modular YANG for huawei-ehc" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping EHC-attributes {
+ leaf ADMSTATE {
+  type boolean;
+  mandatory false;
+ }
+ leaf BLKTP {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..4";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..4";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..1";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..1";
+   }
+  }
+  mandatory false;
+ }
+ leaf TIME {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf TYPE {
+  type enumeration {
+   enum val-36961;
+  }
+  mandatory false;
+ }
+ }
+}

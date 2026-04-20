@@ -1,0 +1,921 @@
+module ericsson-rcsbrm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsBrM";
+  prefix rcsbrm;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Backup and Restore Management model fragment.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list BrM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; ECIM Backup and Restore Management top-level class. ECIM BRM encompasses all the operations associated with the backup and restore of the managed element.";
+      key "brMId";
+      leaf brMId {
+        type leafref {
+          path "../attributes/brMId";
+        }
+      }
+      container attributes {
+      uses BrM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM" {
+    list BrmBackupManager {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Serves as container for Backup instances of a particular backupType and backupDomain. This class also provides the actions for creating new backups, importing backups from other locations, and deleting existing backups of the corresponding type and domain.";
+      key "brmBackupManagerId";
+      leaf brmBackupManagerId {
+        type leafref {
+          path "../attributes/brmBackupManagerId";
+        }
+      }
+      container attributes {
+      uses BrmBackupManager-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM" {
+    list BrmRollbackAtRestore {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides optional support for confirmation of a restore action or automatic rollback. The existence of an instance of this class indicates that this feature is supported by the implementation. If configured then the action confirmRestore must be invoked within the configured time by the timeAllowedBeforeRollback attribute otherwise the system will be rolled back to the state before the backup being restored.";
+      key "brmRollbackAtRestoreId";
+      leaf brmRollbackAtRestoreId {
+        type leafref {
+          path "../attributes/brmRollbackAtRestoreId";
+        }
+      }
+      container attributes {
+      uses BrmRollbackAtRestore-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM/rcsbrm:BrmBackupManager" {
+    list BrmBackup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents one backup of the type and domain specified by the BrmBackupManager. This backup is contained in the corresponding parent BrmBackupManager instance.";
+      key "brmBackupId";
+      leaf brmBackupId {
+        type leafref {
+          path "../attributes/brmBackupId";
+        }
+      }
+      container attributes {
+      uses BrmBackup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM/rcsbrm:BrmBackupManager" {
+    list BrmBackupHousekeeping {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides optional support for automated housekeeping of manually created backups. If autoDelete is set to ENABLED before creating a new manual backup, BRM first checks the number of manual backups, and if the limit specified by the value of maxStoredManualBackups is reached, BRM removes the oldest manual backup before creating a new one.";
+      key "brmBackupHousekeepingId";
+      leaf brmBackupHousekeepingId {
+        type leafref {
+          path "../attributes/brmBackupHousekeepingId";
+        }
+      }
+      container attributes {
+      uses BrmBackupHousekeeping-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM/rcsbrm:BrmBackupManager" {
+    list BrmBackupScheduler {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides optional support for scheduling backup creation. Each instance of BrmBackupScheduler MOC serves as the backup scheduler for the backup type indicated by its parent instance of BrmBackupManager. The scheduled backup events can be instances of BrmSingleEvent MOC, BrmCalnedarBasedPeriodicEvent MOC, or BrmPeriodicEvent MOC contained in the instance of BrmBackupScheduler. Some optional attributes which are mentioned below are used only if encryption of sensitive parts of the backups is needed. In case the backup must be encrypted then this can be enabled by using the enableEncryption attribute. In this case the encryption method must be selected (URI or PASSWORD). Also all the necessary parameters for the selected method must be set as follows: For URI method: cryptoKeyUri, cryptoKeyUriPassword, cryptoKeyPassword (this one is optional. Needed if the key file is encrypted). For PASSWORD method: backupPassword.";
+      key "brmBackupSchedulerId";
+      leaf brmBackupSchedulerId {
+        type leafref {
+          path "../attributes/brmBackupSchedulerId";
+        }
+      }
+      container attributes {
+      uses BrmBackupScheduler-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM/rcsbrm:BrmBackupManager" {
+    list BrmBackupLabelStore {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Provides optional support for labeling of certain backups. This class contains attributes that help distinguish certain backups such as the last restored backup, primary restore candidate, and so on.";
+      key "brmBackupLabelStoreId";
+      leaf brmBackupLabelStoreId {
+        type leafref {
+          path "../attributes/brmBackupLabelStoreId";
+        }
+      }
+      container attributes {
+      uses BrmBackupLabelStore-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM/rcsbrm:BrmBackupManager" {
+    list BrmFailsafeBackup {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; MO for activating and deactivating failsafe backups. Failsafe backups can be used when making changes to sensitive parts of the model, in which an error in configuration can lead to lost OAM connectivity or other failures from which the system can recover by a restore from a backup. When activated the failsafe backup function will automatically restore the system from a backup if the configuration as not been confirmed within a defined time period.";
+      key "brmFailsafeBackupId";
+      leaf brmFailsafeBackupId {
+        type leafref {
+          path "../attributes/brmFailsafeBackupId";
+        }
+      }
+      container attributes {
+      uses BrmFailsafeBackup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM/rcsbrm:BrmBackupManager/rcsbrm:BrmBackupScheduler" {
+    list BrmSingleEvent {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; A single scheduled backup event. This construct can be used to configure a single, one-shot, scheduled backup event by specifying the desired date and time.";
+      key "brmSingleEventId";
+      leaf brmSingleEventId {
+        type leafref {
+          path "../attributes/brmSingleEventId";
+        }
+      }
+      container attributes {
+      uses BrmSingleEvent-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM/rcsbrm:BrmBackupManager/rcsbrm:BrmBackupScheduler" {
+    list BrmPeriodicEvent {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Periodic backup event. This construct can be used to configure a periodic scheduled backup event by specifying the number of months, weeks, days, hours, or minutes. For instance, in order to configure a scheduled backup event to occur every 12 hours, the following setup must be done: hours = 12. If more than one attribute is set, the values are added when calculating the next scheduled event. For example, if hours = 6 and minutes = 30, the scheduled backup event occurs every 6 hour and 30 minutes. The start time for calculating scheduled events is assumed to be the current system time by default, unless explicitly set using the startTime attribute. Furthermore, if the configured event is to stop at a specific date, attribute stopTime must be set accordingly. Note that the default value of stopTime is the end of a century. Daylight saving adjustments in Spring and Fall are addressed in such a way that the affected scheduled backup events are triggered exactly once only";
+      key "brmPeriodicEventId";
+      leaf brmPeriodicEventId {
+        type leafref {
+          path "../attributes/brmPeriodicEventId";
+        }
+      }
+      container attributes {
+      uses BrmPeriodicEvent-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsbrm:BrM/rcsbrm:BrmBackupManager/rcsbrm:BrmBackupScheduler" {
+    list BrmCalendarBasedPeriodicEvent {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Periodic backup event using calendar-based interval. This construct can be used to configure a periodic scheduled backup event by specifying the desired interval using the calendar. For instance, in order to configure a scheduled backup event to occur every night at 2:00 am, the following setup must be done: time = 02:00:00. The start time for calculating scheduled events is by default the current system time, unless explicitly set using the startTime attribute. Furthermore, if the configured event is to stop at a specific date, stopTime attribute must be set accordingly. Note that the default value of stopTime is the end of the century. A scheduled backup event of this type is triggered only if ALL the conditions with regard to attribute values are satisfied. For example, if dayOfWeek is set to Monday and dayOfMonth is set to 1, the event is triggered only if the first day of month is Monday. In another example if dayOfWeekOccurence is set to Second and dayOfWeek is set to Tuesday then the event will occur on the second Tuesday of every month. If dayOfWeekOccurence is set to All and dayOfWeek is set to Wednesday then there will be event on every Wednesday (of every month). Daylight saving adjustments in Spring and Fall are addressed in such a way that the affected scheduled backup events are triggered exactly once.";
+      key "brmCalendarBasedPeriodicEventId";
+      leaf brmCalendarBasedPeriodicEventId {
+        type leafref {
+          path "../attributes/brmCalendarBasedPeriodicEventId";
+        }
+      }
+      container attributes {
+      uses BrmCalendarBasedPeriodicEvent-attributes;
+      }
+    }
+  }
+  typedef ActionResultType {
+    description "Lists the different results of an action.";
+    type enumeration {
+      enum SUCCESS {
+        description "The asynchronous action ended with success.";
+      }
+      enum FAILURE {
+        description "The asynchronous action ended with failure.";
+      }
+      enum NOT_AVAILABLE {
+        description "No result is available yet.";
+      }
+    }
+  }
+  typedef ActionStateType {
+    description "Lists the action states.";
+    type enumeration {
+      enum CANCELLING {
+        description "Cancellation is in progress.";
+      }
+      enum RUNNING {
+        description "The execution of the action is currently in progress.";
+      }
+      enum FINISHED {
+        description "The action is finished.";
+      }
+      enum CANCELLED {
+        description "The action has been cancelled and cancellation has been done.";
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef BrmAutoExport {
+    description "Indicates whether or not a scheduled backup is automatically exported at successful creation.";
+    type enumeration {
+      enum DISABLED {
+        description "Disabled.";
+      }
+      enum ENABLED {
+        description "Enabled.";
+      }
+    }
+  }
+  typedef BrmBackupCreationType {
+    description "Backup creation type.";
+    type enumeration {
+      enum MANUAL {
+        description "Backup created via a manual operation. A backup of this creation type is subject to housekeeping based on \"maximum number\" defined in BrmBackupHousekeeping MO and \"remove-oldest\" policy.";
+      }
+      enum SCHEDULED {
+        description "Backup created automatically based on a preconfigured schedule. A backup of this creation type is subject to housekeeping based on \"maximum number\" defined in BrmBackupScheduler MO and \"remove-oldest\" policy";
+      }
+      enum SYSTEM_CREATED {
+        description "Backup automatically created by the managed element. A backup of this creation type is not subject to any housekeeping policy defined by the management system and can only be removed by the managed element. Such a backup is primarily used for automatic recovery from catastrophic failures, but may also be used as any other backup if the management system chooses to restore the managed element with it.";
+      }
+    }
+  }
+  typedef BrmBackupEncryptionMethod {
+    description "Determines the encryption method to be used. In case the encryption is enabled for the particular scheduled backup. The available methods are: - Using encryption key from URI - Using a password to generate the encryption key.";
+    type enumeration {
+      enum PASSWORD {
+        description "Specifies the Password method for encrypting the backup. The encryption key is generated from a password.";
+      }
+      enum URI {
+        description "Specifies the URI method for encrypting the backup. The encryption key is obtained from URI.";
+      }
+    }
+  }
+  typedef BrmBackupStatus {
+    description "Indicates the status of a Backup. The status is INCOMPLETE during creation or deletion of a backup. Once a backup is successfully created, its status is COMPLETE. If the integrity of the backup is violated, it is marked as CORRUPTED.";
+    type enumeration {
+      enum BRM_BACKUP_COMPLETE {
+        description "The backup is complete and can be safely restored.";
+      }
+      enum BRM_BACKUP_INCOMPLETE {
+        description "The backup is incomplete. The reason can be failure during creation or deletion. An incomplete backup can never be restored. The only operation permitted on an incomplete backup is to delete it.";
+      }
+      enum BRM_BACKUP_CORRUPTED {
+        description "The backup is corrupted. A corrupted backup is never allowed to be restored. The only operation permitted on a corrupted backup is to delete it.";
+      }
+    }
+  }
+  typedef BrmDeactivatePostAction {
+    description "Indicates what to do in the post action phase of the deactivate step. NOP means no operation. CLEAR_LIST means clear the restoreEscalationList. ADD_BACKUP_TO_LIST means clear the restoreEscalationList then add the failsafe backup just created to the restoreEscalationList.";
+    type enumeration {
+      enum NOP {
+        description "Do nothing.";
+      }
+      enum CLEAR_LIST {
+        description "Clear the restoreEscalationList.";
+      }
+      enum ADD_BACKUP_TO_LIST {
+        description "Add the backup to the restoreEscalationList.";
+      }
+    }
+  }
+  typedef BrmManualBackupAutoDelete {
+    description "Automatically delete manual backups. Indicates whether or not the implementation of BRM automatically does the housekeeping of manual backups.";
+    type enumeration {
+      enum ENABLED {
+        description "Enabled.";
+      }
+      enum DISABLED {
+        description "Disabled.";
+      }
+    }
+  }
+  typedef BrmSchedBackupStrategy {
+    description "The supported strategies for housekeeping of scheduled backups.";
+    type enumeration {
+      enum REPLACE_PER_SCHEDULE {
+        description "Takes the event type into account when deciding which backup to remove.";
+      }
+      enum REMOVE_OLDEST {
+        description "Remove the oldest backup when the max scheduled backup limit is reached.";
+      }
+    }
+  }
+  typedef DayOfWeek {
+    description "Presents the day of the week.";
+    type enumeration {
+      enum SUNDAY {
+        description "Sunday.";
+      }
+      enum MONDAY {
+        description "Monday.";
+      }
+      enum TUESDAY {
+        description "Tuesday.";
+      }
+      enum WEDNESDAY {
+        description "Wednesday.";
+      }
+      enum THURSDAY {
+        description "Thursday.";
+      }
+      enum FRIDAY {
+        description "Friday.";
+      }
+      enum SATURDAY {
+        description "Saturday.";
+      }
+      enum ALL {
+        description "All days.";
+      }
+    }
+  }
+  typedef DayOfWeekOccurrence {
+    description "The occurrence of a day in the month, for example the first Monday of the month. This is used in combination with DayOfWeek to schedule an event on a certain occurence of that day in the month, for example first Monday or last Friday of the month.";
+    type enumeration {
+      enum FIRST {
+        description "First occurrence.";
+      }
+      enum SECOND {
+        description "Second occurrence.";
+      }
+      enum THIRD {
+        description "Third occurrence.";
+      }
+      enum FOURTH {
+        description "Fourth occurrence.";
+      }
+      enum LAST {
+        description "Last occurrence.";
+      }
+      enum ALL {
+        description "All occurrences.";
+      }
+    }
+  }
+  typedef UsageState {
+    description "The usage state describes the usage of a resource. The allowed values are defined by ITU-T X.731.";
+    type enumeration {
+      enum IDLE {
+        description "The resource is not currently in use. Defined by ITU-T X.731.";
+      }
+      enum ACTIVE {
+        description "The resource is in use and it has sufficient spare operating capacity. Spare operating capacity to provide for additional users simultaneously. Defined by ITU-T X.731.";
+      }
+      enum BUSY {
+        description "The resource is in use, but it has no spare operating capacity. Spare operating capacity to provide for additional users at this instant. Defined by ITU-T X.731.";
+      }
+    }
+  }
+  grouping AsyncActionProgress-struct {
+    description "Records the progress of an asynchronous action.";
+    leaf actionName {
+      type string;
+    }
+    leaf-list additionalInfo {
+      type string;
+      min-elements 0;
+    }
+    leaf progressInfo {
+      type string;
+    }
+    leaf progressPercentage {
+      type string;
+    }
+    leaf result {
+      type enumeration {
+        enum SUCCESS;
+        enum FAILURE;
+        enum NOT_AVAILABLE;
+      }
+    }
+    leaf resultInfo {
+      type string;
+    }
+    leaf state {
+      type enumeration {
+        enum CANCELLING;
+        enum RUNNING;
+        enum FINISHED;
+        enum CANCELLED;
+      }
+    }
+    leaf actionId {
+      type string;
+    }
+    leaf timeActionStarted {
+      type string;
+    }
+    leaf timeActionCompleted {
+      type string;
+    }
+    leaf timeOfLastStatusUpdate {
+      type string;
+    }
+  }
+  grouping EcimPassword-struct {
+    description "Stores the password.";
+    leaf cleartext {
+      type boolean;
+    }
+    leaf password {
+      type string;
+    }
+  }
+  grouping ProductData-struct {
+    description "Represents an Ericsson product. The product name, product number, and product revision represent product information stored in PRIM realization part.";
+    leaf productName {
+      type string;
+    }
+    leaf productNumber {
+      type string;
+    }
+    leaf productRevision {
+      type string;
+    }
+    leaf productionDate {
+      type string;
+    }
+    leaf description {
+      type string;
+    }
+    leaf type {
+      type string;
+    }
+  }
+  grouping BrM-attributes {
+    leaf brMId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf exportPackageLabelPrefix {
+      description "Free text to help better identify a backup export package when residing outside the ME. If specified, BRM prefixes this text to the label that it generates for the backup export package..";
+      type string;
+    }
+  }
+  grouping BrmBackup-attributes {
+    leaf brmBackupId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf backupName {
+      description "Backup name, provided by the operator..";
+      type string;
+      config false;
+    }
+    leaf creationTime {
+      description "Date and time when the backup was created, i.e., start time of backup procedure..";
+      type string;
+      config false;
+    }
+    leaf status {
+      description "Status of the backup..";
+      type enumeration {
+        enum BRM_BACKUP_COMPLETE;
+        enum BRM_BACKUP_INCOMPLETE;
+        enum BRM_BACKUP_CORRUPTED;
+      }
+      config false;
+    }
+    list progressReport {
+      config false;
+      description "Represents the progress report and final result of the ongoing (asynchronous) action in this MO. For example: restore. This MO supports only one action to be executed at a time..";
+      uses AsyncActionProgress-struct;
+    }
+    leaf creationType {
+      description "Creation type; whether manually created or automatically via BrmBackupScheduler..";
+      type enumeration {
+        enum MANUAL;
+        enum SCHEDULED;
+        enum SYSTEM_CREATED;
+      }
+      config false;
+    }
+    list swVersion {
+      config false;
+      min-elements 0;
+      uses ProductData-struct;
+    }
+    leaf userLabel {
+      description "Free text provided as userLabel parameter to the create action when the backup is created. Optional. Used in case sensitive data in the backup is encrypted. Can be used to identify the key or the password to decrypt the backup during restore. Read only..";
+      type string;
+      config false;
+    }
+    leaf cryptoKeyId {
+      description "Unique Encryption Key Identifier. A unique hash generated from the backup crypto key when the backup is created. Optional. Used in case sensitive data in the backup is encrypted. Read only..";
+      type string;
+      config false;
+    }
+    leaf cryptoPasswordId {
+      description "Encryption Password Identifier. A unique hash generated from password when the backup is created. Optional. Used in case sensitive data in the backup is encrypted. Read only..";
+      type string;
+      config false;
+    }
+  }
+  grouping BrmBackupHousekeeping-attributes {
+    leaf brmBackupHousekeepingId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf maxStoredManualBackups {
+      description "Maximum number of manual backups, per backup type, to store in the ME. When this limit is reached, if autoDelete=ENABLED, BRM removes the oldest manual backup before creating a new one. Otherwise an error is returned when createBackup() is invoked and the NMS must perform the required housekeeping activity before attempting to create a new backup.; range 0..30; Default value: 20.";
+      type uint16 {
+        range "0..30";
+      }
+      default "20";
+    }
+    leaf autoDelete {
+      description "Determines whether automated housekeeping of manual backups is enabled. If ENABLED and the number of backups already stored on the ME is equal to the value of maxStoredManualBackups, the oldest backup is removed before creating a new one. If set to DISABLED, no backup is removed. Instead, when action createBackup() is invoked, it returns a failure parameter..";
+      type enumeration {
+        enum ENABLED;
+        enum DISABLED;
+      }
+    }
+  }
+  grouping BrmBackupLabelStore-attributes {
+    leaf brmBackupLabelStoreId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf lastRestoredBackup {
+      description "The name of the backup that was last used to restore the ME. This does not imply that the currently running version of the system is the same as this backup, but instead shows which one of the backups was last used to restore the ME. In a system that has never been restored using a backup, this attribute is empty..";
+      type string;
+      config false;
+    }
+    leaf lastCreatedBackup {
+      description "The name of the last backup created. This backup can be MANUAL or SCHEDULED. Note that this attribute is not updated in the case of a failed attempt to create a backup, which would result in an INCOMPLETE backup..";
+      type string;
+      config false;
+    }
+    leaf lastImportedBackup {
+      description "The name of the last backup imported to the ME. Note that this attribute is not updated in the case of a failed attempt to import a backup..";
+      type string;
+      config false;
+    }
+    leaf lastExportedBackup {
+      description "The name of the last backup exported from the ME. Note that this attribute is not updated in the case of a failed attempt to export a backup..";
+      type string;
+      config false;
+    }
+    leaf-list restoreEscalationList {
+      description "Specifies a list of backups by name, in the order that is to be used to restore the ME when needed. Specifically, the first element of this ordered list identifies the “primary restore candidate”. If the attempt to restore the ME with a given backup fails, the next backup in the list must be tried..";
+      type string;
+      ordered-by user;
+      min-elements 0;
+    }
+  }
+  grouping BrmBackupManager-attributes {
+    leaf brmBackupManagerId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf backupType {
+      description "Type of backup, for example System Data or User Data..";
+      type string;
+      config false;
+    }
+    leaf backupDomain {
+      description "Backup domain, for example System..";
+      type string;
+      config false;
+    }
+    list progressReport {
+      config false;
+      description "Represents the progress report and final result of the ongoing (asynchronous) action. For example: createBackup. This MO supports only one action to be executed at a time..";
+      uses AsyncActionProgress-struct;
+    }
+    leaf autoExport {
+      description "Determines whether a manual backup is to be automatically exported at successful creation. If set to ENABLED, the manual backup most recently created is exported to the location specified by attribute autoExportUri after it is successfully created. Note that the automatic export is only triggered if creation of the manual backup was successful. Otherwise, no export operation is triggered, even if this attribute is set to ENABLED. Also, note that setting this attribute to ENABLED has no impact on the manual backups that were already created and stored prior to the new configuration..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf autoExportUri {
+      description "Uri used by the backup scheduler when automatically exporting a manual backup. If attribute autoExport is set to ENABLED, this uri specifies the location to which the manual backup is automatically exported..";
+      type string;
+    }
+    list autoExportPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password used by the backup scheduler when automatically exporting a manual backup. If attribute autoExport is set to ENABLED, this password is used for authentication when automatically exporting the manual backup. No need to specify this attribute if no password is required for accessing autoExportUri..";
+      uses EcimPassword-struct;
+    }
+    leaf manualBackupName {
+      description "Used as a prefix for the name of the manual backup. The backups are named <manualBackupName>-<creation date and time> if manualBackupName is not the empty string. The default value is the empty string. If used the name must only contain lower case, upper case, digits, hyphen, underscore or dot characters. If the optional 'name' parameter is supplied to any of the actions to create backup then it takes precedence over this attribute..";
+      type string;
+    }
+  }
+  grouping BrmBackupScheduler-attributes {
+    leaf brmBackupSchedulerId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf maxStoredScheduledBackups {
+      description "The maximum number of scheduled backups, per backup type, to store in the ME. When this limit is reached, the oldest scheduled backup is deleted by BRM before creating a new one.; range 0..5; Default value: 5.";
+      type uint16 {
+        range "0..5";
+      }
+      default "5";
+    }
+    leaf scheduledBackupName {
+      description "The configurable portion of the scheduled backup name. The scheduled backups are named <scheduledBackupName>-<creation date and time>, where creation date and time is of type DateTime defined in the common library.; Default value: BACKUP.";
+      type string;
+      default "BACKUP";
+    }
+    list progressReport {
+      config false;
+      description "Reports the progress and final result of the ongoing (asynchronous) scheduled backup operation..";
+      uses AsyncActionProgress-struct;
+    }
+    leaf mostRecentlyCreatedAutoBackup {
+      description "The name of the scheduled backup created most recently by the backup scheduler..";
+      type string;
+      config false;
+    }
+    leaf autoExport {
+      description "Determines whether a scheduled backup is to be automatically exported at successful creation. If set to ENABLED, the scheduled backup specified by the attribute mostRecentlyCreatedAutoBackup is exported to the location specified by attribute autoExportUri after it is successfully created. Note that the automatic export is only triggered if creation of the scheduled backup was successful. Otherwise, no export operation is triggered, even if this attribute is set to ENABLED. Also, note that setting this attribute to ENABLED has no impact on the scheduled backups that were already created and stored prior to the new configuration..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf autoExportUri {
+      description "Uri used by the backup scheduler when automatically exporting a scheduled backup. If attribute autoExport is set to ENABLED, this uri specifies the location to which the scheduled backup is automatically exported..";
+      type string;
+    }
+    list autoExportPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password used by the backup scheduler when automatically exporting a scheduled backup. If attribute autoExport is set to ENABLED, this password is used for authentication when automatically exporting the scheduled backup. No need to specify this attribute if no password is required for accessing autoExportUri..";
+      uses EcimPassword-struct;
+    }
+    leaf housekeepingStrategy {
+      description "Determines the strategy to be used when performing housekeeping on scheduled backups..";
+      type enumeration {
+        enum REPLACE_PER_SCHEDULE;
+        enum REMOVE_OLDEST;
+      }
+    }
+    leaf encryptionMethod {
+      description "Must be set if encryption is enabled. Together with other attributes depending on the method. Used only if sensitive data in the backup must be encrypted. The available methods are URI and PASSWORD. The default is set to PASSWORD..";
+      type enumeration {
+        enum PASSWORD;
+        enum URI;
+      }
+    }
+    leaf enableEncryption {
+      description "Specifies if the encryption of sensitive parts of a backup is enabled or not. The default value is false (disabled).; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf cryptoKeyUri {
+      description "The remote URI location where the encryption key is located. For example: sftp://user@hostname/dir/subdir/key_file Optional. Used only if sensitive data in the backup must be encrypted..";
+      type string;
+    }
+    list keyDecryptionKey {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Optional password for the encryption key file in case it is encrypted. Used for the URI encryption method. Used only if sensitive data in the backup must be encrypted..";
+      uses EcimPassword-struct;
+    }
+    list cryptoKeyUriPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "The password for the remote URI where the encryption key file is stored. Optional. Used only if sensitive data in the backup must be encrypted..";
+      uses EcimPassword-struct;
+    }
+    list backupPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "The backupPassword is used to generate encryption key. This key is used to encrypt sensitive parts of the backup. Used for the PASSWORD encryption method. Optional. Used only if sensitive data in the backup is encrypted..";
+      uses EcimPassword-struct;
+    }
+    leaf userLabel {
+      description "A free text stored together with each created secured backup. A secured backup has some sensitive parts of the backup encrypted. Used to identify the key or the password to decrypt the sensitive data in the backup during restore. Optional. Used only if sensitive data in the backup is encrypted. Used for both URI and PASSWORD encryption methods..";
+      type string;
+    }
+    leaf selectiveAutoExport {
+      description "Used to optionally enable selective automatic export for scheduled events. The selection is further made by setting of the optional selectiveAutoExport attribute in any instance of the BrmSingleEvent MOC, BrmCalenedarBasedPeriodicEvent MOC, or BrmPeriodicEvent MOC contained in the instance of BrmBackupScheduler. This attribute is mutually exclusive with the autoExport attribute - both must not be set to ENABLED. When the selectiveAutoExport attribute is set to ENABLED the autoExport attribute of the same BrmBackupScheduler MO must be set to DISABLED, otherwise the selective automatic export cannot have effect..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf adminState {
+      description "Administrative state of the scheduler..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf nextScheduledTime {
+      description "The date and time when the next scheduled event is triggered. This is the earliest scheduled event from the set of configured events, i.e. single, periodic, and calendar-based periodic events..";
+      type string;
+      config false;
+    }
+  }
+  grouping BrmCalendarBasedPeriodicEvent-attributes {
+    leaf brmCalendarBasedPeriodicEventId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf selectiveAutoExport {
+      description "Used to enable selective automatic export for event of this type..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf month {
+      description "Month..";
+      type string;
+    }
+    leaf dayOfWeek {
+      description "Day of week..";
+      type enumeration {
+        enum SUNDAY;
+        enum MONDAY;
+        enum TUESDAY;
+        enum WEDNESDAY;
+        enum THURSDAY;
+        enum FRIDAY;
+        enum SATURDAY;
+        enum ALL;
+      }
+    }
+    leaf dayOfMonth {
+      description "Day of month..";
+      type string;
+    }
+    leaf time {
+      description "This is the time when the scheduled event must occur..";
+      type string;
+      mandatory true;
+    }
+    leaf dayOfWeekOccurrence {
+      description "The occurrence of the day of week specified by dayOfWeek attribute in the month..";
+      type enumeration {
+        enum FIRST;
+        enum SECOND;
+        enum THIRD;
+        enum FOURTH;
+        enum LAST;
+        enum ALL;
+      }
+    }
+    leaf startTime {
+      description "Start time. It is an optional attribute. If not specified, the implementation uses the current system time as the default value..";
+      type string;
+    }
+    leaf stopTime {
+      description "Stop time. It is an optional attribute. The default value is the end of the century..";
+      type string;
+    }
+  }
+  grouping BrmFailsafeBackup-attributes {
+    leaf brmFailsafeBackupId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf backupName {
+      description "Name of the backup that will be restored in case the failsafe function is activated..";
+      type string;
+      config false;
+    }
+    leaf timeRemaining {
+      description "The number of seconds that remains before the system is restored from the selected backup..";
+      type uint64;
+      config false;
+    }
+    leaf usageState {
+      description "Shows if the failsafe function is activated or not. Multiple failsafe points is not possible, therefore this state is either IDLE or BUSY..";
+      type enumeration {
+        enum IDLE;
+        enum ACTIVE;
+        enum BUSY;
+      }
+      config false;
+    }
+    list progressReport {
+      config false;
+      description "Represents the progress report and final result of creating backup for failsafe configuration. It will return the same information as the progressReport attribute of the BrmBackupManager managed object class..";
+      uses AsyncActionProgress-struct;
+    }
+    leaf timeoutLength {
+      description "The number of seconds the system waits before activating the failsafe function. If the value is set while the function is active the timeRemaining will be changed to that time instead.; range 1..86400; Default value: 1200.";
+      type uint64 {
+        range "1..86400";
+      }
+      default "1200";
+      units "seconds";
+    }
+  }
+  grouping BrmPeriodicEvent-attributes {
+    leaf brmPeriodicEventId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf selectiveAutoExport {
+      description "Used to enable selective automatic export for event of this type..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf months {
+      description "Deprecated, The number of months. Replaced by CalendarBasedPeriodicEvent.month.; Default value: 0; Status info: CalendarBasedPeriodicEvent is used for monthly scheduling.";
+      type uint16;
+      status deprecated;
+      default "0";
+    }
+    leaf weeks {
+      description "The number of weeks.; Default value: 0.";
+      type uint16;
+      default "0";
+    }
+    leaf days {
+      description "The number of days.; Default value: 0.";
+      type uint16;
+      default "0";
+    }
+    leaf hours {
+      description "The number of hours..";
+      type uint16;
+      mandatory true;
+    }
+    leaf minutes {
+      description "The number of minutes.; Default value: 0.";
+      type uint16;
+      default "0";
+    }
+    leaf startTime {
+      description "Start time. It is an optional attribute. If not specified, the implementation uses the current system time as the default value..";
+      type string;
+    }
+    leaf stopTime {
+      description "Stop time. It is an optional attribute. The default value is the end of the century..";
+      type string;
+    }
+  }
+  grouping BrmRollbackAtRestore-attributes {
+    leaf brmRollbackAtRestoreId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf timeAllowedBeforeRollback {
+      description "Number of seconds to wait for action confirmRestore. If the confirmRestore action is not invoked before this time expires then the system will be rolled back to the state before restore..";
+      type uint16;
+    }
+    leaf timeRemainingBeforeRollback {
+      description "The remaining number of seconds before performing the rollback to the state before restore. The countdown stops after confirmRestore action is invoked on the BrmBackup MO, representing the restored backup. If action confirmRestore is not invoked before the expiration of the rollback timer, an automatic rollback is triggered. Countdown starts at restore, and stops when confirmRestore() is invoked..";
+      type uint16;
+      config false;
+    }
+  }
+  grouping BrmSingleEvent-attributes {
+    leaf brmSingleEventId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf selectiveAutoExport {
+      description "Used to enable selective automatic export for event of this type..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf scheduledTime {
+      description "Scheduled time..";
+      type string;
+      mandatory true;
+    }
+  }
+}

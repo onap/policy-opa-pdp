@@ -1,0 +1,74 @@
+module huawei-nrducellintercalib {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellintercalib";
+ prefix nrducellintercalib;
+ description
+ "Auto-generated modular YANG for huawei-nrducellintercalib" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLINTERCALIB-attributes {
+ leaf CALIBNODETYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf FROMPARENTMAXBACKPWR {
+  type union {
+   type uint8 {
+    range "3..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf FROMPARENTMINBACKPWR {
+  type union {
+   type uint8 {
+    range "3..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf NODEPRIORITY {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf PARENTNODEDUCELLID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf TOPARENTMAXBACKPWR {
+  type union {
+   type uint8 {
+    range "3..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf TOPARENTMINBACKPWR {
+  type union {
+   type uint8 {
+    range "3..255";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

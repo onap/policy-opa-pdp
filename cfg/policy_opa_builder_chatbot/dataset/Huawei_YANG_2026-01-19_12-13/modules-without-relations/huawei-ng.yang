@@ -1,0 +1,62 @@
+module huawei-ng {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ng";
+ prefix ng;
+ description
+ "Auto-generated modular YANG for huawei-ng" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NG-attributes {
+ leaf CNOPSHARINGGROUPID {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CNOPERATORID {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf CPEPGROUPID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf EPGROUPCONFIGFLAG {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf OLD_NGID {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf NGID {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf UPEPGROUPID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ }
+}

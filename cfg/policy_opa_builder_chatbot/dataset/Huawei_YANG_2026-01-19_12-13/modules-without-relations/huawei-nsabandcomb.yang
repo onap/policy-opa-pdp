@@ -1,0 +1,40 @@
+module huawei-nsabandcomb {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nsabandcomb";
+ prefix nsabandcomb;
+ description
+ "Auto-generated modular YANG for huawei-nsabandcomb" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NSABANDCOMB-attributes {
+ leaf LTEFREQUENCYBAND {
+  type uint16 {
+   range "1..266";
+  }
+  mandatory false;
+ }
+ leaf NRFREQUENCYBAND {
+  type uint16 {
+   range "1..266";
+  }
+  mandatory false;
+ }
+ leaf OLD_NSACOMBID {
+  type union {
+   type int8 {
+    range "-1..63";
+   }
+  }
+  mandatory false;
+ }
+ leaf NSACOMBID {
+  type union {
+   type int8 {
+    range "-1..63";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

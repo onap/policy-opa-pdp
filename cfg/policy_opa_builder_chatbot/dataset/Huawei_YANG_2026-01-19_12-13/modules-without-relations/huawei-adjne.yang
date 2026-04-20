@@ -1,0 +1,100 @@
+module huawei-adjne {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-adjne";
+ prefix adjne;
+ description
+ "Auto-generated modular YANG for huawei-adjne" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ADJNE-attributes {
+ leaf ADJNECN {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf ADJNENAME {
+  type string {
+   length "0..64";
+  }
+  mandatory false;
+ }
+ leaf ADJNEPN {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf ADJNESN {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf ADJNESRN {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf ADJNESUBSBT {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf ADJNETYPE {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf OLD_ADJNO {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf ADJNO {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf PN {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf SBT {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

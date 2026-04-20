@@ -1,0 +1,323 @@
+module ericsson-gnss-info-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncGnssInfo";
+  prefix gnssirdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-time-sync-io-sync-radio {
+    prefix tsynciordo;
+  }
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization/tsynciordo:TimeSyncIO" {
+    list GnssInfo {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents connected GNSS receiver status, satellite systems used, synchronization to satellites and satellite visibility details.";
+      key "gnssInfoId";
+      leaf gnssInfoId {
+        type leafref {
+          path "../attributes/gnssInfoId";
+        }
+      }
+      container attributes {
+        uses GnssInfo-attributes;
+      }
+    }
+  }
+  typedef AntSel {
+    type enumeration {
+      enum INTERNAL;
+      enum EXTERNAL;
+    }
+  }
+  typedef AntSelStatus {
+    type enumeration {
+      enum UNKNOWN;
+      enum SELECTION_UNSUPPORTED;
+      enum INTERNAL;
+      enum EXTERNAL;
+    }
+  }
+  typedef ControlPath {
+    type enumeration {
+      enum UNKNOWN;
+      enum CONTROL_PATH_EXIST;
+      enum NO_CONTROL_PATH;
+      enum UNSUPPORTED;
+    }
+  }
+  typedef FwUpgradeStatus {
+    type enumeration {
+      enum UNKNOWN;
+      enum UPGRADE_UNSUPPORTED;
+      enum NO_CONTROL;
+      enum DOWNLOAD_ONGOING;
+      enum EVALUATING_RESTART_PRECONDITIONS;
+      enum SKY_VISIBILITY_LIMITED;
+      enum RESTART_ORDERED;
+      enum OK;
+      enum FIRMWARE_REJECTED;
+      enum FILE_TRANSFER_REJECTED;
+      enum DOWNLOAD_FAILED;
+      enum FIRMWARE_MISMATCH;
+    }
+  }
+  typedef GnssInfoObservationPointMode {
+    type enumeration {
+      enum UNKNOWN;
+      enum SURVEY;
+      enum POSITION_HOLD;
+    }
+  }
+  typedef GnssRecControlAction {
+    type enumeration {
+      enum RELEASE_CONTROL;
+      enum GET_CONTROL;
+    }
+  }
+  typedef GnssReceiverResurveyAction {
+    type enumeration {
+      enum ENABLE;
+      enum DISABLE;
+      enum EXECUTE;
+      enum CANCEL;
+      enum STATUS;
+    }
+  }
+  typedef GnssRefState {
+    type enumeration {
+      enum HW_FAULT;
+      enum OK;
+      enum NO_TIME;
+      enum NO_MESSAGES;
+      enum PROTOCOL_NOT_RECOGNIZED;
+      enum LOSS_OF_1PPS_SIGNAL;
+      enum SYNCHRONIZED;
+      enum NOT_SYNCHRONIZED;
+      enum UNKNOWN;
+    }
+  }
+  typedef MultipleGnssStatus {
+    type enumeration {
+      enum WANTED_GNSS_USED;
+      enum DISABLED_LICENSE;
+      enum GNSS_REC_UNREACHABLE;
+      enum WANTED_GNSS_UNSUPPORTED;
+      enum GNSS_REC_CONFIG_FAULT;
+      enum BACKUP_GNSS_USED;
+      enum BACKUP_GNSS_UNSUPPORTED;
+    }
+  }
+  typedef SatelliteSystem {
+    type enumeration {
+      enum UNKNOWN;
+      enum GPS;
+      enum BDS;
+      enum NAVIC;
+      enum GALILEO;
+      enum NONE;
+      enum GPS_GLONASS;
+      enum GPS_BDS;
+      enum GPS_GALILEO;
+      enum GPS_QZSS;
+      enum GPS_NAVIC;
+      enum GALILEO_NAVIC;
+      enum GPS_GLONASS_QZSS;
+      enum GPS_BDS_QZSS;
+      enum GPS_GALILEO_QZSS;
+      enum GPS_GALILEO_NAVIC;
+    }
+  }
+  grouping GnssInfo-attributes {
+    leaf altitude {
+      type string;
+      config false;
+    }
+    leaf gnssInfoId {
+      type string;
+      mandatory true;
+    }
+    leaf gnssRecAntSelStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum SELECTION_UNSUPPORTED;
+        enum INTERNAL;
+        enum EXTERNAL;
+      }
+      config false;
+    }
+    leaf gnssRecControlPath {
+      type enumeration {
+        enum UNKNOWN;
+        enum CONTROL_PATH_EXIST;
+        enum NO_CONTROL_PATH;
+        enum UNSUPPORTED;
+      }
+      config false;
+    }
+    leaf gnssReceiverControl {
+      type string;
+      config false;
+    }
+    list gnssReceiverFirmware {
+      config false;
+      container attributes {
+      leaf executingSlot {
+        type string;
+      }
+      leaf fwRevisionSlot0 {
+        type string;
+      }
+      leaf fwRevisionSlot1 {
+        type string;
+      }
+      leaf fwRevisionSlot2 {
+        type string;
+      }
+      }
+    }
+    leaf gnssReceiverFwUpgradeStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum UPGRADE_UNSUPPORTED;
+        enum NO_CONTROL;
+        enum DOWNLOAD_ONGOING;
+        enum EVALUATING_RESTART_PRECONDITIONS;
+        enum SKY_VISIBILITY_LIMITED;
+        enum RESTART_ORDERED;
+        enum OK;
+        enum FIRMWARE_REJECTED;
+        enum FILE_TRANSFER_REJECTED;
+        enum DOWNLOAD_FAILED;
+        enum FIRMWARE_MISMATCH;
+      }
+      config false;
+    }
+    list gnssReceiverProductData {
+      config false;
+      container attributes {
+      leaf additionalInfo {
+        type string;
+      }
+      leaf productName {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf serialNumber {
+        type string;
+      }
+      }
+    }
+    leaf gnssReceiverStatus {
+      type enumeration {
+        enum HW_FAULT;
+        enum OK;
+        enum NO_TIME;
+        enum NO_MESSAGES;
+        enum PROTOCOL_NOT_RECOGNIZED;
+        enum LOSS_OF_1PPS_SIGNAL;
+        enum SYNCHRONIZED;
+        enum NOT_SYNCHRONIZED;
+        enum UNKNOWN;
+      }
+      config false;
+    }
+    leaf hdop {
+      type string;
+      config false;
+    }
+    leaf latitude {
+      type string;
+      config false;
+    }
+    leaf longitude {
+      type string;
+      config false;
+    }
+    leaf multipleGnssActual {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf multipleGnssBackup {
+      type ietfinet:ip-address;
+    }
+    leaf multipleGnssStatus {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf multipleGnssWanted {
+      type ietfinet:ip-address;
+    }
+    leaf noOfSatellitesInUse {
+      type int32;
+      config false;
+    }
+    leaf noOfSatellitesInView {
+      type int32;
+      config false;
+    }
+    leaf observationPointMode {
+      type enumeration {
+        enum UNKNOWN;
+        enum SURVEY;
+        enum POSITION_HOLD;
+      }
+      config false;
+    }
+    leaf pdop {
+      type string;
+      config false;
+    }
+    list satelliteInformation {
+      config false;
+      container attributes {
+      leaf azimuth {
+        type uint16;
+        units "degree";
+      }
+      leaf elevation {
+        type uint16;
+        units "degree";
+      }
+      leaf satelliteIdentity {
+        type string;
+      }
+      leaf signalToNoiseRatio {
+        type int16;
+        units "dB";
+      }
+      leaf signalToNoiseRatioB1C {
+        type int16;
+        units "dB";
+      }
+      leaf signalToNoiseRatioL5 {
+        type int16;
+        units "dB";
+      }
+      }
+    }
+    list usedSatelliteInformation {
+      config false;
+      container attributes {
+      leaf usedSatelliteIdentity {
+        type string;
+      }
+      }
+    }
+    leaf vdop {
+      type string;
+      config false;
+    }
+  }
+}

@@ -1,0 +1,156 @@
+module ericsson-l2-vlan-port-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL2VlanPort";
+  prefix l2vlanptrdo;
+  import ericsson-extended-transport-rtn-radio {
+    prefix exttrrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nLayer 2 VLAN-aware Port.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list VlanPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents VLAN in context of single aware port. Maximum number of VlanPort MOs in node created in Backhaul is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120. If VlanPort MO is created by user, RDN of this MO cannot contain prefix ”auto_”. If VlanPort MO is not created by user for RiPort MO using transmission standard Ethernet and RiPort MO is connected to RiNetwork MO, VlanPort MO is created automatically. For VlanPort MO with underlying encapsulation EthernetPort MO, that encapsulates RiPort MO following shall apply: - Maximum number of VlanPort MOs in node is limited to 60. - VlanPort MO can only be reserved by EthernetVirtualConnection MO. - VlanPort MO must have same parent MO as EthernetPort MO it encapsulates. - If Vlan Port MO is created automatically, RDN of this MO is VlanPort=auto_ <riPortId>. Dependencies: Max one InterfaceIPv4 MO or InterfaceIPv6 MO can reserve this port. Bridge MO and InterfaceIPv4 MO or InterfaceIPv6 MO must not refer to same VlanPort MO. If reserved by MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction or ExtGNBDUPartnerFunction, this port can only be reserved by MO type PtpBcOcPort, GNBDUFunction or ExtGNBDUPartnerFunction. If underlying encapsulation is LagPort MO, MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction or ExtGNBDUPartnerFunction cannot reserve this port. QueueSystem and egress traffic shaping has no effect on low latency traffic.";
+      key "vlanPortId";
+      leaf vlanPortId {
+        type leafref {
+          path "../attributes/vlanPortId";
+        }
+      }
+      container attributes {
+      uses VlanPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/exttrrdo:ExtendedTransport" {
+    list VlanPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents VLAN in context of single aware port. Maximum number of VlanPort MOs in node created in Backhaul is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120. If VlanPort MO is created by user, RDN of this MO cannot contain prefix ”auto_”. If VlanPort MO is not created by user for RiPort MO using transmission standard Ethernet and RiPort MO is connected to RiNetwork MO, VlanPort MO is created automatically. For VlanPort MO with underlying encapsulation EthernetPort MO, that encapsulates RiPort MO following shall apply: - Maximum number of VlanPort MOs in node is limited to 60. - VlanPort MO can only be reserved by EthernetVirtualConnection MO. - VlanPort MO must have same parent MO as EthernetPort MO it encapsulates. - If Vlan Port MO is created automatically, RDN of this MO is VlanPort=auto_ <riPortId>. Dependencies: Max one InterfaceIPv4 MO or InterfaceIPv6 MO can reserve this port. Bridge MO and InterfaceIPv4 MO or InterfaceIPv6 MO must not refer to same VlanPort MO. If reserved by MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction or ExtGNBDUPartnerFunction, this port can only be reserved by MO type PtpBcOcPort, GNBDUFunction or ExtGNBDUPartnerFunction. If underlying encapsulation is LagPort MO, MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction or ExtGNBDUPartnerFunction cannot reserve this port. QueueSystem and egress traffic shaping has no effect on low latency traffic.";
+      key "vlanPortId";
+      leaf vlanPortId {
+        type leafref {
+          path "../attributes/vlanPortId";
+        }
+      }
+      container attributes {
+      uses VlanPort-attributes;
+      }
+    }
+  }
+  grouping VlanPort-attributes {
+    leaf egressQosClassification {
+      description "DSCP to PCP map used to classify DSCP tagged packets to PCP value for egress traffic in order to be handled correctly by queue system. It can refer to DscpPcpMap MO. Empty string means no classification done on DSCP, that PCP value is trusted. This attribute is used for specific issues within the QoS domain and should most often be empty..";
+      type string;
+    }
+    leaf egressQosMarking {
+      description "DSCP to PCP map used to re-mark DSCP tagged packets to PCP value for egress traffic. Can refer to DscpPcpMap MO. Empty string means no re-marking done on DSCP. Used for specific issues within QoS domain and should most often be empty..";
+      type string;
+    }
+    leaf egressQosQueueMap {
+      description "PcpToQueueMap MO used by configuring VlanPort MO..";
+      type string;
+    }
+    leaf encapsulation {
+      description "Reference to underlying encapsulation. Underlying encapsulation can be MO type EthernetPort, LagPort or RiPort..";
+      type string;
+      mandatory true;
+    }
+    leaf-list ingressQosMarking {
+      description "DSCP to DSCP or PCP to PCP map used to re-mark DSCP or PCP tagged packets. Empty string means no re-marking is done. Used to fix specific issues within QoS domain and should most often be empty. Can refer to DscpDscpMap MO or PcpPcpMap MO..";
+      type string;
+      min-elements 0;
+      max-elements 2;
+    }
+    leaf isTagged {
+      description "Tagged or untagged traffic on port. If set to true, tagged frames are accepted and sent. If set to false, untagged frames are accepted and sent.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf lowLatencySwitching {
+      description "Enables port low latency switching.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf vlanId {
+      description "Ingress classifies which VlanPort MO traffic will be going into, when being received on EthernetPort MO. Egress indicates VLAN ID in VLAN tag of packets being transmitted out of EthernetPort MO..";
+      type string;
+      mandatory true;
+    }
+    leaf vlanPortId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf ifHCOutOctets {
+      description "Total number of octets transmitted out of interface, including framing characters. Low latency switching traffic is not included. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Octets.";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInOctets {
+      description "Total number of octets received on interface, including framing characters. Low latency switching traffic is not included. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Octets.";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutUcastPkts {
+      description "Total number of unicast packets that are requested to be transmitted. Unicast packets counted by ifOutDiscards are included. Low latency switching traffic is not included. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Packets.";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInBroadcastPkts {
+      description "Number of broadcast packets forwarded to bridge or delivered to higher (sub-)layer. Packets counted by ifInUnknownProtos are not included. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Packets.";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutBroadcastPkts {
+      description "Total number of broadcast packets that are requested to be transmitted. Broadcast packets counted by ifOutDiscards are included. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Packets.";
+      type uint64;
+      config false;
+    }
+    leaf ifOutDiscards {
+      description "Number of outbound packets which were discarded even though no errors had been detected, for example due to lack of buffer space or traffic shaping. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Packets.";
+      type uint64;
+      config false;
+    }
+    leaf ifInUnknownProtos {
+      description "Number of packets received via interface which were discarded because of unknown or unsupported protocol. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Packets.";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInUcastPkts {
+      description "Number of unicast packets forwarded to bridge or delivered to higher (sub-)layer. Packets counted by ifInUnknownProtos are not included. Low latency switching traffic is not included. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Packets.";
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutMulticastPkts {
+      description "Total number of multicast packets that are requested to be transmitted. Multicast packets counted by ifOutDiscards are included. Low latency switching traffic is not included. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Packets.";
+      type uint64;
+      config false;
+    }
+    leaf ifHCInMulticastPkts {
+      description "Number of multicast packets forwarded to bridge or delivered to higher (sub-)layer. Packets counted by ifInUnknownProtos are not included. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6. Unit: Packets.";
+      type uint64;
+      config false;
+    }
+    leaf ifInDiscards {
+      description "Number of inbound packets which were chosen to be discarded even though no errors had been detected to prevent their being deliverable to higher-layer protocol. This counter is not supported if underlying encapsulation is EthernetPort MO, that encapsulates RiPort MO. Standard reference: RFC 2863, section 6..";
+      type uint64;
+      config false;
+    }
+  }
+}

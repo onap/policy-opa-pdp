@@ -1,0 +1,36 @@
+module ericsson-eum-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqExternalUpManager";
+  prefix eumrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ExternalUpManager {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Allows to create and delete a firmware upgrade package for external hardware. The RDN of this MO is ExternalUpManager=1.";
+      key "externalUpManagerId";
+      leaf externalUpManagerId {
+        type leafref {
+          path "../attributes/externalUpManagerId";
+        }
+      }
+      container attributes {
+        uses ExternalUpManager-attributes;
+      }
+    }
+  }
+  grouping ExternalUpManager-attributes {
+    leaf externalUpManagerId {
+      type string;
+      mandatory true;
+    }
+  }
+}

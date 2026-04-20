@@ -1,0 +1,123 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "OPA-chatbot"
+dynamic = ["version"]
+description = 'OPA chatbot application'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  {name = "Divya Gnanasekaran", email = "dg00512931@techmahindra.com"},
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "gradio >= 5.47.0",
+  "ruff>=0.9.3",
+  "unsloth == 2025.9.6",
+  "faiss-cpu == 1.12.0",
+  "sentence-transformers == 5.1.0",
+  "pandas == 2.3.2",
+  "tf-keras == 2.20.1",
+  "openpyxl == 3.1.5",
+  "rank_bm25==0.2.2",
+]
+
+[project.urls]
+Documentation = ""
+Issues = "https://jira.telekom.de/"
+Source = "https://gitlab.devops.telekom.de/tnap/development/cvraman-team/policy_opa_builder_chatbot"
+
+[project.scripts]
+main = "app.main:main"
+
+[tool.hatch.envs.default]
+python = "3.12"
+
+[tool.hatch.envs.default.scripts]
+app = "python app/main.py"
+
+[tool.hatch.version]
+path = "app/__init__.py"
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.hatch.envs.types]
+dependencies = [
+  "mypy>=1.0.0",
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+install_types = true
+namespace_packages = true
+cache_dir = ".mypy_cache"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "streamlit.*",
+    "transformers.*",
+    "faiss.*"
+]
+ignore_missing_imports = true
+
+[tool.hatch.envs.lint]
+dependencies = [
+    "pylama>=8.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.9.3",
+    "setuptools>=70.0.0",
+]
+
+[tool.hatch.envs.default.env-vars]
+PYTHONPATH = ".:app:{env:PYTHONPATH:''}"
+PIP_EXTRA_INDEX_URL = "https://{env:UV_INDEX_TNAP_PYPI_USERNAME}:{env:UV_INDEX_TNAP_PYPI_PASSWORD}@artifactory.devops.telekom.de/artifactory/api/pypi/tnap-pypi/simple"
+
+[tool.coverage.run]
+source_pkgs = ["app"]
+branch = true
+parallel = true
+
+[tool.coverage.paths]
+opa_chatbot = ["app", "*/policy_opa_builder_chatbot/app"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  'if __name__ == "__main__":',
+  "if TYPE_CHECKING:",
+]
+fail_under = 80
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[tool.hatch.envs.hatch-test]
+dependencies = [
+  "pytest",
+  "coverage[toml]>=7.5",
+  "aioresponses",
+  "freezegun"
+]
+
+[[tool.uv.index]]
+name = "tnap-pypi"
+#url = "https://artifactory.devops.telekom.de/artifactory/api/pypi/tnap-pypi/simple"
+url = "https://pypi.org/simple"

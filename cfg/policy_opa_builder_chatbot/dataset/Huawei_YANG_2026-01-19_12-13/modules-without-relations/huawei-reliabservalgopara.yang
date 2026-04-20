@@ -1,0 +1,162 @@
+module huawei-reliabservalgopara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-reliabservalgopara";
+ prefix reliabservalgopara;
+ description
+ "Auto-generated modular YANG for huawei-reliabservalgopara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RELIABSERVALGOPARA-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf DLDEJITTERBUFFERPKTNUM {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf DLDEJITTERPKTINTERVAL {
+  type uint8 {
+   range "10..200";
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf RELASSURALGOOPTSW {
+  type string;
+  mandatory false;
+ }
+ leaf RELASSURDLMCSDECVALUE {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf RELASSURDLPWRBOOSTSINRTHLD {
+  type union {
+   type int8 {
+    range "-5..127";
+   }
+  }
+  mandatory false;
+ }
+ leaf RELASSURFIXEDSRPERIOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf RELASSURHODELAYQCI {
+  type union {
+   type uint8 {
+    range "3..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf RELASSURHODELAYRSRPTHLD {
+  type int16 {
+   range "-140..-43";
+  }
+  mandatory false;
+ }
+ leaf RELASSURPDCCHSINROFFSET {
+  type uint8 {
+   range "0..150";
+  }
+  mandatory false;
+ }
+ leaf RELASSURSCHAVOIDRBNUM {
+  type union {
+   type uint8 {
+    range "1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf RELASSURULTARGETIBLER {
+  type union {
+   type uint8 {
+    range "1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf RELASSURULADDLSCHDATAVOL {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RELASSURULMCSDECVALUE {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf RELASSURULMCSUPPERLIMIT {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf RELASSURULPOWEROFFSET {
+  type uint8 {
+   range "0..21";
+  }
+  mandatory false;
+ }
+ leaf RELASSURULSRSCHDATAVOL {
+  type union {
+   type uint16 {
+    range "0..15000";
+   }
+  }
+  mandatory false;
+ }
+ leaf RELASSURVOICEUERELDELAYTMR {
+  type uint16 {
+   range "0..3600";
+  }
+  mandatory false;
+ }
+ leaf RELIABSERVTYPE {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+  }
+  mandatory false;
+ }
+ }
+}

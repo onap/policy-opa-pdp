@@ -1,0 +1,51 @@
+module ericsson-rmepmsupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmePmSupport";
+  prefix rmepmsup;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list PmSupport {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Holds control for multi ROP file behaviour.";
+      key "pmSupportId";
+      leaf pmSupportId {
+        type leafref {
+          path "../attributes/pmSupportId";
+        }
+      }
+      container attributes {
+        uses PmSupport-attributes;
+      }
+    }
+  }
+  typedef FileHandlingMethod {
+    type enumeration {
+      enum SINGLE_ROP_FILE;
+      enum MULTIPLE_ROP_FILES;
+    }
+  }
+  grouping PmSupport-attributes {
+    leaf pmSupportId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf ropFileHandling {
+      type enumeration {
+        enum SINGLE_ROP_FILE;
+        enum MULTIPLE_ROP_FILES;
+      }
+    }
+  }
+}

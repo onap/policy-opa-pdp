@@ -1,0 +1,217 @@
+module huawei-nrducellintrfident {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellintrfident";
+ prefix nrducellintrfident;
+ description
+ "Auto-generated modular YANG for huawei-nrducellintrfident" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLINTRFIDENT-attributes {
+ leaf CHNMEASCTRLSW {
+  type string;
+  mandatory false;
+ }
+ leaf COMBGAINWEIGHT {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf DLCELLINTRFAVOIDPOL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf DLINTRFAVOIDSW {
+  type string;
+  mandatory false;
+ }
+ leaf DLINTRFIDENTOFS {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf INTRFBAND1SPCTEFFWTFACTOR {
+  type uint8 {
+   range "0..200";
+  }
+  mandatory false;
+ }
+ leaf INTRFBAND2SPCTEFFWTFACTOR {
+  type uint8 {
+   range "0..200";
+  }
+  mandatory false;
+ }
+ leaf INTRFIDENTIFICATIONMETHOD {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf INTRFOPTIMIZATIONMETHOD {
+  type string;
+  mandatory false;
+ }
+ leaf MAXULINTRFDIRECTIONNUM {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf NOINTRFBANDSPCTEFFWTFACTOR {
+  type uint16 {
+   range "0..1000";
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf SENSEINTRFMEASEQID {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRSSINRTHLD {
+  type int8 {
+   range "-10..35";
+  }
+  mandatory false;
+ }
+ leaf ULBLOCKINGINTRFAVOIDMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf ULINTRFAUTODETECTTHLDOFS {
+  type int8 {
+   range "-50..50";
+  }
+  mandatory false;
+ }
+ leaf ULINTRFAVOIDSLOTCONFIG {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf ULINTRFBASEDHOUESVCTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULINTRFDETECTIONTHLD {
+  type int8 {
+   range "-120..0";
+  }
+  mandatory false;
+ }
+ leaf ULINTRFDIFFTHLD {
+  type int8 {
+   range "-100..100";
+  }
+  mandatory false;
+ }
+ leaf ULINTRFFREQSCHJUDGEOFS {
+  type int8 {
+   range "-50..50";
+  }
+  mandatory false;
+ }
+ leaf ULINTRFISOLATEMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf ULINTRFSATISFACTIONTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ULINTRFTHLD {
+  type int8 {
+   range "-125..-40";
+  }
+  mandatory false;
+ }
+ leaf ULSCHINTRFAVOIDSINRTHLD {
+  type int16 {
+   range "-255..255";
+  }
+  mandatory false;
+ }
+ leaf ULSRSINTRFDIFFTHLD {
+  type uint8 {
+   range "0..60";
+  }
+  mandatory false;
+ }
+ leaf ULSTRONGINTRFCORRCOEFFTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ULSTRONGINTRFMEASSINRTHLD {
+  type int8 {
+   range "-10..21";
+  }
+  mandatory false;
+ }
+ leaf ULUELVLINTRFOPTMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf ULTRAIRCALGOSW {
+  type string;
+  mandatory false;
+ }
+ leaf ULTRAIRCINTRFTHLD {
+  type int8 {
+   range "-110..-90";
+  }
+  mandatory false;
+ }
+ leaf ULTRAIRCULSCHINTRFTHLD {
+  type int8 {
+   range "-115..-100";
+  }
+  mandatory false;
+ }
+ leaf VOICEDLINTRFRATIOTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ }
+}

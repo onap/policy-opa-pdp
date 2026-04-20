@@ -1,0 +1,60 @@
+module huawei-hybridclk {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-hybridclk";
+ prefix hybridclk;
+ description
+ "Auto-generated modular YANG for huawei-hybridclk" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping HYBRIDCLK-attributes {
+ leaf FCLKSRC {
+  type enumeration {
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf FSRCNO {
+  type boolean;
+  mandatory false;
+ }
+ leaf HYBRIDCLKTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_LN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf LN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf TCLKSRC {
+  type enumeration {
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf TSRCNO {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-65535;
+  }
+  mandatory false;
+ }
+ leaf TTHYBRIDCLKTYPE {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,36 @@
+module huawei-nodebtrfoverloadthd {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nodebtrfoverloadthd";
+ prefix nodebtrfoverloadthd;
+ description
+ "Auto-generated modular YANG for huawei-nodebtrfoverloadthd" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NODEBTRFOVERLOADTHD-attributes {
+ leaf TRAFFICOVERLOADOPRD {
+  type uint16 {
+   range "1..13107";
+  }
+  mandatory false;
+ }
+ leaf TRAFFICOVERLOADOTHD {
+  type uint8 {
+   range "10..100";
+  }
+  mandatory false;
+ }
+ leaf TRAFFICOVERLOADRPRD {
+  type uint16 {
+   range "1..13107";
+  }
+  mandatory false;
+ }
+ leaf TRAFFICOVERLOADRTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ }
+}

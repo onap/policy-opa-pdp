@@ -1,0 +1,677 @@
+module ericsson-qos-profiles-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnQosProfiles";
+  prefix qospfrdo;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nQoSProfiles";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list QosProfiles {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Mapping of a set of DSCP values to a PCP.";
+      key "qosProfilesId";
+      leaf qosProfilesId {
+        type leafref {
+          path "../attributes/qosProfilesId";
+        }
+      }
+      container attributes {
+      uses QosProfiles-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/qospfrdo:QosProfiles" {
+    list DscpDscpMap {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; A DSCP to DSCP map. Used for remarking of the DSCP value.";
+      key "dscpDscpMapId";
+      leaf dscpDscpMapId {
+        type leafref {
+          path "../attributes/dscpDscpMapId";
+        }
+      }
+      container attributes {
+      uses DscpDscpMap-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/qospfrdo:QosProfiles" {
+    list DscpPcpMap {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; A DSCP to PCP map.";
+      key "dscpPcpMapId";
+      leaf dscpPcpMapId {
+        type leafref {
+          path "../attributes/dscpPcpMapId";
+        }
+      }
+      container attributes {
+      uses DscpPcpMap-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/qospfrdo:QosProfiles" {
+    list PcpPcpMap {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; A PCP to PCP map. Used for remarking of the PCP value.";
+      key "pcpPcpMapId";
+      leaf pcpPcpMapId {
+        type leafref {
+          path "../attributes/pcpPcpMapId";
+        }
+      }
+      container attributes {
+      uses PcpPcpMap-attributes;
+      }
+    }
+  }
+  grouping DscpDscpMap-attributes {
+    leaf defaultDscp {
+      description "The DSCP value to be used for non-mapped DSCP values. If not defined, no remarking is made for otherwise non-mapped DSCP values.; range 0..63.";
+      type eytypes:uint8_range_0-63;
+    }
+    leaf-list dscp0 {
+      description "Set of DSCP values that shall be remarked to DSCP 0..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp1 {
+      description "Set of DSCP values that shall be remarked to DSCP 1..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp10 {
+      description "Set of DSCP values that shall be remarked to DSCP 10..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp11 {
+      description "Set of DSCP values that shall be remarked to DSCP 11..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp12 {
+      description "Set of DSCP values that shall be remarked to DSCP 12..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp13 {
+      description "Set of DSCP values that shall be remarked to DSCP 13..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp14 {
+      description "Set of DSCP values that shall be remarked to DSCP 14..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp15 {
+      description "Set of DSCP values that shall be remarked to DSCP 15..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp16 {
+      description "Set of DSCP values that shall be remarked to DSCP 16..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp17 {
+      description "Set of DSCP values that shall be remarked to DSCP 17..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp18 {
+      description "Set of DSCP values that shall be remarked to DSCP 18..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp19 {
+      description "Set of DSCP values that shall be remarked to DSCP 19..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp2 {
+      description "Set of DSCP values that shall be remarked to DSCP 2..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp20 {
+      description "Set of DSCP values that shall be remarked to DSCP 20..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp21 {
+      description "Set of DSCP values that shall be remarked to DSCP 21..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp22 {
+      description "Set of DSCP values that shall be remarked to DSCP 22..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp23 {
+      description "Set of DSCP values that shall be remarked to DSCP 23..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp24 {
+      description "Set of DSCP values that shall be remarked to DSCP 24..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp25 {
+      description "Set of DSCP values that shall be remarked to DSCP 25..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp26 {
+      description "Set of DSCP values that shall be remarked to DSCP 26..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp27 {
+      description "Set of DSCP values that shall be remarked to DSCP 27..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp28 {
+      description "Set of DSCP values that shall be remarked to DSCP 28..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp29 {
+      description "Set of DSCP values that shall be remarked to DSCP 29..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp3 {
+      description "Set of DSCP values that shall be remarked to DSCP 3..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp30 {
+      description "Set of DSCP values that shall be remarked to DSCP 30..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp31 {
+      description "Set of DSCP values that shall be remarked to DSCP 31..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp32 {
+      description "Set of DSCP values that shall be remarked to DSCP 32..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp33 {
+      description "Set of DSCP values that shall be remarked to DSCP 33..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp34 {
+      description "Set of DSCP values that shall be remarked to DSCP 34..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp35 {
+      description "Set of DSCP values that shall be remarked to DSCP 35..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp36 {
+      description "Set of DSCP values that shall be remarked to DSCP 36..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp37 {
+      description "Set of DSCP values that shall be remarked to DSCP 37..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp38 {
+      description "Set of DSCP values that shall be remarked to DSCP 38..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp39 {
+      description "Set of DSCP values that shall be remarked to DSCP 39..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp4 {
+      description "Set of DSCP values that shall be remarked to DSCP 4..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp40 {
+      description "Set of DSCP values that shall be remarked to DSCP 40..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp41 {
+      description "Set of DSCP values that shall be remarked to DSCP 41..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp42 {
+      description "Set of DSCP values that shall be remarked to DSCP 42..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp43 {
+      description "Set of DSCP values that shall be remarked to DSCP 43..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp44 {
+      description "Set of DSCP values that shall be remarked to DSCP 44..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp45 {
+      description "Set of DSCP values that shall be remarked to DSCP 45..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp46 {
+      description "Set of DSCP values that shall be remarked to DSCP 46..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp47 {
+      description "Set of DSCP values that shall be remarked to DSCP 47..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp48 {
+      description "Set of DSCP values that shall be remarked to DSCP 48..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp49 {
+      description "Set of DSCP values that shall be remarked to DSCP 49..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp5 {
+      description "Set of DSCP values that shall be remarked to DSCP 5..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp50 {
+      description "Set of DSCP values that shall be remarked to DSCP 50..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp51 {
+      description "Set of DSCP values that shall be remarked to DSCP 51..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp52 {
+      description "Set of DSCP values that shall be remarked to DSCP 52..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp53 {
+      description "Set of DSCP values that shall be remarked to DSCP 53..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp54 {
+      description "Set of DSCP values that shall be remarked to DSCP 54..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp55 {
+      description "Set of DSCP values that shall be remarked to DSCP 55..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp56 {
+      description "Set of DSCP values that shall be remarked to DSCP 56..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp57 {
+      description "Set of DSCP values that shall be remarked to DSCP 57..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp58 {
+      description "Set of DSCP values that shall be remarked to DSCP 58..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp59 {
+      description "Set of DSCP values that shall be remarked to DSCP 59..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp6 {
+      description "Set of DSCP values that shall be remarked to DSCP 6..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp60 {
+      description "Set of DSCP values that shall be remarked to DSCP 60..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp61 {
+      description "Set of DSCP values that shall be remarked to DSCP 61..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp62 {
+      description "Set of DSCP values that shall be remarked to DSCP 62..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp63 {
+      description "Set of DSCP values that shall be remarked to DSCP 63..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp7 {
+      description "Set of DSCP values that shall be remarked to DSCP 7..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp8 {
+      description "Set of DSCP values that shall be remarked to DSCP 8..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list dscp9 {
+      description "Set of DSCP values that shall be remarked to DSCP 9..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf dscpDscpMapId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping DscpPcpMap-attributes {
+    leaf defaultPcp {
+      description "The PCP value that should be used for non-mapped DSCP values.; range 0..7; Default value: 0.";
+      type eytypes:uint8_range_0-7;
+      default "0";
+    }
+    leaf dscpPcpMapId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list pcp0 {
+      description "The set of DSCP values that shall be mapped to PCP 0..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp1 {
+      description "The set of DSCP values that shall be mapped to PCP 1..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp2 {
+      description "The set of DSCP values that shall be mapped to PCP 2..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp3 {
+      description "The set of DSCP values that shall be mapped to PCP 3..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp4 {
+      description "The set of DSCP values that shall be mapped to PCP 4..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp5 {
+      description "The set of DSCP values that shall be mapped to PCP 5..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp6 {
+      description "The set of DSCP values that shall be mapped to PCP 6..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp7 {
+      description "The set of DSCP values that shall be mapped to PCP 7..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+  grouping DscpPcpMapDefault-attributes {
+    leaf defaultPcp {
+      description "The PCP value that should be used for non-mapped DSCP values.; range 0..7; Default value: 0.";
+      type eytypes:uint8_range_0-7;
+      default "0";
+    }
+    leaf dscpPcpMapDefaultId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list pcp0 {
+      description "The set of DSCP values that shall be mapped to PCP 0.; Default values sequence: 0.";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp1 {
+      description "The set of DSCP values that shall be mapped to PCP 1..";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp2 {
+      description "The set of DSCP values that shall be mapped to PCP 2.; Default values sequence: 10,12,14.";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp3 {
+      description "The set of DSCP values that shall be mapped to PCP 3.; Default values sequence: 18,20,22.";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp4 {
+      description "The set of DSCP values that shall be mapped to PCP 4.; Default values sequence: 8,16,26,28.";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp5 {
+      description "The set of DSCP values that shall be mapped to PCP 5.; Default values sequence: 34,36,38,46.";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp6 {
+      description "The set of DSCP values that shall be mapped to PCP 6.; Default values sequence: 32,40,48.";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf-list pcp7 {
+      description "The set of DSCP values that shall be mapped to PCP 7.; Default values sequence: 51,54.";
+      type eytypes:uint8_range_0-63;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+  grouping PcpPcpMap-attributes {
+    leaf defaultPcp {
+      description "The PCP value to be used for non-mapped PCP values. If not defined, no remarking is made for otherwise non-mapped PCP values.; range 0..7.";
+      type eytypes:uint8_range_0-7;
+    }
+    leaf-list pcp0 {
+      description "Set of PCP values that shall be remarked to PCP 0..";
+      type eytypes:uint8_range_0-7;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list pcp1 {
+      description "Set of PCP values that shall be remarked to PCP 1..";
+      type eytypes:uint8_range_0-7;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list pcp2 {
+      description "Set of PCP values that shall be remarked to PCP 2..";
+      type eytypes:uint8_range_0-7;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list pcp3 {
+      description "Set of PCP values that shall be remarked to PCP 3..";
+      type eytypes:uint8_range_0-7;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list pcp4 {
+      description "Set of PCP values that shall be remarked to PCP 4..";
+      type eytypes:uint8_range_0-7;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list pcp5 {
+      description "Set of PCP values that shall be remarked to PCP 5..";
+      type eytypes:uint8_range_0-7;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list pcp6 {
+      description "Set of PCP values that shall be remarked to PCP 6..";
+      type eytypes:uint8_range_0-7;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf-list pcp7 {
+      description "Set of PCP values that shall be remarked to PCP 7..";
+      type eytypes:uint8_range_0-7;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf pcpPcpMapId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+  grouping QosProfiles-attributes {
+    leaf qosProfilesId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+}

@@ -1,0 +1,81 @@
+module ericsson-rmeautoesi-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeAutoEsi";
+  prefix rmeautoe;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nModel for controlling automatic collection of ESI data";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/rmeautoe:AutoEsiM" {
+    list PreRestartEsi {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; System can collect ESI data immediately before an operator-initiated system restart. The RDN of this MO is PreRestarEsi=1.";
+      key "preRestartEsiId";
+      leaf preRestartEsiId {
+        type leafref {
+          path "../attributes/preRestartEsiId";
+        }
+      }
+      container attributes {
+      uses PreRestartEsi-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list AutoEsiM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Automatic ESI data collection. The RDN of this MO is AutoEsiM=1.";
+      key "autoEsiMId";
+      leaf autoEsiMId {
+        type leafref {
+          path "../attributes/autoEsiMId";
+        }
+      }
+      container attributes {
+      uses AutoEsiM-attributes;
+      }
+    }
+  }
+  typedef CollectionPolicy {
+    description "Collection policy.";
+    type enumeration {
+      enum ALWAYS {
+        description "ESI data is always collected at operator-initiated restart.";
+      }
+      enum NEVER {
+        description "ESI data is never collected at operator-initiated restart.";
+      }
+    }
+  }
+  grouping AutoEsiM-attributes {
+    leaf autoEsiMId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping PreRestartEsi-attributes {
+    leaf preRestartEsiId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf volatileDataCollection {
+      description "Whether volatile data is collected before an operator-initiated restart. System pauses for up to ten seconds to collect and save data. Collected data is included in ESI package. Volatile data is considered very useful for troubleshooting..";
+      type enumeration {
+        enum ALWAYS;
+        enum NEVER;
+      }
+    }
+  }
+}

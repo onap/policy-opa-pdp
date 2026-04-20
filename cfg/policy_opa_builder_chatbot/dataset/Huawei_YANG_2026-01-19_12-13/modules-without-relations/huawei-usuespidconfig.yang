@@ -1,0 +1,28 @@
+module huawei-usuespidconfig {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-usuespidconfig";
+ prefix usuespidconfig;
+ description
+ "Auto-generated modular YANG for huawei-usuespidconfig" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping USUESPIDCONFIG-attributes {
+ leaf OLD_USUESPID {
+  type union {
+   type int16 {
+    range "-1..256";
+   }
+  }
+  mandatory false;
+ }
+ leaf USUESPID {
+  type union {
+   type int16 {
+    range "-1..256";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

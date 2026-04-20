@@ -1,0 +1,798 @@
+module ericsson-radio-equipment-clock-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncRadioEquipmentClock";
+  prefix rdoeqclkrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization/RadioEquipmentClock" {
+    list AssistingReference {
+      description "Additional definitions from MOM:min/max-elements:0/8; Represents time holdover assisting synchronization reference for radio equipment clock.";
+      key "assistingReferenceId";
+      leaf assistingReferenceId {
+        type leafref {
+          path "../attributes/assistingReferenceId";
+        }
+      }
+      container attributes {
+        uses AssistingReference-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization/RadioEquipmentClock" {
+    list RadioEquipmentClockReference {
+      description "Additional definitions from MOM:min/max-elements:0/8; Represents generic synchronization reference for radio equipment clock. Specific interface or protocol reference can be used, is configured by encapsulation attribute. Dependencies: Two or more RadioEquipmentClockReference MOs cannot have same priority. RadioEquipmentClockReference MO and AssistingReference MO cannot refer to same BoundaryOrdinaryClock MO.";
+      key "radioEquipmentClockReferenceId";
+      leaf radioEquipmentClockReferenceId {
+        type leafref {
+          path "../attributes/radioEquipmentClockReferenceId";
+        }
+      }
+      container attributes {
+        uses RadioEquipmentClockReference-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization" {
+    list RadioEquipmentClock {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents clock for Radio Base Station. Dependencies: Only one FronthaulReference MO can be created.";
+      key "radioEquipmentClockId";
+      leaf radioEquipmentClockId {
+        type leafref {
+          path "../attributes/radioEquipmentClockId";
+        }
+      }
+      container attributes {
+        uses RadioEquipmentClock-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AssRefStatus {
+    type enumeration {
+      enum NO_FAULT;
+      enum UNKNOWN;
+      enum ASSISTING_REFERENCE_MONITORED;
+      enum QL_TOO_LOW;
+      enum PTP_FAULT;
+      enum SYNCE_FAULT;
+      enum FREQ_DEVIATION;
+      enum OTA_FAULT;
+    }
+  }
+  typedef AssistanceState {
+    type enumeration {
+      enum FEATURE_NOT_ACTIVATED;
+      enum NO_ASSISTING_REF_QUALIFIED;
+      enum ASSISTANCE_ACTIVE;
+      enum ASSISTANCE_NOT_ACTIVE;
+    }
+  }
+  typedef AssistingQL {
+    type enumeration {
+      enum RECEIVED_QL;
+      enum REMAPPED_QL;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef NodeGroupRole {
+    type enumeration {
+      enum NOT_ACTIVATED_AS_NODE_GROUP_MEMBER;
+      enum ROLE_NOT_DEFINED;
+      enum SYNC_PROVIDER;
+      enum SYNC_RECEIVER;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef QLFrom {
+    type enumeration {
+      enum RECEIVED_QL;
+      enum ADMIN_QL;
+    }
+  }
+  typedef QualityLevel {
+    type enumeration {
+      enum PRC;
+      enum PRS;
+      enum STU_OR_UNK;
+      enum SSU_A_OR_TNC;
+      enum SSU_B;
+      enum ST2;
+      enum ST3E;
+      enum ST3_OR_EEC2;
+      enum SEC_OR_EEC;
+      enum SMC_OR_EEC1;
+      enum PROV;
+      enum DNU_OR_DUS;
+      enum INV;
+      enum TCU_02;
+      enum QL_UNKNOWN;
+      enum SMC;
+      enum PRTC;
+      enum GNSS;
+      enum EPRTC;
+      enum EEEC;
+      enum EPRC;
+    }
+  }
+  typedef QualityLevelValueOptionI {
+    type enumeration {
+      enum PRC;
+      enum SSU_A;
+      enum SSU_B;
+      enum SEC_EEC;
+      enum EPRTC;
+      enum PRTC;
+      enum EEEC;
+      enum EPRC;
+    }
+  }
+  typedef QualityLevelValueOptionII {
+    type enumeration {
+      enum PRS;
+      enum STU;
+      enum ST2;
+      enum TNC;
+      enum ST3E;
+      enum ST3_EEC2;
+      enum SMC_EEC1;
+      enum EPRTC;
+      enum PRTC;
+      enum EEEC;
+      enum EPRC;
+    }
+  }
+  typedef QualityLevelValueOptionIII {
+    type enumeration {
+      enum UNK;
+      enum SEC_EEC;
+      enum EPRTC;
+      enum PRTC;
+      enum EEEC;
+    }
+  }
+  typedef RadioEquipmentClockState {
+    type enumeration {
+      enum FREE_RUNNING;
+      enum FREQUENCY_LOCKED;
+      enum FREQUENCY_HOLDOVER;
+      enum TIME_OFFSET_LOCKED;
+      enum TIME_OFFSET_HOLDOVER;
+      enum RNT_TIME_LOCKED;
+      enum RNT_TIME_HOLDOVER;
+      enum UNKNOWN;
+    }
+  }
+  typedef ReferenceStatus {
+    type enumeration {
+      enum NO_FAULT;
+      enum QL_TOO_LOW;
+      enum LOSS_OF_SIGNAL;
+      enum LOSS_OF_ESMC;
+      enum THOUSAND_BASE_T_NOT_SLAVE;
+      enum NTP_FAULT;
+      enum PTP_FAULT;
+      enum GNSS_FAULT;
+      enum SYNCE_FAULT;
+      enum FREQ_DEVIATION;
+    }
+  }
+  typedef SelectionProcessMode {
+    type enumeration {
+      enum QL_ENABLED;
+      enum QL_DISABLED;
+    }
+  }
+  typedef StartWithAssistance {
+    type enumeration {
+      enum NONE;
+      enum ALL;
+    }
+  }
+  typedef SyncRefType {
+    type enumeration {
+      enum SYNC_E;
+      enum FREQUENCY_PORT;
+      enum TIME_PORT;
+      enum PTP_TIME;
+      enum PTP_FREQUENCY;
+      enum NTP_FREQUENCY;
+      enum GNSS_RECEIVER;
+    }
+  }
+  typedef TimeSyncMode {
+    type enumeration {
+      enum AUTO_SELECT;
+      enum REGULAR;
+      enum RELAXED;
+    }
+  }
+  grouping AssistingReference-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf assistedReferenceStatus {
+      type enumeration {
+        enum NO_FAULT;
+        enum UNKNOWN;
+        enum ASSISTING_REFERENCE_MONITORED;
+        enum QL_TOO_LOW;
+        enum PTP_FAULT;
+        enum SYNCE_FAULT;
+        enum FREQ_DEVIATION;
+        enum OTA_FAULT;
+      }
+      config false;
+    }
+    leaf assistingQLFrom {
+      type enumeration {
+        enum RECEIVED_QL;
+        enum REMAPPED_QL;
+      }
+    }
+    leaf assistingReferenceId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf encapsulation {
+      type string;
+      mandatory true;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf priority {
+      type int8 {
+        range "1..8";
+      }
+      default "1";
+      description "range 1..8; Default value: 1.";
+    }
+    leaf receivedQualityLevel {
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf remappedQualityLevel {
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+    }
+  }
+  grouping RadioEquipmentClock-attributes {
+    leaf bfnOffset {
+      type int32 {
+        range "-5000000..5000000";
+      }
+      default "0";
+      units "ns";
+      description "range -5000000..5000000; Default value: 0.";
+    }
+    leaf clockOperQuality {
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf clockSettledQuality {
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf currentAssistingReference {
+      type string;
+      config false;
+    }
+    leaf currentRadioClockReference {
+      type string;
+      config false;
+    }
+    leaf freqDeviationThreshold {
+      type uint32 {
+        range "600..5000";
+      }
+      default "5000";
+      units "ppb";
+      description "range 600..5000; Default value: 5000.";
+    }
+    leaf fronthaulReferenceTable {
+      type string;
+      config false;
+    }
+    list minQualityLevel {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf qualityLevelValueOptionI {
+        type enumeration {
+          enum PRC;
+          enum SSU_A;
+          enum SSU_B;
+          enum SEC_EEC;
+          enum EPRTC;
+          enum PRTC;
+          enum EEEC;
+          enum EPRC;
+        }
+      }
+      leaf qualityLevelValueOptionII {
+        type enumeration {
+          enum PRS;
+          enum STU;
+          enum ST2;
+          enum TNC;
+          enum ST3E;
+          enum ST3_EEC2;
+          enum SMC_EEC1;
+          enum EPRTC;
+          enum PRTC;
+          enum EEEC;
+          enum EPRC;
+        }
+      }
+      leaf qualityLevelValueOptionIII {
+        type enumeration {
+          enum UNK;
+          enum SEC_EEC;
+          enum EPRTC;
+          enum PRTC;
+          enum EEEC;
+        }
+      }
+      }
+    }
+    leaf nodeGroupRole {
+      type enumeration {
+        enum NOT_ACTIVATED_AS_NODE_GROUP_MEMBER;
+        enum ROLE_NOT_DEFINED;
+        enum SYNC_PROVIDER;
+        enum SYNC_RECEIVER;
+      }
+      config false;
+    }
+    leaf-list radioClockPriorityTable {
+      type string;
+    }
+    leaf radioClockState {
+      type enumeration {
+        enum FREE_RUNNING;
+        enum FREQUENCY_LOCKED;
+        enum FREQUENCY_HOLDOVER;
+        enum TIME_OFFSET_LOCKED;
+        enum TIME_OFFSET_HOLDOVER;
+        enum RNT_TIME_LOCKED;
+        enum RNT_TIME_HOLDOVER;
+        enum UNKNOWN;
+      }
+      config false;
+    }
+    leaf radioEquipmentClockId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf selectionProcessMode {
+      type enumeration {
+        enum QL_ENABLED;
+        enum QL_DISABLED;
+      }
+    }
+    leaf startWithPreservedAssistingOffset {
+      type enumeration {
+        enum NONE;
+        enum ALL;
+      }
+    }
+    leaf syncInconsistentConfigAlarmEnabled {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    list timeHoldoverAlarmConfig {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf enable {
+        type boolean;
+        default "false";
+        description "Default value: false.";
+      }
+      leaf filterTime {
+        type uint16 {
+          range "1..15";
+        }
+        default "3";
+        units "min";
+        description "range 1..15; Default value: 3.";
+      }
+      }
+    }
+    leaf timeSyncAssistanceState {
+      type enumeration {
+        enum FEATURE_NOT_ACTIVATED;
+        enum NO_ASSISTING_REF_QUALIFIED;
+        enum ASSISTANCE_ACTIVE;
+        enum ASSISTANCE_NOT_ACTIVE;
+      }
+      config false;
+    }
+    leaf timeSyncModeConfig {
+      type enumeration {
+        enum AUTO_SELECT;
+        enum REGULAR;
+        enum RELAXED;
+      }
+    }
+    leaf timeSyncModeOper {
+      type enumeration {
+        enum AUTO_SELECT;
+        enum REGULAR;
+        enum RELAXED;
+      }
+      config false;
+    }
+    leaf timeHoldoverSec {
+      type uint64;
+      config false;
+    }
+    leaf timeFreeRunningSec {
+      type uint64;
+      config false;
+    }
+    leaf freeRunningSec {
+      type uint64;
+      config false;
+    }
+    leaf timeAssistedHoldoverSec {
+      type uint64;
+      config false;
+    }
+    leaf freqHoldoverSec {
+      type uint64;
+      config false;
+    }
+  }
+  grouping RadioEquipmentClockReference-attributes {
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list adminQualityLevel {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf qualityLevelValueOptionI {
+        type enumeration {
+          enum PRC;
+          enum SSU_A;
+          enum SSU_B;
+          enum SEC_EEC;
+          enum EPRTC;
+          enum PRTC;
+          enum EEEC;
+          enum EPRC;
+        }
+      }
+      leaf qualityLevelValueOptionII {
+        type enumeration {
+          enum PRS;
+          enum STU;
+          enum ST2;
+          enum TNC;
+          enum ST3E;
+          enum ST3_EEC2;
+          enum SMC_EEC1;
+          enum EPRTC;
+          enum PRTC;
+          enum EEEC;
+          enum EPRC;
+        }
+      }
+      leaf qualityLevelValueOptionIII {
+        type enumeration {
+          enum UNK;
+          enum SEC_EEC;
+          enum EPRTC;
+          enum PRTC;
+          enum EEEC;
+        }
+      }
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf encapsulation {
+      type string;
+      mandatory true;
+    }
+    leaf holdOffTime {
+      type uint16 {
+        range "300..5000";
+      }
+      default "1000";
+      units "ms";
+      description "range 300..5000; Default value: 1000.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf operQualityLevel {
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf priority {
+      type int8 {
+        range "1..8";
+      }
+      mandatory true;
+      description "range 1..8.";
+    }
+    leaf radioEquipmentClockReferenceId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf receivedQualityLevel {
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf referenceStatus {
+      type enumeration {
+        enum NO_FAULT;
+        enum QL_TOO_LOW;
+        enum LOSS_OF_SIGNAL;
+        enum LOSS_OF_ESMC;
+        enum THOUSAND_BASE_T_NOT_SLAVE;
+        enum NTP_FAULT;
+        enum PTP_FAULT;
+        enum GNSS_FAULT;
+        enum SYNCE_FAULT;
+        enum FREQ_DEVIATION;
+      }
+      config false;
+    }
+    leaf syncRefType {
+      type enumeration {
+        enum SYNC_E;
+        enum FREQUENCY_PORT;
+        enum TIME_PORT;
+        enum PTP_TIME;
+        enum PTP_FREQUENCY;
+        enum NTP_FREQUENCY;
+        enum GNSS_RECEIVER;
+      }
+      config false;
+    }
+    leaf useQLFrom {
+      type enumeration {
+        enum RECEIVED_QL;
+        enum ADMIN_QL;
+      }
+    }
+    leaf waitToRestoreTime {
+      type uint16 {
+        range "0..800";
+      }
+      default "60";
+      units "second";
+      description "range 0..800; Default value: 60.";
+    }
+  }
+}

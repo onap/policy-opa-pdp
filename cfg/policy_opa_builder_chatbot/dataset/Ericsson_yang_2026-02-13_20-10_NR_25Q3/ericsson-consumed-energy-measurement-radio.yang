@@ -1,0 +1,61 @@
+module ericsson-consumed-energy-measurement-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqConsumedEnergyMeasurement";
+  prefix cenmrntrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ConsumedEnergyMeasurement {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO displays the energy consumption by Radio and Baseband units in the node. The RDN of this MO is ConsumedEnergyMeasurement=1.";
+      key "consumedEnergyMeasurementId";
+      leaf consumedEnergyMeasurementId {
+        type leafref {
+          path "../attributes/consumedEnergyMeasurementId";
+        }
+      }
+      container attributes {
+        uses ConsumedEnergyMeasurement-attributes;
+      }
+    }
+  }
+  grouping ConsumedEnergyMeasurement-attributes {
+    leaf consumedEnergyMeasurementId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf noOfContributingUnits {
+      type int16;
+      config false;
+    }
+    leaf totalNumberOfUnits {
+      type int16;
+      config false;
+    }
+    leaf-list pmPowerConsumption {
+      type int32;
+    }
+    leaf-list pmVoltage {
+      type int32;
+    }
+    leaf pmConsumedEnergyAccumulated {
+      type uint64;
+      config false;
+    }
+    leaf pmConsumedEnergy {
+      type uint32;
+      config false;
+    }
+  }
+}

@@ -1,0 +1,52 @@
+module huawei-snmpauthuser {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-snmpauthuser";
+ prefix snmpauthuser;
+ description
+ "Auto-generated modular YANG for huawei-snmpauthuser" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping SNMPAUTHUSER-attributes {
+ leaf AUTHALG {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf AUTHPWD {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf ENCRYPTALG {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf ENCRYPTPWD {
+  type string {
+   length "1..64";
+  }
+  mandatory false;
+ }
+ leaf OLD_USERNAME {
+  type string {
+   length "1..32";
+  }
+  mandatory false;
+ }
+ leaf USERNAME {
+  type string {
+   length "1..32";
+  }
+  mandatory false;
+ }
+ }
+}

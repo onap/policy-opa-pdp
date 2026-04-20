@@ -1,0 +1,459 @@
+module ericsson-rcssecm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsSecM";
+  prefix rcssecm;
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Security Management MOM. The Security Management fragment must encompass most system security aspects to be configured on the Managed Element. This version of the model contains authentication and authorization, the User Management aspects. Authentication and authorization methods must contribute to the UserManagement MOC in a modular way.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list SecM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Security Management root MOC.";
+      key "secMId";
+      leaf secMId {
+        type leafref {
+          path "../attributes/secMId";
+        }
+      }
+      container attributes {
+      uses SecM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list UserManagement {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; User Management MOC.";
+      key "userManagementId";
+      leaf userManagementId {
+        type leafref {
+          path "../attributes/userManagementId";
+        }
+      }
+      container attributes {
+      uses UserManagement-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list Tls {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Configures system-wide properties of Transport Layer Security (TLS).";
+      key "tlsId";
+      leaf tlsId {
+        type leafref {
+          path "../attributes/tlsId";
+        }
+      }
+      container attributes {
+      uses Tls-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list Dtls {
+      description "Additional definitions from MOM:min/max-elements:0/8; Configures properties of Datagram Transport Layer Security (DTLS).";
+      key "dtlsId";
+      leaf dtlsId {
+        type leafref {
+          path "../attributes/dtlsId";
+        }
+      }
+      container attributes {
+      uses Dtls-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM" {
+    list Ssh {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Configures system-wide properties of Secure Shell Transport Layer Protocol (SSH).";
+      key "sshId";
+      leaf sshId {
+        type leafref {
+          path "../attributes/sshId";
+        }
+      }
+      container attributes {
+      uses Ssh-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:Ssh" {
+    list ServerKey {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents an SSH server key.";
+      key "serverKeyId";
+      leaf serverKeyId {
+        type leafref {
+          path "../attributes/serverKeyId";
+        }
+      }
+      container attributes {
+      uses ServerKey-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement" {
+    list AuthenticationOrder {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; MO Class used to view the order of authentication methods.";
+      key "authenticationOrderId";
+      leaf authenticationOrderId {
+        type leafref {
+          path "../attributes/authenticationOrderId";
+        }
+      }
+      container attributes {
+      uses AuthenticationOrder-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement" {
+    list AuthorizationOrder {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; MO Class used to view the order of authorization methods.";
+      key "authorizationOrderId";
+      leaf authorizationOrderId {
+        type leafref {
+          path "../attributes/authorizationOrderId";
+        }
+      }
+      container attributes {
+      uses AuthorizationOrder-attributes;
+      }
+    }
+  }
+  typedef SshKeyAlgorithm {
+    description "Indicates the key algorithm and length in bits. This enumeration supports Digital Signature Algorithm (DSA), Rivest Shamir Adleman (RSA), and Elliptic Curve Digital Signature Algorithm (ECDSA).";
+    type enumeration {
+      enum DSA_1024 {
+      }
+      enum RSA_1024 {
+        description "1024-bit long key generated for the RSA algorithm.";
+      }
+      enum RSA_2048 {
+        description "2048-bit long key generated for the RSA algorithm.";
+      }
+      enum RSA_3072 {
+        description "3072-bit long key generated for the RSA algorithm.";
+      }
+      enum RSA_4096 {
+        description "4096-bit long key generated for the RSA algorithm.";
+      }
+      enum ECDSA_SECP_256_R1 {
+        description "ECDSA algorithm with SECP 256 r1 curve.";
+      }
+      enum ECDSA_SECP_384_R1 {
+        description "ECDSA algorithm with SECP 384 r1 curve.";
+      }
+      enum ECDSA_SECP_521_R1 {
+        description "ECDSA algorithm with SECP 521 r1 curve.";
+      }
+    }
+  }
+  typedef SshKeyFormat {
+    description "Key storage format.";
+    type enumeration {
+      enum OPENSSH {
+        description "The OpenSSH key format.";
+      }
+      enum RFC4716 {
+        description "The RFC4716 key format in base64 encoding without line breaks.";
+      }
+    }
+  }
+  grouping Cipher-struct {
+    description "Represents cipher suite.";
+    leaf protocolVersion {
+      type string;
+    }
+    leaf keyExchange {
+      type string;
+    }
+    leaf authentication {
+      type string;
+    }
+    leaf encryption {
+      type string;
+    }
+    leaf mac {
+      type ietfyang:mac-address;
+    }
+    leaf export {
+      type string;
+    }
+    leaf name {
+      type string;
+    }
+  }
+  grouping CipherDtls-struct {
+    description "Represents a DTLS cipher suite.";
+    leaf keyExchange {
+      type string;
+    }
+    leaf authentication {
+      type string;
+    }
+    leaf encryption {
+      type string;
+    }
+    leaf mac {
+      type ietfyang:mac-address;
+    }
+    leaf export {
+      type string;
+    }
+    leaf name {
+      type string;
+    }
+  }
+  grouping MethodOrder-struct {
+    description "Struct that represents the order of an authentication or authorization method. The referred method must be used by a security function, that is, authentication or authorization in the given order.";
+    leaf orderNumber {
+      type string;
+    }
+    leaf methodReference {
+      type string;
+    }
+    leaf userLabel {
+      type string;
+    }
+  }
+  grouping AuthenticationOrder-attributes {
+    leaf authenticationOrderId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list authenticationMethodOrder {
+      config false;
+      min-elements 1;
+      uses MethodOrder-struct;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+  grouping AuthorizationOrder-attributes {
+    leaf authorizationOrderId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list authorizationMethodOrder {
+      config false;
+      min-elements 1;
+      uses MethodOrder-struct;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+  }
+  grouping Dtls-attributes {
+    leaf dtlsId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    list enabledCiphers {
+      config false;
+      min-elements 1;
+      uses CipherDtls-struct;
+    }
+    leaf cipherFilter {
+      description "Specifies a filter for the cipher suite list and protocol versions. Applied on the cipher suites listed in attribute supportedCiphers and on protocol versions listed in attribute supportedProtocolVersion. The result is shown in attributes enabledCiphers and selectedProtocolVersion. By default, all supported ciphers and protocol versions are enabled..";
+      type string;
+    }
+    list supportedCiphers {
+      config false;
+      min-elements 1;
+      uses CipherDtls-struct;
+    }
+    leaf-list selectedProtocolVersion {
+      description "List of keywords that identify TLS protocol version as filtered by the attribute cipherFilter..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list supportedProtocolVersion {
+      description "List of TLS protocol versions supported by the ME. For example: 'TLSv1, TLSv1.2'..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list reservedBy {
+      description "The Distinguished Names of MOs using this Dtls configuration..";
+      type string;
+      min-elements 0;
+    }
+  }
+  grouping SecM-attributes {
+    leaf secMId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping ServerKey-attributes {
+    leaf serverKeyId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf publicKey {
+      description "Holds the whole content of a public key file. The format of the key can be found in attribute publicKeyFormat. In case of RFC4716 format, an additional base64 line-break free encoding is used over the whole formatted content..";
+      type string;
+      config false;
+    }
+    leaf publicKeyFormat {
+      description "The selected key presentation format..";
+      type enumeration {
+        enum OPENSSH;
+        enum RFC4716;
+      }
+      config false;
+    }
+    leaf keyType {
+      description "The type of the key. The types from Ssh supportedKeyTypes can be used..";
+      type enumeration {
+        enum DSA_1024;
+        enum RSA_1024;
+        enum RSA_2048;
+        enum RSA_3072;
+        enum RSA_4096;
+        enum ECDSA_SECP_256_R1;
+        enum ECDSA_SECP_384_R1;
+        enum ECDSA_SECP_521_R1;
+      }
+      mandatory true;
+    }
+    leaf fingerprint {
+      description "The SHA256 fingerprint of the public key..";
+      type string;
+      config false;
+    }
+  }
+  grouping Ssh-attributes {
+    leaf sshId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list selectedCiphers {
+      description "The list of selected ciphers. The ciphers are offered to the SSH peer in the order as configured. Each value indicates one cipher..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list supportedCiphers {
+      description "Lists the supported encryption ciphers..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list selectedKeyExchanges {
+      description "The list of selected key exchange algorithms. The algorithms are offered to the SSH peer in the order as configured. Each value indicates one algorithm..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list supportedKeyExchanges {
+      description "Lists the supported key exchange algorithms..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list selectedMacs {
+      description "The list of selected message authentication codes. The algorithms are offered to the SSH peer in the order as configured. Each value indicates one coding algorithm..";
+      type string;
+      min-elements 1;
+    }
+    leaf-list supportedMacs {
+      description "Lists the supported message authentication codes..";
+      type string;
+      min-elements 1;
+    }
+  }
+  grouping Tls-attributes {
+    leaf tlsId {
+      description "The value component of RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list enabledEllipticCurves {
+      description "Lists elliptic curves filtered by ellipticCurveFilter. elliptic curves are ordered by strength. Strongest curve is offered first..";
+      type string;
+      min-elements 1;
+    }
+    leaf ellipticCurveFilter {
+      description "Specifies filter for elliptic curve list. Applied on elliptic curves listed in supportedEllipticCurves. Result is shown in enabledEllipticCurves..";
+      type string;
+    }
+    leaf-list supportedEllipticCurves {
+      description "Lists elliptic curves supported by ME..";
+      type string;
+      min-elements 1;
+    }
+    list enabledCiphers {
+      config false;
+      min-elements 1;
+      uses Cipher-struct;
+    }
+    leaf cipherFilter {
+      description "Specifies filter for cipher suite list. Applied on cipher suites listed in attribute supportedCiphers. Result is shown in enabledCiphers..";
+      type string;
+      mandatory true;
+    }
+    list supportedCiphers {
+      config false;
+      min-elements 1;
+      uses Cipher-struct;
+    }
+  }
+  grouping UserManagement-attributes {
+    leaf userManagementId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf legalNotice {
+      description "The legal notice presented to the user when starting an O&M session. The message is presented to the client before authentication takes place. The presentation of the message to the O&M user depends on the client capability and configuration. The O&M user may receive this information before authentication if the authentication is password based; otherwise, it is received as a post-authentication message. The purpose of the message is to warn the user about the consequences of unauthorized access. No value means there is no legal notice.; Default value: WARNING: This system is restricted solely to authorized users for legitimate business purposes only. The actual or attempted unauthorized access, use, or modification of this system is strictly prohibited. Unauthorized users are subject to appropriate disciplinary proceedings and/or criminal and civil penalties under state, federal, or other applicable domestic and foreign laws. The use of this system may be monitored and recorded for administrative and security reasons. Anyone accessing this system expressly consents to such monitoring and is advised that if monitoring reveals possible evidence of criminal activity, the owner of this equipment may provide the evidence of such activity to law enforcement officials. All authorized users shall comply with the security policies, instructions and requirements related to the business purpose and in case of doubt shall seek advice from his/her manager..";
+      type string;
+      default "WARNING: This system is restricted solely to authorized users for legitimate business purposes only. The actual or attempted unauthorized access, use, or modification of this system is strictly prohibited. Unauthorized users are subject to appropriate disciplinary proceedings and/or criminal and civil penalties under state, federal, or other applicable domestic and foreign laws. The use of this system may be monitored and recorded for administrative and security reasons. Anyone accessing this system expressly consents to such monitoring and is advised that if monitoring reveals possible evidence of criminal activity, the owner of this equipment may provide the evidence of such activity to law enforcement officials. All authorized users shall comply with the security policies, instructions and requirements related to the business purpose and in case of doubt shall seek advice from his/her manager.";
+    }
+    leaf loginFailureDelay {
+      description "Delay after a failed login attempt in seconds. No value means no delay.; range 1..max; Default value: 5.";
+      type uint8 {
+        range "1..max";
+      }
+      default "5";
+      units "seconds";
+    }
+    leaf-list targetType {
+      description "Lists the target types of the ME for Target Based Access Control (TBAC). This attribute is optional for Authentication Methods that require TBAC configuration. Authentication Methods use TBAC to determine the following: whether a user can be authorized in the ME, and which authorization profiles apply to the user in the ME, based on the target types specified in this attribute. This attribute can contain any classifier string for the ME such as geographical, for example: 'stockholm', network, for example 'ims', or functional identifiers, for example 'cscf', and any combination of these. The generic behavior of TBAC for authorization is as follows: TBAC is LOCKED in the ME: authorization is performed without TBAC. TBAC is UNLOCKED in the ME: authorization is performed if the targets that the user is provided with exactly match at least one string of configured target types. Otherwise, authorization fails. Determining the authorization profiles of the user is specific per Authentication Method. The LOCKED and UNLOCKED states of TBAC in the ME are controlled by the Authentication Methods. Example value: 'cscf.ims.stockholm'..";
+      type string {
+        pattern "(\\\\[a-fA-F0-9]{2}|[A-Za-z0-9!$%&'./:=?@^_`{|}~-])((\\\\[a-fA-F0-9]{2}|[A-Za-z0-9!$%&'./:=?@^_`{|}~# -])*(\\\\[a-fA-F0-9]{2}|[A-Za-z0-9!$%&'./:=?@^_`{|}~#-]))?";
+      }
+      ordered-by user;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "An additional descriptive text..";
+      type string;
+    }
+    leaf privacyNotice {
+      description "The privacy notice presented to the user when starting an O&M session. The message is presented to the client before authentication takes place. The presentation of the message to the O&M user depends on the client capability and configuration. The O&M user may receive this information before authentication if the authentication is password based; otherwise, it is received as a post-authentication message. The purpose of the message is to remind the user about the confidentiality obligations when potentially accessing the privacy data. No value means there is no privacy notice. When a privacy notice is updated it is recommended to include the version information and date of modification in the privacy notice text. This information and audit log details can be used during auditing to track which version of privacy notice is presented to the user at the start of the O&M session. The date and version format is an operator choice.; Default value: The misuse of personal data may generate considerable harm to the data subjects. Be reminded of the confidentiality obligations you have when accessing this kind of data and the disciplinary consequences of improper handling..";
+      type string;
+      default "The misuse of personal data may generate considerable harm to the data subjects. Be reminded of the confidentiality obligations you have when accessing this kind of data and the disciplinary consequences of improper handling.";
+    }
+  }
+}

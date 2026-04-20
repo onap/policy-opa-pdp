@@ -1,0 +1,183 @@
+module ericsson-sfp-module-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqSfpModule";
+  prefix sfpmdrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list SfpModule {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Created when an SFP-module is detected. Xcede-module is treated as a special type of SFP-module. The RDN of this MO is the same as for the related port MO.";
+      key "sfpModuleId";
+      leaf sfpModuleId {
+        type leafref {
+          path "../attributes/sfpModuleId";
+        }
+      }
+      container attributes {
+        uses SfpModule-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef ConnectorType {
+    type enumeration {
+      enum NO_SEPARABLE_CONNECTOR;
+      enum ELECTRICAL;
+      enum OPTICAL;
+      enum UNKNOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping SfpModule-attributes {
+    leaf sfpModuleId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list productData {
+      config false;
+      container attributes {
+      leaf manufacturerDesignation {
+        type string {
+          length "0..16";
+        }
+        description "length 0..16.";
+      }
+      leaf manufacturerId {
+        type string {
+          length "0..16";
+        }
+        description "length 0..16.";
+      }
+      leaf manufacturerRevision {
+        type string {
+          length "0..8";
+        }
+        description "length 0..8.";
+      }
+      leaf negotiatedBitRate {
+        type string {
+          length "0..8";
+        }
+        description "length 0..8.";
+      }
+      leaf productionDate {
+        type string {
+          length "0..8";
+        }
+        description "length 0..8.";
+      }
+      leaf productNumber {
+        type string {
+          length "0..14";
+        }
+        description "length 0..14.";
+      }
+      leaf productRevision {
+        type string {
+          length "0..8";
+        }
+        description "length 0..8.";
+      }
+      leaf serialNumber {
+        type string {
+          length "0..16";
+        }
+        description "length 0..16.";
+      }
+      }
+    }
+    leaf sfpMediaType {
+      type enumeration {
+        enum NO_SEPARABLE_CONNECTOR;
+        enum ELECTRICAL;
+        enum OPTICAL;
+        enum UNKNOWN;
+      }
+      config false;
+    }
+    leaf pmSfpTemperature {
+      type int32;
+      config false;
+    }
+    leaf pmSfpVoltage {
+      type int32;
+      config false;
+    }
+  }
+}

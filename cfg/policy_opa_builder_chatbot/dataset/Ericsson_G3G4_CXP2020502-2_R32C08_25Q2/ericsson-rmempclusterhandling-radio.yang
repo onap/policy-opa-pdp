@@ -1,0 +1,41 @@
+module ericsson-rmempclusterhandling-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeMpClusterHandling";
+  prefix rmempclu;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list MpClusterHandling {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO is used for configuration of the cluster of main processors. The RDN of this MO is MpClusterHandling=1.";
+      key "mpClusterHandlingId";
+      leaf mpClusterHandlingId {
+        type leafref {
+          path "../attributes/mpClusterHandlingId";
+        }
+      }
+      container attributes {
+      uses MpClusterHandling-attributes;
+      }
+    }
+  }
+  grouping MpClusterHandling-attributes {
+    leaf mpClusterHandlingId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf primaryCoreRef {
+      description "A reference to the FieldReplaceableUnit MO representing the field replaceable unit with the main processor that shall have a “primary core” role. This reference must always be present. The unit referred to must have an O&M interface connected to the transport network..";
+      type string;
+    }
+  }
+}

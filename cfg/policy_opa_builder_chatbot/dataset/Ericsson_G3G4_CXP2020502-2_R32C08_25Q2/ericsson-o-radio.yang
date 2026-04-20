@@ -1,0 +1,300 @@
+module ericsson-o-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqORadio";
+  prefix ordo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nReqORadio.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list ORadio {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO is used to configure and monitor an ORadio. Created automatically when connection is established to the radio unit represented by parent FieldReplaceableUnit MO, if OHybrid MO exists. Can also be created and deleted manually. When created automatically, the RDN of this MO is ORadio=1.";
+      key "oRadioId";
+      leaf oRadioId {
+        type leafref {
+          path "../attributes/oRadioId";
+        }
+      }
+      container attributes {
+      uses ORadio-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef CipherVersion {
+    description "Cipher version type.";
+    type enumeration {
+      enum V1_CIPHERS {
+        description "ORadio Management Plane version 1.0 ciphers.";
+      }
+      enum V2_CIPHERS {
+        description "ORadio Management Plane version 2.0 ciphers.";
+      }
+    }
+  }
+  typedef FileOperationStatus {
+    description "Type for file operation status.";
+    type enumeration {
+      enum FAILURE {
+        description "File operation is failed.";
+      }
+      enum SUCCESS {
+        description "File operation is successful.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping EcimPassword-struct {
+    description "Stores the password.";
+    leaf cleartext {
+      type boolean;
+    }
+    leaf password {
+      type string;
+    }
+  }
+  grouping ReadFileListResult-struct {
+    description "Result of readFileList action.";
+    leaf status {
+      type enumeration {
+        enum FAILURE;
+        enum SUCCESS;
+      }
+    }
+    leaf-list fileList {
+      type string;
+      min-elements 0;
+    }
+    leaf rejectReason {
+      type string;
+    }
+  }
+  grouping UploadFileNotificationResult-struct {
+    description "Result of uploadFile action.";
+    leaf status {
+      type enumeration {
+        enum FAILURE;
+        enum SUCCESS;
+      }
+    }
+    leaf localLogicalFilePath {
+      type string;
+    }
+    leaf rejectReason {
+      description "length 0..1.";
+      type string {
+        length "0..1";
+      }
+    }
+    leaf remoteFilePath {
+      type string;
+    }
+  }
+  grouping ORadio-attributes {
+    leaf oRadioId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf serialNumber {
+      description "The serial number of the ORadio to be connected..";
+      type string;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf defaultUserName {
+      description "Username for default login set in factory..";
+      type string;
+    }
+    list defaultUserPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password for default login set in factory..";
+      uses EcimPassword-struct;
+    }
+    leaf sudoUserName {
+      description "Username for sudo user login..";
+      type string;
+    }
+    list sudoUserPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password for sudo user login..";
+      uses EcimPassword-struct;
+    }
+    leaf commandResult {
+      description "Result of command from ORadio..";
+      type string;
+      config false;
+    }
+    leaf notificationResult {
+      description "Notification of command from ORadio..";
+      type string;
+      config false;
+    }
+    leaf nmsUserName {
+      description "Username for NMS login..";
+      type string;
+    }
+    list nmsUserPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Password for NMS login..";
+      uses EcimPassword-struct;
+    }
+    leaf oamConnectionResult {
+      description "Result of openOamNetwork or closeOamNetwork. Value range: open/close OK (all is well) open/close RETRY (system starting up, try later) open/close PARAMETER_FAULT (function parameters) open/close TIMEOUT (internal timeout) open/close RESOURCE_LIMIT (e.g. too many of something) open/close GEN_ERROR (generic) open/close DISABLED (backend not running) open/close NOT_IMPLEMENTED (for now) Example: open OK.";
+      type string;
+      config false;
+    }
+    leaf serialNumberValidation {
+      description "Whether validation of serial number reported by ORadio is enabled.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf nmsAddress {
+      description "External NMS IP address..";
+      type string;
+    }
+    leaf subnet {
+      description "Subnet between BB and ORadio. Only subnet length /30 is supported. IP range 10.193.xxx.xxx is used internally and is not supported..";
+      type string;
+    }
+    leaf sshKeyValidation {
+      description "Whether validation of SSH keys is enabled.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf pmActivated {
+      description "Whether PM measurement is activated on ORadio.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf pmConfigString {
+      description "YANG-style XML command to activate PM measurement on ORadio when pmActivated is set to true..";
+      type string;
+    }
+    leaf pmActivatedStatus {
+      description "Current status after pmActivated. pmConfigString, or both, are updated. Value range: NOT_ACTIVATED means that pmActivated is set to false, or no response is received from ORadio on PM configuration request. OK means that PM configuration request is acknowledged by ORadio. ERROR means that PM configuration request is timed out or discarded by ORadio..";
+      type string;
+      config false;
+    }
+    list readFileListResult {
+      config false;
+      description "List of files received from ORadio unit after running readFileList action..";
+      uses ReadFileListResult-struct;
+    }
+    list uploadFileNotificationResult {
+      config false;
+      description "Notification of file upload triggered by uploadFile action..";
+      uses UploadFileNotificationResult-struct;
+    }
+    leaf txArrayCarriersGain {
+      description "Transmission gain for ORadio unit.; Default value: 0.";
+      type int64;
+      default "0";
+      units "dB";
+    }
+    leaf cipherVersion {
+      description "Ciphers offered to SSH peer..";
+      type enumeration {
+        enum V1_CIPHERS;
+        enum V2_CIPHERS;
+      }
+    }
+    leaf txPowerGain {
+      description "Transmission gain used to offset NRSectorCarrier::configuredMaxTxPower attribute. Not applicable for High-Band radio units.; range -100000..0; Default value: 0.";
+      type int32 {
+        range "-100000..0";
+      }
+      default "0";
+      units "dB";
+    }
+  }
+}

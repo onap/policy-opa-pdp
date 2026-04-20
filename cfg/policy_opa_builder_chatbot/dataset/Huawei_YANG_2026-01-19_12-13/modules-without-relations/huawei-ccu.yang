@@ -1,0 +1,108 @@
+module huawei-ccu {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ccu";
+ prefix ccu;
+ description
+ "Auto-generated modular YANG for huawei-ccu" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CCU-attributes {
+ leaf BIRAT {
+  type uint16 {
+   range "1..600";
+  }
+  mandatory false;
+ }
+ leaf CCN {
+  type uint8 {
+   range "1..7";
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CS {
+  type string;
+  mandatory false;
+ }
+ leaf DCF {
+  type boolean;
+  mandatory false;
+ }
+ leaf EBN {
+  type uint8 {
+   range "0..96";
+  }
+  mandatory false;
+ }
+ leaf MCN {
+  type uint8 {
+   range "0..62";
+  }
+  mandatory false;
+ }
+ leaf MPN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf MSRN {
+  type uint8 {
+   range "0..254";
+  }
+  mandatory false;
+ }
+ leaf SBAF {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

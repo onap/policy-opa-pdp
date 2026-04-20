@@ -1,0 +1,22 @@
+module huawei-rapara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rapara";
+ prefix rapara;
+ description
+ "Auto-generated modular YANG for huawei-rapara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RAPARA-attributes {
+ leaf CANAME {
+  type string {
+   length "1..127";
+  }
+  mandatory false;
+ }
+ leaf CASW {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,105 @@
+module ericsson-reqsynctestinterface-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqSyncTestInterface";
+  prefix reqsynct;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nSync Test Interface MOM";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list SyncTestInterface {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents physical sync test interface on LMT port of BASEBAND, BASEBAND-T and BASEBAND-C unit.";
+      key "syncTestInterfaceId";
+      leaf syncTestInterfaceId {
+        type leafref {
+          path "../attributes/syncTestInterfaceId";
+        }
+      }
+      container attributes {
+      uses SyncTestInterface-attributes;
+      }
+    }
+  }
+  typedef OutputSyncTestInterfaceSignal {
+    description "Signal output on sync test interface.";
+    type enumeration {
+      enum FREQUENCY_1PPS {
+        description "1PPS frequency.";
+      }
+      enum TIME_LOCKED_1PPS {
+        description "1PPS with rising edge aligned to one second increments of recovered time reference. Signal output in clock states TIME_OFFSET_LOCKED, TIME_OFFSET_HOLDOVER, RNT_TIME_LOCKED and RNT_TIME_HOLDOVER. Otherwise it is squelched.";
+      }
+      enum FREQUENCY_2048KHZ {
+        description "2048 kHz frequency.";
+      }
+      enum FREQUENCY_10MHZ {
+        description "10 MHz frequency. Only supported by BASEBAND T503.";
+      }
+      enum NO_SIGNAL {
+        description "No signal output.";
+      }
+    }
+  }
+  typedef SyncTestInterfaceSignalOutput {
+    description "Signal output on sync test interface.";
+    type enumeration {
+      enum SPECIAL {
+        description "Used for Ericsson internal testing.";
+      }
+      enum FREQUENCY_1PPS {
+        description "1PPS frequency.";
+      }
+      enum TIME_LOCKED_1PPS {
+        description "1PPS with rising edge aligned to one second increments of recovered time reference. Signal output in clock states TIME_OFFSET_LOCKED, TIME_OFFSET_HOLDOVER, RNT_TIME_LOCKED and RNT_TIME_HOLDOVER. Otherwise it is squelched.";
+      }
+      enum FREQUENCY_2048KHZ {
+        description "2048 kHz frequency.";
+      }
+      enum FREQUENCY_10MHZ {
+        description "10 MHz frequency. Only supported by BASEBAND T503.";
+      }
+      enum NO_SIGNAL {
+        description "No signal output.";
+      }
+      enum NOT_SUPPORTED {
+        description "Sync test interface not supported by field replaceable unit.";
+      }
+    }
+  }
+  grouping SyncTestInterface-attributes {
+    leaf syncTestInterfaceId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf syncTestInterfaceSignalOutput {
+      description "Signal output on sync test interface..";
+      type enumeration {
+        enum SPECIAL;
+        enum FREQUENCY_1PPS;
+        enum TIME_LOCKED_1PPS;
+        enum FREQUENCY_2048KHZ;
+        enum FREQUENCY_10MHZ;
+        enum NO_SIGNAL;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

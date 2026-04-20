@@ -1,0 +1,40 @@
+module huawei-aal2adjnode {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-aal2adjnode";
+ prefix aal2adjnode;
+ description
+ "Auto-generated modular YANG for huawei-aal2adjnode" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping AAL2ADJNODE-attributes {
+ leaf ADDR {
+  type string {
+   length "1..42";
+  }
+  mandatory false;
+ }
+ leaf OLD_ANI {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf ANI {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf LN {
+  type uint8 {
+   range "0..63";
+  }
+  mandatory false;
+ }
+ }
+}

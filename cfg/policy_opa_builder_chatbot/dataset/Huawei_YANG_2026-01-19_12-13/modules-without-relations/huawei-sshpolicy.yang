@@ -1,0 +1,60 @@
+module huawei-sshpolicy {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-sshpolicy";
+ prefix sshpolicy;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ import ietf-yang-types {
+ prefix yang;
+ }
+ description
+ "Auto-generated modular YANG for huawei-sshpolicy" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface" {
+ container attributes {
+  uses SSHPOLICY-attributes {
+   /* opcjonalnie: IF-only subset */
+  }
+ }
+}
+ grouping SSHPOLICY-attributes {
+ leaf CIPHERALG {
+  type inet:ip-address;
+  mandatory false;
+ }
+ leaf HMACALG {
+  type yang:mac-address;
+  mandatory false;
+ }
+ leaf HOSTKEYALG {
+  type string;
+  mandatory false;
+ }
+ leaf KEYEXCHANGEALG {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_POLICYID {
+  type union {
+   type int8 {
+    range "-1..16";
+   }
+  }
+  mandatory false;
+ }
+ leaf POLICYID {
+  type union {
+   type int8 {
+    range "-1..16";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

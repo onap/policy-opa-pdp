@@ -1,0 +1,48 @@
+module huawei-cellframeoffset {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cellframeoffset";
+ prefix cellframeoffset;
+ description
+ "Auto-generated modular YANG for huawei-cellframeoffset" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CELLFRAMEOFFSET-attributes {
+ leaf LOCALCELLNAME {
+  type string;
+  mandatory false;
+ }
+ leaf FRAMEOFFSET {
+  type union {
+   type uint32 {
+    range "0..399360";
+   }
+  }
+  mandatory false;
+ }
+ leaf FRAMEOFFSETMODE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf TAOFFSET {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+  }
+  mandatory false;
+ }
+ }
+}

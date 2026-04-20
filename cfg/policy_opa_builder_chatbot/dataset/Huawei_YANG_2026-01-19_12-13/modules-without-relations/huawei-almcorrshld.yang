@@ -1,0 +1,32 @@
+module huawei-almcorrshld {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-almcorrshld";
+ prefix almcorrshld;
+ description
+ "Auto-generated modular YANG for huawei-almcorrshld" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ALMCORRSHLD-attributes {
+ leaf OLD_AID {
+  type union {
+   type int32 {
+    range "-1..65032";
+   }
+  }
+  mandatory false;
+ }
+ leaf AID {
+  type union {
+   type int32 {
+    range "-1..65032";
+   }
+  }
+  mandatory false;
+ }
+ leaf RPTFLAG {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

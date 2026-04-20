@@ -1,0 +1,209 @@
+module ericsson-ikev2-policy-profile-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnIkev2PolicyProfile";
+  prefix ikev2plpfrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Ikev2PolicyProfile {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Contains common parameters used by IKE SA negotiation in node. Maximum number of Ikev2PolicyProfile MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 8, - For Baseband in RAN Compute Group 4 or higher: 60.";
+      key "ikev2PolicyProfileId";
+      leaf ikev2PolicyProfileId {
+        type leafref {
+          path "../attributes/ikev2PolicyProfileId";
+        }
+      }
+      container attributes {
+        uses Ikev2PolicyProfile-attributes;
+      }
+    }
+  }
+  typedef DiffieHellmanGroup {
+    type enumeration {
+      enum MODP_1024_GROUP_2;
+      enum MODP_2048_GROUP_14;
+      enum ECP_256_GROUP_19;
+      enum ECP_384_GROUP_20;
+    }
+  }
+  typedef IkeEncryptionAlgorithm {
+    type enumeration {
+      enum ENCR_3DES;
+      enum ENCR_CHACHA20_POLY1305;
+      enum ENCR_AES_CBC_128;
+      enum ENCR_AES_CBC_256;
+      enum AES_GCM_16_128;
+      enum AES_GCM_16_256;
+    }
+  }
+  typedef IkeIntegrityAlgorithm {
+    type enumeration {
+      enum AUTH_HMAC_MD5_96;
+      enum AUTH_HMAC_SHA1_96;
+      enum AUTH_AES_XCBC_96;
+      enum AUTH_HMAC_SHA2_256_128;
+      enum AUTH_HMAC_SHA2_384_192;
+      enum AUTH_HMAC_SHA2_512_256;
+    }
+  }
+  typedef PseudoRandomFunction {
+    type enumeration {
+      enum PRF_HMAC_MD5;
+      enum PRF_HMAC_SHA1;
+      enum PRF_AES128_XCBC;
+      enum PRF_HMAC_SHA2_256;
+      enum PRF_HMAC_SHA2_384;
+      enum PRF_HMAC_SHA2_512;
+    }
+  }
+  grouping Ikev2PolicyProfile-attributes {
+    leaf credential {
+      type string;
+    }
+    leaf dpdInterval {
+      type uint16 {
+        range "1..805";
+      }
+      default "19";
+      units "s";
+      description "range 1..805; Default value: 19.";
+    }
+    leaf dpdTime {
+      type uint32 {
+        range "5..1800";
+      }
+      default "60";
+      units "s";
+      description "range 5..1800; Default value: 60.";
+    }
+    leaf ikeDscp {
+      type eytypes:uint8_range_0-63;
+      default "48";
+      description "range 0..63; Default value: 48.";
+    }
+    leaf ikeSaLifetime {
+      type uint32 {
+        range "60..5000";
+      }
+      default "1440";
+      units "min";
+      description "range 60..5000; Default value: 1440.";
+    }
+    leaf ikev2Fragmentation {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf ikev2PolicyProfileId {
+      type string;
+      mandatory true;
+    }
+    list ikev2Proposal {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      ordered-by user;
+      container attributes {
+      leaf diffieHellmanGroup {
+        type enumeration {
+          enum MODP_1024_GROUP_2;
+          enum MODP_2048_GROUP_14;
+          enum ECP_256_GROUP_19;
+          enum ECP_384_GROUP_20;
+        }
+      }
+      leaf encryptionAlgorithm {
+        type enumeration {
+          enum ENCR_3DES;
+          enum ENCR_CHACHA20_POLY1305;
+          enum ENCR_AES_CBC_128;
+          enum ENCR_AES_CBC_256;
+          enum AES_GCM_16_128;
+          enum AES_GCM_16_256;
+        }
+      }
+      leaf integrityAlgorithm {
+        type enumeration {
+          enum AUTH_HMAC_MD5_96;
+          enum AUTH_HMAC_SHA1_96;
+          enum AUTH_AES_XCBC_96;
+          enum AUTH_HMAC_SHA2_256_128;
+          enum AUTH_HMAC_SHA2_384_192;
+          enum AUTH_HMAC_SHA2_512_256;
+        }
+      }
+      leaf pseudoRandomFunction {
+        type enumeration {
+          enum PRF_HMAC_MD5;
+          enum PRF_HMAC_SHA1;
+          enum PRF_AES128_XCBC;
+          enum PRF_HMAC_SHA2_256;
+          enum PRF_HMAC_SHA2_384;
+          enum PRF_HMAC_SHA2_512;
+        }
+      }
+      }
+    }
+    leaf randomDelay {
+      type uint8 {
+        range "15..30";
+      }
+      units "s";
+      description "range 15..30.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    list retransmissionScheme {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf base {
+        type uint8 {
+          range "10..20";
+        }
+        default "20";
+        description "range 10..20; Default value: 20.";
+      }
+      leaf timeout {
+        type uint8 {
+          range "1..5";
+        }
+        default "3";
+        units "s";
+        description "range 1..5; Default value: 3.";
+      }
+      leaf tries {
+        type uint8 {
+          range "1..10";
+        }
+        default "2";
+        description "range 1..10; Default value: 2.";
+      }
+      }
+    }
+    leaf trustCategory {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

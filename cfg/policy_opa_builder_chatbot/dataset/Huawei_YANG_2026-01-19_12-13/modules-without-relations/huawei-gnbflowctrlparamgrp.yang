@@ -1,0 +1,44 @@
+module huawei-gnbflowctrlparamgrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbflowctrlparamgrp";
+ prefix gnbflowctrlparamgrp;
+ description
+ "Auto-generated modular YANG for huawei-gnbflowctrlparamgrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBFLOWCTRLPARAMGRP-attributes {
+ leaf OLD_FLOWCTRLPARAMGROUPID {
+  type union {
+   type int16 {
+    range "-1..160";
+   }
+  }
+  mandatory false;
+ }
+ leaf FLOWCTRLPARAMGROUPID {
+  type union {
+   type int16 {
+    range "-1..160";
+   }
+  }
+  mandatory false;
+ }
+ leaf FLOWCTRLTYPE {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULFLOWCTRLMINCIR {
+  type uint16 {
+   range "0..62500";
+  }
+  mandatory false;
+ }
+ leaf ULFLOWCTRLPRIWEIGHTFACTOR {
+  type uint16 {
+   range "1..1000";
+  }
+  mandatory false;
+ }
+ }
+}

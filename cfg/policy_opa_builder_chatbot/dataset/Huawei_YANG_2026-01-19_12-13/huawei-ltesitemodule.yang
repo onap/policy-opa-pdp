@@ -1,0 +1,28 @@
+module huawei-ltesitemodule {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ltesitemodule";
+ prefix ltesitemodule;
+ import huawei-ne {
+ prefix ne;
+ }
+ description
+ "Auto-generated modular YANG for huawei-ltesitemodule" ;
+ revision "2026-01-19" {
+ description "Auto-generated abstract group module (aggregated lists from relations.xml). Generated at 2026-01-19 12:13.";
+ }
+ augment "/ne:NE" {
+ container LTESiteModule {
+  description "Abstract group container injected between NE and its direct child.";
+  container attributes {
+    leaf neName {
+     type string;
+     mandatory false;
+    }
+    leaf productversion {
+     type string;
+     mandatory false;
+    }
+  }
+ }
+ }
+}

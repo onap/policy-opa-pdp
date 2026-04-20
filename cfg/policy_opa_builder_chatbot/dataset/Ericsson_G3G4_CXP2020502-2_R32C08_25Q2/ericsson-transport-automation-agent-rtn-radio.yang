@@ -1,0 +1,143 @@
+module ericsson-transport-automation-agent-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnTransportAutomationAgent";
+  prefix tramagtrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nTransport Automation agent MIM.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list TransportAutomationAgent {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; For future release.";
+      key "transportAutomationAgentId";
+      leaf transportAutomationAgentId {
+        type leafref {
+          path "../attributes/transportAutomationAgentId";
+        }
+      }
+      container attributes {
+      uses TransportAutomationAgent-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef ElasticRan {
+    description "Elastic RAN transport automation services.";
+    type enumeration {
+      enum __UNDEFINED__ {
+      }
+    }
+  }
+  typedef EndcX2 {
+    description "E-UTRA NR Dual Connectivity (EN-DC) X2 transport automation services.";
+    type enumeration {
+      enum __UNDEFINED__ {
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping TransportAutomationAgent-attributes {
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf localIpAddress {
+      description "Local IP address for automation agent..";
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      description "Credential used for TLS over Ericsson internal interface Ni1 between TIF and TIF agent. DN of NodeCredential MO in certificate management. If set, communication over Ni1 is secured using TLS. If not set, communication over Ni1 is not secured..";
+      type string;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf serverAddress {
+      description "IP address or Fully Qualified Domain Name (FQDN) to automation service server..";
+      type union {
+        type ietfinet:ip-address;
+        type ietfinet:domain-name;
+      }
+      mandatory true;
+    }
+    leaf transportAutomationAgentId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf trustCategory {
+      description "Set of certificates trusted for TLS over Ericsson internal interface Ni1 between TIF and TIF agent. DN of TrustCategory MO in certificate management. If set, communication over Ni1 is secured using TLS. If not set, communication over Ni1 is not secured..";
+      type string;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

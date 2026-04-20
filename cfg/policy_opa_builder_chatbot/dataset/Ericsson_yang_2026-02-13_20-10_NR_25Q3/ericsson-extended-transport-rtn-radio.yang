@@ -1,0 +1,40 @@
+module ericsson-extended-transport-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnExtendedTransport";
+  prefix exttrrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list ExtendedTransport {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents structural element for remote units, that acts as container for other MOs. This MO structures common transport functions used on FieldReplaceableUnit MO. Dependencies: Only one ExtendedTransport MO can exist per FieldReplaceableUnit MO. If not created when enhanced Common Public Radio Interface (eCPRI) link to Field Replaceable Unit is established, then this MO is created automatically. This MO can be deleted by User. If created automatically, RDN of this MO is ExtendedTransport =auto_<fruId>. If created by user, RDN of this MO cannot contain prefix ”auto_”.";
+      key "extendedTransportId";
+      leaf extendedTransportId {
+        type leafref {
+          path "../attributes/extendedTransportId";
+        }
+      }
+      container attributes {
+        uses ExtendedTransport-attributes;
+      }
+    }
+  }
+  grouping ExtendedTransport-attributes {
+    leaf extendedTransportId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf fieldReplaceableUnitRef {
+      type string;
+      mandatory true;
+    }
+  }
+}

@@ -1,0 +1,56 @@
+module huawei-gnbabnmsgmodifyrule {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbabnmsgmodifyrule";
+ prefix gnbabnmsgmodifyrule;
+ description
+ "Auto-generated modular YANG for huawei-gnbabnmsgmodifyrule" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBABNMSGMODIFYRULE-attributes {
+ leaf MODIFYCONTENT {
+  type string {
+   length "1..100";
+  }
+  mandatory false;
+ }
+ leaf MODIFYFIELDOFFSET {
+  type uint32 {
+   range "0..268435455";
+  }
+  mandatory false;
+ }
+ leaf MODIFYIESTRING {
+  type string {
+   length "1..128";
+  }
+  mandatory false;
+ }
+ leaf MODIFYLEN {
+  type uint16 {
+   range "0..400";
+  }
+  mandatory false;
+ }
+ leaf MODIFYMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_MODIFYRULEINDEX {
+  type union {
+   type int8 {
+    range "-1..100";
+   }
+  }
+  mandatory false;
+ }
+ leaf MODIFYRULEINDEX {
+  type union {
+   type int8 {
+    range "-1..100";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

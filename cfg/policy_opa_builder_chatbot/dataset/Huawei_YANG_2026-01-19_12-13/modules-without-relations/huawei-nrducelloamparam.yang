@@ -1,0 +1,104 @@
+module huawei-nrducelloamparam {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducelloamparam";
+ prefix nrducelloamparam;
+ description
+ "Auto-generated modular YANG for huawei-nrducelloamparam" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLOAMPARAM-attributes {
+ leaf DLRMVLASTTTITIMETHLD {
+  type uint32 {
+   range "0..1000000";
+  }
+  mandatory false;
+ }
+ leaf DLRMVLASTTTITRAFFICTHLD {
+  type uint32 {
+   range "0..1000000";
+  }
+  mandatory false;
+ }
+ leaf DLSCHNOFRAGTHLD {
+  type uint16 {
+   range "0..15000";
+  }
+  mandatory false;
+ }
+ leaf DLTHPTPDFPOLICY {
+  type boolean;
+  mandatory false;
+ }
+ leaf INITDMRSRSRPABNORMALUETHLD {
+  type int16 {
+   range "-156..-100";
+  }
+  mandatory false;
+ }
+ leaf INITDMRSSINRABNORMALUETHLD {
+  type int8 {
+   range "-15..10";
+  }
+  mandatory false;
+ }
+ leaf NETWORKMONITORSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf SCENSPECSTATISTICSPOLICY {
+  type boolean;
+  mandatory false;
+ }
+ leaf STATPUSCHRBRATIO {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf STATISTICSSTRATEGYSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf UESPECSTATISTICSPOLICY {
+  type boolean;
+  mandatory false;
+ }
+ leaf ULRMVSMALLPKTTIMETHLD {
+  type uint32 {
+   range "0..1000000";
+  }
+  mandatory false;
+ }
+ leaf ULRMVSMALLPKTTRAFFICTHLD {
+  type uint32 {
+   range "0..1000000";
+  }
+  mandatory false;
+ }
+ leaf ULSCHNOFRAGTHLD {
+  type uint16 {
+   range "0..15000";
+  }
+  mandatory false;
+ }
+ leaf ULSPECPKTSIZETHLD {
+  type uint32 {
+   range "1..1000000";
+  }
+  mandatory false;
+ }
+ leaf ULTHPTPDFPOLICY {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

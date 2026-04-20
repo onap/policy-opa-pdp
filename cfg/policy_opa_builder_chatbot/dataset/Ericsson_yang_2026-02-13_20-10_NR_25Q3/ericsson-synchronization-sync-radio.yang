@@ -1,0 +1,52 @@
+module ericsson-synchronization-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncSynchronization";
+  prefix syncrdo;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Synchronization {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO class is the top class for synchronization management.";
+      key "synchronizationId";
+      leaf synchronizationId {
+        type leafref {
+          path "../attributes/synchronizationId";
+        }
+      }
+      container attributes {
+        uses Synchronization-attributes;
+      }
+    }
+  }
+  typedef TelecomStandard {
+    type enumeration {
+      enum OPTION_I;
+      enum OPTION_II;
+      enum OPTION_III;
+    }
+  }
+  grouping Synchronization-attributes {
+    leaf fixedPosition {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf synchronizationId {
+      type string;
+      mandatory true;
+    }
+    leaf telecomStandard {
+      type enumeration {
+        enum OPTION_I;
+        enum OPTION_II;
+        enum OPTION_III;
+      }
+    }
+  }
+}

@@ -1,0 +1,295 @@
+module ericsson-ipsec-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnIpsec";
+  prefix ipsecrdo;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Transport Ipsec MOM.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/ipsecrdo:IpsecTunnel" {
+    list Ikev2Session {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents IKEv2 that must be used as control and key exchange protocol. It also gives some properties for IKE SA. Refers to Ikev2PolicyProfile MO that specifies cryptographic algorithms (encryption, integrity, PRF and Diffie-Hellman group), allowed lifetime and dead peer detection time for IKE SA.";
+      key "ikev2SessionId";
+      leaf ikev2SessionId {
+        type leafref {
+          path "../attributes/ikev2SessionId";
+        }
+      }
+      container attributes {
+      uses Ikev2Session-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/ipsecrdo:IpsecTunnel" {
+    list IpsecPolicy {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents which traffic is allowed through IPsec VPN connection through traffic selector configuration. Refers to IpsecProposalProfile MO that defines which cryptographic algorithms are allowed and max lifetime of Child SA. One Child SA pair is always established for each IpsecPolicy MO as negotiation result. However, depending on security gateway configuration and support, multiple Child SA pairs can be negotiated. Maximum number of IpsecPolicy MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 64, - For Baseband in RAN Compute Group 4 or higher: 120. Dependencies: If there is AddressIPv4 MO with configurationMode IKE in Router MO, there can be only one IpsecPolicy MO for each IpsecTunnel MO encapsulated by InterfaceIPv4 MO. Same applies to corresponding IPv6 case.";
+      key "ipsecPolicyId";
+      leaf ipsecPolicyId {
+        type leafref {
+          path "../attributes/ipsecPolicyId";
+        }
+      }
+      container attributes {
+      uses IpsecPolicy-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list IpsecTunnel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents IPsec VPN connection. Points at endpoints in outer network, MO type AddressIPv4 or AddressIPv6 for local endpoint and MO type PeerIPv4 or PeerIPv6 for remote endpoint. Maximum number of IpsecTunnel MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 60.";
+      key "ipsecTunnelId";
+      leaf ipsecTunnelId {
+        type leafref {
+          path "../attributes/ipsecTunnelId";
+        }
+      }
+      container attributes {
+      uses IpsecTunnel-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef IdentityOrigin {
+    description "Origin for transmitted IKE ID.";
+    type enumeration {
+      enum SUBJECT {
+        description "IKE ID is set to same value as subject field in node IPsec certificate.";
+      }
+      enum SUBJECT_ALT_NAME {
+        description "IKE ID is set to same value as subjectAltName in node IPsec certificate.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping TrafficSelector-struct {
+    description "Traffic selector. Used for Child SA negotiation.";
+    leaf addressRange {
+      type string;
+    }
+  }
+  grouping Ikev2Session-attributes {
+    leaf ikev2PolicyProfile {
+      description "Reference to Ikev2PolicyProfile MO..";
+      type string;
+      mandatory true;
+    }
+    leaf ikev2SessionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf localIdentityOrigin {
+      description "IKE ID must be identical to subjectAltName or subject field in certificate. If certificate based authentication is used, node sends IKE ID to security gateway identical to subjectAltName in used certificate. If more than one IPsec VPN connection is setup from node to same security gateway, node can be forced to send different IKE IDs on two IKE SAs. Certain security gateway configurations can reject multiple IKE SAs with same IKE ID..";
+      type enumeration {
+        enum SUBJECT;
+        enum SUBJECT_ALT_NAME;
+      }
+    }
+    leaf operationalState {
+      description "The operational state. Disabled if no IKE SA or first Child SA pair is established..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf ikeTunInIntegrityFail {
+      description "The number of incoming IKE messages that have been discarded due to that they failed the integrity check..";
+      type uint64;
+      config false;
+    }
+    leaf ikeTunChildSaRekey {
+      description "The number of successful Child SA rekeyings..";
+      type uint64;
+      config false;
+    }
+    leaf ikeTunInInvalidMsg {
+      description "The number of incoming IKE messages that have been discarded because the message is invalid..";
+      type uint64;
+      config false;
+    }
+  }
+  grouping IpsecPolicy-attributes {
+    leaf antiReplayProtection {
+      description "Enable or disable anti-replay protection.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf ipsecPolicyId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf ipsecProposalProfile {
+      description "Reference to IpsecProposalProfile MO..";
+      type string;
+      mandatory true;
+    }
+    list localTrafficSelector {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Local traffic selector to be used for Child SA negotiation. If localTrafficSelector is not specified, all virtual inner addresses of relevant IP version in inner Router will be used as local traffic selectors in Child SA negotiation..";
+      uses TrafficSelector-struct;
+    }
+    list remoteTrafficSelector {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      min-elements 0;
+      max-elements 10;
+      uses TrafficSelector-struct;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf espTunInReplayFail {
+      description "The number of incoming ESP packets that have been discarded due to that they failed the antireplay check.";
+      type uint64;
+      config false;
+    }
+    leaf espTunOutNoSA {
+      description "Number outgoing packets that have been discarded because there is no Child SA established with a traffic selector matching the packet..";
+      type uint64;
+      config false;
+    }
+    leaf espTunInIntegrityFail {
+      description "The number of incoming ESP packets that have been discarded because they failed the integrity check..";
+      type uint64;
+      config false;
+    }
+  }
+  grouping IpsecTunnel-attributes {
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf ipsecTunnelId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf localAddress {
+      description "Tunnel local endpoint assigned IP address, local outer address of IPsec VPN connection. Valid reference is of MO type AddressIPv4 or AddressIPv6..";
+      type string;
+      mandatory true;
+    }
+    leaf operationalState {
+      description "The operational state. Attribute operationalState is disabled if associated Ikev2Session MO is disabled..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf remoteAddress {
+      description "Remote outer address of IPsec VPN connection. Valid reference is of MO type PeerIPv4 or PeerIPv6..";
+      type string;
+      mandatory true;
+    }
+    leaf-list remoteAddressSecondary {
+      description "Secondary remote outer address of IPsec VPN connection. Configure if IPsec active-standby redundancy is to be used. Only one reference can be configured. In this case PeerIPv4 MO or PeerIPv6 MO in remoteAddress represents primary security gateway. PeerIPv4 MO or PeerIPv6 MO in remoteAddressSecondary represents secondary security gateway. Valid reference is of MO type PeerIPv4 or PeerIPv6..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf espTunInInvalidSpi {
+      description "The number of incoming ESP packets that have been discarded because the SPI value was unknown..";
+      type uint64;
+      config false;
+    }
+    leaf espTunOutNoPolicy {
+      description "Number of outgoing ESP packets that have been discarded because they did not match any configured policy..";
+      type uint64;
+      config false;
+    }
+    leaf ikeTunInInvalidSpi {
+      description "The number of incoming IKE messages that have been discarded because the SPI value was unknown..";
+      type uint64;
+      config false;
+    }
+  }
+}

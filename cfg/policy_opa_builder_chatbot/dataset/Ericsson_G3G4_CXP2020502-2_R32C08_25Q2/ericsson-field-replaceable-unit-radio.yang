@@ -1,0 +1,582 @@
+module ericsson-field-replaceable-unit-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqFieldReplaceableUnit";
+  prefix frurdo;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nReqFieldReplaceableUnit.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list FieldReplaceableUnit {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO models a Field Replaceable Unit (FRU).";
+      key "fieldReplaceableUnitId";
+      leaf fieldReplaceableUnitId {
+        type leafref {
+          path "../attributes/fieldReplaceableUnitId";
+        }
+      }
+      container attributes {
+      uses FieldReplaceableUnit-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "Administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef DeepSleepStatus {
+    description "Deep sleep status of related MO. Deep sleep is an energy saving function.";
+    type enumeration {
+      enum NOT_SUPPORTED {
+        description "Deep sleep capability is not supported on hardware unit represented by this MO.";
+      }
+      enum DEACTIVATED {
+        description "Deep sleep is deactivated on hardware unit represented by this MO.";
+      }
+      enum ACTIVATED {
+        description "Deep sleep is activated on hardware unit represented by this MO.";
+      }
+      enum REQUESTED {
+        description "Deep sleep requested from one node but not from other node.";
+      }
+      enum ACTIVATION_IN_PROGRESS {
+        description "Activation in progress, going to sleep.";
+      }
+      enum DEACTIVATION_IN_PROGRESS {
+        description "Deactivation in progress, waking up.";
+      }
+    }
+  }
+  typedef HwTestStatusEnum {
+    description "HwTest Status Enum.";
+    type enumeration {
+      enum NO_TEST_RESULT {
+        description "No result is availabe.";
+      }
+      enum TEST_RESULT_OK {
+        description "Result is OK.";
+      }
+      enum TEST_RESULT_CEF {
+        description "Complete entity failure.";
+      }
+      enum TEST_RESULT_PEF {
+        description "Partial entitiy failure.";
+      }
+    }
+  }
+  typedef IndicatorStatus {
+    description "IndicatorStatus.";
+    type enumeration {
+      enum NOT_APPLICABLE {
+        description "Indicator is not supported.";
+      }
+      enum NOT_AVAILABLE {
+        description "Indicator state is not available.";
+      }
+      enum OFF {
+        description "Indicator is off.";
+      }
+      enum STEADY_ON {
+        description "Indicator is continuously on.";
+      }
+      enum SLOW_BLINK {
+        description "Indicator blinks slowly.";
+      }
+      enum FAST_BLINK {
+        description "Indicator blinks fast.";
+      }
+      enum DOUBLE_FLASH_AND_STEADY_ON {
+        description "Indicator flashes twice and is then on for a short time. Cycle is repeated.";
+      }
+      enum DOUBLE_FLASH_AND_OFF {
+        description "Indicator flashes twice and is then off for a short time. Cycle is repeated.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef RestartRank {
+    description "Restart ranks";
+    type enumeration {
+      enum RESTART_WARM {
+        description "Restarts the MO with the same software. The software is not reloaded from the disk. The traffic is affected least as warm restart is faster and no hardware is reset.";
+      }
+      enum RESTART_COLD {
+        description "Reloads the software from the disk, restarts the MO, and resets all hardware. The traffic is affected more than for a warm restart.";
+      }
+      enum RESTART_COLDWTEST {
+        description "Reloads the software from the disk, restarts the MO, and resets and tests the hardware. The traffic is affected most.";
+      }
+      enum RESTART_POWERCYCLE {
+        description "Reloads the software from the disk, restarts the MO, and power cycles all hardware. The traffic is affected more than for a cold restart.";
+      }
+    }
+  }
+  typedef RestartReason {
+    description "The restart reason.";
+    type enumeration {
+      enum PLANNED_RECONFIGURATION {
+        description "Restart ordered to perform planned activities such as reconfigurations.";
+      }
+      enum UNPLANNED_NODE_EXTERNAL_PROBLEMS {
+        description "Restart ordered to resolve node external problems.";
+      }
+      enum UNPLANNED_NODE_UPGRADE_PROBLEMS {
+        description "Restart ordered to resolve upgrade problems.";
+      }
+      enum UNPLANNED_O_AND_M_ISSUE {
+        description "Restart ordered to resolve O&M issues.";
+      }
+      enum UNPLANNED_CYCLIC_RECOVERY {
+        description "Restart ordered to stop further auto recovery attempts.";
+      }
+      enum UNPLANNED_LOCKED_RESOURCES {
+      }
+      enum UNPLANNED_COLD_WITH_HW_TEST {
+        description "Restart ordered to perform HW tests.";
+      }
+      enum UNPLANNED_CALL_PROCESSING_DEGRADATION {
+      }
+      enum UNPLANNED_LOW_COVERAGE {
+        description "Restart ordered to improve Cell Availability.";
+      }
+      enum OPERATOR_CLASSIFIED_PROBLEMS {
+        description "Restart ordered to resolve procedural errors or office environmental problems. Example: power, grounding, temperature, humidity or security problems.";
+      }
+    }
+  }
+  typedef UnitOpticalIndicatorControl {
+    description "Values for unit optical indicator control on hardware unit level.";
+    type enumeration {
+      enum NOT_SET {
+        description "Optical indicator control not set on hardware unit level.";
+      }
+      enum ACTIVATED {
+        description "Optical indicator control activated. Optical indicators work as normal.";
+      }
+      enum DEACTIVATED {
+        description "Optical indicator control deactivated. All optical indicators are turned off.";
+      }
+    }
+  }
+  typedef UnitOpticalIndicatorCtrlStatus {
+    description "Values for optical indicator control status.";
+    type enumeration {
+      enum NOT_AVAILABLE {
+        description "Functionality not supported.";
+      }
+      enum ACTIVATED {
+        description "Optical indicator control activated. Optical indicators work as normal.";
+      }
+      enum DEACTIVATED {
+        description "Optical indicator control deactivated. All optical indicators are turned off.";
+      }
+      enum ACTIVATED_WITH_DURATION {
+        description "Optical indicator control temporarily activated.";
+      }
+    }
+  }
+  grouping FloorInfo-struct {
+    description "Floor number and height above floor level.";
+    leaf floorNumber {
+      description "range -101..1000; Default value: -101.";
+      type int16 {
+        range "-101..1000";
+      }
+      default "-101";
+    }
+    leaf heightOfDot {
+      description "range -1..500; Default value: -1.";
+      type int16 {
+        range "-1..500";
+      }
+      default "-1";
+      units "m";
+    }
+  }
+  grouping HwTestResult-struct {
+    description "HwTest Result.";
+    leaf timeStamp {
+      type string;
+    }
+    leaf hwTestStatus {
+      type enumeration {
+        enum NO_TEST_RESULT;
+        enum TEST_RESULT_OK;
+        enum TEST_RESULT_CEF;
+        enum TEST_RESULT_PEF;
+      }
+    }
+  }
+  grouping PositionStruct-struct {
+    leaf altitude {
+      description "range -8388608..8388607; Default value: 0.";
+      type int32 {
+        range "-8388608..8388607";
+      }
+      default "0";
+      units "meter";
+    }
+    leaf geoDatum {
+      description "length 5..5; Default value: WGS84.";
+      type string {
+        length "5";
+      }
+      default "WGS84";
+    }
+    leaf latitude {
+      description "range -90000000..90000000; Default value: 0.";
+      type eytypes:int32_range_-90000000-90000000;
+      default "0";
+      units "degrees";
+    }
+    leaf longitude {
+      description "range -180000000..180000000; Default value: 0.";
+      type eytypes:int32_range_-180000000-180000000;
+      default "0";
+      units "degrees";
+    }
+  }
+  grouping ProductData-struct {
+    description "Product data.";
+    leaf productionDate {
+      type string;
+    }
+    leaf productName {
+      type string;
+    }
+    leaf productNumber {
+      type string;
+    }
+    leaf productRevision {
+      type string;
+    }
+    leaf serialNumber {
+      type string;
+    }
+  }
+  grouping SpecialIndicator-struct {
+    description "Special indicator data.";
+    leaf indicatorStatus {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+    }
+    leaf indicatorName {
+      description "length 0..128.";
+      type string {
+        length "0..128";
+      }
+    }
+  }
+  grouping FieldReplaceableUnit-attributes {
+    leaf fieldReplaceableUnitId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf climateZoneRef {
+      description "Specifies in which climate controlled zone this FRU is. Either referring to a Cabinet MO (when in a cabinet), or being empty (for instance in the case of an External Radio).; MOM flags: isNillable=true; Status info: Since 16A, replaced by positionRef. Has no functional behavior..";
+      type string;
+      status deprecated;
+    }
+    leaf operationalIndicator {
+      description "The operational status of the FRU as shown by the optical operational indicator on the unit. Possible values: • NOT_APPLICABLE = Indicator not supported. • NOT_AVAILABLE = Indicator state currently not available. • OFF = No power. • STEADY_ON = Operational, unit can perform its intended purpose. • SLOW_BLINK = Dependent resource missing, unit is non-operational. • FAST_BLINK = Initial boot test or transitory activity. • DOUBLE_FLASH_AND_STEADY_ON = Loading software, unit is operational during software loading. • DOUBLE_FLASH_AND_OFF = Loading software, unit is non-operational during software loading..";
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf statusIndicator {
+      description "The status of the managed element as shown by the optical status indicator on the unit. Possible values: • NOT_APPLICABLE = The indicator is not supported. • NOT_AVAILABLE = The indicator state is currently not available. • OFF = No faults exist in the managed element. • STEADY_ON = A fault exists in the managed element..";
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf faultIndicator {
+      description "The fault status of the FRU as shown by the optical fault indicator on the unit. Possible values: • NOT_APPLICABLE = The indicator is not supported. • NOT_AVAILABLE = The indicator state is currently not available. • OFF = No hardware fault. • STEADY_ON = Hardware fault..";
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    leaf maintenanceIndicator {
+      description "The maintenance status of the FRU as shown by the optical maintenance indicator on the unit. Possible values: • NOT_APPLICABLE = The indicator is not supported. • NOT_AVAILABLE = The indicator state is currently not available. • OFF = Non-maintenance mode (unit unlocked). • STEADY_ON = Full maintenance mode (unit locked). • SLOW_BLINK = Removing ongoing traffic in the unit. • FAST_BLINK = Alarms suppressed in the managed element. • DOUBLE_FLASH_AND_STEADY_ON = “Here I am” optical indication activated, unit is locked. • DOUBLE_FLASH_AND_OFF = “Here I am” optical indication activated, unit is unlocked..";
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NOT_AVAILABLE;
+        enum OFF;
+        enum STEADY_ON;
+        enum SLOW_BLINK;
+        enum FAST_BLINK;
+        enum DOUBLE_FLASH_AND_STEADY_ON;
+        enum DOUBLE_FLASH_AND_OFF;
+      }
+      config false;
+    }
+    list productData {
+      config false;
+      description "The product data of the installed Unit. If the corresponding hardware unit is not installed yet, the struct contains empty strings..";
+      uses ProductData-struct;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    list hwTestResult {
+      config false;
+      description "The test result from the latest restart of the FRU (with rank RESTART_COLDWTEST)..";
+      uses HwTestResult-struct;
+    }
+    list specialIndicator {
+      config false;
+      min-elements 0;
+      uses SpecialIndicator-struct;
+    }
+    leaf positionRef {
+      description "Position of FRU. Refers to Cabinet MO, HwGroup MO, Enclosure MO or it is empty, for example, in an external radio..";
+      type string;
+    }
+    leaf-list positionInformation {
+      description "Position of FieldReplaceableUnit. Examples of usage: - On shelf - On wall - In building - On pole - Close to cabinet or shelf - Not on shelf but inside or outside cabinet - Part of hardware group - At remote site If unit is located in building, attribute floorInformation gives more details about position. Attribute positionCoordinates can give more details about geographical position. Otherwise this attribute can be used, for example, to provide address of remote site, or to indicate that unit is installed in connection to a specific shelf..";
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 255;
+    }
+    leaf-list supportUnitRef {
+      description "Reference to support units connected to this FieldReplaceableUnit..";
+      type string;
+      min-elements 0;
+    }
+    list positionCoordinates {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "The position of the FieldReplaceableUnit expressed as coordinates..";
+      uses PositionStruct-struct;
+    }
+    leaf isSharedWithExternalMe {
+      description "Indicates if the unit represented by this MO is managed also by another ManagedElement, to which it is physically connected. The attribute needs to be set correctly to ensure proper Operation & Maintenance of the shared unit. It should be noted that the attribute has no relation to the number of radio standards handled by the unit..";
+      type boolean;
+    }
+    list floorInformation {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Floor number and height above floor level..";
+      uses FloorInfo-struct;
+    }
+    leaf deepSleepStatus {
+      description "Deep sleep status on hardware unit represented by this MO..";
+      type enumeration {
+        enum NOT_SUPPORTED;
+        enum DEACTIVATED;
+        enum ACTIVATED;
+        enum REQUESTED;
+        enum ACTIVATION_IN_PROGRESS;
+        enum DEACTIVATION_IN_PROGRESS;
+      }
+      config false;
+    }
+    leaf unitOpticalIndicatorControl {
+      description "Configures optical indicator control. Only applicable if hardware unit supports the functionality. When NOT_SET: - the attribute does not affect optical indicator control. - optical indicator control can be determined by configuration in MO NodeSupport.OpticalIndicatorControl..";
+      type enumeration {
+        enum NOT_SET;
+        enum ACTIVATED;
+        enum DEACTIVATED;
+      }
+    }
+    leaf unitOpticalIndicatorCtrlStatus {
+      description "Optical indicator control status..";
+      type enumeration {
+        enum NOT_AVAILABLE;
+        enum ACTIVATED;
+        enum DEACTIVATED;
+        enum ACTIVATED_WITH_DURATION;
+      }
+      config false;
+    }
+    leaf preferredHwIdentity {
+      description "Preferred HW identity of installed Radio Equipment. Preferred HW identity can be represented with serial number. If empty, no preferred HW identity is set..";
+      type string;
+    }
+    leaf operationalStateChangeTime {
+      description "Timestamp of last change of operationalState..";
+      type string;
+      config false;
+    }
+    leaf managedByNeutralHost {
+      description "Indicates if unit represented by this MO is managed by another ManagedElement acting as neutral host. If set to true, OAM functionality of shared unit is limited. Value can be set to true only for supported FRUs.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf lastUnitRestart {
+      description "Timestamp of last unit restart..";
+      type string;
+      config false;
+    }
+    leaf-list pmUnitTemperatureLevelExtremeCold {
+      description "Average temperature level during a 60 second period, where the coldest temperature from temperature sensor or sensors in unit is aggregated. Level 25 corresponds to an average temperature of 0 degrees Celsius or higher. Value 0 corresponds to an average temperature close to or below the equipment cold shutdown threshold. Scanner: Not included in any predefined scanner [0]: Average unit temperature level [0..59] seconds of ROP. [1]: Average unit temperature level [60..119] seconds of ROP. ... [14]: Average unit temperature level [840..899] seconds of ROP..";
+      type int32;
+      max-elements 15;
+    }
+    leaf pmPowerFailure {
+      description "Total number of power failures detected in a measurement period..";
+      type uint32;
+      config false;
+    }
+    leaf-list pmUnitTemperatureLevel {
+      description "Average temperature level of unit, measured in 300s periods. Values mean the following: 0 - Temperature too low, Service unavailable 1 - Temperature very low 2 - Temperature low 3 - Temperature OK, slightly low 4 - Temperature OK 5 - Temperature OK, slightly high 6 - Temperature high 7 - Temperature very high 8 - Temperature too high, Service unavailable 9 - Temperature too high, Service unavailable Unit temperature level lower than 1 or higher than 7 is an indication that alarm Critical Temperature Taken Out of Service is imminent. [0]: Average unit temperature level 0 to 299 seconds of ROP. [1]: Average unit temperature level 300 to 599 seconds of ROP. [2]: Average unit temperature level 600 to 899 seconds of ROP..";
+      type int32;
+      max-elements 3;
+    }
+    leaf pmFruDeepSleepTime {
+      description "Number of second FRU spent in Deep Sleep state. Scanner: Not included in any predefined scanner..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPowerFailureDistr {
+      description "Number of power failures detected during 6 second periods. [0]: Number of power failures detected in [0...5] seconds of ROP. [1]: Number of power failures detected in [6...11] seconds of ROP. [149]: Number of power failures detected in [894...899] seconds of ROP..";
+      type uint32;
+      max-elements 150;
+    }
+  }
+}

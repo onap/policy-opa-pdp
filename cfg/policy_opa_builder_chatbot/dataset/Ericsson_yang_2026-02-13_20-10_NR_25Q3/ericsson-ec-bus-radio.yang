@@ -1,0 +1,52 @@
+module ericsson-ec-bus-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqEcBus";
+  prefix ebusrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list EcBus {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents the EC bus used to communicate with the support system.";
+      key "ecBusId";
+      leaf ecBusId {
+        type leafref {
+          path "../attributes/ecBusId";
+        }
+      }
+      container attributes {
+        uses EcBus-attributes;
+      }
+    }
+  }
+  grouping EcBus-attributes {
+    leaf ecBusId {
+      type string;
+      mandatory true;
+    }
+    leaf ecBusConnectorRef {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf ecBusConnectionType {
+      type string;
+    }
+    leaf equipmentSupportFunctionRef {
+      type ietfinet:ip-address;
+    }
+  }
+}

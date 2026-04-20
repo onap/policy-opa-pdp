@@ -1,0 +1,37 @@
+module ericsson-eum-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqExternalUpManager";
+  prefix eumrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nAllows to create and delete a FW upgrade package for external HW.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list ExternalUpManager {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Allows to create and delete a firmware upgrade package for external hardware. The RDN of this MO is ExternalUpManager=1.";
+      key "externalUpManagerId";
+      leaf externalUpManagerId {
+        type leafref {
+          path "../attributes/externalUpManagerId";
+        }
+      }
+      container attributes {
+      uses ExternalUpManager-attributes;
+      }
+    }
+  }
+  grouping ExternalUpManager-attributes {
+    leaf externalUpManagerId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+}

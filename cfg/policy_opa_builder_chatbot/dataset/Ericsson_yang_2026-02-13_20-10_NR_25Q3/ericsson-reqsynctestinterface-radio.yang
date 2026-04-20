@@ -1,0 +1,77 @@
+module ericsson-reqsynctestinterface-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqSyncTestInterface";
+  prefix reqsynct;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list SyncTestInterface {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents physical sync test interface on LMT port of BASEBAND, BASEBAND-T and BASEBAND-C unit.";
+      key "syncTestInterfaceId";
+      leaf syncTestInterfaceId {
+        type leafref {
+          path "../attributes/syncTestInterfaceId";
+        }
+      }
+      container attributes {
+        uses SyncTestInterface-attributes;
+      }
+    }
+  }
+  typedef OutputSyncTestInterfaceSignal {
+    type enumeration {
+      enum FREQUENCY_1PPS;
+      enum TIME_LOCKED_1PPS;
+      enum FREQUENCY_2048KHZ;
+      enum FREQUENCY_10MHZ;
+      enum NO_SIGNAL;
+    }
+  }
+  typedef SyncTestInterfaceSignalOutput {
+    type enumeration {
+      enum SPECIAL;
+      enum FREQUENCY_1PPS;
+      enum TIME_LOCKED_1PPS;
+      enum FREQUENCY_2048KHZ;
+      enum FREQUENCY_10MHZ;
+      enum NO_SIGNAL;
+      enum NOT_SUPPORTED;
+    }
+  }
+  grouping SyncTestInterface-attributes {
+    leaf syncTestInterfaceId {
+      type string;
+      mandatory true;
+    }
+    leaf syncTestInterfaceSignalOutput {
+      type enumeration {
+        enum SPECIAL;
+        enum FREQUENCY_1PPS;
+        enum TIME_LOCKED_1PPS;
+        enum FREQUENCY_2048KHZ;
+        enum FREQUENCY_10MHZ;
+        enum NO_SIGNAL;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+}

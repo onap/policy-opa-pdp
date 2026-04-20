@@ -1,0 +1,241 @@
+module ericsson-sectorequip-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSectorEquipmentFunction";
+  prefix seceqrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list SectorEquipmentFunction {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO serves as a mapping between the cell and the RBS equipment used to provide coverage in a certain geographical area. The MO also controls the maximum output power of the sector.";
+      key "sectorEquipmentFunctionId";
+      leaf sectorEquipmentFunctionId {
+        type leafref {
+          path "../attributes/sectorEquipmentFunctionId";
+        }
+      }
+      container attributes {
+      uses SectorEquipmentFunction-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "Administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef RadioEquipOrderType {
+    description "Geographical relations representing combined coverage area.";
+    type enumeration {
+      enum NON_ADJACENT {
+        description "Coverage shapes of cascaded radio units are not adjacent to each other.";
+      }
+      enum LEFT_TO_RIGHT {
+        description "Adjacent coverage shapes of two or three cascaded radio units are combined into one coverage area in a geographical relation from left to right. From radio unit front view, second radio is to the right of first radio and so forth.";
+      }
+      enum RIGHT_TO_LEFT {
+        description "Adjacent coverage shapes of two or three cascaded radio units are combined into one coverage area in a geographical relation from right to left. From radio unit front view, second radio is to the left of first radio and so forth.";
+      }
+      enum CIRCLE_CLOCKWISE {
+        description "Adjacent coverage shapes of three cascaded radio units are combined into one coverage area in a circular clockwise geographical direction. From radio unit front view, second radio is to the left of first radio and so forth.";
+      }
+      enum CIRCLE_COUNTER_CLOCKWISE {
+        description "Adjacent coverage shapes of three cascaded radio units are combined into one coverage area in a circular counterclockwise geographical direction. From radio unit front view, second radio is to the right of first radio and so forth.";
+      }
+    }
+  }
+  grouping SectorEquipmentFunction-attributes {
+    leaf sectorEquipmentFunctionId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state. If set to SHUTTINGDOWN, the state is immediately brought to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState. This attribute is set by the application in the RBS..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf configuredOutputPower {
+      description "Requested maximum sector power. The value represents the sum of the power for all antenna connectors used by the sector. Note: The valid range of configuredOutputPower is limited by the Radio hardware capability or the lack of suitable HWAC, or both. Unit: 1 mW Disturbances: Changes can affect traffic Takes effect: Lock/unlock of the Cell and Sector MOs..";
+      type string;
+    }
+    leaf fqBand {
+      description "The E-UTRA frequency band used in the SectorEquipmentFunction, based on the radio connected to the SectorEquipmentFunction. Range 1-32 for frequency division duplex, and 33 or higher for time division duplex (defined in 3GPP TS 36.104)..";
+      type int32;
+      config false;
+    }
+    leaf mixedModeRadio {
+      description "Whether or not any radio unit related to this MO is also managed by an additional physically-connected ME. Ensures dual Operation & Maintenance of shared radio unit. Note! Has no relation to number of standards the radio unit handles.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf operationalState {
+      description "The operational state. This attribute is set by the application in the RBS..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list rfBranchRef {
+      description "Reference to reserved RfBranch, CcBranch, MulticastAntennaBranch, or Transceiver MO instances. Transceiver MO instances cannot be mixed with other MO classes. MulticastAntennaBranch MO instances cannot be mixed with other MO classes. Maximum three Transceiver MO instances are allowed. Transceiver MO must represent antenna streams in AIR. SectorEquipmentFunction MO must not refer directly to Transceiver MO representing antenna streams in Radio Dot, instead must refer to MulticastAntennaBranch MO..";
+      type string;
+      min-elements 0;
+      max-elements 24;
+    }
+    leaf availableSectorPower {
+      description "Available sector power. The value represents the sum of the power allocated for all the activated LTE cells in this sector. This value can be less than the sum of the confOutputPower*partOfSectorPower(up to L13A) or configuredOutputPower*partOfSectorPower(start from L13B) for the following reasons: -Insufficient Output Power Hardware Activation Codes -Failed radio resources -Radio HW capability limitation Unit: 1 mW.";
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+    leaf-list eUtranFqBands {
+      description "List of LTE frequency bands that hardware associated with SectorEquipmentFunction supports. If a frequency band is only partially supported by some associated rfBranches, support for this band is explicitly displayed for each RfBranch. See CPI for more information. NOTE: If HW does not support E-UTRA frequency bands, the list is empty..";
+      type string {
+        length "0..256";
+      }
+      min-elements 0;
+      max-elements 256;
+    }
+    leaf-list utranFddFqBands {
+      description "List of UTRAN FDD frequency bands that hardware associated with SectorEquipmentFunction supports. If a frequency band is only partially supported by some associated rfBranches, support for this band is explicitly displayed for each RfBranch. See CPI for more information. NOTE: If HW does not support UTRAN FDD frequency bands, the list is empty..";
+      type string {
+        length "0..256";
+      }
+      min-elements 0;
+      max-elements 256;
+    }
+    leaf availableHwOutputPower {
+      description "Sum of hardware output power capability for all radio hardware in sector. Not dependent on availability of output power HWAC, therefore RAT power demands are not necessarily available. If sector has several radio unit types, available output power cannot be calculated for each TX port in sector. In fronthaul sharing configuration, it is hardware output power capability of one radio hardware in sector.; range 0..10000000.";
+      type eytypes:int32_range_0-10000000;
+      config false;
+      units "mW";
+    }
+    leaf noiseFigure {
+      description "Wanted noise figure for RDS uplink. Set for WCDMA RDS only. Unit: 0.1 dB; range 100..350.";
+      type int16 {
+        range "100..350";
+      }
+    }
+    leaf-list geranFqBands {
+      description "List of GERAN frequency bands that is supported by hardware associated with SectorEquipmentFunction. If a frequency band is only partially supported by some associated rfBranches, support for this band is explicitly displayed for each RfBranch. If HW does not support GERAN frequency bands, the list is empty.";
+      type string {
+        length "0..256";
+      }
+      min-elements 0;
+      max-elements 256;
+    }
+    leaf-list nRFqBands {
+      description "List of NR frequency bands supported by the hardware associated with SectorEquipmentFunction. If a frequency band is only partially supported by some associated RfBranches, support for this band is explicitly displayed in each RfBranch MO. Valid frequency bands are specified in 3GPP TS 38.104, section Operating bands. If hardware does not support NR frequency bands, the list is empty..";
+      type string {
+        length "0..256";
+      }
+      min-elements 0;
+      max-elements 256;
+    }
+    leaf radioEquipmentOrdering {
+      description "Geographical relation of mounted cascaded radio units that represent a coverage area when combined. If empty and rfBranchRef refers to multiple Transceiver MOs, system sets value CIRCLE_COUNTER_CLOCKWISE..";
+      type enumeration {
+        enum NON_ADJACENT;
+        enum LEFT_TO_RIGHT;
+        enum RIGHT_TO_LEFT;
+        enum CIRCLE_CLOCKWISE;
+        enum CIRCLE_COUNTER_CLOCKWISE;
+      }
+    }
+  }
+}

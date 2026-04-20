@@ -1,0 +1,90 @@
+module huawei-mpt {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-mpt";
+ prefix mpt;
+ description
+ "Auto-generated modular YANG for huawei-mpt" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping MPT-attributes {
+ leaf BRDSPEC {
+  type string {
+   length "0..15";
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf MPTWORKMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf OVERLOADALMCLRTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf OVERLOADALMRPTTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..1";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..1";
+   }
+  }
+  mandatory false;
+ }
+ leaf TYPE {
+  type enumeration {
+   enum val-1;
+   enum val-8193;
+   enum val-12289;
+  }
+  mandatory false;
+ }
+ }
+}

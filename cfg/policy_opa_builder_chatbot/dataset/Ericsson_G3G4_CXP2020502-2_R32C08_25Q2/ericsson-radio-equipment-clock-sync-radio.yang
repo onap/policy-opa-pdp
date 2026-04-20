@@ -1,0 +1,1013 @@
+module ericsson-radio-equipment-clock-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncRadioEquipmentClock";
+  prefix rdoeqclkrdo;
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nTransport synchronization radio equipment clock.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization/rdoeqclkrdo:RadioEquipmentClock" {
+    list AssistingReference {
+      description "Additional definitions from MOM:min/max-elements:0/8; Represents time holdover assisting synchronization reference for radio equipment clock.";
+      key "assistingReferenceId";
+      leaf assistingReferenceId {
+        type leafref {
+          path "../attributes/assistingReferenceId";
+        }
+      }
+      container attributes {
+      uses AssistingReference-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization/rdoeqclkrdo:RadioEquipmentClock" {
+    list RadioEquipmentClockReference {
+      description "Additional definitions from MOM:min/max-elements:0/8; Represents generic synchronization reference for radio equipment clock. Specific interface or protocol reference can be used, is configured by encapsulation attribute. Dependencies: Two or more RadioEquipmentClockReference MOs cannot have same priority. RadioEquipmentClockReference MO and AssistingReference MO cannot refer to same BoundaryOrdinaryClock MO.";
+      key "radioEquipmentClockReferenceId";
+      leaf radioEquipmentClockReferenceId {
+        type leafref {
+          path "../attributes/radioEquipmentClockReferenceId";
+        }
+      }
+      container attributes {
+      uses RadioEquipmentClockReference-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization" {
+    list RadioEquipmentClock {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents clock for Radio Base Station. Dependencies: Only one FronthaulReference MO can be created.";
+      key "radioEquipmentClockId";
+      leaf radioEquipmentClockId {
+        type leafref {
+          path "../attributes/radioEquipmentClockId";
+        }
+      }
+      container attributes {
+      uses RadioEquipmentClock-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "The administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AssRefStatus {
+    description "Status of assisting reference.";
+    type enumeration {
+      enum NO_FAULT {
+        description "Assisting reference is evaluated and can assist in case of primary time synchronization failure.";
+      }
+      enum UNKNOWN {
+        description "Status information not available.";
+      }
+      enum ASSISTING_REFERENCE_MONITORED {
+        description "Assisting reference is monitored. Not ready to assist.";
+      }
+      enum QL_TOO_LOW {
+        description "Quality level too low to improve time holdover performance.";
+      }
+      enum PTP_FAULT {
+        description "BoundaryOrdinaryClock MO or PtpBcOcPort MO is faulty, check clockStatus attribute in BoundaryOrdinaryClock MO to identify specific fault.";
+      }
+      enum SYNCE_FAULT {
+        description "SyncEthInput MO is faulty, check syncEthStatus attribute to identify specific fault.";
+      }
+      enum FREQ_DEVIATION {
+        description "Frequency deviation on assisting reference is detected. Not able to improve time holdover performance.";
+      }
+      enum OTA_FAULT {
+        description "OverTheAirSync MO is faulty, check overTheAirSyncStatus attribute to identify specific fault.";
+      }
+    }
+  }
+  typedef AssistanceState {
+    description "Assistance information.";
+    type enumeration {
+      enum FEATURE_NOT_ACTIVATED {
+        description "Assisted time holdover not activated.";
+      }
+      enum NO_ASSISTING_REF_QUALIFIED {
+        description "Assisted time holdover activated. No assisting reference qualified to assist.";
+      }
+      enum ASSISTANCE_ACTIVE {
+      }
+      enum ASSISTANCE_NOT_ACTIVE {
+        description "Assisted time holdover activated. Ordinary time synchronization reference active.";
+      }
+    }
+  }
+  typedef AssistingQL {
+    description "Quality level used by assistance function.";
+    type enumeration {
+      enum RECEIVED_QL {
+        description "Quality level received from SyncE network.";
+      }
+      enum REMAPPED_QL {
+        description "Quality level remapped from received quality level with remappedQualityLevel attribute.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef NodeGroupRole {
+    description "Role of Node Group Member.";
+    type enumeration {
+      enum NOT_ACTIVATED_AS_NODE_GROUP_MEMBER {
+        description "Node is not activated as Node Group Member.";
+      }
+      enum ROLE_NOT_DEFINED {
+        description "Node is configured as Node Group Member and that role is not defined.";
+      }
+      enum SYNC_PROVIDER {
+        description "Node is in Synchronization Provider role within Node Group.";
+      }
+      enum SYNC_RECEIVER {
+        description "Node is in Synchronization Receiver role within Node Group and in contact with Synchronization Provider in same Node Group.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef QLFrom {
+    description "Whether quality level received from Ethernet interface or adminQuality is used.";
+    type enumeration {
+      enum RECEIVED_QL {
+      }
+      enum ADMIN_QL {
+      }
+    }
+  }
+  typedef QualityLevel {
+    description "Operational quality.";
+    type enumeration {
+      enum PRC {
+        description "Operational quality is PRC in option I.";
+      }
+      enum PRS {
+        description "Operational quality is PRS in option II.";
+      }
+      enum STU_OR_UNK {
+        description "Operational quality is STU in option II or UNK in option III.";
+      }
+      enum SSU_A_OR_TNC {
+        description "Operational quality is SSU-A in option I or TNC in option II.";
+      }
+      enum SSU_B {
+        description "Operational quality is SSU-B in option I.";
+      }
+      enum ST2 {
+        description "Operational quality is ST2 in option II.";
+      }
+      enum ST3E {
+        description "Operational quality is ST3E in option II.";
+      }
+      enum ST3_OR_EEC2 {
+        description "Operational quality is ST3 or EEC2 in option II.";
+      }
+      enum SEC_OR_EEC {
+        description "Operational quality is SEC or EEC in options I or III.";
+      }
+      enum SMC_OR_EEC1 {
+        description "Operational quality is SMC or EEC1 in option II.";
+      }
+      enum PROV {
+        description "Operational quality is PROV in Option II. QL PROV is not supported and interpreted as invalid.";
+      }
+      enum DNU_OR_DUS {
+        description "Operational quality is DNU or DUS in all options, not applicable for Sync.";
+      }
+      enum INV {
+        description "Operational quality is invalid in all options.";
+      }
+      enum TCU_02 {
+        description "Ericsson TCU02 or SIU is detected upstream.";
+      }
+      enum QL_UNKNOWN {
+        description "Quality level cannot be retrieved or is undefined.";
+      }
+      enum SMC {
+        description "Operational quality is SMC in option II.";
+      }
+      enum PRTC {
+        description "Operational quality is PRTC in all options.";
+      }
+      enum GNSS {
+        description "Operational quality is GNSS in all options.";
+      }
+      enum EPRTC {
+        description "Operational quality is EPRTC in all options.";
+      }
+      enum EEEC {
+        description "Operational quality is EEEC in all options.";
+      }
+      enum EPRC {
+        description "Operational quality is EPRC in option I or II.";
+      }
+    }
+  }
+  typedef QualityLevelValueOptionI {
+    description "Telecom option for European standard.";
+    type enumeration {
+      enum PRC {
+        description "Primary Reference Clock. Fourth quality level.";
+      }
+      enum SSU_A {
+        description "Synchronization Supply Unit class A. Fifth quality level.";
+      }
+      enum SSU_B {
+        description "Synchronization Supply Unit class B. Sixth quality level.";
+      }
+      enum SEC_EEC {
+        description "Synchronous Equipment Clock or Ethernet Equipment Clock. Eighth quality level.";
+      }
+      enum EPRTC {
+        description "Enhanced Primary Reference Time Clock. Highest quality level.";
+      }
+      enum PRTC {
+        description "Primary Reference Time Clock. Second quality level.";
+      }
+      enum EEEC {
+        description "Enhanced Ethernet Equipment Clock. Seventh quality level.";
+      }
+      enum EPRC {
+        description "Enhanced Primary Reference Clock. Third quality level.";
+      }
+    }
+  }
+  typedef QualityLevelValueOptionII {
+    description "Telecom option for United States standard.";
+    type enumeration {
+      enum PRS {
+        description "Primary Reference Source. Fourth quality level.";
+      }
+      enum STU {
+        description "Synchronization Traceability Unknown. Fifth quality level.";
+      }
+      enum ST2 {
+        description "STratum 2 clock. Sixth quality level.";
+      }
+      enum TNC {
+        description "Transit Node Clock. Seventh quality level.";
+      }
+      enum ST3E {
+        description "STratum 3 Enhanced clock. Eighth quality level.";
+      }
+      enum ST3_EEC2 {
+        description "STratum 3 clock or Ethernet Equipment Clock. Tenth quality level.";
+      }
+      enum SMC_EEC1 {
+        description "SONET Minimum Clock or Ethernet Equipment Clock. Eleventh quality level.";
+      }
+      enum EPRTC {
+        description "Enhanced Primary Reference Time Clock. Highest quality level.";
+      }
+      enum PRTC {
+        description "Primary Reference Time Clock. Second quality level.";
+      }
+      enum EEEC {
+        description "Enhanced Ethernet Equipment Clock. Ninth quality level.";
+      }
+      enum EPRC {
+        description "Enhanced Primary Reference Clock. Third quality level.";
+      }
+    }
+  }
+  typedef QualityLevelValueOptionIII {
+    description "Telecom option for Japanese standard.";
+    type enumeration {
+      enum UNK {
+        description "Quality level of synchronization source is unknown. Third quality level.";
+      }
+      enum SEC_EEC {
+        description "Synchronous Equipment Clock or Ethernet Equipment Clock. Fifth quality level.";
+      }
+      enum EPRTC {
+        description "Enhanced Primary Reference Time Clock. Highest quality level.";
+      }
+      enum PRTC {
+        description "Primary Reference Time Clock. Second quality level.";
+      }
+      enum EEEC {
+        description "Enhanced Ethernet Equipment Clock. Fourth quality level.";
+      }
+    }
+  }
+  typedef RadioEquipmentClockState {
+    description "State of radio equipment clock.";
+    type enumeration {
+      enum FREE_RUNNING {
+      }
+      enum FREQUENCY_LOCKED {
+      }
+      enum FREQUENCY_HOLDOVER {
+      }
+      enum TIME_OFFSET_LOCKED {
+      }
+      enum TIME_OFFSET_HOLDOVER {
+      }
+      enum RNT_TIME_LOCKED {
+        description "Real Network Time locked.";
+      }
+      enum RNT_TIME_HOLDOVER {
+        description "Real Network Time holdover.";
+      }
+      enum UNKNOWN {
+      }
+    }
+  }
+  typedef ReferenceStatus {
+    description "Status of synchronization reference.";
+    type enumeration {
+      enum NO_FAULT {
+      }
+      enum QL_TOO_LOW {
+      }
+      enum LOSS_OF_SIGNAL {
+      }
+      enum LOSS_OF_ESMC {
+      }
+      enum THOUSAND_BASE_T_NOT_SLAVE {
+      }
+      enum NTP_FAULT {
+      }
+      enum PTP_FAULT {
+        description "Corresponding BoundaryOrdinaryClock MO and or PtpBcOcPort MO is faulty, check status attribute on these MOs to identify specific fault.";
+      }
+      enum GNSS_FAULT {
+        description "Detailed fault information found in attribute timeSyncIOStatus in TimeSyncIO MO.";
+      }
+      enum SYNCE_FAULT {
+        description "Detailed fault information found in attribute syncEthStatus in SynEthInput MO.";
+      }
+      enum FREQ_DEVIATION {
+        description "Frequency deviation exceeds maximum threshold defined in RadioEquipmentClock::freqDeviationThreshold.";
+      }
+    }
+  }
+  typedef SelectionProcessMode {
+    description "If quality processing is enabled for input and output.";
+    type enumeration {
+      enum QL_ENABLED {
+        description "Quality processing is enabled for input and output.";
+      }
+      enum QL_DISABLED {
+        description "Quality processing is disabled for input and output.";
+      }
+    }
+  }
+  typedef StartWithAssistance {
+    description "Time synchronization assistance on startup configuration.";
+    type enumeration {
+      enum NONE {
+        description "Time synchronization assistance on startup is not enabled.";
+      }
+      enum ALL {
+        description "Time synchronization assistance on startup is enabled for all AssistingReference MOs. Uses latest preserved time offset. To preserve latest time offset, primary reference is required to be active for at least an hour. Note: Only applicable for Assisting PTP reference with BoundaryOrdinaryClock::ptpProfile G_8275_2.";
+      }
+    }
+  }
+  typedef SyncRefType {
+    description "Type of synchronization reference.";
+    type enumeration {
+      enum SYNC_E {
+        description "Synchronous Ethernet.";
+      }
+      enum FREQUENCY_PORT {
+        description "Frequency synchronization via physical synchronization port.";
+      }
+      enum TIME_PORT {
+        description "TIme synchronization via physical synchronization port.";
+      }
+      enum PTP_TIME {
+        description "TIme synchronization via PTP port.";
+      }
+      enum PTP_FREQUENCY {
+        description "Frequency synchronization via PTP port.";
+      }
+      enum NTP_FREQUENCY {
+        description "Frequency synchronization via NTP port.";
+      }
+      enum GNSS_RECEIVER {
+        description "Time synchronization via GNSS receiver.";
+      }
+    }
+  }
+  typedef TimeSyncMode {
+    description "Time synchronization mode.";
+    type enumeration {
+      enum AUTO_SELECT {
+        description "Time synchronization mode selected automatically.";
+      }
+      enum REGULAR {
+        description "Regular time synchronization mode.";
+      }
+      enum RELAXED {
+        description "Relaxed time synchronization mode.";
+      }
+    }
+  }
+  grouping QualityLevelValue-struct {
+    description "Quality level value struct.";
+    leaf qualityLevelValueOptionI {
+      type enumeration {
+        enum PRC;
+        enum SSU_A;
+        enum SSU_B;
+        enum SEC_EEC;
+        enum EPRTC;
+        enum PRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+    }
+    leaf qualityLevelValueOptionII {
+      type enumeration {
+        enum PRS;
+        enum STU;
+        enum ST2;
+        enum TNC;
+        enum ST3E;
+        enum ST3_EEC2;
+        enum SMC_EEC1;
+        enum EPRTC;
+        enum PRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+    }
+    leaf qualityLevelValueOptionIII {
+      type enumeration {
+        enum UNK;
+        enum SEC_EEC;
+        enum EPRTC;
+        enum PRTC;
+        enum EEEC;
+      }
+    }
+  }
+  grouping TimeHoldoverAlarmConfig-struct {
+    description "Alarm Radio Clock Service in Time Holdover Mode parameters.";
+    leaf enable {
+      description "Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf filterTime {
+      description "range 1..15; Default value: 3.";
+      type uint16 {
+        range "1..15";
+      }
+      default "3";
+      units "min";
+    }
+  }
+  grouping AssistingReference-attributes {
+    leaf administrativeState {
+      description "The administrative state. If set to SHUTTINGDOWN, state will immediately be brought to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf assistedReferenceStatus {
+      description "Status of assisting synchronization reference..";
+      type enumeration {
+        enum NO_FAULT;
+        enum UNKNOWN;
+        enum ASSISTING_REFERENCE_MONITORED;
+        enum QL_TOO_LOW;
+        enum PTP_FAULT;
+        enum SYNCE_FAULT;
+        enum FREQ_DEVIATION;
+        enum OTA_FAULT;
+      }
+      config false;
+    }
+    leaf assistingQLFrom {
+      description "Assistance function uses received quality level or remapped quality level..";
+      type enumeration {
+        enum RECEIVED_QL;
+        enum REMAPPED_QL;
+      }
+    }
+    leaf assistingReferenceId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf encapsulation {
+      description "Reference to underlying encapsulation. Underlying encapsulation can be one of following MO types: - BoundaryOrdinaryClock, - SyncEthInput, - OverTheAirSync..";
+      type string;
+      mandatory true;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf priority {
+      description "Priority among assisting references.; range 1..8; Default value: 1.";
+      type int8 {
+        range "1..8";
+      }
+      default "1";
+    }
+    leaf receivedQualityLevel {
+      description "Quality level of encapsulated MO..";
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf remappedQualityLevel {
+      description "Remapped quality level which overrides quality level received from network. If assistingQLFrom attribute is set to REMAPPED_QL, this attribute value overrides received quality level received from network..";
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+    }
+  }
+  grouping RadioEquipmentClock-attributes {
+    leaf bfnOffset {
+      description "Offsets BFN from default position as calculated from time synchronization reference. Positive offset, BFN is advanced. Negative offset, BFN is delayed.; range -5000000..5000000; Default value: 0.";
+      type int32 {
+        range "-5000000..5000000";
+      }
+      default "0";
+      units "ns";
+    }
+    leaf clockOperQuality {
+      description "Operational quality of selected synchronization reference..";
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf clockSettledQuality {
+      description "Settled quality of RadioEquipmentClock MO..";
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf currentAssistingReference {
+      description "Currently selected assisting reference for time synchronization. Empty if no assisting reference is selected..";
+      type string;
+      config false;
+    }
+    leaf currentRadioClockReference {
+      description "Currently selected reference to RadioEquipmentClock MO, is empty if no clock reference is selected. Can refer to RadioEquipmentClockReference MO or FronthaulReference MO..";
+      type string;
+      config false;
+    }
+    leaf freqDeviationThreshold {
+      description "Maximum frequency deviation threshold accepted for external synchronization references.; range 600..5000; Default value: 5000.";
+      type uint32 {
+        range "600..5000";
+      }
+      default "5000";
+      units "ppb";
+    }
+    leaf fronthaulReferenceTable {
+      description "Configured fronthaul synchronization reference MO..";
+      type string;
+      config false;
+    }
+    list minQualityLevel {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Minimum quality level for telecom standard options, is required for source to be accepted as active synchronization reference..";
+      uses QualityLevelValue-struct;
+    }
+    leaf nodeGroupRole {
+      description "Role of node as Node Group Member..";
+      type enumeration {
+        enum NOT_ACTIVATED_AS_NODE_GROUP_MEMBER;
+        enum ROLE_NOT_DEFINED;
+        enum SYNC_PROVIDER;
+        enum SYNC_RECEIVER;
+      }
+      config false;
+    }
+    leaf-list radioClockPriorityTable {
+      description "All configured synchronization reference MOs in priority order..";
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 8;
+    }
+    leaf radioClockState {
+      description "State of RadioEquipmentClock MO..";
+      type enumeration {
+        enum FREE_RUNNING;
+        enum FREQUENCY_LOCKED;
+        enum FREQUENCY_HOLDOVER;
+        enum TIME_OFFSET_LOCKED;
+        enum TIME_OFFSET_HOLDOVER;
+        enum RNT_TIME_LOCKED;
+        enum RNT_TIME_HOLDOVER;
+        enum UNKNOWN;
+      }
+      config false;
+    }
+    leaf radioEquipmentClockId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf selectionProcessMode {
+      description "Whether quality processing is enabled..";
+      type enumeration {
+        enum QL_ENABLED;
+        enum QL_DISABLED;
+      }
+    }
+    leaf startWithPreservedAssistingOffset {
+      description "Configuration of time synchronization assistance on startup..";
+      type enumeration {
+        enum NONE;
+        enum ALL;
+      }
+    }
+    leaf syncInconsistentConfigAlarmEnabled {
+      description "Configuration of Sync inconsistent configuration alarm. If true, alarm functionality is enabled. If false, alarm functionality is disabled.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    list timeHoldoverAlarmConfig {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Configuration of alarm Radio Clock Service in Time Holdover mode..";
+      uses TimeHoldoverAlarmConfig-struct;
+    }
+    leaf timeSyncAssistanceState {
+      description "Time synchronization assistance state..";
+      type enumeration {
+        enum FEATURE_NOT_ACTIVATED;
+        enum NO_ASSISTING_REF_QUALIFIED;
+        enum ASSISTANCE_ACTIVE;
+        enum ASSISTANCE_NOT_ACTIVE;
+      }
+      config false;
+    }
+    leaf timeSyncModeConfig {
+      description "Configured time synchronization mode..";
+      type enumeration {
+        enum AUTO_SELECT;
+        enum REGULAR;
+        enum RELAXED;
+      }
+    }
+    leaf timeSyncModeOper {
+      description "Operational time synchronization mode..";
+      type enumeration {
+        enum AUTO_SELECT;
+        enum REGULAR;
+        enum RELAXED;
+      }
+      config false;
+    }
+    leaf timeHoldoverSec {
+      description "Incremented when clock state is Time Holdover or Time Offset Holdover..";
+      type uint64;
+      config false;
+    }
+    leaf timeFreeRunningSec {
+      description "Incremented when clock state is Frequency Locked or Frequency Holdover..";
+      type uint64;
+      config false;
+    }
+    leaf freeRunningSec {
+      description "Incremented when clock state is Free Running or Failed..";
+      type uint64;
+      config false;
+    }
+    leaf timeAssistedHoldoverSec {
+      description "Incremented when clock state is Time Locked or Time Offset Locked. Using assisting reference..";
+      type uint64;
+      config false;
+    }
+    leaf freqHoldoverSec {
+      description "Incremented when clock state is Frequency Holdover..";
+      type uint64;
+      config false;
+    }
+  }
+  grouping RadioEquipmentClockReference-attributes {
+    leaf administrativeState {
+      description "The administrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list adminQualityLevel {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Specifies the quality level value to override the received quality level, if useQLFrom is set to ADMIN_QL for all three telecom options..";
+      uses QualityLevelValue-struct;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf encapsulation {
+      description "Reference to underlying encapsulation. Underlying encapsulation can be MO type FrequencySyncIO, TimeSyncIO, SyncEthInput, BoundaryOrdinaryClock or NtpFrequencySync..";
+      type string;
+      mandatory true;
+    }
+    leaf holdOffTime {
+      description "Time from fault detection to switch of reference.; range 300..5000; Default value: 1000.";
+      type uint16 {
+        range "300..5000";
+      }
+      default "1000";
+      units "ms";
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf operQualityLevel {
+      description "Indicates the quality level used by the process for the synchronization reference selection. If useQLFrom is set to RECEIVED_QL, the quality level extracted from the underlying reference is indicated. If useQLFrom is set to ADMIN_QL, the quality level specified by the attribute adminQualityLevel is indicated..";
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf priority {
+      description "Specifies the priority of the synchronization reference.; range 1..8.";
+      type int8 {
+        range "1..8";
+      }
+      mandatory true;
+    }
+    leaf radioEquipmentClockReferenceId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf receivedQualityLevel {
+      description "Indicates the received quality level for the underlying reference. Note that some types of references lack quality level information..";
+      type enumeration {
+        enum PRC;
+        enum PRS;
+        enum STU_OR_UNK;
+        enum SSU_A_OR_TNC;
+        enum SSU_B;
+        enum ST2;
+        enum ST3E;
+        enum ST3_OR_EEC2;
+        enum SEC_OR_EEC;
+        enum SMC_OR_EEC1;
+        enum PROV;
+        enum DNU_OR_DUS;
+        enum INV;
+        enum TCU_02;
+        enum QL_UNKNOWN;
+        enum SMC;
+        enum PRTC;
+        enum GNSS;
+        enum EPRTC;
+        enum EEEC;
+        enum EPRC;
+      }
+      config false;
+    }
+    leaf referenceStatus {
+      description "The status of a synchronization reference..";
+      type enumeration {
+        enum NO_FAULT;
+        enum QL_TOO_LOW;
+        enum LOSS_OF_SIGNAL;
+        enum LOSS_OF_ESMC;
+        enum THOUSAND_BASE_T_NOT_SLAVE;
+        enum NTP_FAULT;
+        enum PTP_FAULT;
+        enum GNSS_FAULT;
+        enum SYNCE_FAULT;
+        enum FREQ_DEVIATION;
+      }
+      config false;
+    }
+    leaf syncRefType {
+      description "Type of synchronization reference..";
+      type enumeration {
+        enum SYNC_E;
+        enum FREQUENCY_PORT;
+        enum TIME_PORT;
+        enum PTP_TIME;
+        enum PTP_FREQUENCY;
+        enum NTP_FREQUENCY;
+        enum GNSS_RECEIVER;
+      }
+      config false;
+    }
+    leaf useQLFrom {
+      description "Whether quality level received from network or adminQuality is used..";
+      type enumeration {
+        enum RECEIVED_QL;
+        enum ADMIN_QL;
+      }
+    }
+    leaf waitToRestoreTime {
+      description "Time from fault cease to switch back to reference with higher priority.; range 0..800; Default value: 60.";
+      type uint16 {
+        range "0..800";
+      }
+      default "60";
+      units "second";
+    }
+  }
+}

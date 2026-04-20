@@ -1,0 +1,173 @@
+module ericsson-climate-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ResClimate";
+  prefix climrdo;
+  import ericsson-equipment-support-function-radio {
+    prefix eqsupfnrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/eqsupfnrdo:EquipmentSupportFunction" {
+    list Climate {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO represents the logical resource providing configuration and supervision support for the climate control function.";
+      key "climateId";
+      leaf climateId {
+        type leafref {
+          path "../attributes/climateId";
+        }
+      }
+      container attributes {
+        uses Climate-attributes;
+      }
+    }
+  }
+  typedef ApcClimateControlMode {
+    type enumeration {
+      enum NORMAL;
+      enum BATTERY_LIFE_EXTENSION;
+      enum BOOST;
+      enum ECO;
+      enum ENHANCED;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping Climate-attributes {
+    leaf climateId {
+      type string;
+      mandatory true;
+    }
+    leaf controlDomainRef {
+      type string;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf climateControlMode {
+      type enumeration {
+        enum NORMAL;
+        enum BATTERY_LIFE_EXTENSION;
+        enum BOOST;
+        enum ECO;
+        enum ENHANCED;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf cabinetTemperature {
+      type int32 {
+        range "-55..125";
+      }
+      config false;
+      units "°C";
+      description "range -55..125.";
+    }
+    leaf fanSpeedSupervision {
+      type int32 {
+        range "0 | 6 | 12 | 24";
+      }
+      default "12";
+      units "hours";
+      description "Default value: 12.";
+    }
+    leaf boostInternalThreshold {
+      type int32 {
+        range "10..40";
+      }
+      units "°C";
+      description "range 10..40.";
+    }
+    list enhancedModeSetup {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf internalFanRampUpTemp {
+        type int32 {
+          range "15..40";
+        }
+        description "range 15..40.";
+      }
+      leaf externalFanStartTemp {
+        type int32 {
+          range "15..40";
+        }
+        description "range 15..40.";
+      }
+      }
+    }
+    leaf pmSpmBarometricAirPressure {
+      type int32;
+      config false;
+    }
+    leaf-list pmCabinetTemperature {
+      type int32;
+    }
+    leaf pmSpmDifferentialAirPressure {
+      type int32;
+      config false;
+    }
+    leaf-list pmCabinetFanSpeedExternal {
+      type int32;
+    }
+    leaf-list pmCabinetFanSpeed {
+      type int32;
+    }
+  }
+}

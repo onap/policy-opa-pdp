@@ -1,0 +1,56 @@
+module huawei-rfacellsectoreqmgrp {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfacellsectoreqmgrp";
+ prefix rfacellsectoreqmgrp;
+ description
+ "Auto-generated modular YANG for huawei-rfacellsectoreqmgrp" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFACELLSECTOREQMGRP-attributes {
+ leaf OLD_LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf RXATTENUATION {
+  type int16 {
+   range "-150..0";
+  }
+  mandatory false;
+ }
+ leaf OLD_SECTOREQMGROUPID {
+  type union {
+   type int16 {
+    range "-1..1439";
+   }
+  }
+  mandatory false;
+ }
+ leaf SECTOREQMGROUPID {
+  type union {
+   type int16 {
+    range "-1..1439";
+   }
+  }
+  mandatory false;
+ }
+ leaf TXATTENUATION {
+  type int16 {
+   range "-150..0";
+  }
+  mandatory false;
+ }
+ }
+}

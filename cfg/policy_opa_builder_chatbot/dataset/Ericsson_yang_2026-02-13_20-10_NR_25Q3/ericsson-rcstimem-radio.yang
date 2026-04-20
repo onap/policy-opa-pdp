@@ -1,0 +1,195 @@
+module ericsson-rcstimem-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsTimeM";
+  prefix rcstimem;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-rcssysm-radio {
+    prefix rcssysm;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list TimeM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Time management concerns the calendar date and local time of the node.";
+      key "timeMId";
+      leaf timeMId {
+        type leafref {
+          path "../attributes/timeMId";
+        }
+      }
+      container attributes {
+        uses TimeM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/TimeM/Ntp" {
+    list NtpServer {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; The NTP server configuration data. This MOC presents a persistent NTP client mode network association with a specified remote server or local reference clock address.";
+      key "ntpServerId";
+      leaf ntpServerId {
+        type leafref {
+          path "../attributes/ntpServerId";
+        }
+      }
+      container attributes {
+        uses NtpServer-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/TimeM/Ntp" {
+    list NtpSecurityPolicy {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Contains the information about what algorithm this NTP Server supports.";
+      key "ntpSecurityPolicyId";
+      leaf ntpSecurityPolicyId {
+        type leafref {
+          path "../attributes/ntpSecurityPolicyId";
+        }
+      }
+      container attributes {
+        uses NtpSecurityPolicy-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/TimeM" {
+    list DateAndTime {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Local time and time zone values.";
+      key "dateAndTimeId";
+      leaf dateAndTimeId {
+        type leafref {
+          path "../attributes/dateAndTimeId";
+        }
+      }
+      container attributes {
+        uses DateAndTime-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/TimeM" {
+    list Ntp {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; The NTP top class.";
+      key "ntpId";
+      leaf ntpId {
+        type leafref {
+          path "../attributes/ntpId";
+        }
+      }
+      container attributes {
+        uses Ntp-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef KeyAlgorithm {
+    type enumeration {
+      enum AES128CMAC;
+      enum MD5;
+      enum SHA1;
+      enum SHA256;
+    }
+  }
+  grouping DateAndTime-attributes {
+    leaf dateAndTimeId {
+      type string;
+      mandatory true;
+    }
+    leaf timeZone {
+      type string;
+    }
+    leaf localDateTime {
+      type string;
+      config false;
+    }
+    leaf dateTimeOffset {
+      type string;
+      config false;
+    }
+    leaf tzRevision {
+      type string;
+      config false;
+    }
+  }
+  grouping Ntp-attributes {
+    leaf ntpId {
+      type string;
+      mandatory true;
+    }
+    leaf-list supportedKeyAlgorithm {
+      type ietfinet:port-number;
+    }
+  }
+  grouping NtpSecurityPolicy-attributes {
+    leaf ntpSecurityPolicyId {
+      type string;
+      mandatory true;
+    }
+    leaf keyAlgorithm {
+      type enumeration {
+        enum AES128CMAC;
+        enum MD5;
+        enum SHA1;
+        enum SHA256;
+      }
+      mandatory true;
+    }
+    leaf preSharedKey {
+      type string;
+      mandatory true;
+    }
+    leaf keyId {
+      type int64 {
+        range "1..65534";
+      }
+      mandatory true;
+      description "range 1..65534.";
+    }
+    leaf-list ntpServerRef {
+      type string;
+    }
+  }
+  grouping NtpServer-attributes {
+    leaf userLabel {
+      type string;
+    }
+    leaf ntpServerId {
+      type string;
+      mandatory true;
+    }
+    leaf serverAddress {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+      mandatory true;
+    }
+    leaf ntpSecurityPolicy {
+      type string;
+    }
+  }
+  grouping TimeM-attributes {
+    leaf timeMId {
+      type string;
+      mandatory true;
+    }
+  }
+}

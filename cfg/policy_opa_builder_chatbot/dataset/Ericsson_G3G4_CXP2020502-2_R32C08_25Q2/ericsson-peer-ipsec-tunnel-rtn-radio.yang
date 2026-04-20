@@ -1,0 +1,134 @@
+module ericsson-peer-ipsec-tunnel-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnPeerIpsecTunnel";
+  prefix pipsectlrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIpsec PeerIpsecTunnel.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list PeerIpsecTunnel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents direct IPsec VPN connection to X2 or Xn neighbor node. One direct IPsec VPN connection can be shared by multiple X2 or Xn connections between two nodes. In this case, there can be multiple local inner and peer inner addresses.";
+      key "peerIpsecTunnelId";
+      leaf peerIpsecTunnelId {
+        type leafref {
+          path "../attributes/peerIpsecTunnelId";
+        }
+      }
+      container attributes {
+      uses PeerIpsecTunnel-attributes;
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping PeerIpsecTunnel-attributes {
+    leaf localInnerAddress {
+      description "Local inner IP address. Reference to AddressIPv4 MO or AddressIPv6 MO. Includes one of references in attribute localInnerAddresses..";
+      type string;
+      config false;
+    }
+    leaf-list localInnerAddresses {
+      description "List of local inner IP addresses. List can include references to AddressIPv4 MOs and AddressIPv6 MOs..";
+      type string;
+      min-elements 1;
+    }
+    leaf localOuterAddress {
+      description "Local outer IP address. Reference to AddressIPv4 MO or AddressIPv6 MO..";
+      type string;
+      config false;
+    }
+    leaf operationalState {
+      description "The operational state. Disabled if not possible to establish direct IPsec VPN connection, that means not possible to establish IKE SA..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf operationalStateIPv4 {
+      description "The operational state for IPv4. Disabled if not possible to use direct IPsec VPN connection for IPv4 traffic, that means not possible to establish Child SA pair for IPv4..";
+      type ietfinet:ipv4-address;
+      config false;
+    }
+    leaf operationalStateIPv6 {
+      description "The operational state for IPv6. Disabled if not possible to use direct IPsec VPN connection for IPv6 traffic, that means not possible to establish Child SA pair for IPv6..";
+      type ietfinet:ipv6-address;
+      config false;
+    }
+    leaf-list peerInnerAddresses {
+      description "List of peer inner IP addresses. List can include both IPv4 and IPv6 addresses..";
+      type string;
+      min-elements 1;
+    }
+    leaf peerIpsecTunnelId {
+      description "The value component of the RDN. Outer IP address (IPsec endpoint) of peer node with serial number or inner IP address of peer node. Can be IPv4 or IPv6 address. If outer IP address is used, multiple items are possible in attributes localInnerAddresses and peerInnerAddresses. If inner IP address is used, only one item is possible in attributes localInnerAddresses and peerInnerAddresses. On gNodeB, attribute peerOuterAddress can be empty. Examples: Outer IP address of peer node with serial number: 1.1.2.2-1 Inner IP address of peer node: 2.2.1.1.";
+      type string;
+      mandatory true;
+    }
+    leaf peerOuterAddress {
+      description "Outer IP address of peer node. On gNodeB, this attribute might be empty if attribute peerIpsecTunnelId includes inner IP address of peer node. Peer outer IP address is visible by using show ikesa COM CLI command when attribute operationalState is ENABLED..";
+      type string;
+      config false;
+    }
+    leaf ipIfStatsOutFragCreates {
+      description "Number of datagram fragments generated as result of IP fragmentation. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf unavailableSecondsIPv4 {
+      description "Number of seconds elapsed when no Child SA pair established for IPv4. Stepped only if IPv4 address is in attribute peerInnerAddresses..";
+      type ietfinet:ipv4-address;
+      config false;
+    }
+    leaf ikeFailures {
+      description "Number of times IKE SA went down. Only transition from established to non-established is counted..";
+      type uint64;
+      config false;
+    }
+    leaf unavailableSecondsIPv6 {
+      description "Number of seconds elapsed when no Child SA pair established for IPv6. Stepped only if IPv6 address is in attribute peerInnerAddresses..";
+      type ietfinet:ipv6-address;
+      config false;
+    }
+    leaf ipsecInError {
+      description "Number of incoming packets discarded due to validation errors detected by IPsec processing..";
+      type uint64;
+      config false;
+    }
+    leaf unavailableSeconds {
+      description "Number of seconds elapsed when no IKE SA established..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsOutDiscards {
+      description "Number of IP datagrams without encountered problem to prevent transmission to destination, but discarded due to for example lack of buffer space. Specification: RFC 4293, section 5..";
+      type uint64;
+      config false;
+    }
+    leaf ipIfStatsInError {
+      description "Number of incoming packets successfully passed IPsec processing, but discarded due to errors detected at inner IP interface. For example due to unknown protocols or various header errors..";
+      type uint64;
+      config false;
+    }
+  }
+}

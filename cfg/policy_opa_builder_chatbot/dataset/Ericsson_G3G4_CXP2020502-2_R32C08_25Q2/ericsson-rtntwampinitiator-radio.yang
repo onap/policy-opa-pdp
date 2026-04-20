@@ -1,0 +1,425 @@
+module ericsson-rtntwampinitiator-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnTwampInitiator";
+  prefix rtntwamp;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Transport TWAMP Initiator MOM.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list TwampInitiator {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Two-Way Active Measurement Protocol (TWAMP) Initiator. Grouping all defined TwampTestSession MOs on a specific Router MO to make it possible to lock or unlock all TwampTestSession MOs.";
+      key "twampInitiatorId";
+      leaf twampInitiatorId {
+        type leafref {
+          path "../attributes/twampInitiatorId";
+        }
+      }
+      container attributes {
+      uses TwampInitiator-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/rtntwamp:TwampInitiator" {
+    list TwampTestSession {
+      description "Additional definitions from MOM:min/max-elements:0/500; Two-Way Active Measurement Protocol (TWAMP) session sender in a TWAMP light architecture, according to RFC 5357. When activated, the TWAMP test packets will send towards a specified TWAMP session responder IP address and UDP port. Dependencies: The combination of srcUdpPort, srcIpAddress, dstUdpPort and dstIpAddress for TwampTestSession must be unique in the same router.";
+      key "twampTestSessionId";
+      leaf twampTestSessionId {
+        type leafref {
+          path "../attributes/twampTestSessionId";
+        }
+      }
+      container attributes {
+      uses TwampTestSession-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "The administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef ProfileType {
+    description "Profile type.";
+    type enumeration {
+      enum FULL_RESOLUTION_50 {
+        description "Interval 1 min, active during 1 min, sending 3000 samples, at frequency 50 PPS.";
+      }
+      enum FULL_RESOLUTION_10 {
+        description "Interval 1 min, active during 1 min, sending 600 samples, at frequency 10 PPS.";
+      }
+    }
+  }
+  typedef ResponderType {
+    description "Responder type.";
+    type enumeration {
+      enum LIGHT {
+        description "TWAMP light stateful. Light (stateful) : the sequence number in the reflected packet is generated by the responder, which enables measurement of packet loss in forward and reverse direction.";
+      }
+      enum LIGHT_SL {
+        description "TWAMP light stateless. Light-SL (stateless) : the sequence number is copied from the sender's test packet to the reflected packet, thus it is only possible to measure round trip packet loss.";
+      }
+    }
+  }
+  grouping TwampInitiator-attributes {
+    leaf administrativeState {
+      description "The administrative state. If set to LOCKED, all TwampTestSession MOs are immediately stopped..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf twampInitiatorId {
+      description "Value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping TwampTestSession-attributes {
+    leaf administrativeState {
+      description "The administrative state. If set to LOCKED, TwampTestSession MO is immediately stopped..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf dscp {
+      description "DSCP value of TWAMP IP test packet.; range 0..63; Default value: 0.";
+      type eytypes:uint8_range_0-63;
+      default "0";
+    }
+    leaf dstIpAddress {
+      description "Destination IP address of the TWAMP responder..";
+      type string;
+      mandatory true;
+    }
+    leaf dstUdpPort {
+      description "Destination UDP port of the TWAMP responder..";
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf mode {
+      description "Type of responder mode of the measurement done in the towards direction..";
+      type enumeration {
+        enum LIGHT;
+        enum LIGHT_SL;
+      }
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf payload {
+      description "TWAMP test packet payload length. Example: If ethernet interface IPv4 traffic is tagged and the payload is set to 50, the IP packet size =78 and ethernet frame size =100. If ethernet interface IPv6 traffic is tagged and the payload is set to 50, the IP packet size =98 and ethernet frame size =120.; range 41..1472; Default value: 50.";
+      type uint32 {
+        range "41..1472";
+      }
+      default "50";
+      units "byte";
+    }
+    leaf profileType {
+      description "TWAMP profile type..";
+      type enumeration {
+        enum FULL_RESOLUTION_50;
+        enum FULL_RESOLUTION_10;
+      }
+    }
+    leaf srcIpAddress {
+      description "Source IP address. Valid reference is an AddressIpv4 MO or an AddressIpv6 MO..";
+      type string;
+      mandatory true;
+    }
+    leaf srcUdpPort {
+      description "Source of the UDP port to send and receive TWAMP test packets.; range 4032..4063.";
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf twampTestSessionId {
+      description "Value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf-list ipdvFwdP95 {
+      description "95th percentile value of IPDV measured in initiator to responder direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list lostPeriodMinFwd {
+      description "Minimum lost period in millisecond in initiator to responder direction. Example: One consecutive packet is lost when frequency is 10pps=100ms..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ttlMinRev {
+      description "Minimum TTL for IPv4 or Hop Limit for IPv6 value in responder to initiator direction..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvRevMax {
+      description "Maximum IPDV measured in responder to initiator direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list lostPktsRev {
+      description "Number of lost packets in responder to initiator direction. Packet is considered lost after 4 second. Specification: RFC 4737.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list reorderPktRev {
+      description "Reordered packets in responder to initiator direction. Specification: RFC 4737, chapter 1.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvRevP99 {
+      description "99th percentile value of IPDV measured in responder to initiator direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvRevAvg {
+      description "Average IPDV measured in responder to initiator direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvRevP95 {
+      description "95th percentile value of IPDV measured in responder to initiator direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list reorderPktFwd {
+      description "Reordered packets in initiator to responder direction. Specification: RFC 4737, chapter 1.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list lostPeriodsFwd {
+      description "Number of periods with lost packets in initiator to responder direction..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list duplicPktRev {
+      description "Duplicated packets in responder to initiator direction. Specification: RFC 5560.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvFwdMin {
+      description "Minimum IPDV measured in initiator to responder direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list delayRtMax {
+      description "Maximum round trip delay between TWAMP initiator and TWAMP responder, where Round trip delay is (T4-T1)-(T3-T2). Unit: 1 microsecond.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list dscpRecMax {
+      description "Maximum received Differentiated Services Code Point (DSCP) value..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ttlMaxFwd {
+      description "Maximum Time To Live (TTL) for IPv4 or Hop Limit for IPv6 value in initiator to responder direction..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list rxPkts {
+      description "Number of packets received by TWAMP initiator including duplicated packets..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list lostPeriodsRev {
+      description "Number of periods with lost packets in responder to initiator direction..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list lostPeriodMaxFwd {
+      description "Maximum lost period in millisecond in initiator to responder direction. Example: Three consecutive packet is lost when frequency is 10pps=300ms..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ttlMinFwd {
+      description "Minimum TTL for IPv4 or Hop Limit for IPv6 value in initiator to responder direction..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list delayRtP99 {
+      description "99th percentile value of round trip delay between TWAMP initiator and TWAMP responder, where Round trip delay is (T4-T1)-(T3-T2). Unit: 1 microsecond.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list delayRtMin {
+      description "Minimum round trip delay between TWAMP initiator and TWAMP responder, where Round trip delay is (T4-T1)-(T3-T2). Unit: 1 microsecond.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvFwdAvg {
+      description "Average Inter Packet Delay Variation (IPDV) measured in initiator to responder direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list lostPeriodMaxRev {
+      description "Maximum lost period in milliseconds in responder to initiator direction. Example: Three consecutive packet is lost when frequency is 10pps=300ms..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvRevMin {
+      description "Minimum IPDV measured in responder to initiator direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ttlMaxRev {
+      description "Maximum TTL for IPv4 or Hop Limit for IPv6 value in responder to initiator direction..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvFwdP99 {
+      description "99th percentile value of IPDV measured in initiator to responder direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list delayRtP95 {
+      description "95th percentile value of round trip delay between TWAMP initiator and TWAMP responder, where Round trip delay is (T4-T1)-(T3-T2). Unit: 1 microsecond.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvRevP98 {
+      description "98th percentile value of IPDV measured in responder to initiator direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvFwdMax {
+      description "Maximum IPDV measured in initiator to responder direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list lostPktsFwd {
+      description "Number of lost packets in initiator to responder direction. Packet is considered lost after 4 second. Specification: RFC 4737.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list duplicPktFwd {
+      description "Duplicated packets in initiator to responder direction. Specification: RFC 5560.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list txPkts {
+      description "Number of packets sent from TWAMP initiator..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list ipdvFwdP98 {
+      description "98th percentile value of IPDV measured in initiator to responder direction. Calculates according to RFC 5481 chapter 4.1. Only zero to positive values is presented. Unit: 1 microsecond Specification: RFC 5481.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list dscpRecMin {
+      description "Minimum received DSCP value..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list lostPeriodMinRev {
+      description "Minimum lost period in milliseconds in responder to initiator direction. Example: One consecutive packet is lost when frequency is 10pps=100ms..";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list delayRtAvg {
+      description "Average round trip delay between TWAMP initiator and TWAMP responder, where Round trip delay is (T4-T1)-(T3-T2). Unit: 1 microsecond.";
+      type int64;
+      max-elements 15;
+    }
+    leaf-list delayRtP98 {
+      description "98th percentile value of round trip delay between TWAMP initiator and TWAMP responder, where Round trip delay is (T4-T1)-(T3-T2). Unit: 1 microsecond.";
+      type int64;
+      max-elements 15;
+    }
+  }
+}

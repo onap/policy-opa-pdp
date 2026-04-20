@@ -1,0 +1,259 @@
+module ericsson-cabinet-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqCabinet";
+  prefix cabrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\n.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list Cabinet {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO represents the cabinet where the node is hosted.";
+      key "cabinetId";
+      leaf cabinetId {
+        type leafref {
+          path "../attributes/cabinetId";
+        }
+      }
+      container attributes {
+      uses Cabinet-attributes;
+      }
+    }
+  }
+  typedef ApcClimateControlMode {
+    type enumeration {
+      enum NORMAL {
+      }
+      enum BATTERY_LIFE_EXTENSION {
+      }
+      enum BOOST {
+      }
+      enum ECO {
+      }
+      enum ENHANCED {
+      }
+    }
+  }
+  typedef ApcClimateRegulationSystem {
+    description "The climate regulation system type.";
+    type enumeration {
+      enum NOT_APPLICABLE {
+        description "Not Applicable (used by RBS types where type of climate regulation system is not a choice).";
+      }
+      enum DAC {
+        description "Direct Air Cooling.";
+      }
+      enum TS {
+        description "Thermosiphon.";
+      }
+      enum HEX {
+        description "Heat Exchanger.";
+      }
+    }
+  }
+  typedef ApcClimateSystem {
+    type enumeration {
+      enum STANDARD {
+      }
+      enum EXTENDED {
+      }
+    }
+  }
+  typedef ApcEnclosurePidSelection {
+    description ".";
+    type enumeration {
+      enum CANCEL {
+        description "Cancels Cabinet Product Data resolution.";
+      }
+      enum MOM_ENCLOSURE_PID {
+        description "Cabinet Product Data stored in the database is valid and selected for use.";
+      }
+      enum SCU_ENCLOSURE_PID {
+        description "Cabinet Product Data stored in SCU/SUP is valid and selected for use.";
+      }
+    }
+  }
+  grouping ApcEnclosurePidList-struct {
+    description ".";
+    leaf momProductionDate {
+      description "length 5..8.";
+      type string {
+        length "5..8";
+      }
+    }
+    leaf momProductName {
+      description "length 1..32.";
+      type string {
+        length "1..32";
+      }
+    }
+    leaf momProductNumber {
+      description "length 1..24.";
+      type string {
+        length "1..24";
+      }
+    }
+    leaf momProductRevision {
+      description "length 1..7.";
+      type string {
+        length "1..7";
+      }
+    }
+    leaf momSerialNumber {
+      description "length 1..13.";
+      type string {
+        length "1..13";
+      }
+    }
+    leaf scuProductionDate {
+      description "length 5..8.";
+      type string {
+        length "5..8";
+      }
+    }
+    leaf scuProductName {
+      description "length 1..32.";
+      type string {
+        length "1..32";
+      }
+    }
+    leaf scuProductNumber {
+      description "length 1..24.";
+      type string {
+        length "1..24";
+      }
+    }
+    leaf scuProductRevision {
+      description "length 1..7.";
+      type string {
+        length "1..7";
+      }
+    }
+    leaf scuSerialNumber {
+      description "length 1..13.";
+      type string {
+        length "1..13";
+      }
+    }
+  }
+  grouping ApcProductData-struct {
+    description ".";
+    leaf productionDate {
+      description "length 5..8.";
+      type string {
+        length "5..8";
+      }
+    }
+    leaf productName {
+      description "length 1..32.";
+      type string {
+        length "1..32";
+      }
+    }
+    leaf productNumber {
+      description "length 1..24.";
+      type string {
+        length "1..24";
+      }
+    }
+    leaf productRevision {
+      description "length 1..7.";
+      type string {
+        length "1..7";
+      }
+    }
+    leaf serialNumber {
+      description "length 1..13.";
+      type string {
+        length "1..13";
+      }
+    }
+  }
+  grouping Cabinet-attributes {
+    leaf cabinetId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf cabinetIdentifier {
+      description "Unique identifier of the cabinet. An undefined value is shown as an empty string that indicates no contact with SCU, SUP or support system controlling node..";
+      type string;
+      config false;
+    }
+    leaf climateControlMode {
+      description "Specifies in which mode to run the climate control.; Default value: NORMAL; Status info: Since 16A. Replaced by climateControlMode on MO Climate..";
+      type enumeration {
+        enum NORMAL;
+        enum BATTERY_LIFE_EXTENSION;
+        enum BOOST;
+        enum ECO;
+        enum ENHANCED;
+      }
+      status deprecated;
+      default "NORMAL";
+    }
+    list productData {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct attribute.";
+      }
+      description "Enclosure Product Information Data (PID). To guarantee that the data survives a main processor replacement, the data is stored persistently in both the database and in the corresponding Support Control Unit (SCU). Mismatches of stored data generate an alarm..";
+      uses ApcProductData-struct;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf smokeDetector {
+      description "Specifies if smoke detector is used or not in this cabinet.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf climateSystem {
+      description "The type of climate system used, and indirectly the number of fan groups in the cabinet..";
+      type enumeration {
+        enum STANDARD;
+        enum EXTENDED;
+      }
+    }
+    leaf climateRegulationSystem {
+      description "The type of climate regulation system..";
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum DAC;
+        enum TS;
+        enum HEX;
+      }
+    }
+    leaf sharedCabinetIdentifier {
+      description ".; length 1..38.";
+      type string {
+        length "1..38";
+      }
+    }
+    leaf userLabel {
+      description ".; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf positionRef {
+      description "MO reference. Represents enclosure..";
+      type string;
+    }
+    leaf alarmInExternalMe {
+      description "In primary node: Whether to distribute alarm status to a secondary node sharing the cabinet or not. In secondary node: Make received alarm visible from primary node or not.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+  }
+}

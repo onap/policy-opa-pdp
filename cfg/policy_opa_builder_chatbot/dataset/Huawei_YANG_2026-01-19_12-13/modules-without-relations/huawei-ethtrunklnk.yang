@@ -1,0 +1,60 @@
+module huawei-ethtrunklnk {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ethtrunklnk";
+ prefix ethtrunklnk;
+ description
+ "Auto-generated modular YANG for huawei-ethtrunklnk" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ETHTRUNKLNK-attributes {
+ leaf ETHPORTID {
+  type uint16 {
+   range "0..9999";
+  }
+  mandatory false;
+ }
+ leaf OLD_ETHTRKPORTID {
+  type union {
+   type int8 {
+    range "-1..23";
+   }
+  }
+  mandatory false;
+ }
+ leaf ETHTRKPORTID {
+  type union {
+   type int8 {
+    range "-1..23";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_ETHTRUNKLNKID {
+  type union {
+   type int8 {
+    range "-1..47";
+   }
+  }
+  mandatory false;
+ }
+ leaf ETHTRUNKLNKID {
+  type union {
+   type int8 {
+    range "-1..47";
+   }
+  }
+  mandatory false;
+ }
+ leaf FLAG {
+  type boolean;
+  mandatory false;
+ }
+ leaf PRI {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

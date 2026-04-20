@@ -1,0 +1,34 @@
+module huawei-mibvendorinfo {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-mibvendorinfo";
+ prefix mibvendorinfo;
+ description
+ "Auto-generated modular YANG for huawei-mibvendorinfo" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping MIBVENDORINFO-attributes {
+ leaf OLD_MIBINDEX {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf MIBINDEX {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf VENDORNAME {
+  type string {
+   length "0..199";
+  }
+  mandatory false;
+ }
+ }
+}

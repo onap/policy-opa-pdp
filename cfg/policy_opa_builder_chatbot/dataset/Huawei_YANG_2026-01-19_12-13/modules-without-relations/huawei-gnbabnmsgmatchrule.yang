@@ -1,0 +1,56 @@
+module huawei-gnbabnmsgmatchrule {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbabnmsgmatchrule";
+ prefix gnbabnmsgmatchrule;
+ description
+ "Auto-generated modular YANG for huawei-gnbabnmsgmatchrule" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBABNMSGMATCHRULE-attributes {
+ leaf MATCHCONTENT {
+  type string {
+   length "1..100";
+  }
+  mandatory false;
+ }
+ leaf MATCHFIELDOFFSET {
+  type uint32 {
+   range "0..268435455";
+  }
+  mandatory false;
+ }
+ leaf MATCHIESTRING {
+  type string {
+   length "1..128";
+  }
+  mandatory false;
+ }
+ leaf MATCHLEN {
+  type uint16 {
+   range "0..400";
+  }
+  mandatory false;
+ }
+ leaf MATCHMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf OLD_MATCHRULEINDEX {
+  type union {
+   type int8 {
+    range "-1..100";
+   }
+  }
+  mandatory false;
+ }
+ leaf MATCHRULEINDEX {
+  type union {
+   type int8 {
+    range "-1..100";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

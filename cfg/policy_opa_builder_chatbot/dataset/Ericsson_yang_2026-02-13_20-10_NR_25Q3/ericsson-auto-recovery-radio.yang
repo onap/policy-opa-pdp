@@ -1,0 +1,48 @@
+module ericsson-auto-recovery-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeAutoRecovery";
+  prefix autrecrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list AutoRecovery {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Configuration and activation of additional auto-recovery mechanism in case of detected fault. Self-healing when there is no service in coverage area. The RDN of this MO is AutoRecovery=1.";
+      key "autoRecoveryId";
+      leaf autoRecoveryId {
+        type leafref {
+          path "../attributes/autoRecoveryId";
+        }
+      }
+      container attributes {
+        uses AutoRecovery-attributes;
+      }
+    }
+  }
+  typedef SwErrorExtendedRecovery {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping AutoRecovery-attributes {
+    leaf autoRecoveryId {
+      type string;
+      mandatory true;
+    }
+    leaf bbSwErrorExtendedRecovery {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+  }
+}

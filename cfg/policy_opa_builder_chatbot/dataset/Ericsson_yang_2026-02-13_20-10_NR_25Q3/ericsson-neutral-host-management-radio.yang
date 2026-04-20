@@ -1,0 +1,57 @@
+module ericsson-neutral-host-management-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeNeutralHostManagement";
+  prefix nhmrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list NeutralHostManagement {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Contains information about FRU managed by neutral host.​";
+      key "neutralHostManagementId";
+      leaf neutralHostManagementId {
+        type leafref {
+          path "../attributes/neutralHostManagementId";
+        }
+      }
+      container attributes {
+        uses NeutralHostManagement-attributes;
+      }
+    }
+  }
+  grouping NeutralHostManagement-attributes {
+    leaf neutralHostManagementId {
+      type string;
+      mandatory true;
+    }
+    leaf allowedNumberOfHostMe {
+      type uint32;
+      default "0";
+      description "Default value: 0.";
+    }
+    leaf numberOfGuestMe {
+      type uint32;
+      config false;
+    }
+    leaf numberOfHostMe {
+      type uint32;
+      config false;
+    }
+    leaf totalNumberOfMe {
+      type uint32;
+      config false;
+    }
+    leaf fieldReplaceableUnitRef {
+      type string;
+      mandatory true;
+    }
+  }
+}

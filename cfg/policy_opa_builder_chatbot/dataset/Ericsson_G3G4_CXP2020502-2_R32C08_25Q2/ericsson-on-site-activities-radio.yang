@@ -1,0 +1,54 @@
+module ericsson-on-site-activities-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeOnSiteActivities";
+  prefix osardo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nContains information about activities on a site.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list OnSiteActivities {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Contains information about activities on a site. The RDN of this MO is OnSiteActivities=1.";
+      key "onSiteActivitiesId";
+      leaf onSiteActivitiesId {
+        type leafref {
+          path "../attributes/onSiteActivitiesId";
+        }
+      }
+      container attributes {
+      uses OnSiteActivities-attributes;
+      }
+    }
+  }
+  typedef TechnicianPresentType {
+    description "Enum used for describing the site status of TP.";
+    type enumeration {
+      enum NOT_PRESENT {
+      }
+      enum PRESENT {
+      }
+    }
+  }
+  grouping OnSiteActivities-attributes {
+    leaf onSiteActivitiesId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf technicianPresent {
+      description "Indicates that a field technician on site has pushed the Maintenance Button. Its value is toggled by pressing the Maintenance button and can be remotely cleared with action NodeSupport::OnSiteActivities::clearTechnicianPresent..";
+      type enumeration {
+        enum NOT_PRESENT;
+        enum PRESENT;
+      }
+      config false;
+    }
+  }
+}

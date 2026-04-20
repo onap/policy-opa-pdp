@@ -1,0 +1,56 @@
+module huawei-pimcellgroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-pimcellgroup";
+ prefix pimcellgroup;
+ description
+ "Auto-generated modular YANG for huawei-pimcellgroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping PIMCELLGROUP-attributes {
+ leaf CELL1ID {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf CELL1SECTOREQMID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf CELL2ID {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf CELL2SECTOREQMID {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf OLD_PIMCELLGROUPID {
+  type union {
+   type int8 {
+    range "-1..35";
+   }
+  }
+  mandatory false;
+ }
+ leaf PIMCELLGROUPID {
+  type union {
+   type int8 {
+    range "-1..35";
+   }
+  }
+  mandatory false;
+ }
+ leaf PIMMITIGATIONMODE {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

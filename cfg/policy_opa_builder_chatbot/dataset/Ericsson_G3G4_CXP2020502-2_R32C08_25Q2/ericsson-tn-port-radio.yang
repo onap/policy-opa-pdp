@@ -1,0 +1,61 @@
+module ericsson-tn-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqTnPort";
+  prefix tnptrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nTnPort";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list TnPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents physical connector towards Transport Network and connectors for internal transport between nodes. Physical connector can be situated on board FRU or on SFP-module SfpModule.";
+      key "tnPortId";
+      leaf tnPortId {
+        type leafref {
+          path "../attributes/tnPortId";
+        }
+      }
+      container attributes {
+      uses TnPort-attributes;
+      }
+    }
+  }
+  grouping TnPort-attributes {
+    leaf-list channelRef {
+      description "Reference to SfpChannel MOs..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf sfpModuleRef {
+      description "Reference to SfpModule MO..";
+      type string;
+      config false;
+    }
+    leaf tnPortId {
+      description "The value component of the RDN. Must match corresponding connector label on unit. Port with SFP connector has one channel. Port with QSFP connector has four channels identified by number 1-4. Ports with several channels shall be appended with _channelId if single channel is to be used. Channel ID can be omitted if connector has one channel or if HW supports channel aggregation. Example: If connector is labeled TN A or TN B use: TN_A, TN_B. If connector is labeled IDL A use: IDL_A1, IDL_A2. If connector is labeled TN/IDL A, TN/IDL B, TN/IDL TN A or TN/IDL TN B use: TN_IDL_A_1, TN_IDL_A_2 if port has multiple channels. TN_IDL_B or TN_IDL_B_1 if port has only one channel. TN_IDL_A or TN_IDL_B if port has multiple channels which are all aggregated..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

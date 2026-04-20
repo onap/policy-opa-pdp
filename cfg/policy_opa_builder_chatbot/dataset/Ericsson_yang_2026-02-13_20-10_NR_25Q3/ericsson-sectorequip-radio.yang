@@ -1,0 +1,174 @@
+module ericsson-sectorequip-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSectorEquipmentFunction";
+  prefix seceqrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list SectorEquipmentFunction {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO serves as a mapping between the cell and the RBS equipment used to provide coverage in a certain geographical area. The MO also controls the maximum output power of the sector.";
+      key "sectorEquipmentFunctionId";
+      leaf sectorEquipmentFunctionId {
+        type leafref {
+          path "../attributes/sectorEquipmentFunctionId";
+        }
+      }
+      container attributes {
+        uses SectorEquipmentFunction-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef RadioEquipOrderType {
+    type enumeration {
+      enum NON_ADJACENT;
+      enum LEFT_TO_RIGHT;
+      enum RIGHT_TO_LEFT;
+      enum CIRCLE_CLOCKWISE;
+      enum CIRCLE_COUNTER_CLOCKWISE;
+    }
+  }
+  grouping SectorEquipmentFunction-attributes {
+    leaf sectorEquipmentFunctionId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf configuredOutputPower {
+      type string;
+    }
+    leaf fqBand {
+      type int32;
+      config false;
+    }
+    leaf mixedModeRadio {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf-list rfBranchRef {
+      type string;
+    }
+    leaf availableSectorPower {
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf-list eUtranFqBands {
+      type string {
+        length "0..256";
+      }
+    }
+    leaf-list utranFddFqBands {
+      type string {
+        length "0..256";
+      }
+    }
+    leaf availableHwOutputPower {
+      type eytypes:int32_range_0-10000000;
+      config false;
+      units "mW";
+      description "range 0..10000000.";
+    }
+    leaf noiseFigure {
+      type int16 {
+        range "100..350";
+      }
+      description "range 100..350.";
+    }
+    leaf-list geranFqBands {
+      type string {
+        length "0..256";
+      }
+    }
+    leaf-list nRFqBands {
+      type string {
+        length "0..256";
+      }
+    }
+    leaf radioEquipmentOrdering {
+      type ietfinet:ip-address;
+    }
+  }
+}

@@ -1,0 +1,256 @@
+module huawei-pmu {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-pmu";
+ prefix pmu;
+ import huawei-yang-types {
+ prefix hwat;
+ }
+ description
+ "Auto-generated modular YANG for huawei-pmu" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping PMU-attributes {
+ leaf ACASCLT {
+  type uint16 {
+   range "1..999";
+  }
+  mandatory false;
+ }
+ leaf ACCLF {
+  type boolean;
+  mandatory false;
+ }
+ leaf ACPT {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf ACVLTHD {
+  type uint16 {
+   range "60..300";
+  }
+  mandatory false;
+ }
+ leaf ACVUTHD {
+  type uint16 {
+   range "60..300";
+  }
+  mandatory false;
+ }
+ leaf ADDR {
+  type uint8 {
+   range "1..30";
+  }
+  mandatory false;
+ }
+ leaf AHLTHD {
+  type uint8 {
+   range "0..50";
+  }
+  mandatory false;
+ }
+ leaf AHUTHD {
+  type uint8 {
+   range "50..100";
+  }
+  mandatory false;
+ }
+ leaf ATLTHD {
+  type int8 {
+   range "-20..20";
+  }
+  mandatory false;
+ }
+ leaf ATUTHD {
+  type uint8 {
+   range "35..80";
+  }
+  mandatory false;
+ }
+ leaf BVR {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..62";
+   }
+  }
+  mandatory false;
+ }
+ leaf DCVLTHD {
+  type uint16 {
+   range "350..556";
+  }
+  mandatory false;
+ }
+ leaf DCVUTHD {
+  type uint16 {
+   range "580..600";
+  }
+  mandatory false;
+ }
+ leaf HVDCIRAT {
+  type uint16 {
+   range "10..300";
+  }
+  mandatory false;
+ }
+ leaf HVDCOUTVOLTAGE {
+  type uint16 {
+   range "225..400";
+  }
+  mandatory false;
+ }
+ leaf HVDUNUMBER {
+  type uint8 {
+   range "0..3";
+  }
+  mandatory false;
+ }
+ leaf LSDF {
+  type boolean;
+  mandatory false;
+ }
+ leaf LSDT {
+  type uint16 {
+   range "0..1440";
+  }
+  mandatory false;
+ }
+ leaf LSDTF {
+  type boolean;
+  mandatory false;
+ }
+ leaf LSDV {
+  type uint16 {
+   range "350..556";
+  }
+  mandatory false;
+ }
+ leaf LTSDSTARTTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf LTSDSTOPTIME {
+  type hwat:HH_MM_SS_Time;
+  mandatory false;
+ }
+ leaf LTSDSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf MCN {
+  type uint8 {
+   range "0..62";
+  }
+  mandatory false;
+ }
+ leaf MPN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf MSRN {
+  type uint8 {
+   range "0..254";
+  }
+  mandatory false;
+ }
+ leaf PDSNBCF {
+  type boolean;
+  mandatory false;
+ }
+ leaf PM {
+  type boolean;
+  mandatory false;
+ }
+ leaf PSGID {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf PTYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-7;
+   enum val-8;
+   enum val-10;
+   enum val-11;
+   enum val-12;
+   enum val-13;
+   enum val-14;
+  }
+  mandatory false;
+ }
+ leaf SAAF {
+  type string;
+  mandatory false;
+ }
+ leaf SBAF {
+  type string;
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int8 {
+    range "-1..18";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..18";
+   }
+  }
+  mandatory false;
+ }
+ leaf TEMPCTRLFLAG {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

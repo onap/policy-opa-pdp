@@ -1,0 +1,76 @@
+module huawei-bbplink {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-bbplink";
+ prefix bbplink;
+ description
+ "Auto-generated modular YANG for huawei-bbplink" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping BBPLINK-attributes {
+ leaf HCN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf HPN {
+  type uint8 {
+   range "6";
+  }
+  mandatory false;
+ }
+ leaf HSN {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf HSRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ leaf OLD_LN {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf LN {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf TCN {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf TPN {
+  type uint8 {
+   range "6";
+  }
+  mandatory false;
+ }
+ leaf TSN {
+  type uint8 {
+   range "0..5";
+  }
+  mandatory false;
+ }
+ leaf TSRN {
+  type uint8 {
+   range "0..1";
+  }
+  mandatory false;
+ }
+ }
+}

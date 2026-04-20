@@ -1,0 +1,45 @@
+module ericsson-cprilink-tagging-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeCpriLinkTagging";
+  prefix crilktgrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThe Managed Object (MO) is used to configure the CPRI link tagging information.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list CpriLinkTagging {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; The Managed Object (MO) is used to configure the CPRI link tagging information.";
+      key "cpriLinkTaggingId";
+      leaf cpriLinkTaggingId {
+        type leafref {
+          path "../attributes/cpriLinkTaggingId";
+        }
+      }
+      container attributes {
+      uses CpriLinkTagging-attributes;
+      }
+    }
+  }
+  grouping CpriLinkTagging-attributes {
+    leaf cpriLinkTaggingId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf nodeTag {
+      description "Node identity part of the CPRI link tag.; range -1..16777215; Default value: -1.";
+      type eytypes:int32_range_-1-16777215;
+      default "-1";
+    }
+  }
+}

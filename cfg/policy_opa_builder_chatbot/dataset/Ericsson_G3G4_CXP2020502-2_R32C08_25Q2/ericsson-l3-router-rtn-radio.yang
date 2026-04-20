@@ -1,0 +1,74 @@
+module ericsson-l3-router-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL3Router";
+  prefix l3rtrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nBase routing fragment.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list Router {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; IP routing domain instance. It provides data plane isolation of routed traffic and control plane isolation of routing entities from other routing instances. It allows for further fragmentation of routing domain. Maximum number of Router MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 8, - For Baseband in RAN Compute Group 4 or higher: 60.";
+      key "routerId";
+      leaf routerId {
+        type leafref {
+          path "../attributes/routerId";
+        }
+      }
+      container attributes {
+      uses Router-attributes;
+      }
+    }
+  }
+  grouping Router-attributes {
+    leaf hopLimit {
+      description "IPv6 default hop limit. Default value inserted into hop limit field of IPv6 header of datagrams, originated from all Router MOs, whenever hop limit value is not supplied by transport layer protocol. Changed value takes effect on existing GPRS Tunneling Protocol paths and UDP sessions after node restart.; range 0..255; Default value: 64.";
+      type eytypes:int32_range_0-255;
+      default "64";
+    }
+    leaf pathMtuExpiresIPv6 {
+      description "Number of seconds between PMTU probing.; range 300..21474836; Default value: 86400.";
+      type ietfinet:ipv6-address;
+      units "s";
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf routerId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf routingPolicyLocal {
+      description "Reference to RoutingPolicyIpv4 MO used for policy-routing local originated traffic..";
+      type string;
+    }
+    leaf routingPolicyLocalIPv6 {
+      description "Reference to RoutingPolicyIpv6 MO used for policy routing local originated traffic..";
+      type ietfinet:ipv6-address;
+    }
+    leaf ttl {
+      description "Default value of TTL. Default value inserted into TTL field of IPv4 header of datagrams, originated from all Router MOs, whenever TTL value is not supplied by transport layer protocol. Changed value takes effect on existing GPRS Tunneling Protocol paths and UDP sessions after node restart.; range 1..255; Default value: 64.";
+      type eytypes:int32_range_1-255;
+      default "64";
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+  }
+}

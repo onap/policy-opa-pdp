@@ -1,0 +1,76 @@
+module huawei-aamu {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-aamu";
+ prefix aamu;
+ description
+ "Auto-generated modular YANG for huawei-aamu" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping AAMU-attributes {
+ leaf OLD_CN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf PS {
+  type uint8 {
+   range "0..20";
+  }
+  mandatory false;
+ }
+ leaf RCN {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf OLD_SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..0";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ leaf TP {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

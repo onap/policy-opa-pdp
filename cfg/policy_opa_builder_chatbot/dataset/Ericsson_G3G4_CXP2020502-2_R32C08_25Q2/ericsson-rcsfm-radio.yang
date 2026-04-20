@@ -1,0 +1,503 @@
+module ericsson-rcsfm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsFm";
+  prefix rcsfm;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThe ECIM FM model fragment.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list Fm {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The root MOC of the Fault Management branch.";
+      key "fmId";
+      leaf fmId {
+        type leafref {
+          path "../attributes/fmId";
+        }
+      }
+      container attributes {
+      uses Fm-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsfm:Fm" {
+    list FmAlarmModel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; This is a container for grouping FM alarm types.";
+      key "fmAlarmModelId";
+      leaf fmAlarmModelId {
+        type leafref {
+          path "../attributes/fmAlarmModelId";
+        }
+      }
+      container attributes {
+      uses FmAlarmModel-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsfm:Fm" {
+    list FmAlarm {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; An FmAlarm instance represents an active alarm. An alarm is a persistent indication of a fault that clears only when the triggering condition has been resolved.";
+      key "fmAlarmId";
+      leaf fmAlarmId {
+        type leafref {
+          path "../attributes/fmAlarmId";
+        }
+      }
+      container attributes {
+      uses FmAlarm-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsfm:Fm" {
+    list FmFilterModel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Container for grouping FM notification filters.";
+      key "fmFilterModelId";
+      leaf fmFilterModelId {
+        type leafref {
+          path "../attributes/fmFilterModelId";
+        }
+      }
+      container attributes {
+      uses FmFilterModel-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsfm:Fm/rcsfm:FmAlarmModel" {
+    list FmAlarmType {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; A specific kind of alarm that can be reported, for example \"power failure\". In an X.733 context it maps to event type, probable cause, and specific problem. The same principle is used for alert types as for alarm types.";
+      key "fmAlarmTypeId";
+      leaf fmAlarmTypeId {
+        type leafref {
+          path "../attributes/fmAlarmTypeId";
+        }
+      }
+      container attributes {
+      uses FmAlarmType-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcsfm:Fm/rcsfm:FmFilterModel" {
+    list FmFilter {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; User defined filter for suppressing FM alarms and alerts.";
+      key "fmFilterId";
+      leaf fmFilterId {
+        type leafref {
+          path "../attributes/fmFilterId";
+        }
+      }
+      container attributes {
+      uses FmFilter-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    description "Basic administrative states for a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+    }
+  }
+  typedef EventType {
+    description "General category for the alarm.";
+    type enumeration {
+      enum OTHER {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum COMMUNICATIONSALARM {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum QUALITYOFSERVICEALARM {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum PROCESSINGERRORALARM {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum EQUIPMENTALARM {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum ENVIRONMENTALALARM {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum INTEGRITYVIOLATION {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum OPERATIONALVIOLATION {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum PHYSICALVIOLATION {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum SECURITYSERVICEORMECHANISMVIOLATION {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+      enum TIMEDOMAINVIOLATION {
+        description "Defined by ITU-T X.733 and X.736.";
+      }
+    }
+  }
+  typedef NotificationState {
+    description "Filtering state for alarm.";
+    type enumeration {
+      enum NOTIFIED {
+        description "Alarm is notified.";
+      }
+      enum SUPPRESSED {
+        description "Alarm is suppressed.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef SeverityLevel {
+    description "The possible alarm serverities.";
+    type enumeration {
+      enum CRITICAL {
+        description "Aligned with ERICSSON-ALARM-MIB numbering.";
+      }
+      enum MAJOR {
+        description "Aligned with ERICSSON-ALARM-MIB numbering.";
+      }
+      enum MINOR {
+        description "Aligned with ERICSSON-ALARM-MIB numbering.";
+      }
+      enum WARNING {
+        description "Aligned with ERICSSON-ALARM-MIB numbering.";
+      }
+    }
+  }
+  grouping AdditionalInformation-struct {
+    description "Data structure that contains two items of information, an identifier and a value.";
+    leaf name {
+      type string;
+    }
+    leaf value {
+      type string;
+    }
+  }
+  grouping Fm-attributes {
+    leaf fmId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf lastSequenceNo {
+      description "The last used sequence number for an alarm state change notification. The sequence numbers are consecutive. With this attribute, an external system can determine if a resynchronization operation is needed, such as following a loss and restore of a communications link..";
+      type uint64;
+      config false;
+    }
+    leaf sumCritical {
+      description "Shows the number of active alarms with perceived severity 'critical'..";
+      type uint32;
+      config false;
+    }
+    leaf sumMajor {
+      description "Shows the number of active alarms with perceived severity ‘major’..";
+      type uint32;
+      config false;
+    }
+    leaf sumMinor {
+      description "Shows the number of active alarms with perceived severity ‘minor’..";
+      type uint32;
+      config false;
+    }
+    leaf sumWarning {
+      description "Shows the number of active alarms with perceived severity ‘warning’..";
+      type uint32;
+      config false;
+    }
+    leaf totalActive {
+      description "Shows the total number of currently active alarms. This corresponds to the the total number of instantiated FmAlarm objects..";
+      type uint32;
+      config false;
+    }
+    leaf lastChanged {
+      description "The timestamp of when any alarm was last changed. With this attribute, an external system can determine if a resynchronization operation is needed, such as following a loss and restore of a communications link..";
+      type string;
+      config false;
+    }
+    leaf heartbeatInterval {
+      description "The interval in seconds, with which a heartbeat notification is sent to all alarm consumers.; Default value: 60.";
+      type uint32;
+      default "60";
+    }
+  }
+  grouping FmAlarm-attributes {
+    leaf fmAlarmId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf source {
+      description "The distinguished name of the alarming object..";
+      type string;
+      config false;
+    }
+    leaf lastEventTime {
+      description "The timestamp of when the alarm was last updated. This is set at alarm information change or severity change..";
+      type string;
+      config false;
+    }
+    leaf sequenceNumber {
+      description "A unique identity for every notification sent. This identity changes at every notification, that is, severity change and information change. It is not the same as the fmAlarmId as multiple notifications may be sent for one alarm instance..";
+      type int64;
+      config false;
+    }
+    leaf activeSeverity {
+      description "The perceived severity of the alarm. It may change during the alarm's lifetime..";
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+      config false;
+    }
+    leaf additionalText {
+      description "Extra information about the alarm. It may change during the alarm's lifetime..";
+      type string;
+      config false;
+    }
+    leaf majorType {
+      description "The attributes majorType and minorType are the two key attributes used to identify the alarm type..";
+      type uint32;
+      config false;
+    }
+    leaf minorType {
+      description "The attributes majorType and minorType are the two key attributes used to identify the alarm type..";
+      type uint32;
+      config false;
+    }
+    leaf specificProblem {
+      description "Provides further refinement to the information given by probableCause. Can be used to find an associated operating instruction (OPI)..";
+      type string;
+      config false;
+    }
+    leaf eventType {
+      description "General category for the alarm..";
+      type enumeration {
+        enum OTHER;
+        enum COMMUNICATIONSALARM;
+        enum QUALITYOFSERVICEALARM;
+        enum PROCESSINGERRORALARM;
+        enum EQUIPMENTALARM;
+        enum ENVIRONMENTALALARM;
+        enum INTEGRITYVIOLATION;
+        enum OPERATIONALVIOLATION;
+        enum PHYSICALVIOLATION;
+        enum SECURITYSERVICEORMECHANISMVIOLATION;
+        enum TIMEDOMAINVIOLATION;
+      }
+      config false;
+    }
+    leaf probableCause {
+      description "Qualifies and provides further information on the reason for the event. A standard set of probableCause values is provided in the ERICSSON-ALARM-PC-MIB..";
+      type string;
+      config false;
+    }
+    list additionalInfo {
+      config false;
+      min-elements 0;
+      uses AdditionalInformation-struct;
+    }
+    leaf originalEventTime {
+      description "The timestamp when the alarm was raised. This attribute is set when the alarm is raised and will not change during the alarm's lifetime..";
+      type string;
+      config false;
+    }
+    leaf originalSeverity {
+      description "The perceived severity set when the alarm was raised. It will not change during the alarm's lifetime..";
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+      config false;
+    }
+    leaf originalAdditionalText {
+      description "The additional text set when the alarm was raised. This attribute is set when the alarm is raised and will not change during the alarm's lifetime..";
+      type string;
+      config false;
+    }
+    leaf isNotified {
+      description "Whether alarm was notified or suppressed. If SUPPRESSED, notification was not sent to Management System for alarm or alert..";
+      type enumeration {
+        enum NOTIFIED;
+        enum SUPPRESSED;
+      }
+      config false;
+    }
+  }
+  grouping FmAlarmModel-attributes {
+    leaf fmAlarmModelId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+  }
+  grouping FmAlarmType-attributes {
+    leaf fmAlarmTypeId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf majorType {
+      description "The attributes majorType and minorType are the two key attributes used to identify the alarm type..";
+      type uint32;
+      config false;
+    }
+    leaf minorType {
+      description "The attributes majorType and minorType are the two key attributes used to identify the alarm type..";
+      type uint32;
+      config false;
+    }
+    leaf moClasses {
+      description "A list of the Managed Object classes that can raise this alarm type. This attribute contains a comma seperated list of Managed Object classes types that use this alarm type. It is for information only.; MOM flags: noNotification, isNillable=true; Status info: This attribute has no purpose and is not used by anyone..";
+      type string;
+      config false;
+      status deprecated;
+    }
+    leaf specificProblem {
+      description "Provides further refinement to the information given by probableCause. Can be used to find an associated operating instruction (OPI)..";
+      type string;
+      config false;
+    }
+    leaf eventType {
+      description "General category for the alarm type..";
+      type enumeration {
+        enum OTHER;
+        enum COMMUNICATIONSALARM;
+        enum QUALITYOFSERVICEALARM;
+        enum PROCESSINGERRORALARM;
+        enum EQUIPMENTALARM;
+        enum ENVIRONMENTALALARM;
+        enum INTEGRITYVIOLATION;
+        enum OPERATIONALVIOLATION;
+        enum PHYSICALVIOLATION;
+        enum SECURITYSERVICEORMECHANISMVIOLATION;
+        enum TIMEDOMAINVIOLATION;
+      }
+      config false;
+    }
+    leaf probableCause {
+      description "Qualifies and provides further information on the reason for the event. A standard set of probableCause values is provided in the ERICSSON-ALARM-PC-MIB..";
+      type string;
+      config false;
+    }
+    leaf isStateful {
+      description "True indicates alarm. False indicates alert (stateless alarm)..";
+      type boolean;
+      config false;
+    }
+    leaf additionalText {
+      description "Extra information that would not be contained by other FmAlarmType attributes..";
+      type string;
+      config false;
+    }
+    leaf configuredSeverity {
+      description "Gives the possibility to configure the perceived severity for all alarms of this type. If set, this value overrides the perceived severity provided by the alarming object. Setting this attribute has no impact on existing alarms, only new and updated ones..";
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+    }
+    leaf defaultSeverity {
+      description "The default perceived severity for all alarms of this type. Not set means alarms of this type can be assigned different severities..";
+      type enumeration {
+        enum CRITICAL;
+        enum MAJOR;
+        enum MINOR;
+        enum WARNING;
+      }
+      config false;
+    }
+    leaf isNotified {
+      description "Whether alarm will be notified or suppressed. If SUPPRESSED, notification is not sent to Management System for alarm or alert..";
+      type enumeration {
+        enum NOTIFIED;
+        enum SUPPRESSED;
+      }
+      mandatory true;
+    }
+    leaf-list filterList {
+      description "References to FmFilter MO instances. If more than one filter is referred, a logical OR operation will be performed for the filters. I.e. suppression is performed if at least one filter results in suppression. Maximum number of filter references is limited to 5..";
+      type string;
+      min-elements 0;
+    }
+    leaf-list filterOperationalState {
+      description "List of operational states for referred FM filters..";
+      type OperState;
+      min-elements 0;
+    }
+  }
+  grouping FmFilter-attributes {
+    leaf fmFilterId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      description "The administrative state..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf filterCriteria {
+      description "User defined criteria for determining whether an alarm or alert shall be suppressed or not. String specifying a filter criterion, or several criteria combined by logical operators. Syntax: ====== The syntax of the filter criteria is defined using Backus-Naur form. <Statement> ::= <CheckList> | \"\" <CheckList> ::= <CheckList> <AndOr> <CheckList> | \"(\" <CheckList> \")\" | <Check> <Check> ::= <SeverityField> <RelationalOperator> <Severity> | <NotificationField> <RelationalOperator> <MatchPattern> <AndOr> ::= \"&&\" | \"||\" <RelationalOperator> ::= \"==\" | \"!=\" | \"=~\" | \"!~\" <Severity> ::= \"WARNING\" | \"MINOR\" | \"MAJOR\" <SeverityField> ::= \"SV\" <NotificationField> ::= \"AT\" | \"AI\" | \"MO\" <MatchPattern> ::= \"\" | <Character> <MatchPattern> <Character> ::= <Letter> | <Digit> | <Symbol> | <Wildcard> <Wildcard> ::= \"*\" | \"?\" <Symbol> ::= \".\" | \",\" | \"_\" | \"/\" | \"=\" | \"{\" | \"}\" | \":\" | \";\" | \"[\" | \"]\" | \"\"\" | \"'\" | \"(\" | \")\" <Letter> ::= \"a\" | \"b\" | \"c\" | \"d\" | \"e\" | \"f\" | \"g\" | \"h\" | \"i\" | \"j\" | \"k\" | \"l\" | \"m\" | \"n\" | \"o\" | \"p\" | \"q\" | \"r\" | \"s\" | \"t\" | \"u\" | \"v\" | \"w\" | \"x\" | \"y\" | \"z\" | \"A\" | \"B\" | \"C\" | \"D\" | \"E\" | \"F\" | \"G\" | \"H\" | \"I\" | \"J\" | \"K\" | \"L\" | \"M\" | \"N\" | \"O\" | \"P\" | \"Q\" | \"R\" | \"S\" | \"T\" | \"U\" | \"V\" | \"W\" | \"X\" | \"Y\" | \"Z\" <Digit> ::= \"0\" | \"1\" | \"2\" | \"3\" | \"4\" | \"5\" | \"6\" | \"7\" | \"8\" | \"9\" Whitespaces are allowed between every token in the syntax above. Meaning of <SeverityField> and <NotificationField> SV: activeSeverity AT: additionalText AI: additionalInfo MO: source (MO distinguished name) Meaning of special meta-characters in <MatchPattern> \"*\" Character matches any <Text> or empty string \"?\" Character matches single occurrence of any <Character> Meaning of relational operators, below expressions return TRUE when: <SeverityField> \"==\" <Severity> - Given <Severity> and notification's activeSeverity field values are equal <SeverityField> \"!=\" <Severity> - Given <Severity> and notification's activeSeverity field values are different <NotificationField> \"==\" <MatchPattern> - Entire <NotificationField> matches exactly with <MatchPattern> <NotificationField> \"!=\" <MatchPattern> - Entire <NotificationField> does not match with <MatchPattern> <NotificationField> \"=~\" <MatchPattern> - <NotificationField> contains string matching with <MatchPattern> <NotificationField> \"!~\" <MatchPattern> - <NotificationField> does not contain string matching with <MatchPattern> Character matching is case sensitive Precedence of operators (starting from the highest priority) Comparison operators: == equal != not equal =~ contains !~ does not contain Grouping operators: ( start grouping ) end grouping Logical product operator: && AND Logical sum operator: || OR Strings in the match pattern should be given without quotation marks. In case quotation marks are included in the match pattern, they are assumed to be included in the additionalText or the additionalInfo for the alarm or alert. Maximum of 6 logical operators are allowed in the filter string, and maximum number of characters is 1000. Examples of filter expression (usage of adequate FmAlarmType is assumed): AT=~Operator Initiated - Matches an alarm or alert containing 'Operator Initiated' string in additionalText field. AI=~Operator Initiated || AI=~Other - Same as above but notifications will be suppressed for alarms when additionalInformation contains either 'Operator Initiated' or 'Other'. AI=~\"PRC\":\"Operator Initiated\" && MO==*FieldReplaceableUnit=RU_XYZ_5 - Matches an alarm or alert with additionalInformation containing '\"PRC\":\"Operator Initiated\"' originating from FieldReplaceableUnit=RU_XYZ_5. MO==*FieldReplaceableUnit=RU_XYZ_5 && SV==WARNING - Matches an alarm or alert with activeSeverity WARNING originating from FieldReplaceableUnit=RU_XYZ_5..";
+      type string;
+    }
+    leaf activeUntil {
+      description "Date and time when the FM filter is automatically deactivated. If not set, no automatic deactivation is done..";
+      type string;
+    }
+    leaf userLabel {
+      description "Label for free use..";
+      type string;
+    }
+  }
+  grouping FmFilterModel-attributes {
+    leaf fmFilterModelId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+  }
+}

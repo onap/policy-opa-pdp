@@ -1,0 +1,155 @@
+module ericsson-rmeswmsupport-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeSwMSupport";
+  prefix rmeswmsu;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list SwMSupport {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Additional Software management functions. The RDN for this MO is SwMSupport=1.";
+      key "swMSupportId";
+      leaf swMSupportId {
+        type leafref {
+          path "../attributes/swMSupportId";
+        }
+      }
+      container attributes {
+        uses SwMSupport-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/SwMSupport" {
+    list SwSigningCertM {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Management of software signing ceritificates. A UP contains a number of software signing certificates. This MO branch contains revocation timers as well as certificate information. The RDN of this MO is SwSigningCertM=1.";
+      key "swSigningCertMId";
+      leaf swSigningCertMId {
+        type leafref {
+          path "../attributes/swSigningCertMId";
+        }
+      }
+      container attributes {
+        uses SwSigningCertM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/SwMSupport" {
+    list SwImage {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; Controls software version that can be installed. The RDN of this MO is SwImage=1.";
+      key "swImageId";
+      leaf swImageId {
+        type leafref {
+          path "../attributes/swImageId";
+        }
+      }
+      container attributes {
+        uses SwImage-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport/SwMSupport/SwSigningCertM" {
+    list SwSigningCert {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Software signing certificate. The runnning upgrade package contains a number of software signing certificates used to validate running and other upgrade packages. These certificates have an expiration date. For optimal system performance, there should not be any expired certificates. If there are expired certificates, it is recommended that system is upgraded to a newer software release where expired certificates have been removed. The RDNs of these MOs are SwSigningCert=<OrganizationalUnitName>/<CommonName> as defined by the certificate.";
+      key "swSigningCertId";
+      leaf swSigningCertId {
+        type leafref {
+          path "../attributes/swSigningCertId";
+        }
+      }
+      container attributes {
+        uses SwSigningCert-attributes;
+      }
+    }
+  }
+  typedef AllowedSwType {
+    type enumeration {
+      enum ANY;
+      enum _2025;
+    }
+  }
+  typedef MigrationStatusType {
+    type enumeration {
+      enum NO_MIGRATION;
+      enum MIGRATION_SUCCESSFUL;
+      enum MIGRATION_FAILED;
+      enum NOT_SUPPORTED_COMBINATION;
+    }
+  }
+  grouping SwImage-attributes {
+    leaf swImageId {
+      type string;
+      mandatory true;
+    }
+    leaf allowedSw {
+      type enumeration {
+        enum ANY;
+        enum _2025;
+      }
+      config false;
+    }
+  }
+  grouping SwMSupport-attributes {
+    leaf swMSupportId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf migrationStatus {
+      type enumeration {
+        enum NO_MIGRATION;
+        enum MIGRATION_SUCCESSFUL;
+        enum MIGRATION_FAILED;
+        enum NOT_SUPPORTED_COMBINATION;
+      }
+      config false;
+    }
+  }
+  grouping SwSigningCert-attributes {
+    leaf swSigningCertId {
+      type string;
+      mandatory true;
+    }
+    leaf name {
+      type string;
+      config false;
+    }
+    leaf expiration {
+      type string;
+      config false;
+    }
+  }
+  grouping SwSigningCertM-attributes {
+    leaf swSigningCertMId {
+      type string;
+      mandatory true;
+    }
+    leaf crlGracePeriodExpiration {
+      type string;
+      config false;
+    }
+    leaf crlGracePeriodTimer {
+      type uint16 {
+        range "2..100";
+      }
+      default "8";
+      units "day";
+      description "range 2..100; Default value: 8.";
+    }
+  }
+}

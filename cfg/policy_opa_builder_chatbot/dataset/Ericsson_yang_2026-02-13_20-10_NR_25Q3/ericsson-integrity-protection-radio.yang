@@ -1,0 +1,51 @@
+module ericsson-integrity-protection-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqIntegrityProtection";
+  prefix intprotrdo;
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list IntegrityProtection {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Configuration for Integrity Protection of User Plane feature. Can only be created under FieldReplaceableUnit MO instance representing Baseband 6630 unit.";
+      key "integrityProtectionId";
+      leaf integrityProtectionId {
+        type leafref {
+          path "../attributes/integrityProtectionId";
+        }
+      }
+      container attributes {
+        uses IntegrityProtection-attributes;
+      }
+    }
+  }
+  typedef IntegProtUpSupport {
+    type enumeration {
+      enum NOT_SUPPORTED;
+      enum SUPPORTED;
+    }
+  }
+  grouping IntegrityProtection-attributes {
+    leaf integrityProtectionId {
+      type string;
+      mandatory true;
+    }
+    leaf integProtUserPlaneCapability {
+      type enumeration {
+        enum NOT_SUPPORTED;
+        enum SUPPORTED;
+      }
+    }
+  }
+}

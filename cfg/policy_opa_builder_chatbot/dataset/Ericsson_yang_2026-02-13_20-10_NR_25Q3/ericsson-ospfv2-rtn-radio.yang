@@ -1,0 +1,331 @@
+module ericsson-ospfv2-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnOSPFv2";
+  prefix ospfv2rdo;
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list Ospfv2 {
+      description "Additional definitions from MOM:min/max-elements:0/32;root; Represents OSPFv2 routing instance. Dependencies: If AddressIPv4 MO with configurationMode DHCP exists within Router MO, this MO cannot be created. If IpsecTunnel MO exists within Router MO, this MO cannot be created.";
+      key "ospfv2Id";
+      leaf ospfv2Id {
+        type leafref {
+          path "../attributes/ospfv2Id";
+        }
+      }
+      container attributes {
+        uses Ospfv2-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/Ospfv2/Area" {
+    list Interface {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents OSPF area interface.";
+      key "interfaceId";
+      leaf interfaceId {
+        type leafref {
+          path "../attributes/interfaceId";
+        }
+      }
+      container attributes {
+        uses Interface-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/Ospfv2/Area" {
+    list Nssa {
+      description "Additional definitions from MOM:min/max-elements:0/1; Specifies the OSPF area to be an NSSA (Not-So-Stubby Area). Disturbances: Changing this attribute causes traffic disturbances. Takes effect: All Interface MOs are reconfigured. The OSPFv2 routes from these interfaces are removed from the routing table and traffic is impacted until OSPFv2 has converged.";
+      key "nssaId";
+      leaf nssaId {
+        type leafref {
+          path "../attributes/nssaId";
+        }
+      }
+      container attributes {
+        uses Nssa-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/Ospfv2/Area" {
+    list Stub {
+      description "Additional definitions from MOM:min/max-elements:0/1; Specifies the OSPF area to be a stub area. Disturbances: Changing this attribute causes traffic disturbances. Takes effect: All Interface MOs are reconfigured. The OSPFv2 routes from these interfaces are removed from the routing table and traffic is impacted until OSPFv2 has converged.";
+      key "stubId";
+      leaf stubId {
+        type leafref {
+          path "../attributes/stubId";
+        }
+      }
+      container attributes {
+        uses Stub-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/Ospfv2/Area/Interface" {
+    list Md5 {
+      description "Additional definitions from MOM:min/max-elements:0/2; Represents password and key-id used in MD5 algorithm to authenticate OSPF messages. Configuration of this class is only valid if authenticationType is set to MD5. Cannot be configured at loopback interface.";
+      key "md5Id";
+      leaf md5Id {
+        type leafref {
+          path "../attributes/md5Id";
+        }
+      }
+      container attributes {
+        uses Md5-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/Ospfv2" {
+    list Area {
+      description "Additional definitions from MOM:min/max-elements:0/1; Information related to the OSPF area of this router.";
+      key "areaId";
+      leaf areaId {
+        type leafref {
+          path "../attributes/areaId";
+        }
+      }
+      container attributes {
+        uses Area-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/Ospfv2" {
+    list Redistribute {
+      description "Additional definitions from MOM:min/max-elements:0/2; Represents types and metrics of routes to be redistributed by OSPFv2. Only one of each routeType is allowed, static or connected.";
+      key "redistributeId";
+      leaf redistributeId {
+        type leafref {
+          path "../attributes/redistributeId";
+        }
+      }
+      container attributes {
+        uses Redistribute-attributes;
+      }
+    }
+  }
+  typedef InterfaceNetworkType {
+    type enumeration {
+      enum BROADCAST;
+      enum POINT_TO_POINT;
+    }
+  }
+  typedef MetricType {
+    type enumeration {
+      enum TYPE_1;
+      enum TYPE_2;
+    }
+  }
+  typedef OspfAuthentication {
+    type enumeration {
+      enum NONE;
+      enum MD5;
+    }
+  }
+  typedef RouterType {
+    type enumeration {
+      enum STATIC;
+      enum CONNECTED;
+    }
+  }
+  grouping Area-attributes {
+    leaf areaId {
+      type string;
+      mandatory true;
+    }
+    leaf ospfAreaId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf noOfOspfSpfRuns {
+      type uint64;
+      config false;
+    }
+  }
+  grouping Interface-attributes {
+    leaf adminCost {
+      type eytypes:uint32_range_1-65535;
+      description "range 1..65535.";
+    }
+    leaf authenticationType {
+      type enumeration {
+        enum NONE;
+        enum MD5;
+      }
+    }
+    leaf bfdMonitoring {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf helloInterval {
+      type string;
+    }
+    leaf interfaceAddress {
+      type string;
+    }
+    leaf interfaceId {
+      type string;
+      mandatory true;
+    }
+    leaf networkType {
+      type enumeration {
+        enum BROADCAST;
+        enum POINT_TO_POINT;
+      }
+    }
+    leaf passive {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf routerDeadInterval {
+      type string;
+    }
+    leaf routerPriority {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping Md5-attributes {
+    leaf md5Id {
+      type string;
+      mandatory true;
+    }
+    leaf md5Key {
+      type uint8 {
+        range "1..255";
+      }
+      mandatory true;
+      description "range 1..255.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping Nssa-attributes {
+    leaf nssaId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping Ospfv2-attributes {
+    leaf adminDistanceExternal {
+      type string;
+    }
+    leaf adminDistanceInter {
+      type string;
+    }
+    leaf adminDistanceIntra {
+      type string;
+    }
+    leaf instanceId {
+      type eytypes:uint16_range_1-65535;
+      mandatory true;
+      description "range 1..65535.";
+    }
+    leaf maxHoldTime {
+      type int32 {
+        range "0..600000";
+      }
+      default "15000";
+      units "ms";
+      description "range 0..600000; Default value: 15000.";
+    }
+    leaf minHoldTime {
+      type int32 {
+        range "0..600000";
+      }
+      default "50";
+      units "ms";
+      description "range 0..600000; Default value: 50.";
+    }
+    leaf ospfv2Id {
+      type string;
+      mandatory true;
+    }
+    leaf referenceBandwidth {
+      type string;
+    }
+    leaf routerId {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf noOfOspfOriginateNewLsas {
+      type uint64;
+      config false;
+    }
+  }
+  grouping Redistribute-attributes {
+    leaf metric {
+      type uint32 {
+        range "0..16777214";
+      }
+      default "20";
+      description "range 0..16777214; Default value: 20.";
+    }
+    leaf metricType {
+      type enumeration {
+        enum TYPE_1;
+        enum TYPE_2;
+      }
+    }
+    leaf redistributeId {
+      type string;
+      mandatory true;
+    }
+    leaf routeType {
+      type enumeration {
+        enum STATIC;
+        enum CONNECTED;
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping Stub-attributes {
+    leaf stubId {
+      type string;
+      mandatory true;
+    }
+  }
+}

@@ -1,0 +1,137 @@
+module ericsson-l2-vlan-port-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL2VlanPort";
+  prefix l2vlanptrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-extended-transport-rtn-radio {
+    prefix exttrrdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list VlanPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents VLAN in context of single aware port. Maximum number of VlanPort MOs in node created in Backhaul is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120. If VlanPort MO is created by user, RDN of this MO cannot contain prefix ”auto_”. If VlanPort MO is not created by user for RiPort MO using transmission standard Ethernet and RiPort MO is connected to RiNetwork MO, VlanPort MO is created automatically. For VlanPort MO with underlying encapsulation EthernetPort MO, that encapsulates RiPort MO following shall apply: - Maximum number of VlanPort MOs in node is limited to 60. - VlanPort MO can only be reserved by EthernetVirtualConnection MO. - VlanPort MO must have same parent MO as EthernetPort MO it encapsulates. - If Vlan Port MO is created automatically, RDN of this MO is VlanPort=auto_ <riPortId>. Dependencies: Max one InterfaceIPv4 MO or InterfaceIPv6 MO can reserve this port. Bridge MO and InterfaceIPv4 MO or InterfaceIPv6 MO must not refer to same VlanPort MO. If reserved by MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction or ExtGNBDUPartnerFunction, this port can only be reserved by MO type PtpBcOcPort, GNBDUFunction or ExtGNBDUPartnerFunction. If underlying encapsulation is LagPort MO, MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction or ExtGNBDUPartnerFunction cannot reserve this port. QueueSystem and egress traffic shaping has no effect on low latency traffic.";
+      key "vlanPortId";
+      leaf vlanPortId {
+        type leafref {
+          path "../attributes/vlanPortId";
+        }
+      }
+      container attributes {
+        uses VlanPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/exttrrdo:ExtendedTransport" {
+    list VlanPort {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents VLAN in context of single aware port. Maximum number of VlanPort MOs in node created in Backhaul is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120. If VlanPort MO is created by user, RDN of this MO cannot contain prefix ”auto_”. If VlanPort MO is not created by user for RiPort MO using transmission standard Ethernet and RiPort MO is connected to RiNetwork MO, VlanPort MO is created automatically. For VlanPort MO with underlying encapsulation EthernetPort MO, that encapsulates RiPort MO following shall apply: - Maximum number of VlanPort MOs in node is limited to 60. - VlanPort MO can only be reserved by EthernetVirtualConnection MO. - VlanPort MO must have same parent MO as EthernetPort MO it encapsulates. - If Vlan Port MO is created automatically, RDN of this MO is VlanPort=auto_ <riPortId>. Dependencies: Max one InterfaceIPv4 MO or InterfaceIPv6 MO can reserve this port. Bridge MO and InterfaceIPv4 MO or InterfaceIPv6 MO must not refer to same VlanPort MO. If reserved by MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction or ExtGNBDUPartnerFunction, this port can only be reserved by MO type PtpBcOcPort, GNBDUFunction or ExtGNBDUPartnerFunction. If underlying encapsulation is LagPort MO, MO type ENodeBFunction, ExternalENodeBFunction, GNBDUFunction, ExternalGNodeBFunction or ExtGNBDUPartnerFunction cannot reserve this port. QueueSystem and egress traffic shaping has no effect on low latency traffic.";
+      key "vlanPortId";
+      leaf vlanPortId {
+        type leafref {
+          path "../attributes/vlanPortId";
+        }
+      }
+      container attributes {
+        uses VlanPort-attributes;
+      }
+    }
+  }
+  grouping VlanPort-attributes {
+    leaf egressQosClassification {
+      type string;
+    }
+    leaf egressQosMarking {
+      type string;
+    }
+    leaf egressQosQueueMap {
+      type string;
+    }
+    leaf encapsulation {
+      type string;
+      mandatory true;
+    }
+    leaf-list ingressQosMarking {
+      type string;
+    }
+    leaf isTagged {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf lowLatencySwitching {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf vlanId {
+      type string;
+      mandatory true;
+    }
+    leaf vlanPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf ifHCOutOctets {
+      type uint64;
+      config false;
+    }
+    leaf ifHCInOctets {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutUcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifHCInBroadcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutBroadcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifOutDiscards {
+      type uint64;
+      config false;
+    }
+    leaf ifInUnknownProtos {
+      type uint64;
+      config false;
+    }
+    leaf ifHCInUcastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifHCOutMulticastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifHCInMulticastPkts {
+      type uint64;
+      config false;
+    }
+    leaf ifInDiscards {
+      type uint64;
+      config false;
+    }
+  }
+}

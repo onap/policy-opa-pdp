@@ -1,0 +1,429 @@
+module ericsson-sctp-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnSctp";
+  prefix sctprdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nECIM Transport SCTP MOM.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list SctpEndpoint {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents logical sender and receiver of SCTP packets. Maximum number of SctpEndpoint MO in node is limited to 128. Each SctpEndpoint is served by SCTP server assigned to one Router MO. Maximum number of SCTP servers running in parallel is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 8, - For Baseband in RAN Compute Group 4 or higher: 12.";
+      key "sctpEndpointId";
+      leaf sctpEndpointId {
+        type leafref {
+          path "../attributes/sctpEndpointId";
+        }
+      }
+      container attributes {
+      uses SctpEndpoint-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/sctprdo:SctpEndpoint" {
+    list SctpAssociation {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents protocol relationship between two SCTP Endpoints. It is composed of two SCTP Endpoints and protocol state information.";
+      key "sctpAssociationId";
+      leaf sctpAssociationId {
+        type leafref {
+          path "../attributes/sctpAssociationId";
+        }
+      }
+      container attributes {
+      uses SctpAssociation-attributes;
+      }
+    }
+  }
+  typedef AssociationSecurityState {
+    description "SCTP association security status.";
+    type enumeration {
+      enum UNSECURED {
+        description "SCTP association is not secured.";
+      }
+      enum SECURED {
+        description "SCTP association is secured.";
+      }
+    }
+  }
+  typedef AssociationState {
+    description "SCTP association state.";
+    type enumeration {
+      enum CLOSED {
+        description "SCTP association is closed.";
+      }
+      enum ESTABLISHED {
+        description "SCTP association is established.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down then normal users are precluded from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "This indicates a log full condition.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. or the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. or the availability status of the other resource is dependency shutting down.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef RedundancyStatus {
+    description "SCTP redundancy status.";
+    type enumeration {
+      enum UNDEFINED {
+        description "SCTP redundancy is undefined, SCTP association is closed.";
+      }
+      enum DORMANT {
+        description "All remote IP addresses are inactive.";
+      }
+      enum NOT_REDUNDANT {
+        description "Redundancy addresses are unreachable. All remote IP addresses except primary are inactive.";
+      }
+      enum REDUNDANT {
+        description "At least one remote IP address except primary is active.";
+      }
+      enum REDUNDANCY_NOT_POSSIBLE {
+        description "SCTP association has only one remote IP address.";
+      }
+    }
+  }
+  typedef SctpSecurityMode {
+    description "SCTP security mode.";
+    type enumeration {
+      enum DISABLED {
+        description "No protection available.";
+      }
+      enum FORCED {
+        description "DTLS protection is forced.";
+      }
+      enum PREFERRED {
+        description "DTLS protection is preferred.";
+      }
+    }
+  }
+  grouping SctpAssociation-attributes {
+    leaf associationSecurityState {
+      description "SCTP association security state..";
+      type enumeration {
+        enum UNSECURED;
+        enum SECURED;
+      }
+      config false;
+    }
+    leaf associationState {
+      description "SCTP association state..";
+      type enumeration {
+        enum CLOSED;
+        enum ESTABLISHED;
+      }
+      config false;
+    }
+    leaf-list localIpAddress {
+      description "One or several local IP addresses used by association..";
+      type string;
+      min-elements 0;
+    }
+    leaf localPortNumber {
+      description "Local port number of association.; range 1..65535.";
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf localPrimaryAddress {
+      description "Local IP address normally used for outgoing traffic..";
+      type string;
+      config false;
+    }
+    leaf-list pmtudSctpPduSize {
+      description "SCTP PDU size determined by Path MTU discovery..";
+      type string;
+      ordered-by user;
+      min-elements 0;
+    }
+    leaf redundancyStatus {
+      description "SCTP redundancy status indicates if there are redundant remote IP addresses available for SCTP traffic..";
+      type enumeration {
+        enum UNDEFINED;
+        enum DORMANT;
+        enum NOT_REDUNDANT;
+        enum REDUNDANT;
+        enum REDUNDANCY_NOT_POSSIBLE;
+      }
+      config false;
+    }
+    leaf-list remoteIpAddress {
+      description "One or several remote IP addresses used by association..";
+      type string;
+      min-elements 0;
+    }
+    leaf remotePortNumber {
+      description "Remote port number of the association.; range 1..65535.";
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf remotePrimaryAddress {
+      description "Remote IP address normally used for outgoing traffic..";
+      type string;
+      config false;
+    }
+    leaf sctpAssociationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf sctpAssocInAbnormalControlChunks {
+      description "Number of received control chunks which were chosen to be discarded due to errors in the chunk format or in the chunk content..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInControlChunks {
+      description "Number of received control chunks. The counter does not include abnormal or discarded chunks..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocTimeCongested {
+      description "Number of seconds that the local transmission buffer for the association is congested..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutDataChunks {
+      description "Number of transmitted DATA chunks (excluding retransmissions)..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInAbnormalDataChunks {
+      description "Number of received DATA chunks with errors in the chunk format or in the chunk contents preventing them from being delivered to the SCTP user..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutPacks {
+      description "Number of transmitted packets..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocUnavailRtx {
+      description "Number of times that the association has become unavailable to the SCTP user because all paths forming part of this association became inactive for one of the following reasons: - Retransmission limit was reached - an ICMP message is received and is treated as if the retransmission limit was reached.";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocAborteds {
+      description "Number of times that the association has become unavailable to the SCTP user due to ungraceful termination by the local or the remote side, using the chunk ABORT.Ungraceful termination during association establishment does not increment this counter..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutOctets {
+      description "Number of octets in transmitted packets..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutControlChunks {
+      description "Number of transmitted control chunks..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocShutdowns {
+      description "Number of times that the association has become unavailable to the SCTP user due to graceful shutdown by the local or the remote side..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutDiscardedDataChunks {
+      description "Number of outgoing DATA chunks for this association for which no problems were encountered to prevent their transmission but were discarded. DATA chunks are discarded due to ungraceful closing of the association..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocCongestions {
+      description "Number of times that the local transmission buffer for the association is congested..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocPeerZeroWindows {
+      description "Number of times that the association has started the zero window supervision procedure..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocTimeUnavail {
+      description "Number of seconds the association has been unavailable to the SCTP user. Unit: 1 s.";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocDelayRTTMax {
+      description "Maximum Round Trip Time value observed from all valid one minute intervals within ROP..";
+      type int64;
+      config false;
+    }
+    leaf sctpAssocInDiscardedDataChunks {
+      description "Number of received DATA chunks that were discarded due to lack of space in the receive buffer..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocOutDiscardedUserMsgs {
+      description "Number of outgoing user data messages, which were discarded even though no problems were encountered to prevent their transmission. User messages are discarded due to lack of space in the transmission buffer..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInPacks {
+      description "Number of received packets for this association, including duplicates and those received in error..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocRtxChunks {
+      description "Number of retransmitted DATA chunks..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocDelayRTTAvg {
+      description "Average Round Trip Time value from all valid one minute intervals within ROP..";
+      type int64;
+      config false;
+    }
+    leaf sctpAssocDelayRTTMin {
+      description "Minimum Round Trip Time value observed from all valid one minute intervals within ROP.";
+      type int64;
+      config false;
+    }
+    leaf sctpAssocInOctets {
+      description "Number of octets in received packets for this association, including duplicates and those received in error..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInDiscardedControlChunks {
+      description "Number of received control chunks which were discarded even though no errors were detected. Chunks can be discarded for the following reasons: - unsupported chunk type. - wrong association state..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocTimePeerZeroWindow {
+      description "Number of seconds that the remote peer has claimed to have zero window for its receive buffer..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocInDataChunks {
+      description "Number of received DATA chunks. The counter does NOT include abnormal or discarded chunks..";
+      type uint64;
+      config false;
+    }
+    leaf sctpAssocDelayRTTPeriods {
+      description "Number of valid one minute intervals within ROP, delayRTT values is based on. If retransmit occurs in one minute interval, specific interval will be excluded from result. If retransmit occurs in all 15 one minute intervals no delayRTT values will be presented..";
+      type int64;
+      config false;
+    }
+  }
+  grouping SctpEndpoint-attributes {
+    leaf-list availabilityStatus {
+      description "The availability status. Details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf dtls {
+      description "Reference to Dtls MO..";
+      type string;
+    }
+    leaf dtlsNodeCredential {
+      description "Reference to NodeCredential MO..";
+      type string;
+    }
+    leaf dtlsSctpSecurityMode {
+      description "Security mode for DTLS protocol..";
+      type enumeration {
+        enum DISABLED;
+        enum FORCED;
+        enum PREFERRED;
+      }
+    }
+    leaf dtlsTrustCategory {
+      description "Reference to TrustCategory MO..";
+      type string;
+    }
+    leaf-list localIpAddress {
+      description "List of references to AddressIPv4 or AddressIPv6 MOs serving as local addresses for endpoint..";
+      type string;
+      min-elements 1;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf portNumber {
+      description "Local port number for SCTP endpoint.; range 1..65535.";
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf sctpEndpointId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf sctpProfile {
+      description "Reference to SctpProfile..";
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf sctpEndpointDtlsNegotiationFailed {
+      description "Number of times DTLS negotiation and authentication chunks negotiation failed..";
+      type uint64;
+      config false;
+    }
+  }
+}

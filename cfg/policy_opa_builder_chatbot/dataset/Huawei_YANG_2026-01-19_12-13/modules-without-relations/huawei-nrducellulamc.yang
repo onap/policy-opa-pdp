@@ -1,0 +1,298 @@
+module huawei-nrducellulamc {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellulamc";
+ prefix nrducellulamc;
+ description
+ "Auto-generated modular YANG for huawei-nrducellulamc" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLULAMC-attributes {
+ leaf AMCSTEPADAPTCOEFF {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf AMCSTEPADAPTDECTHLD {
+  type uint16 {
+   range "0..1000";
+  }
+  mandatory false;
+ }
+ leaf AMCSTEPADAPTINCTHLD {
+  type uint16 {
+   range "0..1000";
+  }
+  mandatory false;
+ }
+ leaf BIGPKT256QAMTABLESINRTHLD {
+  type uint8 {
+   range "150..250";
+  }
+  mandatory false;
+ }
+ leaf CONSECUTIVENONACKCOUNTTHLD {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf CPINNEROUTERMPRDIFF {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf DFTINNEROUTERMPRDIFF {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf DFTULPWRBACKOFFVALIN16QAM {
+  type uint8 {
+   range "0..20";
+  }
+  mandatory false;
+ }
+ leaf DFTULPWRBACKOFFVALIN256QAM {
+  type uint8 {
+   range "0..45";
+  }
+  mandatory false;
+ }
+ leaf DFTULPWRBACKOFFVALIN64QAM {
+  type uint8 {
+   range "0..25";
+  }
+  mandatory false;
+ }
+ leaf DFTULPWRBACKOFFVALINQPSK {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf DUALFILTERTHLD {
+  type uint16 {
+   range "0..10000";
+  }
+  mandatory false;
+ }
+ leaf EDGEUEDELTAMCS {
+  type uint8 {
+   range "0..26";
+  }
+  mandatory false;
+ }
+ leaf HALFPIBPSKPWRBOOSTVALUE {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf HIGHTARGETULIBLER {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf INNERRBALLOCGAINTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf NONCONSECSCHMPRRATIO {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLADAPTADJSINRTHLD {
+  type int8 {
+   range "-20..50";
+  }
+  mandatory false;
+ }
+ leaf POWERREDUCEVALUE256QAMOFS {
+  type int8 {
+   range "-10..10";
+  }
+  mandatory false;
+ }
+ leaf POWERREDUCTIONIBLERTARGET {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf POWERREDUCTIONVALUE256QAM {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf PUSCHMCSADJVAL {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf PWRBOOSTRBLIMITSINRTHLD {
+  type int16 {
+   range "-50..220";
+  }
+  mandatory false;
+ }
+ leaf PWRBOOSTRBLIMITSINRTHLDOFS {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf SRSDMRSSINRDIFFTHLD {
+  type uint16 {
+   range "0..500";
+  }
+  mandatory false;
+ }
+ leaf ULAMCALGOSW {
+  type string;
+  mandatory false;
+ }
+ leaf ULAMCPERFORMANCESW {
+  type string;
+  mandatory false;
+ }
+ leaf ULCHNESTIMATENHEXITMCSTHLD {
+  type uint8 {
+   range "0..27";
+  }
+  mandatory false;
+ }
+ leaf ULFIXEDMCS {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULFULLPOWERONETXSINRADJUST {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf ULFULLPOWERTWOTXSINRADJUST {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf ULMCSIDXFORLOWIBLERTARGET {
+  type uint8 {
+   range "11..26";
+  }
+  mandatory false;
+ }
+ leaf ULMULTIOLLACONFIG {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf ULPWRBACKOFFVALUEIN16QAM {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf ULPWRBACKOFFVALUEIN256QAM {
+  type uint8 {
+   range "0..65";
+  }
+  mandatory false;
+ }
+ leaf ULPWRBACKOFFVALUEIN64QAM {
+  type uint8 {
+   range "0..35";
+  }
+  mandatory false;
+ }
+ leaf ULPWRBACKOFFVALUEINQPSK {
+  type uint8 {
+   range "0..30";
+  }
+  mandatory false;
+ }
+ leaf ULSINRAVGHIGHTHLD {
+  type uint16 {
+   range "1861..3000";
+  }
+  mandatory false;
+ }
+ leaf ULSINRAVGLOWTHLD {
+  type uint16 {
+   range "1..1000";
+  }
+  mandatory false;
+ }
+ leaf ULSINRDIFFHIGHTHLD {
+  type uint16 {
+   range "1..1000";
+  }
+  mandatory false;
+ }
+ leaf ULSINRDIFFLOWTHLD {
+  type uint8 {
+   range "0..189";
+  }
+  mandatory false;
+ }
+ leaf ULSINREXCEPTIONTHLD {
+  type uint8 {
+   range "0..200";
+  }
+  mandatory false;
+ }
+ leaf ULSINRFLUCTUATIONTHLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ULSMALLPKTMCSTHLD {
+  type union {
+   type uint8 {
+    range "0..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf ULSUBBANDSINRFLUCRANGE {
+  type union {
+   type uint8 {
+    range "0..35";
+   }
+  }
+  mandatory false;
+ }
+ leaf VONRULINITTRANSMCSDECREASE {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ }
+}

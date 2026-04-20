@@ -1,0 +1,158 @@
+module ericsson-rcsswim-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsSwIM";
+  prefix rcsswim;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list SwInventory {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; A singleton class, the purpose of which is only structural.";
+      key "swInventoryId";
+      leaf swInventoryId {
+        type leafref {
+          path "../attributes/swInventoryId";
+        }
+      }
+      container attributes {
+        uses SwInventory-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SwInventory" {
+    list SwItem {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; A software item holds information about an executable software product. A software item can also represent a container product that contains other software items, which represent a subordinate container and/or executable software products.";
+      key "swItemId";
+      leaf swItemId {
+        type leafref {
+          path "../attributes/swItemId";
+        }
+      }
+      container attributes {
+        uses SwItem-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SwInventory" {
+    list SwVersion {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; An MO of this class represents the software version of a domain of the software. If there is only one software domain, the MO represents the overall version of the managed element.";
+      key "swVersionId";
+      leaf swVersionId {
+        type leafref {
+          path "../attributes/swVersionId";
+        }
+      }
+      container attributes {
+        uses SwVersion-attributes;
+      }
+    }
+  }
+  grouping SwInventory-attributes {
+    leaf swInventoryId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf-list active {
+      type string;
+    }
+  }
+  grouping SwItem-attributes {
+    leaf swItemId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    list administrativeData {
+      config false;
+      container attributes {
+      leaf productName {
+        type string;
+      }
+      leaf productNumber {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf productionDate {
+        type string;
+      }
+      leaf description {
+        type ietfinet:ip-address;
+      }
+      leaf type {
+        type string;
+      }
+      }
+    }
+    leaf additionalInfo {
+      type string;
+      config false;
+    }
+    leaf-list consistsOf {
+      type string;
+    }
+  }
+  grouping SwVersion-attributes {
+    leaf swVersionId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    list administrativeData {
+      config false;
+      container attributes {
+      leaf productName {
+        type string;
+      }
+      leaf productNumber {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf productionDate {
+        type string;
+      }
+      leaf description {
+        type ietfinet:ip-address;
+      }
+      leaf type {
+        type string;
+      }
+      }
+    }
+    leaf timeOfInstallation {
+      type string;
+      config false;
+    }
+    leaf timeOfActivation {
+      type string;
+      config false;
+    }
+    leaf timeOfDeactivation {
+      type string;
+      config false;
+    }
+    leaf-list consistsOf {
+      type string;
+    }
+  }
+}

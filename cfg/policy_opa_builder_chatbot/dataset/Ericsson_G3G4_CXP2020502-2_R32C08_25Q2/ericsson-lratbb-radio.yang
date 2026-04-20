@@ -1,0 +1,478 @@
+module ericsson-lratbb-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:LratBb";
+  prefix lratbb;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nRepresents Baseband processing resource in a DU or a Capacity Module used for eNodeB application in RBS. MO instance is created automatically when first LTE cell of a Capacity Module is unlocked. In DU, ManagedElementData::autoConfigurationAllowed must be set to true to enable autoconfiguration function. MO can be deleted manually. The RDNs of these MOs are BbProcessingResource=1 to BbProcessingResource=2.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list BbProcessingResource {
+      description "Additional definitions from MOM:min/max-elements:0/2;root; Represents Baseband processing resource in a DU or a Capacity Module used for eNodeB application in RBS. MO instance is created automatically when first LTE cell of a Capacity Module is unlocked. In DU, ManagedElementData::autoConfigurationAllowed must be set to true to enable autoconfiguration function. MO can be deleted manually. The RDNs of these MOs are BbProcessingResource=1 to BbProcessingResource=2.";
+      key "bbProcessingResourceId";
+      leaf bbProcessingResourceId {
+        type leafref {
+          path "../attributes/bbProcessingResourceId";
+        }
+      }
+      container attributes {
+      uses BbProcessingResource-attributes;
+      }
+    }
+  }
+  grouping BbProcessingResource-attributes {
+    leaf bbProcessingResourceId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf licCapDistr {
+      description "Share of licensed capacity that is distributed to Baseband processing resource instance. Relevant for eNodeB in dual Capacity Module configuration, such as when ENodeBFunction MO is supported by 2 or 3 Capacity Modules, each with a BbProcessingResource MO. Default setup is ENodeBFunction::licCapDistrMethod is SYSTEM, and BbProcessingResource::licCapDistr is 0. In runtime, licCapDistr shows distribution made automatically by RBS. If ENodeBFunction::licCapDistrMethod is OPERATOR, licCapDistr decides allowed capacity for each BbProcessingResource MO.; range 0..100; Default value: 0.";
+      type eytypes:int32_range_0-100;
+      default "0";
+      units "percent";
+    }
+    leaf licPrbUnit {
+      description "Bin step size representing PRB license unit for the DL/UL distribution of PRB capacity usage.; range 1..600; Default value: 25.";
+      type int32 {
+        range "1..600";
+      }
+      default "25";
+      units "PRB";
+    }
+    leaf dlBbCapacityMaxLimit {
+      description "Max DL baseband capacity available on unlocked Baseband hardware. Maximum limit of DL capacity that can be granted by baseband HWAC. This level sets the limit at emergency unlock.; range -1..65535.";
+      type eytypes:int64_range_-1-65535;
+      config false;
+      units "Mbps";
+    }
+    leaf dlBbCapacityNet {
+      description "Granted downlink Baseband capacity. Available capacity of corresponding Baseband HWAC property per Capacity Module.; range -1..65535.";
+      type eytypes:int64_range_-1-65535;
+      config false;
+      units "Mbps";
+    }
+    leaf ulBbCapacityMaxLimit {
+      description "Max UL baseband capacity available on unlocked Baseband hardware. Maximum limit of UL capacity that can be granted by baseband HWAC. This level sets the limit at emergency unlock.; range -1..65535.";
+      type eytypes:int64_range_-1-65535;
+      config false;
+      units "Mbps";
+    }
+    leaf ulBbCapacityNet {
+      description "Granted uplink Baseband capacity. Available capacity of corresponding Baseband HWAC property per Capacity Module.; range -1..65535.";
+      type eytypes:int64_range_-1-65535;
+      config false;
+      units "Mbps";
+    }
+    leaf-list pmBbmUlPrbUtilization {
+      description "Distribution of filtered UL PRB utilization level for each Capacity Module. Note that only resources scheduled with high priority are considered. PDF ranges: [0]: [0..5]% [1]: ]5..10]% [2]: ]10..15]% [3]: ]15..20]% [4]: ]20..25]% [5]: ]25..30]% [6]: ]30..35]% [7]: ]35..40]% [8]: ]40..45]% [9]: ]45..50]% [10]: ]50..55]% [11]: ]55..60]% [12]: ]60..65]% [13]: ]65..70]% [14]: ]70..75]% [15]: ]75..80]% [16]: ]80..85]% [17]: ]85..90]% [18]: ]90..95]% [19]: ]95..100]% Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmLicDlCapUsedBrSamp {
+      description "Number of measured samples of DL Baseband capacity usage for Bandwidth Reduced UEs. Deprecated: Since 18.Q4. Planned to be removed. Scanner: Not included in any predefined scanner; MOM flags: noNotification.";
+      type uint32;
+      config false;
+      status deprecated;
+    }
+    leaf-list pmBbmDlPrbPttReservation {
+      description "Distribution of filtered downlink PRB utilization and reservation level for each Capacity Module. Corresponds to following formula: (reservation for DL PRB PTT) + (DL PRB utilization). PDF ranges: [0]: Total MSR load [0..5] % [1]: Total MSR load ]5..10] % [2]: Total MSR load ]10..15] % [3]: Total MSR load ]15..20] % [4]: Total MSR load ]20..25] % [5]: Total MSR load ]25..30] % [6]: Total MSR load ]30..35] % [7]: Total MSR load ]35..40] % [8]: Total MSR load ]40..45] % [9]: Total MSR load ]45..50] % [10]: Total MSR load ]50..55] % [11]: Total MSR load ]55..60] % [12]: Total MSR load ]60..65] % [13]: Total MSR load ]65..70] % [14]: Total MSR load ]70..75] % [15]: Total MSR load ]75..80] % [16]: Total MSR load ]80..85] % [17]: Total MSR load ]85..90] % [18]: Total MSR load ]90..95] % [19]: Total MSR load ]95..100] % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmLicDlPrbUsedSum {
+      description "Accumulated sum of DL PRB capacity usage. Unit: PRB Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedMax {
+      description "Maximum (high-water mark) value of downlink Baseband capacity usage. Counter works only with single capacity module LTE configurations. Unit: kbps Scanner: Primary.";
+      type int32;
+      config false;
+    }
+    leaf pmPdcpPktDiscDlNoUeCtxt {
+      description "Number of DRB packets (PDCP SDUs) discarded in downlink because specific TEID is not mapped to any UE context. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmPucchCqiResUtilBbm {
+      description "Maximum utilization of CQI resources in the BbProcessingResource. Unit: % Scanner: Not included in any predefined scanner.";
+      type int32;
+      config false;
+    }
+    leaf pmLicUlPrbUsedSum {
+      description "Accumulated sum of UL PRB capacity usage. Unit: PRB Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmLicDlPrbCapDistr {
+      description "Shows the utilization of DL PRB capacity relative to the minimum of installed license for DL PRB Capacity or hardware PRB capacity limit. Expressed as percentage of the minimum of license limit or hardware PRB capacity limit. PDF ranges: [0]: [0..5]%, [1]: ]5..10]%, [2]: ]10..15]%, [3]: ]15..20]%, [4]: ]20..25]%, [5]: ]25..30]%, [6]: ]30..35]%, [7]: ]35..40]%, [8]: ]40..45]%, [9]: ]45..50]%, [10]: ]50..55]%, [11]: ]55..60]%, [12]: ]60..65]%, [13]: ]65..70]%, [14]: ]70..75]%, [15]: ]75..80]%, [16]: ]80..85]%, [17]: ]85..90]%, [18]: ]90..95]%, [19]: ]95..100]% Note: 0 on all bins is a reserved value set that indicates the cell has been disabled for the entire ROP. If cell is active, no utilization has occurred for the entire ROP. Unit: % Scanner: Primary.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmLicDlCapUsedSumMbps {
+      description "Accumulated sum of downlink Baseband capacity usage. Unit: Mbit/s Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf pmPucchCqiResCongBbm {
+      description "The number of times a PUCCH allocation request for CQI resource(s) could not be granted due to lack of resources. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmRohcCidSamp {
+      description "Counts number of times corresponding Sum counters are incremented. Associated ACC PM counter is BbProcessingResource.pmRohcCidSum. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary165 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary154 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmBbmDlPrbUtilization {
+      description "Distribution of filtered DL PRB utilization level for each Capacity Module. Note that only resources scheduled with high priority are considered. PDF ranges: [0]: [0..5]% [1]: ]5..10]% [2]: ]10..15]% [3]: ]15..20]% [4]: ]20..25]% [5]: ]25..30]% [6]: ]30..35]% [7]: ]35..40]% [8]: ]40..45]% [9]: ]45..50]% [10]: ]50..55]% [11]: ]55..60]% [12]: ]60..65]% [13]: ]65..70]% [14]: ]70..75]% [15]: ]75..80]% [16]: ]80..85]% [17]: ]85..90]% [18]: ]90..95]% [19]: ]95..100]% Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmZtemporary47 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicUlPrbUsedSamp {
+      description "Total number of measured samples of UL PRB capacity usage. Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf pmPucchSrResCongBbm {
+      description "The number of times a PUCCH allocation request for SR resource(s) could not be granted due to lack of resources. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmPdcpPktDiscDlEth {
+      description "Total number of downlink packets (unicast DRB PDCP SDUs or MBMS SYNC SDUs) discarded in Ethernet part of the eNodeB. Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary157 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmRlcPduBufferCongStatusUlDistr {
+      description "Distribution of UL RLC PDU buffer congestion state where bins are defined as follows: PDF ranges: [0]: no congestion, normal operation [1]: congestion level 1, congestion handling [2]: congestion level 2, congestion handling [3]: congestion level 3, congestion handling [4]: congestion level 4, congestion handling [5]: congestion level 5, congestion handling [6]: congestion level 6, congestion handling [7]: congestion level 7, congestion handling Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 8;
+    }
+    leaf pmLicUlCapUsedBrSamp {
+      description "Number of measured samples of UL Baseband capacity usage for Bandwidth Reduced UEs. Deprecated: Since 18.Q4. Planned to be removed. Scanner: Not included in any predefined scanner; MOM flags: noNotification.";
+      type uint32;
+      config false;
+      status deprecated;
+    }
+    leaf pmZtemporary51 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedBrMax {
+      description "Maximum (high-water mark) value of DL Baseband capacity usage for Bandwidth Reduced UEs. Unit: kbps Deprecated: Since 18.Q4. Planned to be removed. Scanner: Not included in any predefined scanner; MOM flags: noNotification.";
+      type int32;
+      config false;
+      status deprecated;
+    }
+    leaf pmLicDlCapActual {
+      description "The X percentile of the utilization for downlink baseband capacity during a measurement period. The value for X is given by the attribute ENodeBFunction::licDlBbPercentileConf. The data that is evaluated is the same as for the counter BbProcessingResource::pmLicDlCapDistr. Source Data: ENodeBFunction::licDlBbPercentileConf and pmLicDlCapDistr Unit: % Scanner: Primary.";
+      type int32;
+      config false;
+    }
+    leaf-list pmBbmUlBbCapacityUtilization {
+      description "Distribution of filtered UL Baseband capacity utilization level for each Capacity Module. Note that only resources scheduled with high priority are considered. PDF ranges: [0]: [0..5]% [1]: ]5..10]% [2]: ]10..15]% [3]: ]15..20]% [4]: ]20..25]% [5]: ]25..30]% [6]: ]30..35]% [7]: ]35..40]% [8]: ]40..45]% [9]: ]45..50]% [10]: ]50..55]% [11]: ]55..60]% [12]: ]60..65]% [13]: ]65..70]% [14]: ]70..75]% [15]: ]75..80]% [16]: ]80..85]% [17]: ]85..90]% [18]: ]90..95]% [19]: ]95..100]% Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmLicDlPrbUsedSamp {
+      description "Total number of measured samples of DL PRB capacity usage. Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicUlCapUsedSum {
+      description "Accumulated sum of UL Baseband capacity usage. Unit: kbps Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicUlPrbCapActual {
+      description "The X percentile of the utilization for uplink PRB capacity during a measurement period. The value for X is given by the attribute ENodeBFunction::licUlPrbPercentileConf. The data that is evaluated is the same as for the counter BbProcessingResource::pmLicUlPrbCapDistr. Source Data: ENodeBFunction::licUlPrbPercentileConf and pmLicUlPrbCapDistr Unit: % Scanner: Primary.";
+      type int32;
+      config false;
+    }
+    leaf-list pmBbmHwResUtilDistr {
+      description "Distribution of hardware resource utilization level for each Capacity Module. Hardware resource utilization level corresponds to 100 * (Total number of connected UEs + Total number of configured SCells) / Maximum RRC Connected Users. Maximum number of RRC connected users is limited by Baseband hardware capacity. For more information, see Supported Capacity and Configurations. PDF ranges: [0]: [0..5]% [1]: ]5..10]% [2]: ]10..15]% [3]: ]15..20]% [4]: ]20..25]% [5]: ]25..30]% [6]: ]30..35]% [7]: ]35..40]% [8]: ]40..45]% [9]: ]45..50]% [10]: ]50..55]% [11]: ]55..60]% [12]: ]60..65]% [13]: ]65..70]% [14]: ]70..75]% [15]: ]75..80]% [16]: ]80..85]% [17]: ]85..90]% [18]: ]90..95]% [19]: ]95..100]% Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmZtemporary50 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmRlcPduBufferUtilUlDistr {
+      description "Distribution of UL RLC PDU buffer utilization. PDF ranges: [0]: [0..9]% [1]: ]9..14]% [2]: ]14..19]% [3]: ]19..24]% [4]: ]24..29]% [5]: ]29..34]% [6]: ]34..39]% [7]: ]39..44]% [8]: ]44..49]% [9]: ]49..54]% [10]: ]54..59]% [11]: ]59..64]% [12]: ]64..69]% [13]: ]69..74]% [14]: ]74..79]% [15]: ]79..84]% [16]: ]84..89]% [17]: ]89..94]% [18]: ]94..99]% [19]: greater than or equals to 100% Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf-list pmLicUlPrbCapDistr {
+      description "Shows the utilization of UL PRB capacity relative to the minimum of installed license for UL PRB Capacity or hardware PRB capacity limit. Expressed as percentage of the minimum of license limit or hardware PRB capacity limit. PDF ranges: [0]: [0..5]%, [1]: ]5..10]%, [2]: ]10..15]%, [3]: ]15..20]%, [4]: ]20..25]%, [5]: ]25..30]%, [6]: ]30..35]%, [7]: ]35..40]%, [8]: ]40..45]%, [9]: ]45..50]%, [10]: ]50..55]%, [11]: ]55..60]%, [12]: ]60..65]%, [13]: ]65..70]%, [14]: ]70..75]%, [15]: ]75..80]%, [16]: ]80..85]%, [17]: ]85..90]%, [18]: ]90..95]%, [19]: ]95..100]% Note: 0 on all bins is a reserved value set that indicates the cell has been disabled for the entire ROP. If cell is active, no utilization has occurred for the entire ROP. Unit: % Scanner: Primary.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmLicDlPrbUsedMax {
+      description "Maximum (high-water mark) value of DL PRB capacity use for LTE traffic. NB-IoT inband usage is not included. Unit: PRB Scanner: Primary.";
+      type int32;
+      config false;
+    }
+    leaf pmZtemporary52 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmBbmDlBbCapacityPttReservation {
+      description "Distribution of filtered downlink Baseband capacity utilization and reservation level for each Capacity Module. Corresponds to following formula: (reservation for DL PTT in Baseband capacity) + (DL Baseband capacity utilization). PDF ranges: [0]: Total MSR load [0..5] % [1]: Total MSR load ]5..10] % [2]: Total MSR load ]10..15] % [3]: Total MSR load ]15..20] % [4]: Total MSR load ]20..25] % [5]: Total MSR load ]25..30] % [6]: Total MSR load ]30..35] % [7]: Total MSR load ]35..40] % [8]: Total MSR load ]40..45] % [9]: Total MSR load ]45..50] % [10]: Total MSR load ]50..55] % [11]: Total MSR load ]55..60] % [12]: Total MSR load ]60..65] % [13]: Total MSR load ]65..70] % [14]: Total MSR load ]70..75] % [15]: Total MSR load ]75..80] % [16]: Total MSR load ]80..85] % [17]: Total MSR load ]85..90] % [18]: Total MSR load ]90..95] % [19]: Total MSR load ]95..100] % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmPdcpPktDiscDlNoMbmsCtxt {
+      description "Number of MBMS SYNC packets discarded in downlink due to an unidentified MBMS bearer. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmLicUlPrbUsedDistr {
+      description "Distribution of UL PRB use for LTE traffic. NB-IoT inband usage is not included. Y represents PRB license unit. Comes from BbProcessingResource::pmLicPrbUnit and BbProcessingResource::licPrbUnit. PDF ranges: [0]: From 0 to Y PRBs ... [n]: From [(n x Y) + 1] to [(n + 1) x Y] PRBs ... [47]: Above [(47 x Y) + 1] PRBs Scanner: Primary.";
+      type uint32;
+      max-elements 48;
+    }
+    leaf-list pmBbmDlBbCapacityUtilization {
+      description "Distribution of filtered DL Baseband capacity utilization level for each Capacity Module. Only resources scheduled with high priority are considered. PDF ranges: [0]: [0..5]% [1]: ]5..10]% [2]: ]10..15]% [3]: ]15..20]% [4]: ]20..25]% [5]: ]25..30]% [6]: ]30..35]% [7]: ]35..40]% [8]: ]40..45]% [9]: ]45..50]% [10]: ]50..55]% [11]: ]55..60]% [12]: ]60..65]% [13]: ]65..70]% [14]: ]70..75]% [15]: ]75..80]% [16]: ]80..85]% [17]: ]85..90]% [18]: ]90..95]% [19]: ]95..100]% Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmZtemporary155 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicPrbUnit {
+      description "Bin step size representing PRB license unit for DL/UL distribution of PRB capacity usage. Unit: PRB Scanner: Primary.";
+      type int32;
+      config false;
+    }
+    leaf-list pmZtemporary54 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmPucchSrResUtilBbm {
+      description "Maximum utilization of SR resources in the BbProcessingResource. Unit: % Scanner: Not included in any predefined scanner.";
+      type int32;
+      config false;
+    }
+    leaf-list pmLicDlCapDistr {
+      description "Shows the utilization of DL baseband capacity relative to the minimum of installed license for DL Baseband Capacity or hardware capacity limit. Expressed as percentage of the minimum of license limit or hardware capacity limit. PDF ranges: [0]: [0..5]%, [1]: ]5..10]%, [2]: ]10..15]%, [3]: ]15..20]%, [4]: ]20..25]%, [5]: ]25..30]%, [6]: ]30..35]%, [7]: ]35..40]%, [8]: ]40..45]%, [9]: ]45..50]%, [10]: ]50..55]%, [11]: ]55..60]%, [12]: ]60..65]%, [13]: ]65..70]%, [14]: ]70..75]%, [15]: ]75..80]%, [16]: ]80..85]%, [17]: ]85..90]%, [18]: ]90..95]%, [19]: ]95..100]% Note: 0 on all bins is a reserved value set that indicates the cell has been disabled for the entire ROP. If cell is active, no utilization has occurred for the entire ROP. Unit: % Scanner: Primary.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf-list pmLicUlCapDistr {
+      description "Shows the utilization of UL baseband capacity relative to the minimum of installed license for UL Baseband Capacity or hardware capacity limit. Expressed as percentage of the minimum of license limit or hardware capacity limit. PDF ranges: [0]: [0..5]%, [1]: ]5..10]%, [2]: ]10..15]%, [3]: ]15..20]%, [4]: ]20..25]%, [5]: ]25..30]%, [6]: ]30..35]%, [7]: ]35..40]%, [8]: ]40..45]%, [9]: ]45..50]%, [10]: ]50..55]%, [11]: ]55..60]%, [12]: ]60..65]%, [13]: ]65..70]%, [14]: ]70..75]%, [15]: ]75..80]%, [16]: ]80..85]%, [17]: ]85..90]%, [18]: ]90..95]%, [19]: ]95..100]% Note: 0 on all bins is a reserved value set that indicates the cell has been disabled for the entire ROP. If cell is active, no utilization has occurred for the entire ROP. Unit: % Scanner: Primary.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmZtemporary163 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmFlexPdcpPktDiscDlNoUeCtxt {
+      description "Number of DRB packets (PDCP SDUs) discarded in DL due to that the specific tunnel endpoint identifier (TEID) is not mapped to any UE context. Differentiated by filter parameters in PmFlexCounterFilter MO. Following filter parameters are applicable: - PLMN - UE_CATEGORY - SPID - CE_LEVEL Unit: ms Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicUlCapUsedBrSum {
+      description "Accumulated sum of UL Baseband capacity usage for Bandwidth Reduced UEs. Unit: kbps Deprecated: Since 18.Q4. Planned to be removed. Scanner: Not included in any predefined scanner; MOM flags: noNotification.";
+      type uint32;
+      config false;
+      status deprecated;
+    }
+    leaf pmLicUlCapUsedBrMax {
+      description "Maximum (high-water mark) value of UL Baseband capacity usage for Bandwidth Reduced UEs. Unit: kbps Deprecated: Since 18.Q4. Planned to be removed. Scanner: Not included in any predefined scanner; MOM flags: noNotification.";
+      type int32;
+      config false;
+      status deprecated;
+    }
+    leaf-list pmZtemporary151 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmPdcpPktDiscDlEthBurst {
+      description "Number of downlink DRB packets (PDCP SDUs) discarded in Ethernet part of RBS because of downlink burst overload control. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary164 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedSum {
+      description "Accumulated sum of DL Baseband capacity usage. Unit: kbps Deprecated: Since 25.Q2. Replaced by pmLicDlCapUsedSumMbps. Planned to be removed. Scanner: Primary; MOM flags: noNotification.";
+      type uint32;
+      config false;
+      status deprecated;
+    }
+    leaf-list pmLicDlPrbUsedDistr {
+      description "Distribution of DL PRB capacity usages with configured bin step size. Y represents PRB license unit. It comes from BbProcessingResource::pmLicPrbUnit. PDF ranges: [0]: From 0 to Y PRBs ... [n]: From (n*Y)+1 to (n+1)*Y PRBs ... [47]: Above 47*Y+1 PRBs Scanner: Primary.";
+      type uint32;
+      max-elements 48;
+    }
+    leaf pmFlexPdcpPktDiscDlEth {
+      description "Number of DL packets (unicast DRB PDCP SDUs or MBMS SYNC SDUs) discarded in the Ethernet part of the eNB. Differentiated by filter parameters in PmFlexCounterFilter MO. Following filter parameters are applicable: - PLMN - UE_CATEGORY - SPID - CE_LEVEL Unit: ms Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary166 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedBrSum {
+      description "Accumulated sum of DL Baseband capacity usage for Bandwidth Reduced UEs. Unit: kbps Deprecated: Since 18.Q4. Planned to be removed. Scanner: Not included in any predefined scanner; MOM flags: noNotification.";
+      type uint32;
+      config false;
+      status deprecated;
+    }
+    leaf pmLicUlCapActual {
+      description "The X percentile of the utilization for uplink baseband capacity during a measurement period. The value for X is given by the attribute ENodeBFunction::licUlBbPercentileConf. The data that is evaluated is the same as for the counter BbProcessingResource::pmLicUlCapDistr. Source Data: ENodeBFunction::licUlBbPercentileConf and pmLicUlCapDistr Unit: % Scanner: Primary.";
+      type int32;
+      config false;
+    }
+    leaf-list pmZtemporary53 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmZtemporary48 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary49 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmZtemporary152 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf-list pmBbmDlSePttReservation {
+      description "Distribution of filtered downlink scheduling entity utilization and reservation level for each Capacity Module. Corresponds to following formula: (reservation for DL scheduling entity PTT) + (DL scheduling entity utilization). PDF ranges: [0]: Total MSR load [0..5] % [1]: Total MSR load ]5..10] % [2]: Total MSR load ]10..15] % [3]: Total MSR load ]15..20] % [4]: Total MSR load ]20..25] % [5]: Total MSR load ]25..30] % [6]: Total MSR load ]30..35] % [7]: Total MSR load ]35..40] % [8]: Total MSR load ]40..45] % [9]: Total MSR load ]45..50] % [10]: Total MSR load ]50..55] % [11]: Total MSR load ]55..60] % [12]: Total MSR load ]60..65] % [13]: Total MSR load ]65..70] % [14]: Total MSR load ]70..75] % [15]: Total MSR load ]75..80] % [16]: Total MSR load ]80..85] % [17]: Total MSR load ]85..90] % [18]: Total MSR load ]90..95] % [19]: Total MSR load ]95..100] % Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmZtemporary156 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmBbmUlSeUtilization {
+      description "Distribution of filtered UL scheduling entity utilization level for each Capacity Module. Note that only resources scheduled with high priority are considered. PDF ranges: [0]: [0..5]% [1]: ]5..10]% [2]: ]10..15]% [3]: ]15..20]% [4]: ]20..25]% [5]: ]25..30]% [6]: ]30..35]% [7]: ]35..40]% [8]: ]40..45]% [9]: ]45..50]% [10]: ]50..55]% [11]: ]55..60]% [12]: ]60..65]% [13]: ]65..70]% [14]: ]70..75]% [15]: ]75..80]% [16]: ]80..85]% [17]: ]85..90]% [18]: ]90..95]% [19]: ]95..100]% Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+    leaf pmZtemporary162 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicUlCapUsedMax {
+      description "Maximum (high-water mark) value of uplink Baseband capacity usage. Counter works only with single capacity module LTE configurations. Unit: kbps Scanner: Primary.";
+      type int32;
+      config false;
+    }
+    leaf pmLicUlPrbUsedMax {
+      description "Maximum (high-water mark) value of UL PRB capacity use for LTE traffic. NB-IoT inband usage is not included. Unit: PRB Scanner: Primary.";
+      type int32;
+      config false;
+    }
+    leaf-list pmBbmHwResCaPreemptDistr {
+      description "Distribution of hardware resource usage for each Capacity Module for carrier aggregation preemption thresholds. Hardware resource utilization usage corresponds to 100 * (Total number of connected UEs + Total number of configured SCells) / Maximum RRC Connected Users. Maximum number of RRC connected users is limited by Baseband hardware capacity. For more information, see Supported Capacity and Configurations. Note: if caMaxSCellsPreemptionThres is equal to caUpswitchPreemptionThres, bin [1] is not stepped. If caUpswitchPreemptionThres is equal to caPreemptionThreshold, bin [2] is not stepped. If caMaxSCellsPreemptionThres, caUpswitchPreemptionThres and caPreemptionThreshold are all equal to 0, bin [1], bin [2] and bin [3] are not stepped. If caMaxSCellsPreemptionThres, caUpswitchPreemptionThres and caPreemptionThreshold have the same value other than 0, bin [1] and bin [2] are not stepped. PDF ranges: [0]: [0..100-caMaxSCellsPreemptionThres]% [1]: ]100-caMaxSCellsPreemptionThres..100-caUpswitchPreemptionThres]% [2]: ]100-caUpswitchPreemptionThres..100-caPreemptionThreshold]% [3]: ]100-caPreemptionThreshold..100]% Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 4;
+    }
+    leaf pmPdcpPktDiscDlEthFormat {
+      description "Number of downlink DRB packets (PDCP SDUs) discarded in Ethernet part of RBS because downlink consistency check fails. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmPdcpPktDiscUlEthPacing {
+      description "Number of uplink DRB packets (PDCP SDUs) discarded in the Ethernet part of the RBS due UL pacing functionality. Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf pmRohcCidSum {
+      description "Sum of all sample values recorded for number of ROHC context IDs. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlCapUsedSamp {
+      description "Total number of measured samples of DL Baseband capacity usage. Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf pmPdcpPktDiscDlEthX2Fwd {
+      description "Number of downlink DRB packets (PDCP SDUs) discarded in Ethernet part of RBS because of downlink X2 forwarding pacing functionality. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmZtemporary153 {
+      description "Normally this counter is not used, it can however sometimes be temporarily used for very late additions in a release. If so, for description see Network Impact Report in the CPI. Scanner: Not included in any predefined scanner.";
+      type uint32;
+      config false;
+    }
+    leaf pmLicDlPrbCapActual {
+      description "The X percentile of the utilization for downlink PRB capacity during a measurement period. The value for X is given by the attribute ENodeBFunction::licDlPrbPercentileConf. The data that is evaluated is the same as for the counter BbProcessingResource::pmLicDlPrbCapDistr. Source Data: ENodeBFunction::licDlPrbPercentileConf and pmLicDlPrbCapDistr Unit: % Scanner: Primary.";
+      type int32;
+      config false;
+    }
+    leaf pmLicUlCapUsedSamp {
+      description "Total number of measured samples of UL Baseband capacity usage. Scanner: Primary.";
+      type uint32;
+      config false;
+    }
+    leaf-list pmBbmDlSeUtilization {
+      description "Distribution of filtered DL scheduling entity utilization level for each Capacity Module. Note that only resources scheduled with high priority are considered. PDF ranges: [0]: [0..5]% [1]: ]5..10]% [2]: ]10..15]% [3]: ]15..20]% [4]: ]20..25]% [5]: ]25..30]% [6]: ]30..35]% [7]: ]35..40]% [8]: ]40..45]% [9]: ]45..50]% [10]: ]50..55]% [11]: ]55..60]% [12]: ]60..65]% [13]: ]65..70]% [14]: ]70..75]% [15]: ]75..80]% [16]: ]80..85]% [17]: ]85..90]% [18]: ]90..95]% [19]: ]95..100]% Scanner: Not included in any predefined scanner.";
+      type uint32;
+      max-elements 20;
+    }
+  }
+}

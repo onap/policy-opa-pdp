@@ -1,0 +1,147 @@
+module ericsson-power-distribution-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ResPowerDistribution";
+  prefix pwdistrdo;
+  import ericsson-equipment-support-function-radio {
+    prefix eqsupfnrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/eqsupfnrdo:EquipmentSupportFunction" {
+    list PowerDistribution {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; MO represents logical resource providing configuration and supervision support for cabinet power distribution capabilities. Examples include configuration of alarm levels and supervision of input voltage. Dependencies: Can only exist in the node when the attribute supportSystemControl is set to true on a parent MO EquipmentSupportFunction.";
+      key "powerDistributionId";
+      leaf powerDistributionId {
+        type leafref {
+          path "../attributes/powerDistributionId";
+        }
+      }
+      container attributes {
+        uses PowerDistribution-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping PowerDistribution-attributes {
+    leaf powerDistributionId {
+      type string;
+      mandatory true;
+    }
+    leaf mainLoadUndervoltageDisconnect {
+      type int32 {
+        range "-480..-400";
+      }
+      status deprecated;
+      default "-460";
+      units "V";
+      description "range -480..-400; Default value: -460; Status info: Since 18A. Replaced by mainLoadDisconnectLevel on MO BatteryBackup. Planned to be removed..";
+    }
+    leaf priorityLoadUndervoltageDisconnect {
+      type int32 {
+        range "-480..-400";
+      }
+      status deprecated;
+      default "-450";
+      units "V";
+      description "range -480..-400; Default value: -450; Status info: Since 18A. Replaced by batteryDisconnectLevel on MO BatteryBackup. Planned to be removed..";
+    }
+    leaf undervoltageDisconnectCeaseOffset {
+      type int32 {
+        range "10..100";
+      }
+      status deprecated;
+      default "70";
+      units "V";
+      description "range 10..100; Default value: 70; Status info: Since 18A. Planned to be removed..";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf controlDomainRef {
+      type string;
+    }
+    leaf systemOvervoltageAlarmLevel {
+      type int32 {
+        range "-600..-530";
+      }
+      default "-575";
+      units "V";
+      description "range -600..-530; Default value: -575.";
+    }
+    leaf systemUndervoltageAlarmLevel {
+      type int32 {
+        range "-480..-380";
+      }
+      default "-475";
+      units "V";
+      description "range -480..-380; Default value: -475.";
+    }
+    leaf systemVoltage {
+      type int32 {
+        range "-600..-380 | -1";
+      }
+      config false;
+      units "V";
+    }
+    leaf-list pmSystemVoltage {
+      type int32;
+    }
+  }
+}

@@ -1,0 +1,282 @@
+module ericsson-ulspectrum-analyzer-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeUlSpectrumAnalyzer";
+  prefix ulspcanrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis MO is used when requesting UL spectrum sampling for one specified radio unit and to store the sampling result file(s) in a SMRS Server. The MO also allows queries to be sent to any radio unit for availible UL spectrum sampling capabilities.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list UlSpectrumAnalyzer {
+      description "Additional definitions from MOM:min/max-elements:0/4;root; This MO is used when requesting UL spectrum sampling for one specified radio unit and to store the sampling result file(s) in a SMRS Server. The MO also allows queries to be sent to any radio unit for availible UL spectrum sampling capabilities.";
+      key "ulSpectrumAnalyzerId";
+      leaf ulSpectrumAnalyzerId {
+        type leafref {
+          path "../attributes/ulSpectrumAnalyzerId";
+        }
+      }
+      container attributes {
+      uses UlSpectrumAnalyzer-attributes;
+      }
+    }
+  }
+  typedef InfoType {
+    description "Information on the reason for latest unsuccessful action.";
+    type enumeration {
+      enum UNDEFINED {
+        description "Initial default value.";
+      }
+      enum PARAMETERS_NOT_SUPPORTED {
+        description "One or more parameters out of range.";
+      }
+      enum TIMEOUT_AT_FILE_UPLOAD {
+        description "Transfer of sample file exceeds time limit.";
+      }
+      enum NO_CARRIERS_SETUP_ON_RADIO {
+        description "No active carriers on radio.";
+      }
+      enum CONDITIONAL_MEASUREMENT_TIMEOUT {
+        description "Trigger condition not fulfilled within time limit.";
+      }
+      enum RADIO_IS_BUSY_WITH_ANOTHER_SAMPLING {
+        description "Conditional sampling already started in radio.";
+      }
+      enum NO_CONTACT_WITH_RADIO {
+        description "No access to specified radio.";
+      }
+      enum NO_RESOURCES {
+        description "Radio unable to set up sampling configuration.";
+      }
+      enum NO_CONTACT_WITH_RADIO_MEASUREMENT_SERVER {
+        description "No contact with radio measurement server.";
+      }
+      enum NO_VALID_LICENSE {
+        description "No feature license available on the node.";
+      }
+      enum PARTIALLY_FINISHED {
+        description "In case of continuous sampling, distinguishes partially finished sampling state from completely finished one.";
+      }
+    }
+  }
+  typedef TcpStatus {
+    description "Status of TCP.";
+    type enumeration {
+      enum UNKNOWN {
+      }
+      enum STARTED {
+      }
+      enum FINISHED {
+      }
+      enum FAILED {
+      }
+      enum STOPPED {
+      }
+    }
+  }
+  typedef UlSpectrumSamplingType {
+    description "Type of sampling operation last ordered.";
+    type enumeration {
+      enum SNAPSHOT_SAMPLING {
+        description "A single sample is requested.";
+      }
+      enum CONTINUOUS_SAMPLING {
+        description "Several samples are requested, one at a time, with an interval according to attribute samplingInterval. When no interval is specified, best effort is used.";
+      }
+      enum CONDITIONAL_SAMPLING {
+        description "A single sample is requested with a specific trigger condition specified.";
+      }
+    }
+  }
+  grouping CapabilityConfigData-struct {
+    description "Returns value of action getSamplingCapability that fetches UL Spectrum Analyzer capabilities from radio and returns result in an array of struct CapabilityConfigData.";
+    leaf measurementPort {
+      description "length 0..128.";
+      type string {
+        length "0..128";
+      }
+    }
+    leaf numSpectrumTypes {
+      description "range 0..64.";
+      type uint32 {
+        range "0..64";
+      }
+    }
+    leaf-list flatGainBW {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list minFrequency {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list maxFrequency {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list samplingRate {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list maxNumSamplings {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf minPower {
+      type int32;
+      units "dBm";
+    }
+    leaf maxPower {
+      type int32;
+      units "dBm";
+    }
+    leaf numTriggerTypes {
+      description "range 0..4.";
+      type uint32 {
+        range "0..4";
+      }
+    }
+    leaf trigger1DataDefined {
+      type string;
+    }
+  }
+  grouping UlsaCapabilityConfig-struct {
+    description "Returns value of action getUlsaSamplingCapability that fetches UL Spectrum Analyzer capabilities from radio and returns result in an array of struct UlsaCapabilityConfig.";
+    leaf carrierRfPort {
+      description "range 1..8.";
+      type ietfinet:port-number;
+    }
+    leaf numSpectrumTypes {
+      description "range 0..64.";
+      type uint32 {
+        range "0..64";
+      }
+    }
+    leaf numTriggerTypes {
+      description "range 0..4.";
+      type uint32 {
+        range "0..4";
+      }
+    }
+    leaf-list minFrequency {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list maxFrequency {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list flatGainBW {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list samplingRate {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf-list maxNumSamplings {
+      type string;
+      ordered-by user;
+      min-elements 0;
+      max-elements 64;
+    }
+    leaf trigger1DataDefined {
+      type string;
+    }
+    leaf minPower {
+      type int32;
+      units "dBm";
+    }
+    leaf maxPower {
+      type int32;
+      units "dBm";
+    }
+  }
+  grouping UlSpectrumAnalyzer-attributes {
+    leaf ulSpectrumAnalyzerId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf targetRfPort {
+      description "Shows the RfPort last targeted for sample request. Value is LDN of the targeted RfPort for CPRI radio. Before any sampling is requested, the value is empty string.; MOM flags: noNotification; Status info: Since 20.Q4. Replaced by targetMeasurementPort. Planned to be removed..";
+      type string;
+      config false;
+      status deprecated;
+    }
+    leaf targetMeasurementPort {
+      description "Shows the measurementPort last targeted for sample request. Value is LDN of targeted RfPort for CPRI radio or LDN of targeted Transceiver for eCPRI radio. Before any sampling is requested, the value is empty string..";
+      type string;
+      config false;
+    }
+    leaf samplingType {
+      description "Type of sampling operation last ordered. Before any sample is requested, value is SNAPSHOT_SAMPLING..";
+      type enumeration {
+        enum SNAPSHOT_SAMPLING;
+        enum CONTINUOUS_SAMPLING;
+        enum CONDITIONAL_SAMPLING;
+      }
+      config false;
+    }
+    leaf ulSpectrumSamplingStatus {
+      description "Status of latest action..";
+      type enumeration {
+        enum UNKNOWN;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+        enum STOPPED;
+      }
+      config false;
+    }
+    leaf info {
+      description "Information on the reason for latest unsuccessful action..";
+      type enumeration {
+        enum UNDEFINED;
+        enum PARAMETERS_NOT_SUPPORTED;
+        enum TIMEOUT_AT_FILE_UPLOAD;
+        enum NO_CARRIERS_SETUP_ON_RADIO;
+        enum CONDITIONAL_MEASUREMENT_TIMEOUT;
+        enum RADIO_IS_BUSY_WITH_ANOTHER_SAMPLING;
+        enum NO_CONTACT_WITH_RADIO;
+        enum NO_RESOURCES;
+        enum NO_CONTACT_WITH_RADIO_MEASUREMENT_SERVER;
+        enum NO_VALID_LICENSE;
+        enum PARTIALLY_FINISHED;
+      }
+      config false;
+    }
+    leaf filename {
+      description "When each sampling run is finished, filename is updated with new collected file name. For continuous sampling, only latest file name is used..";
+      type string;
+      config false;
+    }
+  }
+}

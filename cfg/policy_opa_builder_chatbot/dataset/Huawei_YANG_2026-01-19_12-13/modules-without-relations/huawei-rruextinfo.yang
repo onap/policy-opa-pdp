@@ -1,0 +1,156 @@
+module huawei-rruextinfo {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rruextinfo";
+ prefix rruextinfo;
+ description
+ "Auto-generated modular YANG for huawei-rruextinfo" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RRUEXTINFO-attributes {
+ leaf CHDEPLOYMODE {
+  type string;
+  mandatory false;
+ }
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..15";
+   }
+  }
+  mandatory false;
+ }
+ leaf FREQBAND1 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND1TXATT {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND2 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND2TXATT {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND3 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND3TXATT {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND4 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND4TXATT {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND5 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND5TXATT {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND6 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf FREQBAND6TXATT {
+  type uint8 {
+   range "0..10";
+  }
+  mandatory false;
+ }
+ leaf FREQBANDCTRLFLAG {
+  type string;
+  mandatory false;
+ }
+ leaf FREQBANDCTRLSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf IPMSMINCABLELOSS {
+  type union {
+   type uint16 {
+    range "0..65535";
+   }
+  }
+  mandatory false;
+ }
+ leaf ISDUSDMAXTMSTHD {
+  type uint8 {
+   range "1..3";
+  }
+  mandatory false;
+ }
+ leaf PHASEVARIATIONTHLD {
+  type uint16 {
+   range "0..359";
+  }
+  mandatory false;
+ }
+ leaf PWRDERATSPECSW {
+  type boolean;
+  mandatory false;
+ }
+ leaf RRUDOROPTFEATSW {
+  type string;
+  mandatory false;
+ }
+ leaf RRUOPTLFEATSW {
+  type string;
+  mandatory false;
+ }
+ leaf RRUPIMOPTFEATSW {
+  type string;
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int16 {
+    range "-1..254";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

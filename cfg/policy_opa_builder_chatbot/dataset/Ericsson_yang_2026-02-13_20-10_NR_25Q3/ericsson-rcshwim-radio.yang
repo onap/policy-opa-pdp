@@ -1,0 +1,192 @@
+module ericsson-rcshwim-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsHwIM";
+  prefix rcshwim;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list HwInventory {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The HW Inventory. The RDN of this MO is HwInventory=1.";
+      key "hwInventoryId";
+      leaf hwInventoryId {
+        type leafref {
+          path "../attributes/hwInventoryId";
+        }
+      }
+      container attributes {
+        uses HwInventory-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/HwInventory" {
+    list HwItem {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents Ericsson hardware that is present on the ME.";
+      key "hwItemId";
+      leaf hwItemId {
+        type leafref {
+          path "../attributes/hwItemId";
+        }
+      }
+      container attributes {
+        uses HwItem-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/HwInventory/HwItem" {
+    list HwItem {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents Ericsson hardware that is present on the ME.";
+      key "hwItemId";
+      leaf hwItemId {
+        type leafref {
+          path "../attributes/hwItemId";
+        }
+      }
+      container attributes {
+        uses HwItem-attributes;
+      }
+    }
+  }
+  typedef HwDataEntry {
+    type enumeration {
+      enum PASSIVE;
+      enum ACTIVE;
+    }
+  }
+  grouping HwInventory-attributes {
+    leaf hwInventoryId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf timeOfLatestInvChange {
+      type string;
+      config false;
+    }
+  }
+  grouping HwItem-attributes {
+    leaf hwItemId {
+      type string;
+      mandatory true;
+    }
+    leaf vendorName {
+      type string;
+      config false;
+    }
+    leaf hwModel {
+      type string;
+      config false;
+    }
+    leaf hwType {
+      type string;
+      config false;
+    }
+    leaf hwName {
+      type string;
+      config false;
+    }
+    leaf hwCapability {
+      type string;
+      config false;
+    }
+    leaf-list equipmentMoRef {
+      type ietfinet:ip-address;
+    }
+    leaf additionalInformation {
+      type string;
+      config false;
+    }
+    leaf hwUnitLocation {
+      type string;
+      config false;
+    }
+    leaf manualDataEntry {
+      type enumeration {
+        enum PASSIVE;
+        enum ACTIVE;
+      }
+      config false;
+    }
+    leaf serialNumber {
+      type string;
+      config false;
+    }
+    leaf dateOfLastService {
+      type string;
+      config false;
+    }
+    leaf dateOfManufacture {
+      type string;
+      config false;
+      status deprecated;
+      description "Status info: Use productData:productionDate.";
+    }
+    leaf-list swInvMoRef {
+      type string;
+    }
+    leaf-list licMgmtMoRef {
+      type string;
+    }
+    list additionalAttributes {
+      config false;
+      container attributes {
+      leaf name {
+        type string;
+      }
+      leaf value {
+        type string;
+      }
+      }
+    }
+    list productIdentity {
+      config false;
+      description "Status info: Use productData..";
+      container attributes {
+      leaf productNumber {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf productDesignation {
+        type string;
+      }
+      }
+    }
+    list productData {
+      config false;
+      container attributes {
+      leaf productName {
+        type string;
+      }
+      leaf productNumber {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf productionDate {
+        type string;
+      }
+      leaf description {
+        type ietfinet:ip-address;
+      }
+      leaf type {
+        type string;
+      }
+      }
+    }
+  }
+}

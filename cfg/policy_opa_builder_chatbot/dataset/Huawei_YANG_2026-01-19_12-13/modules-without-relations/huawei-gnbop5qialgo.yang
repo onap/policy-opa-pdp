@@ -1,0 +1,44 @@
+module huawei-gnbop5qialgo {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbop5qialgo";
+ prefix gnbop5qialgo;
+ description
+ "Auto-generated modular YANG for huawei-gnbop5qialgo" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBOP5QIALGO-attributes {
+ leaf NR5QI {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf OLD_OP5QICONFIGINDEX {
+  type union {
+   type int16 {
+    range "-1..511";
+   }
+  }
+  mandatory false;
+ }
+ leaf OP5QICONFIGINDEX {
+  type union {
+   type int16 {
+    range "-1..511";
+   }
+  }
+  mandatory false;
+ }
+ leaf OPERATORID {
+  type uint8 {
+   range "0..11";
+  }
+  mandatory false;
+ }
+ leaf SERVICETYPEIND {
+  type string;
+  mandatory false;
+ }
+ }
+}

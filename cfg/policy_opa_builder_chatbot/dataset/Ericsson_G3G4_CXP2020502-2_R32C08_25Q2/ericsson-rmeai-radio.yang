@@ -1,0 +1,99 @@
+module ericsson-rmeai-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeAI";
+  prefix rmeai;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThis model contains configuration for the Auto provisioning service.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list AutoProvisioning {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; This MO class contains configuration items for the Auto provisioning service.";
+      key "autoProvisioningId";
+      leaf autoProvisioningId {
+        type leafref {
+          path "../attributes/autoProvisioningId";
+        }
+      }
+      container attributes {
+      uses AutoProvisioning-attributes;
+      }
+    }
+  }
+  typedef ConfigLevel {
+    description "The stages of auto provisioning.";
+    type enumeration {
+      enum SITE_CONFIG_COMPLETE {
+        description "Site configuration is completed. The node is ready for integration by OSS.";
+      }
+      enum OSS_CONFIGURATION_SUCCESSFUL {
+        description "The node is successfully configured by OSS.";
+      }
+      enum INTEGRATION_COMPLETE {
+        description "The node is integrated in a network.";
+      }
+      enum READY_FOR_SERVICE {
+        description "Integration is complete. All planned configuration has been applied successfully.";
+      }
+      enum OSS_ACTIVATING_CONFIGURATION {
+        description "OSS continues with configuration.";
+      }
+      enum OSS_CONFIGURATION_FAILED {
+        description "Node configuration by OSS has failed.";
+      }
+      enum ACTIVATING_FEATURES {
+        description "All features with valid licenses are activated.";
+      }
+      enum ACTIVATING_FEATURES_FAILED {
+        description "Not all features with valid licenses installed are correctly activated.";
+      }
+      enum OSS_CONTROL_NODE_CONN {
+        description "OSS activates node conection to the control node.";
+      }
+      enum OSS_CONTROL_NODE_CONN_FAILED {
+        description "Node connection to control node failed.";
+      }
+      enum UNLOCKING_CELLS {
+        description "Unlocked cells are coming into service.";
+      }
+      enum UNLOCKING_CELLS_FAILED {
+        description "One or more cells failed to unlock.";
+      }
+      enum RAN_INTEGRATION_WAS_CANCELLED {
+        description "AutoIntegration was cancelled but the ME is still manageable from OSS.";
+      }
+    }
+  }
+  grouping AutoProvisioning-attributes {
+    leaf autoProvisioningId {
+      description "Holds the name used when identifying the MO..";
+      type string;
+      mandatory true;
+    }
+    leaf rbsConfigLevel {
+      description "Show the current stage of auto provisioning for this managed element..";
+      type enumeration {
+        enum SITE_CONFIG_COMPLETE;
+        enum OSS_CONFIGURATION_SUCCESSFUL;
+        enum INTEGRATION_COMPLETE;
+        enum READY_FOR_SERVICE;
+        enum OSS_ACTIVATING_CONFIGURATION;
+        enum OSS_CONFIGURATION_FAILED;
+        enum ACTIVATING_FEATURES;
+        enum ACTIVATING_FEATURES_FAILED;
+        enum OSS_CONTROL_NODE_CONN;
+        enum OSS_CONTROL_NODE_CONN_FAILED;
+        enum UNLOCKING_CELLS;
+        enum UNLOCKING_CELLS_FAILED;
+        enum RAN_INTEGRATION_WAS_CANCELLED;
+      }
+    }
+  }
+}

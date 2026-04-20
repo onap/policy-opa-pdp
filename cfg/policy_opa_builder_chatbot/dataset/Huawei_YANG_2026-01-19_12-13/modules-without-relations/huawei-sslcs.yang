@@ -1,0 +1,53 @@
+module huawei-sslcs {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-sslcs";
+ prefix sslcs;
+ description
+ "Auto-generated modular YANG for huawei-sslcs" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping SSLCS-attributes {
+ leaf CSLEVEL {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf OLD_CSNAME {
+  type enumeration {
+   enum val--1;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-31;
+   enum val-32;
+   enum val-34;
+   enum val-35;
+   enum val-37;
+   enum val-38;
+  }
+  mandatory false;
+ }
+ leaf CSNAME {
+  type enumeration {
+   enum val--1;
+   enum val-25;
+   enum val-26;
+   enum val-27;
+   enum val-28;
+   enum val-31;
+   enum val-32;
+   enum val-34;
+   enum val-35;
+   enum val-37;
+   enum val-38;
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,70 @@
+module huawei-ethtrklnk {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-ethtrklnk";
+ prefix ethtrklnk;
+ description
+ "Auto-generated modular YANG for huawei-ethtrklnk" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ETHTRKLNK-attributes {
+ leaf CN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf FLAG {
+  type boolean;
+  mandatory false;
+ }
+ leaf PN {
+  type union {
+   type int8 {
+    range "-1..5";
+   }
+  }
+  mandatory false;
+ }
+ leaf PRI {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf SBT {
+  type enumeration {
+   enum val--1;
+   enum val-0;
+   enum val-5;
+  }
+  mandatory false;
+ }
+ leaf SN {
+  type union {
+   type int8 {
+    range "-1..7";
+   }
+  }
+  mandatory false;
+ }
+ leaf SRN {
+  type union {
+   type int8 {
+    range "-1..1";
+   }
+  }
+  mandatory false;
+ }
+ leaf TN {
+  type union {
+   type int8 {
+    range "-1..2";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

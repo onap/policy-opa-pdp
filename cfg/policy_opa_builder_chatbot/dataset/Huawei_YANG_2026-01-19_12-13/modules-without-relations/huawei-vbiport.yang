@@ -1,0 +1,65 @@
+module huawei-vbiport {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-vbiport";
+ prefix vbiport;
+ description
+ "Auto-generated modular YANG for huawei-vbiport" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping VBIPORT-attributes {
+ leaf PORTID {
+  type uint16 {
+   range "0..9999";
+  }
+  mandatory false;
+ }
+ leaf PT {
+  type enumeration {
+   enum val-3;
+   enum val-4;
+  }
+  mandatory false;
+ }
+ leaf PVID {
+  type uint16 {
+   range "1..4094";
+  }
+  mandatory false;
+ }
+ leaf PVPRI {
+  type uint8 {
+   range "0..7";
+  }
+  mandatory false;
+ }
+ leaf USERLABEL {
+  type string {
+   length "0..255";
+  }
+  mandatory false;
+ }
+ leaf VBIID {
+  type uint8 {
+   range "0";
+  }
+  mandatory false;
+ }
+ leaf OLD_VBIPORTID {
+  type union {
+   type int8 {
+    range "-1..99";
+   }
+  }
+  mandatory false;
+ }
+ leaf VBIPORTID {
+  type union {
+   type int8 {
+    range "-1..99";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,4429 @@
+module ericsson-wrat-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:Wrat";
+  prefix wrat;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement" {
+    list NodeBFunction {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; This MO models the radio network resources in a Node B application (WCDMA).";
+      key "nodeBFunctionId";
+      leaf nodeBFunctionId {
+        type leafref {
+          path "../attributes/nodeBFunctionId";
+        }
+      }
+      container attributes {
+        uses NodeBFunction-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/Iub" {
+    list NbapCommon {
+      description "Additional definitions from MOM:min/max-elements:0/1; This MO models the Node B Application Part for common procedures.";
+      key "nbapCommonId";
+      leaf nbapCommonId {
+        type leafref {
+          path "../attributes/nbapCommonId";
+        }
+      }
+      container attributes {
+        uses NbapCommon-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/Iub" {
+    list NbapDedicated {
+      description "Additional definitions from MOM:min/max-elements:0/1; This MO models the Node B Application Part for dedicated procedures.";
+      key "nbapDedicatedId";
+      leaf nbapDedicatedId {
+        type leafref {
+          path "../attributes/nbapDedicatedId";
+        }
+      }
+      container attributes {
+        uses NbapDedicated-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/Iub" {
+    list IubDataStreams {
+      description "Additional definitions from MOM:min/max-elements:0/1; This MO models all Iub data streams between the RNC and the Node B for common as well as for dedicated channels.";
+      key "iubDataStreamsId";
+      leaf iubDataStreamsId {
+        type leafref {
+          path "../attributes/iubDataStreamsId";
+        }
+      }
+      container attributes {
+        uses IubDataStreams-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction" {
+    list Iub {
+      description "Additional definitions from MOM:min/max-elements:0/1; This MO models the Iub interface. Iub is the interface between a Node B and the associated RNC.";
+      key "iubId";
+      leaf iubId {
+        type leafref {
+          path "../attributes/iubId";
+        }
+      }
+      container attributes {
+        uses Iub-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction" {
+    list NodeBLocalCellGroup {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO models a group of Node B Local Cells that share common baseband equipment cluster. Within the Node B Local Cell Group you can do softer handover.";
+      key "nodeBLocalCellGroupId";
+      leaf nodeBLocalCellGroupId {
+        type leafref {
+          path "../attributes/nodeBLocalCellGroupId";
+        }
+      }
+      container attributes {
+        uses NodeBLocalCellGroup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction" {
+    list CommunicationContexts {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; This MO models all communication contexts in a Node B. A communication context is a concept that describes all connections between one UE and the network. The RDN of this MO is CommunicationContexts=1.";
+      key "communicationContextsId";
+      leaf communicationContextsId {
+        type leafref {
+          path "../attributes/communicationContextsId";
+        }
+      }
+      container attributes {
+        uses CommunicationContexts-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction" {
+    list DlPowerSharing {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; This MO models the HSDPA Mixed Mode Dynamic Power Sharing of a PA. The RDN of this MO is DlPowerSharing=n. Persistent: Yes";
+      key "dlPowerSharingId";
+      leaf dlPowerSharingId {
+        type leafref {
+          path "../attributes/dlPowerSharingId";
+        }
+      }
+      container attributes {
+        uses DlPowerSharing-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/NodeBLocalCellGroup/NodeBLocalCell" {
+    list HsDschResources {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; This MO models the High-Speed Downlink Shared Channel resources. They are set up through Iub. The RDN of this MO is HsDschResources=1. Persistent: No";
+      key "hsDschResourcesId";
+      leaf hsDschResourcesId {
+        type leafref {
+          path "../attributes/hsDschResourcesId";
+        }
+      }
+      container attributes {
+        uses HsDschResources-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/NodeBLocalCellGroup/NodeBLocalCell" {
+    list RadioLinks {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; This MO models all radio links on one Node B Local Cell. The RDN of this MO is RadioLinks=1.";
+      key "radioLinksId";
+      leaf radioLinksId {
+        type leafref {
+          path "../attributes/radioLinksId";
+        }
+      }
+      container attributes {
+        uses RadioLinks-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/NodeBLocalCellGroup/NodeBLocalCell" {
+    list CellResources {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; This MO models all basic physical and transport channels related to a Node B Local Cell. Basic physical channels: PCPICH, SCPICH, PSCH, SSCH and PCCPCH. Transport channels: BCH. The RDN of this MO is CellResources=1. Persistent: No";
+      key "cellResourcesId";
+      leaf cellResourcesId {
+        type leafref {
+          path "../attributes/cellResourcesId";
+        }
+      }
+      container attributes {
+        uses CellResources-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/NodeBLocalCellGroup/NodeBLocalCell" {
+    list NodeBSectorCarrier {
+      description "Additional definitions from MOM:min/max-elements:0/6; This MO models a carrier frequency that is broadcast in a sector.";
+      key "nodeBSectorCarrierId";
+      leaf nodeBSectorCarrierId {
+        type leafref {
+          path "../attributes/nodeBSectorCarrierId";
+        }
+      }
+      container attributes {
+        uses NodeBSectorCarrier-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/NodeBLocalCellGroup/NodeBLocalCell" {
+    list CommonChannelResourcesDl {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; This MO models all physical and transport channels related to the downlink common channels. Physical channels: SCCPCH, PICH and AICH. Transport channel: FACH and PCH. The RDN of this MO is CommonChannelResourcesDl=1. Persistent: No";
+      key "commonChannelResourcesDlId";
+      leaf commonChannelResourcesDlId {
+        type leafref {
+          path "../attributes/commonChannelResourcesDlId";
+        }
+      }
+      container attributes {
+        uses CommonChannelResourcesDl-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/NodeBLocalCellGroup/NodeBLocalCell" {
+    list EDchResourcesCell {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; This MO models the Enhanced Uplink Shared Channel resources related to a Node B Local Cell. They are set up through Iub. The RDN of this MO is EDchResourcesCell=1. Persistent: No";
+      key "eDchResourcesCellId";
+      leaf eDchResourcesCellId {
+        type leafref {
+          path "../attributes/eDchResourcesCellId";
+        }
+      }
+      container attributes {
+        uses EDchResourcesCell-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/NodeBLocalCellGroup" {
+    list NodeBLocalCell {
+      description "Additional definitions from MOM:min/max-elements:0/18; This MO models a local cell, that is the equipment and resources in a Node B needed to support an UTRAN cell. Precondition: This MO can not be deleted if it has not administrativeState=LOCKED.";
+      key "nodeBLocalCellId";
+      leaf nodeBLocalCellId {
+        type leafref {
+          path "../attributes/nodeBLocalCellId";
+        }
+      }
+      container attributes {
+        uses NodeBLocalCell-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/NodeBLocalCellGroup/NodeBLocalCell/NodeBSectorCarrier" {
+    list CommonChannelResourcesUl {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; This MO models all physical and transport channels related to the uplink common channels. Physical channels: PRACH. Transport channel: RACH. The RDN of this MO is CommonChannelResourcesUl=1. Persistent: No";
+      key "commonChannelResourcesUlId";
+      leaf commonChannelResourcesUlId {
+        type leafref {
+          path "../attributes/commonChannelResourcesUlId";
+        }
+      }
+      container attributes {
+        uses CommonChannelResourcesUl-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/NodeBFunction/NodeBLocalCellGroup/NodeBLocalCell/NodeBSectorCarrier" {
+    list EDchResources {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; This MO models the Enhanced Uplink Shared Channel resources. They are set up through Iub. The RDN of this MO is EDchResources=1. Persistent: No";
+      key "eDchResourcesId";
+      leaf eDchResourcesId {
+        type leafref {
+          path "../attributes/eDchResourcesId";
+        }
+      }
+      container attributes {
+        uses EDchResources-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AdvCellSupAction {
+    type enumeration {
+      enum NO_ACTION;
+      enum CELL_RESTART;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+    }
+  }
+  typedef BbPowerSavingMode {
+    type enumeration {
+      enum NOT_SUPPORTED;
+      enum IN_POWER_SAVING;
+      enum OUT_OF_POWER_SAVING;
+    }
+  }
+  typedef BsctInnerLoopDlpcStatus {
+    type enumeration {
+      enum INACTIVE;
+      enum ACTIVE;
+    }
+  }
+  typedef BsctMode {
+    type enumeration {
+      enum NORMAL;
+      enum BASE_STATION_CONFORMANCE_TEST;
+    }
+  }
+  typedef BsctState {
+    type enumeration {
+      enum STOPPED;
+      enum STARTED;
+      enum NOT_APPLICABLE;
+    }
+  }
+  typedef BsctTestModel {
+    type enumeration {
+      enum TEST_MODEL_1;
+      enum TEST_MODEL_2;
+      enum TEST_MODEL_3;
+      enum TEST_MODEL_4;
+      enum TEST_MODEL_5;
+      enum TEST_MODEL_6;
+      enum NOT_APPLICABLE;
+    }
+  }
+  typedef BsctTpcDlStepSize {
+    type enumeration {
+      enum _5;
+      enum _10;
+      enum _15;
+      enum _20;
+    }
+  }
+  typedef CarrierAirRateTypeSelector {
+    type enumeration {
+      enum ACKNOWLEDGED;
+      enum TRANSMITTED;
+    }
+  }
+  typedef CarrierQueueSelectAlgorithm {
+    type enumeration {
+      enum ROUND_ROBIN;
+      enum PROPORTIONAL_FAIR_MEDIUM;
+      enum PROPORTIONAL_FAIR_HIGH;
+      enum PROPORTIONAL_FAIR_LOW;
+      enum MAXIMUM_CQI;
+      enum EQUAL_RATE;
+    }
+  }
+  typedef CombinedCellConfiguration {
+    type enumeration {
+      enum COMBINED_CELL_NORMAL;
+      enum COMBINED_CELL_INDOOR;
+    }
+  }
+  typedef CpcCapability {
+    type enumeration {
+      enum CPC_NON_CAPABLE;
+      enum CPC_CAPABLE;
+    }
+  }
+  typedef EulMcCapability {
+    type enumeration {
+      enum EUL_MC_NON_CAPABLE;
+      enum EUL_MC_CAPABLE;
+    }
+  }
+  typedef FeatCtrlState {
+    type enumeration {
+      enum OFF;
+      enum ON;
+    }
+  }
+  typedef Hsdpa3McCapability {
+    type enumeration {
+      enum HSDPA_3MC_CAPABLE;
+      enum HSDPA_3MC_NON_CAPABLE;
+    }
+  }
+  typedef HsdpaDb3McCapability {
+    type enumeration {
+      enum HSDPA_DB_3MC_CAPABLE;
+      enum HSDPA_DB_3MC_NON_CAPABLE;
+    }
+  }
+  typedef HsdpaDbMcCapability {
+    type enumeration {
+      enum HSDPA_DB_MC_NON_CAPABLE;
+      enum HSDPA_DB_MC_CAPABLE;
+    }
+  }
+  typedef HsdpaMcCapability {
+    type enumeration {
+      enum HSDPA_MC_NON_CAPABLE;
+      enum HSDPA_MC_CAPABLE;
+    }
+  }
+  typedef HsdpaMmPowerSharingCapability {
+    type enumeration {
+      enum HSDPA_MM_POWER_SHARING_NON_CAPABLE;
+      enum HSDPA_MM_POWER_SHARING_CAPABLE;
+    }
+  }
+  typedef HsdpaPowerSharingCapability {
+    type enumeration {
+      enum HSDPA_POWER_SHARING_NON_CAPABLE;
+      enum HSDPA_POWER_SHARING_CAPABLE;
+    }
+  }
+  typedef IpOptimizedHsTnSettingsStatus {
+    type enumeration {
+      enum OFF;
+      enum ON;
+    }
+  }
+  typedef NbirAutoSelectAlgorithm {
+    type enumeration {
+      enum NBIR_OFF;
+      enum GENERIC_NBIR;
+      enum ADAPTIVE_NOTCH_NBIR;
+      enum NOT_APPLICABLE;
+    }
+  }
+  typedef NbirSelectAlgorithm {
+    type enumeration {
+      enum GENERIC_NBIR;
+      enum ADAPTIVE_NOTCH_NBIR;
+      enum FIXED_NOTCH_NBIR;
+      enum AUTO_GENERIC_ADAPTIVE_NBIR;
+      enum AUTO_GENERIC_ADAPTIVE_OFF_NBIR;
+    }
+  }
+  typedef NewSteHsAllocStatus {
+    type enumeration {
+      enum NOT_APPLICABLE;
+      enum NEW_STE_HS_ALLOC_NOT_READY;
+      enum NEW_STE_HS_ALLOC_READY;
+    }
+  }
+  typedef NoiseFloorAlgorithm {
+    type enumeration {
+      enum SLIDING_WINDOW_NOISE_FLOOR;
+      enum RECURSIVE_NOISE_FLOOR;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef SchFlowControlState {
+    type enumeration {
+      enum OFF;
+      enum ON;
+    }
+  }
+  typedef SectorLatHemisphere {
+    type enumeration {
+      enum NORTH;
+      enum SOUTH;
+    }
+  }
+  typedef UsageState {
+    type enumeration {
+      enum IDLE;
+      enum ACTIVE;
+      enum BUSY;
+    }
+  }
+  grouping CellResources-attributes {
+    leaf cellResourcesId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf numOfBch {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf numOfPccpch {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf numOfPcpich {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf numOfPsch {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf numOfScpich {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf numOfSsch {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+  }
+  grouping CommonChannelResourcesDl-attributes {
+    leaf commonChannelResourcesDlId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf numOfAich {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf numOfFach {
+      type int16 {
+        range "0..2";
+      }
+      config false;
+      description "range 0..2.";
+    }
+    leaf numOfPch {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf numOfPich {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf numOfSccpch {
+      type int16 {
+        range "0..2";
+      }
+      config false;
+      description "range 0..2.";
+    }
+    leaf pmNoOfTfc2OnFach1 {
+      type uint64;
+      config false;
+    }
+    leaf pmNoOfTfc3OnFach2 {
+      type uint64;
+      config false;
+    }
+    leaf pmAichPositiveMessages {
+      type uint64;
+      config false;
+    }
+    leaf pmNoOfTfc1OnFach1 {
+      type uint64;
+      config false;
+    }
+    leaf pmAichNegativeMessages {
+      type uint64;
+      config false;
+    }
+    leaf pmAichPositiveMessagesEulFach {
+      type uint64;
+      config false;
+    }
+    leaf-list pmAichNegativeMessagesEulFach {
+      type uint64;
+    }
+  }
+  grouping CommonChannelResourcesUl-attributes {
+    leaf commonChannelResourcesUlId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf numOfPrach {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf numOfRach {
+      type eytypes:int16_range_0-1;
+      config false;
+      description "range 0..1.";
+    }
+    leaf pmPrachPropagationDelayMax {
+      type int64;
+      config false;
+    }
+    leaf-list pmAccessIntensityEulFach {
+      type ietfyang:mac-address;
+    }
+    leaf-list pmPrachPropagationDelay {
+      type uint64;
+    }
+    leaf pmPrachSuccReceivedBlocks {
+      type uint64;
+      config false;
+    }
+    leaf-list pmAccessIntensityRach {
+      type ietfyang:mac-address;
+    }
+    leaf-list pmPrachReceivedPreambleSir {
+      type uint64;
+    }
+    leaf pmPrachUnsuccReceivedBlocks {
+      type uint64;
+      config false;
+    }
+    leaf pmPrachNoPreambleFalseDetection {
+      type uint64;
+      config false;
+    }
+  }
+  grouping CommunicationContexts-attributes {
+    leaf communicationContextsId {
+      type string;
+      mandatory true;
+    }
+    leaf noOfCommunicationContexts {
+      type int16 {
+        range "0..9999";
+      }
+      config false;
+      description "range 0..9999.";
+    }
+  }
+  grouping DlPowerSharing-attributes {
+    leaf dlPowerSharingId {
+      type string;
+      mandatory true;
+    }
+    leaf extraPowerHsdpaMixedMode {
+      type int16 {
+        range "0..160";
+      }
+      default "160";
+      units "W";
+      description "range 0..160; Default value: 160.";
+    }
+    leaf rfBranchTxRef {
+      type string;
+      config false;
+    }
+    leaf-list nodeBLocalCellRef {
+      type string;
+    }
+    leaf pmNoOfPowLimSlots {
+      type uint64;
+      config false;
+    }
+  }
+  grouping EDchResources-attributes {
+    leaf eDchResourcesId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf pmSumNackedBitsCellEulTti2Td {
+      type uint64;
+      config false;
+    }
+    leaf pmSumNackedBitsCellEulFach {
+      type uint64;
+      config false;
+    }
+    leaf pmNoAllowedEul {
+      type uint64;
+      config false;
+    }
+    leaf-list pmLDch {
+      type uint64;
+    }
+    leaf pmCapacityAllocAttServEDchUsers {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmGrantReductionReasonEul {
+      type uint64;
+    }
+    leaf pmNoActive2msFramesEul {
+      type uint64;
+      config false;
+    }
+    leaf-list pmCapacityOfServEDchUsers {
+      type uint64;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmSumAckedBitsCellEulTti10 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmTotalRotCoverage {
+      type uint64;
+    }
+    leaf pmNoActive2msFramesEulTd {
+      type uint64;
+      config false;
+    }
+    leaf pmSumAckedBitsCellEulTti2Td {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmNoUlUuLoadLimitEul {
+      type uint64;
+      config false;
+    }
+    leaf-list pmEdchThpGlim {
+      type uint32;
+    }
+    leaf pmNoActive2msIntervalsEulNonGlim {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActive2msIntervalsEulTti2 {
+      type uint64;
+      config false;
+    }
+    leaf-list pmBurstLengthEulFach {
+      type uint64;
+    }
+    leaf pmSumAckedBitsCellEulGlim {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsCellEulFach {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmLCEdch {
+      type uint64;
+    }
+    leaf pmNoActive10msIntervalsEulTti10 {
+      type uint64;
+      config false;
+    }
+    leaf-list pmOwnUuLoad {
+      type uint64;
+    }
+    leaf-list pmEdchThpAppLim {
+      type uint32;
+    }
+    leaf-list pmFirstDecodedFrameEulFach {
+      type uint64;
+    }
+    leaf pmSumAckedBitsCellEulNonGlim {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmLEDchTot {
+      type uint64;
+    }
+    leaf pmNoActive10msFramesEulFach {
+      type uint64;
+      config false;
+    }
+    leaf-list pmNoUsersCEdchEul {
+      type uint64;
+    }
+    leaf pmNoActive2msIntervalsEulGlim {
+      type uint32;
+      config false;
+    }
+    leaf pmSamplesCapacityServEDchUsers {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmSumCapacityServEDchUsers {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf pmSumNackedBitsCellEulTti10 {
+      type uint64;
+      config false;
+    }
+    leaf-list pmLOther {
+      type uint64;
+    }
+    leaf-list pmCommonChPowerEul {
+      type uint16;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmNoSchEdchEul {
+      type uint64;
+    }
+    leaf-list pmWaitingTimeEul {
+      type uint64;
+    }
+    leaf pmSumAckedBitsCellEulTti2 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmNoActive2msIntervalsEul {
+      type uint64;
+      config false;
+    }
+    leaf-list pmTotRateGrantedEul {
+      type uint64;
+    }
+    leaf-list pmEdchThpNonGlim {
+      type uint32;
+    }
+    leaf pmNoActive10msIntervalsEulFach {
+      type uint64;
+      config false;
+    }
+    leaf pmNoActive10msFramesEul {
+      type uint64;
+      config false;
+    }
+    leaf-list pmCEdchReleaseCause {
+      type uint64;
+    }
+    leaf pmSumNackedBitsCellEulTti2 {
+      type uint64;
+      config false;
+    }
+    leaf pmCapacityAllocRejServEDchUsers {
+      type uint64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmNoSchEdchEulTd {
+      type uint64;
+    }
+    leaf pmEulFachHarqTransmFailure {
+      type uint64;
+      config false;
+    }
+    leaf pmCapacityLimitServEDchUsers {
+      type int64;
+      config false;
+      status deprecated;
+      description "MOM flags: noNotification.";
+    }
+    leaf-list pmNoiseFloorHighRes {
+      type uint64;
+    }
+    leaf-list pmEulFachHarqTransm {
+      type uint64;
+    }
+    leaf-list pmLMaxEDch {
+      type uint64;
+    }
+  }
+  grouping EDchResourcesCell-attributes {
+    leaf eDchResourcesCellId {
+      type string;
+      mandatory true;
+    }
+    leaf pmAllocRejEdchRlEul {
+      type uint64;
+      config false;
+    }
+    leaf-list pmCapacityOfServEDchUsers {
+      type uint64;
+    }
+    leaf-list pmCommonChPowerEul {
+      type uint16;
+    }
+    leaf pmCapacityAllocRejServEDchUsers {
+      type uint64;
+      config false;
+    }
+    leaf pmCapacityAllocAttServEDchUsers {
+      type uint64;
+      config false;
+    }
+    leaf pmSamplesCapacityServEDchUsers {
+      type uint64;
+      config false;
+    }
+    leaf pmCapacityLimitServEDchUsers {
+      type int64;
+      config false;
+    }
+    leaf pmSumCapacityServEDchUsers {
+      type uint64;
+      config false;
+    }
+  }
+  grouping HsDschResources-attributes {
+    leaf hsDschResourcesId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf maxAvailMixedModeExtraPower {
+      type int32;
+      config false;
+    }
+    leaf pmSumJitterSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi11 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi00 {
+      type uint32;
+    }
+    leaf pmSumAckedBitsSpi14 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi07 {
+      type uint32;
+    }
+    leaf-list pmTransmittedCarrierPowerWNonHs {
+      type uint64;
+    }
+    leaf pmNackReceived {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmSamplesSumAckedBitsRlim {
+      type ietfyang:mac-address;
+    }
+    leaf pmSumNoOfUsersSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi08 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi11 {
+      type uint32;
+    }
+    leaf-list pmSumTransmissions {
+      type uint16;
+    }
+    leaf-list pmDelayDistributionSpi08 {
+      type uint32;
+    }
+    leaf pmAqmBasedDiscardSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi08 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmAvailableMixedModeExtraPowerLimit {
+      type int32;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi14 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumCapacityHsPdschCodes {
+      type uint64;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmSum3McPriUes {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmAckQpsk {
+      type ietfyang:mac-address;
+    }
+    leaf pmSumCapacityHsDschUsers {
+      type uint64;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi03 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi10 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi12 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers {
+      type uint32;
+      config false;
+    }
+    leaf pmSumDelaySpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi08 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi06 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmReportedCqi64Qam {
+      type ietfinet:port-number;
+    }
+    leaf pmSumDelaySpi01 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmSumAckedBits {
+      type ietfyang:mac-address;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi03 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmSumAckedBitsUsersRlim {
+      type ietfyang:mac-address;
+    }
+    leaf pmSumAckedBitsMcPqSpi04 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmCapacityAllocAttHsPdschCodes {
+      type uint64;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmUsedExtraPowerWHs {
+      type uint32;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmSumOfHsUsedPwrHsFach {
+      type uint16;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi06 {
+      type uint32;
+    }
+    leaf pmAqmBasedDiscardSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumMcPriUes {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmUsedExtraMixedModePowerWHs {
+      type uint32;
+    }
+    leaf pmSumTransmittedBitsSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumDelaySpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumBlockedTransmissions {
+      type uint32;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFrames {
+      type uint16;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi04 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmTransmittedCarrierPowerWHs {
+      type uint64;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi02 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumDelaySpi05 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi06 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumJitterSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmAllocRejHwHsDschUsers {
+      type uint64;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi08 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumDelaySpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmSumTransmissionsRlim {
+      type uint16;
+    }
+    leaf pmSumJitterSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmSumOfHsScchUsedPwr {
+      type uint16;
+    }
+    leaf pmSumAckedBitsSpi04 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi00 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmUsedHsPdschCodes {
+      type uint32;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi12 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumJitterSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi14 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumSqrCapacityHsPdschCodes {
+      type uint64;
+      config false;
+    }
+    leaf-list pmSumOfHsUsedPwr {
+      type uint16;
+    }
+    leaf pmSumTransmittedBitsSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmAck16Qam {
+      type ietfyang:mac-address;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi01 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi15 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi05 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumJitterSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmCapacityOfHsPdschCodes {
+      type uint64;
+    }
+    leaf pmSumAckedBitsPqSpi08 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumJitterSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi01 {
+      type uint32;
+    }
+    leaf pmSumAckedBitsPqSpi10 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi15 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi04 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi10 {
+      type uint32;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi13 {
+      type uint16;
+      config false;
+    }
+    leaf pmAckReceived {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi11 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi12 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi11 {
+      type uint16;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi03 {
+      type uint32;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmUsedHsPdschCodesHsFach {
+      type uint32;
+    }
+    leaf pmSumAckedBitsPqSpi00 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi09 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmCapacityAllocAttHsDschUsers {
+      type uint64;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf pmSamplesCapacityHsDschUsers {
+      type uint64;
+      config false;
+    }
+    leaf-list pmUsedCqi {
+      type uint16;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi07 {
+      type uint16;
+      config false;
+    }
+    leaf-list pmNoOfHsUsersPerTtiHsFach {
+      type uint16;
+    }
+    leaf pmSumAckedBitsSpi13 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi15 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmReportedCqi {
+      type ietfinet:port-number;
+    }
+    leaf pmSumJitterSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmAverageUserRate {
+      type uint16;
+    }
+    leaf pmSumNoOfUsersSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi14 {
+      type uint32;
+    }
+    leaf pmSumAckedBitsMcPqSpi02 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi13 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumDelaySpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi05 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumDelaySpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi09 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumJitterSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi01 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi06 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumJitterSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmNoOfMcSecUsersPerTti {
+      type uint32;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumDelaySpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi03 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi12 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumDelaySpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi00 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumDelaySpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumJitterSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmTransmittedCarrierPowerHs {
+      type uint32;
+    }
+    leaf-list pmRemainingResourceCheck {
+      type uint16;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi10 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi14 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmCapacityAllocRejHsPdschCodes {
+      type uint64;
+      config false;
+    }
+    leaf-list pmUsedTbs16Qam {
+      type uint32;
+    }
+    leaf pmNoActiveSubFramesSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi03 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi02 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmUsedTbsQpsk {
+      type uint32;
+    }
+    leaf-list pmTransmittedCarrierPowerNonHs {
+      type uint32;
+    }
+    leaf pmSumAckedBitsMcPqSpi09 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi07 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumJitterSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf pmSamplesCapacityHsPdschCodes {
+      type uint64;
+      config false;
+    }
+    leaf pmSumJitterSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi15 {
+      type uint32;
+    }
+    leaf pmSumAckedBitsMcPqSpi01 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi01 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi10 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi02 {
+      type uint32;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi13 {
+      type uint32;
+    }
+    leaf-list pmDelayDistributionSpi04 {
+      type uint32;
+    }
+    leaf-list pmDelayDistributionSpi05 {
+      type uint32;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi09 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi11 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumDelaySpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi06 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf pmSampleScAndMcActUes {
+      type uint16;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi02 {
+      type uint16;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumDelaySpi14 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumBlockedTransmissionsRlim {
+      type uint32;
+      config false;
+    }
+    leaf pmSumJitterSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi14 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmSamplesSumAckedBitsUsersRlim {
+      type ietfyang:mac-address;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi15 {
+      type uint16;
+      config false;
+    }
+    leaf-list pmSumOfHsScchUsedPwrHsFach {
+      type uint16;
+    }
+    leaf pmSumTransmittedBitsSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumDelaySpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi05 {
+      type uint16;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmAvailableMixedModeExtraPower {
+      type uint32;
+    }
+    leaf pmSumNoOfUsersSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi07 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmNoActiveSubFrames {
+      type uint16;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi13 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi00 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi09 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi07 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumDelaySpi03 {
+      type uint32;
+      config false;
+    }
+    leaf pmIubBasedDiscardFrameLossUserSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumJitterSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi00 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumDelaySpi00 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi03 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi15 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi06 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi05 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmIubMacdPduCellReceivedBits {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi12 {
+      type uint32;
+    }
+    leaf pmCapacityLimitHsDschUsers {
+      type int64;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmSumTransmissionsUsersRlim {
+      type uint16;
+    }
+    leaf pmSumDelaySpi12 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmAck64Qam {
+      type ietfyang:mac-address;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi04 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi01 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumJitterSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmUsedTbs64Qam {
+      type uint32;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoInactiveRequiredSubFramesSpi10 {
+      type uint16;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmNoActiveSubFramesSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsSpi11 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmCapacityAllocRejHsDschUsers {
+      type uint64;
+      config false;
+    }
+    leaf-list pmSamplesSumAckedBits {
+      type ietfyang:mac-address;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmUnusedPowerWHs {
+      type uint32;
+    }
+    leaf pmNoActiveSubFramesSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi13 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumAckedBits3McPqSpi12 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmNoOfHsUsersPerTti {
+      type uint16;
+    }
+    leaf pmAqmBasedDiscardSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumMcSecActUes {
+      type uint32;
+      config false;
+    }
+    leaf pmSumJitterSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumScAndMcActUes {
+      type uint16;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffers3McPqSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumAckedBitsMcPqSpi07 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmCapacityOfHsDschUsers {
+      type uint64;
+    }
+    leaf pmCapacityLimitHsPdschCodes {
+      type int64;
+      config false;
+    }
+    leaf pmSumAckedBitsPqSpi02 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf-list pmDelayDistributionSpi09 {
+      type uint32;
+    }
+    leaf pmSumAckedBitsMcPqSpi05 {
+      type ietfyang:mac-address;
+      config false;
+    }
+    leaf pmSumMcSecDeactUes {
+      type uint32;
+      config false;
+    }
+    leaf pmAqmBasedDiscardSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersPqSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNonEmptyUserBuffersMcPqSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumTransmittedBitsSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmSumAckedBitsRlim {
+      type ietfyang:mac-address;
+    }
+    leaf pmAqmBasedDiscardSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf pmSumNoOfUsersSpi08 {
+      type uint32;
+      config false;
+    }
+  }
+  grouping Iub-attributes {
+    leaf iubId {
+      type string;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf ipv4Address {
+      type ietfinet:ipv4-address;
+      mandatory true;
+    }
+    leaf rbsId {
+      type uint32;
+      mandatory true;
+    }
+    leaf rSiteRef {
+      type string {
+        length "1..35";
+      }
+      config false;
+      description "length 1..35.";
+    }
+    leaf pmNoOfDiscardedMsg {
+      type uint64;
+      config false;
+    }
+    leaf pmTotalTimeIubLinkCongestedUl {
+      type uint64;
+      config false;
+    }
+  }
+  grouping IubDataStreams-attributes {
+    leaf iubDataStreamsId {
+      type string;
+      mandatory true;
+    }
+    leaf maxHsRate {
+      type int16 {
+        range "1..10000";
+      }
+      default "470";
+      units "Mbps";
+      description "range 1..10000; Default value: 470.";
+    }
+    leaf hsDataFrameDelayThreshold {
+      type int16 {
+        range "10..200";
+      }
+      default "60";
+      units "ms";
+      description "range 10..200; Default value: 60.";
+    }
+    leaf hsRbrDiscardProbability {
+      type eytypes:int16_range_0-100;
+      default "0";
+      units "percent";
+      description "range 0..100; Default value: 0.";
+    }
+    leaf-list hsRbrWeight {
+      type int16 {
+        range "32..320";
+      }
+    }
+    leaf noOfCommonStreams {
+      type int16 {
+        range "0..999";
+      }
+      config false;
+      description "range 0..999.";
+    }
+    leaf noOfDedicatedStreams {
+      type int16 {
+        range "0..9999";
+      }
+      config false;
+      description "range 0..9999.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list schHsFlowControlOnOff {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf-list hsAqmCongCtrlSpiOnOff {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf pmHsDataFramesReceivedSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi06 {
+      type int16;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi15 {
+      type int16;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi05 {
+      type int16;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi12 {
+      type int16;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi10 {
+      type uint16;
+    }
+    leaf pmHsDataFramesLostSpi02 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi00 {
+      type uint16;
+    }
+    leaf pmHsDataFramesLostSpi11 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmIubFrameLossIntensity {
+      type uint16;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi15 {
+      type uint16;
+    }
+    leaf pmEdchIubLimitingRatio {
+      type int64;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi12 {
+      type uint16;
+    }
+    leaf pmHsDataFramesReceivedSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi13 {
+      type uint32;
+      config false;
+    }
+    leaf pmDchFramesCrcMismatch {
+      type uint64;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi00 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi01 {
+      type uint16;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi02 {
+      type int16;
+      config false;
+    }
+    leaf pmDchFramesOutOfSequenceDl {
+      type uint64;
+      config false;
+    }
+    leaf pmDchFramesLate {
+      type uint64;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi14 {
+      type uint16;
+    }
+    leaf pmDchFramesTooLate {
+      type uint64;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi03 {
+      type int16;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf pmDchFramesEarly {
+      type uint64;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi00 {
+      type int16;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi04 {
+      type uint16;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi11 {
+      type uint16;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi04 {
+      type int16;
+      config false;
+    }
+    leaf pmDchFramesTooEarly {
+      type uint64;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi03 {
+      type uint16;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi07 {
+      type uint16;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi06 {
+      type uint16;
+    }
+    leaf pmHsDataFramesLostSpi03 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi04 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi01 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi13 {
+      type uint16;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi08 {
+      type int16;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi09 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi05 {
+      type uint16;
+    }
+    leaf-list pmIubMacdPduRbsReceivedBits {
+      type ietfyang:mac-address;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi14 {
+      type int16;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi09 {
+      type int16;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi12 {
+      type uint32;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi08 {
+      type uint16;
+    }
+    leaf pmHsDataFramesLostSpi10 {
+      type uint32;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi13 {
+      type int16;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi14 {
+      type uint32;
+      config false;
+    }
+    leaf pmDchFramesReceived {
+      type uint64;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi11 {
+      type int16;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi15 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi05 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi07 {
+      type uint32;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi07 {
+      type int16;
+      config false;
+    }
+    leaf pmHsDataFramesReceivedSpi08 {
+      type uint32;
+      config false;
+    }
+    leaf pmHsDataFramesLostSpi06 {
+      type uint32;
+      config false;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi01 {
+      type int16;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi02 {
+      type uint16;
+    }
+    leaf pmCapAllocIubHsLimitingRatioSpi10 {
+      type int16;
+      config false;
+    }
+    leaf-list pmHsDataFrameDelayIubSpi09 {
+      type uint16;
+    }
+  }
+  grouping NbapCommon-attributes {
+    leaf auditRetransmissionT {
+      type int16 {
+        range "1..150";
+      }
+      default "5";
+      units "s";
+      description "range 1..150; Default value: 5.";
+    }
+    leaf l3EstablishSupervisionT {
+      type int16 {
+        range "1..500";
+      }
+      default "30";
+      units "s";
+      description "range 1..500; Default value: 30.";
+    }
+    leaf nbapCommonId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf sctpEndpointRef {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping NbapDedicated-attributes {
+    leaf nbapDedicatedId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf sctpEndpointRef {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping NodeBFunction-attributes {
+    leaf eulTargetRate {
+      type eytypes:int16_range_0-6016;
+      default "128";
+      units "kbps";
+      description "range 0..6016; Default value: 128.";
+    }
+    leaf nodeBFunctionId {
+      type string;
+      mandatory true;
+    }
+    leaf eul2msFirstSchedStep {
+      type int16 {
+        range "20 | 160";
+      }
+      default "160";
+      units "kbps";
+      description "Default value: 160.";
+    }
+    leaf eulDchMaxAllowedSchRate {
+      type int16 {
+        range "0..3200";
+      }
+      default "1920";
+      units "kbps";
+      description "range 0..3200; Default value: 1920.";
+    }
+    leaf eulInactivityHighRateTime {
+      type int16 {
+        range "0..1000";
+      }
+      default "20";
+      units "ms";
+      description "range 0..1000; Default value: 20.";
+    }
+    leaf eulInactivityLowRateTime {
+      type int16;
+      units "ms";
+    }
+    leaf eulLowRate {
+      type eytypes:int16_range_0-6016;
+      default "32";
+      units "kbps";
+      description "range 0..6016; Default value: 32.";
+    }
+    leaf eulLowUsageTime {
+      type int16 {
+        range "10..1000";
+      }
+      default "400";
+      units "ms";
+      description "range 10..1000; Default value: 400.";
+    }
+    leaf eulMaxAllowedSchRate {
+      type eytypes:int16_range_0-6016;
+      default "5120";
+      units "kbps";
+      description "range 0..6016; Default value: 5120.";
+    }
+    leaf eulMaxShoRate {
+      type eytypes:int16_range_0-6016;
+      default "5760";
+      units "kbps";
+      description "range 0..6016; Default value: 5760.";
+    }
+    leaf eulMaxTotalProtectedRate {
+      type int16 {
+        range "0..20000";
+      }
+      default "1280";
+      units "kbps";
+      description "range 0..20000; Default value: 1280.";
+    }
+    leaf eulNonServHwRate {
+      type int16 {
+        range "0..5760";
+      }
+      default "480";
+      units "kbps";
+      description "range 0..5760; Default value: 480.";
+    }
+    leaf eulNoReschUsers {
+      type int16 {
+        range "0..32";
+      }
+      default "5";
+      description "range 0..32; Default value: 5.";
+    }
+    leaf-list eulSchedulingWeight {
+      type int32 {
+        range "1..10000 | 65534";
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf release {
+      type string;
+      config false;
+    }
+    leaf-list dualBandSectorGroup1 {
+      type string;
+    }
+    leaf-list dualBandSectorGroup2 {
+      type string;
+    }
+    leaf-list dualBandSectorGroup3 {
+      type string;
+    }
+    leaf-list dualBandSectorGroup4 {
+      type string;
+    }
+    leaf-list dualBandSectorGroup5 {
+      type string;
+    }
+    leaf-list dualBandSectorGroup6 {
+      type string;
+    }
+    leaf eulFachInitialRate {
+      type int16 {
+        range "0..1376";
+      }
+      default "134";
+      units "kbps";
+      description "range 0..1376; Default value: 134.";
+    }
+    leaf eulFachMinAllocation {
+      type int16 {
+        range "1..90";
+      }
+      default "8";
+      units "HW resource";
+      description "range 1..90; Default value: 8.";
+    }
+    leaf ipOptimizedHsTnSettingsOnOff {
+      type ietfinet:ip-address;
+    }
+    leaf featCtrlDlPowerControlEul {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf rSiteRef {
+      type string {
+        length "1..35";
+      }
+      description "length 1..35.";
+    }
+    leaf combinedCellConfiguration {
+      type enumeration {
+        enum COMBINED_CELL_NORMAL;
+        enum COMBINED_CELL_INDOOR;
+      }
+    }
+    leaf bsctModeStatus {
+      type enumeration {
+        enum NORMAL;
+        enum BASE_STATION_CONFORMANCE_TEST;
+      }
+      config false;
+    }
+    leaf advCellSupActions {
+      type enumeration {
+        enum NO_ACTION;
+        enum CELL_RESTART;
+      }
+    }
+    list ceCapacitiesNodeBDl {
+      config false;
+      container attributes {
+      leaf dlAvailableCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf dlStaticCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf dlStaticCeMaxLimit {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      }
+    }
+    list ceCapacitiesNodeBTotalUl {
+      config false;
+      container attributes {
+      leaf totalUlCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf totalUlCeAvailable {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf totalUlCeMaxLimit {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      }
+    }
+    list ceCapacitiesNodeBUl {
+      config false;
+      container attributes {
+      leaf ulStaticCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf ulAvailableCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf ulStaticCeLimit {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      }
+    }
+    leaf featCtrlOptimizedAntennaSelection {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+      status deprecated;
+      default "OFF";
+      description "Default value: OFF; Status info: Since 20.Q2. Has no functional behavior. Planned to be removed..";
+    }
+    leaf featCtrlOptmAntennaSelection {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf pmCapacityNodeBLimitHsCode {
+      type int64;
+      config false;
+    }
+    leaf pmCapacityNodeBLimitDlCe {
+      type int64;
+      config false;
+    }
+    leaf-list pmCapacityOfNodeBUlCeExt {
+      type uint64;
+    }
+    leaf pmCapacityNodeBLimitUlCe {
+      type int64;
+      config false;
+    }
+    leaf-list pmCapacityOfNodeBUlCe {
+      type uint64;
+    }
+    leaf-list pmCapacityOfNodeBDlCe {
+      type uint64;
+    }
+  }
+  grouping NodeBLocalCell-attributes {
+    leaf nodeBLocalCellId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf localCellId {
+      type int32 {
+        range "0..268435455";
+      }
+      mandatory true;
+      description "range 0..268435455.";
+    }
+    leaf maxDlPowerCapability {
+      type int16 {
+        range "0..500";
+      }
+      config false;
+      units "dBm";
+      description "range 0..500.";
+    }
+    leaf minDlPowerCapability {
+      type int16 {
+        range "-300..500";
+      }
+      config false;
+      units "dBm";
+      description "range -300..500.";
+    }
+    leaf minSpreadingFactor {
+      type int16 {
+        range "4 | 8 | 16 | 32 | 64 | 128 | 256 | 512";
+      }
+      config false;
+    }
+    leaf operatingBand {
+      type int16 {
+        range "1..14 | 19..21";
+      }
+      mandatory true;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf uarfcnDl {
+      type int16 {
+        range "0..16383";
+      }
+      mandatory true;
+      description "range 0..16383.";
+    }
+    leaf uarfcnUl {
+      type int16 {
+        range "0..16383";
+      }
+      config false;
+      description "range 0..16383.";
+    }
+    leaf usageState {
+      type enumeration {
+        enum IDLE;
+        enum ACTIVE;
+        enum BUSY;
+      }
+      config false;
+    }
+    leaf airRateTypeSelector {
+      type enumeration {
+        enum ACKNOWLEDGED;
+        enum TRANSMITTED;
+      }
+    }
+    leaf cqiAdjustmentOn {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf defaultCqiHsFach {
+      type int16 {
+        range "1..30";
+      }
+      default "1";
+      description "range 1..30; Default value: 1.";
+    }
+    leaf extraCompForSigHsFach {
+      type eytypes:int16_range_0-100-53;
+      default "10";
+      units "dB";
+      description "range 0..100; Default value: 10.";
+    }
+    leaf extraCompHsFach {
+      type int16 {
+        range "0..200 | 1000";
+      }
+      default "100";
+      units "dB";
+      description "Default value: 100.";
+    }
+    leaf extraHsScchCompForSigHsFach {
+      type eytypes:int16_range_0-100-53;
+      default "10";
+      units "dB";
+      description "range 0..100; Default value: 10.";
+    }
+    leaf extraHsScchCompHsFach {
+      type int16 {
+        range "0..200 | 1000";
+      }
+      default "40";
+      units "dB";
+      description "Default value: 40.";
+    }
+    leaf extraHsScchPowerForSrbOnHsdpa {
+      type eytypes:int16_range_0-100-53;
+      default "20";
+      units "dB";
+      description "range 0..100; Default value: 20.";
+    }
+    leaf extraPowerForSrbOnHsdpa {
+      type eytypes:int16_range_0-100-53;
+      default "20";
+      units "dB";
+      description "range 0..100; Default value: 20.";
+    }
+    leaf hsPowerMargin {
+      type int16 {
+        range "0..200";
+      }
+      default "0";
+      units "dB";
+      description "range 0..200; Default value: 0.";
+    }
+    leaf hsScchMaxCodePower {
+      type eytypes:int16_range_-350-150;
+      default "-20";
+      units "dB";
+      description "range -350..150; Default value: -20.";
+    }
+    leaf hsScchMinCodePower {
+      type eytypes:int16_range_-350-150;
+      default "-150";
+      units "dB";
+      description "range -350..150; Default value: -150.";
+    }
+    leaf-list minBitRate {
+      type int16 {
+        range "-1 | 1..2048";
+      }
+    }
+    leaf minBitRateMinCqi {
+      type int16 {
+        range "0..30";
+      }
+      default "8";
+      units "dB";
+      description "range 0..30; Default value: 8.";
+    }
+    leaf queueSelectAlgorithm {
+      type enumeration {
+        enum ROUND_ROBIN;
+        enum PROPORTIONAL_FAIR_MEDIUM;
+        enum PROPORTIONAL_FAIR_HIGH;
+        enum PROPORTIONAL_FAIR_LOW;
+        enum MAXIMUM_CQI;
+        enum EQUAL_RATE;
+      }
+    }
+    leaf schCongPeriodGbr {
+      type int16 {
+        range "1..50";
+      }
+      default "50";
+      units "ms";
+      description "range 1..50; Default value: 50.";
+    }
+    leaf schCongThreshGbr {
+      type int16 {
+        range "0..250";
+      }
+      default "5";
+      units "ms";
+      description "range 0..250; Default value: 5.";
+    }
+    leaf schCongThreshNonGbr {
+      type int16 {
+        range "0..20";
+      }
+      default "2";
+      units "ms";
+      description "range 0..20; Default value: 2.";
+    }
+    leaf-list schMaxDelay {
+      type int16 {
+        range "-1 | 1..300";
+      }
+    }
+    leaf schMinPowerNonGbrHsUsers {
+      type eytypes:int16_range_0-100;
+      default "0";
+      units "percent";
+      description "range 0..100; Default value: 0.";
+    }
+    leaf schNoCongPeriodGbr {
+      type int16 {
+        range "1..50";
+      }
+      default "25";
+      units "ms";
+      description "range 1..50; Default value: 25.";
+    }
+    leaf schNoCongThreshGbr {
+      type int16 {
+        range "0..250";
+      }
+      default "15";
+      units "ms";
+      description "range 0..250; Default value: 15.";
+    }
+    leaf schPowerDeltaCongGbr {
+      type eytypes:int16_range_0-100;
+      default "15";
+      units "percent";
+      description "range 0..100; Default value: 15.";
+    }
+    leaf schPrioForAbsResSharing {
+      type int16 {
+        range "0..15";
+      }
+      default "15";
+      description "range 0..15; Default value: 15.";
+    }
+    leaf-list schWeight {
+      type int16 {
+        range "1..10000";
+      }
+    }
+    leaf-list throughputPqxHsFach {
+      type int16 {
+        range "0..100";
+      }
+      description "Status info: Deprecated: Not to be used. Ignored by the system. In 16B replaced by throughputPqxHsdpaFach..";
+    }
+    leaf hsdpaMcActivityBufferThreshold {
+      type int16 {
+        range "0..200";
+      }
+      default "2";
+      units "bytes";
+      description "range 0..200; Default value: 2.";
+    }
+    leaf hsdpaMcInactivityTimer {
+      type int16 {
+        range "1..2550";
+      }
+      default "2";
+      units "seconds";
+      description "range 1..2550; Default value: 2.";
+    }
+    leaf qualityCheckPower {
+      type int16 {
+        range "-2..6";
+      }
+      default "0";
+      units "dB";
+      description "range -2..6; Default value: 0.";
+    }
+    leaf chQualOffset {
+      type int16 {
+        range "0..30";
+      }
+      default "18";
+      units "dB";
+      description "range 0..30; Default value: 18.";
+    }
+    leaf extraCompEnhUeDrx {
+      type int16 {
+        range "0..200 | 1000";
+      }
+      default "10";
+      units "dB";
+      description "Default value: 10.";
+    }
+    leaf extraHsScchCompEnhUeDrx {
+      type int16 {
+        range "0..200 | 1000";
+      }
+      default "10";
+      units "dB";
+      description "Default value: 10.";
+    }
+    leaf eHichMinCodePower {
+      type eytypes:int16_range_-350-150;
+      default "-220";
+      units "dB";
+      description "range -350..150; Default value: -220.";
+    }
+    leaf maxEAgchPowerDl {
+      type eytypes:int16_range_-350-150;
+      default "-140";
+      units "dB";
+      description "range -350..150; Default value: -140.";
+    }
+    leaf maxEAgchPowerDlTti2 {
+      type eytypes:int16_range_-350-150;
+      default "-80";
+      units "dB";
+      description "range -350..150; Default value: -80.";
+    }
+    leaf maxUserEHichERgchPowerDl {
+      type eytypes:int16_range_-350-150;
+      default "-140";
+      units "dB";
+      description "range -350..150; Default value: -140.";
+    }
+    leaf maxUserEHichPowerDlTti2 {
+      type eytypes:int16_range_-350-150;
+      default "-80";
+      units "dB";
+      description "range -350..150; Default value: -80.";
+    }
+    leaf qualityCheckPowerEHich {
+      type eytypes:int16_range_-350-150;
+      default "0";
+      units "dB";
+      description "range -350..150; Default value: 0.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf eulMinMarginCoverage {
+      type eytypes:int16_range_0-100-54;
+      default "0";
+      description "range 0..100; Default value: 0.";
+    }
+    leaf cqiErrors {
+      type eytypes:int16_range_0-100-54;
+      default "0";
+      description "range 0..100; Default value: 0.";
+    }
+    leaf cqiErrorsAbsent {
+      type eytypes:int16_range_0-100-54;
+      default "0";
+      description "range 0..100; Default value: 0.";
+    }
+    leaf eulNoERgchGroups {
+      type int32 {
+        range "1..20";
+      }
+      default "8";
+      description "range 1..20; Default value: 8.";
+    }
+    leaf eulMaxNoSchEDch {
+      type eytypes:int16_range_0-100-54;
+      default "100";
+      description "range 0..100; Default value: 100.";
+    }
+    leaf featCtrlEnhancedLayer2 {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlHsdpaMc {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf hsdpaMcCapability {
+      type enumeration {
+        enum HSDPA_MC_NON_CAPABLE;
+        enum HSDPA_MC_CAPABLE;
+      }
+      config false;
+    }
+    leaf featCtrlHsdpaDynamicCodeAllocation {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlHsdpaIncrementalRedundancy {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlFDpchSrbOnHsdpa {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlImprovedLayer2 {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf maxNumEulUsers {
+      type int16 {
+        range "1..128";
+      }
+      default "4";
+      description "range 1..128; Default value: 4.";
+    }
+    leaf maxNumHsdpaUsers {
+      type int16 {
+        range "1..128";
+      }
+      default "16";
+      description "range 1..128; Default value: 16.";
+    }
+    leaf maxNumHsPdschCodes {
+      type int16 {
+        range "5..15";
+      }
+      default "5";
+      description "range 5..15; Default value: 5.";
+    }
+    leaf featCtrlNbir {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlHsFach {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlEnhUeDrx {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlHsdpaPowerSharing {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf powerSharingMaxTransmissionPower {
+      type int16 {
+        range "0..530";
+      }
+      default "530";
+      units "dBm";
+      description "range 0..530; Default value: 530.";
+    }
+    leaf hsdpaPowerSharingCapability {
+      type enumeration {
+        enum HSDPA_POWER_SHARING_NON_CAPABLE;
+        enum HSDPA_POWER_SHARING_CAPABLE;
+      }
+      config false;
+    }
+    leaf featCtrlHsdpaMcInactCtrl {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlHsdpaDbMc {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf hsdpaDbMcCapability {
+      type enumeration {
+        enum HSDPA_DB_MC_NON_CAPABLE;
+        enum HSDPA_DB_MC_CAPABLE;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf-list throughputPqxHsdpaFach {
+      type int16 {
+        range "0..100";
+      }
+    }
+    leaf eulMcCapability {
+      type enumeration {
+        enum EUL_MC_NON_CAPABLE;
+        enum EUL_MC_CAPABLE;
+      }
+      config false;
+    }
+    leaf featCtrlEulMc {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf eulMcActivationDelayTime {
+      type int16 {
+        range "0..2000";
+      }
+      default "0";
+      units "ms";
+      description "range 0..2000; Default value: 0.";
+    }
+    leaf featCtrlHsdpa3Mc {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf hsdpa3McCapability {
+      type enumeration {
+        enum HSDPA_3MC_CAPABLE;
+        enum HSDPA_3MC_NON_CAPABLE;
+      }
+      config false;
+    }
+    leaf eulFachMaxDcchDtchTime {
+      type int16 {
+        range "5..500";
+      }
+      default "40";
+      description "range 5..500; Default value: 40.";
+    }
+    leaf featCtrlEulFach {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlHsdpaMmPowerSharing {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf hsdpaMmPowerSharingCapability {
+      type enumeration {
+        enum HSDPA_MM_POWER_SHARING_NON_CAPABLE;
+        enum HSDPA_MM_POWER_SHARING_CAPABLE;
+      }
+      config false;
+    }
+    leaf cpcCapability {
+      type enumeration {
+        enum CPC_NON_CAPABLE;
+        enum CPC_CAPABLE;
+      }
+      config false;
+    }
+    leaf featCtrlCpc {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf featCtrlHsAdaptiveBler {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf eulMaxTdUsers {
+      type int16 {
+        range "0 | 2..8";
+      }
+      default "0";
+      description "Default value: 0.";
+    }
+    leaf eulTdSchedulingFactor {
+      type int16 {
+        range "0..15";
+      }
+      default "0";
+      description "range 0..15; Default value: 0.";
+    }
+    leaf rSiteRef {
+      type string {
+        length "1..35";
+      }
+      config false;
+      description "length 1..35.";
+    }
+    leaf bsctTestModel {
+      type enumeration {
+        enum TEST_MODEL_1;
+        enum TEST_MODEL_2;
+        enum TEST_MODEL_3;
+        enum TEST_MODEL_4;
+        enum TEST_MODEL_5;
+        enum TEST_MODEL_6;
+        enum NOT_APPLICABLE;
+      }
+      config false;
+    }
+    leaf bsctBerMeasStatus {
+      type enumeration {
+        enum STOPPED;
+        enum STARTED;
+        enum NOT_APPLICABLE;
+      }
+      config false;
+    }
+    leaf bsctPnTransStatus {
+      type enumeration {
+        enum STOPPED;
+        enum STARTED;
+        enum NOT_APPLICABLE;
+      }
+      config false;
+    }
+    leaf bsctSirMeasStatus {
+      type enumeration {
+        enum STOPPED;
+        enum STARTED;
+        enum NOT_APPLICABLE;
+      }
+      config false;
+    }
+    leaf steeredHsCoreId {
+      type int32;
+      default "-1";
+      description "Default value: -1.";
+    }
+    leaf hsCoreId {
+      type int32;
+      config false;
+    }
+    leaf hostingDigitalUnit {
+      type string;
+      config false;
+    }
+  }
+  grouping NodeBLocalCellGroup-attributes {
+    leaf nodeBLocalCellGroupId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list multiCarrierPair1 {
+      type string;
+    }
+    leaf-list multiCarrierPair2 {
+      type string;
+    }
+    leaf-list multiCarrierPair3 {
+      type string;
+    }
+    leaf-list multiCarrierPair4 {
+      type string;
+    }
+    leaf-list multiCarrierPair5 {
+      type string;
+    }
+    leaf-list multiCarrierPair6 {
+      type string;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    list ceCapacitiesDl {
+      config false;
+      container attributes {
+      leaf dlAvailableCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf dlStaticCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf dlStaticCeMaxLimit {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      }
+    }
+    list ceCapacitiesTotalUl {
+      config false;
+      container attributes {
+      leaf totalUlCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf totalUlCeAvailable {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf totalUlCeMaxLimit {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      }
+    }
+    list ceCapacitiesUl {
+      config false;
+      container attributes {
+      leaf ulStaticCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf ulAvailableCe {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      leaf ulStaticCeLimit {
+        type eytypes:uint16_range_0-65535-52;
+        units "CE";
+        description "range 0..65535.";
+      }
+      }
+    }
+    leaf rSiteRef {
+      type string {
+        length "1..35";
+      }
+      config false;
+      description "length 1..35.";
+    }
+    list hsPdschCodeCapacities {
+      config false;
+      container attributes {
+      leaf hsPdschCodesMaxLimit {
+        type uint16 {
+          range "0..720";
+        }
+        description "range 0..720.";
+      }
+      leaf hsPdschCodesAvailable {
+        type uint16 {
+          range "0..720";
+        }
+        description "range 0..720.";
+      }
+      }
+    }
+    leaf featCtrlSteerHsAllocation {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf numberOfHsCores {
+      type int32;
+      config false;
+    }
+    leaf bbPowerSavingMode {
+      type enumeration {
+        enum NOT_SUPPORTED;
+        enum IN_POWER_SAVING;
+        enum OUT_OF_POWER_SAVING;
+      }
+      config false;
+      status deprecated;
+      description "Status info: Since 20.Q2, Replaced by PowerSaving::bbPowerSavingStatus. Planned to be removed..";
+    }
+    leaf hostingDigitalUnit {
+      type string;
+      config false;
+    }
+    leaf featCtrlLoadBasedSteHsAlloc {
+      type enumeration {
+        enum OFF;
+        enum ON;
+      }
+    }
+    leaf steHsThreshRejCntOneCore {
+      type uint16 {
+        range "0..10000";
+      }
+      default "100";
+      description "range 0..10000; Default value: 100.";
+    }
+    leaf steHsThreshHsUsersOneCore {
+      type uint16 {
+        range "0..100";
+      }
+      default "75";
+      description "range 0..100; Default value: 75.";
+    }
+    leaf steHsThreshUneven {
+      type uint16 {
+        range "0..8";
+      }
+      default "4";
+      description "range 0..8; Default value: 4.";
+    }
+    leaf newSteHsAllocReady {
+      type enumeration {
+        enum NOT_APPLICABLE;
+        enum NEW_STE_HS_ALLOC_NOT_READY;
+        enum NEW_STE_HS_ALLOC_READY;
+      }
+      config false;
+    }
+    leaf pmIsUsersRatio {
+      type int64;
+      config false;
+    }
+    leaf pmCapacityLimitHsCode {
+      type int64;
+      config false;
+    }
+    leaf pmSumCapacityUlCe {
+      type uint64;
+      config false;
+    }
+    leaf pmSetupFailures {
+      type uint64;
+      config false;
+    }
+    leaf-list pmCapacityUlCeEulFach {
+      type uint64;
+    }
+    leaf pmSumCapacityUlCeStatic {
+      type uint64;
+      config false;
+    }
+    leaf pmCapacityLimitUlCe {
+      type int64;
+      config false;
+    }
+    leaf pmCapacityAllocRejUlCe {
+      type uint64;
+      config false;
+    }
+    leaf-list pmCpcUlActivityFactor {
+      type uint64;
+    }
+    leaf pmSamplesCapacityDlCe {
+      type uint64;
+      config false;
+    }
+    leaf-list pmStaticHwCePoolEul {
+      type uint64;
+    }
+    leaf-list pmHwCePoolEul {
+      type uint64;
+    }
+    leaf-list pmCapacityOfUlCeExt {
+      type uint64;
+    }
+    leaf pmSumCapacityUlCeEulFach {
+      type uint64;
+      config false;
+    }
+    leaf pmCapacityAllocAttUlCe {
+      type uint64;
+      config false;
+    }
+    leaf pmSetupAttempts {
+      type uint64;
+      config false;
+    }
+    leaf pmSamplesCapacityUlCe {
+      type uint64;
+      config false;
+    }
+    leaf pmSetupRejSwLoad {
+      type uint64;
+      config false;
+    }
+    leaf-list pmCapacityOfUlCe {
+      type uint64;
+    }
+    leaf pmSumCapacityDlCe {
+      type uint64;
+      config false;
+    }
+    leaf pmCapacityLimitDlCe {
+      type int64;
+      config false;
+    }
+    leaf pmCapacityAllocAttDlCe {
+      type uint64;
+      config false;
+    }
+    leaf pmNoUlHwLimitEul {
+      type uint64;
+      config false;
+    }
+    leaf pmCapacityAllocRejDlCe {
+      type uint64;
+      config false;
+    }
+    leaf-list pmCapacityOfDlCe {
+      type uint64;
+    }
+    leaf pmSamplesCapacityUlCeStatic {
+      type uint64;
+      config false;
+    }
+  }
+  grouping NodeBSectorCarrier-attributes {
+    leaf nodeBSectorCarrierId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf bandwidthDl {
+      type int16 {
+        range "38..50";
+      }
+      default "50";
+      units "MHz";
+      description "range 38..50; Default value: 50.";
+    }
+    leaf bandwidthUl {
+      type int16 {
+        range "38..50";
+      }
+      default "50";
+      units "MHz";
+      description "range 38..50; Default value: 50.";
+    }
+    leaf cellRange {
+      type int32 {
+        range "250..200000";
+      }
+      default "35000";
+      units "m";
+      description "range 250..200000; Default value: 35000.";
+    }
+    leaf numOfRxAntennas {
+      type int16 {
+        range "0..2 | 4";
+      }
+      mandatory true;
+    }
+    leaf numOfTxAntennas {
+      type int16 {
+        range "1..2 | 4";
+      }
+      mandatory true;
+    }
+    leaf partOfSectorPower {
+      type eytypes:int16_range_0-100;
+      status deprecated;
+      default "0";
+      units "percent";
+      description "range 0..100; Default value: 0; Takes effect: At next unlock of Node B Local Cell.; Status info: Since 16B. Replaced by configuredMaxTxPower..";
+      reference "Takes effect: At next unlock of Node B Local Cell..";
+    }
+    leaf sectorEquipmentFunctionRef {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf eulMaxOwnUuLoad {
+      type int16 {
+        range "0..550";
+      }
+      default "100";
+      units "dB";
+      description "range 0..550; Default value: 100.";
+    }
+    leaf eulMaxRotCoverage {
+      type int16 {
+        range "0..550";
+      }
+      default "100";
+      units "dB";
+      description "range 0..550; Default value: 100.";
+    }
+    leaf eulThermalLevelPrior {
+      type int16 {
+        range "-1150..-600";
+      }
+      default "-1040";
+      units "dBm";
+      description "range -1150..-600; Default value: -1040.";
+    }
+    leaf eulNoiseFloorLock {
+      type int16 {
+        range "-1150..-600 | -1";
+      }
+      units "dBm";
+    }
+    leaf maxDlPowerCapability {
+      type int16 {
+        range "0..500";
+      }
+      config false;
+      units "dBm";
+      description "range 0..500.";
+    }
+    leaf minDlPowerCapability {
+      type int16 {
+        range "-300..500";
+      }
+      config false;
+      units "dBm";
+      description "range -300..500.";
+    }
+    leaf eulLockedNoiseFloor {
+      type int16 {
+        range "-1150..-600";
+      }
+      config false;
+      units "dBm";
+      description "range -1150..-600.";
+    }
+    leaf-list rfBranchRxRef {
+      type string;
+    }
+    leaf-list rfBranchTxRef {
+      type string;
+    }
+    leaf fccRotMarginHigh {
+      type int16 {
+        range "-550..550";
+      }
+      default "40";
+      units "dB";
+      description "range -550..550; Default value: 40.";
+    }
+    leaf fccRotMarginLow {
+      type int16 {
+        range "-550..550";
+      }
+      default "25";
+      units "dB";
+      description "range -550..550; Default value: 25.";
+    }
+    leaf latitude {
+      type int32 {
+        range "0..8388607";
+      }
+      description "range 0..8388607.";
+    }
+    leaf longitude {
+      type int32 {
+        range "-8388608..8388607";
+      }
+      description "range -8388608..8388607.";
+    }
+    leaf latHemisphere {
+      type enumeration {
+        enum NORTH;
+        enum SOUTH;
+      }
+    }
+    leaf beamDirection {
+      type string {
+        length "3";
+      }
+      description "length 3..3.";
+    }
+    leaf geoDatum {
+      type string {
+        length "5";
+      }
+      default "WGS84";
+      description "length 5..5; Default value: WGS84.";
+    }
+    leaf height {
+      type string {
+        length "0..6";
+      }
+      description "length 0..6.";
+    }
+    leaf configuredMaxTxPower {
+      type eytypes:int32_range_0-10000000;
+      default "20000";
+      units "mW";
+      description "range 0..10000000; Default value: 20000.";
+    }
+    leaf numOfBranchWithNbir {
+      type int16 {
+        range "0..4";
+      }
+      config false;
+      description "range 0..4.";
+    }
+    leaf nbirAlgorithm {
+      type enumeration {
+        enum GENERIC_NBIR;
+        enum ADAPTIVE_NOTCH_NBIR;
+        enum FIXED_NOTCH_NBIR;
+        enum AUTO_GENERIC_ADAPTIVE_NBIR;
+        enum AUTO_GENERIC_ADAPTIVE_OFF_NBIR;
+      }
+    }
+    leaf nbirFixedNotchPosition {
+      type int16 {
+        range "-25..25";
+      }
+      default "25";
+      units "MHz";
+      description "range -25..25; Default value: 25.";
+    }
+    leaf dlPowerOffsetCombinedCell {
+      type int16 {
+        range "-160..0";
+      }
+      default "0";
+      units "dB";
+      description "range -160..0; Default value: 0.";
+    }
+    leaf txPowerPersistentLock {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf txBranchAPower {
+      type int32 {
+        range "1..10000000";
+      }
+      units "mW";
+      description "range 1..10000000.";
+    }
+    leaf noiseFloorEstimationMode {
+      type enumeration {
+        enum SLIDING_WINDOW_NOISE_FLOOR;
+        enum RECURSIVE_NOISE_FLOOR;
+      }
+    }
+    leaf nbirAutoCurrentAlgorithm {
+      type enumeration {
+        enum NBIR_OFF;
+        enum GENERIC_NBIR;
+        enum ADAPTIVE_NOTCH_NBIR;
+        enum NOT_APPLICABLE;
+      }
+      config false;
+    }
+    leaf pmSumOasDeltaRscp {
+      type uint32;
+      config false;
+    }
+    leaf-list pmRxInterfererDetect {
+      type int64;
+    }
+    leaf-list pmRxPowerSpectrum {
+      type int32;
+    }
+    leaf-list pmTransmittedCarrierPower {
+      type uint32;
+    }
+    leaf-list pmBranchDeltaSir {
+      type uint64;
+    }
+    leaf pmCpriExtDelayChange {
+      type uint32;
+      config false;
+    }
+    leaf-list pmNbirRunningAlgorithm {
+      type uint32;
+    }
+    leaf pmOasDeltaRscpMeasurement {
+      type int32;
+      config false;
+    }
+    leaf-list pmNbirSuggestAlgorithm {
+      type uint32;
+    }
+    leaf-list pmAverageRssiHigh {
+      type uint64;
+    }
+    leaf-list pmTransmittedCarrierPowerW {
+      type uint64;
+    }
+    leaf pmTransmittedCarrierPowerWLimit {
+      type int64;
+      config false;
+    }
+    leaf pmSamplesOasDeltaRscp {
+      type uint32;
+      config false;
+    }
+  }
+  grouping RadioLinks-attributes {
+    leaf radioLinksId {
+      type string;
+      mandatory true;
+    }
+    leaf noOfRadioLinks {
+      type int16 {
+        range "0..999";
+      }
+      config false;
+      description "range 0..999.";
+    }
+    leaf-list pmUlSynchTime {
+      type uint64;
+    }
+    leaf-list pmOutOfSynch {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf16Low {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf64 {
+      type uint64;
+    }
+    leaf pmRLSSupWaitToOutOfSynch {
+      type uint64;
+      config false;
+    }
+    leaf-list pmDpchCodePowerSf32 {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf16 {
+      type uint64;
+    }
+    leaf-list pmUlSynchTimeSHO {
+      type uint64;
+    }
+    leaf pmRLSSupSynchToUnsynch {
+      type uint64;
+      config false;
+    }
+    leaf-list pmDpchCodePowerSf32Low {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf64Low {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf8Low {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf8 {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf256 {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf128Low {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf4 {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf128 {
+      type uint64;
+    }
+    leaf-list pmUlSynchTimeFromCEdch {
+      type uint64;
+    }
+    leaf-list pmFDpchCodePower {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf256Low {
+      type uint64;
+    }
+    leaf-list pmFDpchCodePowerLow {
+      type uint64;
+    }
+    leaf-list pmAverageSir {
+      type uint64;
+    }
+    leaf-list pmDpcchBer {
+      type uint64;
+    }
+    leaf-list pmDpchCodePowerSf4Low {
+      type uint64;
+    }
+    leaf-list pmAverageSirError {
+      type uint64;
+    }
+  }
+}

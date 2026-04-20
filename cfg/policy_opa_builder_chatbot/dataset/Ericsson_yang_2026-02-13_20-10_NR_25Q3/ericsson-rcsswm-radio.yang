@@ -1,0 +1,407 @@
+module ericsson-rcsswm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsSwM";
+  prefix rcsswm;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions" {
+    list SwM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The root structural element of SW management activities.";
+      key "swMId";
+      leaf swMId {
+        type leafref {
+          path "../attributes/swMId";
+        }
+      }
+      container attributes {
+        uses SwM-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SwM" {
+    list UpgradePackage {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Controls the change process of the software configuration of a ME. An instance of UpgradePackage (UP) represents a specific change of software configuration from the existing one to the new one identified by the attribute administrativeData. The execution of the change process described by UP class is the normal way to change the content of the SW inventory. An UP can be seen as a modification agent. It can add new, remove, or modify functionality. The sequence in which a Software upgrade executes is as follows: 1. Prepare 2. Verify, which is optional 3. Activate 4. Confirm When the upgrade package MO is created the upgrade control file is downloaded to specify the administrative data and the activation steps for this upgrade.";
+      key "upgradePackageId";
+      leaf upgradePackageId {
+        type leafref {
+          path "../attributes/upgradePackageId";
+        }
+      }
+      container attributes {
+        uses UpgradePackage-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/SwM" {
+    list SwServer {
+      description "Additional definitions from MOM:min/max-elements:0/1; Location to fetch additional software during Helm chart upgrade. During a helm-chart upgrade of a Cloud Radio Node, system collects software not contained in images. The RDN for this MO is SwServer=<id>";
+      key "swServerId";
+      leaf swServerId {
+        type leafref {
+          path "../attributes/swServerId";
+        }
+      }
+      container attributes {
+        uses SwServer-attributes;
+      }
+    }
+  }
+  typedef ActionCapabilityState {
+    type enumeration {
+      enum CAPABLE;
+      enum WAIT;
+    }
+  }
+  typedef ActionResultType {
+    type enumeration {
+      enum SUCCESS;
+      enum FAILURE;
+      enum NOT_AVAILABLE;
+    }
+  }
+  typedef ActionStateType {
+    type enumeration {
+      enum CANCELLING;
+      enum RUNNING;
+      enum FINISHED;
+      enum CANCELLED;
+    }
+  }
+  typedef RestartType {
+    type enumeration {
+      enum COLD;
+      enum ADAPTIVE;
+    }
+  }
+  typedef SwMTimeoutFallbackCapability {
+    type enumeration {
+      enum SUPPORTED;
+      enum NOT_SUPPORTED;
+    }
+  }
+  typedef UpgradePackageState {
+    type enumeration {
+      enum INITIALIZED;
+      enum PREPARE_IN_PROGRESS;
+      enum PREPARE_COMPLETED;
+      enum ACTIVATION_IN_PROGRESS;
+      enum ACTIVATION_STEP_COMPLETED;
+      enum WAITING_FOR_COMMIT;
+      enum COMMIT_COMPLETED;
+      enum DEACTIVATION_IN_PROGRESS;
+    }
+  }
+  typedef UpgradeRestartType {
+    type enumeration {
+      enum COLD;
+      enum ADAPTIVE;
+    }
+  }
+  typedef UpgradeType {
+    type enumeration {
+      enum HARD;
+      enum SOFT;
+    }
+  }
+  grouping SwM-attributes {
+    list reportProgress {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      }
+    }
+    leaf fallbackTimer {
+      type int16;
+      default "1800";
+      description "Default value: 1800.";
+    }
+    leaf swMId {
+      type string;
+      mandatory true;
+    }
+    leaf timeRemainingBeforeFallback {
+      type int16;
+      config false;
+    }
+    leaf localFileStorePath {
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      type string;
+    }
+    leaf timeoutFallbackCapability {
+      type enumeration {
+        enum SUPPORTED;
+        enum NOT_SUPPORTED;
+      }
+      config false;
+    }
+    leaf actionCapable {
+      type enumeration {
+        enum CAPABLE;
+        enum WAIT;
+      }
+      config false;
+    }
+    leaf actionCapableInfo {
+      type string;
+      config false;
+    }
+    leaf defaultUri {
+      type string;
+    }
+    list defaultPassword {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+  }
+  grouping SwServer-attributes {
+    leaf swServerId {
+      type string;
+      mandatory true;
+    }
+    leaf host {
+      type string;
+      mandatory true;
+    }
+    leaf user {
+      type string;
+    }
+    list passphrase {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf basepath {
+      type string;
+    }
+    leaf protocol {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping UpgradePackage-attributes {
+    leaf state {
+      type enumeration {
+        enum INITIALIZED;
+        enum PREPARE_IN_PROGRESS;
+        enum PREPARE_COMPLETED;
+        enum ACTIVATION_IN_PROGRESS;
+        enum ACTIVATION_STEP_COMPLETED;
+        enum WAITING_FOR_COMMIT;
+        enum COMMIT_COMPLETED;
+        enum DEACTIVATION_IN_PROGRESS;
+      }
+      config false;
+    }
+    list reportProgress {
+      config false;
+      container attributes {
+      leaf actionName {
+        type string;
+      }
+      leaf additionalInfo {
+        type string;
+      }
+      leaf progressInfo {
+        type string;
+      }
+      leaf progressPercentage {
+        type string;
+      }
+      leaf result {
+        type enumeration {
+          enum SUCCESS;
+          enum FAILURE;
+          enum NOT_AVAILABLE;
+        }
+      }
+      leaf resultInfo {
+        type string;
+      }
+      leaf state {
+        type enumeration {
+          enum CANCELLING;
+          enum RUNNING;
+          enum FINISHED;
+          enum CANCELLED;
+        }
+      }
+      leaf actionId {
+        type string;
+      }
+      leaf timeActionStarted {
+        type string;
+      }
+      leaf timeActionCompleted {
+        type string;
+      }
+      leaf timeOfLastStatusUpdate {
+        type string;
+      }
+      leaf step {
+        type string;
+      }
+      leaf stepProgressPercentage {
+        type string;
+      }
+      }
+    }
+    leaf upgradePackageId {
+      type string;
+      mandatory true;
+    }
+    leaf ignoreBreakPoints {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf userLabel {
+      type string;
+    }
+    list administrativeData {
+      config false;
+      container attributes {
+      leaf productName {
+        type string;
+      }
+      leaf productNumber {
+        type string;
+      }
+      leaf productRevision {
+        type string;
+      }
+      leaf productionDate {
+        type string;
+      }
+      leaf description {
+        type ietfinet:ip-address;
+      }
+      leaf type {
+        type string;
+      }
+      }
+    }
+    list activationStep {
+      config false;
+      container attributes {
+      leaf serialNumber {
+        type string;
+      }
+      leaf name {
+        type string;
+      }
+      leaf description {
+        type ietfinet:ip-address;
+      }
+      }
+    }
+    leaf created {
+      type string;
+      config false;
+    }
+    leaf uri {
+      type string;
+    }
+    leaf creatorActionId {
+      type uint16;
+      config false;
+    }
+    list password {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf upgradeRestartType {
+      type enumeration {
+        enum COLD;
+        enum ADAPTIVE;
+      }
+      config false;
+    }
+  }
+}

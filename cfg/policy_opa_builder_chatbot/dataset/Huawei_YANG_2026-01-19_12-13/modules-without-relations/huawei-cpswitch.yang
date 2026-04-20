@@ -1,0 +1,16 @@
+module huawei-cpswitch {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-cpswitch";
+ prefix cpswitch;
+ description
+ "Auto-generated modular YANG for huawei-cpswitch" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping CPSWITCH-attributes {
+ leaf ES {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

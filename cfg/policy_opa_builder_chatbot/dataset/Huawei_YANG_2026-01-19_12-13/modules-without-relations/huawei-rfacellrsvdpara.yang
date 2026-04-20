@@ -1,0 +1,372 @@
+module huawei-rfacellrsvdpara {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-rfacellrsvdpara";
+ prefix rfacellrsvdpara;
+ description
+ "Auto-generated modular YANG for huawei-rfacellrsvdpara" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping RFACELLRSVDPARA-attributes {
+ leaf LOCALCELLID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf RSVDSWPARA0 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARA1 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARA2 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDSWPARA3 {
+  type string;
+  mandatory false;
+ }
+ leaf RSVDU16PARA1 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA10 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA11 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA12 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA13 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA14 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA15 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA16 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA2 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA3 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA4 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA5 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA6 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA7 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA8 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU16PARA9 {
+  type uint16 {
+   range "0..65535";
+  }
+  mandatory false;
+ }
+ leaf RSVDU32PARA1 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDU32PARA2 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDU32PARA3 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDU32PARA4 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDU32PARA5 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDU32PARA6 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDU32PARA7 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDU32PARA8 {
+  type uint32 {
+   range "0..4294967295";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA1 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA10 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA11 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA12 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA13 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA14 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA15 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA16 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA17 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA18 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA19 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA2 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA20 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA21 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA22 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA23 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA24 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA25 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA26 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA27 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA28 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA29 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA3 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA30 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA31 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA32 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA4 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA5 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA6 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA7 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA8 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ leaf RSVDU8PARA9 {
+  type uint8 {
+   range "0..255";
+  }
+  mandatory false;
+ }
+ }
+}

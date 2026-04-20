@@ -1,0 +1,62 @@
+module ericsson-neutral-host-management-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeNeutralHostManagement";
+  prefix nhmrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nContains information about FRU managed by neutral host.​";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list NeutralHostManagement {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Contains information about FRU managed by neutral host.​";
+      key "neutralHostManagementId";
+      leaf neutralHostManagementId {
+        type leafref {
+          path "../attributes/neutralHostManagementId";
+        }
+      }
+      container attributes {
+      uses NeutralHostManagement-attributes;
+      }
+    }
+  }
+  grouping NeutralHostManagement-attributes {
+    leaf neutralHostManagementId {
+      description "The value component of the RDN.​.";
+      type string;
+      mandatory true;
+    }
+    leaf allowedNumberOfHostMe {
+      description "Number of allowed Managed Elements with host role for each referenced FieldReplaceableUnit MO. If numberOfHostMe is greater than allowedNumberOfHostMe, alarm is raised. If 0, number of allowed Managed Elements with host role is unlimited. No alarm supervision.; Default value: 0.";
+      type uint32;
+      default "0";
+    }
+    leaf numberOfGuestMe {
+      description "Number of Managed Elements with guest role connected to referenced FieldReplaceableUnit MO..";
+      type uint32;
+      config false;
+    }
+    leaf numberOfHostMe {
+      description "Number of Managed Elements with host role connected to referenced FieldReplaceableUnit MO..";
+      type uint32;
+      config false;
+    }
+    leaf totalNumberOfMe {
+      description "Number of Managed Elements connected to referenced FieldReplaceableUnit MO..";
+      type uint32;
+      config false;
+    }
+    leaf fieldReplaceableUnitRef {
+      description "Reference to FieldReplaceableUnit MO instance that is managed by host..";
+      type string;
+      mandatory true;
+    }
+  }
+}

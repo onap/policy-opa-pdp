@@ -1,0 +1,616 @@
+module ericsson-rf-port-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqRfPort";
+  prefix rfportrdo;
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nRepresents a port on a radio depending on rfPortId of Port MO. Represents an antenna feeder port on radio when having rfPortId like A, B, C and so on. Represents a cross connection port on radio when having any of rfPortIds RXA_IO or RXB_IO. Represents a RET port on external radio when having rfPortId R. Represents an AC port on external radio when having rfPortId AC.This port needs to be configured if AC port is used to connect RET.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list RfPort {
+      description "Additional definitions from MOM:min/max-elements:0/10;root; Represents a port on a radio depending on rfPortId of Port MO. Represents an antenna feeder port on radio when having rfPortId like A, B, C and so on. Represents a cross connection port on radio when having any of rfPortIds RXA_IO or RXB_IO. Represents a RET port on external radio when having rfPortId R. Represents an AC port on external radio when having rfPortId AC.This port needs to be configured if AC port is used to connect RET.";
+      key "rfPortId";
+      leaf rfPortId {
+        type leafref {
+          path "../attributes/rfPortId";
+        }
+      }
+      container attributes {
+      uses RfPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit/rfportrdo:RfPort" {
+    list FreqBandData {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Represents a band configured on RfPort MO. Created by the system for multi-band radio when radio is connected. The RDNs of these MOs are \"FreqBandData=1\" to \"FreqBandData=4\".";
+      key "freqBandDataId";
+      leaf freqBandDataId {
+        type leafref {
+          path "../attributes/freqBandDataId";
+        }
+      }
+      container attributes {
+      uses FreqBandData-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    description "Administrative state of a resource.";
+    type enumeration {
+      enum LOCKED {
+        description "The resource is administratively prohibited from performing services for its users.";
+      }
+      enum UNLOCKED {
+        description "The resource is administratively permitted to perform services for its users. This is independent of its inherent operability.";
+      }
+      enum SHUTTINGDOWN {
+        description "Use of the resource is administratively permitted to existing instances of use only. While the system remains in the shutting down state the manager may at any time cause the managed object to revert to the locked state.";
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef MicroSleepTxRadioCapability {
+    type enumeration {
+      enum NO_SUPPORT {
+      }
+      enum FULL_SUPPORT {
+      }
+      enum LIMITED_SUPPORT {
+      }
+    }
+  }
+  typedef MicroSleepTxRadioStatus {
+    type enumeration {
+      enum ENABLED {
+      }
+      enum DISABLED {
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  typedef PimdMeasDuration {
+    description "PIMD measurement duration.";
+    type enumeration {
+      enum SHORT {
+      }
+      enum LONG {
+      }
+    }
+  }
+  typedef RlFreqSweepFailedReason {
+    description "Reason for unsuccessful action startRlFreqSweep.";
+    type enumeration {
+      enum UNDEFINED {
+        description "Default value.";
+      }
+      enum INVALID_PARAMETERS {
+        description "Input parameter invalid.";
+      }
+      enum HW_NOT_SUPPORTED {
+        description "Hardware does not support this function.";
+      }
+      enum NO_AVAILABLE_CARRIER_BRANCH {
+        description "Carrier branch is invalid.";
+      }
+      enum INTERNAL_ERROR {
+        description "Internal error.";
+      }
+      enum UPLOAD_FAILURE {
+        description "Upload failed.";
+      }
+    }
+  }
+  typedef TcpStatus {
+    description "Status of TCP.";
+    type enumeration {
+      enum UNKNOWN {
+      }
+      enum STARTED {
+      }
+      enum FINISHED {
+      }
+      enum FAILED {
+      }
+      enum STOPPED {
+      }
+    }
+  }
+  grouping VswrInfo-struct {
+    description "VSWR value and related information.";
+    leaf returnLoss {
+      description "length 0..5.";
+      type string {
+        length "0..5";
+      }
+    }
+    leaf sampleTime {
+      description "length 0..23.";
+      type string {
+        length "0..23";
+      }
+    }
+    leaf message {
+      description "length 0..160.";
+      type string {
+        length "0..160";
+      }
+    }
+  }
+  grouping FreqBandData-attributes {
+    leaf freqBandDataId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf vswrSupervisionActive {
+      description "VSWR supervision status. Indicates if supervision of VSWR is enabled for branch of this port on Radio unit. VSWR supervision is possible on a TX branch only.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf minFrequency {
+      description "Minimum frequency of band. Value -1 means undefined..";
+      type int32;
+      config false;
+    }
+    leaf maxFrequency {
+      description "Maximum frequency of band. Value -1 means undefined..";
+      type int32;
+      config false;
+    }
+    leaf vswrSupervisionSensitivity {
+      description "VSWR supervision sensitivity. High values enable detection of low-reflected power (high return loss). Low values require high-reflected power (low return loss) to cause alarms. VSWR = (1+10^(-RL/20))/(1-10^(-RL/20)) Where RL is Return Loss If -1, radio chooses default return loss threshold. For default return loss threshold and relation between sensitivity and return loss refer to either VSWR Antenna Supervision feature or Return Loss Antenna Supervision feature. Refer to Return Loss Antenna Supervision feature for list of supported radios.; Default value: -1.";
+      type int32 {
+        range "-1 | 1..100";
+      }
+      default "-1";
+      units "percent";
+    }
+    list vswrValue {
+      config false;
+      description "VSWR value and related information from radios..";
+      uses VswrInfo-struct;
+    }
+    leaf dlFrequencyRange {
+      description "Downlink frequency range supported by the band. For band with no valid DL frequency range, the string shows Not Supported.; length 0..256.";
+      type string {
+        length "0..256";
+      }
+      config false;
+    }
+    leaf ulFrequencyRange {
+      description "Uplink frequency range supported by the band. For band with no valid UL frequency range, the string shows Not Supported.; length 0..256.";
+      type string {
+        length "0..256";
+      }
+      config false;
+    }
+    leaf pmTxOffTime {
+      description "Total time transmission power off for specific band of RfPort instance. Unit: 1 ms..";
+      type uint32;
+      config false;
+    }
+    leaf pmNoOfPwrOBLimSlots {
+      description "The maximum number of power-limited slots for a specific band of Rfport MO during one ROP..";
+      type int32;
+      config false;
+    }
+    leaf pmReturnLossDiff {
+      description "Difference between average and minimum return loss value for a specific band of RfPort MO during one ROP..";
+      type int32;
+      config false;
+    }
+    leaf pmReturnLossAvg {
+      description "Average return loss value for a specific band of RfPort MO during one ROP..";
+      type int32;
+      config false;
+    }
+    leaf-list pmTxOffRatio {
+      description "Relative time transmission power off for specific band of RfPort instance recorded in regular periodic intervals during one ROP. Unit: %. Bins: [0] Transmission power off in [0..5] seconds in ROP. [1] Transmission power off in [6..11] seconds in ROP. ... [148] Transmission power off in [888..893] seconds in ROP. [149] Transmission power off in [894..899] seconds in ROP..";
+      type int32;
+      max-elements 150;
+    }
+    leaf pmReturnLossMin {
+      description "Minimum return loss value for a specific band of RfPort MO during one ROP..";
+      type int32;
+      config false;
+    }
+    leaf-list pmReturnLoss {
+      description "Return loss for a specific band of RfPort MO during one ROP. PDF ranges: [0]: Number of return loss values within range [0..1[ dB [1]: Number of return loss values within range [1..2[ dB ... [15]: Number of return loss values within range [15..16[ dB [16]: Number of return loss values within range [16..17[ dB [17]: Number of return loss values within range [17..18[ dB ... [29]: Number of return loss values within range [29..30] dB [30]: Number of return loss values above 30 dB.";
+      type uint32;
+      max-elements 31;
+    }
+  }
+  grouping RfPort-attributes {
+    leaf rfPortId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf nodeUniqueRfPortId {
+      description "Internal identifier for the RfPort to ease error traceability..";
+      type string;
+      config false;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf userLabel {
+      description "Label for free use.; length 1..128.";
+      type string {
+        length "1..128";
+      }
+    }
+    leaf vswrSupervisionActive {
+      description "VSWR supervision status. Indicates if supervision of Voltage Standing Wave Ratio (VSWR) is enabled for the branch of this port on the Radio Unit. VSWR supervision is possible on a TX branch only.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf vswrSupervisionSensitivity {
+      description "VSWR supervision sensitivity. High values enable detection of low-reflected power (high return loss). Low values require high-reflected power (low return loss) to cause alarms. VSWR = (1+10^(-RL/20))/(1-10^(-RL/20)) Where RL is Return Loss If -1, radio chooses default return loss threshold. For default return loss threshold and relation between sensitivity and return loss refer to either VSWR Antenna Supervision feature or Return Loss Antenna Supervision feature. Refer to Return Loss Antenna Supervision feature for list of supported radios.; Default value: -1.";
+      type int32 {
+        range "-1 | 1..100";
+      }
+      default "-1";
+      units "percent";
+    }
+    leaf administrativeState {
+      description "The administrative state. When set to LOCKED, the RfPort might still be used and RF power might still be transmitted, but any corresponding alarms cease. If set to SHUTTINGDOWN, the state will immediately be brought to LOCKED..";
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    list vswrValue {
+      config false;
+      description "VSWR value and related information from radios..";
+      uses VswrInfo-struct;
+    }
+    leaf dlFrequencyRanges {
+      description "Multiple downlink frequency ranges that radio unit supports, displayed as string. If gaps occur in supported frequency range, attribute shows multiple ranges. See CPI for more information.; length 0..256.";
+      type string {
+        length "0..256";
+      }
+      config false;
+    }
+    leaf ulFrequencyRanges {
+      description "Multiple uplink frequency ranges that radio unit supports, displayed as string. If gaps occur in supported frequency range, attribute shows multiple ranges. See CPI for more information.; length 0..256.";
+      type string {
+        length "0..256";
+      }
+      config false;
+    }
+    leaf antennaSupervisionActive {
+      description "Antenna supervision status indicates if supervision of antenna/feeder connection is enabled for the branch of this port on the Radio Unit.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf microSleepTxRadioCapability {
+      description "Capability in radio to support the Micro Sleep Tx functionality..";
+      type enumeration {
+        enum NO_SUPPORT;
+        enum FULL_SUPPORT;
+        enum LIMITED_SUPPORT;
+      }
+      config false;
+    }
+    leaf microSleepTxRadioStatus {
+      description "Current status in radio of the support for the Micro Sleep Tx functionality..";
+      type enumeration {
+        enum ENABLED;
+        enum DISABLED;
+      }
+      config false;
+    }
+    leaf rlFreqSweepFailedReason {
+      description "Information on the reason for unsuccessful action startRlFreqSweep..";
+      type enumeration {
+        enum UNDEFINED;
+        enum INVALID_PARAMETERS;
+        enum HW_NOT_SUPPORTED;
+        enum NO_AVAILABLE_CARRIER_BRANCH;
+        enum INTERNAL_ERROR;
+        enum UPLOAD_FAILURE;
+      }
+      config false;
+    }
+    leaf rlFreqSweepStatus {
+      description "Status of latest return loss frequency sweep, initiated by action startRlFreqSweep..";
+      type enumeration {
+        enum UNKNOWN;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+        enum STOPPED;
+      }
+      config false;
+    }
+    leaf pimdAlarmActive {
+      description "Whether PIMD alarm can be raised.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf pimdMeasDuration {
+      description "Measurement duration in PIMD filter..";
+      type enumeration {
+        enum SHORT;
+        enum LONG;
+      }
+    }
+    leaf pimdThreshold {
+      description "Alarm can be raised if a certain number of PIMD values are larger than pimdThreshold during a time period specified by pimdMeasDuration.; range 60..300; Default value: 300.";
+      type uint32 {
+        range "60..300";
+      }
+      default "300";
+      units "dB";
+    }
+    leaf automaticANUrecovery {
+      description "Wether automatic recovery is performed for antenna near unit after connection with radio is lost.; Default value: true.";
+      type boolean;
+      default "true";
+    }
+    leaf pmPimDesenseSuccess {
+      description "Number of successful PIM Desense measurements..";
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseMaxDiscardLatest {
+      description "Latest maximum PIM Desense sample discard rate because of interference. Value 0 is reserved meaning no discard estimate is made..";
+      type int64;
+      config false;
+    }
+    leaf pmPimPwrMax {
+      description "Maximum of all the PIM:Detection levels of all the UL Carrier Measurements received for this RfPort in units of 0.1 dBc, sign reversed. Undefined value:2000.";
+      type int64;
+      config false;
+    }
+    leaf pmPimPwrSuccessLatest {
+      description "Number of PIM measurements received for this RfPort with Measurement Status= Success in latest radio measurement interval. Latest available value from the ROP period. The data represents a small part of the ROP period, avoid using for statistical calculations..";
+      type int64;
+      config false;
+    }
+    leaf pmPimPwrAttempts {
+      description "Total number of PIM Measurement received for an RfPort. Includes the measurement with any kind of status, such as Success, Inconclusive or Unavailable..";
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseLowCount {
+      description "Number of low PIM Desense detected measurements..";
+      type uint64;
+      config false;
+    }
+    leaf pmTxOffTime {
+      description "Total time transmission power off for single band RfPort instance. Average time transmission power off for multi-band RfPort instance. Unit: 1 ms..";
+      type uint32;
+      config false;
+    }
+    leaf-list pmReturnLoss {
+      description "Return loss within the antenna system. PDF ranges: [0]: Number of return loss values within range [0..1[ dB [1]: Number of return loss values within range [1..2[ dB ... [15]: Number of return loss values within range [15..16[ dB [16]: Number of return loss values within range [16..17[ dB [17]: Number of return loss values within range [17..18[ dB ... [29]: Number of return loss values within range [29..30] dB [30]: Number of return loss values above 30 dB.";
+      type uint32;
+      max-elements 31;
+    }
+    leaf pmPimDesenseAttempts {
+      description "Number of PIM Desense measurements for this Rfport..";
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseMaxDiscard {
+      description "Maximum PIM Desense sample discard rate because of interference. Value 0 is reserved meaning no discard estimate is made..";
+      type int64;
+      config false;
+    }
+    leaf-list pmPimcCancellationDepth {
+      description "Number of PIM reduction as a ratio of output and input PIM signal. When sample is 0, no signal is injected for cancellation. PDF ranges: [0]: Number of samples bigger than -1x0.1 dB. [1]: Number of samples in range ]-10, -1]x0.1 dB. [2]: Number of samples in range ]-20, -10]x0.1 dB. [3]: Number of samples in range ]-30, -20]x0.1 dB. ... [29]: Number of samples in range ]-290, -280]x0.1 dB. [30]: Number of samples less than -290x0.1 dB.\".";
+      type uint32;
+      max-elements 31;
+    }
+    leaf pmPimDesenseSuccessLatest {
+      description "Number of latest successful PIM Desense measurements..";
+      type uint64;
+      config false;
+    }
+    leaf-list pmPimcPowerSignalInjected {
+      description "Distribution of the power ratio of the signal injected to all UL carrier branches in the RF port. When sample is 0, all UL signals are internally PIM. PDF ranges: [0]: Number of samples bigger than -1x0.1 dBc. [1]: Number of samples in range ]-10, -1]x0.1 dBc. [2]: Number of samples in range ]-20, -10]x0.1 dBc. [3]: Number of samples in range ]-30, -20]x0.1 dBc. ... [29]: Number of samples in range ]-290, -280]x0.1 dBc. [30]: Number of samples less than -290x0.1 dBc.\".";
+      type uint32;
+      max-elements 31;
+    }
+    leaf pmPimDesenseMaxDiagnosticLatest {
+      description "Latest maximum PIM Desense trouble level for this Rfport. Value 0 is reserved meaning no diagnostic is made..";
+      type int64;
+      config false;
+    }
+    leaf pmReturnLossDiff {
+      description "Difference between average and minimum return loss value during one Recording Output Period (ROP)..";
+      type int32;
+      config false;
+    }
+    leaf pmPimPwrSuccess {
+      description "Number of PIM Measurement received for an RfPort with Measurement Status= Success..";
+      type uint64;
+      config false;
+    }
+    leaf pmPimPwrMaxLatest {
+      description "Max PIM:Detection level of UL carrier measurements received for this RfPort in latest radio measurement interval. Unit: 0.1 dBc with sign reversed. Latest available value from the ROP period. The data represents a small part of the ROP period, avoid using for statistical calculations..";
+      type int64;
+      config false;
+    }
+    leaf-list pmTxOffRatio {
+      description "Relative time transmission power off for single band RfPort instance. Average relative time transmission power off for multi-band RfPort instance. Recorded in regular periodic intervals during one ROP. Unit: %. Bins: [0] Transmission power off in [0..5] seconds in ROP. [1] Transmission power off in [6..11] seconds in ROP. ... [148] Transmission power off in [888..893] seconds in ROP. [149] Transmission power off in [894..899] seconds in ROP..";
+      type int32;
+      max-elements 150;
+    }
+    leaf pmPimPwrFailResUnavailLatest {
+      description "Number of PIM measurements received for this RfPort with Measurement Status= Unavailable in latest radio measurement interval. Latest available value from the ROP period. The data represents a small part of the ROP period, avoid using for statistical calculations..";
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseConfidenceLatest {
+      description "Confidence level of latest measured PIM Desense. Value 0 is reserved meaning no confidence estimate is made..";
+      type int64;
+      config false;
+    }
+    leaf pmPimPwrVarianceSum {
+      description "Sum of all the PIM variance fragments received for this RfPort in units of 0.1 dBc. Undefined value:0.";
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseMeas {
+      description "Number of PIM Desense messages..";
+      type uint64;
+      config false;
+    }
+    leaf pmPimPwrMeas {
+      description "Number of measurement sets, so that the measurement interval will be the ROP period divided by this number..";
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseLowCountLatest {
+      description "Number of latest low PIM Desense detected measurements..";
+      type uint64;
+      config false;
+    }
+    leaf pmReturnLossAvg {
+      description "Average return loss value during one Recording Output Period (ROP)..";
+      type int32;
+      config false;
+    }
+    leaf pmPimPwrSum {
+      description "Sum of all the PIM:Detection levels of all the UL Carrier measurements received for this RfPort in units of 0.1 dBc, sign reversed. Undefined value:0.";
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseHighCount {
+      description "Number of high confidence PIM Desense measurements..";
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseHighCountLatest {
+      description "Number of latest high confidence PIM Desense measurements..";
+      type int64;
+      config false;
+    }
+    leaf pmReturnLossMin {
+      description "Minimum return loss value during one Recording Output Period (ROP)..";
+      type int32;
+      config false;
+    }
+    leaf pmPimPwrFailResUnavail {
+      description "Number of PIM Measurement received for an RfPort with Measurement Status= Unavailable. If this number is too large compared to pmPimPwrSuccess then the pmPimPwr* counters may not represent all the UL carriers. This failed measurement will occur if resource is unavailable, e.g. a SectorCarrier is locked or an UL carrier is locked..";
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseAttemptsLatest {
+      description "Number of lastest PIM Desense measurements for this Rfport..";
+      type uint64;
+      config false;
+    }
+    leaf pmPimDesenseConfidence {
+      description "Confidence level of measured PIM Desense. Value 0 is reserved meaning no confidence estimate is made..";
+      type int64;
+      config false;
+    }
+    leaf pmPimPwrSumLatest {
+      description "Sum of PIM:Detection level of UL carrier measurements received for this RfPort in latest radio measurement interval. Unit: 0.1 dBc with sign reversed. Latest available value from the ROP period. The data represents a small part of the ROP period, avoid using for statistical calculations..";
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseMax {
+      description "Maximum PIM Desense measured with high confidence. Value 0 is reserved meaning no measurement is made. Lowest possible real measurement is 1 meaning desense value is very low..";
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseMaxDiagnostic {
+      description "Maximum PIM Desense trouble level for this Rfport. Value 0 is reserved meaning no Diagnostic is made..";
+      type int64;
+      config false;
+    }
+    leaf pmPimDesenseMaxLatest {
+      description "Latest maximum PIM Desense measured with high confidence. Value 0 is reserved meaning no measurement is made. Lowest possible real measurement is 1 meaning desense value is very low..";
+      type int64;
+      config false;
+    }
+  }
+}

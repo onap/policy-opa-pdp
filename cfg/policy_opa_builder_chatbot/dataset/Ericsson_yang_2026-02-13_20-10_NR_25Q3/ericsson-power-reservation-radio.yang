@@ -1,0 +1,64 @@
+module ericsson-power-reservation-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmePowerReservation";
+  prefix pwrrsrvrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list PowerReservation {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Reserve transmission power for each frequency range for static power management.";
+      key "powerReservationId";
+      leaf powerReservationId {
+        type leafref {
+          path "../attributes/powerReservationId";
+        }
+      }
+      container attributes {
+        uses PowerReservation-attributes;
+      }
+    }
+  }
+  grouping PowerReservation-attributes {
+    leaf powerReservationId {
+      type string;
+      mandatory true;
+    }
+    leaf fieldReplaceableUnitRef {
+      type string;
+      mandatory true;
+    }
+    list outputPowerReservationPerBand {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      container attributes {
+      leaf minDlFrequency {
+        type uint32;
+        units "kHz";
+      }
+      leaf maxDlFrequency {
+        type uint32;
+        units "kHz";
+      }
+      leaf reservedOutputPower {
+        type uint32 {
+          range "1..max";
+        }
+        units "mW";
+        description "range 1..max.";
+      }
+      }
+    }
+  }
+}

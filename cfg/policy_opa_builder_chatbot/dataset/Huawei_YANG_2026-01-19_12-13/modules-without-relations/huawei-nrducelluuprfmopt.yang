@@ -1,0 +1,52 @@
+module huawei-nrducelluuprfmopt {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducelluuprfmopt";
+ prefix nrducelluuprfmopt;
+ description
+ "Auto-generated modular YANG for huawei-nrducelluuprfmopt" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLUUPRFMOPT-attributes {
+ leaf ACTIVEUSERNUMTHRESHOLD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ASMAXDURTIMER {
+  type uint8 {
+   range "1..20";
+  }
+  mandatory false;
+ }
+ leaf ASPENALTYTIMER {
+  type uint8 {
+   range "0..50";
+  }
+  mandatory false;
+ }
+ leaf ASSCHWEIGHTFACTOR {
+  type uint16 {
+   range "1..1000";
+  }
+  mandatory false;
+ }
+ leaf FLOWCTRLUESELPOL {
+  type boolean;
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf SIBALGOSW {
+  type string;
+  mandatory false;
+ }
+ }
+}

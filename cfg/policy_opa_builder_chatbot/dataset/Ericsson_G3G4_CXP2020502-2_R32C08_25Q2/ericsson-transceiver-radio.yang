@@ -1,0 +1,241 @@
+module ericsson-transceiver-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqTransceiver";
+  prefix trsvrrdo;
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list Transceiver {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO models the UL and DL antenna streams in a radio with an embedded antenna system.";
+      key "transceiverId";
+      leaf transceiverId {
+        type leafref {
+          path "../attributes/transceiverId";
+        }
+      }
+      container attributes {
+      uses Transceiver-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef MicroSleepTxRadioCapability {
+    type enumeration {
+      enum NO_SUPPORT {
+      }
+      enum FULL_SUPPORT {
+      }
+      enum LIMITED_SUPPORT {
+      }
+    }
+  }
+  typedef MicroSleepTxRadioStatus {
+    type enumeration {
+      enum ENABLED {
+      }
+      enum DISABLED {
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping Transceiver-attributes {
+    leaf transceiverId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      description "Contains a list of MO instances that reserve this MO instance..";
+      type string;
+      min-elements 0;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf dlFrequencyRanges {
+      description "Multiple downlink frequency ranges that transceiver supports, displayed as string. For transceiver with no valid downlink frequency range, the string shows \"Not supported\".; length 0..256.";
+      type string {
+        length "0..256";
+      }
+      config false;
+    }
+    leaf ulFrequencyRanges {
+      description "Multiple uplink frequency ranges that transceiver supports, displayed as string. For transceiver with no valid uplink frequency range, the string shows \"Not supported\".; length 0..256.";
+      type string {
+        length "0..256";
+      }
+      config false;
+    }
+    leaf microSleepTxRadioStatus {
+      description "Current status in radio for supporting Micro Sleep Tx functionality..";
+      type enumeration {
+        enum ENABLED;
+        enum DISABLED;
+      }
+      config false;
+    }
+    leaf microSleepTxRadioCapability {
+      description "Capability in radio to support Micro Sleep Tx functionality..";
+      type enumeration {
+        enum NO_SUPPORT;
+        enum FULL_SUPPORT;
+        enum LIMITED_SUPPORT;
+      }
+      config false;
+    }
+    leaf retSubUnitRef {
+      description "Refers to an instance of a retSubUnit from which this antenna near unit is controlled and supplied with power..";
+      type string;
+    }
+    leaf mechanicalAntennaTilt {
+      description "Fixed antenna tilt of installation, defined as inclination of antenna element axis with respect to vertical plane. A signed value. Positive indicates downtilt, negative indicates uptilt.; range -900..900; Default value: 0.";
+      type eytypes:int32_range_-900-900-42;
+      default "0";
+      units "°";
+    }
+    leaf maxTotalTilt {
+      description "Maximum antenna elevation including installed tilt and tilt applied by Remote Electrical Tilt (RET). Described by inclination of antenna main beam maximum with respect to horizontal plane. A signed value. Positive indicates downtilt, negative indicates uptilt. Sets a limitation on total tilt which is given by following formula: TotalTilt = Transceiver.mechanicalAntennaTilt + RetSubunit.electricalTilt If RET not installed, this value does not account for inclination that antenna beam can have by default, with respect to orthogonal direction to antenna element axis.; range -900..900; Default value: 900.";
+      type eytypes:int32_range_-900-900-42;
+      default "900";
+      units "°";
+    }
+    leaf minTotalTilt {
+      description "Minimum antenna elevation including installed tilt and tilt applied by Remote Electrical Tilt (RET). Described by inclination of antenna main beam maximum with respect to horizontal plane. A signed value. Positive indicates downtilt, negative indicates uptilt. Limitation on total tilt is found by following equation: TotalTilt = Transceiver.mechanicalAntennaTilt + RetSubunit.electricalTilt If RET not installed, total tilt value does not necessarily account for inclination the antenna beam can have by default, with respect to orthogonal direction to antenna element axis.; range -900..900; Default value: -900.";
+      type eytypes:int32_range_-900-900-42;
+      default "-900";
+      units "°";
+    }
+    leaf totalTilt {
+      description "Total antenna elevation including installed tilt and tilt applied by Remote Electrical Tilt (RET). Total tilt is defined as inclination of antenna main beam maximum with respect to horizontal plane. Tilt is a signed value. Positive indicates downtilt, negative indicates uptilt. Can be found by following equation: TotalTilt = Transceiver.mechanicalAntennaTilt + RetSubunit.electricalTilt If RET not installed, this value does not account for inclination that antenna beam can have by default, with respect to orthogonal direction to antenna element axis.; range -900..900.";
+      type eytypes:int32_range_-900-900-42;
+      config false;
+      units "°";
+    }
+    leaf interleavedAirInstallation {
+      description "Indicates if the active antenna system is installed behind a passive antenna system as interleaved.; Default value: false.";
+      type boolean;
+      default "false";
+    }
+    leaf-list pmTxOffRatio2 {
+      description "Relative time transmission power off in highest or next ascending supported band displayed in dlFrequencyRanges, recorded in regular periodic intervals during one ROP. Unit: %. Bins: [0] Transmission power off in [0..5] seconds in ROP. [1] Transmission power off in [6..11] seconds in ROP. ... [148] Transmission power off in [888..893] seconds in ROP. [149] Transmission power off in [894..899] seconds in ROP..";
+      type int32;
+      max-elements 150;
+    }
+    leaf pmTxOffTime4 {
+      description "Total time transmission power off in highest supported band displayed in dlFrequencyRanges. Unit: 1 ms..";
+      type uint32;
+      config false;
+    }
+    leaf-list pmTxOffRatio1 {
+      description "Relative time transmission power off in lowest supported band displayed in dlFrequencyRanges, recorded in regular periodic intervals during one ROP. Unit: %. Bins: [0] Transmission power off in [0..5] seconds in ROP. [1] Transmission power off in [6..11] seconds in ROP. ... [148] Transmission power off in [888..893] seconds in ROP. [149] Transmission power off in [894..899] seconds in ROP..";
+      type int32;
+      max-elements 150;
+    }
+    leaf pmTxOffTime3 {
+      description "Total time transmission power off in highest or next ascending supported band displayed in dlFrequencyRanges. Unit: 1 ms..";
+      type uint32;
+      config false;
+    }
+    leaf pmTxOffTime2 {
+      description "Total time transmission power off in highest or next ascending supported band displayed in dlFrequencyRanges. Unit: 1 ms..";
+      type uint32;
+      config false;
+    }
+    leaf-list pmTxOffRatio4 {
+      description "Relative time transmission power off in highest supported band displayed in dlFrequencyRanges, recorded in regular periodic intervals during one ROP. Unit: %. Bins: [0] Transmission power off in [0..5] seconds in ROP. [1] Transmission power off in [6..11] seconds in ROP. ... [148] Transmission power off in [888..893] seconds in ROP. [149] Transmission power off in [894..899] seconds in ROP..";
+      type int32;
+      max-elements 150;
+    }
+    leaf pmTxOffTime1 {
+      description "Total time transmission power off in lowest supported band displayed in dlFrequencyRanges. Unit: 1 ms..";
+      type uint32;
+      config false;
+    }
+    leaf-list pmTxOffRatio3 {
+      description "Relative time transmission power off in highest or next ascending supported band displayed in dlFrequencyRanges, recorded in regular periodic intervals during one ROP. Unit: %. Bins: [0] Transmission power off in [0..5] seconds in ROP. [1] Transmission power off in [6..11] seconds in ROP. ... [148] Transmission power off in [888..893] seconds in ROP. [149] Transmission power off in [894..899] seconds in ROP..";
+      type int32;
+      max-elements 150;
+    }
+  }
+}

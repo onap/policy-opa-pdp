@@ -1,0 +1,24 @@
+module huawei-enodebchroutputctrl {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-enodebchroutputctrl";
+ prefix enodebchroutputctrl;
+ description
+ "Auto-generated modular YANG for huawei-enodebchroutputctrl" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ENODEBCHROUTPUTCTRL-attributes {
+ leaf CHRUPLOADINGTIMESWITCH {
+  type boolean;
+  mandatory false;
+ }
+ leaf CHROUTPUTCTRLSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf SIGOUTPUTMODE {
+  type boolean;
+  mandatory false;
+ }
+ }
+}

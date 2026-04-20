@@ -1,0 +1,151 @@
+module ericsson-lratppct-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:LratPpCt";
+  prefix lratppct;
+  import ericsson-lrat-radio {
+    prefix lrat;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nIt contains the PpControlTermination.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/lrat:ENodeBFunction" {
+    list PpControlTermination {
+      description "Additional definitions from MOM:min/max-elements:0/1;root;systemCreated; Local Termination point of the packet processing control interface. System created when the first packet processing control link is established. System deleted when the last packet processing control link is released. The RDN of this MO is PpControlTermination=1.";
+      key "ppControlTerminationId";
+      leaf ppControlTerminationId {
+        type leafref {
+          path "../attributes/ppControlTerminationId";
+        }
+      }
+      container attributes {
+      uses PpControlTermination-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/lrat:ENodeBFunction/lratppct:PpControlTermination" {
+    list PpControlLink {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;systemCreated; Control link for the packet processing interface. System created when a packet processing control link is established. System deleted when a packet processing control link is released. The RDN of this MO is PpControlLink=[Remote Managed Element Identity].";
+      key "ppControlLinkId";
+      leaf ppControlLinkId {
+        type leafref {
+          path "../attributes/ppControlLinkId";
+        }
+      }
+      container attributes {
+      uses PpControlLink-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    description "The availability status is used to qualify the operational state. It indicates why the operational state has changed its value.";
+    type enumeration {
+      enum IN_TEST {
+        description "The resource is undergoing a test procedure. If the administrative state is locked or shutting down, normal users are prevented from using the resource.";
+      }
+      enum FAILED {
+        description "The resource has an internal fault that prevents it from operating.";
+      }
+      enum POWER_OFF {
+        description "The resource requires power to be applied and is not powered on.";
+      }
+      enum OFF_LINE {
+        description "The resource requires a routine operation to be performed. This routine operation is to place the resource online and make it available for use. The operation may be manual or automatic, or both. The operational state is disabled.";
+      }
+      enum OFF_DUTY {
+        description "The resource has been made inactive by an internal control process.";
+      }
+      enum DEPENDENCY {
+        description "The resource cannot operate because some other resource on which it depends is unavailable.";
+      }
+      enum DEGRADED {
+        description "The service available from the resource is degraded in some respect.";
+      }
+      enum NOT_INSTALLED {
+        description "The resource represented by the managed object is not present, or is incomplete.";
+      }
+      enum LOG_FULL {
+        description "Indicates a log full condition. The semantics are defined in CCITT Rec. X.735 | ISO/IEC 10164-6.";
+      }
+      enum DEPENDENCY_LOCKED {
+        description "The administrative state of a resource that this resource depends on is locked. Alternatively, the availability status of the other resource is dependency locked.";
+      }
+      enum DEPENDENCY_FAILED {
+        description "The availability status of a resource that this resource depends on is failed or dependency failed.";
+      }
+      enum DEPENDENCY_SHUTTINGDOWN {
+        description "The administrative state of a resource that this resource depends on is shutting down. Alternatively, the availability status of the other resource is dependency shutting down.";
+      }
+      enum DEPENDENCY_RECOVERY {
+        description "Resource that this resource depends on is undergoing a recovery procedure.";
+      }
+      enum DEPENDENCY_HOLDING {
+        description "Resource cannot operate because some other resource on which it depends is currently unavailable. The situation is expected to be resolved. Actions to facilitate dependency resolution may be ongoing.";
+      }
+    }
+  }
+  typedef OperState {
+    description "Operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping PpControlLink-attributes {
+    leaf ppControlLinkId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf remoteEndPoint {
+      description "The remote IP address used for initialization of the underlying TCP connection. The IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf localEndPoint {
+      description "The local IP address used for initialization of the underlying TCP connection. The IP address can be an IPv4 or an IPv6 address.; length 2..39.";
+      type string {
+        length "2..39";
+      }
+      config false;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      description "The availability status. It contains details about operationalState..";
+      type AvailStatus;
+      min-elements 0;
+    }
+    leaf detailedAvailabilityInfoTemp {
+      description "Additional Info for the availabilityStatus FAILED and DEPENDENCY_FAILED The FailureCause has the format <causeID> <cause Slogan> [<cause description>] Example: 1 TLS LICENSE NOT INSTALLED The TLS License installation is a prerequisite for Service Discovery.; length 1..256.";
+      type string {
+        length "1..256";
+      }
+      config false;
+    }
+  }
+  grouping PpControlTermination-attributes {
+    leaf ppControlTerminationId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+  }
+}

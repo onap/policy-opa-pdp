@@ -1,0 +1,42 @@
+module huawei-nrducellmbsbroadcast {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellmbsbroadcast";
+ prefix nrducellmbsbroadcast;
+ description
+ "Auto-generated modular YANG for huawei-nrducellmbsbroadcast" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLMBSBROADCAST-attributes {
+ leaf MBSBROADCASTADMITTHLD {
+  type uint8 {
+   range "0..50";
+  }
+  mandatory false;
+ }
+ leaf MBSBROADCASTALGOSW {
+  type string;
+  mandatory false;
+ }
+ leaf MBSBROADCASTMAXPWROFFSET {
+  type int8 {
+   range "-3..3";
+  }
+  mandatory false;
+ }
+ leaf MCS {
+  type uint8 {
+   range "0..28";
+  }
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

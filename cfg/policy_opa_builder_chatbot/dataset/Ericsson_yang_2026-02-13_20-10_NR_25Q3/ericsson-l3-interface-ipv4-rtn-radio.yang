@@ -1,0 +1,376 @@
+module ericsson-l3-interface-ipv4-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnL3InterfaceIPv4";
+  prefix l3intfv4rdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/InterfaceIPv4" {
+    list AddressIPv4 {
+      description "Additional definitions from MOM:min/max-elements:0/4; Assigned IPv4 address including information about subnet it resides on. Maximum number of AddressIPv4 MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120.";
+      key "addressIPv4Id";
+      leaf addressIPv4Id {
+        type leafref {
+          path "../attributes/addressIPv4Id";
+        }
+      }
+      container attributes {
+        uses AddressIPv4-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list InterfaceIPv4 {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents IPv4-addressed termination point, interface on IPv4 routing domain. Maximum number of InterfaceIPv4 MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 120. Dependencies: Maximum one InterfaceIPv4 MO can reserve LagPort MO.";
+      key "interfaceIPv4Id";
+      leaf interfaceIPv4Id {
+        type leafref {
+          path "../attributes/interfaceIPv4Id";
+        }
+      }
+      container attributes {
+        uses InterfaceIPv4-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef BfdStaticRoutesInterfaceType {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef ClientIdentifierType {
+    type enumeration {
+      enum AUTOMATIC;
+      enum AUTOMATIC_MAC;
+      enum AUTOMATIC_SERIAL_NUMBER;
+      enum MANUAL;
+      enum NO_CLIENT_IDENTIFIER;
+    }
+  }
+  typedef IpConfigMode {
+    type enumeration {
+      enum MANUAL;
+      enum DHCP;
+      enum IKE;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping AddressIPv4-attributes {
+    leaf address {
+      type string;
+    }
+    leaf addressIPv4Id {
+      type ietfinet:ipv4-address;
+      mandatory true;
+    }
+    leaf configurationMode {
+      type enumeration {
+        enum MANUAL;
+        enum DHCP;
+        enum IKE;
+      }
+    }
+    leaf dhcpClientIdentifier {
+      type string {
+        pattern "([^\"].*|\".+\")";
+      }
+    }
+    leaf dhcpClientIdentifierType {
+      type enumeration {
+        enum AUTOMATIC;
+        enum AUTOMATIC_MAC;
+        enum AUTOMATIC_SERIAL_NUMBER;
+        enum MANUAL;
+        enum NO_CLIENT_IDENTIFIER;
+      }
+    }
+    leaf primaryAddress {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf usedAddress {
+      type string;
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+  }
+  grouping InterfaceIPv4-attributes {
+    leaf aclEgress {
+      type string;
+    }
+    leaf aclIngress {
+      type string;
+    }
+    leaf arpTimeout {
+      type uint32 {
+        range "30..7200";
+      }
+      default "300";
+      units "s";
+      description "range 30..7200; Default value: 300.";
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf bfdProfile {
+      type string;
+    }
+    leaf bfdStaticRoutes {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf egressQosMarking {
+      type string;
+    }
+    leaf encapsulation {
+      type string;
+    }
+    leaf ingressQosMarking {
+      type string;
+    }
+    leaf interfaceIPv4Id {
+      type ietfinet:ipv4-address;
+      mandatory true;
+    }
+    leaf ipOptionsDisabled {
+      type ietfinet:ip-address;
+      description "Default value: false.";
+    }
+    leaf loopback {
+      type boolean;
+    }
+    leaf mtu {
+      type int32 {
+        range "576..9000";
+      }
+      default "1500";
+      description "range 576..9000; Default value: 1500.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf pcpArp {
+      type string;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf routesHoldDownTimer {
+      type uint16 {
+        range "1..300";
+      }
+      units "s";
+      description "range 1..300.";
+    }
+    leaf routingPolicyIngress {
+      type string;
+    }
+    leaf trackedInterface {
+      type string;
+    }
+    leaf trustDSCP {
+      type boolean;
+      status deprecated;
+      default "true";
+      description "Default value: true; Status info: Since 16.2.8 (16-01-25). Planned to be removed..";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf ipIfStatsReasmReqds {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf-list ipIfOutOctetRatePercentiles {
+      type ietfinet:ip-address;
+    }
+    leaf ipIfStatsHCInReceives {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsOutFragReqds {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInAddrErrors {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutBcastPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInDiscards {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInOctets {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsReasmFails {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsOutDiscards {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutOctets {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInUnknownProtos {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutMcastOctets {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInSrcAddrErrors {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsIpOptDroppedPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutTransmits {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsOutFragCreates {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsOutFragFails {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInMcastPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInTruncatedPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsOutFragOKs {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsReasmOKs {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInDelivers {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInBlackHoles {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInNoRoutes {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf-list ipIfInOctetRatePercentiles {
+      type ietfinet:ip-address;
+    }
+    leaf ipIfStatsHCOutMcastPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInForwDatagrams {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInMcastOctets {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutRequests {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsInHdrErrors {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCInBcastPkts {
+      type ietfinet:ip-address;
+      config false;
+    }
+    leaf ipIfStatsHCOutForwDatagrams {
+      type ietfinet:ip-address;
+      config false;
+    }
+  }
+}

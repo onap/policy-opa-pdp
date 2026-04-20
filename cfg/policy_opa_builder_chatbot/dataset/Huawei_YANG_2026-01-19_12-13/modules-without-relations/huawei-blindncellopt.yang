@@ -1,0 +1,46 @@
+module huawei-blindncellopt {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-blindncellopt";
+ prefix blindncellopt;
+ description
+ "Auto-generated modular YANG for huawei-blindncellopt" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping BLINDNCELLOPT-attributes {
+ leaf BLINDHOSUCCRATETHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf CSFBHOATTEMPRATIOTHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf HOSUCCRATETHD {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf OPTMODE {
+  type boolean;
+  mandatory false;
+ }
+ leaf SAMPLENUMTHD {
+  type uint32 {
+   range "1..1000000";
+  }
+  mandatory false;
+ }
+ leaf STATISTICPERIOD {
+  type uint16 {
+   range "1..50400";
+  }
+  mandatory false;
+ }
+ }
+}

@@ -1,0 +1,48 @@
+module ericsson-o-hybrid-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeOHybrid";
+  prefix ohybrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list OHybrid {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Configuration of hybrid M-plane architecture model for all ORadio instances. Configuration is applied for all ORadio instances in Hybrid mode configured with ORiPort MO. The RDN of this MO must be OHybrid=1.";
+      key "oHybridId";
+      leaf oHybridId {
+        type leafref {
+          path "../attributes/oHybridId";
+        }
+      }
+      container attributes {
+        uses OHybrid-attributes;
+      }
+    }
+  }
+  grouping OHybrid-attributes {
+    leaf oHybridId {
+      type string;
+      mandatory true;
+    }
+    leaf smoAddress {
+      type string;
+      mandatory true;
+    }
+    leaf smoUserName {
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredentialRef {
+      type string;
+      mandatory true;
+    }
+  }
+}

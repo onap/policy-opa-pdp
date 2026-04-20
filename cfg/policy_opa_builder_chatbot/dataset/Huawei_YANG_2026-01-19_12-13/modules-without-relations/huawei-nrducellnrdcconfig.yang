@@ -1,0 +1,66 @@
+module huawei-nrducellnrdcconfig {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nrducellnrdcconfig";
+ prefix nrducellnrdcconfig;
+ description
+ "Auto-generated modular YANG for huawei-nrducellnrdcconfig" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NRDUCELLNRDCCONFIG-attributes {
+ leaf DLSPLITRLCRATE {
+  type uint16 {
+   range "1..65000";
+  }
+  mandatory false;
+ }
+ leaf EXCEPTIONTHLD {
+  type uint16 {
+   range "1..300";
+  }
+  mandatory false;
+ }
+ leaf FIRSTACKPKTDELAYTHLD {
+  type uint8 {
+   range "1..30";
+  }
+  mandatory false;
+ }
+ leaf NRDCALGOSWITCH {
+  type string;
+  mandatory false;
+ }
+ leaf NRDUCELLID {
+  type union {
+   type int32 {
+    range "-1..65534";
+   }
+  }
+  mandatory false;
+ }
+ leaf PERCEIVEDRATETHLD {
+  type uint16 {
+   range "1..10000";
+  }
+  mandatory false;
+ }
+ leaf ULFALLBACKTOMCGSINRHYST {
+  type uint8 {
+   range "0..100";
+  }
+  mandatory false;
+ }
+ leaf ULFALLBACKTOMCGSINRTHLD {
+  type int16 {
+   range "-200..350";
+  }
+  mandatory false;
+ }
+ leaf ULFALLBACKTOMCGTIMETOTRIG {
+  type uint16 {
+   range "1..300";
+  }
+  mandatory false;
+ }
+ }
+}

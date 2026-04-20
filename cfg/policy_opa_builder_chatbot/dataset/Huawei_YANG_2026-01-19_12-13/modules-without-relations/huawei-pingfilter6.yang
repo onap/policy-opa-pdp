@@ -1,0 +1,70 @@
+module huawei-pingfilter6 {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-pingfilter6";
+ prefix pingfilter6;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-pingfilter6" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv6" {
+ container pingfilter6-ipv6 {
+  container attributes {
+   uses PINGFILTER6-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping PINGFILTER6-attributes {
+ leaf OLD_IP6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf IP6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf OLD_PFXLEN {
+  type union {
+   type int16 {
+    range "-1..128";
+   }
+  }
+  mandatory false;
+ }
+ leaf PFXLEN {
+  type union {
+   type int16 {
+    range "-1..128";
+   }
+  }
+  mandatory false;
+ }
+ leaf OLD_VRFIDX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

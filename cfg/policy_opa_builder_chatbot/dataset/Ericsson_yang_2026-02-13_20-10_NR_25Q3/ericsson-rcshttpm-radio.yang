@@ -1,0 +1,63 @@
+module ericsson-rcshttpm-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsHttpM";
+  prefix rcshttpm;
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-rcssysm-radio {
+    prefix rcssysm;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM/HttpM" {
+    list Https {
+      description "Additional definitions from MOM:min/max-elements:0/1;systemCreated; Configuration for HTTP secure service. The HTTPS service allows secure communication over TLS with the web applications of the system. Basic web-service (port 443) is only using certificates for secure transport. Extended web-service (port 8443) is using certificates for secure transport and login validation.";
+      key "httpsId";
+      leaf httpsId {
+        type leafref {
+          path "../attributes/httpsId";
+        }
+      }
+      container attributes {
+        uses Https-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssysm:SysM" {
+    list HttpM {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; HTTP management.";
+      key "httpMId";
+      leaf httpMId {
+        type leafref {
+          path "../attributes/httpMId";
+        }
+      }
+      container attributes {
+        uses HttpM-attributes;
+      }
+    }
+  }
+  grouping HttpM-attributes {
+    leaf httpMId {
+      type string;
+      mandatory true;
+    }
+  }
+  grouping Https-attributes {
+    leaf httpsId {
+      type string;
+      mandatory true;
+    }
+    leaf nodeCredential {
+      type string;
+    }
+    leaf trustCategory {
+      type string;
+    }
+  }
+}

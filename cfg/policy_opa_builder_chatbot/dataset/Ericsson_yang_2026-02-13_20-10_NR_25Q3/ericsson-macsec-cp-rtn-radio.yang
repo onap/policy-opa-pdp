@@ -1,0 +1,182 @@
+module ericsson-macsec-cp-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnMacSecCp";
+  prefix macseccprdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ietf-yang-types {
+    prefix ietfyang;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport" {
+    list MacSecCp {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root;systemCreated; Represents Controlled Port that can exist regardless if underlying hardware supports MACsec. Only created when RiLink MO is created with following conditions: - When one MacSecProfile MO is associated with RiLink MO. - When Ethernet is detected on link.";
+      key "macSecCpId";
+      leaf macSecCpId {
+        type leafref {
+          path "../attributes/macSecCpId";
+        }
+      }
+      container attributes {
+        uses MacSecCp-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef MacSecCipher {
+    type enumeration {
+      enum GCM_AES_128;
+      enum GCM_AES_256;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping MacSecCp-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf-list caRef {
+      type string;
+    }
+    leaf macSecCpId {
+      type ietfyang:mac-address;
+      mandatory true;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list portRef {
+      type ietfinet:port-number;
+    }
+    leaf-list profileRef {
+      type string;
+    }
+    leaf-list supportedCiphers {
+      type ietfinet:ip-address;
+    }
+    leaf outPktsProtected {
+      type uint64;
+      config false;
+    }
+    leaf inOctetsDecrypted {
+      type uint64;
+      config false;
+    }
+    leaf inPktsNoTag {
+      type uint64;
+      config false;
+    }
+    leaf inPktsBadTag {
+      type uint64;
+      config false;
+    }
+    leaf inPktsOverrun {
+      type uint64;
+      config false;
+    }
+    leaf inPktsNoSAError {
+      type uint64;
+      config false;
+    }
+    leaf inPktsDelayed {
+      type uint64;
+      config false;
+    }
+    leaf inOctetsValidated {
+      type uint64;
+      config false;
+    }
+    leaf outPktsUntagged {
+      type uint64;
+      config false;
+    }
+    leaf inPktsUnchecked {
+      type uint64;
+      config false;
+    }
+    leaf outOctetsEncrypted {
+      type uint64;
+      config false;
+    }
+    leaf inPktsNotValid {
+      type uint64;
+      config false;
+    }
+    leaf outPktsTooLong {
+      type uint64;
+      config false;
+    }
+    leaf inPktsLate {
+      type uint64;
+      config false;
+    }
+    leaf inPktsOk {
+      type uint64;
+      config false;
+    }
+    leaf inPktsNoSA {
+      type uint64;
+      config false;
+    }
+    leaf inPktsUntagged {
+      type uint64;
+      config false;
+    }
+    leaf outPktsEncrypted {
+      type uint64;
+      config false;
+    }
+    leaf inPktsInvalid {
+      type uint64;
+      config false;
+    }
+    leaf outOctetsProtected {
+      type uint64;
+      config false;
+    }
+  }
+}

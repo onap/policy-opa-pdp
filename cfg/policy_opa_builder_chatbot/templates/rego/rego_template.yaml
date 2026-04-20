@@ -1,0 +1,91 @@
+# ==== HEADER=====================================================
+- id: header
+  kind: header
+  description: "Package"
+  body: |
+    package {{package_name}}
+
+# ==== DEFAULTS=====================================================
+- id: var_init
+  kind: default
+  description: "Default variable"
+  body: |
+    default {{variable}} := false
+
+# ==== RULE HEADS ============================================================
+- id: set_return
+  kind: rule_head
+  description: "Return a set of objects/IDs using contains"
+  body: |
+    {{result_set_name}} contains {{result_item}} if {
+
+- id: boolean_allow
+  kind: rule_head
+  description: "Boolean decision rule"
+  body: | 
+    allow if {
+
+
+
+# ==== INPUT GATING ==========================================================
+- id: vendor_check
+  kind: gate
+  description: "Vendor gating"
+  body: |
+    input.vendor == "{{vendor}}"
+# optional usecase gate
+# input.usecase == "{{usecase}}"
+
+- id: motype_check
+  kind: gate
+  description: "MOType gate"
+  body: |
+    input.MOType == "{{mo_type}}"
+
+# ==== DATA BINDING / ASSIGNMENTS ===========================================
+- id: obj_init
+  kind: assignment
+  description: "Obj initialization"
+  body: |
+    {{obj_var}} := {{data_obj_name}}
+
+- id: enumerate_dataobj
+  kind: assignment
+  description: "Enumerate objects from a dataset"
+  body: |
+    {{obj_var}} := {{base_obj}}.{{enumerate_obj}}
+
+# ==== CONDITIONS ===========================================================
+- id: condition_check
+  kind: predicate
+  description: "input path equals object attr"
+  body: |
+    {{lhs}} {{op}} {{rhs}}
+
+# ==== RELATIONSHIP TRAVERSAL (AAI style) ====================================
+- id: rel_relationship
+  kind: assignment
+  description: "Bind relationship"
+  body: |
+    rel := {{obj_var}}["relationship-list"].relationship[_]
+    rel["related-to"] == "{{related_type}}"
+    rel_data := rel["relationship-data"][_]
+    rel_data["relationship-key"] == "{{relationship_key}}"
+    {{related_id}} := rel_data["relationship-value"]
+
+
+# ==== SOME =========================================
+- id: some_exist_in_collection
+  kind: predicate
+  description: "Existential membership using 'some'"
+  body: |
+    some {{x}} in {{collection}}
+    {{x}} == {{obj}}["{{rel_name}}"]
+
+# ==== END-BLOCK ===============================================================
+- id: block_end
+  kind: block_end
+  description: "Close rule body"
+  body: |
+    }
+

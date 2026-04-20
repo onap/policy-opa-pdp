@@ -1,0 +1,2164 @@
+module ericsson-antenna-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:ReqAntennaSystem";
+  prefix antrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  import ericsson-yang-types {
+    prefix eytypes;
+  }
+  import ericsson-field-replaceable-unit-radio {
+    prefix frurdo;
+  }
+  import ericsson-equip-radio {
+    prefix equiprdo;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup/AntennaNearUnit" {
+    list TmaSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents a TMA subunit which provides low noise amplification of the uplink received by the reserving branch. The RDN of this MO must be TmaSubUnit=n, where n is a number.";
+      key "tmaSubUnitId";
+      leaf tmaSubUnitId {
+        type leafref {
+          path "../attributes/tmaSubUnitId";
+        }
+      }
+      container attributes {
+        uses TmaSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup/AntennaNearUnit" {
+    list RetSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/12; This MO represents the device, either a single RET subunit or a subunit of the multi RET subunit providing for remote electrical tilting of the antenna unit where it is mounted. The RDN of this MO must be RetSubUnit=n, where n is a number.";
+      key "retSubUnitId";
+      leaf retSubUnitId {
+        type leafref {
+          path "../attributes/retSubUnitId";
+        }
+      }
+      container attributes {
+        uses RetSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup/AntennaNearUnit" {
+    list RaeSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents a Remote eAntenna Extension device (RAE). The RDN of this MO must be RaeSubUnit=n, where n is a number.";
+      key "raeSubUnitId";
+      leaf raeSubUnitId {
+        type leafref {
+          path "../attributes/raeSubUnitId";
+        }
+      }
+      container attributes {
+        uses RaeSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup/AntennaNearUnit" {
+    list AsdSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents an Alignment Sensor Device (ASD). The RDN of this MO must be AsdSubUnit=n, where n is a number.";
+      key "asdSubUnitId";
+      leaf asdSubUnitId {
+        type leafref {
+          path "../attributes/asdSubUnitId";
+        }
+      }
+      container attributes {
+        uses AsdSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup/AntennaNearUnit" {
+    list GlsSubUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents a Geographic Location Sensor (GLS). The RDN of this MO must be GlsSubUnit=n, where n is a number.";
+      key "glsSubUnitId";
+      leaf glsSubUnitId {
+        type leafref {
+          path "../attributes/glsSubUnitId";
+        }
+      }
+      container attributes {
+        uses GlsSubUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup/AntennaUnit/AntennaSubunit" {
+    list AuPort {
+      description "Additional definitions from MOM:min/max-elements:0/17; This MO represents an antenna feeder port on the Antenna Unit where the antenna branch is connected.";
+      key "auPortId";
+      leaf auPortId {
+        type leafref {
+          path "../attributes/auPortId";
+        }
+      }
+      container attributes {
+        uses AuPort-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup/AntennaUnit" {
+    list AntennaSubunit {
+      description "Additional definitions from MOM:min/max-elements:0/12; This MO groups the antenna elements that, because of being controlled by the same RET radiate with the same tilt angle.";
+      key "antennaSubunitId";
+      leaf antennaSubunitId {
+        type leafref {
+          path "../attributes/antennaSubunitId";
+        }
+      }
+      container attributes {
+        uses AntennaSubunit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup" {
+    list RfBranch {
+      description "Additional definitions from MOM:min/max-elements:0/24; This MO represents the connection from an antenna feeder port on the RU to one antenna feeder connector on one or several antenna units. The MO represents all equipment between the radio and the antenna which isn't modelled by any other MO. That includes feeder, filters and non-supervised, non-controlled TMA.";
+      key "rfBranchId";
+      leaf rfBranchId {
+        type leafref {
+          path "../attributes/rfBranchId";
+        }
+      }
+      container attributes {
+        uses RfBranch-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup" {
+    list AntennaNearUnit {
+      description "Additional definitions from MOM:min/max-elements:0/48; This MO represents a hardware unit installed in the antenna system that can be controlled and supervised by the system. During MO creation RDN cannot make the LDN exceed 127 characters.";
+      key "antennaNearUnitId";
+      leaf antennaNearUnitId {
+        type leafref {
+          path "../attributes/antennaNearUnitId";
+        }
+      }
+      container attributes {
+        uses AntennaNearUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup" {
+    list AntennaUnit {
+      description "Additional definitions from MOM:min/max-elements:0/8; This MO represents an antenna unit that contains several antenna subunits installed with a common mechanical tilt.";
+      key "antennaUnitId";
+      leaf antennaUnitId {
+        type leafref {
+          path "../attributes/antennaUnitId";
+        }
+      }
+      container attributes {
+        uses AntennaUnit-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup" {
+    list TmfConfiguration {
+      description "Additional definitions from MOM:min/max-elements:0/1; Used to configure TMF and TTMF. MO enables support of automatic configuration of TMF and TTMF.";
+      key "tmfConfigurationId";
+      leaf tmfConfigurationId {
+        type leafref {
+          path "../attributes/tmfConfigurationId";
+        }
+      }
+      container attributes {
+        uses TmfConfiguration-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/AntennaUnitGroup" {
+    list MulticastAntennaBranch {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents all UL and DL antenna streams representing the same carrier branch within an RDS Multicast Coverage Area.";
+      key "multicastAntennaBranchId";
+      leaf multicastAntennaBranchId {
+        type leafref {
+          path "../attributes/multicastAntennaBranchId";
+        }
+      }
+      container attributes {
+        uses MulticastAntennaBranch-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment" {
+    list AntennaUnitGroup {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; This MO is a container of references to the antenna and antenna near products (RET, TMA, RAE) serving a Sector.";
+      key "antennaUnitGroupId";
+      leaf antennaUnitGroupId {
+        type leafref {
+          path "../attributes/antennaUnitGroupId";
+        }
+      }
+      container attributes {
+        uses AntennaUnitGroup-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/equiprdo:Equipment/frurdo:FieldReplaceableUnit" {
+    list AntennaNearUnit {
+      description "Additional definitions from MOM:min/max-elements:0/48; This MO represents a hardware unit installed in the antenna system that can be controlled and supervised by the system. During MO creation RDN cannot make the LDN exceed 127 characters.";
+      key "antennaNearUnitId";
+      leaf antennaNearUnitId {
+        type leafref {
+          path "../attributes/antennaNearUnitId";
+        }
+      }
+      container attributes {
+        uses AntennaNearUnit-attributes;
+      }
+    }
+  }
+  typedef AdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+      enum SHUTTINGDOWN;
+    }
+  }
+  typedef AisgDataProvenanceType {
+    type enumeration {
+      enum NOT_SET;
+      enum FACTORY;
+      enum CONFIG_FILE;
+      enum AUTOMATIC;
+      enum MANUAL;
+    }
+  }
+  typedef AisgFileType {
+    type enumeration {
+      enum FIRMWARE_FILE;
+      enum CONFIGURATION_FILE;
+      enum LOG_FILE;
+      enum INFORMATION_FILE;
+    }
+  }
+  typedef AldState {
+    type enumeration {
+      enum IDLE;
+      enum OPERATING;
+      enum DOWNLOAD;
+      enum MALD_SETUP;
+      enum PINGER_RESTRICTED;
+      enum PINGER_RESTRICTED_TRANSMIT;
+      enum PINGER_BROADCAST_WAIT;
+      enum LISTENER_RESTRICTED_MONITOR;
+      enum LISTENER_RESTRICTED_PREPARATION;
+      enum LISTENER_BROADCAST_WAIT;
+      enum ALD_NOT_CONFIGURED;
+    }
+  }
+  typedef AntNearUnit {
+    type enumeration {
+      enum IUANT;
+      enum ASC;
+      enum ERET;
+    }
+  }
+  typedef AutosetState {
+    type enumeration {
+      enum DEACTIVATED;
+      enum ACTIVATED;
+      enum SUCCESS;
+      enum FAILED;
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+      enum DEPENDENCY_RECOVERY;
+      enum DEPENDENCY_HOLDING;
+    }
+  }
+  typedef BeamformingPortMapping {
+    type enumeration {
+      enum CROSS_POLARIZED;
+      enum CO_POLARIZED;
+    }
+  }
+  typedef ConnectionState {
+    type enumeration {
+      enum NO_CONNECTION;
+      enum OPERATING;
+      enum MALD_SETUP;
+      enum UPLOAD;
+      enum DOWNLOAD;
+      enum DOWNLOAD_FAILED;
+      enum RESTRICTED;
+      enum DOWNLOAD_NOTIFICATION;
+      enum OFF_CONNECTION;
+      enum PINGER;
+      enum LISTENER;
+    }
+  }
+  typedef DCPowerMode {
+    type enumeration {
+      enum STEADY_STATE;
+      enum HIGH;
+      enum SLEEP;
+    }
+  }
+  typedef DownloadState {
+    type enumeration {
+      enum IDLE;
+      enum STARTED;
+      enum FINISHED;
+      enum FAILED;
+    }
+  }
+  typedef MALDSetupStatus {
+    type enumeration {
+      enum IDLE;
+      enum STARTED;
+      enum FINISHED;
+      enum FAILED;
+    }
+  }
+  typedef MALDSetupType {
+    type enumeration {
+      enum UNKNOWN;
+      enum SET;
+      enum GET;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef ResetCause {
+    type enumeration {
+      enum SW_UPDATE;
+      enum LAYER2_RESET;
+      enum INTERNAL_ERROR;
+      enum POWER_UP;
+      enum MALD_SETUP_CHANGED;
+      enum LAYER2_TIMEOUT;
+    }
+  }
+  typedef RetStates {
+    type enumeration {
+      enum IDLE;
+      enum TILTING;
+    }
+  }
+  typedef RfBranchBandEnabled {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef SupportedDeployment {
+    type enumeration {
+      enum PSI_CONFIGURATION;
+      enum Y_CONFIGURATION;
+    }
+  }
+  typedef SupportedOperatingMode {
+    type enumeration {
+      enum LTE_5MHZ;
+      enum LTE_10MHZ;
+      enum WCDMA_1_CHANNEL;
+      enum WCDMA_2_CHANNELS;
+      enum LTE_MIXED_WITH_WCDMA_IN_10MHZ;
+    }
+  }
+  typedef TcpStatus {
+    type enumeration {
+      enum UNKNOWN;
+      enum STARTED;
+      enum FINISHED;
+      enum FAILED;
+      enum STOPPED;
+    }
+  }
+  typedef TmaType {
+    type enumeration {
+      enum TMA;
+      enum TMF;
+    }
+  }
+  typedef UploadState {
+    type enumeration {
+      enum IDLE;
+      enum STARTED;
+      enum FINISHED;
+      enum FAILED;
+    }
+  }
+  typedef VerticalBeamWidthMode {
+    type enumeration {
+      enum NARROW;
+      enum WIDE;
+    }
+  }
+  grouping AntennaNearUnit-attributes {
+    leaf antennaNearUnitId {
+      type string;
+      mandatory true;
+    }
+    leaf anuType {
+      type enumeration {
+        enum IUANT;
+        enum ASC;
+        enum ERET;
+      }
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf hardwareVersion {
+      type string {
+        length "0..255";
+      }
+      config false;
+      description "length 0..255.";
+    }
+    leaf iuantDeviceType {
+      type int32 {
+        range "1..2 | 17 | 35 | 37 | 49 | 64..65";
+      }
+      default "1";
+      description "Default value: 1.";
+    }
+    leaf onUnitUniqueId {
+      type string;
+      config false;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf productNumber {
+      type string {
+        length "0..255";
+      }
+      config false;
+      description "length 0..255.";
+    }
+    leaf rfPortRef {
+      type ietfinet:port-number;
+    }
+    leaf selfTestStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+        enum STOPPED;
+      }
+      config false;
+    }
+    leaf serialNumber {
+      type string {
+        length "0..17";
+      }
+      config false;
+      description "length 0..17.";
+    }
+    leaf softwareVersion {
+      type string {
+        length "0..255";
+      }
+      config false;
+      description "length 0..255.";
+    }
+    leaf uniqueId {
+      type string {
+        length "0..19";
+      }
+      description "length 0..19.";
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+        enum SHUTTINGDOWN;
+      }
+    }
+    leaf aldState {
+      type enumeration {
+        enum IDLE;
+        enum OPERATING;
+        enum DOWNLOAD;
+        enum MALD_SETUP;
+        enum PINGER_RESTRICTED;
+        enum PINGER_RESTRICTED_TRANSMIT;
+        enum PINGER_BROADCAST_WAIT;
+        enum LISTENER_RESTRICTED_MONITOR;
+        enum LISTENER_RESTRICTED_PREPARATION;
+        enum LISTENER_BROADCAST_WAIT;
+        enum ALD_NOT_CONFIGURED;
+      }
+      config false;
+    }
+    list configuredAisgVersion {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf majorVersion {
+        type string;
+      }
+      leaf minorVersion {
+        type string;
+      }
+      leaf releaseVersion {
+        type string;
+      }
+      }
+    }
+    leaf connectionState {
+      type enumeration {
+        enum NO_CONNECTION;
+        enum OPERATING;
+        enum MALD_SETUP;
+        enum UPLOAD;
+        enum DOWNLOAD;
+        enum DOWNLOAD_FAILED;
+        enum RESTRICTED;
+        enum DOWNLOAD_NOTIFICATION;
+        enum OFF_CONNECTION;
+        enum PINGER;
+        enum LISTENER;
+      }
+      config false;
+    }
+    leaf downloadState {
+      type enumeration {
+        enum IDLE;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+      }
+      config false;
+    }
+    list supportedAisgVersion {
+      config false;
+      container attributes {
+      leaf majorVersion {
+        type string;
+      }
+      leaf minorVersion {
+        type string;
+      }
+      leaf releaseVersion {
+        type string;
+      }
+      }
+    }
+    list uploadState {
+      config false;
+      container attributes {
+      leaf filetype {
+        type enumeration {
+          enum FIRMWARE_FILE;
+          enum CONFIGURATION_FILE;
+          enum LOG_FILE;
+          enum INFORMATION_FILE;
+        }
+      }
+      leaf subUnitNumber {
+        type eytypes:int32_range_-1-255;
+        default "-1";
+        description "range -1..255; Default value: -1.";
+      }
+      leaf state {
+        type enumeration {
+          enum IDLE;
+          enum STARTED;
+          enum FINISHED;
+          enum FAILED;
+        }
+      }
+      }
+    }
+    leaf configurationChecksum {
+      type string;
+      config false;
+    }
+    leaf powerMode {
+      type enumeration {
+        enum STEADY_STATE;
+        enum HIGH;
+        enum SLEEP;
+      }
+      config false;
+    }
+    list powerModeValues {
+      config false;
+      container attributes {
+      leaf steadyStatePowerMode {
+        type int32;
+        default "0";
+        units "W";
+        description "Default value: 0.";
+      }
+      leaf highPowerMode {
+        type int32;
+        default "0";
+        units "W";
+        description "Default value: 0.";
+      }
+      leaf sleepPowerMode {
+        type int32;
+        default "0";
+        units "W";
+        description "Default value: 0.";
+      }
+      }
+    }
+    list lastReset {
+      config false;
+      container attributes {
+      leaf resetCause {
+        type enumeration {
+          enum SW_UPDATE;
+          enum LAYER2_RESET;
+          enum INTERNAL_ERROR;
+          enum POWER_UP;
+          enum MALD_SETUP_CHANGED;
+          enum LAYER2_TIMEOUT;
+        }
+      }
+      leaf portNumber {
+        type ietfinet:port-number;
+        description "range -1..255; Default value: -1.";
+      }
+      leaf timestamp {
+        type string;
+        default "-1";
+        description "Default value: -1.";
+      }
+      }
+    }
+    leaf antennaUnitRef {
+      type string;
+    }
+    leaf baseStationId {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    leaf installationDate {
+      type string {
+        length "0..6";
+      }
+      description "length 0..6.";
+    }
+    leaf installersId {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    list aldDataProvenance {
+      config false;
+      container attributes {
+      leaf baseStationId {
+        type enumeration {
+          enum NOT_SET;
+          enum FACTORY;
+          enum CONFIG_FILE;
+          enum AUTOMATIC;
+          enum MANUAL;
+        }
+      }
+      leaf installersId {
+        type enumeration {
+          enum NOT_SET;
+          enum FACTORY;
+          enum CONFIG_FILE;
+          enum AUTOMATIC;
+          enum MANUAL;
+        }
+      }
+      }
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf fieldReplaceableUnitRef {
+      type string;
+    }
+    list maldSetupState {
+      config false;
+      container attributes {
+      leaf setupStatus {
+        type enumeration {
+          enum IDLE;
+          enum STARTED;
+          enum FINISHED;
+          enum FAILED;
+        }
+      }
+      leaf setupType {
+        type enumeration {
+          enum UNKNOWN;
+          enum SET;
+          enum GET;
+        }
+      }
+      }
+    }
+  }
+  grouping AntennaSubunit-attributes {
+    leaf antennaSubunitId {
+      type string;
+      mandatory true;
+    }
+    leaf azimuthHalfPowerBeamwidth {
+      type int32 {
+        range "65 | 90";
+      }
+      default "65";
+      units "degree";
+      description "Default value: 65.";
+    }
+    leaf commonChBeamfrmPortMap {
+      type ietfinet:port-number;
+    }
+    leaf-list customComChBeamfrmWtsAmplitude {
+      type uint32 {
+        range "0..100";
+      }
+    }
+    leaf-list customComChBeamfrmWtsPhase {
+      type uint32 {
+        range "0..359";
+      }
+    }
+    leaf maxTotalTilt {
+      type eytypes:int32_range_-900-900;
+      default "900";
+      units "degree";
+      description "range -900..900; Default value: 900.";
+    }
+    leaf minTotalTilt {
+      type eytypes:int32_range_-900-900;
+      default "-900";
+      units "degree";
+      description "range -900..900; Default value: -900.";
+    }
+    leaf retSubunitRef {
+      type string;
+    }
+    leaf totalTilt {
+      type eytypes:int32_range_-900-900;
+      config false;
+      units "degree";
+      description "range -900..900.";
+    }
+    leaf raeSubunitRef {
+      type string;
+    }
+  }
+  grouping AntennaUnit-attributes {
+    leaf antennaUnitId {
+      type string;
+      mandatory true;
+    }
+    leaf mechanicalAntennaTilt {
+      type eytypes:int32_range_-900-900;
+      default "0";
+      units "degree";
+      description "range -900..900; Default value: 0.";
+    }
+    leaf raeSubunitRef {
+      type string;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 21.Q4. Replaced by AntennaNearUnit::antennaUnitRef. Planned to be removed..";
+    }
+    leaf asdSubUnitRef {
+      type string;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 21.Q4. Replaced by AntennaNearUnit::antennaUnitRef. Planned to be removed..";
+    }
+    leaf glsSubUnitRef {
+      type string;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 21.Q4. Replaced by AntennaNearUnit::antennaUnitRef. Planned to be removed..";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf antennaModelNumber {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    leaf antennaSerialNumber {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    leaf mechanicalAntennaBearing {
+      type int32 {
+        range "-1000 | 0..3599";
+      }
+      default "-1000";
+      units "0.1 degree";
+      description "Default value: -1000.";
+    }
+    leaf antennaOperatingBand {
+      type int64;
+    }
+    leaf-list antennaOperatingGain {
+      type int32 {
+        range "-1000 | 0..255";
+      }
+    }
+    leaf-list antennaOperatingBeamwidth {
+      type int32 {
+        range "-1000 | 0..360";
+      }
+    }
+    leaf sectorLabel {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    list antennaDataProvenance {
+      config false;
+      container attributes {
+      leaf antennaModelNumberProvenance {
+        type enumeration {
+          enum NOT_SET;
+          enum FACTORY;
+          enum CONFIG_FILE;
+          enum AUTOMATIC;
+          enum MANUAL;
+        }
+      }
+      leaf antennaSerialNumberProvenance {
+        type enumeration {
+          enum NOT_SET;
+          enum FACTORY;
+          enum CONFIG_FILE;
+          enum AUTOMATIC;
+          enum MANUAL;
+        }
+      }
+      leaf mechanicalAntennaBearingProvenance {
+        type enumeration {
+          enum NOT_SET;
+          enum FACTORY;
+          enum CONFIG_FILE;
+          enum AUTOMATIC;
+          enum MANUAL;
+        }
+      }
+      leaf mechanicalAntennaTiltProvenance {
+        type enumeration {
+          enum NOT_SET;
+          enum FACTORY;
+          enum CONFIG_FILE;
+          enum AUTOMATIC;
+          enum MANUAL;
+        }
+      }
+      leaf numberOfLogicalArraysProvenance {
+        type enumeration {
+          enum NOT_SET;
+          enum FACTORY;
+          enum CONFIG_FILE;
+          enum AUTOMATIC;
+          enum MANUAL;
+        }
+      }
+      leaf positionWithinSectorProvenance {
+        type enumeration {
+          enum NOT_SET;
+          enum FACTORY;
+          enum CONFIG_FILE;
+          enum AUTOMATIC;
+          enum MANUAL;
+        }
+      }
+      leaf sectorLabelProvenance {
+        type enumeration {
+          enum NOT_SET;
+          enum FACTORY;
+          enum CONFIG_FILE;
+          enum AUTOMATIC;
+          enum MANUAL;
+        }
+      }
+      }
+    }
+    leaf numberOfLogicalArrays {
+      type uint8 {
+        range "0..48";
+      }
+      config false;
+      description "range 0..48.";
+    }
+    leaf positionWithinSector {
+      type string;
+    }
+  }
+  grouping AntennaUnitGroup-attributes {
+    leaf antennaUnitGroupId {
+      type string;
+      mandatory true;
+    }
+    leaf positionInformation {
+      type string {
+        length "0..255";
+      }
+      description "length 0..255.";
+    }
+    leaf positionRef {
+      type string;
+    }
+  }
+  grouping AsdSubUnit-attributes {
+    leaf asdSubUnitId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+      description "Status info: Since 21.Q4. Replaced by AntennaUnit::reservedBy. Planned to be removed..";
+    }
+    leaf subunitNumber {
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    list autosetStatus {
+      config false;
+      container attributes {
+      leaf targetMechanicalAzimuth {
+        type enumeration {
+          enum DEACTIVATED;
+          enum ACTIVATED;
+          enum SUCCESS;
+          enum FAILED;
+        }
+      }
+      leaf targetMechanicalRoll {
+        type enumeration {
+          enum DEACTIVATED;
+          enum ACTIVATED;
+          enum SUCCESS;
+          enum FAILED;
+        }
+      }
+      leaf targetMechanicalTilt {
+        type enumeration {
+          enum DEACTIVATED;
+          enum ACTIVATED;
+          enum SUCCESS;
+          enum FAILED;
+        }
+      }
+      }
+    }
+    list mechanicalAzimuth {
+      config false;
+      container attributes {
+      leaf calculated {
+        type eytypes:uint16_range_0-3599;
+        units "degree";
+        description "range 0..3599.";
+      }
+      leaf highestCalculated {
+        type eytypes:uint16_range_0-3599;
+        units "degree";
+        description "range 0..3599.";
+      }
+      leaf lowestCalculated {
+        type eytypes:uint16_range_0-3599;
+        units "degree";
+        description "range 0..3599.";
+      }
+      leaf precision {
+        type eytypes:uint16_range_0-3599;
+        units "degree";
+        description "range 0..3599.";
+      }
+      }
+    }
+    leaf mechanicalAzimuthTarget {
+      type uint16 {
+        range "0..3599 | 9999";
+      }
+      default "9999";
+      units "degree";
+      description "Default value: 9999.";
+    }
+    list mechanicalAzimuthThresholds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf lower {
+        type int16;
+        default "9999";
+        units "degree";
+        description "Default value: 9999.";
+      }
+      leaf upper {
+        type int16;
+        default "9999";
+        units "degree";
+        description "Default value: 9999.";
+      }
+      }
+    }
+    list mechanicalRoll {
+      config false;
+      container attributes {
+      leaf calculated {
+        type eytypes:int16_range_-1799-1799;
+        units "degree";
+        description "range -1799..1799.";
+      }
+      leaf highestCalculated {
+        type eytypes:int16_range_-1799-1799;
+        units "degree";
+        description "range -1799..1799.";
+      }
+      leaf lowestCalculated {
+        type eytypes:int16_range_-1799-1799;
+        units "degree";
+        description "range -1799..1799.";
+      }
+      leaf precision {
+        type uint16 {
+          range "0..1799";
+        }
+        units "degree";
+        description "range 0..1799.";
+      }
+      }
+    }
+    leaf mechanicalRollTarget {
+      type int16 {
+        range "-1799..1799 | 9999";
+      }
+      default "9999";
+      units "degree";
+      description "Default value: 9999.";
+    }
+    list mechanicalRollThresholds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf lower {
+        type int16;
+        default "9999";
+        units "degree";
+        description "Default value: 9999.";
+      }
+      leaf upper {
+        type int16;
+        default "9999";
+        units "degree";
+        description "Default value: 9999.";
+      }
+      }
+    }
+    list mechanicalTilt {
+      config false;
+      container attributes {
+      leaf calculated {
+        type eytypes:int16_range_-1799-1799;
+        units "degree";
+        description "range -1799..1799.";
+      }
+      leaf highestCalculated {
+        type eytypes:int16_range_-1799-1799;
+        units "degree";
+        description "range -1799..1799.";
+      }
+      leaf lowestCalculated {
+        type eytypes:int16_range_-1799-1799;
+        units "degree";
+        description "range -1799..1799.";
+      }
+      leaf precision {
+        type uint16 {
+          range "0..1799";
+        }
+        units "degree";
+        description "range 0..1799.";
+      }
+      }
+    }
+    leaf mechanicalTiltTarget {
+      type int16 {
+        range "-1799..1799 | 9999";
+      }
+      default "9999";
+      units "degree";
+      description "Default value: 9999.";
+    }
+    list mechanicalTiltThresholds {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf lower {
+        type int16;
+        default "9999";
+        units "degree";
+        description "Default value: 9999.";
+      }
+      leaf upper {
+        type int16;
+        default "9999";
+        units "degree";
+        description "Default value: 9999.";
+      }
+      }
+    }
+  }
+  grouping AuPort-attributes {
+    leaf auPortId {
+      type ietfinet:port-number;
+      mandatory true;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+  }
+  grouping GlsSubUnit-attributes {
+    leaf glsSubUnitId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf subunitNumber {
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list reservedBy {
+      type string;
+      description "Status info: Since 21.Q4. Replaced by AntennaUnit::reservedBy. Planned to be removed..";
+    }
+    leaf altitude {
+      type int32 {
+        range "-5000..100000";
+      }
+      default "0";
+      units "m";
+      description "range -5000..100000; Default value: 0.";
+    }
+    list coordinates {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf latitude {
+        type int32 {
+          range "-90000000..90000000";
+        }
+        default "0";
+        units "degree";
+        description "range -90000000..90000000; Default value: 0.";
+      }
+      leaf longitude {
+        type int32 {
+          range "-180000000..180000000";
+        }
+        default "0";
+        units "degree";
+        description "range -180000000..180000000; Default value: 0.";
+      }
+      }
+    }
+    list precision {
+      config false;
+      container attributes {
+      leaf altitudePrecision {
+        type uint32;
+        default "0";
+        units "m";
+        description "Default value: 0.";
+      }
+      leaf latitudePrecision {
+        type uint32;
+        default "0";
+        units "m";
+        description "Default value: 0.";
+      }
+      leaf longitudePrecision {
+        type uint32;
+        default "0";
+        units "m";
+        description "Default value: 0.";
+      }
+      }
+    }
+  }
+  grouping MulticastAntennaBranch-attributes {
+    leaf multicastAntennaBranchId {
+      type string;
+      mandatory true;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf-list transceiverRef {
+      type string;
+    }
+  }
+  grouping RaeSubUnit-attributes {
+    leaf raeSubUnitId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+      description "Status info: Since 21.Q4. Replaced by AntennaUnit::reservedBy. Planned to be removed..";
+    }
+    leaf subunitNumber {
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf testRecord {
+      type string {
+        length "1..70";
+      }
+      description "length 1..70.";
+    }
+    leaf iuantInstallationDate {
+      type string {
+        length "0..6";
+      }
+      description "length 0..6.";
+    }
+    leaf iuantBaseStationId {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    leaf iuantSectorId {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    leaf iuantInstallersId {
+      type string {
+        length "0..5";
+      }
+      description "length 0..5.";
+    }
+    leaf iuantAntennaModelNumber {
+      type string {
+        length "0..15";
+      }
+      description "length 0..15.";
+    }
+    leaf iuantAntennaSerialNumber {
+      type string {
+        length "0..17";
+      }
+      description "length 0..17.";
+    }
+    leaf maxTilt {
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+      description "Default value: -1000.";
+    }
+    leaf minTilt {
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+      description "Default value: -1000.";
+    }
+    leaf-list iuantAntennaOperatingGain {
+      type int32 {
+        range "-1000 | 0..255";
+      }
+    }
+    leaf iuantAntennaOperatingBand {
+      type int64;
+      default "-1000";
+      description "Default value: -1000.";
+    }
+    leaf-list iuantAntennaOperatingBeamwidth {
+      type int32 {
+        range "-1000 | 0..360";
+      }
+    }
+    list sensorData {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf downtilt {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      leaf azimuth {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      leaf altitude {
+        type int32;
+        default "-1";
+        units "m";
+        description "Default value: -1.";
+      }
+      leaf latitude {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      leaf longitude {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      }
+    }
+    leaf geolocationMonitorActive {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    list geolocationMonitorConfig {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf altitudeTolerance {
+        type int32;
+        default "-1";
+        units "m";
+        description "Default value: -1.";
+      }
+      leaf azimuthTolerance {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      leaf boundingRadius {
+        type int32;
+        default "-1";
+        units "m";
+        description "Default value: -1.";
+      }
+      leaf downtiltTolerance {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      leaf sensitivity {
+        type eytypes:int32_range_1-10;
+        default "3";
+        description "range 1..10; Default value: 3.";
+      }
+      leaf verificationPeriod {
+        type int32 {
+          range "1..10080";
+        }
+        default "720";
+        units "min";
+        description "range 1..10080; Default value: 720.";
+      }
+      }
+    }
+    list targetSensorData {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf downtilt {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      leaf azimuth {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      leaf altitude {
+        type int32;
+        default "-1";
+        units "m";
+        description "Default value: -1.";
+      }
+      leaf latitude {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      leaf longitude {
+        type int32;
+        default "-1";
+        units "degree";
+        description "Default value: -1.";
+      }
+      }
+    }
+  }
+  grouping RetSubUnit-attributes {
+    leaf retSubUnitId {
+      type string;
+      mandatory true;
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf calibrationStatus {
+      type enumeration {
+        enum UNKNOWN;
+        enum STARTED;
+        enum FINISHED;
+        enum FAILED;
+        enum STOPPED;
+      }
+      config false;
+    }
+    leaf electricalAntennaTilt {
+      type int32 {
+        range "-999 | -900..900";
+      }
+      default "0";
+      units "degree";
+      description "Default value: 0.";
+    }
+    leaf iuantAntennaBearing {
+      type int32 {
+        range "-1000 | 0..3599";
+      }
+      default "-1000";
+      units "degree";
+      description "Default value: -1000.";
+    }
+    leaf iuantAntennaModelNumber {
+      type string {
+        length "0..15";
+      }
+      description "length 0..15.";
+    }
+    leaf iuantAntennaOperatingBand {
+      type int64;
+      default "-1000";
+      description "Default value: -1000.";
+    }
+    leaf iuantAntennaSerialNumber {
+      type string {
+        length "0..17";
+      }
+      description "length 0..17.";
+    }
+    leaf iuantBaseStationId {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    leaf iuantInstallationDate {
+      type string {
+        length "0..6";
+      }
+      description "length 0..6.";
+    }
+    leaf iuantInstallersId {
+      type string {
+        length "0..5";
+      }
+      description "length 0..5.";
+    }
+    leaf iuantSectorId {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    leaf maxTilt {
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+      description "Default value: -1000.";
+    }
+    leaf minTilt {
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+      description "Default value: -1000.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf subunitNumber {
+      type int32;
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list iuantAntennaOperatingGain {
+      type int32 {
+        range "-1000 | 0..255";
+      }
+    }
+    leaf tiltChangeStatus {
+      type enumeration {
+        enum IDLE;
+        enum TILTING;
+      }
+      config false;
+    }
+    leaf verticalBeamWidthMode {
+      type enumeration {
+        enum NARROW;
+        enum WIDE;
+      }
+    }
+    list configuredAisgRetVersion {
+      config false;
+      container attributes {
+      leaf majorVersion {
+        type string;
+      }
+      leaf minorVersion {
+        type string;
+      }
+      leaf releaseVersion {
+        type string;
+      }
+      }
+    }
+    list supportedAisgRetVersion {
+      config false;
+      container attributes {
+      leaf majorVersion {
+        type string;
+      }
+      leaf minorVersion {
+        type string;
+      }
+      leaf releaseVersion {
+        type string;
+      }
+      }
+    }
+  }
+  grouping RfBranch-attributes {
+    leaf rfBranchId {
+      type string;
+      mandatory true;
+    }
+    leaf-list auPortRef {
+      type ietfinet:port-number;
+    }
+    leaf-list dlAttenuation {
+      type int32 {
+        range "-500..500 | 65535";
+      }
+    }
+    leaf-list dlTrafficDelay {
+      type eytypes:int32_range_-1-800000;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf rfPortRef {
+      type ietfinet:port-number;
+    }
+    leaf tmaRef {
+      type string;
+      status deprecated;
+      description "MOM flags: isNillable=true; Status info: Since 25.Q3. Replaced by RfBranch::tmaRefs. Planned to be removed..";
+    }
+    leaf-list ulAttenuation {
+      type int32 {
+        range "-600..600";
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf-list ulTrafficDelay {
+      type eytypes:int32_range_-1-800000;
+    }
+    leaf-list dlAttenuationPerFqRange {
+      type int32 {
+        range "-500..500 | 65535";
+      }
+    }
+    leaf-list dlTrafficDelayPerFqRange {
+      type eytypes:int32_range_-1-800000;
+    }
+    leaf-list ulAttenuationPerFqRange {
+      type int32 {
+        range "-500..500";
+      }
+    }
+    leaf-list ulTrafficDelayPerFqRange {
+      type eytypes:int32_range_-1-800000;
+    }
+    leaf-list bandList {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+    }
+    leaf-list tmaRefs {
+      type string;
+    }
+  }
+  grouping TmaSubUnit-attributes {
+    leaf tmaSubUnitId {
+      type string;
+      mandatory true;
+    }
+    leaf dlAttenuation {
+      type eytypes:int32_range_0-20-38;
+      units "dB";
+      description "range 0..20.";
+    }
+    leaf dlTrafficDelay {
+      type int32 {
+        range "0..2000";
+      }
+      units "ns";
+      description "range 0..2000.";
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+        enum DEPENDENCY_RECOVERY;
+        enum DEPENDENCY_HOLDING;
+      }
+    }
+    leaf iuantAntennaBearing {
+      type int32 {
+        range "-1000 | 0..3599";
+      }
+      default "-1000";
+      units "degree";
+      description "Default value: -1000.";
+    }
+    leaf iuantAntennaInstalledMechanicalTilt {
+      type int32 {
+        range "-1000 | -900..900";
+      }
+      default "-1000";
+      units "degree";
+      description "Default value: -1000.";
+    }
+    leaf iuantAntennaModelNumber {
+      type string {
+        length "0..15";
+      }
+      description "length 0..15.";
+    }
+    leaf iuantAntennaOperatingBand {
+      type int64;
+      default "-1000";
+      description "Default value: -1000.";
+    }
+    leaf-list iuantAntennaOperatingGain {
+      type int32 {
+        range "-1000 | 0..255";
+      }
+    }
+    leaf iuantAntennaSerialNumber {
+      type string {
+        length "0..17";
+      }
+      description "length 0..17.";
+    }
+    leaf iuantBaseStationId {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    leaf iuantInstallationDate {
+      type string {
+        length "0..6";
+      }
+      description "length 0..6.";
+    }
+    leaf iuantInstallersId {
+      type string {
+        length "0..5";
+      }
+      description "length 0..5.";
+    }
+    leaf iuantSectorId {
+      type string {
+        length "0..32";
+      }
+      description "length 0..32.";
+    }
+    leaf-list iuantTmaSubunitFreqRangeRx {
+      type int32 {
+        range "0..65535";
+      }
+    }
+    leaf-list iuantTmaSubunitFreqRangeTx {
+      type int32 {
+        range "0..65535";
+      }
+    }
+    leaf iuantTmaSubunitGainRes {
+      type eytypes:int32_range_0-255-48;
+      config false;
+      units "dB";
+      description "range 0..255.";
+    }
+    leaf iuantTmaSubunitMaxGain {
+      type eytypes:int32_range_0-255-48;
+      config false;
+      units "dB";
+      description "range 0..255.";
+    }
+    leaf iuantTmaSubunitMinGain {
+      type eytypes:int32_range_0-255-48;
+      config false;
+      units "dB";
+      description "range 0..255.";
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf subunitNumber {
+      type eytypes:int32_range_0-255;
+      config false;
+      description "range 0..255.";
+    }
+    leaf ulGain {
+      type int32;
+      config false;
+      units "dB";
+    }
+    leaf ulTrafficDelay {
+      type int32 {
+        range "0..2000";
+      }
+      units "ns";
+      description "range 0..2000.";
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    list tmfData {
+      config false;
+      container attributes {
+      leaf dlAttenuation {
+        type int32 {
+          range "0..200";
+        }
+        units "dB";
+        description "range 0..200.";
+      }
+      leaf dlTrafficDelay {
+        type int32 {
+          range "0..30000";
+        }
+        units "ns";
+        description "range 0..30000.";
+      }
+      leaf ifBandwidth {
+        type eytypes:int32_range_0-65535-49;
+        units "MHZ";
+        description "range 0..65535.";
+      }
+      leaf ulAirFrequency {
+        type eytypes:int32_range_0-65535-49;
+        units "MHZ";
+        description "range 0..65535.";
+      }
+      leaf ulFeederFrequency {
+        type eytypes:int32_range_0-65535-49;
+        units "MHZ";
+        description "range 0..65535.";
+      }
+      leaf ulTrafficDelay {
+        type int32 {
+          range "0..30000";
+        }
+        units "ns";
+        description "range 0..30000.";
+      }
+      }
+    }
+    leaf tmaType {
+      type enumeration {
+        enum TMA;
+        enum TMF;
+      }
+    }
+    list configuredAisgTmaVersion {
+      config false;
+      container attributes {
+      leaf majorVersion {
+        type string;
+      }
+      leaf minorVersion {
+        type string;
+      }
+      leaf releaseVersion {
+        type string;
+      }
+      }
+    }
+    list supportedAisgTmaVersion {
+      config false;
+      container attributes {
+      leaf majorVersion {
+        type string;
+      }
+      leaf minorVersion {
+        type string;
+      }
+      leaf releaseVersion {
+        type string;
+      }
+      }
+    }
+  }
+  grouping TmfConfiguration-attributes {
+    leaf tmfConfigurationId {
+      type string;
+      mandatory true;
+    }
+    leaf operatingBand {
+      type eytypes:int32_range_0-256;
+      mandatory true;
+      description "range 0..256.";
+    }
+    leaf operatingMode {
+      type enumeration {
+        enum LTE_5MHZ;
+        enum LTE_10MHZ;
+        enum WCDMA_1_CHANNEL;
+        enum WCDMA_2_CHANNELS;
+        enum LTE_MIXED_WITH_WCDMA_IN_10MHZ;
+      }
+      mandatory true;
+    }
+    leaf channelNumber1 {
+      type eytypes:int32_range_0-262143;
+      mandatory true;
+      description "range 0..262143.";
+    }
+    leaf channelNumber2 {
+      type eytypes:int32_range_0-262143;
+      default "0";
+      description "range 0..262143; Default value: 0.";
+    }
+    leaf frequencyDistance {
+      type int32 {
+        range "0..200";
+      }
+      default "0";
+      units "MHz";
+      description "range 0..200; Default value: 0.";
+    }
+    leaf antBtoRbsB {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf dcMonitoringRbsA {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf dcMonitoringRbsB {
+      type boolean;
+    }
+    leaf ifFilterBit {
+      type eytypes:int32_range_0-1;
+      description "range 0..1.";
+    }
+    leaf dcToRetBlocked {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf dcMonitoringAntA {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf dcMonitoringAntB {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf deploymentType {
+      type enumeration {
+        enum PSI_CONFIGURATION;
+        enum Y_CONFIGURATION;
+      }
+    }
+  }
+}

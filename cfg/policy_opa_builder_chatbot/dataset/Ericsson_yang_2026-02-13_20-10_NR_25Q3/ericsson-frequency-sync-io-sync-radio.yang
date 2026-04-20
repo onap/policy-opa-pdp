@@ -1,0 +1,114 @@
+module ericsson-frequency-sync-io-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncFrequencySyncIO";
+  prefix fsynciordo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-synchronization-sync-radio {
+    prefix syncrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/syncrdo:Synchronization" {
+    list FrequencySyncIO {
+      description "Additional definitions from MOM:min/max-elements:0/8;root; The MO class specifies that a physical synchronization port is used for frequency synchronization.";
+      key "frequencySyncIOId";
+      leaf frequencySyncIOId {
+        type leafref {
+          path "../attributes/frequencySyncIOId";
+        }
+      }
+      container attributes {
+        uses FrequencySyncIO-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  typedef PortDirection {
+    type enumeration {
+      enum INPUT_ONLY;
+      enum OUTPUT_ONLY;
+    }
+  }
+  typedef SyncIOMode {
+    type enumeration {
+      enum UNKNOWN_MODE;
+      enum FREQUENCY_1PPS;
+      enum FREQUENCY_2_MHZ;
+      enum FREQUENCY_10_MHZ;
+    }
+  }
+  grouping FrequencySyncIO-attributes {
+    leaf adminPortDirection {
+      type ietfinet:port-number;
+      status deprecated;
+      description "Default value: INPUT_ONLY.";
+    }
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf encapsulation {
+      type string;
+      mandatory true;
+    }
+    leaf frequencySyncIOId {
+      type string;
+      mandatory true;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf operPortMode {
+      type ietfinet:port-number;
+      config false;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+  }
+}

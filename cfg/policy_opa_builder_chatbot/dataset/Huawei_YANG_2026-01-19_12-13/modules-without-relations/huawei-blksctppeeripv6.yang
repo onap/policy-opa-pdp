@@ -1,0 +1,42 @@
+module huawei-blksctppeeripv6 {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-blksctppeeripv6";
+ prefix blksctppeeripv6;
+ import ietf-interfaces {
+ prefix if;
+ }
+ import ietf-ip {
+ prefix ip;
+ }
+ import ietf-inet-types {
+ prefix inet;
+ }
+ description
+ "Auto-generated modular YANG for huawei-blksctppeeripv6" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ augment "/if:interfaces/if:interface/ip:ipv6" {
+ container blksctppeeripv6-ipv6 {
+  container attributes {
+   uses BLKSCTPPEERIPV6-attributes {
+    /* opcjonalnie: tu można ograniczyć do IP-only */
+   }
+  }
+ }
+}
+ grouping BLKSCTPPEERIPV6-attributes {
+ leaf PEERIPV6 {
+  type inet:ipv6-address;
+  mandatory false;
+ }
+ leaf VRFIDX {
+  type union {
+   type int8 {
+    range "-1..31";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

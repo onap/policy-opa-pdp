@@ -1,0 +1,251 @@
+module ericsson-ipsec-rtn-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RtnIpsec";
+  prefix ipsecrdo;
+  import ietf-inet-types {
+    prefix ietfinet;
+  }
+  import ericsson-l3-router-rtn-radio {
+    prefix l3rtrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/IpsecTunnel" {
+    list Ikev2Session {
+      description "Additional definitions from MOM:min/max-elements:0/1; Represents IKEv2 that must be used as control and key exchange protocol. It also gives some properties for IKE SA. Refers to Ikev2PolicyProfile MO that specifies cryptographic algorithms (encryption, integrity, PRF and Diffie-Hellman group), allowed lifetime and dead peer detection time for IKE SA.";
+      key "ikev2SessionId";
+      leaf ikev2SessionId {
+        type leafref {
+          path "../attributes/ikev2SessionId";
+        }
+      }
+      container attributes {
+        uses Ikev2Session-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router/IpsecTunnel" {
+    list IpsecPolicy {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; Represents which traffic is allowed through IPsec VPN connection through traffic selector configuration. Refers to IpsecProposalProfile MO that defines which cryptographic algorithms are allowed and max lifetime of Child SA. One Child SA pair is always established for each IpsecPolicy MO as negotiation result. However, depending on security gateway configuration and support, multiple Child SA pairs can be negotiated. Maximum number of IpsecPolicy MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 64, - For Baseband in RAN Compute Group 4 or higher: 120. Dependencies: If there is AddressIPv4 MO with configurationMode IKE in Router MO, there can be only one IpsecPolicy MO for each IpsecTunnel MO encapsulated by InterfaceIPv4 MO. Same applies to corresponding IPv6 case.";
+      key "ipsecPolicyId";
+      leaf ipsecPolicyId {
+        type leafref {
+          path "../attributes/ipsecPolicyId";
+        }
+      }
+      container attributes {
+        uses IpsecPolicy-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/l3rtrdo:Router" {
+    list IpsecTunnel {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded;root; Represents IPsec VPN connection. Points at endpoints in outer network, MO type AddressIPv4 or AddressIPv6 for local endpoint and MO type PeerIPv4 or PeerIPv6 for remote endpoint. Maximum number of IpsecTunnel MOs in node is limited to: - For Baseband in RAN Compute Group 1, 2, or 3: 32, - For Baseband in RAN Compute Group 4 or higher: 60.";
+      key "ipsecTunnelId";
+      leaf ipsecTunnelId {
+        type leafref {
+          path "../attributes/ipsecTunnelId";
+        }
+      }
+      container attributes {
+        uses IpsecTunnel-attributes;
+      }
+    }
+  }
+  typedef AvailStatus {
+    type enumeration {
+      enum IN_TEST;
+      enum FAILED;
+      enum POWER_OFF;
+      enum OFF_LINE;
+      enum OFF_DUTY;
+      enum DEPENDENCY;
+      enum DEGRADED;
+      enum NOT_INSTALLED;
+      enum LOG_FULL;
+      enum DEPENDENCY_LOCKED;
+      enum DEPENDENCY_FAILED;
+      enum DEPENDENCY_SHUTTINGDOWN;
+    }
+  }
+  typedef IdentityOrigin {
+    type enumeration {
+      enum SUBJECT;
+      enum SUBJECT_ALT_NAME;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping Ikev2Session-attributes {
+    leaf ikev2PolicyProfile {
+      type string;
+      mandatory true;
+    }
+    leaf ikev2SessionId {
+      type string;
+      mandatory true;
+    }
+    leaf localIdentityOrigin {
+      type enumeration {
+        enum SUBJECT;
+        enum SUBJECT_ALT_NAME;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf ikeTunInIntegrityFail {
+      type uint64;
+      config false;
+    }
+    leaf ikeTunChildSaRekey {
+      type uint64;
+      config false;
+    }
+    leaf ikeTunInInvalidMsg {
+      type uint64;
+      config false;
+    }
+  }
+  grouping IpsecPolicy-attributes {
+    leaf antiReplayProtection {
+      type boolean;
+      default "true";
+      description "Default value: true.";
+    }
+    leaf ipsecPolicyId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf ipsecProposalProfile {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    list localTrafficSelector {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf addressRange {
+        type string;
+      }
+      }
+    }
+    list remoteTrafficSelector {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct sequence entry.";
+      }
+      ordered-by user;
+      container attributes {
+      leaf addressRange {
+        type string;
+      }
+      }
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf espTunInReplayFail {
+      type uint64;
+      config false;
+    }
+    leaf espTunOutNoSA {
+      type uint64;
+      config false;
+    }
+    leaf espTunInIntegrityFail {
+      type uint64;
+      config false;
+    }
+  }
+  grouping IpsecTunnel-attributes {
+    leaf-list availabilityStatus {
+      type enumeration {
+        enum IN_TEST;
+        enum FAILED;
+        enum POWER_OFF;
+        enum OFF_LINE;
+        enum OFF_DUTY;
+        enum DEPENDENCY;
+        enum DEGRADED;
+        enum NOT_INSTALLED;
+        enum LOG_FULL;
+        enum DEPENDENCY_LOCKED;
+        enum DEPENDENCY_FAILED;
+        enum DEPENDENCY_SHUTTINGDOWN;
+      }
+    }
+    leaf ipsecTunnelId {
+      type ietfinet:ip-address;
+      mandatory true;
+    }
+    leaf localAddress {
+      type string;
+      mandatory true;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf remoteAddress {
+      type string;
+      mandatory true;
+    }
+    leaf-list remoteAddressSecondary {
+      type string;
+    }
+    leaf-list reservedBy {
+      type string;
+    }
+    leaf userLabel {
+      type string {
+        length "1..128";
+      }
+      description "length 1..128.";
+    }
+    leaf espTunInInvalidSpi {
+      type uint64;
+      config false;
+    }
+    leaf espTunOutNoPolicy {
+      type uint64;
+      config false;
+    }
+    leaf ikeTunInInvalidSpi {
+      type uint64;
+      config false;
+    }
+  }
+}

@@ -1,0 +1,68 @@
+module huawei-gnbservexpgroup {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-gnbservexpgroup";
+ prefix gnbservexpgroup;
+ description
+ "Auto-generated modular YANG for huawei-gnbservexpgroup" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping GNBSERVEXPGROUP-attributes {
+ leaf EQUIVALENTQCI {
+  type uint8 {
+   range "201..255";
+  }
+  mandatory false;
+ }
+ leaf NR5QI {
+  type union {
+   type uint8 {
+    range "6..200";
+   }
+  }
+  mandatory false;
+ }
+ leaf NRUSERNETWORKINGOPTION {
+  type boolean;
+  mandatory false;
+ }
+ leaf QCI {
+  type union {
+   type uint8 {
+    range "6..200";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVICETYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+  }
+  mandatory false;
+ }
+ leaf OLD_SERVICETYPEGROUPID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf SERVICETYPEGROUPID {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ }
+}

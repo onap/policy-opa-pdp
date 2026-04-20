@@ -1,0 +1,68 @@
+module huawei-almcurcfg {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-almcurcfg";
+ prefix almcurcfg;
+ description
+ "Auto-generated modular YANG for huawei-almcurcfg" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping ALMCURCFG-attributes {
+ leaf OLD_AID {
+  type union {
+   type int32 {
+    range "-1..65533";
+   }
+  }
+  mandatory false;
+ }
+ leaf AID {
+  type union {
+   type int32 {
+    range "-1..65533";
+   }
+  }
+  mandatory false;
+ }
+ leaf ALVL {
+  type enumeration {
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf ANM {
+  type string {
+   length "0..111";
+  }
+  mandatory false;
+ }
+ leaf ASS {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+   enum val-4;
+   enum val-5;
+   enum val-6;
+   enum val-7;
+   enum val-8;
+   enum val-9;
+   enum val-255;
+  }
+  mandatory false;
+ }
+ leaf SHLDFLG {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-4294967295;
+  }
+  mandatory false;
+ }
+ }
+}

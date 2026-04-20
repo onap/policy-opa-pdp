@@ -1,0 +1,215 @@
+module ericsson-ptp-pf-meas-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncPtpProfileMeasurement";
+  prefix ptppfmeasrdo;
+  import ericsson-ptp-sync-radio {
+    prefix ptprdo;
+  }
+  import ericsson-ptp-bc-oc-port-sync-radio {
+    prefix ptpbcocptrdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/ptprdo:Ptp/ptprdo:BoundaryOrdinaryClock/ptpbcocptrdo:PtpBcOcPort" {
+    list PtpProfileMeasurement {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents values of metrics and measurement process information for single PtpBcOcPort MO with G.8275.1 or G.8275.2 BoundaryOrdinaryClock::ptpProfile. Operational state is ENABLED while parent PtpBcOcPort MO is receiving PTP messages.";
+      key "ptpProfileMeasurementId";
+      leaf ptpProfileMeasurementId {
+        type leafref {
+          path "../attributes/ptpProfileMeasurementId";
+        }
+      }
+      container attributes {
+        uses PtpProfileMeasurement-attributes;
+      }
+    }
+  }
+  typedef MeasStatus {
+    type enumeration {
+      enum NOT_STARTED;
+      enum STARTED;
+      enum FINISHED;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping PtpProfileMeasurement-attributes {
+    list highPassFilterTE {
+      config false;
+      container attributes {
+      leaf averageValue {
+        type string;
+      }
+      leaf maximumValue {
+        type string;
+      }
+      leaf minimumValue {
+        type string;
+      }
+      }
+    }
+    list lowPassFilterTE {
+      config false;
+      container attributes {
+      leaf averageValue {
+        type string;
+      }
+      leaf maximumValue {
+        type string;
+      }
+      leaf minimumValue {
+        type string;
+      }
+      }
+    }
+    list maskMaxTimeIntervalError {
+      config false;
+      container attributes {
+      leaf limit {
+        type string;
+      }
+      leaf measurementPassed {
+        type string;
+      }
+      }
+    }
+    list maxAbsLowPassFilterTE {
+      config false;
+      container attributes {
+      leaf limit {
+        type uint32;
+        units "ns";
+      }
+      leaf measuredValue {
+        type uint64;
+        units "ns";
+      }
+      leaf measurementPassed {
+        type string;
+      }
+      }
+    }
+    list maxAbsPktSelected2WayTE {
+      config false;
+      container attributes {
+      leaf limit {
+        type uint32;
+        units "ns";
+      }
+      leaf measuredValue {
+        type uint64;
+        units "ns";
+      }
+      leaf measurementPassed {
+        type string;
+      }
+      }
+    }
+    leaf measurementDuration {
+      type uint32 {
+        range "900..86400";
+      }
+      default "10000";
+      units "s";
+      description "range 900..86400; Default value: 10000.";
+    }
+    leaf measurementEnd {
+      type string;
+      config false;
+    }
+    leaf measurementStart {
+      type string;
+      config false;
+    }
+    leaf measurementStatus {
+      type enumeration {
+        enum NOT_STARTED;
+        enum STARTED;
+        enum FINISHED;
+      }
+      config false;
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    list p2pHighPassFilterTE {
+      config false;
+      container attributes {
+      leaf limit {
+        type uint32;
+        units "ns";
+      }
+      leaf measuredValue {
+        type uint64;
+        units "ns";
+      }
+      leaf measurementPassed {
+        type string;
+      }
+      }
+    }
+    list p2pPktSelected2WayTE {
+      config false;
+      container attributes {
+      leaf limit {
+        type uint32;
+        units "ns";
+      }
+      leaf measuredValue {
+        type uint64;
+        units "ns";
+      }
+      leaf measurementPassed {
+        type string;
+      }
+      }
+    }
+    list pktSelected2WayTE {
+      config false;
+      container attributes {
+      leaf averageValue {
+        type string;
+      }
+      leaf maximumValue {
+        type string;
+      }
+      leaf minimumValue {
+        type string;
+      }
+      }
+    }
+    leaf ptpProfileMeasurementId {
+      type string;
+      mandatory true;
+    }
+    leaf-list ptpPktSelected2wayTE {
+      type int64;
+    }
+    leaf-list ptpLowPassFilterTE {
+      type int64;
+    }
+    leaf-list ptpHighPassFilterTE {
+      type int64;
+    }
+    leaf-list ptpMtieValue {
+      type int64;
+    }
+    leaf-list ptpMtieLimit {
+      type int64;
+    }
+  }
+}

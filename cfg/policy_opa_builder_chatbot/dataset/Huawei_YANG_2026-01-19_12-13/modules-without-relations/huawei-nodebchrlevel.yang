@@ -1,0 +1,63 @@
+module huawei-nodebchrlevel {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-nodebchrlevel";
+ prefix nodebchrlevel;
+ description
+ "Auto-generated modular YANG for huawei-nodebchrlevel" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping NODEBCHRLEVEL-attributes {
+ leaf COMMCHREVENTSW {
+  type string;
+  mandatory false;
+ }
+ leaf COMMCHRPRDEVENTSW {
+  type string;
+  mandatory false;
+ }
+ leaf HSDPAKQIDIAGTHPTHD {
+  type enumeration {
+   enum val-500;
+   enum val-1000;
+   enum val-1500;
+   enum val-2000;
+   enum val-2500;
+   enum val-3000;
+   enum val-3500;
+   enum val-4000;
+   enum val-4500;
+   enum val-5000;
+  }
+  mandatory false;
+ }
+ leaf HSUPAKQIDIAGTHPTHD {
+  type enumeration {
+   enum val-100;
+   enum val-200;
+   enum val-300;
+   enum val-400;
+   enum val-500;
+   enum val-600;
+   enum val-700;
+   enum val-800;
+   enum val-900;
+   enum val-1000;
+   enum val-1100;
+   enum val-1200;
+   enum val-1300;
+   enum val-1400;
+   enum val-1500;
+  }
+  mandatory false;
+ }
+ leaf USERCHREVENTSW {
+  type string;
+  mandatory false;
+ }
+ leaf USERCHRPRDEVENTSW {
+  type string;
+  mandatory false;
+ }
+ }
+}

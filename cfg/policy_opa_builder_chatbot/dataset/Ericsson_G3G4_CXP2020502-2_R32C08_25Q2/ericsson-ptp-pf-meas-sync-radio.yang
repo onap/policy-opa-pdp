@@ -1,0 +1,200 @@
+module ericsson-ptp-pf-meas-sync-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RsyncPtpProfileMeasurement";
+  prefix ptppfmeasrdo;
+  import ericsson-ptp-bc-oc-port-sync-radio {
+    prefix ptpbcocptrdo;
+  }
+  import ericsson-ptp-sync-radio {
+    prefix ptprdo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nThe Sync 1588 model";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/emael:Transport/ptprdo:Ptp/ptprdo:BoundaryOrdinaryClock/ptpbcocptrdo:PtpBcOcPort" {
+    list PtpProfileMeasurement {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Represents values of metrics and measurement process information for single PtpBcOcPort MO with G.8275.1 or G.8275.2 BoundaryOrdinaryClock::ptpProfile. Operational state is ENABLED while parent PtpBcOcPort MO is receiving PTP messages.";
+      key "ptpProfileMeasurementId";
+      leaf ptpProfileMeasurementId {
+        type leafref {
+          path "../attributes/ptpProfileMeasurementId";
+        }
+      }
+      container attributes {
+      uses PtpProfileMeasurement-attributes;
+      }
+    }
+  }
+  typedef MeasStatus {
+    description "Status of measurements.";
+    type enumeration {
+      enum NOT_STARTED {
+        description "Measurements are not started.";
+      }
+      enum STARTED {
+        description "Measurements are started.";
+      }
+      enum FINISHED {
+        description "Measurements are finished.";
+      }
+    }
+  }
+  typedef OperState {
+    description "The operational states of a resource.";
+    type enumeration {
+      enum DISABLED {
+        description "The resource is totally inoperable.";
+      }
+      enum ENABLED {
+        description "The resource is partially or fully operable.";
+      }
+    }
+  }
+  grouping MeasStats-struct {
+    description "Measurement values for selected dataset.";
+    leaf averageValue {
+      type string;
+    }
+    leaf maximumValue {
+      type string;
+    }
+    leaf minimumValue {
+      type string;
+    }
+  }
+  grouping MtieMetric-struct {
+    description "Measurement result for selected MTIE metric.";
+    leaf limit {
+      type string;
+    }
+    leaf measurementPassed {
+      type string;
+    }
+  }
+  grouping PtpMetric-struct {
+    description "Measurement values for selected PTP metric.";
+    leaf limit {
+      type uint32;
+      units "ns";
+    }
+    leaf measuredValue {
+      type uint64;
+      units "ns";
+    }
+    leaf measurementPassed {
+      type string;
+    }
+  }
+  grouping PtpProfileMeasurement-attributes {
+    list highPassFilterTE {
+      config false;
+      description "Time Error (TE) value after first-order high-pass filter with bandwidth of 0.1 Hz is applied. Measurement values are updated every 5 seconds. Unit: 1 ns.";
+      uses MeasStats-struct;
+    }
+    list lowPassFilterTE {
+      config false;
+      description "Time Error value after first-order low-pass filter with bandwidth of 0.1 Hz is applied. Measurement values are updated every 5 seconds. Unit: 1 ns.";
+      uses MeasStats-struct;
+    }
+    list maskMaxTimeIntervalError {
+      config false;
+      description "Whether measured MTIE is under defined mask limit..";
+      uses MtieMetric-struct;
+    }
+    list maxAbsLowPassFilterTE {
+      config false;
+      description "Maximum absolute value of low-pass filtered Time Error according to ITU-T. Measurement values are updated every 5 seconds. Unit: 1 ns.";
+      uses PtpMetric-struct;
+    }
+    list maxAbsPktSelected2WayTE {
+      config false;
+      description "Maximum absolute value of pktSelected2WayTE according to ITU-T. Measurement values are updated every 20 seconds. Unit: 1 ns.";
+      uses PtpMetric-struct;
+    }
+    leaf measurementDuration {
+      description "Duration of measurement.; range 900..86400; Default value: 10000.";
+      type uint32 {
+        range "900..86400";
+      }
+      default "10000";
+      units "s";
+    }
+    leaf measurementEnd {
+      description "Date and time when measurement ended..";
+      type string;
+      config false;
+    }
+    leaf measurementStart {
+      description "Date and time when measurement started..";
+      type string;
+      config false;
+    }
+    leaf measurementStatus {
+      description "Whether measurements are started..";
+      type enumeration {
+        enum NOT_STARTED;
+        enum STARTED;
+        enum FINISHED;
+      }
+      config false;
+    }
+    leaf operationalState {
+      description "The operational state..";
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    list p2pHighPassFilterTE {
+      config false;
+      description "Peak-to-peak value of high-pass filtered Time Error according to ITU-T. Measurement values are updated every 5 seconds. Unit: 1 ns.";
+      uses PtpMetric-struct;
+    }
+    list p2pPktSelected2WayTE {
+      config false;
+      description "Peak-to-peak value of pktSelected2WayTE according to ITU-T. Measurement values are updated every 20 seconds. Unit: 1 ns.";
+      uses PtpMetric-struct;
+    }
+    list pktSelected2WayTE {
+      config false;
+      description "Value of pktSelected2WayTE according to ITU-T. Measurement values are updated every 20 seconds. Unit: 1 ns.";
+      uses MeasStats-struct;
+    }
+    leaf ptpProfileMeasurementId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf-list ptpPktSelected2wayTE {
+      description "Measured packet-selected two-way Time Error is reported with offset of +1.000.000.000. To convert it to nano seconds, use following formula: TE[ns] = value_reported - 1.000.000.000. Example: Report value of 999.999.946 represents -54 ns, value of 1.000.000.035 represents 35 ns..";
+      type int64;
+      max-elements 45;
+    }
+    leaf-list ptpLowPassFilterTE {
+      description "Measured low-pass filtered Time Error is reported with offset of +1.000.000.000. To convert it to nano seconds, use following formula: TE[ns] = value_reported - 1.000.000.000. Example: Report value of 999.999.946 represents -54 ns, value of 1.000.000.035 represents 35 ns..";
+      type int64;
+      max-elements 180;
+    }
+    leaf-list ptpHighPassFilterTE {
+      description "Measured high-pass filtered Time Error is reported with offset of +1.000.000.000. To convert it to nano seconds, use following formula: TE[ns] = value_reported - 1.000.000.000. Example: Report value of 999.999.946 represents -54 ns, value of 1.000.000.035 represents 35 ns..";
+      type int64;
+      max-elements 180;
+    }
+    leaf-list ptpMtieValue {
+      description "Measured Maximum Time Interval Error. Interval (Tau): Bin[0]: 2 s Bin[1]: 10 s Bin[2]: 100 s Bin[3]: 200 s Bin[4]: 1000 s Bin[5]: 10000 s Unit: 1 ns.";
+      type int64;
+      max-elements 6;
+    }
+    leaf-list ptpMtieLimit {
+      description "ITU-T limit for Maximum Time Interval Error. Interval (Tau): Bin[0]: 2 s Bin[1]: 10 s Bin[2]: 100 s Bin[3]: 200 s Bin[4]: 1000 s Bin[5]: 10000 s Unit: 1 ns.";
+      type int64;
+      max-elements 6;
+    }
+  }
+}

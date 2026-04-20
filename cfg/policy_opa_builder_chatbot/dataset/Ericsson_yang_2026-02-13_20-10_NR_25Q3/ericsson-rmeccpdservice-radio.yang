@@ -1,0 +1,65 @@
+module ericsson-rmeccpdservice-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeCcpdService";
+  prefix rmeccpds;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list CcpdService {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; Continuous collection of product data. The RDN of this MO is CcpdService=1.";
+      key "ccpdServiceId";
+      leaf ccpdServiceId {
+        type leafref {
+          path "../attributes/ccpdServiceId";
+        }
+      }
+      container attributes {
+        uses CcpdService-attributes;
+      }
+    }
+  }
+  typedef BasicAdmState {
+    type enumeration {
+      enum LOCKED;
+      enum UNLOCKED;
+    }
+  }
+  typedef OperState {
+    type enumeration {
+      enum DISABLED;
+      enum ENABLED;
+    }
+  }
+  grouping CcpdService-attributes {
+    leaf ccpdServiceId {
+      type string;
+      mandatory true;
+    }
+    leaf administrativeState {
+      type enumeration {
+        enum LOCKED;
+        enum UNLOCKED;
+      }
+    }
+    leaf operationalState {
+      type enumeration {
+        enum DISABLED;
+        enum ENABLED;
+      }
+      config false;
+    }
+    leaf fileLocation {
+      type string;
+      config false;
+    }
+  }
+}

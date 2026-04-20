@@ -1,0 +1,55 @@
+module ericsson-optical-indicator-control-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RmeOpticalIndicatorControl";
+  prefix opinctlrdo;
+  import ericsson-rmesupport-radio {
+    prefix rmesuppo;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson CPI MOM XML 15554-lza7016014_33-v1uenfk.xml\nRmeOpticalIndicatorControl.";
+  revision "2026-03-29" {
+    description "Ericsson G3G4, version: CXP2020502/2-R32C08";
+  }
+
+  augment "/emael:ManagedElement/rmesuppo:NodeSupport" {
+    list OpticalIndicatorControl {
+      description "Additional definitions from MOM:min/max-elements:0/1;root; Configuration of optical indicator control functionality on managed element level. When optical indicator control is activated, optical indicators work as normal. When optical indicator control is deactivated, all optical indicators are turned off. Applicable for hardware units that support the functionality.";
+      key "opticalIndicatorControlId";
+      leaf opticalIndicatorControlId {
+        type leafref {
+          path "../attributes/opticalIndicatorControlId";
+        }
+      }
+      container attributes {
+      uses OpticalIndicatorControl-attributes;
+      }
+    }
+  }
+  typedef OpticalIndicatorCtrl {
+    description "Values for optical indicator control.";
+    type enumeration {
+      enum ACTIVATED {
+        description "Optical indicator control activated. Optical indicators work as normal.";
+      }
+      enum DEACTIVATED {
+        description "Optical indicator control deactivated. All optical indicators are turned off.";
+      }
+    }
+  }
+  grouping OpticalIndicatorControl-attributes {
+    leaf opticalIndicatorControlId {
+      description "The value component of the RDN..";
+      type string;
+      mandatory true;
+    }
+    leaf opticalIndicatorControl {
+      description "Optical indicator control setting. Can be overridden by corresponding setting for hardware unit in FieldReplaceableUnit MO instance..";
+      type enumeration {
+        enum ACTIVATED;
+        enum DEACTIVATED;
+      }
+    }
+  }
+}

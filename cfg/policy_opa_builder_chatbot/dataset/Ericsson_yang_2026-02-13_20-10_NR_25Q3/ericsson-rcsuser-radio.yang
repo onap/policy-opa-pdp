@@ -1,0 +1,181 @@
+module ericsson-rcsuser-radio {
+  yang-version 1.1;
+  namespace "urn:com:ericsson:ecim:RcsUser";
+  prefix rcsuser;
+  import ericsson-rcssecm-radio {
+    prefix rcssecm;
+  }
+  import ericsson-managed-element {
+    prefix emael;
+  }
+  description "Auto-generated from Ericsson ECIM (MOM XML).";
+  revision 2026-02-13 {
+    description "Initial auto-generated revision. Generated at 2026-02-13 20:11.";
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement" {
+    list UserIdentity {
+      description "Additional definitions from MOM:min/max-elements:1/1;root;systemCreated; The UserIdentity class provides means for giving the true user name. This class is used for recording the true user name, in case a generic user name has been used at login. This typically happens when the operator access the ME through a MS, and the user's credentials are only checked when logging in to the MS. This class also provides a mechanism for shutting down all other sessions than maintenance user sessions.";
+      key "userIdentityId";
+      leaf userIdentityId {
+        type leafref {
+          path "../attributes/userIdentityId";
+        }
+      }
+      container attributes {
+        uses UserIdentity-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/UserIdentity" {
+    list MaintenanceUser {
+      description "Additional definitions from MOM:min/max-elements:0/unbounded; This class provides means for offline authentication. A maintenance user can login without LDAP authentication and is assigned a role through which the entire model can be accessed. Only maintenance users can add MaintenanceUser MOs. In order to do so there may not be any normal users logged in. The closeSession action of the MaintenanceUserSecurity MOC can be used to close any other open sessions.";
+      key "maintenanceUserId";
+      leaf maintenanceUserId {
+        type leafref {
+          path "../attributes/maintenanceUserId";
+        }
+      }
+      container attributes {
+        uses MaintenanceUser-attributes;
+      }
+    }
+  }
+
+  augment "/emael:ManagedElement/emael:SystemFunctions/rcssecm:SecM/rcssecm:UserManagement/UserIdentity" {
+    list MaintenanceUserSecurity {
+      description "Additional definitions from MOM:min/max-elements:1/1;systemCreated; This MO provides an action for shutting down all other sessions than maintenance user sessions. This is necessary in order to configure attributes in this MO as well as adding or removing MaintenanceUser MOs. This MO also provides attributes for configuring login parameters of maintenance users. Note:If the user has no login failures in the last FailedLoginAttemptPeriod or the user is not locked then the changes to the attributes FailedLoginAttemptPeriod,loginDelay,noOfFailedLoginAttempts and userLockoutPeriod take effect immediately, otherwise old values are used.";
+      key "maintenanceUserSecurityId";
+      leaf maintenanceUserSecurityId {
+        type leafref {
+          path "../attributes/maintenanceUserSecurityId";
+        }
+      }
+      container attributes {
+        uses MaintenanceUserSecurity-attributes;
+      }
+    }
+  }
+  typedef LoginDelayPolicy {
+    type enumeration {
+      enum RANDOM;
+      enum FIXED;
+      enum INCREASING;
+    }
+  }
+  typedef UserType {
+    type enumeration {
+      enum MAINTENANCE_USER;
+      enum CUSTOMIZED_USER;
+    }
+  }
+  grouping MaintenanceUser-attributes {
+    leaf maintenanceUserId {
+      type string;
+      mandatory true;
+    }
+    leaf userName {
+      type string;
+    }
+    leaf subjectName {
+      type string;
+    }
+    list password {
+      key "id";
+      leaf id {
+        type uint32;
+        description "Synthetic key for struct entry.";
+      }
+      container attributes {
+      leaf cleartext {
+        type boolean;
+      }
+      leaf password {
+        type string;
+      }
+      }
+    }
+    leaf lastLogin {
+      type string;
+      config false;
+    }
+    leaf lastPasswordChange {
+      type string;
+      config false;
+    }
+    leaf lastLoginTerminal {
+      type string;
+      config false;
+    }
+    leaf-list roles {
+      type string;
+    }
+    leaf userType {
+      type enumeration {
+        enum MAINTENANCE_USER;
+        enum CUSTOMIZED_USER;
+      }
+    }
+  }
+  grouping MaintenanceUserSecurity-attributes {
+    leaf maintenanceUserSecurityId {
+      type string;
+      mandatory true;
+    }
+    leaf loginDelayPolicy {
+      type enumeration {
+        enum RANDOM;
+        enum FIXED;
+        enum INCREASING;
+      }
+    }
+    leaf loginDelay {
+      type uint8 {
+        range "1..60";
+      }
+      default "5";
+      description "range 1..60; Default value: 5.";
+    }
+    leaf noOfFailedLoginAttempts {
+      type uint8 {
+        range "3..10";
+      }
+      default "5";
+      description "range 3..10; Default value: 5.";
+    }
+    leaf userLockoutPeriod {
+      type uint16 {
+        range "1..60";
+      }
+      default "5";
+      description "range 1..60; Default value: 5.";
+    }
+    leaf remoteManagement {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf restrictMaintenanceUser {
+      type boolean;
+      default "false";
+      description "Default value: false.";
+    }
+    leaf failedLoginAttemptPeriod {
+      type uint16 {
+        range "1..20";
+      }
+      default "5";
+      description "range 1..20; Default value: 5.";
+    }
+  }
+  grouping UserIdentity-attributes {
+    leaf userIdentityId {
+      type string;
+      mandatory true;
+    }
+    leaf userName {
+      type string;
+    }
+  }
+}

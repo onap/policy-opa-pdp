@@ -1,0 +1,75 @@
+module huawei-oidinfo {
+ yang-version 1.1;
+ namespace "urn:rdns:com:huawei:oammodel:huawei-oidinfo";
+ prefix oidinfo;
+ description
+ "Auto-generated modular YANG for huawei-oidinfo" ;
+ revision "2026-01-19" {
+ description "Auto-generated initial revision. Generated at 2026-01-19 12:13.";
+ }
+ grouping OIDINFO-attributes {
+ leaf DATATYPE {
+  type enumeration {
+   enum val-0;
+   enum val-1;
+   enum val-2;
+   enum val-3;
+  }
+  mandatory false;
+ }
+ leaf FUNCTIONID {
+  type union {
+   type uint8 {
+    range "0..131";
+   }
+  }
+  mandatory false;
+ }
+ leaf MAXVALUE {
+  type int32 {
+   range "-2147483648..2147483647";
+  }
+  mandatory false;
+ }
+ leaf OLD_MIBINDEX {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf MIBINDEX {
+  type union {
+   type int16 {
+    range "-1..255";
+   }
+  }
+  mandatory false;
+ }
+ leaf MINVALUE {
+  type int32 {
+   range "-2147483648..2147483647";
+  }
+  mandatory false;
+ }
+ leaf OLD_OID {
+  type string {
+   length "0..127";
+  }
+  mandatory false;
+ }
+ leaf OID {
+  type string {
+   length "0..127";
+  }
+  mandatory false;
+ }
+ leaf UNITCOEFFICIENT {
+  type int32 {
+   range "-1000000..1000000";
+  }
+  mandatory false;
+ }
+ }
+}

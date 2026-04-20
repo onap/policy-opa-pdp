@@ -1,0 +1,13 @@
+{
+    "template_file" : "templates/rego/rego_template.yaml",
+    "usecase_info" : "dataset/usecase.json",
+    "aai_dataset" : "dataset/AAI_hierarchy.xlsx",
+    "unsloth_run" : "False",
+    "vendors": ["Ericsson", "Huawei"],
+    "out_dir" : "dataset/new-yangs-out",
+    "Ericsson": {"input" : "dataset/Ericsson_yang_2026-02-13_20-10_NR_25Q3",
+    "deps" : "dataset/Ericsson_yang_2026-02-13_20-10_NR_25Q3"},
+    "Huawei": {"input" : "dataset/Huawei_YANG_2026-01-19_12-13",
+    "deps" : "dataset/Huawei_YANG_2026-01-19_12-13"},
+    "rego_policy_dir" : "rego_policy"
+}
