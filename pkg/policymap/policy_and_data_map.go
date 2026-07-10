@@ -88,7 +88,8 @@ func UpdateDeployedPoliciesinMap(policy model.ToscaPolicy) (string, error) {
 	// Unmarshal the last known policies
 	deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
 	if err != nil {
-		log.Warnf("Failed to unmarshal LastDeployedPolicies While Updating Deployed Policies: %v", err)
+		log.Warnf("Aborting update; LastDeployedPolicies is corrupt: %v", err)
+		return LastDeployedPolicies, err
 	}
 
 	dataKeys := make([]string, 0, len(policy.Properties.Data))
@@ -117,7 +118,8 @@ func RemoveUndeployedPoliciesfromMap(undeployedPolicy map[string]interface{}) (s
 	// Unmarshal the last known policies
 	deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
 	if err != nil {
-		log.Warnf("Failed to unmarshal LastDeployedPolicies While Removing Undeployed Policies From Map: %v", err)
+		log.Warnf("Aborting update; LastDeployedPolicies is corrupt: %v", err)
+		return LastDeployedPolicies, err
 	}
 
 	remainingPolicies := []map[string]interface{}{}
@@ -188,8 +190,8 @@ func ExtractDeployedPolicies(policiesMap string) []model.ToscaConceptIdentifier 
 		policyID, idOk := policy[consts.PolicyId].(string)
 		policyVersion, versionOk := policy[consts.PolicyVersion].(string)
 		if !idOk || !versionOk {
-			log.Warnf("Missing or invalid policy-id or policy-version")
-			return nil
+			log.Warnf("Skipping deployed policy with missing/invalid policy-id or policy-version")
+			continue
 		}
 		tosca := model.ToscaConceptIdentifier{
 			Name:    policyID,

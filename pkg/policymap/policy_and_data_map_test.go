@@ -25,6 +25,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"policy-opa-pdp/pkg/model"
 )
 
@@ -199,10 +200,12 @@ func TestExtractDeployedPolicies_Negative(t *testing.T) {
 }
 
 func TestExtractDeployedPolicies_MissingPolicyID(t *testing.T) {
+	// A single entry with a non-string policy-id should be skipped, not cause
+	// the whole call to return nil. The result is an empty (non-nil) slice.
 	policiesMap := `{"deployed_policies_dict":[{"policy-id": 123,"policy-version":"1.0"}]}`
 
 	result := ExtractDeployedPolicies(policiesMap)
-	assert.Nil(t, result)
+	assert.Empty(t, result)
 }
 
 func TestCheckIfPolicyAlreadyExists(t *testing.T) {
@@ -234,4 +237,22 @@ func TestGetTotalDeployedPoliciesCountFromMap_Negative(t *testing.T) {
 
 	count := GetTotalDeployedPoliciesCountFromMap()
 	assert.Equal(t, 0, count)
+}
+
+func TestUpdateDeployedPolicies_AbortsOnCorruptState(t *testing.T) {
+	orig := LastDeployedPolicies
+	t.Cleanup(func() { LastDeployedPolicies = orig })
+	LastDeployedPolicies = "{not valid json" // corrupt
+
+	_, err := UpdateDeployedPoliciesinMap(model.ToscaPolicy{})
+	require.Error(t, err, "must not silently wipe the policy list")
+	assert.Equal(t, "{not valid json", LastDeployedPolicies, "state must be untouched on error")
+}
+
+func TestExtractDeployedPolicies_SkipsBadEntryKeepsGood(t *testing.T) {
+	// One entry missing policy-id, one valid.
+	m := `{"deployed_policies_dict":[{"policy-version":"1.0.0"},{"policy-id":"good","policy-version":"1.0.0"}]}`
+	got := ExtractDeployedPolicies(m)
+	require.Len(t, got, 1)
+	assert.Equal(t, "good", got[0].Name)
 }
