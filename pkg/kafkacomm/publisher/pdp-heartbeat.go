@@ -50,10 +50,14 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 
 	if intervalMs < 0 {
 		log.Errorf("Invalid interval provided: %d. Interval must be greater than zero.", intervalMs)
-		ticker = nil
 		return
-	} else if intervalMs == 0 {
+	}
+	if intervalMs == 0 {
 		intervalMs = currentInterval
+	}
+	if intervalMs <= 0 {
+		log.Errorf("No valid heartbeat interval available; not starting ticker")
+		return
 	}
 
 	if ticker != nil && intervalMs == currentInterval {

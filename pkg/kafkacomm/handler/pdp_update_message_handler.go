@@ -120,7 +120,6 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 		pdpattributes.SetPdpHeartbeatInterval(pdpUpdate.PdpHeartbeatIntervalMs)
 		go publisher.StartHeartbeatIntervalTimer(pdpattributes.GetPdpHeartbeatInterval(), p)
 	}
-	go publisher.StartHeartbeatIntervalTimer(pdpattributes.GetPdpHeartbeatInterval(), p)
 	return nil
 
 }

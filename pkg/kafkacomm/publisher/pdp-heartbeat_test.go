@@ -57,15 +57,22 @@ Input: intervalMs = -1000
 Expected Output: The function should handle the invalid interval gracefully, possibly by logging an error message and not starting the ticker.
 */
 func TestStartHeartbeatIntervalTimer_InvalidInterval(t *testing.T) {
+	// Start a valid ticker first so we can verify a negative interval does NOT
+	// orphan it by nil-ing the package-level ticker variable.
+	validSender := new(mocks.PdpStatusSender)
+	validSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	StartHeartbeatIntervalTimer(1000, validSender)
+
 	intervalMs := int64(-1000)
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
 	mu.Lock()
-	defer mu.Unlock()
-	if ticker != nil {
-		t.Log("Expected ticker to be nil for invalid interval")
-	}
+	// Corrected contract: a negative interval must return early WITHOUT nil-ing
+	// the running ticker (the old code set ticker=nil, orphaning the goroutine).
+	assert.NotNil(t, ticker, "A negative interval must not nil the running ticker")
+	mu.Unlock()
+	StopTicker()
 }
 
 /*
@@ -141,12 +148,14 @@ func TestStopTicker_Success(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
 	StartHeartbeatIntervalTimer(1000, mockSender)
-	wg.Done()
+	// StopTicker sends to stopChan which causes the goroutine to exit and call
+	// defer wg.Done() — no manual wg.Done() needed here (the old wg.Done() call
+	// caused a negative WaitGroup counter).
 	StopTicker()
 	mu.Lock()
 	defer mu.Unlock()
 	if stopChan != nil {
-		t.Errorf("Expected ticker to be nil")
+		t.Errorf("Expected stopChan to be nil after stop")
 	}
 }
 
@@ -182,4 +191,18 @@ func TestStartHeartbeatIntervalTimer_TickerAlreadyRunning_Case2(t *testing.T) {
 	// Start it again
 	StartHeartbeatIntervalTimer(int64(201), mockSender)
 	assert.NotNil(t, ticker, "Expected ticker to be running but it is nil")
+}
+
+/*
+TestStartHeartbeat_ZeroIntervalNoPanic
+Description: When called with intervalMs=0 and currentInterval=0 (clean state),
+the function must not panic by calling time.NewTicker(0). Instead it should
+log an error and return.
+*/
+func TestStartHeartbeat_ZeroIntervalNoPanic(t *testing.T) {
+	StopTicker() // ensure clean state; currentInterval stays 0
+	assert.NotPanics(t, func() {
+		StartHeartbeatIntervalTimer(0, new(mocks.PdpStatusSender))
+	})
+	StopTicker()
 }
