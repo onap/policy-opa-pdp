@@ -67,21 +67,25 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 	log.Debugf("New Ticker started with interval %d", currentInterval)
 	stopChan = make(chan bool)
 	wg.Add(1)
-	go func() {
+	// Capture the ticker and stop channel locally so the goroutine operates on
+	// its own instances. Otherwise a later call that reassigns the package-level
+	// ticker (e.g. setting it to nil for an invalid interval) would cause this
+	// goroutine to dereference a nil ticker and panic.
+	go func(t *time.Ticker, stop chan bool) {
 		defer wg.Done()
 		for {
 			select {
-			case <-ticker.C:
+			case <-t.C:
 				if err := sendPDPHeartBeat(s); err != nil {
 					log.Errorf("Failed to send PDP Heartbeat: %v", err)
 				}
-			case <-stopChan:
+			case <-stop:
 				log.Debugf("Stopping ticker")
-				ticker.Stop()
+				t.Stop()
 				return
 			}
 		}
-	}()
+	}(ticker, stopChan)
 }
 
 // Creates and sends a heartbeat message with the PDP's current state, health, and attributes
