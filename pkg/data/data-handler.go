@@ -211,7 +211,7 @@ func validateRequest(requestBody *oapicodegen.OPADataUpdateRequest) error {
 		validationErrors = append(validationErrors, "Data is required and cannot be empty")
 	}
 	if len(validationErrors) > 0 {
-		return fmt.Errorf(strings.Join(validationErrors, ", "))
+		return errors.New(strings.Join(validationErrors, ", "))
 	}
 	return nil
 }
