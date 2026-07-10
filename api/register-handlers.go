@@ -22,6 +22,7 @@
 package api
 
 import (
+	"crypto/subtle"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http"
@@ -65,6 +66,9 @@ func RegisterHandlers() {
 
 	http.Handle("/metrics", basicAuth(http.HandlerFunc(metricsHandler)))
 
+	// Readiness probe — intentionally unauthenticated for K8s probe compatibility
+	http.HandleFunc("/policy/pdpo/v1/readiness", readinessProbe)
+
 }
 
 // Define the metrics handler function
@@ -104,11 +108,12 @@ func basicAuth(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-// validates Credentials for http server
+// validates Credentials for http server using constant-time comparison
+// to prevent timing-based credential enumeration attacks.
 func validateCredentials(username, password string) bool {
-	validUser := cfg.Username
-	validPass := cfg.Password
-	return username == validUser && password == validPass
+	u := subtle.ConstantTimeCompare([]byte(username), []byte(cfg.Username))
+	p := subtle.ConstantTimeCompare([]byte(password), []byte(cfg.Password))
+	return u == 1 && p == 1
 }
 
 // handles readiness probe endpoint

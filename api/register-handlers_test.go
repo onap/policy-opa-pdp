@@ -46,6 +46,8 @@ func TestRegisterHandlers(t *testing.T) {
 	}{
 		{"/policy/pdpo/v1/decision", decision.OpaDecision, http.StatusUnauthorized},
 		{"/policy/pdpo/v1/healthcheck", healthcheck.HealthCheckHandler, http.StatusUnauthorized},
+		// Readiness probe must return 200 without credentials
+		{"/policy/pdpo/v1/readiness", readinessProbe, http.StatusOK},
 	}
 
 	for _, tt := range tests {
@@ -163,6 +165,29 @@ func TestMetricsHandler(t *testing.T) {
 	contentType := resp.Header.Get("Content-Type")
 	assert.Contains(t, contentType, "text/plain", "expected Prometheus content type")
 
+}
+
+// TestValidateCredentials verifies that constant-time comparison preserves
+// the same accept/reject logic as the previous equality check.
+func TestValidateCredentials(t *testing.T) {
+	tests := []struct {
+		username string
+		password string
+		want     bool
+	}{
+		{"testuser", "testpass", true},
+		{"wronguser", "testpass", false},
+		{"testuser", "wrongpass", false},
+		{"wronguser", "wrongpass", false},
+		{"", "", false},
+	}
+
+	for _, tt := range tests {
+		got := validateCredentials(tt.username, tt.password)
+		if got != tt.want {
+			t.Errorf("validateCredentials(%q, %q) = %v, want %v", tt.username, tt.password, got, tt.want)
+		}
+	}
 }
 
 func TestReadinessProbe(t *testing.T) {
