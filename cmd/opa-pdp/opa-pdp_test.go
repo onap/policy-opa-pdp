@@ -760,6 +760,26 @@ func TestInitializeOPA_KeepsInstanceForShutdown(t *testing.T) {
 	assert.Same(t, opaSDKInstance, inst)
 }
 
+// TestPatchKafkaVars_NotShadowed verifies that assignPatchKafka assigns the
+// package-level patchMsgConsumer and patchMsgProducer (not local shadows).
+func TestPatchKafkaVars_NotShadowed(t *testing.T) {
+	origFn := startPatchKafkaConsAndProdFunc
+	t.Cleanup(func() {
+		startPatchKafkaConsAndProdFunc = origFn
+		patchMsgConsumer, patchMsgProducer = nil, nil
+	})
+	sentinelC := &kafkacomm.KafkaConsumer{}
+	sentinelP := &kafkacomm.KafkaProducer{}
+	startPatchKafkaConsAndProdFunc = func() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
+		return sentinelC, sentinelP, nil
+	}
+
+	assignPatchKafka()
+
+	assert.Same(t, sentinelC, patchMsgConsumer)
+	assert.Same(t, sentinelP, patchMsgProducer)
+}
+
 // TestInitializeOPA_ErrorPropagation verifies that when the singleton getter
 // returns an error, initializeOPA propagates it and leaves opaSDKInstance nil.
 func TestInitializeOPA_ErrorPropagation(t *testing.T) {
