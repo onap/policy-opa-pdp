@@ -20,6 +20,7 @@
 package pdpattributes
 
 import (
+	"sync"
 	"testing"
 	"time"
 
@@ -70,19 +71,37 @@ func TestSetPdpHeartbeatInterval_Success(t *testing.T) {
 	t.Run("ValidHeartbeatInterval", func(t *testing.T) {
 		expectedInterval := int64(30)
 		SetPdpHeartbeatInterval(expectedInterval)
-		assert.Equal(t, expectedInterval, getPdpHeartbeatInterval(), "Expected heartbeat interval to match set value")
+		assert.Equal(t, expectedInterval, GetPdpHeartbeatInterval(), "Expected heartbeat interval to match set value")
 	})
 }
 
 func TestSetPdpHeartbeatInterval_Failure(t *testing.T) {
 	t.Run("FailureHeartbeatInterval", func(t *testing.T) {
 		SetPdpHeartbeatInterval(-10)
-		assert.Equal(t, int64(-10), getPdpHeartbeatInterval(), "Expected heartbeat interval to handle negative values")
+		assert.Equal(t, int64(-10), GetPdpHeartbeatInterval(), "Expected heartbeat interval to handle negative values")
 	})
 
 	t.Run("LargeHeartbeatInterval", func(t *testing.T) {
 		largeInterval := int64(time.Hour * 24 * 365 * 10) // 10 years in seconds
 		SetPdpHeartbeatInterval(largeInterval)
-		assert.Equal(t, largeInterval, getPdpHeartbeatInterval(), "Expected PDP heartbeat interval to handle large values")
+		assert.Equal(t, largeInterval, GetPdpHeartbeatInterval(), "Expected PDP heartbeat interval to handle large values")
 	})
+}
+
+func TestPdpSubgroup_ConcurrentAccess(t *testing.T) {
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 1000; i++ {
+			SetPdpSubgroup("sg")
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 1000; i++ {
+			_ = GetPdpSubgroup()
+		}
+	}()
+	wg.Wait()
 }

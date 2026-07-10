@@ -125,7 +125,7 @@ func TestCheckIfMessageIsForOpaPdp_Check_PdpGroup(t *testing.T) {
 	opapdpMessage.PdpGroup = "opaGroup"
 	opapdpMessage.PdpSubgroup = "opa"
 
-	pdpattributes.PdpSubgroup = "opa"
+	pdpattributes.SetPdpSubgroup("opa")
 	assert.True(t, checkIfMessageIsForOpaPdp(opapdpMessage), "Its a valid Opa Pdp Message")
 
 }
@@ -164,7 +164,7 @@ func TestCheckIfMessageIsForOpaPdp_Check_PdpSubgroup(t *testing.T) {
 	opapdpMessage.PdpGroup = "opaGroup"
 	opapdpMessage.PdpSubgroup = "opa"
 
-	pdpattributes.PdpSubgroup = "opa"
+	pdpattributes.SetPdpSubgroup("opa")
 	assert.True(t, checkIfMessageIsForOpaPdp(opapdpMessage), "It's a valid Opa Pdp Message")
 
 }
@@ -184,7 +184,7 @@ func TestCheckIfMessageIsForOpaPdp_Check_IncorrectPdpSubgroup(t *testing.T) {
 	opapdpMessage.PdpGroup = "opaGroup"
 	opapdpMessage.PdpSubgroup = "o"
 
-	pdpattributes.PdpSubgroup = "opa"
+	pdpattributes.SetPdpSubgroup("opa")
 	assert.False(t, checkIfMessageIsForOpaPdp(opapdpMessage), "Not a valid Opa Pdp Message")
 
 }
@@ -206,7 +206,7 @@ func TestCheckIfMessageIsForOpaPdp_ValidBroadcastMessage(t *testing.T) {
 	opapdpMessage.PdpGroup = "opaGroup"
 	opapdpMessage.PdpSubgroup = ""
 
-	pdpattributes.PdpSubgroup = "opa"
+	pdpattributes.SetPdpSubgroup("opa")
 	consts.PdpGroup = "opaGroup"
 
 	assert.True(t, checkIfMessageIsForOpaPdp(opapdpMessage), "Valid broadcast message should pass the check")

@@ -22,14 +22,18 @@
 package pdpattributes
 
 import (
+	"sync"
+
 	"github.com/google/uuid"
 	"policy-opa-pdp/pkg/log"
 )
 
 var (
-	PdpName              string // A unique identifier for the PDP instance
-	PdpSubgroup          string
-	PdpHeartbeatInterval int64 // The interval (in seconds) at which the PDP sends heartbeat signals
+	PdpName string // A unique identifier for the PDP instance; set once in init, read-only thereafter.
+
+	mu                   sync.RWMutex
+	pdpSubgroup          string
+	pdpHeartbeatInterval int64 // The interval (in milliseconds) at which the PDP sends heartbeat signals
 )
 
 func init() {
@@ -43,22 +47,29 @@ func generateUniquePdpName() string {
 }
 
 // sets the Pdp Subgroup retrieved from the message from Pap
-func SetPdpSubgroup(pdpsubgroup string) {
-	PdpSubgroup = pdpsubgroup
+func SetPdpSubgroup(s string) {
+	mu.Lock()
+	pdpSubgroup = s
+	mu.Unlock()
 }
 
 // Retrieves the current PDP subgroup value.
 func GetPdpSubgroup() string {
-	return PdpSubgroup
+	mu.RLock()
+	defer mu.RUnlock()
+	return pdpSubgroup
 }
 
-// sets the PdpHeratbeatInterval retrieved from the message from Pap
-func SetPdpHeartbeatInterval(pdpHeartbeatInterval int64) {
-	PdpHeartbeatInterval = pdpHeartbeatInterval
+// sets the PdpHeartbeatInterval retrieved from the message from Pap
+func SetPdpHeartbeatInterval(v int64) {
+	mu.Lock()
+	pdpHeartbeatInterval = v
+	mu.Unlock()
 }
 
 // Retrieves the current PDP heartbeat interval value.
-func getPdpHeartbeatInterval() int64 {
-	return PdpHeartbeatInterval
-
+func GetPdpHeartbeatInterval() int64 {
+	mu.RLock()
+	defer mu.RUnlock()
+	return pdpHeartbeatInterval
 }

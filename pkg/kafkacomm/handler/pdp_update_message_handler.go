@@ -114,13 +114,13 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 	log.Infof("PDP_STATUS Message Sent Successfully")
 	log.Debug(pdpUpdate.PdpHeartbeatIntervalMs)
 
-	if pdpattributes.PdpHeartbeatInterval != pdpUpdate.PdpHeartbeatIntervalMs && pdpUpdate.PdpHeartbeatIntervalMs != 0 {
+	if pdpattributes.GetPdpHeartbeatInterval() != pdpUpdate.PdpHeartbeatIntervalMs && pdpUpdate.PdpHeartbeatIntervalMs != 0 {
 		//restart the ticker.
 		publisher.StopTicker()
 		pdpattributes.SetPdpHeartbeatInterval(pdpUpdate.PdpHeartbeatIntervalMs)
-		go publisher.StartHeartbeatIntervalTimer(pdpattributes.PdpHeartbeatInterval, p)
+		go publisher.StartHeartbeatIntervalTimer(pdpattributes.GetPdpHeartbeatInterval(), p)
 	}
-	go publisher.StartHeartbeatIntervalTimer(pdpattributes.PdpHeartbeatInterval, p)
+	go publisher.StartHeartbeatIntervalTimer(pdpattributes.GetPdpHeartbeatInterval(), p)
 	return nil
 
 }

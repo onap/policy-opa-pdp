@@ -90,6 +90,7 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 
 // Creates and sends a heartbeat message with the PDP's current state, health, and attributes
 func sendPDPHeartBeat(s PdpStatusSender) error {
+	pdpSubGroup := pdpattributes.GetPdpSubgroup()
 	pdpStatus := model.PdpStatus{
 		MessageType: model.PDP_STATUS,
 		PdpType:     consts.PdpType,
@@ -99,7 +100,7 @@ func sendPDPHeartBeat(s PdpStatusSender) error {
 		Description: "Pdp heartbeat",
 		Policies:    []model.ToscaConceptIdentifier{},
 		PdpGroup:    consts.PdpGroup,
-		PdpSubgroup: &pdpattributes.PdpSubgroup,
+		PdpSubgroup: &pdpSubGroup,
 	}
 	pdpStatus.RequestID = uuid.New().String()
 	pdpStatus.TimestampMs = fmt.Sprintf("%d", time.Now().UnixMilli())
@@ -113,8 +114,6 @@ func sendPDPHeartBeat(s PdpStatusSender) error {
 			pdpStatus.Policies = policymap.ExtractDeployedPolicies(policiesMap)
 		}
 	}
-
-	pdpSubGroup := pdpattributes.GetPdpSubgroup()
 
 	if pdpSubGroup == "" || len(pdpSubGroup) == 0 {
 		pdpStatus.PdpSubgroup = nil

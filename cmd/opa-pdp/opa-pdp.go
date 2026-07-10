@@ -112,7 +112,7 @@ func main() {
 	time.Sleep(10 * time.Second)
 
 	pdpattributes.SetPdpHeartbeatInterval(int64(consts.DefaultHeartbeatMS))
-	go publisher.StartHeartbeatIntervalTimer(pdpattributes.PdpHeartbeatInterval, sender)
+	go publisher.StartHeartbeatIntervalTimer(pdpattributes.GetPdpHeartbeatInterval(), sender)
 
 	time.Sleep(10 * time.Second)
 	log.Debugf("After registration successful delay")

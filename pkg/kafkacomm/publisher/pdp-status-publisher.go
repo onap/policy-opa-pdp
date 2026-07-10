@@ -50,15 +50,16 @@ func SendPdpUpdateResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMes
 	responseStatus := model.Success
 	responseMessage := resMessage
 
+	sg := pdpattributes.GetPdpSubgroup()
 	pdpStatus := model.PdpStatus{
 		MessageType: model.PDP_STATUS,
 		PdpType:     consts.PdpType,
-		State:       pdpstate.State,
+		State:       pdpstate.GetState(),
 		Healthy:     model.Healthy,
 		Name:        pdpattributes.PdpName,
 		Description: "Pdp Status Response Message For Pdp Update",
 		PdpGroup:    consts.PdpGroup,
-		PdpSubgroup: &pdpattributes.PdpSubgroup,
+		PdpSubgroup: &sg,
 		Policies:    []model.ToscaConceptIdentifier{},
 		PdpResponse: &model.PdpResponseDetails{
 			ResponseTo:      &pdpUpdate.RequestId,
@@ -97,15 +98,16 @@ func SendPdpUpdateErrorResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, e
 	responseStatus := model.Failure
 	responseMessage := fmt.Sprintf("%v", err)
 
+	sg := pdpattributes.GetPdpSubgroup()
 	pdpStatus := model.PdpStatus{
 		MessageType: model.PDP_STATUS,
 		PdpType:     consts.PdpType,
-		State:       pdpstate.State,
+		State:       pdpstate.GetState(),
 		Healthy:     model.Healthy,
 		Name:        pdpattributes.PdpName,
 		Description: "Pdp Status Response Message For Pdp Update",
 		PdpGroup:    consts.PdpGroup,
-		PdpSubgroup: &pdpattributes.PdpSubgroup,
+		PdpSubgroup: &sg,
 		Policies:    []model.ToscaConceptIdentifier{},
 		PdpResponse: &model.PdpResponseDetails{
 			ResponseTo:      &pdpUpdate.RequestId,
@@ -144,6 +146,7 @@ func SendStateChangeResponse(s PdpStatusSender, pdpStateChange *model.PdpStateCh
 
 	responseStatus := model.Success
 	responseMessage := "PDP State Changed From PASSIVE TO Active"
+	sg := pdpattributes.GetPdpSubgroup()
 	pdpStatus := model.PdpStatus{
 		MessageType: model.PDP_STATUS,
 		PdpType:     consts.PdpType,
@@ -152,7 +155,7 @@ func SendStateChangeResponse(s PdpStatusSender, pdpStateChange *model.PdpStateCh
 		Name:        pdpattributes.PdpName,
 		Description: "Pdp Status Response Message to Pdp State Change",
 		PdpGroup:    consts.PdpGroup,
-		PdpSubgroup: &pdpattributes.PdpSubgroup,
+		PdpSubgroup: &sg,
 		Policies:    []model.ToscaConceptIdentifier{},
 		PdpResponse: &model.PdpResponseDetails{
 			ResponseTo:      &pdpStateChange.RequestId,

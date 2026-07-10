@@ -83,7 +83,7 @@ func checkIfMessageIsForOpaPdp(message OpaPdpMessage) bool {
 		return false
 	}
 
-	if pdpattributes.PdpSubgroup == "" {
+	if pdpattributes.GetPdpSubgroup() == "" {
 		// This PDP has no subgroup assignment; ignore broadcast messages
 		return false
 	}
@@ -98,7 +98,7 @@ func checkIfMessageIsForOpaPdp(message OpaPdpMessage) bool {
 	}
 
 	// Broadcast within subgroup
-	return message.PdpSubgroup == pdpattributes.PdpSubgroup
+	return message.PdpSubgroup == pdpattributes.GetPdpSubgroup()
 }
 
 // Handles incoming Kafka messages, validates their relevance to the current PDP,

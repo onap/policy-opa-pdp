@@ -21,11 +21,14 @@
 package pdpstate
 
 import (
+	"sync"
+
 	"policy-opa-pdp/pkg/model"
 )
 
 var (
-	State           model.PdpState = model.Passive // The current state of the PDP.
+	mu              sync.RWMutex
+	state           model.PdpState = model.Passive // The current state of the PDP.
 	GetCurrentState                = GetState      // An alias for the GetState function.
 )
 
@@ -36,11 +39,15 @@ func SetState(stringState string) error {
 		return err
 	}
 
-	State = newState
+	mu.Lock()
+	state = newState
+	mu.Unlock()
 	return nil
 }
 
 // Retrieves the current PDP state.
 func GetState() model.PdpState {
-	return State
+	mu.RLock()
+	defer mu.RUnlock()
+	return state
 }

@@ -20,6 +20,7 @@
 package pdpstate
 
 import (
+	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -35,10 +36,28 @@ func TestSetState_Success(t *testing.T) {
 }
 
 func TestSetState_Failure(t *testing.T) {
-	State = model.Passive
+	_ = SetState("PASSIVE")
 	t.Run("InvalidState", func(t *testing.T) {
 		err := SetState("InvalidState")
 		assert.Error(t, err, "Expected an error for invalid state")
 		assert.Equal(t, model.Passive, GetState(), "Expected state to remain unchanged when setting invalid state")
 	})
+}
+
+func TestPdpState_ConcurrentAccess(t *testing.T) {
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 1000; i++ {
+			_ = SetState("ACTIVE")
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 1000; i++ {
+			_ = GetState()
+		}
+	}()
+	wg.Wait()
 }
