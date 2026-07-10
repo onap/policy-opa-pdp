@@ -191,7 +191,12 @@ func WriteData(ctx context.Context, dataPath string, data interface{}) error {
 		return err
 	}
 
-	err = memStore.Write(ctx, txn, storage.AddOp, storage.MustParsePath(dataPath), data)
+	parsedPath, ok := storage.ParsePath(dataPath)
+	if !ok {
+		memStore.Abort(ctx, txn)
+		return fmt.Errorf("invalid data path: %s", dataPath)
+	}
+	err = memStore.Write(ctx, txn, storage.AddOp, parsedPath, data)
 	if err != nil {
 		log.Warnf("Error Adding data: %s", err)
 		memStore.Abort(ctx, txn)
@@ -214,7 +219,12 @@ func DeleteData(ctx context.Context, dataPath string) error {
 		memStore.Abort(ctx, txn)
 		return err
 	}
-	err = memStore.Write(ctx, txn, storage.RemoveOp, storage.MustParsePath(dataPath), nil)
+	parsedPath, ok := storage.ParsePath(dataPath)
+	if !ok {
+		memStore.Abort(ctx, txn)
+		return fmt.Errorf("invalid data path: %s", dataPath)
+	}
+	err = memStore.Write(ctx, txn, storage.RemoveOp, parsedPath, nil)
 	if err != nil {
 		log.Warnf("Error deleting data: %s", err)
 		memStore.Abort(ctx, txn)
@@ -266,7 +276,10 @@ func ListPolicies(res http.ResponseWriter, req *http.Request) {
 }
 
 func initializePath(ctx context.Context, txn storage.Transaction, path string) error {
-	segments := storage.MustParsePath(path)
+	segments, ok := storage.ParsePath(path)
+	if !ok {
+		return fmt.Errorf("invalid data path: %s", path)
+	}
 	for i := 1; i <= len(segments); i++ {
 		subPath := segments[:i]
 		_, err := memStore.Read(ctx, txn, subPath)
@@ -328,9 +341,12 @@ func PatchData(ctx context.Context, patches []PatchImpl) error {
 
 func GetDataInfo(ctx context.Context, dataPath string) (data *oapicodegen.OPADataResponse_Data, err error) {
 
+	path, ok := storage.ParsePath(dataPath)
+	if !ok {
+		return nil, fmt.Errorf("invalid data path: %s", dataPath)
+	}
 	rtxn, _ := memStore.NewTransaction(ctx, storage.TransactionParams{Write: false})
 	defer memStore.Abort(ctx, rtxn) // Ensure transaction is aborted to avoid leaks
-	path := storage.MustParsePath(dataPath)
 
 	result, err := memStore.Read(ctx, rtxn, path)
 	if err != nil {

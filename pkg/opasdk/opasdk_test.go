@@ -916,3 +916,13 @@ func TestSingletonResult_ReturnsPersistedError(t *testing.T) {
 	require.Error(t, err)
 	assert.EqualError(t, err, "boom")
 }
+
+func TestGetDataInfo_MalformedPathReturnsError(t *testing.T) {
+	// Ensure the store is initialized.
+	_, _ = GetOPASingletonInstance()
+	// An empty path is not parseable as a storage.Path — storage.ParsePath("") returns
+	// ok=false because the path must start with "/" (or be empty root "/"). Must return
+	// an error, not panic.
+	_, err := GetDataInfo(context.Background(), "")
+	require.Error(t, err)
+}
