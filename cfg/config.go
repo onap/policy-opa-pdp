@@ -23,7 +23,6 @@
 package cfg
 
 import (
-	"fmt"
 	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 	"os"
@@ -76,8 +75,6 @@ func init() {
 	Password = getEnv("API_PASSWORD", "zb!XztG34")
 	UseSASLForKAFKA = getEnv("UseSASLForKAFKA", "false")
 	KAFKA_USERNAME, KAFKA_PASSWORD = getSaslJAASLOGINFromEnv(JAASLOGIN)
-	log.Debugf("Username: %s", KAFKA_USERNAME)
-	log.Debugf("Password: %s", KAFKA_PASSWORD)
 	UseKafkaForPatch = getEnvAsBool("USE_KAFKA_FOR_PATCH", false)
 	log.Debug("Configuration module: environment initialised")
 }
@@ -135,7 +132,6 @@ func getSaslJAASLOGINFromEnv(JAASLOGIN string) (string, string) {
 	}
 
 	decodedConfig := string(decodingConfigBytes)
-	fmt.Println("decodedConfig", decodedConfig)
 
 	// Extract username and password using regex
 	usernamePattern := `username=["'](.+?)["']`
