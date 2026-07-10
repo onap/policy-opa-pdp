@@ -902,3 +902,17 @@ func TestConfigureInstance_ReturnsErrorOnBadConfigPath(t *testing.T) {
 	err := configureInstance(nil, "/nonexistent/config/path.json")
 	require.Error(t, err)
 }
+
+func TestSingletonResult_ReturnsPersistedError(t *testing.T) {
+	// Simulate a prior failed init.
+	prevInstance, prevErr := opaInstance, initErr
+	t.Cleanup(func() { opaInstance, initErr = prevInstance, prevErr })
+
+	opaInstance = nil
+	initErr = errors.New("boom")
+
+	inst, err := singletonResult()
+	assert.Nil(t, inst)
+	require.Error(t, err)
+	assert.EqualError(t, err, "boom")
+}

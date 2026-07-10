@@ -85,6 +85,12 @@ type NewSDKFunc func(ctx context.Context, options sdk.Options) (*sdk.OPA, error)
 
 var NewSDK NewSDKFunc = sdk.New
 
+// singletonResult returns the package-level OPA instance and the persisted init error.
+// Using a helper ensures the getter's return path is testable in isolation.
+func singletonResult() (*sdk.OPA, error) {
+	return opaInstance, initErr
+}
+
 // Returns a singleton instance of the OPA object. The initialization of the instance is
 // thread-safe, and the OPA object is configured using a JSON configuration file.
 func GetOPASingletonInstance() (*sdk.OPA, error) {
@@ -105,7 +111,7 @@ func GetOPASingletonInstance() (*sdk.OPA, error) {
 			initErr = cfgErr
 		}
 	})
-	return opaInstance, initErr
+	return singletonResult()
 }
 
 // configureInstance loads the OPA JSON config and applies it. Returns any error
