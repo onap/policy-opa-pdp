@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e341e502_4ddd456b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2026-07-10T12:52:29Z",
+      "side": 1,
+      "message": "Please wait for approvals from Deena and Murali before merging opa-pdp reviews as they are maintaining this repo.",
+      "revId": "11055d3efc31f61ff27d7261c64afb20a4a17a35",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
