@@ -471,7 +471,7 @@ func TestValidateToscaPolicyJsonFields_InvalidDataKeyPrefix(t *testing.T) {
 
 	err := ValidateToscaPolicyJsonFields(policy)
 	assert.Error(t, err, "Expected error due to invalid data key prefix")
-	assert.Contains(t, err.Error(), "data key 'invalid-key' does not have name 'node.test-policy' as a prefix")
+	assert.Contains(t, err.Error(), "data key 'invalid-key' does not have name 'node.test-policy' as a prefix, ")
 }
 
 func TestIsValidTime(t *testing.T) {
@@ -773,11 +773,11 @@ func TestConvertPtrToString(t *testing.T) {
 	assert.Equal(t, "", convertPtrToString(nil), "Expected empty string as output")
 }
 
-// Test validatePolicyKeys
-func TestValidatePolicyKeys(t *testing.T) {
+// Test validateKeys (unified policy and data key validator)
+func TestValidateKeys(t *testing.T) {
 	tests := []struct {
 		name         string
-		policy       map[string]string
+		keys         map[string]string
 		prefix       string
 		propertyType string
 		emphasize    string
@@ -785,7 +785,7 @@ func TestValidatePolicyKeys(t *testing.T) {
 	}{
 		{
 			name: "Valid policy keys",
-			policy: map[string]string{
+			keys: map[string]string{
 				"policy_1": "value1",
 				"policy_2": "value2",
 			},
@@ -796,7 +796,7 @@ func TestValidatePolicyKeys(t *testing.T) {
 		},
 		{
 			name: "Policy key without proper prefix",
-			policy: map[string]string{
+			keys: map[string]string{
 				"invalid_1": "value1",
 			},
 			prefix:       "policy_",
@@ -806,41 +806,15 @@ func TestValidatePolicyKeys(t *testing.T) {
 		},
 		{
 			name:         "Empty policy map",
-			policy:       map[string]string{},
+			keys:         map[string]string{},
 			prefix:       "policy_",
 			propertyType: "policy",
 			emphasize:    "important",
 			wantErr:      "",
 		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			err := validatePolicyKeys(tt.policy, tt.prefix, tt.propertyType, tt.emphasize)
-			if err != nil {
-				if err.Error() != tt.wantErr {
-					t.Errorf("Expected error: '%s', got: '%s'", tt.wantErr, err.Error())
-				}
-			} else if tt.wantErr != "" {
-				t.Errorf("Expected error: '%s', got nil", tt.wantErr)
-			}
-		})
-	}
-}
-
-// Test validateDataKeys
-func TestValidateDataKeys(t *testing.T) {
-	tests := []struct {
-		name         string
-		data         map[string]string
-		prefix       string
-		propertyType string
-		emphasize    string
-		wantErr      string
-	}{
 		{
 			name: "Valid data keys",
-			data: map[string]string{
+			keys: map[string]string{
 				"data_1": "value1",
 				"data_2": "value2",
 			},
@@ -851,17 +825,18 @@ func TestValidateDataKeys(t *testing.T) {
 		},
 		{
 			name: "Data key without proper prefix",
-			data: map[string]string{
+			keys: map[string]string{
 				"invalid_1": "value1",
 			},
 			prefix:       "data_",
 			propertyType: "data",
 			emphasize:    "critical",
-			wantErr:      "data key 'invalid_1' does not have name 'data_' as a prefix",
+			// Error message now includes emphasize (unified format)
+			wantErr: "data key 'invalid_1' does not have name 'data_' as a prefix, 'critical'",
 		},
 		{
 			name:         "Empty data map",
-			data:         map[string]string{},
+			keys:         map[string]string{},
 			prefix:       "data_",
 			propertyType: "data",
 			emphasize:    "critical",
@@ -871,7 +846,7 @@ func TestValidateDataKeys(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := validateDataKeys(tt.data, tt.prefix, tt.propertyType, tt.emphasize)
+			err := validateKeys(tt.keys, tt.prefix, tt.propertyType, tt.emphasize)
 			if err != nil {
 				if err.Error() != tt.wantErr {
 					t.Errorf("Expected error: '%s', got: '%s'", tt.wantErr, err.Error())

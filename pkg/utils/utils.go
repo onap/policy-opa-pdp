@@ -70,13 +70,7 @@ func RemoveDirectory(dirPath string) error {
 	fileDirPath := filepath.Clean(dirPath)
 	err := removeAll(fileDirPath)
 	if err != nil {
-		if os.IsNotExist(err) {
-			log.Warnf("Directory does not exist: %s", fileDirPath)
-			// Directory does not exist, nothing to do
-			return nil
-		}
 		return fmt.Errorf("failed to remove file: %s, error: %w", fileDirPath, err)
-
 	}
 
 	// Create a loop to check parent directories.
@@ -139,8 +133,10 @@ func ValidateFieldsStructs(pdpUpdate model.PdpUpdate) error {
 
 	err := validate.Struct(pdpUpdate)
 	if err != nil {
-		for _, err := range err.(validator.ValidationErrors) {
-			log.Infof("Field %s failed on the %s tag\n", err.Field(), err.Tag())
+		if verrs, ok := err.(validator.ValidationErrors); ok {
+			for _, fe := range verrs {
+				log.Infof("Field %s failed on the %s tag", fe.Field(), fe.Tag())
+			}
 		}
 		return err
 	}
@@ -160,13 +156,13 @@ func ValidateToscaPolicyJsonFields(policy model.ToscaPolicy) error {
 
 	if policy.Properties.Data != nil {
 		log.Debugf("Validating properties data for policy: %s", policy.Name)
-		if err := validateDataKeys(policy.Properties.Data, "node."+policy.Name, "data", emphasize); err != nil {
+		if err := validateKeys(policy.Properties.Data, "node."+policy.Name, "data", emphasize); err != nil {
 			return err
 		}
 	}
 
 	log.Debugf("Validating properties policy for policy: %s", policy.Name)
-	if err := validatePolicyKeys(policy.Properties.Policy, policy.Name, "policy", emphasize); err != nil {
+	if err := validateKeys(policy.Properties.Policy, policy.Name, "policy", emphasize); err != nil {
 		return err
 	}
 
@@ -174,29 +170,10 @@ func ValidateToscaPolicyJsonFields(policy model.ToscaPolicy) error {
 	return nil
 }
 
-func validatePolicyKeys(policy map[string]string, prefix, propertyType, emphasize string) error {
-	keySeen := make(map[string]bool)
-	for key := range policy {
-		if keySeen[key] {
-			return fmt.Errorf("duplicate %s key '%s' found, '%s'", propertyType, key, emphasize)
-		}
-		keySeen[key] = true
+func validateKeys(keys map[string]string, prefix, propertyType, emphasize string) error {
+	for key := range keys {
 		if !strings.HasPrefix(key, prefix) {
 			return fmt.Errorf("%s key '%s' does not have name '%s' as a prefix, '%s'", propertyType, key, prefix, emphasize)
-		}
-	}
-	return nil
-}
-
-func validateDataKeys(data map[string]string, prefix, propertyType, emphasize string) error {
-	keySeen := make(map[string]bool)
-	for key := range data {
-		if keySeen[key] {
-			return fmt.Errorf("duplicate %s key '%s' found, '%s'", propertyType, key, emphasize)
-		}
-		keySeen[key] = true
-		if !strings.HasPrefix(key, prefix) {
-			return fmt.Errorf("data key '%s' does not have name '%s' as a prefix", key, prefix)
 		}
 	}
 	return nil
