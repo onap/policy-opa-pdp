@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '2.0.2'
+project: 'policy-opa-pdp'
+log_dir: 'policy-opa-pdp-master-merge-golang/91'
+ref: b26a1cfa4ee25ba7cdc8c97c486a355fd74135dc
+containers:
+  - name: 'policy-opa-pdp'
+    version: '2.0.2-SNAPSHOT-20260710T0813'
