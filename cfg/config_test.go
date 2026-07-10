@@ -98,8 +98,18 @@ func TestGetSaslJAASLOGINFromEnv_MissingEnv(t *testing.T) {
 }
 
 func TestConfig_NoHardcodedPasswordDefault(t *testing.T) {
-	os.Unsetenv("API_PASSWORD")
-	assert.Empty(t, getEnv("API_PASSWORD", ""))
+	// Go init functions cannot be called explicitly (they are not in scope as
+	// callable identifiers), so we cannot re-invoke init() here.  Instead we
+	// rely on the fact that init() already ran when this package was loaded by
+	// the test binary.  If API_PASSWORD was absent at load time and init() uses
+	// a hardcoded non-empty default, Password will be non-empty here.
+	//
+	// If API_PASSWORD is set in the outer environment we skip: we cannot tell
+	// whether Password came from the env var or a hardcoded default.
+	if _, set := os.LookupEnv("API_PASSWORD"); set {
+		t.Skip("API_PASSWORD is set in environment; cannot verify absence of hardcoded default")
+	}
+	assert.Empty(t, Password, "API_PASSWORD must have no hardcoded default (fail-closed)")
 }
 
 func TestGetEnvAsBool(t *testing.T) {
