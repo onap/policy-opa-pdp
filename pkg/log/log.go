@@ -52,14 +52,15 @@ func InitLogger(logFilePath string, logMaxSize int, logMaxBackups int, logLevel 
 
 	logLevelParsed, err := logrus.ParseLevel(logLevel)
 	if err != nil {
-		log.Warn(err)
+		log.Warnf("Invalid LOG_LEVEL %q, defaulting to info: %v", logLevel, err)
+		logLevelParsed = logrus.InfoLevel
 	}
 	log.SetLevel(logLevelParsed)
 
 	logRotation := &lumberjack.Logger{
-		Filename:   consts.LogFilePath,
-		MaxSize:    consts.LogMaxSize,
-		MaxBackups: consts.LogMaxBackups,
+		Filename:   logFilePath,
+		MaxSize:    logMaxSize,
+		MaxBackups: logMaxBackups,
 	}
 	multiWriter := io.MultiWriter(os.Stdout, logRotation)
 	log.SetOutput(multiWriter)

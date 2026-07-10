@@ -24,6 +24,7 @@ import (
 
 	"bytes"
 	"github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/assert"
 	"policy-opa-pdp/pkg/log"
 )
 
@@ -352,6 +353,11 @@ func TestTracef_Failure(t *testing.T) {
 	if bytes.Contains(buf.Bytes(), []byte("Trace message: should not log")) {
 		t.Errorf("Expected trace message not to be logged")
 	}
+}
+
+func TestInitLogger_BadLevelFallsBackToInfo(t *testing.T) {
+	l := log.InitLogger("/tmp/x.log", 1, 1, "not-a-level")
+	assert.Equal(t, logrus.InfoLevel, l.GetLevel())
 }
 
 func TestParseLevel(t *testing.T) {
