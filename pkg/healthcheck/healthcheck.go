@@ -64,7 +64,7 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	response := &oapicodegen.HealthCheckReport{
 		Name:    &pdpattributes.PdpName,
 		Url:     &consts.OpaPdpUrl,
-		Healthy: &consts.HealtCheckStatus,
+		Healthy: &consts.HealthCheckStatus,
 		Code:    &consts.OkCode,
 		Message: &consts.HealthCheckMessage,
 	}

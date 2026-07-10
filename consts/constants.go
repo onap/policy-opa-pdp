@@ -49,7 +49,7 @@ import (
 //	   MinorVersion        - The Minor version set in response header for decision
 //	   PatchVersion        - The Patch Version set in response header for decison
 //	   OpaPdpUrl           - The Healthcheck url for response
-//	   HealtCheckStatus    - The bool flag for Healthy field in HealtCheck response
+//	   HealthCheckStatus   - The bool flag for Healthy field in HealthCheck response
 //	   OkCode              - The Code for HealthCheck response
 //	   HealthCheckMessage  - The Healtcheck Message
 //	   DefaultHeartbeatMS  - The default interval for heartbeat signals in milliseconds.
@@ -82,7 +82,7 @@ var (
 	MinorVersion            = "0"
 	PatchVersion            = "0"
 	OpaPdpUrl               = "self"
-	HealtCheckStatus        = true
+	HealthCheckStatus       = true
 	OkCode                  = int32(200)
 	HealthCheckMessage      = "alive"
 	DefaultHeartbeatMS      = 60000
