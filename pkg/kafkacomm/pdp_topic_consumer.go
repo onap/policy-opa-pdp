@@ -114,7 +114,6 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 		"max.partition.fetch.bytes": consts.ConsumerMaxPartitionFetch,
 		"fetch.max.bytes": consts.ConsumerFetchMaxBytes,
 	}
-	fmt.Print(configMap)
 	// If SASL is enabled, add SASL properties
 	if useSASL == "true" {
 		configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512")           // #nosec G104
