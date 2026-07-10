@@ -705,9 +705,11 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 func TestProcessUndeploy_SecondSucceedsAfterFirstFails(t *testing.T) {
 	origAction := policyUndeploymentActionVar
 	origRemove := removeUndeployedPoliciesfromMapVar
+	origLP := policymap.LastDeployedPolicies
 	t.Cleanup(func() {
 		policyUndeploymentActionVar = origAction
 		removeUndeployedPoliciesfromMapVar = origRemove
+		policymap.LastDeployedPolicies = origLP
 	})
 
 	removeUndeployedPoliciesfromMapVar = func(map[string]interface{}) (string, error) { return "", nil }
