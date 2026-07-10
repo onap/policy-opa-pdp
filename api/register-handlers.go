@@ -110,7 +110,13 @@ func basicAuth(next http.HandlerFunc) http.HandlerFunc {
 
 // validates Credentials for http server using constant-time comparison
 // to prevent timing-based credential enumeration attacks.
+// Fail closed: empty configured or supplied credentials are rejected before the
+// constant-time compare so that an unset API_PASSWORD (empty string) does not
+// allow an empty-password request through (subtle.ConstantTimeCompare("","") == 1).
 func validateCredentials(username, password string) bool {
+	if cfg.Username == "" || cfg.Password == "" || username == "" || password == "" {
+		return false
+	}
 	u := subtle.ConstantTimeCompare([]byte(username), []byte(cfg.Username))
 	p := subtle.ConstantTimeCompare([]byte(password), []byte(cfg.Password))
 	return u == 1 && p == 1
