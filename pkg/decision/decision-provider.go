@@ -242,7 +242,8 @@ func isSystemActive() bool {
 // This method parses the body and checks whether it is properly formatted JSON or not
 func parseRequestBody(req *http.Request) (*oapicodegen.OPADecisionRequest, error) {
 	var decisionReq oapicodegen.OPADecisionRequest
-	if err := json.NewDecoder(req.Body).Decode(&decisionReq); err != nil {
+	limited := http.MaxBytesReader(nil, req.Body, consts.MaxRequestBodyBytes)
+	if err := json.NewDecoder(limited).Decode(&decisionReq); err != nil {
 		return nil, err
 	}
 	return &decisionReq, nil

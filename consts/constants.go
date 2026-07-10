@@ -97,6 +97,7 @@ var (
 	TempPolicyFileRegex     = `/var/logs/policy[0-9]+\.rego`
 	TempRegoFolderPath      = `/var/logs/`
 	StandardPolicyName      = "policy.rego"
+	MaxRequestBodyBytes     = int64(10 * 1024 * 1024)
 
 	// Kafka Consumer configuration
 	ConsumerSessionTimeout    = 30000

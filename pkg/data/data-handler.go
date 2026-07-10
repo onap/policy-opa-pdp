@@ -199,7 +199,8 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 
 func decodeRequest(req *http.Request) (oapicodegen.OPADataUpdateRequest, error) {
 	var requestBody oapicodegen.OPADataUpdateRequest
-	if err := json.NewDecoder(req.Body).Decode(&requestBody); err != nil {
+	limited := http.MaxBytesReader(nil, req.Body, consts.MaxRequestBodyBytes)
+	if err := json.NewDecoder(limited).Decode(&requestBody); err != nil {
 		return requestBody, fmt.Errorf("Error in decoding request data: %v", err)
 	}
 	return requestBody, nil
