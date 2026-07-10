@@ -72,9 +72,9 @@ func init() {
 	GroupId = getEnv("GROUPID", "opa-pdp-"+uuid.New().String())
 	PatchGroupId = getEnv("PATCH_GROUPID", "opa-pdp-data-"+uuid.New().String())
 	Username = getEnv("API_USER", "policyadmin")
-	Password = getEnv("API_PASSWORD", "zb!XztG34")
+	Password = getEnv("API_PASSWORD", "")
 	UseSASLForKAFKA = getEnv("UseSASLForKAFKA", "false")
-	KAFKA_USERNAME, KAFKA_PASSWORD = getSaslJAASLOGINFromEnv(JAASLOGIN)
+	KAFKA_USERNAME, KAFKA_PASSWORD = getSaslJAASLOGINFromEnv()
 	UseKafkaForPatch = getEnvAsBool("USE_KAFKA_FOR_PATCH", false)
 	log.Debug("Configuration module: environment initialised")
 }
@@ -86,29 +86,6 @@ func getEnv(key string, defaultVal string) string {
 	}
 	log.Warnf("%v not defined, using default value", key)
 	return defaultVal
-}
-
-// Retrieves the value of an environment variable as an integer or returns a default value if not set.
-func getEnvAsInt(name string, defaultVal int) int {
-	valueStr := getEnv(name, "")
-	if value, err := strconv.Atoi(valueStr); err == nil {
-		return value
-	} else if valueStr != "" {
-		log.Warnf("Invalid int value: %v for variable: %v. Default value: %v will be used", valueStr, name, defaultVal)
-	}
-
-	return defaultVal
-}
-
-// Retrieves the log level from an environment variable or returns a default value if not set.
-func getLogLevel(key string, defaultVal string) log.Level {
-	logLevelStr := getEnv(key, defaultVal)
-	if loglevel, err := log.ParseLevel(logLevelStr); err == nil {
-		return loglevel
-	} else {
-		log.Warnf("Invalid log level: %v. Log level will be Info!", logLevelStr)
-		return log.DebugLevel
-	}
 }
 
 func getEnvAsBool(key string, defaultVal bool) bool {
@@ -124,28 +101,25 @@ func getEnvAsBool(key string, defaultVal bool) bool {
 	return defaultVal
 }
 
-func getSaslJAASLOGINFromEnv(JAASLOGIN string) (string, string) {
-	// Retrieve the value of the environment variable
-	decodingConfigBytes := getEnv("JAASLOGIN", "JAASLOGIN")
-	if decodingConfigBytes == "" {
+func getSaslJAASLOGINFromEnv() (string, string) {
+	config := getEnv("JAASLOGIN", "")
+	if config == "" {
 		return "", ""
 	}
-
-	decodedConfig := string(decodingConfigBytes)
 
 	// Extract username and password using regex
 	usernamePattern := `username=["'](.+?)["']`
 	passwordPattern := `password=["'](.+?)["']`
 
 	// Extract username
-	usernameMatch := regexp.MustCompile(usernamePattern).FindStringSubmatch(decodedConfig)
+	usernameMatch := regexp.MustCompile(usernamePattern).FindStringSubmatch(config)
 	if len(usernameMatch) < 2 {
 		return "", ""
 	}
 	username := usernameMatch[1]
 
 	// Extract password
-	passwordMatch := regexp.MustCompile(passwordPattern).FindStringSubmatch(decodedConfig)
+	passwordMatch := regexp.MustCompile(passwordPattern).FindStringSubmatch(config)
 	if len(passwordMatch) < 2 {
 		return "", ""
 	}
