@@ -36,14 +36,31 @@ fi
 
 
 function  _build_docker_and_push_image {
-    local tag_name=${IMAGE_NAME}:${VERSION}
+    # Fail the job on any build/tag/push error instead of exiting green.
+    set -euo pipefail
 
-    docker build -f  Dockerfile  -t policy-opa-pdp:${VERSION} .
-    echo "Start push {$tag_name}"
+    # UTC minute-precision timestamp, matching the ONAP fabric8
+    # maven.build.timestamp.format 'yyyyMMdd'T'HHmm' used by the Java repos.
+    local timestamp
+    timestamp=$(date -u +%Y%m%dT%H%M)
+
+    local snapshot_tag="${IMAGE_NAME}:${VERSION}"
+    local unique_tag="${IMAGE_NAME}:${VERSION}-${timestamp}"
+
+    docker build -f Dockerfile -t policy-opa-pdp:${VERSION} .
+
+    # Publish three tags: floating 'latest', the mutable version-tracking
+    # SNAPSHOT tag, and a unique immutable per-build tag that can be pinned.
     docker tag policy-opa-pdp:${VERSION} ${IMAGE_NAME}:latest
+    docker tag policy-opa-pdp:${VERSION} ${snapshot_tag}
+    docker tag policy-opa-pdp:${VERSION} ${unique_tag}
+
+    echo "Start push ${IMAGE_NAME}:latest"
     docker push ${IMAGE_NAME}:latest
-    docker tag ${IMAGE_NAME}:latest ${tag_name}
-    docker push ${tag_name}
+    echo "Start push ${snapshot_tag}"
+    docker push ${snapshot_tag}
+    echo "Start push ${unique_tag}"
+    docker push ${unique_tag}
 }
 
 function _install_golang_latest {
