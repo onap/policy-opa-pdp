@@ -345,7 +345,11 @@ func GetDataInfo(ctx context.Context, dataPath string) (data *oapicodegen.OPADat
 	if !ok {
 		return nil, fmt.Errorf("invalid data path: %s", dataPath)
 	}
-	rtxn, _ := memStore.NewTransaction(ctx, storage.TransactionParams{Write: false})
+	rtxn, err := memStore.NewTransaction(ctx, storage.TransactionParams{Write: false})
+	if err != nil {
+		log.Warnf("Error creating transaction while getting data: %s", err)
+		return nil, err
+	}
 	defer memStore.Abort(ctx, rtxn) // Ensure transaction is aborted to avoid leaks
 
 	result, err := memStore.Read(ctx, rtxn, path)
