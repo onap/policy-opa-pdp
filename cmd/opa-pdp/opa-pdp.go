@@ -105,12 +105,7 @@ func main() {
 	handleMessagesFunc(ctx, kc, sender)
 
 	if useKafkaForPatch {
-		patchMsgConsumer, patchMsgProducer, err := startPatchKafkaConsAndProdFunc()
-		if err != nil || patchMsgConsumer == nil {
-			log.Warnf("Kafka consumer initialization failed: %v", err)
-		}
-		log.Debugf("Producer initialized is: %v", patchMsgProducer)
-		// start patch message handler in a seperate routine
+		assignPatchKafka()
 		handlePatchMessagesFunc(ctx, patchMsgConsumer)
 	}
 
@@ -240,6 +235,17 @@ func startPatchKafkaConsAndProd() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaPro
 	}
 	data.PatchProducer = PatchProducer
 	return kc, PatchProducer, nil
+}
+
+// assignPatchKafka starts the patch-topic consumer/producer and stores them in
+// the package vars so graceful shutdown can close them.
+func assignPatchKafka() {
+	var err error
+	patchMsgConsumer, patchMsgProducer, err = startPatchKafkaConsAndProdFunc()
+	if err != nil || patchMsgConsumer == nil {
+		log.Warnf("Kafka patch consumer initialization failed: %v", err)
+	}
+	log.Debugf("Patch producer initialized is: %v", patchMsgProducer)
 }
 
 func handleShutdown(consumers []*kafkacomm.KafkaConsumer, interruptChannel chan os.Signal, cancel context.CancelFunc, producers []*kafkacomm.KafkaProducer) {
