@@ -702,6 +702,31 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 	}
 }
 
+func TestProcessUndeploy_SecondSucceedsAfterFirstFails(t *testing.T) {
+	origAction := policyUndeploymentActionVar
+	origRemove := removeUndeployedPoliciesfromMapVar
+	t.Cleanup(func() {
+		policyUndeploymentActionVar = origAction
+		removeUndeployedPoliciesfromMapVar = origRemove
+	})
+
+	removeUndeployedPoliciesfromMapVar = func(map[string]interface{}) (string, error) { return "", nil }
+	policyUndeploymentActionVar = func(p map[string]interface{}) []string {
+		if p[consts.PolicyId] == "P1" {
+			return []string{"boom"}
+		}
+		return nil // success
+	}
+
+	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "P1","policy-version": "1.0.0"},{"policy-id": "P2","policy-version": "1.0.0"}]}`
+
+	undeployed := map[string]string{"P1": "1.0.0", "P2": "1.0.0"}
+	_, success := processPoliciesTobeUndeployed(undeployed)
+
+	assert.Contains(t, success, "P2", "P2 must be recorded as successfully undeployed")
+	assert.NotContains(t, success, "P1")
+}
+
 // Mock function for testing
 func mockProcessDataDeletion(keyPath string) []string {
 	if keyPath == "/invalid/path" {

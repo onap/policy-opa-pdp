@@ -75,7 +75,6 @@ var (
 // processPoliciesTobeUndeployed handles the undeployment of policies
 func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]string, map[string]string) {
 	var failureMessages []string
-	hasFailure := false
 
 	successfullyUndeployedPolicies := make(map[string]string)
 	// Unmarshal the last known policies
@@ -85,6 +84,7 @@ func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]stri
 	}
 
 	for policyID, policyVersion := range undeployedPolicies {
+		hasFailure := false
 		// Check if undeployed policy exists in deployedPolicies
 		matchedPolicy := findDeployedPolicy(policyID, policyVersion, deployedPolicies)
 		if matchedPolicy != nil {
@@ -213,9 +213,14 @@ func removePolicyFromSdkandDir(policy map[string]interface{}) []string {
 
 	if policyKeys, ok := policy["policy"].([]interface{}); ok {
 		for _, policyKey := range policyKeys {
-			keyPath := "/" + strings.Replace(policyKey.(string), ".", "/", -1)
+			keyStr, ok := policyKey.(string)
+			if !ok {
+				failureMessages = append(failureMessages, fmt.Sprintf("Invalid policy key: %v", policyKey))
+				continue
+			}
+			keyPath := "/" + strings.Replace(keyStr, ".", "/", -1)
 			log.Debugf("Deleting Policy from OPA : %s", keyPath)
-			if err := deletePolicySdkFunc(context.Background(), policyKey.(string)); err != nil {
+			if err := deletePolicySdkFunc(context.Background(), keyStr); err != nil {
 				failureMessages = append(failureMessages, err.Error())
 				continue
 			}
