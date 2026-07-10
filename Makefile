@@ -39,4 +39,4 @@ build_image:
 	./build_image.sh build
 
 go_build:
-	CGO_ENABED=0 GOOS=$(PLATFORM) GOARCH=amd64 go build -ldflags "-w -s" -o $(PWD)/$(BINARY) cmd/opa-pdp/opa-pdp.go
+	CGO_ENABLED=1 GOOS=$(PLATFORM) GOARCH=amd64 go build -ldflags "-w -s" -o $(PWD)/$(BINARY) cmd/opa-pdp/opa-pdp.go
