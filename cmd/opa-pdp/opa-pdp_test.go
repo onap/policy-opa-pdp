@@ -23,6 +23,7 @@ import (
 	"context"
 	"errors"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+	"github.com/open-policy-agent/opa/v1/sdk"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -757,4 +758,18 @@ func TestInitializeOPA_KeepsInstanceForShutdown(t *testing.T) {
 	inst, err := opasdk.GetOPASingletonInstance()
 	require.NoError(t, err)
 	assert.Same(t, opaSDKInstance, inst)
+}
+
+// TestInitializeOPA_ErrorPropagation verifies that when the singleton getter
+// returns an error, initializeOPA propagates it and leaves opaSDKInstance nil.
+func TestInitializeOPA_ErrorPropagation(t *testing.T) {
+	orig := getOPASingletonInstanceFunc
+	t.Cleanup(func() { getOPASingletonInstanceFunc = orig })
+	opaSDKInstance = nil
+	getOPASingletonInstanceFunc = func() (*sdk.OPA, error) {
+		return nil, errors.New("config missing")
+	}
+	err := initializeOPA()
+	assert.Error(t, err)
+	assert.Nil(t, opaSDKInstance)
 }
