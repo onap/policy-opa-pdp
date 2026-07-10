@@ -765,3 +765,31 @@ func TestHandlePolicyValidation_OPAInstanceFailure(t *testing.T) {
 
 	handlePolicyValidation(res, req, &errorDtls, &httpStatus, &policyId, &policyVersion)
 }
+
+// TestProcessOpaDecision_AlwaysWritesStatus verifies that processOpaDecision always
+// writes a non-empty response body when OPADecision returns an error.
+// Before the fix the debug MarshalIndent ran before the decisionErr check; on a silent
+// bare return the client got a default 200 with an empty body and no metrics.
+// After the fix the decision-error path always writes an explicit 500 + non-empty body.
+//
+// Note on the input-marshal branch (lines 279-283 pre-fix): json.Marshal on
+// OPADecisionRequest_Input (which wraps json.RawMessage) never returns an error for
+// any value constructable through the typed struct — the branch is unreachable via unit
+// test. The structural fix (send BadRequest instead of bare return) is verified by code
+// review, not by this test.
+func TestProcessOpaDecision_AlwaysWritesStatus(t *testing.T) {
+	origDecision := OPADecision
+	t.Cleanup(func() { OPADecision = origDecision })
+	OPADecision = func(_ *sdk.OPA, _ context.Context, _ sdk.DecisionOptions) (*sdk.DecisionResult, error) {
+		return nil, errors.New("decision boom")
+	}
+
+	rr := httptest.NewRecorder()
+	// Build a request with a non-null input to reach the OPADecision call path.
+	var req oapicodegen.OPADecisionRequest
+	json.Unmarshal([]byte(`{"policyName":"p","policyFilter":["allow"],"input":{"k":"v"}}`), &req)
+
+	processOpaDecision(rr, nil, &req, "1.0.0")
+	assert.Equal(t, http.StatusInternalServerError, rr.Code)
+	assert.NotEmpty(t, rr.Body.Bytes(), "must not return an empty body on decision error")
+}

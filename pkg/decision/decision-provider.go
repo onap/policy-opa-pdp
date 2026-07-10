@@ -278,7 +278,8 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 	//OPA is seding success with a warning message if "input" parameter is missing, so we need to send success response
 	inputBytes, err := json.Marshal(decisionReq.Input)
 	if err != nil {
-		log.Warnf("Failed to unmarshal decision Request Input: %vg", err)
+		log.Warnf("Failed to marshal decision Request Input: %v", err)
+		sendDecisionErrorResponse("Invalid decision input", res, http.StatusBadRequest, decisionReq.PolicyName, policyVersion)
 		return
 	}
 	if inputBytes == nil || len(inputBytes) == 0 || string(inputBytes) == "null" {
@@ -287,20 +288,18 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 	} else {
 		options := sdk.DecisionOptions{Path: decisionReq.PolicyName, Input: decisionReq.Input}
 		decisionResult, decisionErr := OPADecision(opa, ctx, options)
-		jsonOutput, err := json.MarshalIndent(decisionResult, "", "  ")
-		if err != nil {
-			log.Warnf("Error serializing decision output: %v\n", err)
-			return
-		}
-		log.Debugf("RAW opa Decision output:\n%s\n", string(jsonOutput))
-
-		//while making decision . is replaced by /. reverting back.
-		decisionReq.PolicyName = strings.ReplaceAll(decisionReq.PolicyName, "/", ".")
-
 		if decisionErr != nil {
+			decisionReq.PolicyName = strings.ReplaceAll(decisionReq.PolicyName, "/", ".")
 			sendDecisionErrorResponse(decisionErr.Error(), res, http.StatusInternalServerError, decisionReq.PolicyName, policyVersion)
 			return
 		}
+		if jsonOutput, mErr := json.MarshalIndent(decisionResult, "", "  "); mErr == nil {
+			log.Debugf("RAW opa Decision output:\n%s\n", string(jsonOutput))
+		} else {
+			log.Warnf("Error serializing decision output for logging: %v", mErr)
+		}
+		//while making decision . is replaced by /. reverting back.
+		decisionReq.PolicyName = strings.ReplaceAll(decisionReq.PolicyName, "/", ".")
 		var policyFilter []string
 		if decisionReq.PolicyFilter != nil {
 			policyFilter = decisionReq.PolicyFilter
