@@ -154,7 +154,7 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 	if !isExists {
 		errMsg := "Policy associated with the patch request does not exists"
 		sendErrorResponse(res, errMsg, http.StatusBadRequest)
-		log.Errorf(errMsg)
+		log.Errorf("%s", errMsg)
 		return
 	}
 
@@ -270,7 +270,7 @@ func extractPatchInfo(res http.ResponseWriter, ops *[]map[string]interface{}, ro
 		if !opTypeErr {
 			opTypeErrMsg := "Error in getting op type. Op type is not given in request body"
 			sendErrorResponse(res, opTypeErrMsg, http.StatusBadRequest)
-			log.Errorf(opTypeErrMsg)
+			log.Errorf("%s", opTypeErrMsg)
 			return nil, fmt.Errorf("Error in getting op type. Op type is not given in request body")
 		}
 		opType, err := getOperationTypeVar(optypeString, res)
@@ -346,7 +346,7 @@ func constructPath(opPath string, opType string, root string, res http.ResponseW
 	} else {
 		valueErrMsg := "Error in getting data path - Invalid path (/) is used."
 		sendErrorResponse(res, valueErrMsg, http.StatusBadRequest)
-		log.Errorf(valueErrMsg)
+		log.Errorf("%s", valueErrMsg)
 		return nil
 	}
 
@@ -356,7 +356,7 @@ func constructPath(opPath string, opType string, root string, res http.ResponseW
 	if !ok {
 		valueErrMsg := "Error in checking patch path - Bad patch path used :" + path
 		sendErrorResponse(res, valueErrMsg, http.StatusInternalServerError)
-		log.Errorf(valueErrMsg)
+		log.Errorf("%s", valueErrMsg)
 		return nil
 	}
 
@@ -391,7 +391,7 @@ func validatePolicyDataPathMatched(dirParts []string, policyId string, res http.
 	if !matchFound {
 		errMsg := fmt.Sprintf("Dynamic Data add/replace/remove for policy '%s' expected under url path '%v'", policyId, matchedPolicy.Data)
 		sendErrorResponse(res, errMsg, http.StatusBadRequest)
-		log.Errorf(errMsg)
+		log.Errorf("%s", errMsg)
 		return false
 	}
 
@@ -403,7 +403,7 @@ func constructOpStoragePath(op map[string]interface{}, root string, res http.Res
 	if !opPathErr || len(opPath) == 0 {
 		opPathErrMsg := "Error in getting data path. Path is not given in request body"
 		sendErrorResponse(res, opPathErrMsg, http.StatusBadRequest)
-		log.Errorf(opPathErrMsg)
+		log.Errorf("%s", opPathErrMsg)
 		return nil
 	}
 	optypeString := op["op"].(string)
@@ -425,7 +425,7 @@ func getOperationType(opType string, res http.ResponseWriter) (*storage.PatchOp,
 		{
 			errMsg := "Error in getting op type : Invalid operation type (" + opType + ") is used. Only add, remove and replace operation types are supported"
 			sendErrorResponse(res, errMsg, http.StatusBadRequest)
-			log.Errorf(errMsg)
+			log.Errorf("%s", errMsg)
 			return nil, errors.New(errMsg)
 		}
 	}
@@ -449,7 +449,7 @@ func PatchData(patchInfos []opasdk.PatchImpl, res http.ResponseWriter) (err erro
 			if res != nil {
 				sendErrorResponse(res, errMsg, errCode)
 			}
-			log.Errorf(errMsg)
+			log.Errorf("%s", errMsg)
 			return patchErr
 		}
 		log.Infof("Updated the data in the corresponding path successfully\n")
@@ -473,7 +473,7 @@ func invalidMethodHandler(res http.ResponseWriter, method string) {
 	resMsg := "Only PATCH and GET Method Allowed"
 	msg := "MethodNotAllowed"
 	sendErrorResponse(res, (method + msg + " - " + resMsg), http.StatusBadRequest)
-	log.Errorf(method + msg + " - " + resMsg)
+	log.Errorf("%s", method+msg+" - "+resMsg)
 	return
 }
 
