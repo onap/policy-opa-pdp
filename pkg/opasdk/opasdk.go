@@ -47,6 +47,7 @@ var (
 	opaInstance     *sdk.OPA  //A singleton instance of the OPA object
 	once            sync.Once //A sync.Once variable used to ensure that the OPA instance is initialized only once,
 	memStore        storage.Store
+	initErr         error
 	UpsertPolicyVar UpsertPolicyFunc = UpsertPolicy
 	WriteDataVar    WriteDataFunc    = WriteData
 )
@@ -87,38 +88,40 @@ var NewSDK NewSDKFunc = sdk.New
 // Returns a singleton instance of the OPA object. The initialization of the instance is
 // thread-safe, and the OPA object is configured using a JSON configuration file.
 func GetOPASingletonInstance() (*sdk.OPA, error) {
-	var err error
 	once.Do(func() {
-		var opaErr error
 		memStore = inmem.New()
+		var opaErr error
 		opaInstance, opaErr = NewSDK(context.Background(), sdk.Options{
-			// Configure your OPA instance here
 			V1Compatible: true,
 			Store:        memStore,
 		})
 		log.Debugf("Create an instance of OPA Object")
 		if opaErr != nil {
 			log.Warnf("Error creating OPA instance: %s", opaErr)
-			err = opaErr
+			initErr = opaErr
 			return
-		} else {
-			jsonReader, jsonErr := getJSONReader(consts.OpasdkConfigPath, os.Open, io.ReadAll)
-			if jsonErr != nil {
-				log.Warnf("Error getting JSON reader: %s", jsonErr)
-				err = jsonErr
-				return
-			}
-			log.Debugf("Configure an instance of OPA Object")
-
-			err := opaInstance.Configure(context.Background(), sdk.ConfigOptions{
-				Config: jsonReader,
-			})
-			if err != nil {
-				log.Warnf("Failed to configure OPA: %v", err)
-			}
+		}
+		if cfgErr := configureInstance(opaInstance, consts.OpasdkConfigPath); cfgErr != nil {
+			initErr = cfgErr
 		}
 	})
-	return opaInstance, err
+	return opaInstance, initErr
+}
+
+// configureInstance loads the OPA JSON config and applies it. Returns any error
+// so callers can fail fast instead of using a mis-configured instance.
+func configureInstance(opa *sdk.OPA, configPath string) error {
+	jsonReader, jsonErr := getJSONReader(configPath, os.Open, io.ReadAll)
+	if jsonErr != nil {
+		log.Warnf("Error getting JSON reader: %s", jsonErr)
+		return jsonErr
+	}
+	log.Debugf("Configure an instance of OPA Object")
+	if err := opa.Configure(context.Background(), sdk.ConfigOptions{Config: jsonReader}); err != nil {
+		log.Warnf("Failed to configure OPA: %v", err)
+		return err
+	}
+	return nil
 }
 
 func UpsertPolicy(ctx context.Context, policyID string, policyContent []byte) error {

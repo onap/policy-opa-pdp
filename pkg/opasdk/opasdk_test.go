@@ -28,6 +28,7 @@ import (
 	"github.com/open-policy-agent/opa/v1/storage"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -135,6 +136,7 @@ func (m *MockSDK) New(ctx context.Context, options sdk.Options) (*sdk.OPA, error
 }
 
 func TestGetOPASingletonInstance_ConfigurationFileNotexisting(t *testing.T) {
+	resetSingleton()
 	consts.OpasdkConfigPath = "/app/config/config.json"
 	opaInstance, err := GetOPASingletonInstance()
 	fmt.Print(err)
@@ -143,6 +145,7 @@ func TestGetOPASingletonInstance_ConfigurationFileNotexisting(t *testing.T) {
 }
 
 func TestGetOPASingletonInstance_SingletonBehavior(t *testing.T) {
+	resetSingleton()
 	tmpFile, err := os.CreateTemp("", "config.json")
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
@@ -164,6 +167,7 @@ func TestGetOPASingletonInstance_SingletonBehavior(t *testing.T) {
 }
 
 func TestGetOPASingletonInstance_ConfigurationFileLoaded(t *testing.T) {
+	resetSingleton()
 	tmpFile, err := os.CreateTemp("", "config.json")
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
@@ -181,6 +185,7 @@ func TestGetOPASingletonInstance_ConfigurationFileLoaded(t *testing.T) {
 }
 
 func TestGetOPASingletonInstance_OPAInstanceCreation(t *testing.T) {
+	resetSingleton()
 	tmpFile, err := os.CreateTemp("", "config.json")
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
@@ -211,6 +216,7 @@ func TestGetOPASingletonInstance_JSONReadError(t *testing.T) {
 }
 
 func TestGetOPASingletonInstance_ValidConfigFile(t *testing.T) {
+	resetSingleton()
 	tmpFile, err := os.CreateTemp("", "config.json")
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
@@ -271,6 +277,14 @@ func TestGetJSONReader_ReadAllError(t *testing.T) {
 }
 
 func TestGetOPASingletonInstance(t *testing.T) {
+	resetSingleton()
+	tmpFile, err := os.CreateTemp("", "config.json")
+	if err != nil {
+		t.Fatalf("Failed to create temp file: %v", err)
+	}
+	defer os.Remove(tmpFile.Name())
+	consts.OpasdkConfigPath = tmpFile.Name()
+
 	// Call your function under test
 	opaInstance, err := GetOPASingletonInstance()
 
@@ -288,6 +302,7 @@ func TestGetOPASingletonInstance(t *testing.T) {
 func resetSingleton() {
 	opaInstance = nil
 	once = sync.Once{}
+	initErr = nil
 }
 
 // Test sdk.New failure scenario
@@ -879,4 +894,11 @@ func TestParsePatchPathEscaped_Failure(t *testing.T) {
 		assert.False(t, ok)
 		assert.Nil(t, path)
 	}
+}
+
+func TestConfigureInstance_ReturnsErrorOnBadConfigPath(t *testing.T) {
+	// getJSONReader will fail to open a non-existent path, so configureInstance
+	// must return a non-nil error (previously this error was swallowed).
+	err := configureInstance(nil, "/nonexistent/config/path.json")
+	require.Error(t, err)
 }
