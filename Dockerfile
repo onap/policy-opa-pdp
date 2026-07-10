@@ -16,62 +16,40 @@
 #   SPDX-License-Identifier: Apache-2.0
 #   ========================LICENSE_END===================================
 #
-FROM curlimages/curl:7.78.0 AS build
 
-# Get OPA
-RUN curl --proto "=https" -Lo /tmp/opa https://github.com/open-policy-agent/opa/releases/download/v0.69.0/opa_linux_amd64
+FROM curlimages/curl:7.78.0 AS opa
 
-FROM golang:1.23 AS compile
+ARG OPA_VERSION=v0.69.0
+RUN curl --proto "=https" --tlsv1.2 -fsSLo /tmp/opa \
+        https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/opa_linux_amd64
 
-RUN mkdir /app
+FROM golang:1.23-bookworm AS compile
 
-COPY go.mod go.sum /app/
+WORKDIR /src
 
-# Copy individual files and directories
-COPY Dockerfile /go/
-COPY api /go/api
-COPY cfg /go/cfg
-COPY cmd /go/cmd
-COPY consts /go/consts
-COPY go.mod /go/
-COPY go.sum /go/
-COPY pkg /go/pkg
-COPY sonar-project.properties /go/
-COPY version /go/
-COPY version.properties /go/
+COPY go.mod go.sum ./
+RUN go mod download
 
-RUN mkdir -p /app/cfg /app/consts /app/api /app/cmd /app/pkg /app/bundles
-COPY cfg /app/cfg
-COPY consts /app/consts
-COPY api /app/api
-COPY cmd /app/cmd
-COPY pkg /app/pkg
+COPY api ./api
+COPY cfg ./cfg
+COPY cmd ./cmd
+COPY consts ./consts
+COPY pkg ./pkg
 
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /rootfs/app/opa-pdp ./cmd/opa-pdp/opa-pdp.go
 
-WORKDIR /app
+COPY --from=opa /tmp/opa /rootfs/app/opa
+RUN chmod 0755 /rootfs/app/opa /rootfs/app/opa-pdp \
+    && mkdir -p /rootfs/app/bundles /rootfs/app/config \
+                /rootfs/opt/policies /rootfs/opt/data /rootfs/var/logs \
+    && chown -R 1000:1000 /rootfs/app /rootfs/opt /rootfs/var
 
-# Build the binary
-RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/opa-pdp /app/cmd/opa-pdp/opa-pdp.go
+FROM gcr.io/distroless/cc-debian12:nonroot
 
-FROM ubuntu:24.04
+COPY --from=compile --chown=1000:1000 /rootfs /
 
-RUN apt-get update && apt-get --no-install-recommends install -y netcat-openbsd curl && rm -rf /var/lib/apt/lists/*\
-    && mkdir -p /app /opt/policies /opt/data /var/logs \
-    && chown -R ubuntu:ubuntu /app /opt/policies /opt/data /var/logs
-
-COPY --from=compile /app /app
-# Copy our opa executable from build stage
-COPY --from=build /tmp/opa /app/opa
-
-RUN chown 1000:1000 /app/opa-pdp && chown 1000:1000 /app/opa && chown 1000:1000 /app/bundles\
-    && chmod u+x /app/opa-pdp && chmod u+x /app/opa && chmod u+x /app/bundles
-
-
-# Switch to the non-root user and 1000 is for ubuntu
 USER 1000:1000
-
 WORKDIR /app
 EXPOSE 8282
 
-# Command to run OPA with the policies
 CMD ["/app/opa-pdp"]

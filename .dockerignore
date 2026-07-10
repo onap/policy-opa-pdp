@@ -1,0 +1,25 @@
+# Keep the Docker build context minimal: only go.mod/go.sum and the source
+# directories COPYied in the Dockerfile are needed.
+.git
+.github
+.gitignore
+Dockerfile
+.dockerignore
+Makefile
+build_image.sh
+README.md
+sonar-project.properties
+version
+version.properties
+coverage.out
+coverage.html
+opa-pdp
+go.tar.gz
+bundle.tar.gz
+*.md
+docs
+test
+testsuites
+releases
+mocks
+**/*_test.go
