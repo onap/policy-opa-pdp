@@ -144,7 +144,7 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 	data := requestBody.Data
 	log.Infof("data : %s", data)
 	policyId := requestBody.PolicyName
-	if policyId == ""{
+	if policyId == "" {
 		errMsg := "Policy Id is nil"
 		sendErrorResponse(res, errMsg, http.StatusBadRequest)
 		return

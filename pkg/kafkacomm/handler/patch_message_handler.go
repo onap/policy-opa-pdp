@@ -19,7 +19,6 @@
 
 package handler
 
-
 import (
 	"context"
 	"encoding/json"
@@ -31,8 +30,9 @@ import (
 	"policy-opa-pdp/pkg/model"
 	"time"
 )
+
 var (
-    recoverConsumerVar = recoverConsumer
+	recoverConsumerVar = recoverConsumer
 )
 
 // PatchMessageHandler handles incoming Kafka messages and dispatches them for data patch processing.
@@ -50,27 +50,27 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 		default:
 			message, err := kafkacomm.ReadKafkaMessages(kc)
 			if err != nil {
-                                if shouldRebuildConsumer(err) {
-                                        log.Warnf("Consumer error; rebuilding. err=%v", err)
-                                        log.Info("Recovering Kafka Consumer......")
-                                        newKc, recErr := recoverConsumer(kc, topic, cfg.GroupId)
-                                        if recErr == nil && newKc != nil {
-                                                kc = newKc
-                                                log.Info("New consumer initialized")
-                                        } else {
-                                                log.Warnf("Failed to re-initialize consumer: %v", recErr)
-                                                time.Sleep(consts.ConsumerPollSleep)
-                                        }
-                                        continue
-                                }
-                                // Non-fatal/non-rebuild errors: small backoff and continue
-                                consumerNonFatalBackoff()
+				if shouldRebuildConsumer(err) {
+					log.Warnf("Consumer error; rebuilding. err=%v", err)
+					log.Info("Recovering Kafka Consumer......")
+					newKc, recErr := recoverConsumer(kc, topic, cfg.GroupId)
+					if recErr == nil && newKc != nil {
+						kc = newKc
+						log.Info("New consumer initialized")
+					} else {
+						log.Warnf("Failed to re-initialize consumer: %v", recErr)
+						time.Sleep(consts.ConsumerPollSleep)
+					}
+					continue
+				}
+				// Non-fatal/non-rebuild errors: small backoff and continue
+				consumerNonFatalBackoff()
 				continue
 			}
 
-                        if message == nil {
-                                continue
-                        }
+			if message == nil {
+				continue
+			}
 
 			log.Debugf("[IN|KAFKA|%s]\n%s", topic, string(message))
 
@@ -97,4 +97,3 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 		}
 	}
 }
-

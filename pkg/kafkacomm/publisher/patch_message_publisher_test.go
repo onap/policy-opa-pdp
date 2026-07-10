@@ -96,11 +96,11 @@ func TestSendPatchMessage_PayloadContent(t *testing.T) {
 	sender, mockProducer := getMockSender()
 
 	mockProducer.
-	    On("Produce", mock.MatchedBy(func(msg *kafka.Message) bool {
-		// match based on msg type
-		return strings.Contains(string(msg.Value), "OPA_PDP_DATA_PATCH_SYNC")
-	    })).
-	    Return(nil)
+		On("Produce", mock.MatchedBy(func(msg *kafka.Message) bool {
+			// match based on msg type
+			return strings.Contains(string(msg.Value), "OPA_PDP_DATA_PATCH_SYNC")
+		})).
+		Return(nil)
 	cfg.GroupId = "opa-pdp"
 
 	err := sender.SendPatchMessage(samplePatchData())

@@ -759,8 +759,8 @@ func TestPatchHandler_PolicyDoesNotExist(t *testing.T) {
 		OnapComponent:   &onapComp,
 		OnapInstance:    &onapIns,
 		OnapName:        &onapName,
-		PolicyName: "invalid-policy",
-		Data:       []map[string]interface{}{{"test": "value"}},
+		PolicyName:      "invalid-policy",
+		Data:            []map[string]interface{}{{"test": "value"}},
 	}
 	bodyBytes, _ := json.Marshal(requestBody)
 

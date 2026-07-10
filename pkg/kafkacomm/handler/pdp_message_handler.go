@@ -25,6 +25,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
@@ -34,7 +35,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 )
 
 type (
@@ -117,34 +117,33 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
 		default:
 			message, err := kafkacomm.ReadKafkaMessages(kc)
 			if err != nil {
-                                if shouldRebuildConsumer(err) {
-                                        log.Warnf("Consumer error; rebuilding. err=%v", err)
-                                        log.Info("Recovering Kafka Consumer......")
-                                        newKc, recErr := recoverConsumerVar(kc, topic, cfg.GroupId)
-                                        if recErr == nil && newKc != nil {
-                                                kc = newKc
-                                                log.Info("New consumer initialized")
-                                        } else {
-                                                log.Warnf("Failed to re-initialize consumer: %v", recErr)
-                                                time.Sleep(consts.ConsumerPollSleep)
-                                        }
-                                        continue
-                                }
-                                // Non-fatal/non-rebuild errors: small backoff and continue
-                                consumerNonFatalBackoff()
+				if shouldRebuildConsumer(err) {
+					log.Warnf("Consumer error; rebuilding. err=%v", err)
+					log.Info("Recovering Kafka Consumer......")
+					newKc, recErr := recoverConsumerVar(kc, topic, cfg.GroupId)
+					if recErr == nil && newKc != nil {
+						kc = newKc
+						log.Info("New consumer initialized")
+					} else {
+						log.Warnf("Failed to re-initialize consumer: %v", recErr)
+						time.Sleep(consts.ConsumerPollSleep)
+					}
+					continue
+				}
+				// Non-fatal/non-rebuild errors: small backoff and continue
+				consumerNonFatalBackoff()
 				continue
 			}
 
-
-                        if message == nil {
-                                continue
-                        }
+			if message == nil {
+				continue
+			}
 
 			log.Debugf("[IN|KAFKA|%s]\n%s", topic, string(message))
 
 			var opaPdpMessage OpaPdpMessage
 
-                        if err := json.Unmarshal(message, &opaPdpMessage); err != nil {
+			if err := json.Unmarshal(message, &opaPdpMessage); err != nil {
 				log.Warnf("Failed to UnMarshal Messages: %v\n", err)
 				continue
 			}
@@ -190,44 +189,44 @@ func handlePdpMessageTypes(messageType string, message []byte, p publisher.PdpSt
 // shouldRebuildConsumer determines if the consumer must be torn down and recreated
 // based on the error returned by the Kafka client.
 func shouldRebuildConsumer(err error) bool {
-        if err == nil {
-                return false
-        }
+	if err == nil {
+		return false
+	}
 
-        // Prefer structured kafka.Error classification
-        if ke, ok := err.(kafka.Error); ok {
-                // Fatal errors, all brokers down, or authentication errors require rebuild
-                if ke.IsFatal() || ke.Code() == kafka.ErrAllBrokersDown || ke.Code() == kafka.ErrAuthentication {
-                        return true
-                }
-                // Otherwise, treat as non-fatal/transient
-                return false
-        }
+	// Prefer structured kafka.Error classification
+	if ke, ok := err.(kafka.Error); ok {
+		// Fatal errors, all brokers down, or authentication errors require rebuild
+		if ke.IsFatal() || ke.Code() == kafka.ErrAllBrokersDown || ke.Code() == kafka.ErrAuthentication {
+			return true
+		}
+		// Otherwise, treat as non-fatal/transient
+		return false
+	}
 
-        // Fallback heuristic based on error text for non-kafka.Error cases
-        txt := strings.ToUpper(err.Error())
-        if strings.Contains(txt, "AUTH") || strings.Contains(txt, "BROKERS_DOWN") {
-                return true
-        }
+	// Fallback heuristic based on error text for non-kafka.Error cases
+	txt := strings.ToUpper(err.Error())
+	if strings.Contains(txt, "AUTH") || strings.Contains(txt, "BROKERS_DOWN") {
+		return true
+	}
 
-        return false
+	return false
 }
 
 // recoverConsumer encapsulates teardown + recreation of the Kafka consumer.
 // It uses the kafkacomm.SafeTeardown and NewKafkaConsumer in sequence, with a small cooldown
 // to let sockets close cleanly.
 func recoverConsumer(kc *kafkacomm.KafkaConsumer, topic, groupID string) (*kafkacomm.KafkaConsumer, error) {
-        // Teardown current handle
-        kafkacomm.SafeTeardown(kc)
+	// Teardown current handle
+	kafkacomm.SafeTeardown(kc)
 
-        // Small cooldown to allow sockets to close
-        time.Sleep(consts.ConsumerReconnectRetries)
+	// Small cooldown to allow sockets to close
+	time.Sleep(consts.ConsumerReconnectRetries)
 
-        // Recreate with latest config (e.g., group.id)
-        return kafkacomm.NewKafkaConsumer(topic, groupID)
+	// Recreate with latest config (e.g., group.id)
+	return kafkacomm.NewKafkaConsumer(topic, groupID)
 }
 
 // consumerNonFatalBackoff applies a small delay for transient/non-fatal errors.
 func consumerNonFatalBackoff() {
-        time.Sleep(consts.ConsumerTearDownSleepTime)
+	time.Sleep(consts.ConsumerTearDownSleepTime)
 }

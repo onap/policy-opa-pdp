@@ -72,8 +72,8 @@ type Header struct {
 }
 
 type PatchMessage struct {
-	Header     Header         `json:"header"`
-	PatchInfos []opasdk.PatchImpl  `json:"patchInfos"`
+	Header     Header             `json:"header"`
+	PatchInfos []opasdk.PatchImpl `json:"patchInfos"`
 }
 
 // PdpStatus represents the PDP_STATUS message sent from PDP to PAP.

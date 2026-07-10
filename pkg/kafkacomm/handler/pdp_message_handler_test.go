@@ -639,55 +639,55 @@ func TestHandlePdpMessageTypes_Invalid(t *testing.T) {
 }
 
 func TestShouldRebuildConsumer(t *testing.T) {
-        assert.False(t, shouldRebuildConsumer(nil))
+	assert.False(t, shouldRebuildConsumer(nil))
 
-        fatalErr := kafka.NewError(kafka.ErrAllBrokersDown, "brokers down", true)
-        assert.True(t, shouldRebuildConsumer(fatalErr))
+	fatalErr := kafka.NewError(kafka.ErrAllBrokersDown, "brokers down", true)
+	assert.True(t, shouldRebuildConsumer(fatalErr))
 
-        authErr := kafka.NewError(kafka.ErrAuthentication, "auth failed", false)
-        assert.True(t, shouldRebuildConsumer(authErr))
+	authErr := kafka.NewError(kafka.ErrAuthentication, "auth failed", false)
+	assert.True(t, shouldRebuildConsumer(authErr))
 
-        nonFatalErr := kafka.NewError(kafka.ErrUnknownTopicOrPart, "unknown topic", false)
-        assert.False(t, shouldRebuildConsumer(nonFatalErr))
+	nonFatalErr := kafka.NewError(kafka.ErrUnknownTopicOrPart, "unknown topic", false)
+	assert.False(t, shouldRebuildConsumer(nonFatalErr))
 
-        stringErr1 := errors.New("something AUTH related")
-        assert.True(t, shouldRebuildConsumer(stringErr1))
+	stringErr1 := errors.New("something AUTH related")
+	assert.True(t, shouldRebuildConsumer(stringErr1))
 
-        stringErr2 := errors.New("BROKERS_DOWN error")
-        assert.True(t, shouldRebuildConsumer(stringErr2))
+	stringErr2 := errors.New("BROKERS_DOWN error")
+	assert.True(t, shouldRebuildConsumer(stringErr2))
 
-        stringErr3 := errors.New("random error")
-        assert.False(t, shouldRebuildConsumer(stringErr3))
+	stringErr3 := errors.New("random error")
+	assert.False(t, shouldRebuildConsumer(stringErr3))
 }
 
 func TestConsumerNonFatalBackoff(t *testing.T) {
-        start := time.Now()
-        consumerNonFatalBackoff()
-        duration := time.Since(start)
-        assert.True(t, duration >= 200*time.Millisecond)
+	start := time.Now()
+	consumerNonFatalBackoff()
+	duration := time.Since(start)
+	assert.True(t, duration >= 200*time.Millisecond)
 }
 
 func TestPdpMessageHandler_FatalError_RecoverySuccess(t *testing.T) {
-        oldRecover := recoverConsumerVar
-        defer func() { recoverConsumerVar = oldRecover }()
+	oldRecover := recoverConsumerVar
+	defer func() { recoverConsumerVar = oldRecover }()
 
-        mockConsumer := new(mocks.KafkaConsumerInterface)
-        // Return a fatal error
-        fatalErr := kafka.NewError(kafka.ErrAllBrokersDown, "brokers down", true)
-        mockConsumer.On("Unsubscribe", mock.Anything).Return(nil, nil)
-        mockConsumer.On("Close", mock.Anything).Return(nil, nil)
-        mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(nil, fatalErr).Once()
+	mockConsumer := new(mocks.KafkaConsumerInterface)
+	// Return a fatal error
+	fatalErr := kafka.NewError(kafka.ErrAllBrokersDown, "brokers down", true)
+	mockConsumer.On("Unsubscribe", mock.Anything).Return(nil, nil)
+	mockConsumer.On("Close", mock.Anything).Return(nil, nil)
+	mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(nil, fatalErr).Once()
 
-        mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
+	mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
 
-        // Mock recovery to return a new consumer
-        newMockConsumer := new(mocks.KafkaConsumerInterface)
-        newMockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: newMockConsumer}
-        newMockConsumer.On("Unsubscribe", mock.Anything).Return(nil, nil)
-        newMockConsumer.On("Close", mock.Anything).Return(nil, nil)
+	// Mock recovery to return a new consumer
+	newMockConsumer := new(mocks.KafkaConsumerInterface)
+	newMockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: newMockConsumer}
+	newMockConsumer.On("Unsubscribe", mock.Anything).Return(nil, nil)
+	newMockConsumer.On("Close", mock.Anything).Return(nil, nil)
 
-        // After recovery, next ReadMessage returns a valid message to break the loop
-        message := `{
+	// After recovery, next ReadMessage returns a valid message to break the loop
+	message := `{
             "source":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
             "pdpHeartbeatIntervalMs":120000,
             "policiesToBeDeployed":[],
@@ -699,75 +699,75 @@ func TestPdpMessageHandler_FatalError_RecoverySuccess(t *testing.T) {
             "pdpGroup":"opaGroup",
             "pdpSubgroup":"opa"
              }`
-        kafkaMsg := &kafka.Message{Value: []byte(message)}
-        newMockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(kafkaMsg, nil).Once()
+	kafkaMsg := &kafka.Message{Value: []byte(message)}
+	newMockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(kafkaMsg, nil).Once()
 
-        recoverConsumerVar = func(kc *kafkacomm.KafkaConsumer, topic, groupId string) (*kafkacomm.KafkaConsumer, error) {
-                return newMockKafkaConsumer, nil
-        }
+	recoverConsumerVar = func(kc *kafkacomm.KafkaConsumer, topic, groupId string) (*kafkacomm.KafkaConsumer, error) {
+		return newMockKafkaConsumer, nil
+	}
 
-        ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
-        defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+	defer cancel()
 
-        mockPublisher := new(MockPdpStatusSender)
-        mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockPublisher := new(MockPdpStatusSender)
+	mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
 
-        err := PdpMessageHandler(ctx, mockKafkaConsumer, "pdp-topic", mockPublisher)
-        assert.NoError(t, err)
+	err := PdpMessageHandler(ctx, mockKafkaConsumer, "pdp-topic", mockPublisher)
+	assert.NoError(t, err)
 }
 
 func TestPdpMessageHandler_RecoveryFailed(t *testing.T) {
-        oldRecover := recoverConsumerVar
-        defer func() { recoverConsumerVar = oldRecover }()
+	oldRecover := recoverConsumerVar
+	defer func() { recoverConsumerVar = oldRecover }()
 
-        mockConsumer := new(mocks.KafkaConsumerInterface)
-        fatalErr := kafka.NewError(kafka.ErrAllBrokersDown, "brokers down", true)
-        mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(nil, fatalErr).Once()
+	mockConsumer := new(mocks.KafkaConsumerInterface)
+	fatalErr := kafka.NewError(kafka.ErrAllBrokersDown, "brokers down", true)
+	mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(nil, fatalErr).Once()
 
-        mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
+	mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
 
-        // Mock recovery to fail
-        recoverConsumerVar = func(kc *kafkacomm.KafkaConsumer, topic, groupId string) (*kafkacomm.KafkaConsumer, error) {
-                return nil, errors.New("recovery failed")
-        }
+	// Mock recovery to fail
+	recoverConsumerVar = func(kc *kafkacomm.KafkaConsumer, topic, groupId string) (*kafkacomm.KafkaConsumer, error) {
+		return nil, errors.New("recovery failed")
+	}
 
-        ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
-        defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+	defer cancel()
 
-        mockPublisher := new(MockPdpStatusSender)
-        err := PdpMessageHandler(ctx, mockKafkaConsumer, "pdp-topic", mockPublisher)
-        assert.NoError(t, err)
+	mockPublisher := new(MockPdpStatusSender)
+	err := PdpMessageHandler(ctx, mockKafkaConsumer, "pdp-topic", mockPublisher)
+	assert.NoError(t, err)
 }
 
 func TestPdpMessageHandler_NonFatalError(t *testing.T) {
-        nonFatalErr := errors.New("transient error")
+	nonFatalErr := errors.New("transient error")
 
-        mockConsumer := new(mocks.KafkaConsumerInterface)
-        mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(nil, nonFatalErr)
+	mockConsumer := new(mocks.KafkaConsumerInterface)
+	mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(nil, nonFatalErr)
 
-        mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
+	mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
 
-        ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
-        defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
 
-        mockPublisher := new(MockPdpStatusSender)
-        err := PdpMessageHandler(ctx, mockKafkaConsumer, "pdp-topic", mockPublisher)
-        assert.NoError(t, err)
+	mockPublisher := new(MockPdpStatusSender)
+	err := PdpMessageHandler(ctx, mockKafkaConsumer, "pdp-topic", mockPublisher)
+	assert.NoError(t, err)
 }
 
 func TestRecoverConsumer(t *testing.T) {
-        mockConsumer := new(mocks.KafkaConsumerInterface)
-        mockConsumer.On("Unsubscribe", mock.Anything).Return(nil, nil)
-        mockConsumer.On("Close", mock.Anything).Return(nil, nil)
-        kc := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
+	mockConsumer := new(mocks.KafkaConsumerInterface)
+	mockConsumer.On("Unsubscribe", mock.Anything).Return(nil, nil)
+	mockConsumer.On("Close", mock.Anything).Return(nil, nil)
+	kc := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
 
-        // This will test the recoverConsumer directly.
-        newKc, err := recoverConsumer(kc, "test-topic", "test-group")
+	// This will test the recoverConsumer directly.
+	newKc, err := recoverConsumer(kc, "test-topic", "test-group")
 
-        // Verify that Teardown methods were called
-        mockConsumer.AssertExpectations(t)
+	// Verify that Teardown methods were called
+	mockConsumer.AssertExpectations(t)
 
-        // Suppress unused variable warnings
-        _ = newKc
-        _ = err
+	// Suppress unused variable warnings
+	_ = newKc
+	_ = err
 }
