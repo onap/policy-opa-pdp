@@ -23,6 +23,8 @@ package utils
 import (
 	"sort"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // Test sorting in ascending order by dot count
@@ -65,4 +67,12 @@ func TestByDotCountEqualDots(t *testing.T) {
 			t.Errorf("Equal dot count sorting failed. Expected %s, got %s", expected[i], v)
 		}
 	}
+}
+
+// TestByDotCount_StableForEqualDepth documents that sort.Stable preserves input order
+// for keys that share the same dot depth.
+func TestByDotCount_StableForEqualDepth(t *testing.T) {
+	in := []string{"a.b", "c.d", "e.f"} // all depth 1
+	sort.Stable(ByDotCount{Keys: in, Ascend: false})
+	assert.Equal(t, []string{"a.b", "c.d", "e.f"}, in)
 }

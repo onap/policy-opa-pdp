@@ -239,7 +239,7 @@ func upsertPolicy(policy model.ToscaPolicy) error {
 // handles writing data to sdk.
 func upsertData(policy model.ToscaPolicy) error {
 	decodedDataContent, dataKeys, _ := extractAndDecodeDataVar(policy)
-	sort.Sort(utils.ByDotCount{Keys: dataKeys, Ascend: true})
+	sort.Stable(utils.ByDotCount{Keys: dataKeys, Ascend: true})
 	for _, dataKey := range dataKeys {
 		dataContent := decodedDataContent[dataKey]
 		reader := bytes.NewReader([]byte(dataContent))

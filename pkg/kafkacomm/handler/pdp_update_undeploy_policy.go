@@ -169,7 +169,7 @@ func removeDataFromSdkandDir(policy map[string]interface{}) []string {
 				failureMessages = append(failureMessages, fmt.Sprintf("Invalid Key :%v", dataKey))
 			}
 		}
-		sort.Sort(utils.ByDotCount{Keys: dataKeysSlice, Ascend: false})
+		sort.Stable(utils.ByDotCount{Keys: dataKeysSlice, Ascend: false})
 
 		for _, keyPath := range dataKeysSlice {
 			keyPath = "/" + strings.Replace(keyPath, ".", "/", -1)
