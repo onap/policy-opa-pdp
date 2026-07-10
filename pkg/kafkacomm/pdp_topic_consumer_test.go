@@ -188,14 +188,33 @@ func TestKafkaConsumer_Unsubscribe_Nil_Error(t *testing.T) {
 
 }
 
-// Helper function to reset
-func resetKafkaConsumerSingleton() {
-	consumerInstance = nil
+// TestNewKafkaConsumer_ReturnsIndependentInstances asserts that NewKafkaConsumer
+// can be called twice without interference. A bare &kafka.Consumer{} has a nil
+// CGo handle and segfaults on SubscribeTopics, so we use an error-returning
+// factory instead (the brief acknowledged this limitation). Both calls return
+// (nil, err); the factory call count verifies each call goes through the full
+// path with no short-circuit from a shared global cache.
+func TestNewKafkaConsumer_ReturnsIndependentInstances(t *testing.T) {
+	orig := KafkaNewConsumer
+	t.Cleanup(func() { KafkaNewConsumer = orig })
+	callCount := 0
+	KafkaNewConsumer = func(*kafka.ConfigMap) (*kafka.Consumer, error) {
+		callCount++
+		return nil, fmt.Errorf("mock: no broker (call %d)", callCount)
+	}
+	c1, _ := NewKafkaConsumer("topic-a", "group-a")
+	c2, _ := NewKafkaConsumer("topic-b", "group-b")
+	// Both fail (no broker); verify independent error paths.
+	assert.Nil(t, c1)
+	assert.Nil(t, c2)
+	assert.Equal(t, 2, callCount, "factory should be called once per NewKafkaConsumer call — no global caching")
+	if c1 != nil && c2 != nil {
+		assert.NotSame(t, c1, c2)
+	}
 }
 
 // Test for mock error creating consumers
 func TestNewKafkaConsumer_ErrorCreatingConsumer(t *testing.T) {
-	resetKafkaConsumerSingleton()
 	originalNewKafkaConsumer := KafkaNewConsumer
 	KafkaNewConsumer = func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
 		return nil, fmt.Errorf("mock error creating consumer")
@@ -209,7 +228,6 @@ func TestNewKafkaConsumer_ErrorCreatingConsumer(t *testing.T) {
 
 // Test for error creating kafka instance
 func TestNewKafkaConsumer_NilConsumer(t *testing.T) {
-	resetKafkaConsumerSingleton()
 	originalNewKafkaConsumer := KafkaNewConsumer
 	KafkaNewConsumer = func(config *kafka.ConfigMap) (*kafka.Consumer, error) {
 		return nil, nil

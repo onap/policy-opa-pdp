@@ -29,11 +29,6 @@ import (
 	"time"
 )
 
-var (
-	// Declare a global variable to hold the singleton KafkaConsumer
-	consumerInstance *KafkaConsumer
-)
-
 // SafeTeardown closes a consumer with unsubscribe first (idempotent).
 func SafeTeardown(kc *KafkaConsumer) {
 	if kc == nil || kc.Consumer == nil {
@@ -87,10 +82,10 @@ type KafkaNewConsumerFunc func(*kafka.ConfigMap) (*kafka.Consumer, error)
 
 var KafkaNewConsumer KafkaNewConsumerFunc = kafka.NewConsumer
 
-// NewKafkaConsumer creates a new Kafka consumer and returns
+// NewKafkaConsumer creates a new Kafka consumer and returns a fresh independent
+// instance. Each call returns its own handle; no package-global is used or torn down.
 func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
-	// Initialize the consumer instance only once
-	log.Debugf("Creating Kafka Consumer singleton instance")
+	log.Debugf("Creating Kafka Consumer instance for topic %v", topic)
 	brokers := cfg.BootstrapServer
 	useSASL := cfg.UseSASLForKAFKA
 	username := cfg.KAFKA_USERNAME
@@ -121,16 +116,6 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 		// configMap.SetKey("debug", "all") // Uncomment for debug
 	}
 
-	// Tear down any previous singleton before creating a new one
-	if consumerInstance != nil {
-		log.Debugf("Tearing down previous Kafka Consumer singleton before rebuild")
-		SafeTeardown(consumerInstance)
-		consumerInstance = nil
-		// small gap to let sockets close
-		time.Sleep(consts.ConsumerTearDownSleepTime)
-	}
-
-	// Create a new Kafka consumer
 	consumer, err := KafkaNewConsumer(configMap)
 	if err != nil {
 		log.Warnf("Error creating consumer: %v", err)
@@ -141,23 +126,13 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 		return nil, fmt.Errorf("Kafka Consumer is nil after creation")
 	}
 
-	// Subscribe to the topic
-	err = consumer.SubscribeTopics([]string{topic}, nil)
-	if err != nil {
+	if err = consumer.SubscribeTopics([]string{topic}, nil); err != nil {
 		log.Warnf("Error subscribing to topic: %v", err)
 		return nil, fmt.Errorf("error subscribing to topic: %w", err)
 	}
 	log.Debugf("Topic Subscribed: %v", topic)
 
-	// Assign the consumer instance
-	consumerInstance = &KafkaConsumer{Consumer: consumer}
-	log.Debugf("Created Singleton consumer instance")
-
-	// Return the singleton consumer instance
-	if consumerInstance == nil {
-		return nil, fmt.Errorf("Kafka Consumer instance not created")
-	}
-	return consumerInstance, nil
+	return &KafkaConsumer{Consumer: consumer}, nil
 }
 
 // ReadKafkaMessages gets the Kafka messages on the subscribed topic

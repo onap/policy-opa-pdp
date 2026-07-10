@@ -43,10 +43,6 @@ type KafkaProducer struct {
 	topic    string
 }
 
-var (
-	instance *KafkaProducer
-)
-
 // SafeTeardownProducer cleanly shuts down the producer singleton (idempotent).
 func SafeTeardownProducer(kp *KafkaProducer) {
 	if kp == nil || kp.producer == nil {
@@ -60,40 +56,18 @@ func SafeTeardownProducer(kp *KafkaProducer) {
 	log.Println("KafkaProducer safely torn down.")
 }
 
-// RebuildProducerSingleton tears down the current singleton and replaces it with a fresh one.
-func RebuildProducerSingleton(topic string) (*KafkaProducer, error) {
-	if instance != nil {
-		log.Println("[Kafka] Rebuilding producer singleton: tearing down old handle...")
-		SafeTeardownProducer(instance)
-		instance = nil
-		time.Sleep(consts.ProducerTearDownSleepTime) // small gap to let sockets close
-	}
-	// Create a brand-new singleton
-	newInst, err := initializeKafkaProducer(topic)
-	if err != nil {
-		return nil, err
-	}
-	instance = newInst
-	log.Println("[Kafka] Producer singleton rebuilt.")
-	return instance, nil
+// rebuildProducer tears down kp's underlying handle and returns a fresh producer
+// for the same topic. It does not touch any shared global.
+func rebuildProducer(kp *KafkaProducer, topic string) (*KafkaProducer, error) {
+	SafeTeardownProducer(kp)
+	time.Sleep(consts.ProducerTearDownSleepTime)
+	return initializeKafkaProducer(topic)
 }
 
-// GetKafkaProducer initializes and returns a KafkaProducer instance which is a singleton.
-// It configures the Kafka producer with the given bootstrap servers and topic.
-// If SASL authentication is enabled via the configuration, the necessary credentials
-// are set in the producer configuration.
-//
-
+// GetKafkaProducer returns a fresh, independent KafkaProducer for the given topic.
+// Each call creates its own handle; no package-global is used or torn down.
 func GetKafkaProducer(bootstrapServers, topic string) (*KafkaProducer, error) {
-	var err error
-	if instance != nil {
-		log.Println("[Kafka] Existing producer singleton found; tearing down before re-init...")
-		SafeTeardownProducer(instance)
-		instance = nil
-		time.Sleep(consts.ProducerTearDownSleepTime)
-	}
-	instance, err = initializeKafkaProducer(topic)
-	return instance, err
+	return initializeKafkaProducer(topic)
 }
 
 //nolint:gosec
@@ -221,15 +195,12 @@ func (kp *KafkaProducer) Produce(kafkaMessage *kafka.Message, eventChan chan kaf
 
 		if needsRebuild {
 			log.Println("[Kafka Produce] Triggering producer rebuild due to error...")
-			// Rebuild global singleton and update this wrapper to use fresh handle
-			newInst, rerr := RebuildProducerSingleton(kp.topic)
+			newInst, rerr := rebuildProducer(kp, kp.topic)
 			if rerr != nil {
 				log.Println("[Kafka Produce] Rebuild failed:", rerr)
-				// Backoff before next attempt
 				time.Sleep(time.Second * time.Duration(attempt))
 				continue
 			}
-			// Point this wrapper to the new underlying producer
 			kp.producer = newInst.producer
 			log.Println("[Kafka Produce] Rebuild successful; retrying...")
 		}

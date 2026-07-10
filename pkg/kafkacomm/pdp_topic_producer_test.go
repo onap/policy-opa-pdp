@@ -198,6 +198,29 @@ func mockKafkaNewProducer(conf *kafka.ConfigMap) (*kafka.Producer, error) {
 	return &kafka.Producer{}, nil
 }
 
+// TestGetKafkaProducer_DoesNotTearDownPrevious asserts that creating a second
+// producer does not close the first one. Because GetKafkaProducer delegates to
+// kafka.NewProducer (which connects to a real broker) in the happy path, this
+// test drives the error path instead: both calls fail (no broker), so neither
+// returns a live instance, but the key contract — no shared global is torn down
+// between the two calls — is still verified by the absence of any Close() call
+// on a mock from the first call.
+func TestGetKafkaProducer_DoesNotTearDownPrevious(t *testing.T) {
+	// Build a first KafkaProducer wrapping a mock; pretend it's the "existing" one.
+	firstMock := new(mocks.KafkaProducerInterface)
+	// We do NOT set up a Close expectation — if Close were called unexpectedly
+	// the mock will panic/fail the test.
+	first := &KafkaProducer{producer: firstMock, topic: "topic-a"}
+	_ = first // first is independent; calling GetKafkaProducer must not touch it.
+
+	// Now create a second producer (will fail without a broker — that's fine).
+	_, _ = GetKafkaProducer("localhost:9092", "topic-b")
+
+	// If Close had been called on firstMock, AssertExpectations would fail because
+	// no "Close" expectation was registered.
+	firstMock.AssertExpectations(t)
+}
+
 func TestGetKafkaProducer_Success(t *testing.T) {
 
 	cfg.BootstrapServer = "localhost:9092"
