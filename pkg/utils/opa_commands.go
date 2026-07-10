@@ -42,6 +42,7 @@ func createTempFile(prefix, content string) (string, func(), error) {
 	log.Debugf("Temp file %s is written with %s", tmpFile.Name(), content)
 	if _, err := tmpFile.WriteString(content); err != nil {
 		tmpFile.Close()
+		os.Remove(tmpFile.Name())
 		return "", nil, fmt.Errorf("failed to write temp file: %v", err)
 	}
 	tmpFile.Close()
