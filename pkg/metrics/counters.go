@@ -56,7 +56,7 @@ var (
 		Help: "Total Number of Successful Deployment for OPA",
 	})
 	DeploymentFailureCount_Prom = prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "pdpo_policy_failures_total",
+		Name: "pdpo_policy_deployment_failures_total",
 		Help: "Total Number of Deployment Failures for OPA",
 	})
 	DynamicDataUpdatesSuccessCount_Prom = prometheus.NewCounter(prometheus.CounterOpts{
@@ -69,11 +69,11 @@ var (
 	})
 	UndeploymentSuccessCount_Prom = prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "pdpo_policy_undeployments_success_total",
-		Help: "Total Number of Successful Deployment for OPA",
+		Help: "Total Number of Successful Undeployment for OPA",
 	})
 	UndeploymentFailureCount_Prom = prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "pdpo_policy_undeployments_failures_total",
-		Help: "Total Number of Deployment Failures for OPA",
+		Help: "Total Number of Undeployment Failures for OPA",
 	})
 )
 
@@ -97,11 +97,11 @@ func IncrementTotalErrorCount() {
 	mu.Unlock()
 }
 
-// returns pointer to the counter
-func totalErrorCountRef() *int64 {
+// totalErrorCount returns the current value of TotalErrorCount read under the lock.
+func totalErrorCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &TotalErrorCount
+	return TotalErrorCount
 }
 
 func IncrementDynamicDataUpdateSuccessCount() {
@@ -111,11 +111,11 @@ func IncrementDynamicDataUpdateSuccessCount() {
 	mu.Unlock()
 }
 
-func totalDynamicDataUpdateSuccessCountRef() *int64 {
+// dynamicDataUpdateSuccessCount returns the current value of DynamicDataUpdateSuccessCount read under the lock.
+func dynamicDataUpdateSuccessCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &DynamicDataUpdateSuccessCount
-
+	return DynamicDataUpdateSuccessCount
 }
 
 func IncrementDynamicDataUpdateFailureCount() {
@@ -125,11 +125,11 @@ func IncrementDynamicDataUpdateFailureCount() {
 	mu.Unlock()
 }
 
-func totalDynamicDataUpdateFailureCountRef() *int64 {
+// dynamicDataUpdateFailureCount returns the current value of DynamicDataUpdateFailureCount read under the lock.
+func dynamicDataUpdateFailureCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &DynamicDataUpdateFailureCount
-
+	return DynamicDataUpdateFailureCount
 }
 
 // Increment counter
@@ -140,12 +140,11 @@ func IncrementDecisionSuccessCount() {
 	mu.Unlock()
 }
 
-// returns pointer to the counter
-func totalDecisionSuccessCountRef() *int64 {
+// decisionSuccessCount returns the current value of DecisionSuccessCount read under the lock.
+func decisionSuccessCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &DecisionSuccessCount
-
+	return DecisionSuccessCount
 }
 
 // Increment counter
@@ -156,12 +155,11 @@ func IncrementDecisionFailureCount() {
 	mu.Unlock()
 }
 
-// returns pointer to the counter
-func TotalDecisionFailureCountRef() *int64 {
+// decisionFailureCount returns the current value of DecisionFailureCount read under the lock.
+func decisionFailureCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &DecisionFailureCount
-
+	return DecisionFailureCount
 }
 
 // Increment counter
@@ -172,13 +170,11 @@ func IncrementDeploySuccessCount() {
 	mu.Unlock()
 }
 
-// returns pointer to the counter
-
-func totalDeploySuccessCountRef() *int64 {
+// deploySuccessCount returns the current value of DeploySuccessCount read under the lock.
+func deploySuccessCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &DeploySuccessCount
-
+	return DeploySuccessCount
 }
 
 // Increment counter
@@ -189,13 +185,11 @@ func IncrementDeployFailureCount() {
 	mu.Unlock()
 }
 
-// returns pointer to the counter
-
-func totalDeployFailureCountRef() *int64 {
+// deployFailureCount returns the current value of DeployFailureCount read under the lock.
+func deployFailureCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &DeployFailureCount
-
+	return DeployFailureCount
 }
 
 // Increment counter
@@ -206,13 +200,11 @@ func IncrementUndeploySuccessCount() {
 	mu.Unlock()
 }
 
-// returns pointer to the counter
-
-func totalUndeploySuccessCountRef() *int64 {
+// undeploySuccessCount returns the current value of UndeploySuccessCount read under the lock.
+func undeploySuccessCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &UndeploySuccessCount
-
+	return UndeploySuccessCount
 }
 
 // Increment counter
@@ -223,13 +215,11 @@ func IncrementUndeployFailureCount() {
 	mu.Unlock()
 }
 
-// returns pointer to the counter
-
-func totalUndeployFailureCountRef() *int64 {
+// undeployFailureCount returns the current value of UndeployFailureCount read under the lock.
+func undeployFailureCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &UndeployFailureCount
-
+	return UndeployFailureCount
 }
 
 // Increment counter
@@ -239,10 +229,9 @@ func SetTotalPoliciesCount(newCount int64) {
 	mu.Unlock()
 }
 
-// returns pointer to the counter
-
-func totalPoliciesCountRef() *int64 {
+// totalPoliciesCount returns the current value of TotalPoliciesCount read under the lock.
+func totalPoliciesCount() int64 {
 	mu.Lock()
 	defer mu.Unlock()
-	return &TotalPoliciesCount
+	return TotalPoliciesCount
 }

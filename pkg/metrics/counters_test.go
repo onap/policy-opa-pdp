@@ -26,6 +26,25 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestCounters_NoRaceBetweenIncrementAndRead(t *testing.T) {
+	DecisionSuccessCount = 0
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 1000; i++ {
+			IncrementDecisionSuccessCount()
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 1000; i++ {
+			_ = decisionSuccessCount() // value accessor, read under lock
+		}
+	}()
+	wg.Wait()
+}
+
 func TestCounters(t *testing.T) {
 	var wg sync.WaitGroup
 
@@ -39,7 +58,7 @@ func TestCounters(t *testing.T) {
 		}()
 	}
 	wg.Wait()
-	assert.Equal(t, int64(5), *totalErrorCountRef())
+	assert.Equal(t, int64(5), totalErrorCount())
 
 	// Test IncrementQuerySuccessCount and TotalQuerySuccessCountRef
 
@@ -61,7 +80,7 @@ func TestCounters(t *testing.T) {
 
 	wg.Wait()
 
-	assert.Equal(t, int64(7), *totalDecisionSuccessCountRef())
+	assert.Equal(t, int64(7), decisionSuccessCount())
 
 	// Test IncrementDecisionFailureCount and TotalDecisionFailureCountRef
 
@@ -83,7 +102,7 @@ func TestCounters(t *testing.T) {
 
 	wg.Wait()
 
-	assert.Equal(t, int64(3), *TotalDecisionFailureCountRef())
+	assert.Equal(t, int64(3), decisionFailureCount())
 
 	// Test IncrementDeploySuccessCount and totalDeploySuccessCountRef
 	DeploySuccessCount = 0
@@ -95,7 +114,7 @@ func TestCounters(t *testing.T) {
 		}()
 	}
 	wg.Wait()
-	assert.Equal(t, int64(4), *totalDeploySuccessCountRef())
+	assert.Equal(t, int64(4), deploySuccessCount())
 
 	// Test IncrementDeployFailureCount and totalDeployFailureCountRef
 	DeployFailureCount = 0
@@ -107,7 +126,7 @@ func TestCounters(t *testing.T) {
 		}()
 	}
 	wg.Wait()
-	assert.Equal(t, int64(2), *totalDeployFailureCountRef())
+	assert.Equal(t, int64(2), deployFailureCount())
 
 	// Test IncrementUndeploySuccessCount and totalUndeploySuccessCountRef
 	UndeploySuccessCount = 0
@@ -119,7 +138,7 @@ func TestCounters(t *testing.T) {
 		}()
 	}
 	wg.Wait()
-	assert.Equal(t, int64(6), *totalUndeploySuccessCountRef())
+	assert.Equal(t, int64(6), undeploySuccessCount())
 
 	// Test IncrementUndeployFailureCount and totalUndeployFailureCountRef
 	UndeployFailureCount = 0
@@ -131,10 +150,10 @@ func TestCounters(t *testing.T) {
 		}()
 	}
 	wg.Wait()
-	assert.Equal(t, int64(1), *totalUndeployFailureCountRef())
+	assert.Equal(t, int64(1), undeployFailureCount())
 
 	// Test SetTotalPoliciesCount and totalPoliciesCountRef
 	SetTotalPoliciesCount(15)
-	assert.Equal(t, int64(15), *totalPoliciesCountRef())
+	assert.Equal(t, int64(15), totalPoliciesCount())
 
 }

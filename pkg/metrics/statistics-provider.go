@@ -57,16 +57,27 @@ func FetchCurrentStatistics(res http.ResponseWriter, req *http.Request) {
 
 	var statReport oapicodegen.StatisticsReport
 
-	statReport.DecisionSuccessCount = totalDecisionSuccessCountRef()
-	statReport.DecisionFailureCount = TotalDecisionFailureCountRef()
-	statReport.TotalErrorCount = totalErrorCountRef()
-	statReport.DeployFailureCount = totalDeployFailureCountRef()
-	statReport.DeploySuccessCount = totalDeploySuccessCountRef()
-	statReport.UndeployFailureCount = totalUndeployFailureCountRef()
-	statReport.UndeploySuccessCount = totalUndeploySuccessCountRef()
-	statReport.TotalPoliciesCount = totalPoliciesCountRef()
-	statReport.DynamicDataUpdateFailureCount = totalDynamicDataUpdateFailureCountRef()
-	statReport.DynamicDataUpdateSuccessCount = totalDynamicDataUpdateSuccessCountRef()
+	dsc := decisionSuccessCount()
+	dfc := decisionFailureCount()
+	tec := totalErrorCount()
+	dfail := deployFailureCount()
+	dsucc := deploySuccessCount()
+	ufail := undeployFailureCount()
+	usucc := undeploySuccessCount()
+	tpc := totalPoliciesCount()
+	ddf := dynamicDataUpdateFailureCount()
+	dds := dynamicDataUpdateSuccessCount()
+
+	statReport.DecisionSuccessCount = &dsc
+	statReport.DecisionFailureCount = &dfc
+	statReport.TotalErrorCount = &tec
+	statReport.DeployFailureCount = &dfail
+	statReport.DeploySuccessCount = &dsucc
+	statReport.UndeployFailureCount = &ufail
+	statReport.UndeploySuccessCount = &usucc
+	statReport.TotalPoliciesCount = &tpc
+	statReport.DynamicDataUpdateFailureCount = &ddf
+	statReport.DynamicDataUpdateSuccessCount = &dds
 
 	// not implemented hardcoding the values to zero
 	// will be implemeneted in phase-2
