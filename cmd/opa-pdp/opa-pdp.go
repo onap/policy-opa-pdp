@@ -38,6 +38,8 @@ import (
 	"policy-opa-pdp/pkg/pdpattributes"
 	"syscall"
 	"time"
+
+	"github.com/open-policy-agent/opa/v1/sdk"
 )
 
 var (
@@ -48,6 +50,7 @@ var (
 	patchMsgConsumer *kafkacomm.KafkaConsumer
 	groupId          = cfg.GroupId
 	patchGroupId     = cfg.PatchGroupId
+	opaSDKInstance   *sdk.OPA // shared OPA instance, stopped during graceful shutdown
 )
 
 // Declare function variables for dependency injection makes it more testable
@@ -195,7 +198,7 @@ func initializeOPA() error {
 	if err != nil {
 		return err
 	}
-	defer opa.Stop(context.Background())
+	opaSDKInstance = opa
 	return nil
 }
 
@@ -275,6 +278,11 @@ myLoop:
 		} else {
 			log.Debugf("Consumer closed....")
 		}
+	}
+
+	if opaSDKInstance != nil {
+		opaSDKInstance.Stop(context.Background())
+		log.Debugf("OPA instance stopped")
 	}
 
 	handler.SetShutdownFlag()

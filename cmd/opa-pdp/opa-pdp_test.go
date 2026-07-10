@@ -25,6 +25,7 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 	"net/http"
 	"os"
 	"policy-opa-pdp/consts"
@@ -33,6 +34,7 @@ import (
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
+	"policy-opa-pdp/pkg/opasdk"
 	"testing"
 	"time"
 )
@@ -268,9 +270,17 @@ func TestStartHTTPServer(t *testing.T) {
 }
 
 // Test to validate the initialization of the OPA (Open Policy Agent) instance.
+// A temp config file is used so the singleton initialises without error; the
+// instance must be stored in opaSDKInstance after the call.
 func TestInitializeOPA(t *testing.T) {
-	err := initializeOPA()
-	assert.Error(t, err, "Expected error from initializeOPA")
+	tmpFile, err := os.CreateTemp("", "opa-config-*.json")
+	require.NoError(t, err)
+	defer os.Remove(tmpFile.Name())
+	consts.OpasdkConfigPath = tmpFile.Name()
+
+	err = initializeOPA()
+	assert.NoError(t, err)
+	assert.NotNil(t, opaSDKInstance)
 }
 
 // Test to ensure the application correctly waits for the server to be ready.
@@ -722,4 +732,29 @@ func TestPatchStartKafkaAndProdFailure(t *testing.T) {
 		assert.Nil(t, consumer)
 		assert.Nil(t, producer)
 	})
+}
+
+// TestInitializeOPA_KeepsInstanceForShutdown verifies that initializeOPA stores
+// the OPA instance in opaSDKInstance and does not stop it, so decisions after
+// startup still work and handleShutdown can stop it later.
+func TestInitializeOPA_KeepsInstanceForShutdown(t *testing.T) {
+	// Ensure OPA SDK can initialise cleanly (singleton may already be set from
+	// TestInitializeOPA; if not, point the config path at a valid empty file).
+	if opaSDKInstance == nil {
+		tmpFile, err := os.CreateTemp("", "opa-config-*.json")
+		require.NoError(t, err)
+		defer os.Remove(tmpFile.Name())
+		consts.OpasdkConfigPath = tmpFile.Name()
+	}
+
+	// initializeOPA must succeed and leave opaSDKInstance set (not stopped),
+	// so decisions after startup still work.
+	err := initializeOPA()
+	require.NoError(t, err)
+	require.NotNil(t, opaSDKInstance)
+
+	// A decision-time fetch returns the same, still-usable instance.
+	inst, err := opasdk.GetOPASingletonInstance()
+	require.NoError(t, err)
+	assert.Same(t, opaSDKInstance, inst)
 }
