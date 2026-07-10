@@ -65,6 +65,7 @@ var (
 	handleShutdownFunc             = handleShutdown
 	startPatchKafkaConsAndProdFunc = startPatchKafkaConsAndProd
 	handlePatchMessagesFunc        = handlePatchMessages
+	getOPASingletonInstanceFunc    = opasdk.GetOPASingletonInstance
 )
 
 // main function
@@ -194,7 +195,7 @@ func waitForServer() {
 }
 
 func initializeOPA() error {
-	opa, err := opasdk.GetOPASingletonInstance()
+	opa, err := getOPASingletonInstanceFunc()
 	if err != nil {
 		return err
 	}
