@@ -584,41 +584,6 @@ func equalSlices(a, b []string) bool {
 	return true
 }
 
-func TestIsEmpty(t *testing.T) {
-	tests := []struct {
-		name     string
-		input    interface{}
-		expected bool
-	}{
-		{"Nil Value", nil, true},
-		{"Empty String", "", true},
-		{"Non-Empty String", "hello", false},
-		{"Empty Slice", []interface{}{}, true},
-		{"Non-Empty Slice", []interface{}{1, 2, 3}, false},
-		{"Empty Map", map[string]interface{}{}, true},
-		{"Non-Empty Map", map[string]interface{}{"key": "value"}, false},
-		{"Empty Byte Slice", []byte{}, true},
-		{"Non-Empty Byte Slice", []byte("data"), false},
-		{"Zero Integer", 0, true},
-		{"Non-Zero Integer", 10, false},
-		{"Zero Float", 0.0, true},
-		{"Non-Zero Float", 3.14, false},
-		{"Non-Zero Unsigned Integer", uint(5), false},
-		{"Boolean False", false, true},
-		{"Boolean True", true, false},
-		{"Unsupported Type (Struct)", struct{}{}, false}, // Not considered empty
-	}
-
-	for _, tc := range tests {
-		t.Run(tc.name, func(t *testing.T) {
-			result := isEmpty(tc.input)
-			if result != tc.expected {
-				t.Errorf("isEmpty(%v) = %v; want %v", tc.input, result, tc.expected)
-			}
-		})
-	}
-}
-
 func TestPatchHandler_EmptyDataField(t *testing.T) {
 	ctime := "08:26:41"
 	timeZone := "America/New_York"
@@ -1078,6 +1043,35 @@ func TestWriteOPADataUpdateErrorJSONResponse_EncodeFails(t *testing.T) {
 	// Call the function with the mock writer that fails on encode
 	writeOPADataUpdateErrorJSONResponse(mockRes, http.StatusInternalServerError, "fail", errorResp)
 
+}
+
+func TestGetPatchValue_AllowsZeroValues(t *testing.T) {
+	cases := []struct {
+		name string
+		val  interface{}
+	}{
+		{"false", false},
+		{"zero-int", float64(0)}, // JSON numbers decode to float64
+		{"empty-string", ""},
+		{"empty-array", []interface{}{}},
+		{"empty-object", map[string]interface{}{}},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			op := map[string]interface{}{"op": "replace", "path": "/x", "value": c.val}
+			rr := httptest.NewRecorder()
+			got, err := getPatchValue(op, rr)
+			require.NoError(t, err, "zero value must be accepted")
+			assert.Equal(t, c.val, got)
+		})
+	}
+}
+
+func TestGetPatchValue_RejectsMissingKey(t *testing.T) {
+	op := map[string]interface{}{"op": "replace", "path": "/x"} // no "value"
+	rr := httptest.NewRecorder()
+	_, err := getPatchValue(op, rr)
+	require.Error(t, err)
 }
 
 func TestConstructPath_BadPatchPath(t *testing.T) {

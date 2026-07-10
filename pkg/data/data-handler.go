@@ -307,45 +307,14 @@ func extractPatchInfo(res http.ResponseWriter, ops *[]map[string]interface{}, ro
 }
 
 func getPatchValue(op map[string]interface{}, res http.ResponseWriter) (interface{}, error) {
-	var value interface{}
-	var valueErr bool
-	value, valueErr = op["value"]
-	if !valueErr || isEmpty(value) {
+	value, present := op["value"]
+	if !present {
 		valueErrMsg := "Error in getting data value. Value is not given in request body"
 		sendErrorResponse(res, valueErrMsg, http.StatusBadRequest)
-		log.Errorf(valueErrMsg)
-		return nil, fmt.Errorf("Error in getting data value. Value is not given in request body")
+		log.Errorf("%s", valueErrMsg)
+		return nil, errors.New(valueErrMsg)
 	}
 	return value, nil
-}
-
-func isEmpty(data interface{}) bool {
-	if data == nil {
-		return true // Nil values are considered empty
-	}
-
-	switch v := data.(type) {
-	case string:
-		return len(v) == 0 // Check if string is empty
-	case []interface{}:
-		return len(v) == 0 // Check if slice is empty
-	case map[string]interface{}:
-		return len(v) == 0 // Check if map is empty
-	case []byte:
-		return len(v) == 0 // Check if byte slice is empty
-	case int, int8, int16, int32, int64:
-		return v == 0 // Zero integers are considered empty
-	case uint, uint8, uint16, uint32, uint64:
-		return v == 0 // Zero unsigned integers are considered empty
-	case float32, float64:
-		return v == 0.0 // Zero floats are considered empty
-	case bool:
-		return !v // `false` is considered empty
-	case nil:
-		return true // Explicitly checking nil again
-	default:
-		return false // Other data types are not considered empty
-	}
 }
 
 func constructPath(opPath string, opType string, root string, res http.ResponseWriter) (storagePath storage.Path) {
