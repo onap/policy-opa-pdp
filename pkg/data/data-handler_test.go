@@ -28,8 +28,10 @@ import (
 	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/open-policy-agent/opa/v1/storage"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
+	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/policymap"
@@ -1238,4 +1240,94 @@ func TestExtractPatchInfo_NilOpType(t *testing.T) {
 	assert.Nil(t, result)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "opType is Missing")
+}
+
+// validKafkaPatchRequest builds a PATCH request that passes all validation and
+// reaches the kafka branch. It sets up policymap.LastDeployedPolicies with a
+// policy whose data key matches the URL path. The caller must save/restore
+// cfg.UseKafkaForPatch and policymap.LastDeployedPolicies via t.Cleanup.
+func validKafkaPatchRequest(t *testing.T) *http.Request {
+	t.Helper()
+	ctime := "08:26:41.857Z"
+	timeZone := "America/New_York"
+	timeOffset := "+02:00"
+	onapComp := "COMPONENT"
+	onapIns := "INSTANCE"
+	onapName := "ONAP"
+
+	parsedDate, _ := time.Parse("2006-01-02", "2024-02-12")
+	currentDate := openapi_types.Date{Time: parsedDate}
+	currentDateTime, _ := time.Parse(time.RFC3339, "2024-02-12T12:00:00Z")
+
+	requestBody := &oapicodegen.OPADataUpdateRequest{
+		CurrentDate:     &currentDate,
+		CurrentDateTime: &currentDateTime,
+		CurrentTime:     &ctime,
+		TimeOffset:      &timeOffset,
+		TimeZone:        &timeZone,
+		OnapComponent:   &onapComp,
+		OnapInstance:    &onapIns,
+		OnapName:        &onapName,
+		PolicyName:      "kafka-test-policy",
+		Data: []map[string]interface{}{
+			{"op": "add", "path": "/name", "value": "test-value"},
+		},
+	}
+	bodyBytes, err := json.Marshal(requestBody)
+	if err != nil {
+		t.Fatalf("failed to marshal request body: %v", err)
+	}
+
+	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "kafka-test-policy", "policy-version": "v1.0", "data": ["kafka.test"]}]}`
+
+	req, err := http.NewRequest("PATCH", "/policy/pdpo/v1/data/kafka/test", bytes.NewBuffer(bodyBytes))
+	if err != nil {
+		t.Fatalf("failed to create request: %v", err)
+	}
+	return req
+}
+
+func TestPatchHandler_KafkaAccepted_BodyIsValidJSON(t *testing.T) {
+	// Arrange: save and restore globals
+	origKafka := cfg.UseKafkaForPatch
+	origProducer := PatchProducer
+	origPolicies := policymap.LastDeployedPolicies
+	t.Cleanup(func() {
+		cfg.UseKafkaForPatch = origKafka
+		PatchProducer = origProducer
+		policymap.LastDeployedPolicies = origPolicies
+	})
+
+	cfg.UseKafkaForPatch = true
+	PatchProducer = &MockKafkaProducer{}
+
+	rr := httptest.NewRecorder()
+	patchHandler(rr, validKafkaPatchRequest(t))
+
+	assert.Equal(t, http.StatusAccepted, rr.Code)
+	var body map[string]any
+	require.NoError(t, json.Unmarshal(rr.Body.Bytes(), &body),
+		"202 response body must be valid JSON")
+	assert.Contains(t, body, "message")
+	assert.Equal(t, "/policy/pdpo/v1/data/", body["uri"])
+}
+
+func TestPatchHandler_KafkaSendFailure_ReturnsError(t *testing.T) {
+	// Arrange: nil PatchProducer triggers "Failed to initialize Kafka producer" error
+	origKafka := cfg.UseKafkaForPatch
+	origProducer := PatchProducer
+	origPolicies := policymap.LastDeployedPolicies
+	t.Cleanup(func() {
+		cfg.UseKafkaForPatch = origKafka
+		PatchProducer = origProducer
+		policymap.LastDeployedPolicies = origPolicies
+	})
+
+	cfg.UseKafkaForPatch = true
+	PatchProducer = nil
+
+	rr := httptest.NewRecorder()
+	patchHandler(rr, validKafkaPatchRequest(t))
+
+	assert.GreaterOrEqual(t, rr.Code, 400, "kafka send failure must not return 2xx")
 }

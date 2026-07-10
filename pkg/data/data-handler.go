@@ -170,14 +170,20 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	if useKafkaForPatch {
-		err := handleDynamicUpdateRequestWithKafka(patchInfos, res)
-		if err != nil {
-			log.Warnf("Error in handling dynamic update request wit kafka: %v", err)
+		if err := handleDynamicUpdateRequestWithKafka(patchInfos, res); err != nil {
+			log.Warnf("Error in handling dynamic update request with kafka: %v", err)
+			sendErrorResponse(res, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		res.Header().Set(consts.ContentType, consts.ApplicationJson)
 		res.WriteHeader(http.StatusAccepted)
-		_, _ = res.Write([]byte(`{"message": "Patch request accepted for processing via kafka and Use the get data url to fetch the latest data. In case of errors, Check logs."uri":"/policy/pdpo/v1/data/""}`))
+		acceptedBody := map[string]string{
+			"message": "Patch request accepted for processing via kafka. Use the GET data url to fetch the latest data. In case of errors, check logs.",
+			"uri":     "/policy/pdpo/v1/data/",
+		}
+		if err := json.NewEncoder(res).Encode(acceptedBody); err != nil {
+			log.Errorf("Error encoding accepted response: %v", err)
+		}
 		metrics.IncrementDynamicDataUpdateSuccessCount()
 		return
 	}
