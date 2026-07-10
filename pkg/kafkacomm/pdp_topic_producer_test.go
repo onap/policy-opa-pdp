@@ -275,3 +275,26 @@ func TestKafkaProducer_Flush(t *testing.T) {
 	assert.Equal(t, 1, result, "Flush should return expected value")
 	mockProducer.AssertExpectations(t)
 }
+
+// mockProducer is a lightweight hand-rolled mock used by tests that need to
+// capture exactly which argument was forwarded to the underlying producer.
+type mockProducer struct {
+	flushFn func(int) int
+}
+
+func (m *mockProducer) Produce(msg *kafka.Message, events chan kafka.Event) error { return nil }
+func (m *mockProducer) Close()                                                    {}
+func (m *mockProducer) Flush(timeout int) int {
+	if m.flushFn != nil {
+		return m.flushFn(timeout)
+	}
+	return 0
+}
+
+func TestFlush_PassesTimeoutThrough(t *testing.T) {
+	var gotTimeout int
+	mp := &mockProducer{flushFn: func(ms int) int { gotTimeout = ms; return 0 }}
+	kp := &KafkaProducer{producer: mp, topic: "t"}
+	kp.Flush(1234)
+	assert.Equal(t, 1234, gotTimeout)
+}

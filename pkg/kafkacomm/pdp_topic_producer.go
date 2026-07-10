@@ -227,5 +227,5 @@ func (kp *KafkaProducer) Close() {
 }
 
 func (kp *KafkaProducer) Flush(timeout int) int {
-	return kp.producer.Flush(consts.ProducerTearDownFlush)
+	return kp.producer.Flush(timeout)
 }
