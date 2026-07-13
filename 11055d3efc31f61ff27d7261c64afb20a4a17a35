@@ -16,6 +16,52 @@
       "message": "Please wait for approvals from Deena and Murali before merging opa-pdp reviews as they are maintaining this repo.",
       "revId": "11055d3efc31f61ff27d7261c64afb20a4a17a35",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c156736b_d00d7fde",
+        "filename": "cmd/opa-pdp/opa-pdp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2026-07-13T10:30:47Z",
+      "side": 1,
+      "message": "Should the year need to be changed?",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "11055d3efc31f61ff27d7261c64afb20a4a17a35",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "705e71c0_43432ff2",
+        "filename": "cmd/opa-pdp/opa-pdp_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2026-07-13T10:30:47Z",
+      "side": 1,
+      "message": "Should the year need to be changed",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "11055d3efc31f61ff27d7261c64afb20a4a17a35",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ],
   "submitRequirementResults": [
