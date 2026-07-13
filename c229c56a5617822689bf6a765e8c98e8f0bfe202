@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9838e3b1_1be5d68a",
+        "filename": "pkg/opasdk/opasdk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 8491
+      },
+      "writtenOn": "2026-07-13T10:56:30Z",
+      "side": 1,
+      "message": "Looks to be just a refactoring. Instead of returning variables here, they are being returned in a new function. So, functionally, I don\u0027t see any changes here. Can you please check again whether this change is really required, or am I missing something.",
+      "range": {
+        "startLine": 114,
+        "startChar": 8,
+        "endLine": 114,
+        "endChar": 23
+      },
+      "revId": "c229c56a5617822689bf6a765e8c98e8f0bfe202",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
