@@ -190,6 +190,83 @@ func TestValidateCredentials(t *testing.T) {
 	}
 }
 
+// TestValidateCredentialsEmptyPasswordBypass verifies that an unset (empty)
+// configured password is rejected, closing the subtle.ConstantTimeCompare("","")
+// bypass where an attacker could authenticate with an empty password.
+func TestValidateCredentialsEmptyPasswordBypass(t *testing.T) {
+	// Save and restore cfg values so this test does not affect others.
+	origUsername := cfg.Username
+	origPassword := cfg.Password
+	t.Cleanup(func() {
+		cfg.Username = origUsername
+		cfg.Password = origPassword
+	})
+
+	tests := []struct {
+		name             string
+		configUsername   string
+		configPassword   string
+		suppliedUsername string
+		suppliedPassword string
+		want             bool
+	}{
+		{
+			name:             "empty configured password rejects empty supplied password",
+			configUsername:   "policyadmin",
+			configPassword:   "",
+			suppliedUsername: "policyadmin",
+			suppliedPassword: "",
+			want:             false,
+		},
+		{
+			name:             "empty configured password rejects non-empty supplied password",
+			configUsername:   "policyadmin",
+			configPassword:   "",
+			suppliedUsername: "policyadmin",
+			suppliedPassword: "somepassword",
+			want:             false,
+		},
+		{
+			name:             "non-empty credentials still match correctly",
+			configUsername:   "policyadmin",
+			configPassword:   "secret",
+			suppliedUsername: "policyadmin",
+			suppliedPassword: "secret",
+			want:             true,
+		},
+		{
+			name:             "empty supplied password rejected against non-empty configured password",
+			configUsername:   "policyadmin",
+			configPassword:   "secret",
+			suppliedUsername: "policyadmin",
+			suppliedPassword: "",
+			want:             false,
+		},
+		{
+			name:             "empty configured username rejects any request",
+			configUsername:   "",
+			configPassword:   "secret",
+			suppliedUsername: "",
+			suppliedPassword: "secret",
+			want:             false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cfg.Username = tt.configUsername
+			cfg.Password = tt.configPassword
+			got := validateCredentials(tt.suppliedUsername, tt.suppliedPassword)
+			if got != tt.want {
+				t.Errorf("validateCredentials(%q, %q) with config(%q, %q) = %v, want %v",
+					tt.suppliedUsername, tt.suppliedPassword,
+					tt.configUsername, tt.configPassword,
+					got, tt.want)
+			}
+		})
+	}
+}
+
 func TestReadinessProbe(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/ready", nil)
 	rr := httptest.NewRecorder()
