@@ -39,13 +39,12 @@ jobs:
     # yamllint disable-line rule:line-length
     uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonarqube-cloud.yaml@5fa62e396473e823e2bb0f45b744e94c4f842faa # v0.7.4
     permissions:
+      # Needed by the reusable Scan job to check out the repository.
+      contents: read
       # Needed to upload the results to code-scanning dashboard.
       security-events: write
       # Needed to publish results and get a badge (see publish_results below).
       id-token: write
-      # Uncomment the permissions below if installing in a private repository.
-      # contents: read
-      # actions: read
     secrets:
       sonar_token: ${{ secrets.SONAR_TOKEN }}
     with:
