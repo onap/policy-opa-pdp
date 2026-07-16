@@ -40,6 +40,14 @@ import (
 	"time"
 )
 
+// TestMain zeroes the startup settle delay so tests that run main() in a
+// goroutine finish promptly and do not leak a long-lived goroutine that races
+// with the next test's SetupMocks() over the package-level function vars.
+func TestMain(m *testing.M) {
+	registrationDelay = 0
+	os.Exit(m.Run())
+}
+
 // Mock objects and functions
 type MockKafkaConsumerInterface struct {
 	mock.Mock
@@ -106,7 +114,6 @@ func TestHandleShutdown(t *testing.T) {
 	mockConsumer := new(mocks.KafkaConsumerInterface)
 	mockConsumer.On("Unsubscribe").Return(nil)
 	mockConsumer.On("Close").Return(nil)
-	kafkaProducer := &kafkacomm.KafkaProducer{}
 
 	mockKafkaConsumer := &kafkacomm.KafkaConsumer{
 		Consumer: mockConsumer,
@@ -119,7 +126,7 @@ func TestHandleShutdown(t *testing.T) {
 	//t.Fatalf("Inside Sender checking for producer , but got: %v", mockProducer)
 
 	// Create the RealPdpStatusSender with the mocked producer
-	kafkaProducer = &kafkacomm.KafkaProducer{}
+	kafkaProducer := &kafkacomm.KafkaProducer{}
 
 	interruptChannel := make(chan os.Signal, 1)
 	_, cancel := context.WithCancel(context.Background())
@@ -169,7 +176,7 @@ func SetupMocks() {
 
 	// Mock shutdownHTTPServer to call Shutdown on the real server
 	shutdownHTTPServerFunc = func(server *http.Server) {
-		server.Shutdown(context.Background()) // Use a context for safe shutdown
+		_ = server.Shutdown(context.Background()) // Use a context for safe shutdown
 	}
 
 	// Mock waitForServer
@@ -183,7 +190,6 @@ func SetupMocks() {
 	}
 
 	handleMessagesFunc = func(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
-		return
 	}
 
 	// Mock handleShutdown
@@ -202,19 +208,20 @@ func TestKafkaConsumerInitializationFailure(t *testing.T) {
 		return nil, nil, assert.AnError // return mocked consumer and producer
 	}
 
-	// Run main function in a goroutine
+	// Run main function in a goroutine and wait for it to return so the
+	// goroutine does not outlive the test and race with the next test's
+	// SetupMocks() over the shared package vars.
 	done := make(chan struct{})
 	go func() {
 		main()
 		close(done)
 	}()
 
-	// Simulate an interrupt to trigger shutdown
-	interruptChannel := make(chan os.Signal, 1)
-	interruptChannel <- os.Interrupt
-
-	// Verify assertions
-	assert.True(t, true, "main function executed successfully")
+	select {
+	case <-done:
+	case <-time.After(5 * time.Second):
+		t.Error("main function timed out")
+	}
 }
 
 func TestKafkaConsumerInitializationSuccess(t *testing.T) {
@@ -225,19 +232,20 @@ func TestKafkaConsumerInitializationSuccess(t *testing.T) {
 		return kafkaConsumer, kafkaProducer, nil // return mocked consumer and producer
 	}
 
-	// Run main function in a goroutine
+	// Run main function in a goroutine and wait for it to return so the
+	// goroutine does not outlive the test and race with the next test's
+	// SetupMocks() over the shared package vars.
 	done := make(chan struct{})
 	go func() {
 		main()
 		close(done)
 	}()
 
-	// Simulate an interrupt to trigger shutdown
-	interruptChannel := make(chan os.Signal, 1)
-	interruptChannel <- os.Interrupt
-
-	// Verify assertions
-	assert.True(t, true, "main function executed successfully")
+	select {
+	case <-done:
+	case <-time.After(5 * time.Second):
+		t.Error("main function timed out")
+	}
 }
 
 func TestKafkaNilConsumerInitialization(t *testing.T) {
@@ -248,19 +256,20 @@ func TestKafkaNilConsumerInitialization(t *testing.T) {
 		return nil, kafkaProducer, nil // return mocked consumer and producer
 	}
 
-	// Run main function in a goroutine
+	// Run main function in a goroutine and wait for it to return so the
+	// goroutine does not outlive the test and race with the next test's
+	// SetupMocks() over the shared package vars.
 	done := make(chan struct{})
 	go func() {
 		main()
 		close(done)
 	}()
 
-	// Simulate an interrupt to trigger shutdown
-	interruptChannel := make(chan os.Signal, 1)
-	interruptChannel <- os.Interrupt
-
-	// Verify assertions
-	assert.True(t, true, "main function executed successfully")
+	select {
+	case <-done:
+	case <-time.After(5 * time.Second):
+		t.Error("main function timed out")
+	}
 }
 
 // Test to verify that the HTTP server starts successfully.
@@ -276,7 +285,7 @@ func TestStartHTTPServer(t *testing.T) {
 func TestInitializeOPA(t *testing.T) {
 	tmpFile, err := os.CreateTemp("", "opa-config-*.json")
 	require.NoError(t, err)
-	defer os.Remove(tmpFile.Name())
+	defer func() { _ = os.Remove(tmpFile.Name()) }()
 	consts.OpasdkConfigPath = tmpFile.Name()
 
 	err = initializeOPA()
@@ -744,7 +753,7 @@ func TestInitializeOPA_KeepsInstanceForShutdown(t *testing.T) {
 	if opaSDKInstance == nil {
 		tmpFile, err := os.CreateTemp("", "opa-config-*.json")
 		require.NoError(t, err)
-		defer os.Remove(tmpFile.Name())
+		defer func() { _ = os.Remove(tmpFile.Name()) }()
 		consts.OpasdkConfigPath = tmpFile.Name()
 	}
 

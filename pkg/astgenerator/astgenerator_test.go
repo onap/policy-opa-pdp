@@ -36,7 +36,7 @@ import (
 
 func TestMain(m *testing.M) {
 	// Silence logger during tests to avoid false positives in go test
-	log.Log.Logger.SetOutput(io.Discard)
+	log.Log.SetOutput(io.Discard)
 	os.Exit(m.Run())
 }
 
@@ -52,13 +52,13 @@ func setupPaths(t testing.TB) func() {
 	// Redirect logger to the temp file
 	logFile, err := os.Create(consts.LogFilePath)
 	if err == nil {
-		log.Log.Logger.SetOutput(logFile)
+		log.Log.SetOutput(logFile)
 	}
 
 	return func() {
 		if err == nil {
-			log.Log.Logger.SetOutput(io.Discard)
-			logFile.Close() // Fix file lock issue
+			log.Log.SetOutput(io.Discard)
+			_ = logFile.Close() // Fix file lock issue
 		}
 		consts.TempRegoFolderPath = originalTempFolderPath
 		consts.LogFilePath = originalLogFilePath
@@ -201,7 +201,7 @@ func TestASTGeneratorHandler_UnmarshalError(t *testing.T) {
 
 func TestASTGeneratorHandler_EncodeError(t *testing.T) {
 	defer setupPaths(t)()
-	log.Log.Logger.SetOutput(io.Discard)
+	log.Log.SetOutput(io.Discard)
 
 	setupMockOpa(t, `{"ast": "mocked"}`)
 

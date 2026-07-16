@@ -43,7 +43,6 @@ import (
 
 type (
 	checkIfPolicyAlreadyExistsFunc func(policyId string) bool
-	validateRequestFunc            func(requestBody *oapicodegen.OPADataUpdateRequest) error
 )
 
 var (
@@ -53,9 +52,7 @@ var (
 	checkIfPolicyAlreadyExistsVar checkIfPolicyAlreadyExistsFunc = policymap.CheckIfPolicyAlreadyExists
 	getPolicyByIDVar                                             = getPolicyByID
 	extractPatchInfoVar                                          = extractPatchInfo
-	bootstrapServers                                             = cfg.BootstrapServer //The Kafka bootstrap server address.
 	PatchProducer                 kafkacomm.KafkaProducerInterface
-	patchTopic                    = cfg.PatchTopic
 	PatchDataVar                  = PatchData
 	getOperationTypeVar           = getOperationType
 )
@@ -201,7 +198,7 @@ func decodeRequest(req *http.Request) (oapicodegen.OPADataUpdateRequest, error) 
 	var requestBody oapicodegen.OPADataUpdateRequest
 	limited := http.MaxBytesReader(nil, req.Body, consts.MaxRequestBodyBytes)
 	if err := json.NewDecoder(limited).Decode(&requestBody); err != nil {
-		return requestBody, fmt.Errorf("Error in decoding request data: %v", err)
+		return requestBody, fmt.Errorf("error in decoding request data: %v", err)
 	}
 	return requestBody, nil
 }
@@ -227,7 +224,7 @@ func getPatchInfo(data *[]map[string]interface{}, dataDir string, res http.Respo
 	root := "/" + strings.Trim(dataDir, "/")
 	patchInfos, err := extractPatchInfoVar(res, data, root)
 	if patchInfos == nil || err != nil {
-		return nil, fmt.Errorf("Error in extracting Patch Info : %v", err)
+		return nil, fmt.Errorf("error in extracting Patch Info : %v", err)
 	}
 	return patchInfos, nil
 }
@@ -236,7 +233,7 @@ func handleDynamicUpdateRequestWithKafka(patchInfos []opasdk.PatchImpl, res http
 
 	if PatchProducer == nil {
 		log.Warnf("Failed to initialize Kafka producer")
-		return fmt.Errorf("Failed to initialize Kafka producer")
+		return fmt.Errorf("failed to initialize Kafka producer")
 
 	}
 	sender := &publisher.RealPatchSender{
@@ -271,16 +268,16 @@ func extractPatchInfo(res http.ResponseWriter, ops *[]map[string]interface{}, ro
 			opTypeErrMsg := "Error in getting op type. Op type is not given in request body"
 			sendErrorResponse(res, opTypeErrMsg, http.StatusBadRequest)
 			log.Errorf("%s", opTypeErrMsg)
-			return nil, fmt.Errorf("Error in getting op type. Op type is not given in request body")
+			return nil, fmt.Errorf("error in getting op type. Op type is not given in request body")
 		}
 		opType, err := getOperationTypeVar(optypeString, res)
 
 		if err != nil {
 			log.Warnf("Error in getting opType: %v", err)
-			return nil, fmt.Errorf("Error in getting operation type")
+			return nil, fmt.Errorf("error in getting operation type")
 		}
 		if opType == nil {
-			return nil, fmt.Errorf("Error in getting operation Type as opType is Missing")
+			return nil, fmt.Errorf("error in getting operation Type as opType is Missing")
 		}
 
 		impl := opasdk.PatchImpl{
@@ -292,13 +289,13 @@ func extractPatchInfo(res http.ResponseWriter, ops *[]map[string]interface{}, ro
 		if optypeString == "add" || optypeString == "replace" {
 			value, err = getPatchValue(op, res)
 			if err != nil {
-				return nil, fmt.Errorf("Error in gatting Value, Value not found")
+				return nil, fmt.Errorf("error in gatting Value, Value not found")
 			}
 		}
 		impl.Value = value
 		storagePath := constructOpStoragePath(op, root, res)
 		if storagePath == nil {
-			return nil, fmt.Errorf("Failed to construct op Storage Path")
+			return nil, fmt.Errorf("failed to construct op Storage Path")
 		}
 		impl.Path = storagePath
 
@@ -313,7 +310,7 @@ func getPatchValue(op map[string]interface{}, res http.ResponseWriter) (interfac
 		valueErrMsg := "Error in getting data value. Value is not given in request body"
 		sendErrorResponse(res, valueErrMsg, http.StatusBadRequest)
 		log.Errorf("%s", valueErrMsg)
-		return nil, errors.New(valueErrMsg)
+		return nil, errors.New("error in getting data value. Value is not given in request body")
 	}
 	return value, nil
 }
@@ -474,7 +471,6 @@ func invalidMethodHandler(res http.ResponseWriter, method string) {
 	msg := "MethodNotAllowed"
 	sendErrorResponse(res, (method + msg + " - " + resMsg), http.StatusBadRequest)
 	log.Errorf("%s", method+msg+" - "+resMsg)
-	return
 }
 
 func constructResponseHeader(res http.ResponseWriter, req *http.Request) {

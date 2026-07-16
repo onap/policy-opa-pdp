@@ -144,7 +144,7 @@ func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls
 	// Validate the request body
 	validationErrors := utils.ValidateOPADataRequest(decisionReq)
 
-	if decisionReq.PolicyFilter == nil || len(decisionReq.PolicyFilter) == 0 {
+	if len(decisionReq.PolicyFilter) == 0 {
 		validationErrors = append(validationErrors, "PolicyFilter is required")
 	}
 	if len(validationErrors) > 0 {
@@ -283,7 +283,7 @@ func processOpaDecision(res http.ResponseWriter, opa *sdk.OPA, decisionReq *oapi
 		sendDecisionErrorResponse("Invalid decision input", res, http.StatusBadRequest, decisionReq.PolicyName, policyVersion)
 		return
 	}
-	if inputBytes == nil || len(inputBytes) == 0 || string(inputBytes) == "null" {
+	if len(inputBytes) == 0 || string(inputBytes) == "null" {
 		statusMessage := "{\"warning\":{\"code\":\"api_usage_warning\",\"message\":\"'input' key missing from the request\"}}"
 		decisionRes = createSuccessDecisionResponseWithStatus(decisionReq.PolicyName, policyVersion, nil, statusMessage)
 	} else {

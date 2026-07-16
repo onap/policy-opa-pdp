@@ -68,6 +68,11 @@ var (
 	getOPASingletonInstanceFunc    = opasdk.GetOPASingletonInstance
 )
 
+// registrationDelay is the settle time waited before and after starting the
+// heartbeat timer during startup. It is a package var so tests can set it to
+// zero and avoid leaking a long-lived main() goroutine across test cases.
+var registrationDelay = 10 * time.Second
+
 // main function
 func main() {
 	var useKafkaForPatch = cfg.UseKafkaForPatch
@@ -109,12 +114,12 @@ func main() {
 		handlePatchMessagesFunc(ctx, patchMsgConsumer)
 	}
 
-	time.Sleep(10 * time.Second)
+	time.Sleep(registrationDelay)
 
 	pdpattributes.SetPdpHeartbeatInterval(int64(consts.DefaultHeartbeatMS))
 	go publisher.StartHeartbeatIntervalTimer(pdpattributes.GetPdpHeartbeatInterval(), sender)
 
-	time.Sleep(10 * time.Second)
+	time.Sleep(registrationDelay)
 	log.Debugf("After registration successful delay")
 	// Handle OS Interrupts and Graceful Shutdown
 	interruptChannel := make(chan os.Signal, 1)
@@ -250,13 +255,9 @@ func assignPatchKafka() {
 
 func handleShutdown(consumers []*kafkacomm.KafkaConsumer, interruptChannel chan os.Signal, cancel context.CancelFunc, producers []*kafkacomm.KafkaProducer) {
 
-myLoop:
-	for {
-		select {
-		case <-interruptChannel:
-			log.Debugf("Received Termination Signal.......")
-			break myLoop
-		}
+	for range interruptChannel {
+		log.Debugf("Received Termination Signal.......")
+		break
 	}
 	cancel()
 	log.Debugf("Loop Exited and shutdown started")

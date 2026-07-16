@@ -68,7 +68,7 @@ func TestPatchHandler_InvalidJSON(t *testing.T) {
 	patchHandler(res, req)
 
 	assert.Equal(t, http.StatusBadRequest, res.Code)
-	assert.Contains(t, res.Body.String(), "Error in decoding")
+	assert.Contains(t, res.Body.String(), "error in decoding")
 }
 
 func TestPatchHandlerWithInvalidData(t *testing.T) {
@@ -165,9 +165,7 @@ func TestPatchHandlerWithInvalidPolicyId(t *testing.T) {
 }
 
 func TestPatchData_failure(t *testing.T) {
-	var data []map[string]interface{}
-
-	data = nil
+	var data []map[string]interface{} = nil
 	root := "/test"
 	res := httptest.NewRecorder()
 	patchImpl, _ := extractPatchInfo(res, &data, root)
@@ -199,7 +197,7 @@ func Test_extractPatchInfo_OPTypefail(t *testing.T) {
 
 	root := "/test"
 	res := httptest.NewRecorder()
-	extractPatchInfo(res, &data, root)
+	_, _ = extractPatchInfo(res, &data, root)
 	assert.Equal(t, http.StatusBadRequest, res.Code)
 }
 
@@ -209,7 +207,7 @@ func Test_extractPatchInfo_Pathfail(t *testing.T) {
 
 	root := "/test"
 	res := httptest.NewRecorder()
-	extractPatchInfo(res, &data, root)
+	_, _ = extractPatchInfo(res, &data, root)
 	assert.Equal(t, http.StatusBadRequest, res.Code)
 }
 
@@ -219,7 +217,7 @@ func Test_extractPatchInfo_valuefail(t *testing.T) {
 
 	root := "/test"
 	res := httptest.NewRecorder()
-	extractPatchInfo(res, &data, root)
+	_, _ = extractPatchInfo(res, &data, root)
 	assert.Equal(t, http.StatusBadRequest, res.Code)
 }
 
@@ -236,7 +234,7 @@ func TestPatchData_success(t *testing.T) {
 	root := "/test"
 	res := httptest.NewRecorder()
 	patchImpl, _ := extractPatchInfo(res, &data, root)
-	PatchData(patchImpl, res)
+	_ = PatchData(patchImpl, res)
 	assert.Equal(t, http.StatusNoContent, res.Code)
 }
 
@@ -468,10 +466,10 @@ func TestGetData(t *testing.T) {
 
 			if tt.expectedStatus == http.StatusOK {
 				var actual map[string]interface{}
-				json.Unmarshal(res.Body.Bytes(), &actual)
+				_ = json.Unmarshal(res.Body.Bytes(), &actual)
 
 				var expected map[string]interface{}
-				json.Unmarshal([]byte(tt.expectedBody), &expected)
+				_ = json.Unmarshal([]byte(tt.expectedBody), &expected)
 
 				assert.Equal(t, expected, actual)
 			} else {
@@ -685,16 +683,6 @@ func mockCheckIfPolicyExists(policyID string) bool {
 	return policyID == "valid-policy"
 }
 
-// Mock function for getPolicyByID
-func mockGetPolicyByID(policiesMap map[string]Policy, policyID string) (Policy, error) {
-	if policyID == "valid-policy" {
-		return Policy{
-			Data: []string{"existing.path", "valid.path"},
-		}, nil
-	}
-	return Policy{}, errors.New("policy not found")
-}
-
 func TestPatchHandler_PolicyDoesNotExist(t *testing.T) {
 	originalCheckFunc := checkIfPolicyAlreadyExistsVar
 	checkIfPolicyAlreadyExistsVar = mockCheckIfPolicyExists
@@ -868,7 +856,7 @@ func TestHandleDynamicUpdateRequestWithKafka_KafkaDisabled_Error(t *testing.T) {
 	req := httptest.NewRecorder()
 	patchInfos := []opasdk.PatchImpl{{}}
 
-	handleDynamicUpdateRequestWithKafka(patchInfos, req)
+	_ = handleDynamicUpdateRequestWithKafka(patchInfos, req)
 	// Optionally assert on req.Body or req.Code if needed
 }
 
@@ -943,7 +931,7 @@ func TestHandleDynamicUpdateRequestWithKafka_KafkaDisabled_Success(t *testing.T)
 	req := httptest.NewRecorder()
 	patchInfos := []opasdk.PatchImpl{{}}
 
-	handleDynamicUpdateRequestWithKafka(patchInfos, req)
+	_ = handleDynamicUpdateRequestWithKafka(patchInfos, req)
 
 	if patchCalled {
 		t.Errorf("Expected PatchData to be called")
@@ -1001,7 +989,7 @@ func TestHandleDynamicUpdateRequestWithKafka_ProducerNil(t *testing.T) {
 	err := handleDynamicUpdateRequestWithKafka(nil, httptest.NewRecorder())
 
 	// Assert
-	assert.EqualError(t, err, "Failed to initialize Kafka producer")
+	assert.EqualError(t, err, "failed to initialize Kafka producer")
 }
 
 // Test Produce error is propagated testing.NamePreamble
@@ -1136,7 +1124,7 @@ func TestDataHandler_GET_Success(t *testing.T) {
 	DataHandler(w, req) // <---- Only this
 
 	res := w.Result()
-	defer res.Body.Close()
+	defer func() { _ = res.Body.Close() }()
 
 	if res.StatusCode != http.StatusOK {
 		t.Errorf("expected status 200 OK, got %d", res.StatusCode)
@@ -1307,7 +1295,7 @@ func TestPatchHandler_KafkaAccepted_BodyIsValidJSON(t *testing.T) {
 }
 
 func TestPatchHandler_KafkaSendFailure_ReturnsError(t *testing.T) {
-	// Arrange: nil PatchProducer triggers "Failed to initialize Kafka producer" error
+	// Arrange: nil PatchProducer triggers "failed to initialize Kafka producer" error
 	origKafka := cfg.UseKafkaForPatch
 	origProducer := PatchProducer
 	origPolicies := policymap.LastDeployedPolicies

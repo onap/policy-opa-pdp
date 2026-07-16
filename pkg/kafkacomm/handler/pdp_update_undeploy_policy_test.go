@@ -186,7 +186,7 @@ func TestRemoveDataDirectory(t *testing.T) {
 	}
 
 	err = removeDataDirectory("testkey")
-	expectedError := "Failed to handle directory for data /mock/data/testkey: mocked error"
+	expectedError := "failed to handle directory for data /mock/data/testkey: mocked error"
 	assert.Equal(t, expectedError, err.Error())
 }
 
@@ -218,7 +218,7 @@ func TestRemovePolicyDirectory(t *testing.T) {
 	}
 
 	err = removePolicyDirectory("testpolicy")
-	expectedError := "Failed to handle directory for policy /mock/policies/testpolicy: mocked error"
+	expectedError := "failed to handle directory for policy /mock/policies/testpolicy: mocked error"
 	assert.Equal(t, expectedError, err.Error())
 }
 
@@ -256,16 +256,6 @@ func TestRemovePolicyFromSdkandDir(t *testing.T) {
 	assert.Len(t, failures, 1)
 	assert.Contains(t, failures[0], "mocked delete policy error")
 }
-
-// Mocking the remove functions
-var (
-	mockRemovePolicyFromSdkandDir = func(policy map[string]interface{}) []string {
-		return nil // Default successful case
-	}
-	mockRemoveDataFromSdkandDir = func(policy map[string]interface{}) []string {
-		return nil // Default successful case
-	}
-)
 
 // Replace the actual functions with mocks in the test
 func TestPolicyUndeploymentAction(t *testing.T) {

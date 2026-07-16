@@ -73,6 +73,6 @@ func ConvertStringToEnumState(state string) (PdpState, error) {
 	case "TERMINATED":
 		return Terminated, nil
 	default:
-		return -1, fmt.Errorf("Unknown PdpState: %s", state)
+		return -1, fmt.Errorf("unknown PdpState: %s", state)
 	}
 }

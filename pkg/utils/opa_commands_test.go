@@ -40,7 +40,7 @@ func setupPaths(t testing.TB) func() {
 	// Redirect logger to the temp file
 	logFile, err := os.Create(consts.LogFilePath)
 	if err == nil {
-		log.Log.Logger.SetOutput(logFile)
+		log.Log.SetOutput(logFile)
 	}
 
 	return func() {
@@ -80,8 +80,8 @@ func TestCreateTempFile_Failure(t *testing.T) {
 	// Use a path that is actually a file, not a directory.
 	// os.CreateTemp will fail on this.
 	tmpFile, _ := os.CreateTemp("", "bad-dir-*")
-	defer os.Remove(tmpFile.Name())
-	tmpFile.Close()
+	defer func() { _ = os.Remove(tmpFile.Name()) }()
+	_ = tmpFile.Close()
 
 	consts.TempRegoFolderPath = tmpFile.Name()
 
@@ -200,8 +200,8 @@ func TestParseAST(t *testing.T) {
 	t.Run("Failure - CreateTempFile", func(t *testing.T) {
 		// Use a path that is actually a file, not a directory.
 		tmpFile, _ := os.CreateTemp("", "bad-dir-*")
-		defer os.Remove(tmpFile.Name())
-		tmpFile.Close()
+		defer func() { _ = os.Remove(tmpFile.Name()) }()
+		_ = tmpFile.Close()
 
 		originalPath := consts.TempRegoFolderPath
 		consts.TempRegoFolderPath = tmpFile.Name()

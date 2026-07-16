@@ -100,10 +100,11 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 		tt := tests[name]
 		t.Run(name, func(t *testing.T) {
 			// Set up the mock to return the expected error
-			if name == "Valid state change" {
+			switch name {
+			case "Valid state change":
 				mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(tt.mockError)
 				mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-			} else if name == "Error in SendStateChangeResponse" {
+			case "Error in SendStateChangeResponse":
 				mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(tt.mockError)
 				mockSender.On("SendPdpStatus", mock.Anything).Return(fmt.Errorf("failed to send PDP status"))
 			}

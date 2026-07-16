@@ -371,9 +371,9 @@ func TestPdpUpdateMessageHandler_Partial_FailureIn_Undeployment(t *testing.T) {
 
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`
 	//mock the policy undeployment
-	handlePdpUpdateUndeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, error, []string) {
+	handlePdpUpdateUndeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 
-		return "", errors.New("error in undeployment"), []string{}
+		return "", []string{}, errors.New("error in undeployment")
 	}
 	sendFinalResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
 		assert.Equal(t, "{}", policies)
@@ -580,7 +580,7 @@ func TestHandlePdpUpdateDeploymentVarSuccess(t *testing.T) {
 		PoliciesToBeDeployed: []model.ToscaPolicy{{Name: "policy1"}},
 	}
 
-	jsonStr, err, failureMsgs := handlePdpUpdateDeployment(update, mockSender)
+	jsonStr, failureMsgs, err := handlePdpUpdateDeployment(update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, `{"policy1":"deployed"}`, jsonStr)
@@ -604,7 +604,7 @@ func TestHandlePdpUpdateDeploymentVarFormatError(t *testing.T) {
 		PoliciesToBeDeployed: []model.ToscaPolicy{{Name: "policy1"}},
 	}
 
-	jsonStr, err, failureMsgs := handlePdpUpdateDeployment(update, mockSender)
+	jsonStr, failureMsgs, err := handlePdpUpdateDeployment(update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, "", jsonStr)
@@ -625,7 +625,7 @@ func TestHandlePdpUpdateUndeploymentVarSuccess(t *testing.T) {
 		PoliciesToBeUndeployed: []model.ToscaConceptIdentifier{{Name: "policy1"}},
 	}
 
-	jsonStr, err, failureMsgs := handlePdpUpdateUndeployment(update, mockSender)
+	jsonStr, failureMsgs, err := handlePdpUpdateUndeployment(update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, `{"policy1":"undeployed"}`, jsonStr)
@@ -649,7 +649,7 @@ func TestHandlePdpUpdateUndeploymentVarFormatError(t *testing.T) {
 		PoliciesToBeUndeployed: []model.ToscaConceptIdentifier{{Name: "policy1"}},
 	}
 
-	jsonStr, err, failureMsgs := handlePdpUpdateUndeployment(update, mockSender)
+	jsonStr, failureMsgs, err := handlePdpUpdateUndeployment(update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, "", jsonStr)
@@ -736,8 +736,8 @@ func Test_UndeploymentHandlerFails(t *testing.T) {
 	}`)
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": []}`
 	mockPublisher := new(mocks.PdpStatusSender)
-	handlePdpUpdateUndeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, error, []string) {
-		return "", errors.New("undeployment error"), []string{}
+	handlePdpUpdateUndeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
+		return "", []string{}, errors.New("undeployment error")
 	}
 	defer func() {
 		handlePdpUpdateDeploymentVar = handlePdpUpdateDeployment
@@ -765,11 +765,11 @@ func Test_SuccessFlow(t *testing.T) {
 
 	mockPublisher := new(mocks.PdpStatusSender)
 
-	handlePdpUpdateDeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, error, []string) {
-		return "dep1", nil, []string{}
+	handlePdpUpdateDeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
+		return "dep1", []string{}, nil
 	}
-	handlePdpUpdateUndeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, error, []string) {
-		return "undep1", nil, []string{}
+	handlePdpUpdateUndeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
+		return "undep1", []string{}, nil
 	}
 	sendFinalResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
 		assert.Equal(t, "dep1,undep1", policies)
@@ -887,7 +887,7 @@ func TestHandlePdpUpdateUndeployment_WithFailureMessage(t *testing.T) {
 		return "Policy1", nil
 	}
 
-	json, err, failures := handlePdpUpdateUndeployment(update, mockSender)
+	json, failures, err := handlePdpUpdateUndeployment(update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, "Policy1", json)
@@ -918,7 +918,7 @@ func TestHandlePdpUpdateUndeployment_SendFailureResponseFails(t *testing.T) {
 		return errors.New("send failed")
 	}
 
-	json, err, failures := handlePdpUpdateUndeployment(update, mockSender)
+	json, failures, err := handlePdpUpdateUndeployment(update, mockSender)
 
 	assert.Error(t, err)
 	assert.Equal(t, "send failed", err.Error())
@@ -1011,8 +1011,8 @@ func TestPdpUpdateMessageHandler_DeploymentFails(t *testing.T) {
 		return nil
 	}
 
-	handlePdpUpdateDeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, error, []string) {
-		return "", errors.New("deployment error"), []string{"failure"}
+	handlePdpUpdateDeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
+		return "", []string{"failure"}, errors.New("deployment error")
 	}
 
 	err := pdpUpdateMessageHandler(message, mockSender)
@@ -1040,7 +1040,7 @@ func TestHandlePdpUpdateDeployment_WithDeploymentFailures(t *testing.T) {
 		PoliciesToBeDeployed: []model.ToscaPolicy{{Name: "test-policy"}},
 	}
 
-	mapJson, err, failures := handlePdpUpdateDeployment(update, mockSender)
+	mapJson, failures, err := handlePdpUpdateDeployment(update, mockSender)
 	assert.NoError(t, err)
 	assert.Contains(t, failures[0], "Deployment Errors")
 	assert.Contains(t, mapJson, `"successPolicy":"test"`)
@@ -1071,7 +1071,7 @@ func TestHandlePdpUpdateDeployment_FormatMapFails(t *testing.T) {
 		PoliciesToBeDeployed: []model.ToscaPolicy{{Name: "test-policy"}},
 	}
 
-	mapJson, err, failures := handlePdpUpdateDeployment(update, mockSender)
+	mapJson, failures, err := handlePdpUpdateDeployment(update, mockSender)
 	assert.NoError(t, err)
 	assert.Equal(t, "", mapJson)
 	assert.Contains(t, failures[0], "Internal Map Error")

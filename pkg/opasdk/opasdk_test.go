@@ -151,7 +151,7 @@ func TestGetOPASingletonInstance_SingletonBehavior(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
 	}
-	defer os.Remove(tmpFile.Name())
+	defer func() { _ = os.Remove(tmpFile.Name()) }()
 
 	consts.OpasdkConfigPath = tmpFile.Name()
 
@@ -173,7 +173,7 @@ func TestGetOPASingletonInstance_ConfigurationFileLoaded(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
 	}
-	defer os.Remove(tmpFile.Name())
+	defer func() { _ = os.Remove(tmpFile.Name()) }()
 
 	consts.OpasdkConfigPath = tmpFile.Name()
 
@@ -191,7 +191,7 @@ func TestGetOPASingletonInstance_OPAInstanceCreation(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
 	}
-	defer os.Remove(tmpFile.Name())
+	defer func() { _ = os.Remove(tmpFile.Name()) }()
 
 	consts.OpasdkConfigPath = tmpFile.Name()
 
@@ -222,7 +222,7 @@ func TestGetOPASingletonInstance_ValidConfigFile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
 	}
-	defer os.Remove(tmpFile.Name())
+	defer func() { _ = os.Remove(tmpFile.Name()) }()
 
 	consts.OpasdkConfigPath = tmpFile.Name()
 
@@ -255,7 +255,7 @@ func TestGetJSONReader(t *testing.T) {
 	// Check the content of the jsonReader
 	expectedContent := `{"config": "test"}`
 	actualContent := make([]byte, len(expectedContent))
-	jsonReader.Read(actualContent)
+	_, _ = jsonReader.Read(actualContent)
 	assert.Equal(t, expectedContent, string(actualContent))
 
 	// Assert that the mock methods were called
@@ -283,7 +283,7 @@ func TestGetOPASingletonInstance(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp file: %v", err)
 	}
-	defer os.Remove(tmpFile.Name())
+	defer func() { _ = os.Remove(tmpFile.Name()) }()
 	consts.OpasdkConfigPath = tmpFile.Name()
 
 	// Call your function under test

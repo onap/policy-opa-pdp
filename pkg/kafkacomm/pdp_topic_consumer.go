@@ -67,7 +67,7 @@ func (kc *KafkaConsumer) Close() error {
 // Unsubscribe unsubscribes the KafkaConsumer
 func (kc *KafkaConsumer) Unsubscribe() error {
 	if kc.Consumer == nil {
-		return fmt.Errorf("Kafka Consumer is nil so cannot Unsubscribe")
+		return fmt.Errorf("kafka Consumer is nil so cannot Unsubscribe")
 	}
 	err := kc.Consumer.Unsubscribe()
 	if err != nil {
@@ -109,10 +109,16 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 	}
 	// If SASL is enabled, add SASL properties
 	if useSASL == "true" {
-		configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512")     // #nosec G104
-		configMap.SetKey("sasl.username", username)             // #nosec G104
-		configMap.SetKey("sasl.password", password)             // #nosec G104
-		configMap.SetKey("security.protocol", "SASL_PLAINTEXT") // #nosec G104
+		for key, value := range map[string]string{
+			"sasl.mechanism":    "SCRAM-SHA-512",
+			"sasl.username":     username,
+			"sasl.password":     password,
+			"security.protocol": "SASL_PLAINTEXT",
+		} {
+			if err := configMap.SetKey(key, value); err != nil {
+				log.Warnf("Failed to set Kafka config key %s: %v", key, err)
+			}
+		}
 		// configMap.SetKey("debug", "all") // Uncomment for debug
 	}
 
@@ -123,7 +129,7 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 	}
 	if consumer == nil {
 		log.Warnf("Kafka Consumer is nil after creation")
-		return nil, fmt.Errorf("Kafka Consumer is nil after creation")
+		return nil, fmt.Errorf("kafka Consumer is nil after creation")
 	}
 
 	if err = consumer.SubscribeTopics([]string{topic}, nil); err != nil {
