@@ -55,4 +55,11 @@ USER 1000:1000
 WORKDIR /app
 EXPOSE 8282
 
+# The runtime image is distroless (no shell/curl), so the health probe is the
+# binary itself: `opa-pdp -healthcheck` does an authenticated GET on the local
+# /healthcheck endpoint and exits non-zero when unhealthy. Kubernetes uses its
+# own tcpSocket probe and ignores this directive.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD ["/app/opa-pdp", "-healthcheck"]
+
 CMD ["/app/opa-pdp"]

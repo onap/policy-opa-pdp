@@ -29,6 +29,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"net/http"
 	"os"
+	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/mocks"
@@ -801,4 +802,43 @@ func TestInitializeOPA_ErrorPropagation(t *testing.T) {
 	err := initializeOPA()
 	assert.Error(t, err)
 	assert.Nil(t, opaSDKInstance)
+}
+
+// TestRunHealthCheck_Healthy verifies runHealthCheck returns 0 when the self
+// probe succeeds.
+func TestRunHealthCheck_Healthy(t *testing.T) {
+	orig := selfCheckFunc
+	t.Cleanup(func() { selfCheckFunc = orig })
+	selfCheckFunc = func(url, user, pass string, timeout time.Duration) error {
+		return nil
+	}
+	assert.Equal(t, 0, runHealthCheck())
+}
+
+// TestRunHealthCheck_Unhealthy verifies runHealthCheck returns 1 when the self
+// probe fails.
+func TestRunHealthCheck_Unhealthy(t *testing.T) {
+	orig := selfCheckFunc
+	t.Cleanup(func() { selfCheckFunc = orig })
+	selfCheckFunc = func(url, user, pass string, timeout time.Duration) error {
+		return errors.New("unreachable")
+	}
+	assert.Equal(t, 1, runHealthCheck())
+}
+
+// TestRunHealthCheck_PassesConfiguredURLAndCreds verifies the probe targets the
+// local healthcheck path with the configured basic-auth credentials.
+func TestRunHealthCheck_PassesConfiguredURLAndCreds(t *testing.T) {
+	orig := selfCheckFunc
+	t.Cleanup(func() { selfCheckFunc = orig })
+	var gotURL, gotUser, gotPass string
+	selfCheckFunc = func(url, user, pass string, timeout time.Duration) error {
+		gotURL, gotUser, gotPass = url, user, pass
+		return nil
+	}
+	runHealthCheck()
+	assert.Contains(t, gotURL, consts.HealthCheckPath)
+	assert.Contains(t, gotURL, consts.ServerPort)
+	assert.Equal(t, cfg.Username, gotUser)
+	assert.Equal(t, cfg.Password, gotPass)
 }
