@@ -72,7 +72,7 @@ func TestHealthCheckHandler_Failure(t *testing.T) {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(response)
+		_ = json.NewEncoder(w).Encode(response)
 	}
 
 	// Prepare a request to the health check endpoint

@@ -184,7 +184,7 @@ func IsPolicyNameAllowed(policy model.ToscaPolicy, deployedPolicies []map[string
 	policyID := policy.Name
 
 	if policyID == "" {
-		return false, fmt.Errorf("Policy Name cannot be Empty")
+		return false, fmt.Errorf("policy Name cannot be Empty")
 	}
 
 	policyHierarchyLevel := strings.Split(policyID, ".")
@@ -192,17 +192,17 @@ func IsPolicyNameAllowed(policy model.ToscaPolicy, deployedPolicies []map[string
 	for _, deployedPolicy := range deployedPolicies {
 		deployedPolicyID, ok := deployedPolicy["policy-id"].(string)
 		if !ok {
-			return false, fmt.Errorf("Invalid or missing policy-id field")
+			return false, fmt.Errorf("invalid or missing policy-id field")
 		}
 
 		deployedPolicyIDHierarchyLevel := strings.Split(deployedPolicyID, ".")
 
 		if isParentOfExistingPolicy(policyHierarchyLevel, deployedPolicyIDHierarchyLevel) {
-			return false, fmt.Errorf("Policy Validation Failed : Policy-id: %s is parent  of deployed policy, overrides existing policy: %s", policyID, deployedPolicyID)
+			return false, fmt.Errorf("policy Validation Failed : Policy-id: %s is parent  of deployed policy, overrides existing policy: %s", policyID, deployedPolicyID)
 		}
 
 		if isChildOfExistingPolicy(policyHierarchyLevel, deployedPolicyIDHierarchyLevel) {
-			return false, fmt.Errorf("Policy Validation Failed:  Policy-id: %s is child  of deployed policy , can overwrite existing policy: %s", policyID, deployedPolicyID)
+			return false, fmt.Errorf("policy Validation Failed:  Policy-id: %s is child  of deployed policy , can overwrite existing policy: %s", policyID, deployedPolicyID)
 
 		}
 

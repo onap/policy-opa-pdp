@@ -62,11 +62,6 @@ func (m *MockKafkaConsumer) ReadMessage(timeout time.Duration) (*kafka.Message, 
 	return msg.(*kafka.Message), args.Error(1)
 }
 
-func (m *MockKafkaConsumer) pdpUpdateMessageHandler(msg string) error {
-	args := m.Called(msg)
-	return args.Error(0)
-}
-
 func (m *MockKafkaConsumer) ReadKafkaMessages(kc *kafkacomm.KafkaConsumer) ([]byte, error) {
 	args := m.Called(kc)
 	return args.Get(0).([]byte), args.Error(0)

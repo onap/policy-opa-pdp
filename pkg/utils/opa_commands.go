@@ -41,11 +41,17 @@ func createTempFile(prefix, content string) (string, func(), error) {
 	}
 	log.Debugf("Temp file %s is written with %s", tmpFile.Name(), content)
 	if _, err := tmpFile.WriteString(content); err != nil {
-		tmpFile.Close()
-		os.Remove(tmpFile.Name())
+		if cerr := tmpFile.Close(); cerr != nil {
+			log.Warnf("Failed to close temp file %s: %v", tmpFile.Name(), cerr)
+		}
+		if rerr := os.Remove(tmpFile.Name()); rerr != nil {
+			log.Warnf("Failed to remove temp file %s: %v", tmpFile.Name(), rerr)
+		}
 		return "", nil, fmt.Errorf("failed to write temp file: %v", err)
 	}
-	tmpFile.Close()
+	if cerr := tmpFile.Close(); cerr != nil {
+		log.Warnf("Failed to close temp file %s: %v", tmpFile.Name(), cerr)
+	}
 	cleanup := func() {
 		if err := os.Remove(tmpFile.Name()); err != nil {
 			log.Warnf("Failed to remove temp file %s: %v", tmpFile.Name(), err)

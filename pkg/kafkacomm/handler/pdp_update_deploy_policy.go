@@ -84,7 +84,7 @@ func createAndStorePolicyData(policy model.ToscaPolicy) error {
 		return err
 	}
 
-	decodedData, key, err := extractAndDecodeDataVar(policy)
+	decodedData, _, err := extractAndDecodeDataVar(policy)
 	if err != nil {
 		log.Errorf("Failed to extract and decode data: %v", err)
 		return err
@@ -253,7 +253,7 @@ func upsertData(policy model.ToscaPolicy) error {
 			return err
 
 		}
-		keypath := "/" + strings.Replace(dataKey, ".", "/", -1)
+		keypath := "/" + strings.ReplaceAll(dataKey, ".", "/")
 		err = opasdk.WriteDataVar(context.Background(), keypath, wdata)
 		if err != nil {
 			log.Errorf("Failed to Write Data: %s: %v", policy.Name, err)
@@ -336,7 +336,7 @@ func deployPolicyAndData(policy model.ToscaPolicy, successPolicies map[string]st
 		}
 		metrics.IncrementDeployFailureCount()
 		metrics.IncrementTotalErrorCount()
-		return fmt.Errorf("Failed to build Rego File for %s: %v", policy.Name, string(output))
+		return fmt.Errorf("failed to build Rego File for %s: %v", policy.Name, string(output))
 	}
 
 	// Upsert policy and data
@@ -387,11 +387,11 @@ func verifyPolicyByBundleCreation(policy model.ToscaPolicy) (string, error) {
 func upsertPolicyAndData(policy model.ToscaPolicy, successPolicies map[string]string) error {
 	if err := upsertPolicyFunc(policy); err != nil {
 		log.Warnf("Failed to upsert policy: %v", err)
-		return fmt.Errorf("Failed to Insert Policy: %s: %v", policy.Name, err)
+		return fmt.Errorf("failed to Insert Policy: %s: %v", policy.Name, err)
 	}
 
 	if err := upsertDataFunc(policy); err != nil {
-		return fmt.Errorf("Failed to Write Data: %s: %v", policy.Name, err)
+		return fmt.Errorf("failed to Write Data: %s: %v", policy.Name, err)
 	}
 
 	return nil

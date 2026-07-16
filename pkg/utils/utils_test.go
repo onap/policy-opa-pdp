@@ -87,7 +87,7 @@ func TestIsValidUUIDNegative(t *testing.T) {
 
 func TestCreateDirectory_Positive(t *testing.T) {
 	tempDir := "testdir"
-	defer os.RemoveAll(tempDir)
+	defer func() { _ = os.RemoveAll(tempDir) }()
 
 	err := CreateDirectory(tempDir)
 	assert.NoError(t, err)
@@ -106,7 +106,7 @@ func TestRemoveDirectory_Positive(t *testing.T) {
 	filePath := filepath.Join(tempDir, "data.json")
 	file, err := os.Create(filePath)
 	assert.NoError(t, err)
-	file.Close()
+	_ = file.Close()
 	assert.FileExists(t, filePath, "File should exist before deletion")
 
 	err = RemoveDirectory(tempDir)
@@ -119,8 +119,7 @@ func TestRemoveDirectory_Positive(t *testing.T) {
 func TestRemoveDirectory_Negative(t *testing.T) {
 	nonExistentDirectory := filepath.Join(os.TempDir(), "non_existent_directory")
 
-	_, err := os.Stat(nonExistentDirectory)
-	err = RemoveDirectory(nonExistentDirectory)
+	err := RemoveDirectory(nonExistentDirectory)
 	assert.NoError(t, err)
 }
 
@@ -150,13 +149,13 @@ func TestRemoveDirectory_NonExistent(t *testing.T) {
 func TestRemoveDirectory_WithSpecificFiles(t *testing.T) {
 	tempDir, err := os.MkdirTemp("", "testdir")
 	assert.NoError(t, err)
-	defer os.RemoveAll(tempDir)
+	defer func() { _ = os.RemoveAll(tempDir) }()
 
 	dataFile := tempDir + "/data.json"
 	policyFile := tempDir + "/policy.rego"
 
-	os.WriteFile(dataFile, []byte("test"), 0644)
-	os.WriteFile(policyFile, []byte("test"), 0644)
+	_ = os.WriteFile(dataFile, []byte("test"), 0644)
+	_ = os.WriteFile(policyFile, []byte("test"), 0644)
 
 	err = RemoveDirectory(tempDir)
 	assert.NoError(t, err, "Expected no error when removing specific files")
@@ -172,7 +171,7 @@ func TestIsDirEmpty_Positive(t *testing.T) {
 	tempDir, err := os.MkdirTemp("", "testdir")
 	assert.NoError(t, err)
 
-	defer os.RemoveAll(tempDir)
+	defer func() { _ = os.RemoveAll(tempDir) }()
 	isEmpty, err := isDirEmpty(tempDir)
 	assert.NoError(t, err)
 	assert.True(t, isEmpty)
@@ -182,11 +181,11 @@ func TestIsDirEmpty_Negative(t *testing.T) {
 	tempDir, err := os.MkdirTemp("", "testdir")
 	assert.NoError(t, err)
 
-	defer os.RemoveAll(tempDir)
+	defer func() { _ = os.RemoveAll(tempDir) }()
 	filePath := filepath.Join(tempDir, "data.json")
 	file, err := os.Create(filePath)
 	assert.NoError(t, err)
-	file.Close()
+	_ = file.Close()
 	assert.FileExists(t, filePath, "File should exist before deletion")
 
 	isEmpty, err := isDirEmpty(tempDir)
@@ -197,7 +196,7 @@ func TestIsDirEmpty_Negative(t *testing.T) {
 func TestIsDirEmpty_ValidNonEmptyDir(t *testing.T) {
 	tempDir, err := os.MkdirTemp("", "testdir")
 	assert.NoError(t, err, "Expected temp directory to be created")
-	defer os.RemoveAll(tempDir) // Cleanup
+	defer func() { _ = os.RemoveAll(tempDir) }() // Cleanup
 
 	_, err = os.CreateTemp(tempDir, "testfile")
 	assert.NoError(t, err, "Expected test file to be created")
@@ -259,7 +258,7 @@ func TestIsPolicyNameAllowed_ParentOfExistingPolicy(t *testing.T) {
 	allowed, err := IsPolicyNameAllowed(policy, deployedPolicies)
 	assert.Error(t, err)
 	assert.False(t, allowed, "Expected validation to fail due to parent policy conflict")
-	assert.Contains(t, err.Error(), "Policy Validation Failed : Policy-id: test.policy is parent  of deployed policy, overrides existing policy: test.policy.1")
+	assert.Contains(t, err.Error(), "policy Validation Failed : Policy-id: test.policy is parent  of deployed policy, overrides existing policy: test.policy.1")
 }
 
 func TestIsPolicyNameAllowed_ChildOfExistingPolicy(t *testing.T) {
@@ -272,7 +271,7 @@ func TestIsPolicyNameAllowed_ChildOfExistingPolicy(t *testing.T) {
 	allowed, err := IsPolicyNameAllowed(policy, deployedPolicies)
 	assert.Error(t, err)
 	assert.False(t, allowed, "Expected validation to fail due to child policy conflict")
-	assert.Contains(t, err.Error(), "Policy Validation Failed:  Policy-id: test.policy.1.1 is child  of deployed policy , can overwrite existing policy: test.policy.1")
+	assert.Contains(t, err.Error(), "policy Validation Failed:  Policy-id: test.policy.1.1 is child  of deployed policy , can overwrite existing policy: test.policy.1")
 }
 
 func TestIsPolicyNameAllowed_NoDeployedPolicies(t *testing.T) {
@@ -295,7 +294,7 @@ func TestIsPolicyNameAllowed_EmptyPolicyName(t *testing.T) {
 	allowed, err := IsPolicyNameAllowed(policy, deployedPolicies)
 	assert.Error(t, err)
 	assert.False(t, allowed, "Expected policy name validation to fail")
-	assert.Contains(t, err.Error(), "Policy Name cannot be Empty")
+	assert.Contains(t, err.Error(), "policy Name cannot be Empty")
 }
 
 // Positive test cases for isParentOfExistingPolicy
@@ -640,7 +639,7 @@ func TestIsSubDirEmpty(t *testing.T) {
 		assert.NoError(t, err) // Directory should still exist
 
 		// Clean up
-		os.RemoveAll(tempDir)
+		_ = os.RemoveAll(tempDir)
 	})
 
 	t.Run("Non-Existent Directory - Should return an error", func(t *testing.T) {
@@ -673,18 +672,13 @@ func TestIsSubDirEmpty(t *testing.T) {
 		assert.Contains(t, err.Error(), "failed to remove directory")
 
 		// Clean up
-		os.RemoveAll(tempDir)
+		_ = os.RemoveAll(tempDir)
 	})
 }
 
 // Helper function to create string pointers
 func strPtr(s string) *string {
 	return &s
-}
-
-// Helper function to create time pointers
-func timePtr(t time.Time) *time.Time {
-	return &t
 }
 
 func TestValidateOPADataRequest_UpdateRequest_Valid(t *testing.T) {

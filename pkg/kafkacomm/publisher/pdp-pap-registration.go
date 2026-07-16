@@ -42,8 +42,7 @@ type RealPdpStatusSender struct {
 // Sends PdpSTatus Message type to KafkaTopic
 func (s *RealPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
 
-	var topic string
-	topic = cfg.Topic
+	topic := cfg.Topic
 	pdpStatus.RequestID = uuid.New().String()
 	pdpStatus.TimestampMs = fmt.Sprintf("%d", time.Now().UnixMilli())
 

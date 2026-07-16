@@ -172,7 +172,7 @@ func removeDataFromSdkandDir(policy map[string]interface{}) []string {
 		sort.Stable(utils.ByDotCount{Keys: dataKeysSlice, Ascend: false})
 
 		for _, keyPath := range dataKeysSlice {
-			keyPath = "/" + strings.Replace(keyPath, ".", "/", -1)
+			keyPath = "/" + strings.ReplaceAll(keyPath, ".", "/")
 			log.Debugf("Deleting data from OPA : %s", keyPath)
 			errs := processDataDeletionFromSdkAndDirFunc(keyPath)
 			failureMessages = append(failureMessages, errs...)
@@ -218,7 +218,7 @@ func removePolicyFromSdkandDir(policy map[string]interface{}) []string {
 				failureMessages = append(failureMessages, fmt.Sprintf("Invalid policy key: %v", policyKey))
 				continue
 			}
-			keyPath := "/" + strings.Replace(keyStr, ".", "/", -1)
+			keyPath := "/" + strings.ReplaceAll(keyStr, ".", "/")
 			log.Debugf("Deleting Policy from OPA : %s", keyPath)
 			if err := deletePolicySdkFunc(context.Background(), keyStr); err != nil {
 				failureMessages = append(failureMessages, err.Error())
@@ -240,7 +240,7 @@ func removeDataDirectory(dataKey string) error {
 	dataPath := filepath.Join(consts.Data, dataKey)
 	log.Debugf("Removing data directory: %s", dataPath)
 	if err := removeDirectoryFunc(dataPath); err != nil {
-		return fmt.Errorf("Failed to handle directory for data %s: %v", dataPath, err)
+		return fmt.Errorf("failed to handle directory for data %s: %v", dataPath, err)
 	}
 	return nil
 }
@@ -250,7 +250,7 @@ func removePolicyDirectory(policyKey string) error {
 	policyPath := filepath.Join(consts.Policies, policyKey)
 	log.Debugf("Removing policy directory: %s", policyPath)
 	if err := removeDirectoryFunc(policyPath); err != nil {
-		return fmt.Errorf("Failed to handle directory for policy %s: %v", policyPath, err)
+		return fmt.Errorf("failed to handle directory for policy %s: %v", policyPath, err)
 	}
 	return nil
 }

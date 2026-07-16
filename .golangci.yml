@@ -1,0 +1,24 @@
+# golangci-lint configuration for policy-opa-pdp.
+#
+# The CI Go build-test workflow (lfreleng-actions/go-workflows) runs
+# golangci-lint with its default linter set. This file scopes out one class of
+# finding that is a deliberate, documented design choice rather than a defect:
+#
+#   SA1019 on github.com/open-policy-agent/opa/{sdk,storage,storage/inmem}
+#   ---------------------------------------------------------------------
+#   These OPA v0.x packages are marked deprecated in favour of the
+#   github.com/open-policy-agent/opa/v1 equivalents. opa-pdp intentionally uses
+#   both the v0 and v1 surfaces (see CLAUDE.md: "Two OPA integration modes
+#   coexist"). Migrating off the v0 packages is a substantive dependency change
+#   that must be done deliberately, not as a side effect of a lint gate, so the
+#   deprecation warning is suppressed here until that migration happens.
+#
+# Everything else (errcheck, ineffassign, unused, and all other staticcheck
+# rules) is enforced.
+version: "2"
+
+linters:
+  exclusions:
+    rules:
+      - path: (.+)\.go$
+        text: "SA1019: \"github.com/open-policy-agent/opa/(sdk|storage|storage/inmem)\""

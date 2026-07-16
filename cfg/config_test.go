@@ -30,8 +30,8 @@ func TestGetEnv(t *testing.T) {
 	defaultVal := "default"
 	expected := "value"
 
-	os.Setenv(key, expected)
-	defer os.Unsetenv(key)
+	_ = os.Setenv(key, expected)
+	defer func() { _ = os.Unsetenv(key) }()
 
 	if val := getEnv(key, defaultVal); val != expected {
 		t.Errorf("Expected %s, got %s", expected, val)
@@ -47,8 +47,9 @@ func TestGetSaslJAASLOGINFromEnv(t *testing.T) {
 	mockJAASLOGIN := `username="mockUser" password="mockPassword"`
 
 	// Set the mock environment variable
-	os.Setenv("JAASLOGIN", mockJAASLOGIN)
-	defer os.Unsetenv("JAASLOGIN") // Ensure the environment variable is unset after the test
+	_ = os.Setenv("JAASLOGIN", mockJAASLOGIN)
+	// Ensure the environment variable is unset after the test
+	defer func() { _ = os.Unsetenv("JAASLOGIN") }()
 
 	// Call the function
 	username, password := getSaslJAASLOGINFromEnv()
@@ -61,8 +62,9 @@ func TestGetSaslJAASLOGINFromEnv(t *testing.T) {
 func TestGetSaslJAASLOGINFromEnv_InvalidEnv(t *testing.T) {
 	// Set the mock environment variable with an invalid format
 	mockJAASLOGIN := `username="mockUser" password=mockPassword`
-	os.Setenv("JAASLOGIN", mockJAASLOGIN)
-	defer os.Unsetenv("JAASLOGIN") // Ensure the environment variable is unset after the test
+	_ = os.Setenv("JAASLOGIN", mockJAASLOGIN)
+	// Ensure the environment variable is unset after the test
+	defer func() { _ = os.Unsetenv("JAASLOGIN") }()
 
 	// Call the function
 	username, password := getSaslJAASLOGINFromEnv()
@@ -74,8 +76,8 @@ func TestGetSaslJAASLOGINFromEnv_InvalidEnv(t *testing.T) {
 
 func TestGetSaslJAASLOGINFromEnv_EmptyEnv(t *testing.T) {
 	// Set an empty environment variable
-	os.Setenv("JAASLOGIN", "")
-	defer os.Unsetenv("JAASLOGIN") // Ensure the environment variable is unset after the test
+	_ = os.Setenv("JAASLOGIN", "")
+	defer func() { _ = os.Unsetenv("JAASLOGIN") }() // Ensure the environment variable is unset after the test
 
 	// Call the function
 	username, password := getSaslJAASLOGINFromEnv()
@@ -87,7 +89,7 @@ func TestGetSaslJAASLOGINFromEnv_EmptyEnv(t *testing.T) {
 
 func TestGetSaslJAASLOGINFromEnv_MissingEnv(t *testing.T) {
 	// Unset the environment variable to simulate missing variable
-	os.Unsetenv("JAASLOGIN")
+	_ = os.Unsetenv("JAASLOGIN")
 
 	// Call the function
 	username, password := getSaslJAASLOGINFromEnv()
@@ -114,31 +116,31 @@ func TestConfig_NoHardcodedPasswordDefault(t *testing.T) {
 
 func TestGetEnvAsBool(t *testing.T) {
 	t.Run("valid boolean true", func(t *testing.T) {
-		os.Setenv("USE_KAFKA_FOR_PATCH", "true")
-		defer os.Unsetenv("USE_KAFKA_FOR_PATCH")
+		_ = os.Setenv("USE_KAFKA_FOR_PATCH", "true")
+		defer func() { _ = os.Unsetenv("USE_KAFKA_FOR_PATCH") }()
 
 		result := getEnvAsBool("USE_KAFKA_FOR_PATCH", false)
 		assert.True(t, result)
 	})
 
 	t.Run("valid boolean false", func(t *testing.T) {
-		os.Setenv("USE_KAFKA_FOR_PATCH", "false")
-		defer os.Unsetenv("USE_KAFKA_FOR_PATCH")
+		_ = os.Setenv("USE_KAFKA_FOR_PATCH", "false")
+		defer func() { _ = os.Unsetenv("USE_KAFKA_FOR_PATCH") }()
 
 		result := getEnvAsBool("USE_KAFKA_FOR_PATCH", true)
 		assert.False(t, result)
 	})
 
 	t.Run("invalid boolean value", func(t *testing.T) {
-		os.Setenv("USE_KAFKA_FOR_PATCH", "notabool")
-		defer os.Unsetenv("USE_KAFKA_FOR_PATCH")
+		_ = os.Setenv("USE_KAFKA_FOR_PATCH", "notabool")
+		defer func() { _ = os.Unsetenv("USE_KAFKA_FOR_PATCH") }()
 
 		result := getEnvAsBool("USE_KAFKA_FOR_PATCH", true)
 		assert.True(t, result) // should return default (true) because parsing fails
 	})
 
 	t.Run("missing env variable", func(t *testing.T) {
-		os.Unsetenv("USE_KAFKA_FOR_PATCH") // ensure it's not set
+		_ = os.Unsetenv("USE_KAFKA_FOR_PATCH") // ensure it's not set
 
 		result := getEnvAsBool("USE_KAFKA_FOR_PATCH", false)
 		assert.False(t, result) // should return default (false)

@@ -89,10 +89,16 @@ func initializeKafkaProducer(topic string) (*KafkaProducer, error) {
 	}
 
 	if useSASL == "true" {
-		configMap.SetKey("sasl.mechanism", "SCRAM-SHA-512")     // #nosec G104
-		configMap.SetKey("sasl.username", username)             // #nosec G104
-		configMap.SetKey("sasl.password", password)             // #nosec G104
-		configMap.SetKey("security.protocol", "SASL_PLAINTEXT") // #nosec G104
+		for key, value := range map[string]string{
+			"sasl.mechanism":    "SCRAM-SHA-512",
+			"sasl.username":     username,
+			"sasl.password":     password,
+			"security.protocol": "SASL_PLAINTEXT",
+		} {
+			if err := configMap.SetKey(key, value); err != nil {
+				log.Printf("Failed to set Kafka config key %s: %v", key, err)
+			}
+		}
 	}
 
 	p, err := kafka.NewProducer(configMap)
@@ -122,7 +128,9 @@ func initializeKafkaProducer(topic string) (*KafkaProducer, error) {
 					case kafka.ErrUnknownTopicOrPart:
 						log.Printf("[Kafka DR] Unknown topic/partition: %v (refreshing metadata)", kerr)
 						// Refresh metadata to resolve stale leader/partition layout
-						p.GetMetadata(nil, true, 5000)
+						if _, mErr := p.GetMetadata(nil, true, 5000); mErr != nil {
+							log.Printf("[Kafka DR] Metadata refresh failed: %v", mErr)
+						}
 						// If this persists, verify topic existence/ACLs via Admin/ops.
 					default:
 						log.Printf("[Kafka DR] Delivery failed: %v", kerr)
@@ -152,12 +160,16 @@ func (kp *KafkaProducer) Produce(kafkaMessage *kafka.Message, eventChan chan kaf
 		}
 	}
 
-	eventChan = nil
+	// Intentionally ignore the caller-supplied eventChan and produce
+	// synchronously with a nil delivery channel; delivery reports are drained
+	// via Flush below.
+	_ = eventChan
+	var deliveryChan chan kafka.Event
 	maxRetries := consts.ProducerReconnectRetries
 	var err error
 
 	for attempt := 1; attempt <= maxRetries; attempt++ {
-		err = kp.producer.Produce(kafkaMessage, eventChan)
+		err = kp.producer.Produce(kafkaMessage, deliveryChan)
 		if err == nil {
 			return nil
 		}

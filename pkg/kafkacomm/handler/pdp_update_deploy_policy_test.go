@@ -295,9 +295,10 @@ func TestValidateParentPolicy(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// If you want to test malformed policies, adjust policymap.LastDeployedPolicies accordingly
-			if tt.name == "Malformed last deployed policies" {
+			switch tt.name {
+			case "Malformed last deployed policies":
 				policymap.LastDeployedPolicies = `{"deployed_policies_dict": [}`
-			} else if tt.name == "Policy id not present" {
+			case "Policy id not present":
 				policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["parent"],"policy": ["parent"],"olicy-id": "parent.policy","policy-version": "1.0.0"}]}` // Reset to valid case
 			}
 			actualPass, actualErr := validateParentPolicy(tt.input)
@@ -340,7 +341,7 @@ func TestUpsertPolicyAndData_PolicyUpsertFailure(t *testing.T) {
 	upsertDataFunc = func(model.ToscaPolicy) error { return nil }
 	err := upsertPolicyAndData(policy, nil)
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "Failed to Insert Policy")
+	assert.Contains(t, err.Error(), "failed to Insert Policy")
 }
 func TestUpsertPolicyAndData_DataUpsertFailure(t *testing.T) {
 	policy := model.ToscaPolicy{
@@ -355,7 +356,7 @@ func TestUpsertPolicyAndData_DataUpsertFailure(t *testing.T) {
 	upsertDataFunc = func(model.ToscaPolicy) error { return errors.New("mock data upsert error") }
 	err := upsertPolicyAndData(policy, nil)
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "Failed to Write Data")
+	assert.Contains(t, err.Error(), "failed to Write Data")
 }
 
 func TestVerifyPolicyByBundleCreation(t *testing.T) {
@@ -747,7 +748,7 @@ func TestHandlePolicyDeployment_VerifyBundleFailure(t *testing.T) {
 	found := false
 	for _, message := range err {
 		fmt.Println(message)
-		if strings.Contains(message, "Failed to build Rego File for") {
+		if strings.Contains(message, "failed to build Rego File for") {
 			found = true
 			break
 		}
@@ -806,14 +807,14 @@ func TestCreatePolicyDirectories_testing(t *testing.T) {
 	basePolicyDir = "test_policy_dirs"
 	err := os.MkdirAll(basePolicyDir, os.ModePerm)
 	assert.NoError(t, err, "Failed to create base policy directory")
-	defer os.RemoveAll(basePolicyDir) // Cleanup after the test
+	defer func() { _ = os.RemoveAll(basePolicyDir) }() // Cleanup after the test
 	// Example decoded policies to test
 	decodedPolicies := map[string]string{
 		"test.policy":    "package test\n\nsome_rule = true",
 		"another.policy": "package another\n\nanother_rule = false",
 	}
 	// Call the function to test
-	utils.CreateDirectoryVar = func(dirPath string) error { os.MkdirAll(dirPath, os.ModePerm); return nil }
+	utils.CreateDirectoryVar = func(dirPath string) error { _ = os.MkdirAll(dirPath, os.ModePerm); return nil }
 	err = createPolicyDirectories(decodedPolicies)
 	// Assertions
 	assert.NoError(t, err, "Expected no error during policy directory creation")
@@ -835,7 +836,7 @@ func TestCreatePolicyDirectories_testingFailure(t *testing.T) {
 	basePolicyDir = "test_policy_dirs"
 	err := os.MkdirAll(basePolicyDir, os.ModePerm)
 	assert.NoError(t, err, "Failed to create base policy directory")
-	defer os.RemoveAll(basePolicyDir) // Cleanup after the test
+	defer func() { _ = os.RemoveAll(basePolicyDir) }() // Cleanup after the test
 	// Example decoded policies to test
 	decodedPolicies := map[string]string{
 		"test.policy":    "package test\n\nsome_rule = true",
@@ -853,7 +854,7 @@ func TestCreatePolicyDirectories_testingSaveFailure(t *testing.T) {
 	basePolicyDir = "test_policy_dirs"
 	err := os.MkdirAll(basePolicyDir, os.ModePerm)
 	assert.NoError(t, err, "Failed to create base policy directory")
-	defer os.RemoveAll(basePolicyDir) // Cleanup after the test
+	defer func() { _ = os.RemoveAll(basePolicyDir) }() // Cleanup after the test
 	// Example decoded policies to test
 	decodedPolicies := map[string]string{
 		"test.policy":    "package test\n\nsome_rule = true",
@@ -871,14 +872,14 @@ func TestCreateDataDirectories_testing(t *testing.T) {
 	baseDataDir = "test_policy_dirs"
 	err := os.MkdirAll(basePolicyDir, os.ModePerm)
 	assert.NoError(t, err, "Failed to create base policy directory")
-	defer os.RemoveAll(basePolicyDir) // Cleanup after the test
+	defer func() { _ = os.RemoveAll(basePolicyDir) }() // Cleanup after the test
 	// Example decoded policies to test
 	decodedPolicies := map[string]string{
 		"test.policy":    "package test\n\nsome_rule = true",
 		"another.policy": "package another\n\nanother_rule = false",
 	}
 	// Call the function to test
-	utils.CreateDirectoryVar = func(dirPath string) error { os.MkdirAll(dirPath, os.ModePerm); return nil }
+	utils.CreateDirectoryVar = func(dirPath string) error { _ = os.MkdirAll(dirPath, os.ModePerm); return nil }
 	err = createDataDirectories(decodedPolicies)
 	// Assertions
 	assert.NoError(t, err, "Expected no error during policy directory creation")
@@ -900,7 +901,7 @@ func TestCreateDataDirectories_testingFailure(t *testing.T) {
 	baseDataDir = "test_policy_dirs"
 	err := os.MkdirAll(basePolicyDir, os.ModePerm)
 	assert.NoError(t, err, "Failed to create base policy directory")
-	defer os.RemoveAll(basePolicyDir) // Cleanup after the test
+	defer func() { _ = os.RemoveAll(basePolicyDir) }() // Cleanup after the test
 	// Example decoded policies to test
 	decodedPolicies := map[string]string{
 		"test.policy":    "package test\n\nsome_rule = true",
@@ -918,7 +919,7 @@ func TestCreateDataDirectories_testingSaveFailure(t *testing.T) {
 	baseDataDir = "test_policy_dirs"
 	err := os.MkdirAll(basePolicyDir, os.ModePerm)
 	assert.NoError(t, err, "Failed to create base policy directory")
-	defer os.RemoveAll(basePolicyDir) // Cleanup after the test
+	defer func() { _ = os.RemoveAll(basePolicyDir) }() // Cleanup after the test
 	// Example decoded policies to test
 	decodedPolicies := map[string]string{
 		"test.policy":    "package test\n\nsome_rule = true",

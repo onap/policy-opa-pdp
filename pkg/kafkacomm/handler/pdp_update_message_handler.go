@@ -37,8 +37,8 @@ type (
 	sendSuccessResponseFunc         func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage string) error
 	sendFailureResponseFunc         func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage error) error
 	createBundleFuncRef             func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error)
-	handlePdpUpdateDeploymentFunc   func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, error, []string)
-	handlePdpUpdateUndeploymentFunc func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, error, []string)
+	handlePdpUpdateDeploymentFunc   func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error)
+	handlePdpUpdateUndeploymentFunc func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error)
 	sendFinalResponseFunc           func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, loggingPoliciesList string, failureMessages []string) error
 )
 
@@ -88,8 +88,8 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 	pdpattributes.SetPdpSubgroup(pdpUpdate.PdpSubgroup)
 	pdpattributes.SetPdpHeartbeatInterval(pdpUpdate.PdpHeartbeatIntervalMs)
 
-	depPoliciesList, err, depFailures := handlePdpUpdateDeploymentVar(pdpUpdate, p)
-	undepPoliciesList, undepErr, undepFailures := handlePdpUpdateUndeploymentVar(pdpUpdate, p)
+	depPoliciesList, depFailures, err := handlePdpUpdateDeploymentVar(pdpUpdate, p)
+	undepPoliciesList, undepFailures, undepErr := handlePdpUpdateUndeploymentVar(pdpUpdate, p)
 
 	if err != nil {
 		return err
@@ -124,7 +124,7 @@ func pdpUpdateMessageHandler(message []byte, p publisher.PdpStatusSender) error 
 
 }
 
-func handlePdpUpdateDeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, error, []string) {
+func handlePdpUpdateDeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 	var failureMessages []string
 	var mapJson string
 	var err error
@@ -139,16 +139,16 @@ func handlePdpUpdateDeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusS
 			resMessage := fmt.Errorf("PDP Update Failed as failed to format successfullyDeployedPolicies json %v", failureMessages)
 			if err = sendFailureResponseVar(p, &pdpUpdate, resMessage); err != nil {
 				log.Debugf("Failed to send update internal map  error response: %v", err)
-				return "", err, failureMessages
+				return "", failureMessages, err
 			}
 		}
 
 	}
 
-	return mapJson, nil, failureMessages
+	return mapJson, failureMessages, nil
 }
 
-func handlePdpUpdateUndeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, error, []string) {
+func handlePdpUpdateUndeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 	var failureMessages []string
 	var mapJson string
 	var err error
@@ -166,11 +166,11 @@ func handlePdpUpdateUndeployment(pdpUpdate model.PdpUpdate, p publisher.PdpStatu
 			resMessage := fmt.Errorf("PDP Update Failed as failed to format successfullyUnDeployedPolicies json %v", failureMessages)
 			if err = sendFailureResponseVar(p, &pdpUpdate, resMessage); err != nil {
 				log.Debugf("Failed to send update error response: %v", err)
-				return "", err, failureMessages
+				return "", failureMessages, err
 			}
 		}
 	}
-	return mapJson, nil, failureMessages
+	return mapJson, failureMessages, nil
 }
 
 func sendFinalResponse(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, loggingPoliciesList string, failureMessages []string) error {

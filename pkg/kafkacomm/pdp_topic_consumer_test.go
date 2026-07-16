@@ -74,7 +74,7 @@ func TestNewKafkaConsumer(t *testing.T) {
 
 	// Clean up
 	if consumer != nil {
-		consumer.Close()
+		_ = consumer.Close()
 	}
 }
 
@@ -125,7 +125,7 @@ func TestKafkaConsumer_Close(t *testing.T) {
 	mockConsumer.On("Close").Return(nil)
 
 	// Test Close method
-	kc.Close()
+	_ = kc.Close()
 
 	// Verify that Close was called
 	mockConsumer.AssertExpectations(t)
@@ -140,7 +140,7 @@ func TestKafkaConsumerClose_Error(t *testing.T) {
 	mockConsumer.On("Close").Return(errors.New("close error"))
 
 	// Test Close method
-	kc.Close()
+	_ = kc.Close()
 
 	// Verify that Close was called
 	mockConsumer.AssertExpectations(t)
@@ -184,7 +184,7 @@ func TestKafkaConsumer_Unsubscribe_Nil_Error(t *testing.T) {
 
 	// Test Unsubscribe method
 	err := kc.Unsubscribe()
-	assert.EqualError(t, err, "Kafka Consumer is nil so cannot Unsubscribe")
+	assert.EqualError(t, err, "kafka Consumer is nil so cannot Unsubscribe")
 
 }
 
@@ -235,6 +235,6 @@ func TestNewKafkaConsumer_NilConsumer(t *testing.T) {
 
 	consumer, err := NewKafkaConsumer(cfg.Topic, cfg.GroupId)
 	assert.Nil(t, consumer)
-	assert.EqualError(t, err, "Kafka Consumer is nil after creation")
+	assert.EqualError(t, err, "kafka Consumer is nil after creation")
 	KafkaNewConsumer = originalNewKafkaConsumer
 }
