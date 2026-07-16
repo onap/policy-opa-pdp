@@ -31,6 +31,7 @@ import (
 	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/pdpattributes"
 	"testing"
+	"time"
 )
 
 // Success Test Case for HealthCheckHandler
@@ -200,6 +201,81 @@ func TestHealthCheckHandler_EmptyResponseBody(t *testing.T) {
 	// Try decoding the empty body
 	var response oapicodegen.HealthCheckReport
 	err := json.NewDecoder(w.Body).Decode(&response)
+	assert.Error(t, err)
+}
+
+// SelfCheck: healthy 200 with an authenticated request succeeds.
+func TestSelfCheck_Success(t *testing.T) {
+	const user, pass = "policyadmin", "secret"
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		u, p, ok := r.BasicAuth()
+		assert.True(t, ok)
+		assert.Equal(t, user, u)
+		assert.Equal(t, pass, p)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(oapicodegen.HealthCheckReport{Healthy: boolPtr(true)})
+	}))
+	defer server.Close()
+
+	err := SelfCheck(server.URL, user, pass, 2*time.Second)
+	assert.NoError(t, err)
+}
+
+// SelfCheck: a non-200 status is reported as an error.
+func TestSelfCheck_Non200(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusUnauthorized)
+	}))
+	defer server.Close()
+
+	err := SelfCheck(server.URL, "u", "p", 2*time.Second)
+	assert.Error(t, err)
+}
+
+// SelfCheck: a 200 that reports healthy=false is an error.
+func TestSelfCheck_NotHealthy(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(oapicodegen.HealthCheckReport{Healthy: boolPtr(false)})
+	}))
+	defer server.Close()
+
+	err := SelfCheck(server.URL, "u", "p", 2*time.Second)
+	assert.Error(t, err)
+}
+
+// SelfCheck: a 200 with a missing healthy field is an error.
+func TestSelfCheck_MissingHealthyField(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{}`))
+	}))
+	defer server.Close()
+
+	err := SelfCheck(server.URL, "u", "p", 2*time.Second)
+	assert.Error(t, err)
+}
+
+// SelfCheck: a connection refused / unreachable endpoint is an error.
+func TestSelfCheck_ConnectionRefused(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}))
+	url := server.URL
+	server.Close() // close immediately so the address is unreachable
+
+	err := SelfCheck(url, "u", "p", 1*time.Second)
+	assert.Error(t, err)
+}
+
+// SelfCheck: a malformed (non-JSON) body is an error.
+func TestSelfCheck_BadJSON(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("not-json"))
+	}))
+	defer server.Close()
+
+	err := SelfCheck(server.URL, "u", "p", 2*time.Second)
 	assert.Error(t, err)
 }
 
