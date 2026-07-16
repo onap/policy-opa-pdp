@@ -23,6 +23,8 @@ package main
 
 import (
 	"context"
+	"flag"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -30,6 +32,7 @@ import (
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/data"
+	"policy-opa-pdp/pkg/healthcheck"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/handler"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
@@ -73,8 +76,35 @@ var (
 // zero and avoid leaking a long-lived main() goroutine across test cases.
 var registrationDelay = 10 * time.Second
 
+// selfCheckFunc runs the container health probe; swapped out in tests.
+var selfCheckFunc = healthcheck.SelfCheck
+
+// runHealthCheck probes the local healthcheck endpoint and returns a process
+// exit code (0 healthy, 1 otherwise). Split out from main so it is testable
+// without calling os.Exit.
+func runHealthCheck() int {
+	url := "http://localhost" + consts.ServerPort + consts.HealthCheckPath
+	if err := selfCheckFunc(url, cfg.Username, cfg.Password, consts.HealthCheckTimeout); err != nil {
+		fmt.Fprintf(os.Stderr, "healthcheck failed: %v\n", err)
+		return 1
+	}
+	return 0
+}
+
 // main function
 func main() {
+	// -healthcheck runs a one-shot self-probe and exits. The runtime image is
+	// distroless (no shell/curl), so the container HEALTHCHECK invokes the
+	// binary itself instead of an external HTTP client. A local FlagSet is used
+	// (not the global flag.CommandLine) so main() can be re-entered in tests
+	// without a "flag redefined" panic.
+	fs := flag.NewFlagSet("opa-pdp", flag.ContinueOnError)
+	healthCheckMode := fs.Bool("healthcheck", false, "probe the local healthcheck endpoint and exit")
+	_ = fs.Parse(os.Args[1:])
+	if *healthCheckMode {
+		os.Exit(runHealthCheck())
+	}
+
 	var useKafkaForPatch = cfg.UseKafkaForPatch
 	log.Debugf("Starting OPA PDP Service")
 

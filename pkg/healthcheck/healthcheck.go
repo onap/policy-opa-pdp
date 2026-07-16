@@ -23,12 +23,14 @@ package healthcheck
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/pdpattributes"
 	"policy-opa-pdp/pkg/utils"
+	"time"
 
 	"github.com/google/uuid"
 	openapi_types "github.com/oapi-codegen/runtime/types"
@@ -74,4 +76,38 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		log.Warnf("Failed to decode json response: %v", err)
 	}
+}
+
+// SelfCheck performs an authenticated HTTP GET against the service's own
+// healthcheck endpoint and reports whether the service is healthy. It is used
+// by the container HEALTHCHECK (the runtime image is distroless and ships no
+// curl/shell, so the binary probes itself). url is the full healthcheck URL,
+// user/pass are the basic-auth credentials, and timeout bounds the request.
+func SelfCheck(url, user, pass string, timeout time.Duration) error {
+	client := &http.Client{Timeout: timeout}
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return fmt.Errorf("failed to build healthcheck request: %w", err)
+	}
+	req.SetBasicAuth(user, pass)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return fmt.Errorf("healthcheck request failed: %w", err)
+	}
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("healthcheck returned status %d", resp.StatusCode)
+	}
+
+	var report oapicodegen.HealthCheckReport
+	if err := json.NewDecoder(resp.Body).Decode(&report); err != nil {
+		return fmt.Errorf("failed to decode healthcheck response: %w", err)
+	}
+	if report.Healthy == nil || !*report.Healthy {
+		return fmt.Errorf("service reported not healthy")
+	}
+	return nil
 }

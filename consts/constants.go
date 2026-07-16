@@ -85,6 +85,8 @@ var (
 	HealthCheckStatus       = true
 	OkCode                  = int32(200)
 	HealthCheckMessage      = "alive"
+	HealthCheckPath         = "/policy/pdpo/v1/healthcheck"
+	HealthCheckTimeout      = 5 * time.Second
 	DefaultHeartbeatMS      = 60000
 	SingleHierarchy         = 4
 	PolicyVersion           = "policy-version"
