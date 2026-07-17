@@ -1,0 +1,138 @@
+---
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 The Linux Foundation
+
+# =============================================================================
+# Gerrit-dispatched SonarQube Cloud scan for policy-opa-pdp (Go)
+# =============================================================================
+# Gerrit is the source of truth (SCM) for this project. gerrit_to_platform
+# dispatches this workflow (via the GitHub API) when a patchset is created in
+# Gerrit, so SonarQube Cloud results are available per-patchset before a
+# change merges.
+#
+# This workflow reports back to Gerrit COMMENT-ONLY; it never casts a Verified
+# vote. The scheduled/push security-audits.yaml workflow shares the same
+# SonarQube scan but runs on non-patchset triggers (schedule, push,
+# branch_protection_rule), so a Verified vote from here would be misleading.
+# Reviewers read the scan outcome from the posted comment instead.
+#
+# DEPLOYMENT NOTES:
+#   * The filename contains BOTH 'gerrit' AND 'verify' (and NOT 'required') so
+#     gerrit_to_platform discovers and dispatches it on patchset-created.
+#   * This workflow must exist on EVERY active branch: dispatches target
+#     refs/heads/{GERRIT_BRANCH}.
+#   * The nine GERRIT_* inputs are populated automatically by the dispatcher.
+#   * Requires repository variables GERRIT_SERVER, GERRIT_SSH_USER,
+#     GERRIT_KNOWN_HOSTS, GERRIT_URL and secrets SONAR_TOKEN and
+#     GERRIT_SSH_PRIVKEY.
+# =============================================================================
+name: "Go SonarQube Verify"
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+    inputs:
+      GERRIT_BRANCH:
+        description: "Branch that change is against"
+        required: true
+        type: string
+      GERRIT_CHANGE_ID:
+        description: "The ID for the change"
+        required: true
+        type: string
+      GERRIT_CHANGE_NUMBER:
+        description: "The Gerrit number"
+        required: true
+        type: string
+      GERRIT_CHANGE_URL:
+        description: "URL to the change"
+        required: true
+        type: string
+      GERRIT_EVENT_TYPE:
+        description: "Type of Gerrit event"
+        required: true
+        type: string
+      GERRIT_PATCHSET_NUMBER:
+        description: "The patch number for the change"
+        required: true
+        type: string
+      GERRIT_PATCHSET_REVISION:
+        description: "The revision sha"
+        required: true
+        type: string
+      GERRIT_PROJECT:
+        description: "Project in Gerrit"
+        required: true
+        type: string
+      GERRIT_REFSPEC:
+        description: "Gerrit refspec of change"
+        required: true
+        type: string
+
+# Distinct from gerrit-verify.yaml: both workflows are dispatched for every
+# patchset, so they must not share a concurrency group.
+concurrency:
+  # yamllint disable-line rule:line-length
+  group: gerrit-sonar-verify-${{ github.event.inputs.GERRIT_CHANGE_ID || github.run_id }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  # Check out the Gerrit change/patchset, build coverage, and run the scan.
+  sonar-scan:
+    name: "Go SonarQube Cloud scan"
+    # yamllint disable-line rule:line-length
+    uses: lfit/releng-reusable-workflows/.github/workflows/composed-go-sonar-cloud.yaml@5278f76fc1d27c49d0c9f795a6ddea65eeb5c11b # v0.8.1
+    permissions:
+      # Needed by the reusable scan job to check out the repository.
+      contents: read
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    with:
+      GERRIT_BRANCH: ${{ inputs.GERRIT_BRANCH }}
+      GERRIT_CHANGE_ID: ${{ inputs.GERRIT_CHANGE_ID }}
+      GERRIT_CHANGE_NUMBER: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+      GERRIT_CHANGE_URL: ${{ inputs.GERRIT_CHANGE_URL }}
+      GERRIT_EVENT_TYPE: ${{ inputs.GERRIT_EVENT_TYPE }}
+      GERRIT_PATCHSET_NUMBER: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+      GERRIT_PATCHSET_REVISION: ${{ inputs.GERRIT_PATCHSET_REVISION }}
+      GERRIT_PROJECT: ${{ inputs.GERRIT_PROJECT }}
+      GERRIT_REFSPEC: ${{ inputs.GERRIT_REFSPEC }}
+      # confluent-kafka-go/v2 requires cgo for the coverage build; the
+      # report path matches sonar.go.coverage.reportPaths in
+      # sonar-project.properties.
+      # yamllint disable-line rule:line-length
+      TEST_COMMAND: "CGO_ENABLED=1 go test -p 1 -coverprofile=coverage.out ./..."
+
+  # Report the scan outcome back to Gerrit as a comment (never a vote).
+  comment:
+    name: "Comment result to Gerrit"
+    if: ${{ always() && inputs.GERRIT_CHANGE_NUMBER != '' }}
+    needs: sonar-scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read # workflow-conclusion lists run jobs via the Actions API
+    timeout-minutes: 5
+    steps:
+      - name: "Harden runner"
+        # yamllint disable-line rule:line-length
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        with:
+          egress-policy: audit
+      - name: "Get conclusion"
+        # yamllint disable-line rule:line-length
+        uses: im-open/workflow-conclusion@8eac7f17381a6917bc04fec3e2c92e70ebc37526 # v3.0.0
+      - name: "Post comment to Gerrit"
+        # yamllint disable-line rule:line-length
+        uses: lfreleng-actions/gerrit-review-action@a1c036a59b94c8ab89de26d378f6a28cc7378b13 # v1.1.2
+        with:
+          host: ${{ vars.GERRIT_SERVER }}
+          username: ${{ vars.GERRIT_SSH_USER }}
+          key: ${{ secrets.GERRIT_SSH_PRIVKEY }}
+          known_hosts: ${{ vars.GERRIT_KNOWN_HOSTS }}
+          gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+          gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+          vote-type: ${{ env.WORKFLOW_CONCLUSION }}
+          comment-only: "true"
