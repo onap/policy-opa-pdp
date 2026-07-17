@@ -20,7 +20,7 @@
 #   * Requires repository variables GERRIT_SERVER, GERRIT_SSH_USER,
 #     GERRIT_KNOWN_HOSTS, GERRIT_URL and the secret GERRIT_SSH_PRIVKEY.
 # =============================================================================
-name: "Gerrit Verify"
+name: "Go Build/Test/Audit"
 
 # yamllint disable-line rule:truthy
 on:

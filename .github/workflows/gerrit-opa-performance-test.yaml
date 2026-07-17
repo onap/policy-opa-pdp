@@ -16,7 +16,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 
-name: policy-opa-performance-test
+name: Performance Tests
 
 on:
   workflow_dispatch:
