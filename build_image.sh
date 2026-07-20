@@ -19,17 +19,23 @@
 
 
 export IMAGE_NAME="nexus3.onap.org:10003/onap/policy-opa-pdp"
-VERSION_FILE="version"
+VERSION_FILE="version.properties"
 GO_VERSION="1.23.3"
 INSTALL_DIR="/usr/local"
 GO_URL="https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz"
 
 
-# Check for the version file
-# If it exists, load the version from that file
-# If not found, then use the current version as 1.1.0 for docker images
+# Derive the Docker snapshot tag from version.properties, the single source of
+# truth for this repo's version (also used by the Jenkins release job and
+# reflected in pf_release_data.csv, which CSIT uses to resolve the image).
+# Build the string from the primitives rather than the file's own
+# base_version/snapshot_version vars: those embed nested ${..} expansions that
+# only resolve when the file is sourced by bash, not by the Jenkins properties
+# parser, so reusing them here would be fragile.
 if [ -f "$VERSION_FILE" ]; then
-    VERSION=`cat version|xargs echo`;
+    # shellcheck source=/dev/null
+    . "./$VERSION_FILE"
+    VERSION="${major}.${minor}.${patch}-SNAPSHOT";
 else
     VERSION=1.0.0-SNAPSHOT;
 fi
