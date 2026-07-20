@@ -41,14 +41,6 @@ import (
 	"time"
 )
 
-// TestMain zeroes the startup settle delay so tests that run main() in a
-// goroutine finish promptly and do not leak a long-lived goroutine that races
-// with the next test's SetupMocks() over the package-level function vars.
-func TestMain(m *testing.M) {
-	registrationDelay = 0
-	os.Exit(m.Run())
-}
-
 // Mock objects and functions
 type MockKafkaConsumerInterface struct {
 	mock.Mock
@@ -180,11 +172,6 @@ func SetupMocks() {
 		_ = server.Shutdown(context.Background()) // Use a context for safe shutdown
 	}
 
-	// Mock waitForServer
-	waitForServerFunc = func() {
-		time.Sleep(10 * time.Millisecond) // Simulate server startup delay
-	}
-
 	// Mock initializeOPA
 	initializeOPAFunc = func() error {
 		return nil // no error expected
@@ -292,15 +279,6 @@ func TestInitializeOPA(t *testing.T) {
 	err = initializeOPA()
 	assert.NoError(t, err)
 	assert.NotNil(t, opaSDKInstance)
-}
-
-// Test to ensure the application correctly waits for the server to be ready.
-func TestWaitForServer(t *testing.T) {
-	waitForServerFunc = func() {
-		time.Sleep(50 * time.Millisecond)
-	}
-
-	waitForServer()
 }
 
 // TestInitializeHandlers

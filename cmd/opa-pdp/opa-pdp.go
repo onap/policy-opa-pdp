@@ -25,6 +25,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -61,7 +62,6 @@ var (
 	initializeHandlersFunc         = initializeHandlers
 	startHTTPServerFunc            = startHTTPServer
 	shutdownHTTPServerFunc         = shutdownHTTPServer
-	waitForServerFunc              = waitForServer
 	initializeOPAFunc              = initializeOPA
 	startKafkaConsAndProdFunc      = startKafkaConsAndProd
 	handleMessagesFunc             = handleMessages
@@ -70,11 +70,6 @@ var (
 	handlePatchMessagesFunc        = handlePatchMessages
 	getOPASingletonInstanceFunc    = opasdk.GetOPASingletonInstance
 )
-
-// registrationDelay is the settle time waited before and after starting the
-// heartbeat timer during startup. It is a package var so tests can set it to
-// zero and avoid leaking a long-lived main() goroutine across test cases.
-var registrationDelay = 10 * time.Second
 
 // selfCheckFunc runs the container health probe; swapped out in tests.
 var selfCheckFunc = healthcheck.SelfCheck
@@ -114,12 +109,10 @@ func main() {
 	// Initialize Handlers and Build Bundle
 	initializeHandlersFunc()
 
-	// Start HTTP Server
+	// Start HTTP Server. startHTTPServer binds the listener synchronously, so
+	// the server is already accepting connections once this returns.
 	server := startHTTPServerFunc()
 	defer shutdownHTTPServerFunc(server)
-
-	// Wait for server to be up
-	waitForServerFunc()
 	log.Info("HTTP server started")
 
 	// Initialize OPA components
@@ -144,13 +137,11 @@ func main() {
 		handlePatchMessagesFunc(ctx, patchMsgConsumer)
 	}
 
-	time.Sleep(registrationDelay)
-
+	// The heartbeat ticker also drives PDP-PAP registration: its first tick
+	// sends the registration status message once a subgroup is assigned.
 	pdpattributes.SetPdpHeartbeatInterval(int64(consts.DefaultHeartbeatMS))
 	go publisher.StartHeartbeatIntervalTimer(pdpattributes.GetPdpHeartbeatInterval(), sender)
 
-	time.Sleep(registrationDelay)
-	log.Debugf("After registration successful delay")
 	// Handle OS Interrupts and Graceful Shutdown
 	interruptChannel := make(chan os.Signal, 1)
 	signal.Notify(interruptChannel, os.Interrupt, syscall.SIGTERM, syscall.SIGINT, syscall.SIGHUP)
@@ -197,8 +188,16 @@ func initializeHandlers() {
 func startHTTPServer() *http.Server {
 	//Configures the HTTP server to wait a maximum of 5 seconds for the headers of incoming requests
 	server := &http.Server{Addr: consts.ServerPort, ReadHeaderTimeout: 5 * time.Second}
+	// Bind the listener synchronously so the socket is already accepting
+	// connections when this returns; only the blocking Serve loop runs in the
+	// goroutine. This removes the need for a blind post-start wait.
+	listener, err := net.Listen("tcp", consts.ServerPort)
+	if err != nil {
+		log.Errorf("Failed to bind HTTP server on %s: %s", consts.ServerPort, err)
+		return server
+	}
 	go func() {
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := server.Serve(listener); err != nil && err != http.ErrServerClosed {
 			log.Errorf("Server error: %s", err)
 		}
 	}()
@@ -218,10 +217,6 @@ func shutdownHTTPServer(server *http.Server) {
 	} else {
 		log.Debug("Server shut down gracefully")
 	}
-}
-
-func waitForServer() {
-	time.Sleep(time.Duration(consts.ServerWaitUpTime) * time.Second)
 }
 
 func initializeOPA() error {

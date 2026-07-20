@@ -42,7 +42,6 @@ import (
 //	   PdpGroup            - The default PDP group.
 //	   PdpType             - The type of PDP.
 //	   ServerPort          - The port on which the server listens.
-//	   ServerWaitUpTime    - The time to wait for the server to be up, in seconds.
 //	   ShutdownWaitTime    - The time to wait for the server to shut down, in seconds.
 //	   V1Compatible        - The flag for v1 compatibility.
 //	   LatestVersion       - The Version set in response for decision
@@ -75,7 +74,6 @@ var (
 	PdpGroup                = "opaGroup"
 	PdpType                 = "opa"
 	ServerPort              = ":8282"
-	ServerWaitUpTime        = 5
 	ShutdownWaitTime        = 5
 	V1Compatible            = "--v1-compatible"
 	LatestVersion           = "1.0.0"
