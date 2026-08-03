@@ -83,7 +83,7 @@ jobs:
   sonar-scan:
     name: "Go SonarQube Cloud scan"
     # yamllint disable-line rule:line-length
-    uses: lfit/releng-reusable-workflows/.github/workflows/composed-go-sonar-cloud.yaml@5278f76fc1d27c49d0c9f795a6ddea65eeb5c11b # v0.8.1
+    uses: lfit/releng-reusable-workflows/.github/workflows/composed-go-sonar-cloud.yaml@0688b118b3290649e0cb3580612e6369b6509774 # v0.10.0
     permissions:
       # Needed by the reusable scan job to check out the repository.
       contents: read
