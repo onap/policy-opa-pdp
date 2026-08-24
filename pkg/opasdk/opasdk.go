@@ -315,7 +315,7 @@ func PatchData(ctx context.Context, patches []PatchImpl) error {
 		err = memStore.Write(ctx, txn, patch.Op, patch.Path, patch.Value)
 		path := (patch.Path).String()
 		if err != nil {
-			log.Warnf("Error in writing data under "+path+" in memory: %s", err)
+			log.Warnf("Error in writing data under %s in memory: %s",path, err)
 			memStore.Abort(ctx, txn)
 			return err
 		}
@@ -358,7 +358,7 @@ func GetDataInfo(ctx context.Context, dataPath string) (data *oapicodegen.OPADat
 
 	result, err := memStore.Read(ctx, rtxn, path)
 	if err != nil {
-		log.Warnf("Error in reading data under " + dataPath + " path")
+		log.Warnf("Error in reading data under %s path",dataPath)
 		return nil, err
 	}
 

@@ -149,6 +149,7 @@ func TestHandleShutdown(t *testing.T) {
 		mockConsumer.AssertCalled(t, "Close")
 	case <-time.After(2 * time.Second):
 		t.Error("handleShutdown timed out")
+		<-done // still wait for the goroutine to finish, so it can't race with a later test
 	}
 }
 
@@ -379,6 +380,7 @@ func TestHandleShutdown_ErrorScenario(t *testing.T) {
 		mockConsumer.AssertCalled(t, "Close")
 	case <-time.After(1 * time.Second):
 		t.Error("handleShutdown timed out")
+		<-done // still wait for the goroutine to finish, so it can't race with a later test
 	}
 }
 
@@ -626,6 +628,7 @@ func TestHandleShutdownWithNilConsumer(t *testing.T) {
 		assert.Equal(t, context.Canceled, ctx.Err(), "Context should be canceled after shutdown")
 	case <-time.After(2 * time.Second):
 		t.Error("handleShutdown with nil consumer timed out")
+		<-done // still wait for the goroutine to finish, so it can't race with a later test
 	}
 }
 
