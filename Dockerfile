@@ -26,7 +26,7 @@ RUN curl --proto "=https" --tlsv1.2 -fsSLo /tmp/opa \
         https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/opa_linux_amd64.sha256 \
  && echo "$(cut -d' ' -f1 /tmp/opa.sha256)  /tmp/opa" | sha256sum -c -
 
-FROM golang:1.23-bookworm AS compile
+FROM golang:1.25-bookworm AS compile
 
 WORKDIR /src
 
