@@ -319,8 +319,20 @@ func handleShutdown(consumers []*kafkacomm.KafkaConsumer, interruptChannel chan 
 	}
 
 	if opaSDKInstance != nil {
-		opaSDKInstance.Stop(context.Background())
-		log.Debugf("OPA instance stopped")
+		instance := opaSDKInstance
+		stopDone := make(chan struct{})
+		go func() {
+			instance.Stop(context.Background())
+			close(stopDone)
+		}()
+
+		select {
+		case <-stopDone:
+			log.Debugf("OPA instance stopped")
+		case <-time.After(10 * time.Second):
+			log.Warnf("Timed out waiting for OPA instance to stop; continuing shutdown")
+		}
+
 	}
 
 	handler.SetShutdownFlag()

@@ -22,11 +22,6 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
-	"github.com/open-policy-agent/opa/v1/sdk"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"os"
 	"policy-opa-pdp/cfg"
@@ -39,6 +34,12 @@ import (
 	"policy-opa-pdp/pkg/opasdk"
 	"testing"
 	"time"
+
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+	"github.com/open-policy-agent/opa/v1/sdk"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 )
 
 // TestMain zeroes the startup settle delay so tests that run main() in a
@@ -137,18 +138,23 @@ func TestHandleShutdown(t *testing.T) {
 		time.Sleep(500 * time.Millisecond)
 		interruptChannel <- os.Interrupt
 	}()
-	done := make(chan bool)
+	done := make(chan struct{})
 	go func() {
 		handleShutdown([]*kafkacomm.KafkaConsumer{mockKafkaConsumer, nil}, interruptChannel, cancel, []*kafkacomm.KafkaProducer{kafkaProducer})
-		done <- true
+		close(done)
 	}()
+
+	t.Cleanup(func() {
+		<-done
+	})
 
 	select {
 	case <-done:
 		mockConsumer.AssertCalled(t, "Unsubscribe")
 		mockConsumer.AssertCalled(t, "Close")
-	case <-time.After(2 * time.Second):
+	case <-time.After(15 * time.Second):
 		t.Error("handleShutdown timed out")
+
 	}
 }
 
@@ -367,18 +373,23 @@ func TestHandleShutdown_ErrorScenario(t *testing.T) {
 		interruptChannel <- os.Interrupt
 	}()
 
-	done := make(chan bool)
+	done := make(chan struct{})
 	go func() {
 		handleShutdown([]*kafkacomm.KafkaConsumer{mockKafkaConsumer}, interruptChannel, cancel, []*kafkacomm.KafkaProducer{kafkaProducer})
-		done <- true
+		close(done)
 	}()
+
+	t.Cleanup(func() {
+		<-done
+	})
 
 	select {
 	case <-done:
 		mockConsumer.AssertCalled(t, "Unsubscribe")
 		mockConsumer.AssertCalled(t, "Close")
-	case <-time.After(1 * time.Second):
+	case <-time.After(15 * time.Second):
 		t.Error("handleShutdown timed out")
+
 	}
 }
 
@@ -613,19 +624,24 @@ func TestHandleShutdownWithNilConsumer(t *testing.T) {
 		time.Sleep(500 * time.Millisecond)
 		interruptChannel <- os.Interrupt
 	}()
-	done := make(chan bool)
+	done := make(chan struct{})
 	go func() {
 		handleShutdown(nil, interruptChannel, cancel, []*kafkacomm.KafkaProducer{kafkaProducer}) // Pass nil as kc
-		done <- true
+		close(done)
 	}()
+
+	t.Cleanup(func() {
+		<-done
+	})
 
 	select {
 	case <-done:
 		// Test should pass without any errors
 		assert.NotNil(t, ctx.Err(), "Expected context to br canceled")
 		assert.Equal(t, context.Canceled, ctx.Err(), "Context should be canceled after shutdown")
-	case <-time.After(2 * time.Second):
+	case <-time.After(15 * time.Second):
 		t.Error("handleShutdown with nil consumer timed out")
+
 	}
 }
 
