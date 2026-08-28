@@ -262,13 +262,19 @@ func TestPatchMessageHandler_ValidMessage_WithHeader(t *testing.T) {
 // duration of a test. ReadKafkaMessages sleeps ConsumerReconnectRetries inside the
 // read on ErrAllBrokersDown, so without this the handler cannot reach a second loop
 // iteration before any realistic test context expires.
+//
+// Tests that assert on a backoff duration itself must set the value they expect rather
+// than calling this helper.
 func shortenConsumerBackoff(t *testing.T) {
-	oldReconnect, oldPoll := consts.ConsumerReconnectRetries, consts.ConsumerPollSleep
+	oldReconnect, oldPoll, oldTearDown :=
+		consts.ConsumerReconnectRetries, consts.ConsumerPollSleep, consts.ConsumerTearDownSleepTime
 	consts.ConsumerReconnectRetries = time.Millisecond
 	consts.ConsumerPollSleep = time.Millisecond
+	consts.ConsumerTearDownSleepTime = time.Millisecond
 	t.Cleanup(func() {
 		consts.ConsumerReconnectRetries = oldReconnect
 		consts.ConsumerPollSleep = oldPoll
+		consts.ConsumerTearDownSleepTime = oldTearDown
 	})
 }
 

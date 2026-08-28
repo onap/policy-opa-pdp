@@ -128,4 +128,7 @@ var (
 	ProducerReconnectRetries     = 3
 	ProducerTearDownFlush        = 15 * 1000
 	ProducerFlushReportsTime     = 1000
+	// ProducerRetryBackoffBase is multiplied by the attempt number for a linear
+	// backoff between produce retries.
+	ProducerRetryBackoffBase = time.Second
 )

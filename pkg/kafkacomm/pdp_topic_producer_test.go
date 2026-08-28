@@ -27,6 +27,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"log"
 	"policy-opa-pdp/cfg"
+	"policy-opa-pdp/consts"
 	"testing"
 	"time"
 
@@ -75,6 +76,12 @@ func TestKafkaProducer_Produce_Success(t *testing.T) {
 }
 
 func TestKafkaProducer_Produce_Error(t *testing.T) {
+	// Produce retries ProducerReconnectRetries times with a linear backoff, so at the
+	// production base of 1s this test would otherwise sleep 1s+2s+3s.
+	oldBackoff := consts.ProducerRetryBackoffBase
+	consts.ProducerRetryBackoffBase = time.Millisecond
+	t.Cleanup(func() { consts.ProducerRetryBackoffBase = oldBackoff })
+
 	// Arrange
 	mockProducer := new(mocks.KafkaProducerInterface)
 	topic := "test-topic"
@@ -103,6 +110,7 @@ func TestKafkaProducer_Produce_Error(t *testing.T) {
 	// Assert
 	assert.Error(t, err)
 	assert.Equal(t, "produce error", err.Error())
+	mockProducer.AssertNumberOfCalls(t, "Produce", consts.ProducerReconnectRetries)
 	mockProducer.AssertExpectations(t)
 }
 
