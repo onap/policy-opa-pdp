@@ -127,7 +127,7 @@ jobs:
       contents: read
       pull-requests: read # repository-metadata-action queries PR data
     # yamllint disable-line rule:line-length
-    uses: lfreleng-actions/go-workflows/.github/workflows/build-test.yaml@c715c13bea56f294f5dadc04d4469cc753a7f128 # v0.4.2
+    uses: lfreleng-actions/go-workflows/.github/workflows/build-test.yaml@f67d53066236d6bf8f696609c19b20d12f5e626a # v0.4.3
     with:
       # confluent-kafka-go/v2 requires cgo; build off unless enabled here.
       cgo_enabled: '1'
