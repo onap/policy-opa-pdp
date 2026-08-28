@@ -20,7 +20,7 @@
 
 export IMAGE_NAME="nexus3.onap.org:10003/onap/policy-opa-pdp"
 VERSION_FILE="version.properties"
-GO_VERSION="1.23.3"
+GO_VERSION="1.26.7"
 INSTALL_DIR="/usr/local"
 GO_URL="https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz"
 

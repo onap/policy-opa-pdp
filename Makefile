@@ -4,6 +4,20 @@ BINARY := opa-pdp
 GO_TEST_CLEAN ?= go clean -cache -testcache -modcache -i -r
 RETRY_COUNT ?= 3
 SLEEP_BETWEEN_RETRIES ?= 5
+GO_INSTALL_DIR := /usr/local/go
+
+# The install target unpacks the pinned Go (build_image.sh GO_VERSION) into
+# GO_INSTALL_DIR, but it runs in a subshell so its PATH never reaches this make
+# process and go falls back to whatever the build node ships -- Go 1.23 on the
+# ONAP CI nodes. go.mod toolchain switching covers build and test but not
+# coverage: 'go test -coverprofile' shells out to 'go tool covdata' resolved from
+# PATH, and a pre-1.26 go cannot find covdata inside a 1.26 GOROOT because 1.26
+# builds it on demand instead of shipping it prebuilt. GOROOT is dropped because
+# the Jenkins Go plugin points it at that same older tree.
+ifneq ($(wildcard $(GO_INSTALL_DIR)/bin/go),)
+export PATH := $(GO_INSTALL_DIR)/bin:$(PATH)
+unexport GOROOT
+endif
 
 
 all: test build
