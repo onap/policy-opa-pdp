@@ -1,6 +1,6 @@
 # -
 #   ========================LICENSE_START=================================
-#   Copyright (C) 2024-2025: Deutsche Telekom
+#   Copyright (C) 2024-2026: Deutsche Telekom
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -17,15 +17,6 @@
 #   ========================LICENSE_END===================================
 #
 
-FROM curlimages/curl:7.78.0 AS opa
-
-ARG OPA_VERSION=v0.69.0
-RUN curl --proto "=https" --tlsv1.2 -fsSLo /tmp/opa \
-        https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/opa_linux_amd64 \
- && curl --proto "=https" --tlsv1.2 -fsSLo /tmp/opa.sha256 \
-        https://github.com/open-policy-agent/opa/releases/download/${OPA_VERSION}/opa_linux_amd64.sha256 \
- && echo "$(cut -d' ' -f1 /tmp/opa.sha256)  /tmp/opa" | sha256sum -c -
-
 FROM golang:1.23-bookworm AS compile
 
 WORKDIR /src
@@ -41,9 +32,8 @@ COPY pkg ./pkg
 
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /rootfs/app/opa-pdp ./cmd/opa-pdp/opa-pdp.go
 
-COPY --from=opa /tmp/opa /rootfs/app/opa
-RUN chmod 0755 /rootfs/app/opa /rootfs/app/opa-pdp \
-    && mkdir -p /rootfs/app/bundles /rootfs/app/config \
+RUN chmod 0755 /rootfs/app/opa-pdp \
+    && mkdir -p /rootfs/app/config \
                 /rootfs/opt/policies /rootfs/opt/data /rootfs/var/logs \
     && chown -R 1000:1000 /rootfs/app /rootfs/opt /rootfs/var
 

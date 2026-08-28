@@ -27,7 +27,6 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"policy-opa-pdp/pkg/kafkacomm/publisher/mocks"
 	"policy-opa-pdp/pkg/model"
@@ -369,10 +368,10 @@ func TestVerifyPolicyByBundleCreation(t *testing.T) {
 	}
 
 	//Mocking the CreateBundle
-	createBundleFuncVar = func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error) {
-		return "", nil
+	createBundleFuncVar = func() error {
+		return nil
 	}
-	_, err := verifyPolicyByBundleCreation(policy)
+	err := verifyPolicyByBundleCreation(policy)
 	assert.NoError(t, err)
 
 }
@@ -387,7 +386,7 @@ func TestVerifyPolicyByBundleCreation_getDirEmpty(t *testing.T) {
 	}
 
 	//Mocking the CreateBundle
-	_, err := verifyPolicyByBundleCreation(policy)
+	err := verifyPolicyByBundleCreation(policy)
 	assert.NoError(t, err)
 
 }
@@ -402,10 +401,10 @@ func TestVerifyPolicyByBundleCreation_BundleFailure(t *testing.T) {
 	}
 
 	//Mocking the CreateBundle
-	createBundleFuncVar = func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error) {
-		return "", errors.New("Fail to Initialize Bundle")
+	createBundleFuncVar = func() error {
+		return errors.New("Fail to Initialize Bundle")
 	}
-	_, err := verifyPolicyByBundleCreation(policy)
+	err := verifyPolicyByBundleCreation(policy)
 	assert.Error(t, err)
 
 }
@@ -577,8 +576,8 @@ func TestHandlePolicyDeployment_Success(t *testing.T) {
 	//Mocking fucntions
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
 	createAndStorePolicyDataVar = func(policy model.ToscaPolicy) error { return nil }
-	createBundleFuncVar = func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error) {
-		return "", nil
+	createBundleFuncVar = func() error {
+		return nil
 	}
 	validateParentPolicyVar = func(policy model.ToscaPolicy) (bool, error) { return true, nil }
 	upsertPolicyFunc = func(model.ToscaPolicy) error { return nil }
@@ -741,8 +740,8 @@ func TestHandlePolicyDeployment_VerifyBundleFailure(t *testing.T) {
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
 	createAndStorePolicyDataVar = func(policy model.ToscaPolicy) error { return nil }
 	validateParentPolicyVar = func(policy model.ToscaPolicy) (bool, error) { return true, nil }
-	createBundleFuncVar = func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error) {
-		return "", errors.New("Failed to Bundle")
+	createBundleFuncVar = func() error {
+		return errors.New("Failed to Bundle")
 	}
 	err, _ := handlePolicyDeployment(pdpUpdate, mockSender)
 	found := false
@@ -787,8 +786,8 @@ func TestHandlePolicyDeployment_upsertPolicyAndDataFailure(t *testing.T) {
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
 	createAndStorePolicyDataVar = func(policy model.ToscaPolicy) error { return nil }
 	validateParentPolicyVar = func(policy model.ToscaPolicy) (bool, error) { return true, nil }
-	createBundleFuncVar = func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error) {
-		return "", nil
+	createBundleFuncVar = func() error {
+		return nil
 	}
 	upsertPolicyFunc = func(model.ToscaPolicy) error { return errors.New("SDKError") }
 	err, _ := handlePolicyDeployment(pdpUpdate, mockSender)
