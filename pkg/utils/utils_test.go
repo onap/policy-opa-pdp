@@ -25,29 +25,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/model/oapicodegen"
 	"testing"
 	"time"
 )
-
-func mockCmd(command string, args ...string) *exec.Cmd {
-	cs := []string{"-test.run=TestHelperProcess", "--", command}
-	cs = append(cs, args...)
-	cmd := exec.Command(os.Args[0], cs...)
-	cmd.Env = []string{"GO_WANT_HELPER_PROCESS=1"}
-	return cmd
-}
-
-// TestHelperProcess is a helper process used by mockCmd
-func TestHelperProcess(*testing.T) {
-	if os.Getenv("GO_WANT_HELPER_PROCESS") != "1" {
-		return
-	}
-	os.Exit(0)
-}
 
 // Positive Test Case: Valid UUIDs
 func TestIsValidUUIDPositive(t *testing.T) {
@@ -579,30 +562,6 @@ func TestIsValidString(t *testing.T) {
 		if IsValidString(&str) {
 			t.Errorf("Expected false for invalid string: %s", str)
 		}
-	}
-}
-
-func TestBuildBundle(t *testing.T) {
-	output, err := BuildBundle(mockCmd)
-	if err != nil {
-		t.Errorf("BuildBundle() error = %v, wantErr %v", err, output)
-	}
-}
-
-func TestBuildBundle_CommandFailure(t *testing.T) {
-	// Mock function to simulate command failure
-	mockCmdFail := func(command string, args ...string) *exec.Cmd {
-		cs := []string{"-test.run=TestHelperProcess", "--", command}
-		cs = append(cs, args...)
-		cmd := exec.Command(os.Args[0], cs...)
-		cmd.Env = []string{"GO_WANT_HELPER_PROCESS=1"}
-		cmd.Stderr = os.Stderr
-		return cmd
-	}
-
-	output, err := BuildBundle(mockCmdFail)
-	if err == nil {
-		t.Errorf("BuildBundle() error = nil, wantErr %v", output)
 	}
 }
 

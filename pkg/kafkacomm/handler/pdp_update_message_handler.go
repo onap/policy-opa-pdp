@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024-2025: Deutsche Telekom
+//   Copyright (C) 2024-2026: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"os/exec"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
@@ -36,7 +35,7 @@ import (
 type (
 	sendSuccessResponseFunc         func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage string) error
 	sendFailureResponseFunc         func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage error) error
-	createBundleFuncRef             func(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error)
+	createBundleFuncRef             func() error
 	handlePdpUpdateDeploymentFunc   func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error)
 	handlePdpUpdateUndeploymentFunc func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error)
 	sendFinalResponseFunc           func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, loggingPoliciesList string, failureMessages []string) error
@@ -48,7 +47,7 @@ var (
 	sendSuccessResponseVar         sendSuccessResponseFunc         = sendSuccessResponse
 	sendFailureResponseVar         sendFailureResponseFunc         = sendFailureResponse
 	sendFinalResponseVar           sendFinalResponseFunc           = sendFinalResponse
-	createBundleFuncVar            createBundleFuncRef             = createBundleFunc
+	createBundleFuncVar            createBundleFuncRef             = utils.BuildBundle
 	handlePdpUpdateDeploymentVar   handlePdpUpdateDeploymentFunc   = handlePdpUpdateDeployment
 	handlePdpUpdateUndeploymentVar handlePdpUpdateUndeploymentFunc = handlePdpUpdateUndeployment
 	sendPDPStatusResponseFunc                                      = sendPDPStatusResponse
@@ -183,11 +182,6 @@ func sendFinalResponse(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, 
 		return err
 	}
 	return nil
-}
-
-// build bundle tar file
-func createBundleFunc(execCmd func(string, ...string) *exec.Cmd, toscaPolicy model.ToscaPolicy) (string, error) {
-	return utils.BuildBundle(execCmd)
 }
 
 func sendSuccessResponse(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage string) error {

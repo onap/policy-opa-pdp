@@ -20,8 +20,8 @@ package astgenerator
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
@@ -30,7 +30,6 @@ import (
 	"path/filepath"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
-	"runtime"
 	"testing"
 )
 
@@ -42,11 +41,9 @@ func TestMain(m *testing.M) {
 
 // setupPaths configures temporary paths for tests and returns a cleanup function.
 func setupPaths(t testing.TB) func() {
-	originalTempFolderPath := consts.TempRegoFolderPath
 	originalLogFilePath := consts.LogFilePath
 
 	tempDir := t.TempDir()
-	consts.TempRegoFolderPath = tempDir + string(os.PathSeparator)
 	consts.LogFilePath = filepath.Join(tempDir, "test.log")
 
 	// Redirect logger to the temp file
@@ -60,33 +57,17 @@ func setupPaths(t testing.TB) func() {
 			log.Log.SetOutput(io.Discard)
 			_ = logFile.Close() // Fix file lock issue
 		}
-		consts.TempRegoFolderPath = originalTempFolderPath
 		consts.LogFilePath = originalLogFilePath
 		// No need to remove tempDir as t.TempDir() handles it
 	}
 }
 
-// setupMockOpa configures a dummy "opa" executable and overrides consts.Opa.
-func setupMockOpa(t testing.TB, output string) {
-	tempDir := t.TempDir()
-
-	var scriptContent string
-	var scriptName string
-	if runtime.GOOS == "windows" {
-		scriptName = "opa.bat"
-		scriptContent = fmt.Sprintf("@echo off\necho %s\n", output)
-	} else {
-		scriptName = "opa"
-		scriptContent = fmt.Sprintf("#!/bin/sh\necho '%s'\n", output)
-	}
-
-	mockOpaPath := filepath.Join(tempDir, scriptName)
-	err := os.WriteFile(mockOpaPath, []byte(scriptContent), 0755)
-	assert.NoError(t, err)
-
-	originalOpa := consts.Opa
-	consts.Opa = mockOpaPath
-	t.Cleanup(func() { consts.Opa = originalOpa })
+// stubParseAST replaces the parser seam so the handler's error branches can be reached
+// without feeding the real parser input it would never produce.
+func stubParseAST(t testing.TB, astJSON json.RawMessage, err error) {
+	original := parseASTVar
+	parseASTVar = func(string) (json.RawMessage, error) { return astJSON, err }
+	t.Cleanup(func() { parseASTVar = original })
 }
 
 // mockResponseWriter is a http.ResponseWriter that fails on Write
@@ -146,9 +127,6 @@ func TestASTGeneratorHandler_EmptyCode(t *testing.T) {
 func TestASTGeneratorHandler_ParseASTError(t *testing.T) {
 	defer setupPaths(t)()
 
-	// Creating a mock OPA executable which fails for mimic-ing a parse error
-	setupMockOpa(t, "parse error dummy")
-
 	body := bytes.NewBufferString(`{
 "code": "this is invalid rego code"
 }`)
@@ -160,16 +138,13 @@ func TestASTGeneratorHandler_ParseASTError(t *testing.T) {
 	ASTGeneratorHandler(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.Contains(t, w.Body.String(), "error")
+	assert.Contains(t, w.Body.String(), "failed to parse policy")
 }
 
 func TestASTGeneratorHandler_Success(t *testing.T) {
 	defer setupPaths(t)()
 
-	// Mock success outcome via PATH hijacking
-	setupMockOpa(t, `{"ast": "mocked ast"}`)
-
-	body := bytes.NewBufferString(`{"code": "package test"}`)
+	body := bytes.NewBufferString(`{"code": "package test\n\nallow := true\n"}`)
 	req := httptest.NewRequest(http.MethodPost, "/ast", body)
 	req.Header.Set("Content-Type", "application/json")
 
@@ -178,14 +153,15 @@ func TestASTGeneratorHandler_Success(t *testing.T) {
 	ASTGeneratorHandler(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.Contains(t, w.Body.String(), "mocked ast")
+	assert.Contains(t, w.Body.String(), `"package"`)
+	assert.Contains(t, w.Body.String(), "allow")
 }
 
 func TestASTGeneratorHandler_UnmarshalError(t *testing.T) {
 	defer setupPaths(t)()
 
-	// Mock success but with invalid format (array instead of map)
-	setupMockOpa(t, `[]`)
+	// A JSON array cannot be unmarshalled into the response's map-typed Ast field.
+	stubParseAST(t, json.RawMessage(`[]`), nil)
 
 	body := bytes.NewBufferString(`{"code": "package test"}`)
 	req := httptest.NewRequest(http.MethodPost, "/ast", body)
@@ -202,8 +178,6 @@ func TestASTGeneratorHandler_UnmarshalError(t *testing.T) {
 func TestASTGeneratorHandler_EncodeError(t *testing.T) {
 	defer setupPaths(t)()
 	log.Log.SetOutput(io.Discard)
-
-	setupMockOpa(t, `{"ast": "mocked"}`)
 
 	body := bytes.NewBufferString(`{"code": "package test"}`)
 	req := httptest.NewRequest(http.MethodPost, "/ast", body)

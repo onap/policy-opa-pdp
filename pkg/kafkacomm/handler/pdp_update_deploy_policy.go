@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2025: Deutsche Telekom
+//   Copyright (C) 2025-2026: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
@@ -330,13 +329,14 @@ func validateAndPreparePolicy(policy model.ToscaPolicy, failureMessages *[]strin
 func deployPolicyAndData(policy model.ToscaPolicy, successPolicies map[string]string) error {
 
 	// Build the bundle
-	if output, err := verifyPolicyByBundleCreation(policy); err != nil {
+	if err := verifyPolicyByBundleCreation(policy); err != nil {
+		output := err.Error()
 		if len(output) > consts.MaxOutputResponseLength {
 			output = output[:consts.MaxOutputResponseLength] + "..."
 		}
 		metrics.IncrementDeployFailureCount()
 		metrics.IncrementTotalErrorCount()
-		return fmt.Errorf("failed to build Rego File for %s: %v", policy.Name, string(output))
+		return fmt.Errorf("failed to build Rego File for %s: %v", policy.Name, output)
 	}
 
 	// Upsert policy and data
@@ -365,22 +365,21 @@ func checkIfPolicyAlreadyDeployed(pdpUpdate model.PdpUpdate) []model.ToscaPolicy
 }
 
 // verfies policy by creating bundle.
-func verifyPolicyByBundleCreation(policy model.ToscaPolicy) (string, error) {
+func verifyPolicyByBundleCreation(policy model.ToscaPolicy) error {
 	// get directory name
 	dirNames := []string{strings.ReplaceAll(consts.DataNode+"/"+policy.Name, ".", "/"), strings.ReplaceAll(consts.Policies+"/"+policy.Name, ".", "/")}
 	// create bundle
-	output, err := createBundleFuncVar(exec.Command, policy)
-	if err != nil {
-		log.Warnf("Failed to initialize bundle for %s: %s", policy.Name, string(output))
+	if err := createBundleFuncVar(); err != nil {
+		log.Warnf("Failed to initialize bundle for %s: %v", policy.Name, err)
 		for _, dirPath := range dirNames {
 			if removeErr := utils.RemoveDirectory(dirPath); removeErr != nil {
 				log.Errorf("Error removing directory for policy %s: %v", policy.Name, removeErr)
 			}
 		}
 		log.Debugf("Directory cleanup as bundle creation failed")
-		return output, fmt.Errorf("failed to build bundle: %v", err)
+		return err
 	}
-	return output, nil
+	return nil
 }
 
 // handles Upsert func for policy and data
