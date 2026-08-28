@@ -358,7 +358,7 @@ func GetDataInfo(ctx context.Context, dataPath string) (data *oapicodegen.OPADat
 
 	result, err := memStore.Read(ctx, rtxn, path)
 	if err != nil {
-		log.Warnf("Error in reading data under " + dataPath + " path")
+		log.Warnf("Error in reading data under %s path", dataPath)
 		return nil, err
 	}
 
