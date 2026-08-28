@@ -25,8 +25,105 @@ on:
 # Declare default permissions as none.
 permissions: {}
 
+# Serialise runs rather than cancelling them. A sweep can be part-way
+# through uploading results for one branch when the next run starts, and
+# cancelling mid-upload leaves the analysis incomplete on the server
+# rather than merely unfinished here.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  # Scheduled workflows run only on the default branch, so a cron here
+  # can never reach a release branch by itself. Rather than enumerate
+  # branches (the trap the Jenkins 'stream' lists fell into, where every
+  # new release branch needed a ci-management change), discover them at
+  # run time and drive a matrix from the result.
+  #
+  # Selection is by recency plus the default branch, which is the only
+  # self-maintaining signal available without a registry: release
+  # branches stay in scope while they receive backports and drop out
+  # once they stop, and stray topic branches never enter. Today that
+  # resolves to master, rabat and quebec -- the same set the Jenkins
+  # streams name -- while paris and an abandoned topic branch fall
+  # outside the window.
+  discover-branches:
+    name: "Discover active branches"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    outputs:
+      branches: ${{ steps.discover.outputs.branches }}
+    steps:
+      - name: "Harden runner"
+        # yamllint disable-line rule:line-length
+        uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c # v2.21.0
+        with:
+          egress-policy: audit
+      - name: "Select branches to scan"
+        id: discover
+        # Explicit because the loop below reads from a process
+        # substitution, which is a bash feature.
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          MAX_AGE_DAYS: "365"
+        run: |
+          # Select branches to scan
+          set -euo pipefail
+
+          # Only a scheduled or manual run sweeps the whole repository.
+          # A push already names the branch it changed, and scanning the
+          # others there would repeat work nothing asked for.
+          case "${EVENT_NAME}" in
+            schedule|workflow_dispatch) ;;
+            *)
+              printf 'branches=["%s"]\n' "${REF_NAME}" >> "$GITHUB_OUTPUT"
+              echo "Event '${EVENT_NAME}': scanning ${REF_NAME} only"
+              exit 0 ;;
+          esac
+
+          cutoff="$(date -u -d "${MAX_AGE_DAYS} days ago" +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Cutoff: ${cutoff}"
+          selected=()
+          while IFS= read -r branch; do
+            [ -n "${branch}" ] || continue
+            committed="$(gh api "repos/${REPOSITORY}/commits/${branch}" \
+              --jq '.commit.committer.date')"
+            # ISO 8601 UTC timestamps sort correctly as plain strings.
+            # The default branch is always in scope, so the sweep cannot
+            # silently stop covering the mainline.
+            if [ "${branch}" = "${DEFAULT_BRANCH}" ] ||
+              [[ "${committed}" > "${cutoff}" ]]; then
+              selected+=("${branch}")
+              echo "  include  ${branch}  (${committed})"
+            else
+              echo "  skip     ${branch}  (${committed})"
+            fi
+          done < <(gh api "repos/${REPOSITORY}/branches" --paginate \
+            --jq '.[].name')
+
+          if [ "${#selected[@]}" -eq 0 ]; then
+            echo "::error::No branches selected; expected at least" \
+              "the default branch '${DEFAULT_BRANCH}'"
+            exit 1
+          fi
+          branches="$(printf '%s\n' "${selected[@]}" | jq -R . | jq -sc .)"
+          echo "branches=${branches}" >> "$GITHUB_OUTPUT"
+          echo "Selected: ${branches}"
+
   # Nexus IQ (CLM) scan, replacing the Jenkins gerrit-nexus-iq-go-clm job.
+  #
+  # Deliberately NOT driven by the branch matrix. Nexus IQ keys results
+  # on a single application id, so scanning several branches into
+  # 'onap-policy-opa-pdp' would have each overwrite the last rather than
+  # accumulate. Per-branch coverage would need an application per branch.
+  # The Jenkins job scanned master alone, so this matches it.
   #
   # scan_mode 'sbom' mirrors that job's nexus-iq-use-cli: false, which
   # took the REST branch: generate a CycloneDX SBOM with cyclonedx-gomod
@@ -54,7 +151,18 @@ jobs:
 
   # Scan results are found at: https://sonarcloud.io/login
   sonarqube-cloud:
-    name: "SonarQube Cloud"
+    name: "SonarQube Cloud (${{ matrix.branch }})"
+    needs: discover-branches
+    strategy:
+      # One branch failing must not cancel the others: a stale release
+      # branch that no longer builds would otherwise hide the mainline
+      # result.
+      fail-fast: false
+      # Each leg runs a full build and scan, so keep the concurrent load
+      # on SonarQube Cloud modest.
+      max-parallel: 2
+      matrix:
+        branch: ${{ fromJson(needs.discover-branches.outputs.branches) }}
     # yamllint disable-line rule:line-length
     uses: lfreleng-actions/security-workflows/.github/workflows/sonarqube-cloud.yaml@6ee08860f804e9801edc85ff610baf2cefd66b1e # v0.4.0
     permissions:
@@ -63,6 +171,14 @@ jobs:
     secrets:
       sonar_token: ${{ secrets.SONAR_TOKEN }}
     with:
+      # Check out and analyse the branch this matrix leg names.
+      # sonar_branch_name keeps each one a distinct branch in the Sonar
+      # project rather than having the last leg overwrite the rest. Note
+      # that each distinct name consumes branch quota on some Sonar
+      # plans.
+      ref: ${{ matrix.branch }}
+      sonar_branch_name: ${{ matrix.branch }}
+      #
       # Build coverage before the scan. This replaces a build_wrapper_url
       # fetch of .github/scripts/prescan-go-coverage-ubuntu.sh over raw
       # githubusercontent: build_wrapper_url runs SonarSource's C/C++
