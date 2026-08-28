@@ -1,6 +1,6 @@
 // -
 //   ========================LICENSE_START=================================
-//   Copyright (C) 2024-2025: Deutsche Telekom
+//   Copyright (C) 2024-2026: Deutsche Telekom
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
@@ -314,28 +313,6 @@ func IsValidString(name interface{}) bool {
 	default:
 		return false // Handles cases where name is neither a string nor a *string
 	}
-}
-
-func BuildBundle(cmdFunc func(string, ...string) *exec.Cmd) (string, error) {
-	cmd := cmdFunc(
-		consts.Opa,
-		consts.BuildBundle,
-		consts.V1Compatible,
-		consts.Policies,
-		consts.Data,
-		consts.Output,
-		consts.BundleTarGzFile,
-	)
-	log.Debugf("Before calling combinedoutput")
-	output, err := cmd.CombinedOutput()
-
-	if err != nil {
-		log.Warnf("Error output : %s", string(output))
-		log.Warnf("Failed to build Bundle: %v", err)
-		return string(output), err
-	}
-	log.Debug("Bundle Built Sucessfully....")
-	return string(output), nil
 }
 
 type CommonFields struct {

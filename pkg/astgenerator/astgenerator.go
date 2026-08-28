@@ -24,11 +24,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os/exec"
 	"policy-opa-pdp/pkg/log"
 	model "policy-opa-pdp/pkg/model/oapicodegen"
 	"policy-opa-pdp/pkg/utils"
 )
+
+var parseASTVar = utils.ParseAST
 
 func writeErrorResponse(w http.ResponseWriter, status int, msg string, code model.ErrorResponseResponseCode) {
 	w.Header().Set("Content-Type", "application/json")
@@ -59,12 +60,7 @@ func ASTGeneratorHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var cmdFunc = func(name string, args ...string) *exec.Cmd {
-		return exec.Command(name, args...)
-	}
-
-	// Call the CLI-backed parser to get AST as JSON
-	astJSON, err := utils.ParseAST(cmdFunc, *req.Code)
+	astJSON, err := parseASTVar(*req.Code)
 	if err != nil {
 		writeErrorResponse(w, http.StatusBadRequest, err.Error(), model.EvaluationError)
 		return
