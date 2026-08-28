@@ -26,27 +26,47 @@ on:
 permissions: {}
 
 jobs:
-  #sonatype-lifecycle:
-  #  name: "Sonatype Lifecycle"
-  #  # yamllint disable-line rule:line-length
-  #  uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonatype-lifecycle.yaml@83e3ea0dcbfb1e8c707b0284ae7e7c376b0e27d4 # v0.2.7
-  #  secrets:
-  #    NEXUS_IQ_PASSWORD: ${{ secrets.NEXUS_IQ_PASSWORD }}
+  # Nexus IQ (CLM) scan. Disabled pending the NEXUS_IQ_PASSWORD secret and
+  # a Nexus IQ application id; uncomment both this job and the secret to
+  # retire the Jenkins gerrit-nexus-iq-go-clm job.
+  #
+  # build_type: go runs 'go mod tidy' and points the Nexus IQ CLI at
+  # go.sum. Add scan_mode: 'sbom' to reproduce the REST/cyclonedx-gomod
+  # branch this project ran under Jenkins instead.
+  #
+  # sonatype-lifecycle:
+  #   name: "Sonatype Lifecycle"
+  #   permissions:
+  #     contents: read
+  #   # yamllint disable-line rule:line-length
+  #   uses: lfreleng-actions/security-workflows/.github/workflows/sonatype-lifecycle.yaml@6ee08860f804e9801edc85ff610baf2cefd66b1e # v0.4.0
+  #   with:
+  #     build_type: "go"
+  #   secrets:
+  #     nexus_iq_password: ${{ secrets.NEXUS_IQ_PASSWORD }}
 
   # Scan results are found at: https://sonarcloud.io/login
   sonarqube-cloud:
     name: "SonarQube Cloud"
     # yamllint disable-line rule:line-length
-    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonarqube-cloud.yaml@f7aae218f1fa0257e3dcd19f5c7d3f88f482f266 # v0.10.1
+    uses: lfreleng-actions/security-workflows/.github/workflows/sonarqube-cloud.yaml@6ee08860f804e9801edc85ff610baf2cefd66b1e # v0.4.0
     permissions:
-      # Needed by the reusable Scan job to check out the repository.
+      # Needed by the reusable scan job to check out the repository.
       contents: read
-      # Needed to upload the results to code-scanning dashboard.
-      security-events: write
-      # Needed to publish results and get a badge (see publish_results below).
-      id-token: write
     secrets:
       sonar_token: ${{ secrets.SONAR_TOKEN }}
     with:
-      build_wrapper_url: https://raw.githubusercontent.com/onap/policy-opa-pdp/refs/heads/master/.github/scripts/prescan-go-coverage-ubuntu.sh
-      build_wrapper_out_dir: .
+      # Build coverage before the scan. This replaces a build_wrapper_url
+      # fetch of .github/scripts/prescan-go-coverage-ubuntu.sh over raw
+      # githubusercontent: build_wrapper_url runs SonarSource's C/C++
+      # build-wrapper, and the script it wrapped did nothing a native Go
+      # build does not. go-test-action writes coverage.out into the
+      # project root, matching sonar.go.coverage.reportPaths in
+      # sonar-project.properties; -p 1 serialises packages as the script
+      # did.
+      #
+      # The script itself stays in the tree: the paris, quebec and rabat
+      # branches still fetch it from refs/heads/master, so it can only go
+      # once those branches carry this change too.
+      build_type: "go"
+      go_test_args: "-p 1"

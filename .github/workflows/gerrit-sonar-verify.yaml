@@ -83,27 +83,36 @@ jobs:
   sonar-scan:
     name: "Go SonarQube Cloud scan"
     # yamllint disable-line rule:line-length
-    uses: lfit/releng-reusable-workflows/.github/workflows/composed-go-sonar-cloud.yaml@dd7e7f1359ca34ca29a409354fcc648b4ec7a561 # v0.10.2
+    uses: lfreleng-actions/security-workflows/.github/workflows/sonarqube-cloud.yaml@6ee08860f804e9801edc85ff610baf2cefd66b1e # v0.4.0
     permissions:
       # Needed by the reusable scan job to check out the repository.
       contents: read
     secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      sonar_token: ${{ secrets.SONAR_TOKEN }}
     with:
-      GERRIT_BRANCH: ${{ inputs.GERRIT_BRANCH }}
-      GERRIT_CHANGE_ID: ${{ inputs.GERRIT_CHANGE_ID }}
-      GERRIT_CHANGE_NUMBER: ${{ inputs.GERRIT_CHANGE_NUMBER }}
-      GERRIT_CHANGE_URL: ${{ inputs.GERRIT_CHANGE_URL }}
-      GERRIT_EVENT_TYPE: ${{ inputs.GERRIT_EVENT_TYPE }}
-      GERRIT_PATCHSET_NUMBER: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
-      GERRIT_PATCHSET_REVISION: ${{ inputs.GERRIT_PATCHSET_REVISION }}
-      GERRIT_PROJECT: ${{ inputs.GERRIT_PROJECT }}
-      GERRIT_REFSPEC: ${{ inputs.GERRIT_REFSPEC }}
-      # confluent-kafka-go/v2 requires cgo for the coverage build; the
-      # report path matches sonar.go.coverage.reportPaths in
-      # sonar-project.properties.
-      # yamllint disable-line rule:line-length
-      TEST_COMMAND: "CGO_ENABLED=1 go test -p 1 -coverprofile=coverage.out ./..."
+      # The gerrit_* inputs drive checkout-gerrit-change-action inside
+      # the lane, which resolves the patchset the dispatcher named.
+      gerrit_refspec: ${{ inputs.GERRIT_REFSPEC }}
+      gerrit_project: ${{ inputs.GERRIT_PROJECT }}
+      gerrit_branch: ${{ inputs.GERRIT_BRANCH }}
+      # gerrit_url falls back to the GERRIT_URL repository variable.
+      #
+      # Sonar infers branch context from the CI provider, and under
+      # Gerrit that inference is wrong: the dispatch looks like a
+      # workflow_dispatch on the target branch. State the branch
+      # explicitly. Swap for 'change-${{ inputs.GERRIT_CHANGE_NUMBER }}'
+      # to keep per-patchset results separate, at the cost of a Sonar
+      # branch per change.
+      sonar_branch_name: ${{ inputs.GERRIT_BRANCH }}
+      #
+      # Build coverage before the scan. go-test-action writes
+      # coverage.out into the project root, which is also Sonar's
+      # projectBaseDir, so sonar.go.coverage.reportPaths in
+      # sonar-project.properties resolves unchanged. confluent-kafka-go/v2
+      # requires cgo, which the runner default (CGO_ENABLED=1) supplies;
+      # -p 1 serialises packages as the previous TEST_COMMAND did.
+      build_type: "go"
+      go_test_args: "-p 1"
 
   # Report the scan outcome back to Gerrit as a comment (never a vote).
   comment:
