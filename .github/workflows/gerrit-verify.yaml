@@ -126,6 +126,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: read # repository-metadata-action queries PR data
+      issues: read # grype job reads maintainer-approved CVE bypass issues
     # yamllint disable-line rule:line-length
     uses: lfreleng-actions/go-workflows/.github/workflows/build-test.yaml@f67d53066236d6bf8f696609c19b20d12f5e626a # v0.4.3
     with:
