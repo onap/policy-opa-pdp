@@ -25,6 +25,13 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/propagation"
+	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	"go.opentelemetry.io/otel/sdk/trace/tracetest"
+	"go.opentelemetry.io/otel/trace"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/mocks"
@@ -262,7 +269,7 @@ func TestPdpMessageHandler_ValidPDPUpdate(t *testing.T) {
 
 		mockPublisher := new(MockPdpStatusSender)
 
-		mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
+		mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 		err := PdpMessageHandler(ctx, mockKafkaConsumer, "test-topic", mockPublisher)
 
@@ -307,7 +314,7 @@ func TestPdpMessageHandler_ValidPdpStateChange(t *testing.T) {
 
 		mockPublisher := new(MockPdpStatusSender)
 
-		mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
+		mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 		err := PdpMessageHandler(ctx, mockKafkaConsumer, "test-topic", mockPublisher)
 
@@ -352,7 +359,7 @@ func TestPdpMessageHandler_DiscardPdpStatus(t *testing.T) {
 
 		mockPublisher := new(MockPdpStatusSender)
 
-		mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
+		mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 		err := PdpMessageHandler(ctx, mockKafkaConsumer, "test-topic", mockPublisher)
 
@@ -397,7 +404,7 @@ func TestPdpMessageHandler_InvalidMessage(t *testing.T) {
 
 		mockPublisher := new(MockPdpStatusSender)
 
-		mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
+		mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 		err := PdpMessageHandler(ctx, mockKafkaConsumer, "test-topic", mockPublisher)
 
@@ -441,7 +448,7 @@ func TestPdpMessageHandler_ContextCancelled(t *testing.T) {
 
 		mockPublisher := new(MockPdpStatusSender)
 
-		mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
+		mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 		err := PdpMessageHandler(ctx, mockKafkaConsumer, "test-topic", mockPublisher)
 
@@ -484,7 +491,7 @@ func TestPdpMessageHandler_InvalidOPAPdpmessage(t *testing.T) {
 		}
 
 		mockPublisher := new(MockPdpStatusSender)
-		mockPublisher.On("SendPdpStatus", mock.Anything).Return(errors.New("Jsonunmarshal Error"))
+		mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Jsonunmarshal Error"))
 
 		err := PdpMessageHandler(ctx, mockKafkaConsumer, "test-topic", mockPublisher)
 
@@ -527,7 +534,7 @@ func TestPdpMessageHandler_InvalidOPAPdpStateChangemessage(t *testing.T) {
 		}
 
 		mockPublisher := new(MockPdpStatusSender)
-		mockPublisher.On("SendPdpStatus", mock.Anything).Return(errors.New("Jsonunmarshal Error"))
+		mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Jsonunmarshal Error"))
 
 		err := PdpMessageHandler(ctx, mockKafkaConsumer, "test-topic", mockPublisher)
 
@@ -570,7 +577,7 @@ func TestPdpMessageHandler_jsonunmarshallOPAPdpStateChangemessage(t *testing.T) 
 		}
 
 		mockPublisher := new(MockPdpStatusSender)
-		mockPublisher.On("SendPdpStatus", mock.Anything).Return(errors.New("Jsonunmarshal Error"))
+		mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Jsonunmarshal Error"))
 
 		err := PdpMessageHandler(ctx, mockKafkaConsumer, "test-topic", mockPublisher)
 
@@ -583,54 +590,54 @@ func TestPdpMessageHandler_jsonunmarshallOPAPdpStateChangemessage(t *testing.T) 
 func TestHandlePdpMessageTypes_Update(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
 
-	pdpUpdateMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+	pdpUpdateMessageHandlerVar = func(ctx context.Context, msg []byte, p publisher.PdpStatusSender) error {
 		assert.Equal(t, "update-message", string(msg))
 		return nil
 	}
 
-	handlePdpMessageTypes("PDP_UPDATE", []byte("update-message"), mockSender)
+	handlePdpMessageTypes(context.Background(), "PDP_UPDATE", []byte("update-message"), mockSender)
 	// Add assertions on log output if needed
 }
 
 func TestHandlePdpMessageTypes_Update_Error(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
 
-	pdpUpdateMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+	pdpUpdateMessageHandlerVar = func(ctx context.Context, msg []byte, p publisher.PdpStatusSender) error {
 		return errors.New("mock update error")
 	}
 
-	handlePdpMessageTypes("PDP_UPDATE", []byte("bad-message"), mockSender)
+	handlePdpMessageTypes(context.Background(), "PDP_UPDATE", []byte("bad-message"), mockSender)
 }
 
 func TestHandlePdpMessageTypes_StateChange(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
 
-	pdpStateChangeMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+	pdpStateChangeMessageHandlerVar = func(ctx context.Context, msg []byte, p publisher.PdpStatusSender) error {
 		assert.Equal(t, "state-change", string(msg))
 		return nil
 	}
 
-	handlePdpMessageTypes("PDP_STATE_CHANGE", []byte("state-change"), mockSender)
+	handlePdpMessageTypes(context.Background(), "PDP_STATE_CHANGE", []byte("state-change"), mockSender)
 }
 
 func TestHandlePdpMessageTypes_StateChange_Error(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
 
-	pdpStateChangeMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+	pdpStateChangeMessageHandlerVar = func(ctx context.Context, msg []byte, p publisher.PdpStatusSender) error {
 		return errors.New("mock state change error")
 	}
 
-	handlePdpMessageTypes("PDP_STATE_CHANGE", []byte("bad-state"), mockSender)
+	handlePdpMessageTypes(context.Background(), "PDP_STATE_CHANGE", []byte("bad-state"), mockSender)
 }
 
 func TestHandlePdpMessageTypes_Status(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
-	handlePdpMessageTypes("PDP_STATUS", []byte("ignore"), mockSender)
+	handlePdpMessageTypes(context.Background(), "PDP_STATUS", []byte("ignore"), mockSender)
 }
 
 func TestHandlePdpMessageTypes_Invalid(t *testing.T) {
 	mockSender := new(MockPdpStatusSender)
-	handlePdpMessageTypes("INVALID_TYPE", []byte("invalid"), mockSender)
+	handlePdpMessageTypes(context.Background(), "INVALID_TYPE", []byte("invalid"), mockSender)
 }
 
 func TestShouldRebuildConsumer(t *testing.T) {
@@ -716,12 +723,12 @@ func TestPdpMessageHandler_FatalError_RecoverySuccess(t *testing.T) {
 	defer cancel()
 
 	mockPublisher := new(MockPdpStatusSender)
-	mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	oldUpdate := pdpUpdateMessageHandlerVar
 	defer func() { pdpUpdateMessageHandlerVar = oldUpdate }()
 	handled := 0
-	pdpUpdateMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+	pdpUpdateMessageHandlerVar = func(ctx context.Context, msg []byte, p publisher.PdpStatusSender) error {
 		handled++
 		cancel()
 		return nil
@@ -806,4 +813,97 @@ func TestRecoverConsumer(t *testing.T) {
 	} else {
 		assert.Nil(t, newKc)
 	}
+}
+
+// newRecordingProvider installs a provider that keeps every span in memory, so a
+// test can assert on the trace the handler produced.
+func newRecordingProvider(t *testing.T) *tracetest.SpanRecorder {
+	t.Helper()
+
+	previousProvider := otel.GetTracerProvider()
+	previousPropagator := otel.GetTextMapPropagator()
+	recorder := tracetest.NewSpanRecorder()
+
+	otel.SetTracerProvider(sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(recorder)))
+	otel.SetTextMapPropagator(propagation.TraceContext{})
+
+	t.Cleanup(func() {
+		otel.SetTracerProvider(previousProvider)
+		otel.SetTextMapPropagator(previousPropagator)
+	})
+
+	return recorder
+}
+
+func TestDispatchInSpan_ContinuesPapTrace(t *testing.T) {
+	recorder := newRecordingProvider(t)
+
+	previousHandler := pdpUpdateMessageHandlerVar
+	pdpUpdateMessageHandlerVar = func(ctx context.Context, message []byte, p publisher.PdpStatusSender) error {
+		return nil
+	}
+	t.Cleanup(func() { pdpUpdateMessageHandlerVar = previousHandler })
+
+	msg := &kafka.Message{
+		Value: []byte(`{"messageName":"PDP_UPDATE"}`),
+		Headers: []kafka.Header{{
+			Key:   "traceparent",
+			Value: []byte("00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01"),
+		}},
+	}
+
+	dispatchInSpan(context.Background(), "policy-pdp-pap", msg,
+		OpaPdpMessage{MessageType: "PDP_UPDATE"}, new(MockPdpStatusSender))
+
+	spans := recorder.Ended()
+	require.Len(t, spans, 1)
+	assert.Equal(t, "consume policy-pdp-pap", spans[0].Name())
+	assert.Equal(t, trace.SpanKindConsumer, spans[0].SpanKind())
+	assert.Equal(t, "0af7651916cd43dd8448eb211c80319c", spans[0].SpanContext().TraceID().String())
+	assert.Equal(t, "b7ad6b7169203331", spans[0].Parent().SpanID().String())
+	assert.Contains(t, spans[0].Attributes(),
+		attribute.String(messageTypeAttribute, "PDP_UPDATE"))
+}
+
+func TestDispatchInSpan_WithoutTraceparentStartsNewTrace(t *testing.T) {
+	recorder := newRecordingProvider(t)
+
+	previousHandler := pdpStateChangeMessageHandlerVar
+	pdpStateChangeMessageHandlerVar = func(ctx context.Context, message []byte, p publisher.PdpStatusSender) error {
+		return nil
+	}
+	t.Cleanup(func() { pdpStateChangeMessageHandlerVar = previousHandler })
+
+	msg := &kafka.Message{Value: []byte(`{"messageName":"PDP_STATE_CHANGE"}`)}
+
+	dispatchInSpan(context.Background(), "policy-pdp-pap", msg,
+		OpaPdpMessage{MessageType: "PDP_STATE_CHANGE"}, new(MockPdpStatusSender))
+
+	spans := recorder.Ended()
+	require.Len(t, spans, 1)
+	assert.True(t, spans[0].SpanContext().IsValid())
+	assert.False(t, spans[0].Parent().IsValid())
+}
+
+// The handler must hand its span's context to the message-type handler, otherwise
+// the PDP_STATUS response it publishes would start an unrelated trace.
+func TestDispatchInSpan_PassesSpanContextToHandler(t *testing.T) {
+	recorder := newRecordingProvider(t)
+
+	var handlerTraceID string
+	previousHandler := pdpUpdateMessageHandlerVar
+	pdpUpdateMessageHandlerVar = func(ctx context.Context, message []byte, p publisher.PdpStatusSender) error {
+		handlerTraceID = trace.SpanContextFromContext(ctx).TraceID().String()
+		return nil
+	}
+	t.Cleanup(func() { pdpUpdateMessageHandlerVar = previousHandler })
+
+	msg := &kafka.Message{Value: []byte(`{"messageName":"PDP_UPDATE"}`)}
+
+	dispatchInSpan(context.Background(), "policy-pdp-pap", msg,
+		OpaPdpMessage{MessageType: "PDP_UPDATE"}, new(MockPdpStatusSender))
+
+	spans := recorder.Ended()
+	require.Len(t, spans, 1)
+	assert.Equal(t, spans[0].SpanContext().TraceID().String(), handlerTraceID)
 }

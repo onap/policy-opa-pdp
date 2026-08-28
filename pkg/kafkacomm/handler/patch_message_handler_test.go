@@ -27,6 +27,8 @@ import (
 	"github.com/open-policy-agent/opa/v1/storage"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
+	"go.opentelemetry.io/otel/codes"
 	"net/http"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/data"
@@ -383,4 +385,50 @@ func TestPatchMessageHandler_RecoveryFailed(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, 2, recoveryAttempts, "recovery must go through the recoverConsumerVar seam")
 	assert.Zero(t, patched, "no message can be processed while recovery keeps failing")
+}
+
+func TestApplyPatch_ContinuesPublisherTrace(t *testing.T) {
+	recorder := newRecordingProvider(t)
+
+	defer func() { data.PatchDataVar = originalPatchDataVar }()
+	data.PatchDataVar = func(patchInfos []opasdk.PatchImpl, _ http.ResponseWriter) error { return nil }
+
+	msg := &kafka.Message{Headers: []kafka.Header{{
+		Key:   "traceparent",
+		Value: []byte("00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01"),
+	}}}
+	patchMsg := model.PatchMessage{
+		Header:     model.Header{MessageType: model.OPA_PDP_DATA_PATCH_SYNC.String()},
+		PatchInfos: samplePatchData(),
+	}
+
+	applyPatch(context.Background(), "opa-pdp-data", msg, patchMsg)
+
+	spans := recorder.Ended()
+	require.Len(t, spans, 1)
+	assert.Equal(t, "consume opa-pdp-data", spans[0].Name())
+	assert.Equal(t, "0af7651916cd43dd8448eb211c80319c", spans[0].SpanContext().TraceID().String())
+	assert.Equal(t, "b7ad6b7169203331", spans[0].Parent().SpanID().String())
+	assert.Equal(t, codes.Unset, spans[0].Status().Code)
+}
+
+func TestApplyPatch_FailureMarksSpanAsError(t *testing.T) {
+	recorder := newRecordingProvider(t)
+
+	defer func() { data.PatchDataVar = originalPatchDataVar }()
+	data.PatchDataVar = func(patchInfos []opasdk.PatchImpl, _ http.ResponseWriter) error {
+		return errors.New("storage_not_found_error")
+	}
+
+	patchMsg := model.PatchMessage{
+		Header:     model.Header{MessageType: model.OPA_PDP_DATA_PATCH_SYNC.String()},
+		PatchInfos: samplePatchData(),
+	}
+
+	applyPatch(context.Background(), "opa-pdp-data", &kafka.Message{}, patchMsg)
+
+	spans := recorder.Ended()
+	require.Len(t, spans, 1)
+	assert.Equal(t, codes.Error, spans[0].Status().Code)
+	assert.Equal(t, "storage_not_found_error", spans[0].Status().Description)
 }

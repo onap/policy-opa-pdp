@@ -19,6 +19,7 @@
 package publisher
 
 import (
+	"context"
 	"errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -37,7 +38,7 @@ Expected Output: The ticker starts with an interval of 1000 milliseconds, and he
 func TestStartHeartbeatIntervalTimer_ValidInterval(t *testing.T) {
 	intervalMs := int64(1000)
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
 	mu.Lock()
 	defer mu.Unlock()
@@ -60,12 +61,12 @@ func TestStartHeartbeatIntervalTimer_InvalidInterval(t *testing.T) {
 	// Start a valid ticker first so we can verify a negative interval does NOT
 	// orphan it by nil-ing the package-level ticker variable.
 	validSender := new(mocks.PdpStatusSender)
-	validSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	validSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	StartHeartbeatIntervalTimer(1000, validSender)
 
 	intervalMs := int64(-1000)
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
 	mu.Lock()
 	// Corrected contract: a negative interval must return early WITHOUT nil-ing
@@ -83,8 +84,8 @@ Expected Output: Heartbeat message is sent successfully, and a debug log "Messag
 */
 func TestSendPDPHeartBeat_Success(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-	err := sendPDPHeartBeat(mockSender)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
+	err := sendPDPHeartBeat(context.Background(), mockSender)
 	assert.NoError(t, err)
 }
 
@@ -97,8 +98,8 @@ Expected Output: An error occurs while sending the heartbeat, and a warning log 
 func TestSendPDPHeartBeat_Failure(t *testing.T) {
 	// Mock SendPdpStatus to return an error
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Error producing message"))
-	err := sendPDPHeartBeat(mockSender)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Error producing message"))
+	err := sendPDPHeartBeat(context.Background(), mockSender)
 	assert.Error(t, err)
 }
 
@@ -112,11 +113,11 @@ func TestSendPDPHeartBeat_SuccessSomeDeployedPolicies(t *testing.T) {
 	// Setup mock Policymap
 	mockPolicymap := new(MockPolicymap)
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	policymap.LastDeployedPolicies = "some-policies"
 	// Set mock behavior for policymap
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
-	err := sendPDPHeartBeat(mockSender)
+	err := sendPDPHeartBeat(context.Background(), mockSender)
 	assert.NoError(t, err)
 }
 
@@ -130,11 +131,11 @@ func TestSendPDPHeartBeat_SuccessNoDeployedPolicies(t *testing.T) {
 	// Setup mock Policymap
 	mockPolicymap := new(MockPolicymap)
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	policymap.LastDeployedPolicies = ""
 	// Set mock behavior for policymap
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
-	err := sendPDPHeartBeat(mockSender)
+	err := sendPDPHeartBeat(context.Background(), mockSender)
 	assert.NoError(t, err)
 }
 
@@ -146,7 +147,7 @@ Expected Output: The ticker stops, and the stop channel is closed.
 */
 func TestStopTicker_Success(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	StartHeartbeatIntervalTimer(1000, mockSender)
 	// StopTicker sends to stopChan which causes the goroutine to exit and call
 	// defer wg.Done() — no manual wg.Done() needed here (the old wg.Done() call
@@ -173,7 +174,7 @@ func TestStopTicker_NotRunning(t *testing.T) {
 func TestStartHeartbeatIntervalTimer_TickerAlreadyRunning(t *testing.T) {
 	intervalMs := int64(1000)
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	// Start the ticker for the first time
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
@@ -185,7 +186,7 @@ func TestStartHeartbeatIntervalTimer_TickerAlreadyRunning(t *testing.T) {
 func TestStartHeartbeatIntervalTimer_TickerAlreadyRunning_Case2(t *testing.T) {
 	intervalMs := int64(1000)
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	// Start the ticker for the first time
 	StartHeartbeatIntervalTimer(intervalMs, mockSender)
 	// Start it again

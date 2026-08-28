@@ -21,11 +21,20 @@ package api
 
 import (
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/propagation"
+	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	"go.opentelemetry.io/otel/sdk/trace/tracetest"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"policy-opa-pdp/cfg"
+	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
+	"sync"
 	"testing"
 	"time"
 )
@@ -36,8 +45,28 @@ func init() {
 	cfg.Password = "testpass"
 }
 
+// muxRecorder captures the spans emitted by the handlers registered on the
+// default mux. It has to be installed before RegisterHandlers ever runs, because
+// otelhttp resolves the tracer provider when the handler is built, not per
+// request — hence TestMain rather than a per-test helper.
+var muxRecorder = tracetest.NewSpanRecorder()
+
+func TestMain(m *testing.M) {
+	otel.SetTracerProvider(sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(muxRecorder)))
+	otel.SetTextMapPropagator(propagation.TraceContext{})
+	os.Exit(m.Run())
+}
+
+// http.Handle panics on a duplicate pattern, so the shared default mux may only
+// be populated once per test binary.
+var registerOnce sync.Once
+
+func registerHandlersOnce() {
+	registerOnce.Do(RegisterHandlers)
+}
+
 func TestRegisterHandlers(t *testing.T) {
-	RegisterHandlers()
+	registerHandlersOnce()
 
 	tests := []struct {
 		path       string
@@ -265,6 +294,118 @@ func TestValidateCredentialsEmptyPasswordBypass(t *testing.T) {
 			}
 		})
 	}
+}
+
+// newRecordingProvider installs a span recorder as the global tracer provider,
+// restoring the previous one on cleanup. The provider is process-global, so
+// leaking it would corrupt other packages' tests.
+func newRecordingProvider(t *testing.T) *tracetest.SpanRecorder {
+	t.Helper()
+	recorder := tracetest.NewSpanRecorder()
+	provider := sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(recorder))
+	previous := otel.GetTracerProvider()
+	otel.SetTracerProvider(provider)
+	t.Cleanup(func() { otel.SetTracerProvider(previous) })
+	return recorder
+}
+
+// The span name comes from the ServeMux pattern, so the handler has to be
+// exercised through a mux rather than called directly.
+func TestInstrument_NamesSpanAfterMethodAndRouteAndRecordsRequestID(t *testing.T) {
+	recorder := newRecordingProvider(t)
+
+	mux := http.NewServeMux()
+	mux.Handle("/policy/pdpo/v1/decision", instrument(http.HandlerFunc(
+		func(res http.ResponseWriter, req *http.Request) { res.WriteHeader(http.StatusOK) })))
+
+	req := httptest.NewRequest(http.MethodPost, "/policy/pdpo/v1/decision", nil)
+	req.Header.Set(consts.RequestId, "4c9a6b9e-1d1a-4b6e-9f4e-2f0a1b2c3d4e")
+	mux.ServeHTTP(httptest.NewRecorder(), req)
+
+	spans := recorder.Ended()
+	require.Len(t, spans, 1)
+	assert.Equal(t, "POST /policy/pdpo/v1/decision", spans[0].Name())
+	assert.Contains(t, spans[0].Attributes(),
+		attribute.String(requestIdAttribute, "4c9a6b9e-1d1a-4b6e-9f4e-2f0a1b2c3d4e"))
+}
+
+func TestInstrument_WithoutRequestIDHeader(t *testing.T) {
+	recorder := newRecordingProvider(t)
+
+	handler := instrument(http.HandlerFunc(
+		func(res http.ResponseWriter, req *http.Request) { res.WriteHeader(http.StatusOK) }))
+
+	handler.ServeHTTP(httptest.NewRecorder(),
+		httptest.NewRequest(http.MethodGet, "/policy/pdpo/v1/statistics", nil))
+
+	spans := recorder.Ended()
+	require.Len(t, spans, 1)
+	for _, attr := range spans[0].Attributes() {
+		assert.NotEqual(t, attribute.Key(requestIdAttribute), attr.Key)
+	}
+}
+
+// The span must wrap basicAuth rather than sit inside it, because a rejected
+// credential is exactly the kind of failure a trace should show.
+func TestInstrument_TracesUnauthorizedRequests(t *testing.T) {
+	recorder := newRecordingProvider(t)
+
+	handler := instrument(basicAuth(http.HandlerFunc(
+		func(res http.ResponseWriter, req *http.Request) { res.WriteHeader(http.StatusOK) })))
+
+	res := httptest.NewRecorder()
+	handler.ServeHTTP(res, httptest.NewRequest(http.MethodPost, "/policy/pdpo/v1/decision", nil))
+
+	assert.Equal(t, http.StatusUnauthorized, res.Code)
+	require.Len(t, recorder.Ended(), 1)
+}
+
+// A traceparent from PAP or a gateway must be continued, not replaced by a new
+// root trace.
+func TestInstrument_ContinuesIncomingTraceparent(t *testing.T) {
+	recorder := newRecordingProvider(t)
+
+	handler := instrument(http.HandlerFunc(
+		func(res http.ResponseWriter, req *http.Request) { res.WriteHeader(http.StatusOK) }))
+
+	req := httptest.NewRequest(http.MethodGet, "/policy/pdpo/v1/data", nil)
+	req.Header.Set("traceparent", "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01")
+	handler.ServeHTTP(httptest.NewRecorder(), req)
+
+	spans := recorder.Ended()
+	require.Len(t, spans, 1)
+	assert.Equal(t, "0af7651916cd43dd8448eb211c80319c", spans[0].SpanContext().TraceID().String())
+	assert.Equal(t, "b7ad6b7169203331", spans[0].Parent().SpanID().String())
+}
+
+// Prometheus scrapes and kubelet probes would otherwise dominate every trace
+// view, so these three routes are deliberately left uninstrumented.
+func TestRegisterHandlers_ProbeAndMetricsRoutesAreNotTraced(t *testing.T) {
+	registerHandlersOnce()
+	muxRecorder.Reset()
+
+	for _, path := range []string{
+		"/metrics",
+		"/policy/pdpo/v1/healthcheck",
+		"/policy/pdpo/v1/readiness",
+	} {
+		req := httptest.NewRequest(http.MethodGet, path, nil)
+		req.SetBasicAuth("testuser", "testpass")
+		http.DefaultServeMux.ServeHTTP(httptest.NewRecorder(), req)
+	}
+
+	assert.Empty(t, muxRecorder.Ended())
+}
+
+func TestRegisterHandlers_DecisionRouteIsTraced(t *testing.T) {
+	registerHandlersOnce()
+	muxRecorder.Reset()
+
+	req := httptest.NewRequest(http.MethodPost, "/policy/pdpo/v1/decision", nil)
+	http.DefaultServeMux.ServeHTTP(httptest.NewRecorder(), req)
+
+	require.Len(t, muxRecorder.Ended(), 1)
+	assert.Equal(t, "POST /policy/pdpo/v1/decision", muxRecorder.Ended()[0].Name())
 }
 
 func TestReadinessProbe(t *testing.T) {

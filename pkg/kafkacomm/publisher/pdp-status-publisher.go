@@ -23,6 +23,7 @@
 package publisher
 
 import (
+	"context"
 	"fmt"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
@@ -36,7 +37,7 @@ import (
 )
 
 type (
-	SendPdpUpdateResponseFunc func(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMessage string) error
+	SendPdpUpdateResponseFunc func(ctx context.Context, s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMessage string) error
 )
 
 var (
@@ -45,7 +46,7 @@ var (
 
 // Sends a PDP_STATUS message to indicate the successful processing of a PDP_UPDATE request
 // received from the Policy Administration Point (PAP).
-func SendPdpUpdateResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMessage string) error {
+func SendPdpUpdateResponse(ctx context.Context, s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMessage string) error {
 
 	responseStatus := model.Success
 	responseMessage := resMessage
@@ -83,7 +84,7 @@ func SendPdpUpdateResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMes
 
 	log.Infof("Sending PDP Status With Update Response")
 
-	err := s.SendPdpStatus(pdpStatus)
+	err := s.SendPdpStatus(ctx, pdpStatus)
 	if err != nil {
 		log.Warnf("Failed to send PDP Update Message : %v", err)
 		return err
@@ -93,7 +94,7 @@ func SendPdpUpdateResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, resMes
 
 }
 
-func SendPdpUpdateErrorResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, err error) error {
+func SendPdpUpdateErrorResponse(ctx context.Context, s PdpStatusSender, pdpUpdate *model.PdpUpdate, err error) error {
 
 	responseStatus := model.Failure
 	responseMessage := fmt.Sprintf("%v", err)
@@ -131,7 +132,7 @@ func SendPdpUpdateErrorResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, e
 
 	log.Infof("Sending PDP Status With Update Error Response")
 
-	err = s.SendPdpStatus(pdpStatus)
+	err = s.SendPdpStatus(ctx, pdpStatus)
 	if err != nil {
 		log.Warnf("Failed to send PDP Update Error Message : %v", err)
 		return err
@@ -142,7 +143,7 @@ func SendPdpUpdateErrorResponse(s PdpStatusSender, pdpUpdate *model.PdpUpdate, e
 }
 
 // Sends a PDP_STATUS message to indicate a state change in the PDP (e.g., from PASSIVE to ACTIVE).
-func SendStateChangeResponse(s PdpStatusSender, pdpStateChange *model.PdpStateChange) error {
+func SendStateChangeResponse(ctx context.Context, s PdpStatusSender, pdpStateChange *model.PdpStateChange) error {
 
 	responseStatus := model.Success
 	responseMessage := "PDP State Changed From PASSIVE TO Active"
@@ -169,7 +170,7 @@ func SendStateChangeResponse(s PdpStatusSender, pdpStateChange *model.PdpStateCh
 
 	log.Infof("Sending PDP Status With State Change response")
 
-	err := s.SendPdpStatus(pdpStatus)
+	err := s.SendPdpStatus(ctx, pdpStatus)
 	if err != nil {
 		log.Warnf("Failed to send PDP State Change Message : %v", err)
 		return err

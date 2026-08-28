@@ -842,3 +842,48 @@ func TestRunHealthCheck_PassesConfiguredURLAndCreds(t *testing.T) {
 	assert.Equal(t, cfg.Username, gotUser)
 	assert.Equal(t, cfg.Password, gotPass)
 }
+
+// A trace collector that cannot be reached must not stop the PDP from starting.
+func TestStartTracing_ErrorIsNonFatal(t *testing.T) {
+	original := startTracingFunc
+	startTracingFunc = func(ctx context.Context) (func(context.Context) error, error) {
+		return nil, errors.New("unsupported OTLP protocol")
+	}
+	t.Cleanup(func() { startTracingFunc = original })
+
+	flush := startTracing(context.Background())
+	require.NotNil(t, flush)
+	flush() // must not panic on the nil shutdown returned above
+}
+
+func TestStartTracing_FlushesOnShutdown(t *testing.T) {
+	original := startTracingFunc
+	flushed := false
+	startTracingFunc = func(ctx context.Context) (func(context.Context) error, error) {
+		return func(context.Context) error {
+			flushed = true
+			return nil
+		}, nil
+	}
+	t.Cleanup(func() { startTracingFunc = original })
+
+	// The caller's context is cancelled before the flush runs, mirroring main().
+	ctx, cancel := context.WithCancel(context.Background())
+	flush := startTracing(ctx)
+	cancel()
+	flush()
+
+	assert.True(t, flushed, "pending spans should be flushed on shutdown")
+}
+
+func TestStartTracing_FlushErrorIsLoggedNotFatal(t *testing.T) {
+	original := startTracingFunc
+	startTracingFunc = func(ctx context.Context) (func(context.Context) error, error) {
+		return func(context.Context) error {
+			return errors.New("collector unreachable")
+		}, nil
+	}
+	t.Cleanup(func() { startTracingFunc = original })
+
+	startTracing(context.Background())()
+}

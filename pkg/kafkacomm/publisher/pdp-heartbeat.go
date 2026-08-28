@@ -23,6 +23,7 @@
 package publisher
 
 import (
+	"context"
 	"fmt"
 	"github.com/google/uuid"
 	"policy-opa-pdp/consts"
@@ -80,7 +81,10 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 		for {
 			select {
 			case <-t.C:
-				if err := sendPDPHeartBeat(s); err != nil {
+				// A heartbeat answers a timer, not an inbound request, so each one
+				// deliberately starts its own trace rather than being attached to
+				// whichever request happened to be in flight.
+				if err := sendPDPHeartBeat(context.Background(), s); err != nil {
 					log.Errorf("Failed to send PDP Heartbeat: %v", err)
 				}
 			case <-stop:
@@ -93,7 +97,7 @@ func StartHeartbeatIntervalTimer(intervalMs int64, s PdpStatusSender) {
 }
 
 // Creates and sends a heartbeat message with the PDP's current state, health, and attributes
-func sendPDPHeartBeat(s PdpStatusSender) error {
+func sendPDPHeartBeat(ctx context.Context, s PdpStatusSender) error {
 	pdpSubGroup := pdpattributes.GetPdpSubgroup()
 	pdpStatus := model.PdpStatus{
 		MessageType: model.PDP_STATUS,
@@ -124,7 +128,7 @@ func sendPDPHeartBeat(s PdpStatusSender) error {
 		pdpStatus.Description = "Pdp Status Registration Message"
 	}
 
-	err := s.SendPdpStatus(pdpStatus)
+	err := s.SendPdpStatus(ctx, pdpStatus)
 	log.Debugf("Sending Heartbeat ...")
 	if err != nil {
 		log.Warnf("Error producing message: %v\n", err)

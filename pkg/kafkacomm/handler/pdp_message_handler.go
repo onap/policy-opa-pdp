@@ -26,20 +26,28 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+	"go.opentelemetry.io/otel/attribute"
+	semconv "go.opentelemetry.io/otel/semconv/v1.41.0"
+	"go.opentelemetry.io/otel/trace"
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/pdpattributes"
+	"policy-opa-pdp/pkg/tracing"
 	"strings"
 	"sync"
 	"time"
 )
 
+// messageTypeAttribute records the PAP message name on the consumer span, so a
+// trace view can be filtered to deployments or to state changes.
+const messageTypeAttribute = "onap.pdp.message_type"
+
 type (
-	pdpUpdateMessageHandlerFunc      func(message []byte, p publisher.PdpStatusSender) error
-	pdpStateChangeMessageHandlerFunc func(message []byte, p publisher.PdpStatusSender) error
+	pdpUpdateMessageHandlerFunc      func(ctx context.Context, message []byte, p publisher.PdpStatusSender) error
+	pdpStateChangeMessageHandlerFunc func(ctx context.Context, message []byte, p publisher.PdpStatusSender) error
 )
 
 var (
@@ -115,7 +123,7 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
 			return nil
 
 		default:
-			message, err := kafkacomm.ReadKafkaMessages(kc)
+			msg, err := kafkacomm.ReadKafkaMessages(kc)
 			if err != nil {
 				if shouldRebuildConsumer(err) {
 					log.Warnf("Consumer error; rebuilding. err=%v", err)
@@ -135,9 +143,10 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
 				continue
 			}
 
-			if message == nil {
+			if msg == nil {
 				continue
 			}
+			message := msg.Value
 
 			log.Debugf("[IN|KAFKA|%s]\n%s", topic, string(message))
 
@@ -153,7 +162,7 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
 				continue
 			}
 
-			handlePdpMessageTypes(opaPdpMessage.MessageType, message, p)
+			dispatchInSpan(ctx, topic, msg, opaPdpMessage, p)
 		}
 
 	}
@@ -161,17 +170,44 @@ func PdpMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic s
 
 }
 
-func handlePdpMessageTypes(messageType string, message []byte, p publisher.PdpStatusSender) {
+// dispatchInSpan wraps the dispatch in a consumer span continuing whatever trace
+// PAP started, so a deployment shows as one trace spanning PAP and every PDP that
+// acted on it. The span is closed before the next message is read, which keeps the
+// PDP_STATUS response that the handler publishes inside it.
+func dispatchInSpan(ctx context.Context, topic string, msg *kafka.Message, opaPdpMessage OpaPdpMessage, p publisher.PdpStatusSender) {
+	ctx, span := startConsumerSpan(ctx, topic, msg, opaPdpMessage.MessageType)
+	defer span.End()
+
+	handlePdpMessageTypes(ctx, opaPdpMessage.MessageType, msg.Value, p)
+}
+
+// startConsumerSpan opens a CONSUMER span parented to the traceparent carried by
+// the message headers. A message without a usable traceparent simply starts a new
+// trace.
+func startConsumerSpan(ctx context.Context, topic string, msg *kafka.Message, messageType string) (context.Context, trace.Span) {
+	return tracing.Tracer().Start(
+		tracing.ExtractFromKafka(ctx, msg.Headers),
+		"consume "+topic,
+		trace.WithSpanKind(trace.SpanKindConsumer),
+		trace.WithAttributes(
+			semconv.MessagingDestinationName(topic),
+			semconv.MessagingOperationTypeReceive,
+			attribute.String(messageTypeAttribute, messageType),
+		),
+	)
+}
+
+func handlePdpMessageTypes(ctx context.Context, messageType string, message []byte, p publisher.PdpStatusSender) {
 	log.Debugf("messageType: %s", messageType)
 
 	switch messageType {
 	case "PDP_UPDATE":
-		if err := pdpUpdateMessageHandlerVar(message, p); err != nil {
+		if err := pdpUpdateMessageHandlerVar(ctx, message, p); err != nil {
 			log.Warnf("Error processing Update Message: %v", err)
 		}
 
 	case "PDP_STATE_CHANGE":
-		if err := pdpStateChangeMessageHandlerVar(message, p); err != nil {
+		if err := pdpStateChangeMessageHandlerVar(ctx, message, p); err != nil {
 			log.Warnf("Error processing State Change Message: %v", err)
 		}
 
