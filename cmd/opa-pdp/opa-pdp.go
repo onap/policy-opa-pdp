@@ -39,6 +39,7 @@ import (
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/pdpattributes"
+	"policy-opa-pdp/pkg/tracing"
 	"syscall"
 	"time"
 
@@ -69,6 +70,7 @@ var (
 	startPatchKafkaConsAndProdFunc = startPatchKafkaConsAndProd
 	handlePatchMessagesFunc        = handlePatchMessages
 	getOPASingletonInstanceFunc    = opasdk.GetOPASingletonInstance
+	startTracingFunc               = tracing.Init
 )
 
 // registrationDelay is the settle time waited before and after starting the
@@ -110,6 +112,10 @@ func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
+	// Tracing must be initialised before the handlers are registered: the otelhttp
+	// middleware resolves the tracer provider once, when the handler is built.
+	defer startTracing(ctx)()
 
 	// Initialize Handlers and Build Bundle
 	initializeHandlersFunc()
@@ -157,6 +163,28 @@ func main() {
 	consumers := []*kafkacomm.KafkaConsumer{kc, patchMsgConsumer}
 	producers := []*kafkacomm.KafkaProducer{producer, patchMsgProducer}
 	handleShutdownFunc(consumers, interruptChannel, cancel, producers)
+}
+
+// startTracing initialises tracing and returns the flush to run on shutdown.
+// A failure here is not fatal: the PDP must keep serving decisions even when the
+// trace collector is misconfigured or unreachable.
+func startTracing(ctx context.Context) func() {
+	shutdown, err := startTracingFunc(ctx)
+	if err != nil {
+		log.Warnf("Tracing initialization failed, continuing without tracing: %v", err)
+		return func() {}
+	}
+
+	return func() {
+		// A fresh context is used because the caller's is already cancelled by the
+		// time the deferred flush runs.
+		flushContext, cancel := context.WithTimeout(context.Background(), consts.TraceShutdownTimeout)
+		defer cancel()
+
+		if err := shutdown(flushContext); err != nil {
+			log.Warnf("Failed to flush pending spans: %v", err)
+		}
+	}
 }
 
 type PdpMessageHandlerFunc func(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string, p publisher.PdpStatusSender) error

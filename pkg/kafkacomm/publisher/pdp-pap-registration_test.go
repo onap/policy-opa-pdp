@@ -20,11 +20,17 @@
 package publisher
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/propagation"
+	"go.opentelemetry.io/otel/trace"
 	"policy-opa-pdp/pkg/model"
 	"testing"
 	"time"
@@ -34,8 +40,8 @@ type MockPdpStatusSender struct {
 	mock.Mock
 }
 
-func (m *MockPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
-	return m.Called(pdpStatus).Error(0)
+func (m *MockPdpStatusSender) SendPdpStatus(ctx context.Context, pdpStatus model.PdpStatus) error {
+	return m.Called(ctx, pdpStatus).Error(0)
 
 }
 
@@ -80,7 +86,7 @@ func TestSendPdpStatus_Success(t *testing.T) {
 		State:       model.Active, // Use the correct enum value for State
 	}
 	// Call the SendPdpStatus method
-	err := sender.SendPdpStatus(pdpStatus)
+	err := sender.SendPdpStatus(context.Background(), pdpStatus)
 	if err != nil {
 		t.Fatalf("Expected no error, but got: %v", err)
 	}
@@ -105,7 +111,7 @@ func TestSendPdpStatus_Failure(t *testing.T) {
 	pdpStatus := model.PdpStatus{}
 
 	// Call the method under test
-	err := sender.SendPdpStatus(pdpStatus)
+	err := sender.SendPdpStatus(context.Background(), pdpStatus)
 	// t.Fatalf("Expected an error, but got: %v", err)
 
 	// Assert that an error was returned
@@ -121,4 +127,65 @@ func TestSendPdpStatus_Failure(t *testing.T) {
 
 	// Verify that the Produce method was called exactly once
 	mockProducer.AssertExpectations(t)
+}
+
+// capturingProducer keeps the produced message so a test can inspect its headers.
+type capturingProducer struct {
+	produced *kafka.Message
+}
+
+func (p *capturingProducer) Produce(message *kafka.Message, eventChan chan kafka.Event) error {
+	p.produced = message
+	return nil
+}
+
+func (p *capturingProducer) Close() {}
+
+func (p *capturingProducer) Flush(timeout int) int { return 0 }
+
+func headerValue(headers []kafka.Header, key string) string {
+	for _, header := range headers {
+		if header.Key == key {
+			return string(header.Value)
+		}
+	}
+	return ""
+}
+
+func TestSendPdpStatus_InjectsTraceparent(t *testing.T) {
+	previousPropagator := otel.GetTextMapPropagator()
+	otel.SetTextMapPropagator(propagation.TraceContext{})
+	t.Cleanup(func() { otel.SetTextMapPropagator(previousPropagator) })
+
+	traceID, err := trace.TraceIDFromHex("0af7651916cd43dd8448eb211c80319c")
+	require.NoError(t, err)
+	spanID, err := trace.SpanIDFromHex("b7ad6b7169203331")
+	require.NoError(t, err)
+	ctx := trace.ContextWithSpanContext(context.Background(), trace.NewSpanContext(trace.SpanContextConfig{
+		TraceID:    traceID,
+		SpanID:     spanID,
+		TraceFlags: trace.FlagsSampled,
+		Remote:     true,
+	}))
+
+	producer := &capturingProducer{}
+	sender := RealPdpStatusSender{Producer: producer}
+
+	require.NoError(t, sender.SendPdpStatus(ctx, model.PdpStatus{}))
+	require.NotNil(t, producer.produced)
+	assert.Equal(t, "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01",
+		headerValue(producer.produced.Headers, "traceparent"))
+}
+
+func TestSendPdpStatus_NoTracing_NoHeader(t *testing.T) {
+	previousPropagator := otel.GetTextMapPropagator()
+	otel.SetTextMapPropagator(propagation.TraceContext{})
+	t.Cleanup(func() { otel.SetTextMapPropagator(previousPropagator) })
+
+	producer := &capturingProducer{}
+	sender := RealPdpStatusSender{Producer: producer}
+
+	require.NoError(t, sender.SendPdpStatus(context.Background(), model.PdpStatus{}))
+	require.NotNil(t, producer.produced)
+	assert.Empty(t, producer.produced.Headers)
 }

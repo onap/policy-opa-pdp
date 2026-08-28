@@ -101,6 +101,10 @@ var (
 	StandardPolicyName      = "policy.rego"
 	MaxRequestBodyBytes     = int64(10 * 1024 * 1024)
 
+	// TraceShutdownTimeout bounds the final flush of buffered spans on shutdown, so
+	// an unreachable collector cannot hold the process open.
+	TraceShutdownTimeout = 5 * time.Second
+
 	// Kafka Consumer configuration
 	ConsumerSessionTimeout    = 30000
 	ConsumerMaxPoll           = 300000

@@ -25,8 +25,12 @@ import (
 	"crypto/subtle"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/trace"
 	"net/http"
 	"policy-opa-pdp/cfg"
+	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/astgenerator"
 	"policy-opa-pdp/pkg/data"
 	"policy-opa-pdp/pkg/decision"
@@ -37,12 +41,22 @@ import (
 	"time"
 )
 
+// requestIdAttribute carries the ONAP correlation id on the server span, so a
+// trace can be found from an X-ONAP-RequestID and vice versa.
+const requestIdAttribute = "onap.request.id"
+
 // RegisterHandlers registers the HTTP handlers for the service.
+//
+// Tracing note: /metrics, /healthcheck and /readiness are deliberately left
+// uninstrumented. Prometheus scrapes and kubelet probes are high-frequency and
+// carry no correlation value, so tracing them would bury the request traces that
+// matter.
 func RegisterHandlers() {
 
 	// Handler for OPA decision making
 	opaDecisionHandler := http.HandlerFunc(decision.OpaDecision)
-	http.Handle("/policy/pdpo/v1/decision", basicAuth(trackDecisionResponseTime(opaDecisionHandler)))
+	http.Handle("/policy/pdpo/v1/decision",
+		instrument("/policy/pdpo/v1/decision", basicAuth(trackDecisionResponseTime(opaDecisionHandler))))
 
 	// Handler for health checks
 	healthCheckHandler := http.HandlerFunc(healthcheck.HealthCheckHandler)
@@ -50,25 +64,50 @@ func RegisterHandlers() {
 
 	// Handler for AST Generator
 	astGeneratorHandler := http.HandlerFunc(astgenerator.ASTGeneratorHandler)
-	http.HandleFunc("/policy/pdpo/v1/generateast", basicAuth(astGeneratorHandler))
+	http.Handle("/policy/pdpo/v1/generateast",
+		instrument("/policy/pdpo/v1/generateast", basicAuth(astGeneratorHandler)))
 
 	// Handler for statistics report
 	statisticsReportHandler := http.HandlerFunc(metrics.FetchCurrentStatistics)
-	http.HandleFunc("/policy/pdpo/v1/statistics", basicAuth(statisticsReportHandler))
+	http.Handle("/policy/pdpo/v1/statistics",
+		instrument("/policy/pdpo/v1/statistics", basicAuth(statisticsReportHandler)))
 
 	listPoliciesHandler := http.HandlerFunc(opasdk.ListPolicies)
-	http.Handle("/opa/listpolicies", basicAuth(listPoliciesHandler))
+	http.Handle("/opa/listpolicies",
+		instrument("/opa/listpolicies", basicAuth(listPoliciesHandler)))
 
 	dataHandler := http.HandlerFunc(data.DataHandler)
-	http.Handle("/policy/pdpo/v1/data/", basicAuth(trackDataResponseTime(dataHandler)))
+	http.Handle("/policy/pdpo/v1/data/",
+		instrument("/policy/pdpo/v1/data/", basicAuth(trackDataResponseTime(dataHandler))))
 
-	http.Handle("/policy/pdpo/v1/data", basicAuth(trackDataResponseTime(dataHandler)))
+	http.Handle("/policy/pdpo/v1/data",
+		instrument("/policy/pdpo/v1/data", basicAuth(trackDataResponseTime(dataHandler))))
 
 	http.Handle("/metrics", basicAuth(http.HandlerFunc(metricsHandler)))
 
 	// Readiness probe — intentionally unauthenticated for K8s probe compatibility
 	http.HandleFunc("/policy/pdpo/v1/readiness", readinessProbe)
 
+}
+
+// instrument wraps next in an OpenTelemetry server span named after the route.
+//
+// The span is the outermost wrapper, outside basicAuth, so that requests rejected
+// for bad credentials still produce a span — an authentication failure is exactly
+// the kind of event a trace should show. The route is passed explicitly because
+// otelhttp cannot recover the pattern from the default mux.
+func instrument(route string, next http.Handler) http.Handler {
+	return otelhttp.NewHandler(withRequestIdAttribute(next), route)
+}
+
+func withRequestIdAttribute(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+		if requestId := req.Header.Get(consts.RequestId); requestId != "" {
+			trace.SpanFromContext(req.Context()).SetAttributes(
+				attribute.String(requestIdAttribute, requestId))
+		}
+		next.ServeHTTP(res, req)
+	})
 }
 
 // Define the metrics handler function

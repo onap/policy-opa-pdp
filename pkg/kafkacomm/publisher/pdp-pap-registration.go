@@ -20,6 +20,7 @@
 package publisher
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
@@ -28,11 +29,17 @@ import (
 	"policy-opa-pdp/pkg/kafkacomm"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
+	"policy-opa-pdp/pkg/tracing"
 	"time"
 )
 
+// PdpStatusSender sends PDP_STATUS messages to PAP.
+//
+// ctx is carried purely to propagate trace context: Go's OpenTelemetry API has no
+// implicit current span, so the trace of the PAP message being answered can only
+// reach the outbound message through an explicit context.
 type PdpStatusSender interface {
-	SendPdpStatus(pdpStatus model.PdpStatus) error
+	SendPdpStatus(ctx context.Context, pdpStatus model.PdpStatus) error
 }
 
 type RealPdpStatusSender struct {
@@ -40,7 +47,7 @@ type RealPdpStatusSender struct {
 }
 
 // Sends PdpSTatus Message type to KafkaTopic
-func (s *RealPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
+func (s *RealPdpStatusSender) SendPdpStatus(ctx context.Context, pdpStatus model.PdpStatus) error {
 
 	topic := cfg.Topic
 	pdpStatus.RequestID = uuid.New().String()
@@ -59,6 +66,7 @@ func (s *RealPdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
 		},
 		Value: jsonMessage,
 	}
+	tracing.InjectIntoKafka(ctx, &kafkaMessage.Headers)
 	var eventChan chan kafka.Event = nil
 	err = s.Producer.Produce(kafkaMessage, eventChan)
 	if err != nil {

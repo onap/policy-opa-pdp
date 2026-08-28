@@ -22,6 +22,8 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+	"go.opentelemetry.io/otel/codes"
 	"policy-opa-pdp/cfg"
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/data"
@@ -48,7 +50,7 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 			log.Debug("Stopping PDP Listener.....")
 			return nil
 		default:
-			message, err := kafkacomm.ReadKafkaMessages(kc)
+			msg, err := kafkacomm.ReadKafkaMessages(kc)
 			if err != nil {
 				if shouldRebuildConsumer(err) {
 					log.Warnf("Consumer error; rebuilding. err=%v", err)
@@ -68,9 +70,10 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 				continue
 			}
 
-			if message == nil {
+			if msg == nil {
 				continue
 			}
+			message := msg.Value
 
 			log.Debugf("[IN|KAFKA|%s]\n%s", topic, string(message))
 
@@ -89,11 +92,22 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 
 			log.Debugf("Received patch request from source: %s", patchMsg.Header.SourceID)
 
-			if err := data.PatchDataVar(patchMsg.PatchInfos, nil); err != nil {
-				log.Debugf("patchData failed: %v", err)
-			} else {
-				log.Debugf("Successfully patched data")
-			}
+			applyPatch(ctx, topic, msg, patchMsg)
 		}
 	}
+}
+
+// applyPatch applies a broadcast data patch inside a consumer span that continues
+// the trace of the replica which published it, so a fan-out patch appears as one
+// trace across all replicas rather than one orphan trace per replica.
+func applyPatch(ctx context.Context, topic string, msg *kafka.Message, patchMsg model.PatchMessage) {
+	_, span := startConsumerSpan(ctx, topic, msg, patchMsg.Header.MessageType)
+	defer span.End()
+
+	if err := data.PatchDataVar(patchMsg.PatchInfos, nil); err != nil {
+		log.Debugf("patchData failed: %v", err)
+		span.SetStatus(codes.Error, err.Error())
+		return
+	}
+	log.Debugf("Successfully patched data")
 }

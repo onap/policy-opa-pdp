@@ -573,7 +573,7 @@ func TestHandlePolicyDeployment_Success(t *testing.T) {
 		Name:                   "Test Pdp Update",
 	}
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	//Mocking fucntions
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
 	createAndStorePolicyDataVar = func(policy model.ToscaPolicy) error { return nil }
@@ -614,7 +614,7 @@ func TestHandlePolicyDeployment_ValidateTosca(t *testing.T) {
 	}
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	err, _ := handlePolicyDeployment(pdpUpdate, mockSender)
 	found := false
@@ -653,7 +653,7 @@ func TestHandlePolicyDeployment_ValidateParent(t *testing.T) {
 	}
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["role.hello"],"policy": ["role.hello"],"policy-id": "role.hello","policy-version": "1.0.0"}]}` // Reset to valid case
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	validateParentPolicyVar = func(policy model.ToscaPolicy) (bool, error) {
 		return false, errors.New("parent policy already present")
 	}
@@ -693,7 +693,7 @@ func TestHandlePolicyDeployment_StorePolicyDataFailure(t *testing.T) {
 		Name:                   "Test Pdp Update",
 	}
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	//Mocking fucntions
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
@@ -735,7 +735,7 @@ func TestHandlePolicyDeployment_VerifyBundleFailure(t *testing.T) {
 		Name:                   "Test Pdp Update",
 	}
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	//Mocking fucntions
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
@@ -781,7 +781,7 @@ func TestHandlePolicyDeployment_upsertPolicyAndDataFailure(t *testing.T) {
 		Name:                   "Test Pdp Update",
 	}
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	//Mocking fucntions
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case

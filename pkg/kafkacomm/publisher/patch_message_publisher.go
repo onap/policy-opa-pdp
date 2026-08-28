@@ -20,6 +20,7 @@
 package publisher
 
 import (
+	"context"
 	"encoding/json"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"policy-opa-pdp/cfg"
@@ -28,13 +29,14 @@ import (
 	"policy-opa-pdp/pkg/model"
 	"policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/pdpattributes"
+	"policy-opa-pdp/pkg/tracing"
 )
 
 type RealPatchSender struct {
 	Producer kafkacomm.KafkaProducerInterface
 }
 
-func (s *RealPatchSender) SendPatchMessage(patchInfos []opasdk.PatchImpl) error {
+func (s *RealPatchSender) SendPatchMessage(ctx context.Context, patchInfos []opasdk.PatchImpl) error {
 	log.Debugf("In SendPatchMessage")
 
 	kafkaPayload := model.PatchMessage{
@@ -59,6 +61,8 @@ func (s *RealPatchSender) SendPatchMessage(patchInfos []opasdk.PatchImpl) error 
 		},
 		Value: jsonMessage,
 	}
+
+	tracing.InjectIntoKafka(ctx, &kafkaMessage.Headers)
 
 	var eventChan chan kafka.Event = nil
 	err = s.Producer.Produce(kafkaMessage, eventChan)

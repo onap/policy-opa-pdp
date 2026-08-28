@@ -856,7 +856,7 @@ func TestHandleDynamicUpdateRequestWithKafka_KafkaDisabled_Error(t *testing.T) {
 	req := httptest.NewRecorder()
 	patchInfos := []opasdk.PatchImpl{{}}
 
-	_ = handleDynamicUpdateRequestWithKafka(patchInfos, req)
+	_ = handleDynamicUpdateRequestWithKafka(context.Background(), patchInfos, req)
 	// Optionally assert on req.Body or req.Code if needed
 }
 
@@ -931,7 +931,7 @@ func TestHandleDynamicUpdateRequestWithKafka_KafkaDisabled_Success(t *testing.T)
 	req := httptest.NewRecorder()
 	patchInfos := []opasdk.PatchImpl{{}}
 
-	_ = handleDynamicUpdateRequestWithKafka(patchInfos, req)
+	_ = handleDynamicUpdateRequestWithKafka(context.Background(), patchInfos, req)
 
 	if patchCalled {
 		t.Errorf("Expected PatchData to be called")
@@ -972,7 +972,7 @@ func TestHandleDynamicUpdateRequestWithKafka_ProduceSuccess(t *testing.T) {
 	resp := httptest.NewRecorder()
 
 	// Act
-	err := handleDynamicUpdateRequestWithKafka(patches, resp)
+	err := handleDynamicUpdateRequestWithKafka(context.Background(), patches, resp)
 
 	// Assert
 	assert.NoError(t, err)
@@ -986,7 +986,7 @@ func TestHandleDynamicUpdateRequestWithKafka_ProducerNil(t *testing.T) {
 	PatchProducer = nil
 
 	// Act
-	err := handleDynamicUpdateRequestWithKafka(nil, httptest.NewRecorder())
+	err := handleDynamicUpdateRequestWithKafka(context.Background(), nil, httptest.NewRecorder())
 
 	// Assert
 	assert.EqualError(t, err, "failed to initialize Kafka producer")
@@ -999,7 +999,7 @@ func TestHandleDynamicUpdateRequestWithKafka_ProduceError(t *testing.T) {
 	PatchProducer = mockProd
 
 	// Act
-	err := handleDynamicUpdateRequestWithKafka(nil, httptest.NewRecorder())
+	err := handleDynamicUpdateRequestWithKafka(context.Background(), nil, httptest.NewRecorder())
 
 	// Assert
 	assert.EqualError(t, err, "produce failed")

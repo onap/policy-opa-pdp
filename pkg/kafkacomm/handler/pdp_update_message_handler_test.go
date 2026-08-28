@@ -19,6 +19,7 @@
 package handler
 
 import (
+	"context"
 	"errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -44,9 +45,9 @@ func TestPdpUpdateMessageHandler_Message_Unmarshal_Failure2(t *testing.T) {
 		"soce":"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 		"pdpHeartbeatIntervalMs":120000}`
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Jsonunmarshal Error"))
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Jsonunmarshal Error"))
 
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.Error(t, err)
 
 }
@@ -65,9 +66,9 @@ func TestPdpUpdateMessageHandler_Message_Unmarshal_Failure3(t *testing.T) {
 	        "soce:"pap-c17b4dbc-3278-483a-ace9-98f3157245c0",
 	        "pdpHeartbeatIntervalMs":120000}`
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Jsonunmarshal Error"))
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Jsonunmarshal Error"))
 
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.Error(t, err)
 
 }
@@ -84,9 +85,9 @@ func TestPdpUpdateMessageHandler_Message_Unmarshal_Failure4(t *testing.T) {
 
 	messageString := `""`
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Jsonunmarshal Error"))
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Jsonunmarshal Error"))
 
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.Error(t, err)
 
 }
@@ -113,9 +114,9 @@ func TestPdpUpdateMessageHandler_Fails_Sending_UpdateResponse(t *testing.T) {
 	  }`
 
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Error in Sending PDP Update Response"))
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Error in Sending PDP Update Response"))
 
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.Error(t, err)
 
 }
@@ -143,9 +144,9 @@ func TestPdpUpdateMessageHandler_Invalid_Starttimeinterval(t *testing.T) {
 	  }`
 
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Invalid Interval Time for Heartbeat"))
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Invalid Interval Time for Heartbeat"))
 
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.Error(t, err)
 
 }
@@ -165,7 +166,7 @@ func TestPdpUpdateMessageHandler_Invalid_Deployment(t *testing.T) {
 		"pdpSubgroup":"opa"
 	}`
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	// Mock the policy deployment logic
 	handlePolicyDeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
@@ -173,7 +174,7 @@ func TestPdpUpdateMessageHandler_Invalid_Deployment(t *testing.T) {
 		return nil, map[string]string{"zone": "1.0.0"}
 	}
 
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.Error(t, err)
 }
 
@@ -194,7 +195,7 @@ func TestPdpUpdateMessageHandler_Successful_Deployment(t *testing.T) {
 		"pdpSubgroup":"opa"
 	}`
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	// Mock the policy deployment logic
 	handlePolicyDeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
@@ -202,7 +203,7 @@ func TestPdpUpdateMessageHandler_Successful_Deployment(t *testing.T) {
 		return nil, map[string]string{"zone": "1.0.0"}
 	}
 
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.NoError(t, err)
 }
 
@@ -225,9 +226,9 @@ func TestPdpUpdateMessageHandler_Skipping_Deployment(t *testing.T) {
 
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.NoError(t, err)
 }
 
@@ -252,7 +253,7 @@ func TestPdpUpdateMessageHandler_FailureIn_Deployment_UnDeployment(t *testing.T)
 	}`
 
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["role"],"policy": ["role"],"policy-id": "role","policy-version": "1.0.0"}]}`
 	// Mock the policy deployment logic
@@ -265,7 +266,7 @@ func TestPdpUpdateMessageHandler_FailureIn_Deployment_UnDeployment(t *testing.T)
 
 		return nil, map[string]string{"role": "1.0.0"}
 	}
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.NoError(t, err)
 }
 
@@ -294,8 +295,8 @@ func TestPdpUpdateMessageHandler_Successful_Undeployment(t *testing.T) {
 	}
 
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.NoError(t, err)
 }
 
@@ -317,8 +318,8 @@ func TestPdpUpdateMessageHandler_Successful_Registration(t *testing.T) {
 	}`
 
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.NoError(t, err)
 }
 
@@ -347,8 +348,8 @@ func TestPdpUpdateMessageHandler_UnSuccessful_Undeployment(t *testing.T) {
 	}
 
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("error in undeployment"))
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("error in undeployment"))
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.Error(t, err)
 }
 
@@ -371,11 +372,11 @@ func TestPdpUpdateMessageHandler_Partial_FailureIn_Undeployment(t *testing.T) {
 
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`
 	//mock the policy undeployment
-	handlePdpUpdateUndeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
+	handlePdpUpdateUndeploymentVar = func(ctx context.Context, pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 
 		return "", []string{}, errors.New("error in undeployment")
 	}
-	sendFinalResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
+	sendFinalResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
 		assert.Equal(t, "{}", policies)
 		return nil
 	}
@@ -385,8 +386,8 @@ func TestPdpUpdateMessageHandler_Partial_FailureIn_Undeployment(t *testing.T) {
 	}()
 
 	mockSender := new(mocks.PdpStatusSender)
-	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("error in undeployment"))
-	err := pdpUpdateMessageHandler([]byte(messageString), mockSender)
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("error in undeployment"))
+	err := pdpUpdateMessageHandler(context.Background(), []byte(messageString), mockSender)
 	assert.Error(t, err)
 }
 
@@ -411,8 +412,8 @@ func TestSendPDPStatusResponse(t *testing.T) {
 			PdpSubgroup:            "example-subgroup",
 			RequestId:              "test-request-id"}
 		loggingPoliciesList := "policy1"
-		mockSender.On("SendPdpStatus", mock.Anything).Return(nil) // Mock success
-		err := sendPDPStatusResponse(pdpUpdate, mockSender, loggingPoliciesList, []string{})
+		mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil) // Mock success
+		err := sendPDPStatusResponse(context.Background(), pdpUpdate, mockSender, loggingPoliciesList, []string{})
 		assert.NoError(t, err) // Expect no error
 
 	})
@@ -435,8 +436,8 @@ func TestSendPDPStatusResponse(t *testing.T) {
 			RequestId:   "test-request-id",
 		}
 		loggingPoliciesList := "policy2"
-		mockSender.On("SendPdpStatus", mock.Anything).Return(nil) // Mock success
-		err := sendPDPStatusResponse(pdpUpdate, mockSender, loggingPoliciesList, []string{})
+		mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil) // Mock success
+		err := sendPDPStatusResponse(context.Background(), pdpUpdate, mockSender, loggingPoliciesList, []string{})
 		assert.NoError(t, err) // Expect no error
 	})
 	// Test case: Fail with policies to undeploy
@@ -458,12 +459,12 @@ func TestSendPDPStatusResponse(t *testing.T) {
 			RequestId:   "test-request-id",
 		}
 		loggingPoliciesList := "policy2"
-		mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("Error in sending response")) // Mock failure
+		mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Error in sending response")) // Mock failure
 		// Patching sendFailureResponse to simulate a failure
-		sendSuccessResponseVar = func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage string) error {
+		sendSuccessResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage string) error {
 			return errors.New("error sending success response")
 		}
-		err := sendPDPStatusResponse(pdpUpdate, mockSender, loggingPoliciesList, []string{})
+		err := sendPDPStatusResponse(context.Background(), pdpUpdate, mockSender, loggingPoliciesList, []string{})
 		assert.Error(t, err) // Expect an error since we're simulating failure in sendSuccessResponse
 	})
 	// Test case: Responses accordingly when both deploy and undeploy
@@ -490,8 +491,8 @@ func TestSendPDPStatusResponse(t *testing.T) {
 			RequestId:   "test-request-id",
 		}
 		loggingPoliciesList := "policy3, policy4"
-		mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("error in response")) // Mock success
-		err := sendPDPStatusResponse(pdpUpdate, mockSender, loggingPoliciesList, []string{})
+		mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("error in response")) // Mock success
+		err := sendPDPStatusResponse(context.Background(), pdpUpdate, mockSender, loggingPoliciesList, []string{})
 		assert.Error(t, err) // Expect no error
 	})
 	// Test case: Failure scenario
@@ -517,8 +518,8 @@ func TestSendPDPStatusResponse(t *testing.T) {
 			PdpSubgroup: "example-subgroup",
 			RequestId:   "test-request-id",
 		}
-		mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("sending failed")) // Simulate an error
-		err := sendPDPStatusResponse(pdpUpdate, mockSender, "Some logging", []string{"Error here"})
+		mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("sending failed")) // Simulate an error
+		err := sendPDPStatusResponse(context.Background(), pdpUpdate, mockSender, "Some logging", []string{"Error here"})
 		assert.NoError(t, err) // Expect error due to failure response
 	})
 }
@@ -546,19 +547,19 @@ func TestSendPDPStatusResponse_SimulateFailures(t *testing.T) {
 		RequestId:              "test-request-id",
 	}
 	// Patching sendSuccessResponse to simulate a failure
-	sendSuccessResponseVar = func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage string) error {
+	sendSuccessResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage string) error {
 		return errors.New("error sending success response")
 	}
 	loggingPoliciesList := "policy1"
-	mockSender.On("SendPdpStatus", mock.Anything).Return(errors.New("error")) // Mock success
-	err := sendPDPStatusResponse(pdpUpdate, mockSender, loggingPoliciesList, []string{})
+	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("error")) // Mock success
+	err := sendPDPStatusResponse(context.Background(), pdpUpdate, mockSender, loggingPoliciesList, []string{})
 	assert.Error(t, err) // Expect an error since we're simulating failure in sendSuccessResponse
 
 	// Patching sendFailureResponse to simulate a failure
-	sendFailureResponseVar = func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage error) error {
+	sendFailureResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, respMessage error) error {
 		return errors.New("error sending failure response")
 	}
-	err = sendPDPStatusResponse(pdpUpdate, mockSender, loggingPoliciesList, []string{"Error in Failure Response"})
+	err = sendPDPStatusResponse(context.Background(), pdpUpdate, mockSender, loggingPoliciesList, []string{"Error in Failure Response"})
 	assert.Error(t, err) // Expect an error since we're simulating failure in sendSuccessResponse
 
 }
@@ -580,7 +581,7 @@ func TestHandlePdpUpdateDeploymentVarSuccess(t *testing.T) {
 		PoliciesToBeDeployed: []model.ToscaPolicy{{Name: "policy1"}},
 	}
 
-	jsonStr, failureMsgs, err := handlePdpUpdateDeployment(update, mockSender)
+	jsonStr, failureMsgs, err := handlePdpUpdateDeployment(context.Background(), update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, `{"policy1":"deployed"}`, jsonStr)
@@ -596,7 +597,7 @@ func TestHandlePdpUpdateDeploymentVarFormatError(t *testing.T) {
 	policymap.FormatMapOfAnyTypeVar = func(input any) (string, error) {
 		return "", errors.New("formatting error")
 	}
-	sendFailureResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
+	sendFailureResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
 		return nil
 	}
 
@@ -604,7 +605,7 @@ func TestHandlePdpUpdateDeploymentVarFormatError(t *testing.T) {
 		PoliciesToBeDeployed: []model.ToscaPolicy{{Name: "policy1"}},
 	}
 
-	jsonStr, failureMsgs, err := handlePdpUpdateDeployment(update, mockSender)
+	jsonStr, failureMsgs, err := handlePdpUpdateDeployment(context.Background(), update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, "", jsonStr)
@@ -625,7 +626,7 @@ func TestHandlePdpUpdateUndeploymentVarSuccess(t *testing.T) {
 		PoliciesToBeUndeployed: []model.ToscaConceptIdentifier{{Name: "policy1"}},
 	}
 
-	jsonStr, failureMsgs, err := handlePdpUpdateUndeployment(update, mockSender)
+	jsonStr, failureMsgs, err := handlePdpUpdateUndeployment(context.Background(), update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, `{"policy1":"undeployed"}`, jsonStr)
@@ -641,7 +642,7 @@ func TestHandlePdpUpdateUndeploymentVarFormatError(t *testing.T) {
 	policymap.FormatMapOfAnyTypeVar = func(input any) (string, error) {
 		return "", errors.New("formatting error")
 	}
-	sendFailureResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
+	sendFailureResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
 		return nil
 	}
 
@@ -649,7 +650,7 @@ func TestHandlePdpUpdateUndeploymentVarFormatError(t *testing.T) {
 		PoliciesToBeUndeployed: []model.ToscaConceptIdentifier{{Name: "policy1"}},
 	}
 
-	jsonStr, failureMsgs, err := handlePdpUpdateUndeployment(update, mockSender)
+	jsonStr, failureMsgs, err := handlePdpUpdateUndeployment(context.Background(), update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, "", jsonStr)
@@ -661,13 +662,13 @@ func Test_UnmarshalFails(t *testing.T) {
 	mockPublisher := new(mocks.PdpStatusSender)
 
 	var called bool
-	sendFailureResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
+	sendFailureResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
 		called = true
 		return nil
 	}
 	defer func() { sendFailureResponseVar = sendFailureResponse }()
 
-	err := pdpUpdateMessageHandler(msg, mockPublisher)
+	err := pdpUpdateMessageHandler(context.Background(), msg, mockPublisher)
 	assert.Error(t, err)
 	assert.True(t, called)
 }
@@ -682,13 +683,13 @@ func Test_ValidationFails(t *testing.T) {
 	defer func() { utils.ValidateFieldsStructsVar = utils.ValidateFieldsStructs }()
 
 	var called bool
-	sendFailureResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
+	sendFailureResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
 		called = true
 		return nil
 	}
 	defer func() { sendFailureResponseVar = sendFailureResponse }()
 
-	err := pdpUpdateMessageHandler(msg, mockPublisher)
+	err := pdpUpdateMessageHandler(context.Background(), msg, mockPublisher)
 	assert.Error(t, err)
 	assert.True(t, called)
 }
@@ -709,15 +710,15 @@ func Test_DeploymentHandlerFails(t *testing.T) {
 
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`
 	mockPublisher := new(mocks.PdpStatusSender)
-	mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
-	sendFinalResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
+	mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
+	sendFinalResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
 		assert.Equal(t, "", policies)
 		return nil
 	}
 	defer func() {
 		sendFinalResponseVar = sendFinalResponse
 	}()
-	err := pdpUpdateMessageHandler(msg, mockPublisher)
+	err := pdpUpdateMessageHandler(context.Background(), msg, mockPublisher)
 	assert.NoError(t, err)
 }
 
@@ -736,15 +737,15 @@ func Test_UndeploymentHandlerFails(t *testing.T) {
 	}`)
 	policymap.LastDeployedPolicies = `{"deployed_policies_dict": []}`
 	mockPublisher := new(mocks.PdpStatusSender)
-	handlePdpUpdateUndeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
+	handlePdpUpdateUndeploymentVar = func(ctx context.Context, update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 		return "", []string{}, errors.New("undeployment error")
 	}
 	defer func() {
 		handlePdpUpdateDeploymentVar = handlePdpUpdateDeployment
 		handlePdpUpdateUndeploymentVar = handlePdpUpdateUndeployment
 	}()
-	mockPublisher.On("SendPdpStatus", mock.Anything).Return(errors.New("undeployment error"))
-	err := pdpUpdateMessageHandler(msg, mockPublisher)
+	mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("undeployment error"))
+	err := pdpUpdateMessageHandler(context.Background(), msg, mockPublisher)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "undeployment error")
 }
@@ -765,13 +766,13 @@ func Test_SuccessFlow(t *testing.T) {
 
 	mockPublisher := new(mocks.PdpStatusSender)
 
-	handlePdpUpdateDeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
+	handlePdpUpdateDeploymentVar = func(ctx context.Context, update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 		return "dep1", []string{}, nil
 	}
-	handlePdpUpdateUndeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
+	handlePdpUpdateUndeploymentVar = func(ctx context.Context, update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 		return "undep1", []string{}, nil
 	}
-	sendFinalResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
+	sendFinalResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
 		assert.Equal(t, "dep1,undep1", policies)
 		return nil
 	}
@@ -781,8 +782,8 @@ func Test_SuccessFlow(t *testing.T) {
 		handlePdpUpdateUndeploymentVar = handlePdpUpdateUndeployment
 		sendFinalResponseVar = sendFinalResponse
 	}()
-	mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
-	err := pdpUpdateMessageHandler(msg, mockPublisher)
+	mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
+	err := pdpUpdateMessageHandler(context.Background(), msg, mockPublisher)
 	assert.NoError(t, err)
 }
 
@@ -791,13 +792,13 @@ func TestSendPDPStatusFailureResponse_Mocked(t *testing.T) {
 	defer func() { sendFailureResponseVar = original }() // restore after test
 
 	called := false
-	sendFailureResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, msg error) error {
+	sendFailureResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, msg error) error {
 		called = true
 		assert.Equal(t, "PDP Update Failed: [mock fail]", msg.Error())
 		return nil
 	}
 
-	err := sendPDPStatusFailureResponse(model.PdpUpdate{}, nil, "mockPolicy", []string{"mock fail"})
+	err := sendPDPStatusFailureResponse(context.Background(), model.PdpUpdate{}, nil, "mockPolicy", []string{"mock fail"})
 	assert.NoError(t, err)
 	assert.True(t, called, "sendFailureResponseVar should be called")
 }
@@ -807,7 +808,7 @@ func TestSendPDPStatusSuccessResponse_Mocked(t *testing.T) {
 	defer func() { sendSuccessResponseVar = original }() // restore after test
 
 	called := false
-	sendSuccessResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, msg string) error {
+	sendSuccessResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, msg string) error {
 		called = true
 		assert.Equal(t, "PDP Update Successful for all policies: p1,p2", msg)
 		return nil
@@ -828,7 +829,7 @@ func TestSendPDPStatusSuccessResponse_Mocked(t *testing.T) {
 		},
 	}
 
-	err := sendPDPStatusSuccessResponse(update, nil, "p1,p2")
+	err := sendPDPStatusSuccessResponse(context.Background(), update, nil, "p1,p2")
 	assert.NoError(t, err)
 	assert.True(t, called, "sendSuccessResponseVar should be called")
 }
@@ -842,11 +843,11 @@ func TestSendFinalResponse_MockedSendPDPStatusResponse_Success(t *testing.T) {
 	}
 
 	// Override the global function for testing
-	sendPDPStatusResponseFunc = func(update model.PdpUpdate, p publisher.PdpStatusSender, loggingPoliciesList string, failureMessages []string) error {
+	sendPDPStatusResponseFunc = func(ctx context.Context, update model.PdpUpdate, p publisher.PdpStatusSender, loggingPoliciesList string, failureMessages []string) error {
 		return nil
 	}
 
-	err := sendFinalResponse(mockSender, pdpUpdate, "TestPolicy", nil)
+	err := sendFinalResponse(context.Background(), mockSender, pdpUpdate, "TestPolicy", nil)
 	assert.NoError(t, err)
 }
 
@@ -858,11 +859,11 @@ func TestSendFinalResponse_MockedSendPDPStatusResponse_Failure(t *testing.T) {
 		PoliciesToBeDeployed: []model.ToscaPolicy{{Name: "FailPolicy"}},
 	}
 
-	sendPDPStatusResponseFunc = func(update model.PdpUpdate, p publisher.PdpStatusSender, loggingPoliciesList string, failureMessages []string) error {
+	sendPDPStatusResponseFunc = func(ctx context.Context, update model.PdpUpdate, p publisher.PdpStatusSender, loggingPoliciesList string, failureMessages []string) error {
 		return errors.New("mock failure")
 	}
 
-	err := sendFinalResponse(mockSender, pdpUpdate, "FailPolicy", nil)
+	err := sendFinalResponse(context.Background(), mockSender, pdpUpdate, "FailPolicy", nil)
 	assert.Error(t, err)
 	assert.Equal(t, "mock failure", err.Error())
 }
@@ -887,7 +888,7 @@ func TestHandlePdpUpdateUndeployment_WithFailureMessage(t *testing.T) {
 		return "Policy1", nil
 	}
 
-	json, failures, err := handlePdpUpdateUndeployment(update, mockSender)
+	json, failures, err := handlePdpUpdateUndeployment(context.Background(), update, mockSender)
 
 	assert.NoError(t, err)
 	assert.Equal(t, "Policy1", json)
@@ -914,11 +915,11 @@ func TestHandlePdpUpdateUndeployment_SendFailureResponseFails(t *testing.T) {
 		return "", errors.New("mock format error")
 	}
 
-	sendFailureResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
+	sendFailureResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
 		return errors.New("send failed")
 	}
 
-	json, failures, err := handlePdpUpdateUndeployment(update, mockSender)
+	json, failures, err := handlePdpUpdateUndeployment(context.Background(), update, mockSender)
 
 	assert.Error(t, err)
 	assert.Equal(t, "send failed", err.Error())
@@ -933,13 +934,13 @@ func TestSendSuccessResponse_Success(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
 	update := &model.PdpUpdate{RequestId: "123"}
 
-	publisher.SendPdpUpdateResponseVar = func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, message string) error {
+	publisher.SendPdpUpdateResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, message string) error {
 		assert.Equal(t, "123", pdpUpdate.RequestId)
 		assert.Equal(t, "Success", message)
 		return nil
 	}
 
-	err := sendSuccessResponse(mockSender, update, "Success")
+	err := sendSuccessResponse(context.Background(), mockSender, update, "Success")
 	assert.NoError(t, err)
 }
 
@@ -950,11 +951,11 @@ func TestSendSuccessResponse_Error(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
 	update := &model.PdpUpdate{RequestId: "123"}
 
-	publisher.SendPdpUpdateResponseVar = func(p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, message string) error {
+	publisher.SendPdpUpdateResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, pdpUpdate *model.PdpUpdate, message string) error {
 		return errors.New("mock error")
 	}
 
-	err := sendSuccessResponse(mockSender, update, "test")
+	err := sendSuccessResponse(context.Background(), mockSender, update, "test")
 	assert.Error(t, err)
 	assert.Equal(t, "mock error", err.Error())
 }
@@ -965,11 +966,11 @@ func TestPdpUpdateMessageHandler_UnmarshalError_SendFailureFails(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
 	invalidMessage := []byte(`{invalid json}`)
 
-	sendFailureResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
+	sendFailureResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
 		return errors.New("send failure after unmarshal error")
 	}
 
-	err := pdpUpdateMessageHandler(invalidMessage, mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), invalidMessage, mockSender)
 	assert.Error(t, err)
 	assert.EqualError(t, err, "send failure after unmarshal error")
 }
@@ -987,11 +988,11 @@ func TestPdpUpdateMessageHandler_ValidationError_SendFailureFails(t *testing.T) 
 		return errors.New("mock validation error")
 	}
 
-	sendFailureResponseVar = func(p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
+	sendFailureResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
 		return errors.New("send failure after validation")
 	}
 
-	err := pdpUpdateMessageHandler(message, mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), message, mockSender)
 	assert.Error(t, err)
 	assert.EqualError(t, err, "send failure after validation")
 }
@@ -1011,11 +1012,11 @@ func TestPdpUpdateMessageHandler_DeploymentFails(t *testing.T) {
 		return nil
 	}
 
-	handlePdpUpdateDeploymentVar = func(update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
+	handlePdpUpdateDeploymentVar = func(ctx context.Context, update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 		return "", []string{"failure"}, errors.New("deployment error")
 	}
 
-	err := pdpUpdateMessageHandler(message, mockSender)
+	err := pdpUpdateMessageHandler(context.Background(), message, mockSender)
 	assert.Error(t, err)
 	assert.EqualError(t, err, "deployment error")
 }
@@ -1040,7 +1041,7 @@ func TestHandlePdpUpdateDeployment_WithDeploymentFailures(t *testing.T) {
 		PoliciesToBeDeployed: []model.ToscaPolicy{{Name: "test-policy"}},
 	}
 
-	mapJson, failures, err := handlePdpUpdateDeployment(update, mockSender)
+	mapJson, failures, err := handlePdpUpdateDeployment(context.Background(), update, mockSender)
 	assert.NoError(t, err)
 	assert.Contains(t, failures[0], "Deployment Errors")
 	assert.Contains(t, mapJson, `"successPolicy":"test"`)
@@ -1063,7 +1064,7 @@ func TestHandlePdpUpdateDeployment_FormatMapFails(t *testing.T) {
 		return "", errors.New("mock formatting error")
 	}
 
-	sendFailureResponseVar = func(sender publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
+	sendFailureResponseVar = func(ctx context.Context, sender publisher.PdpStatusSender, update *model.PdpUpdate, err error) error {
 		return nil
 	}
 
@@ -1071,7 +1072,7 @@ func TestHandlePdpUpdateDeployment_FormatMapFails(t *testing.T) {
 		PoliciesToBeDeployed: []model.ToscaPolicy{{Name: "test-policy"}},
 	}
 
-	mapJson, failures, err := handlePdpUpdateDeployment(update, mockSender)
+	mapJson, failures, err := handlePdpUpdateDeployment(context.Background(), update, mockSender)
 	assert.NoError(t, err)
 	assert.Equal(t, "", mapJson)
 	assert.Contains(t, failures[0], "Internal Map Error")

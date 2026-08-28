@@ -3,6 +3,7 @@
 package mocks
 
 import (
+	context "context"
 	model "policy-opa-pdp/pkg/model"
 
 	mock "github.com/stretchr/testify/mock"
@@ -13,17 +14,17 @@ type PdpStatusSender struct {
 	mock.Mock
 }
 
-// SendPdpStatus provides a mock function with given fields: pdpStatus
-func (_m *PdpStatusSender) SendPdpStatus(pdpStatus model.PdpStatus) error {
-	ret := _m.Called(pdpStatus)
+// SendPdpStatus provides a mock function with given fields: ctx, pdpStatus
+func (_m *PdpStatusSender) SendPdpStatus(ctx context.Context, pdpStatus model.PdpStatus) error {
+	ret := _m.Called(ctx, pdpStatus)
 
 	if len(ret) == 0 {
 		panic("no return value specified for SendPdpStatus")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(model.PdpStatus) error); ok {
-		r0 = rf(pdpStatus)
+	if rf, ok := ret.Get(0).(func(context.Context, model.PdpStatus) error); ok {
+		r0 = rf(ctx, pdpStatus)
 	} else {
 		r0 = ret.Error(0)
 	}

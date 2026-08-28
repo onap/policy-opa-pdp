@@ -141,8 +141,11 @@ func NewKafkaConsumer(topic string, groupid string) (*KafkaConsumer, error) {
 	return &KafkaConsumer{Consumer: consumer}, nil
 }
 
-// ReadKafkaMessages gets the Kafka messages on the subscribed topic
-func ReadKafkaMessages(kc *KafkaConsumer) ([]byte, error) {
+// ReadKafkaMessages gets the Kafka messages on the subscribed topic.
+//
+// The whole message is returned, not just its Value, because callers need the
+// headers to recover the W3C traceparent that PAP attaches to every message.
+func ReadKafkaMessages(kc *KafkaConsumer) (*kafka.Message, error) {
 	msg, err := kc.Consumer.ReadMessage(100 * time.Millisecond)
 	if err != nil {
 		if kafkaErr, ok := err.(kafka.Error); ok {
@@ -160,5 +163,5 @@ func ReadKafkaMessages(kc *KafkaConsumer) ([]byte, error) {
 		return nil, err
 	}
 
-	return msg.Value, nil
+	return msg, nil
 }

@@ -20,6 +20,7 @@
 package handler
 
 import (
+	"context"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -39,7 +40,7 @@ func (m *MockPdpStatusSender) SendStateChangeResponse(p *publisher.PdpStatusSend
 	return args.Error(0)
 }
 
-func (m *MockPdpStatusSender) SendPdpStatus(status model.PdpStatus) error {
+func (m *MockPdpStatusSender) SendPdpStatus(ctx context.Context, status model.PdpStatus) error {
 	args := m.Called(status)
 	return args.Error(0)
 }
@@ -103,14 +104,14 @@ func TestPdpStateChangeMessageHandler(t *testing.T) {
 			switch name {
 			case "Valid state change":
 				mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(tt.mockError)
-				mockSender.On("SendPdpStatus", mock.Anything).Return(nil)
+				mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 			case "Error in SendStateChangeResponse":
 				mockSender.On("SendStateChangeResponse", mock.Anything, mock.Anything).Return(tt.mockError)
-				mockSender.On("SendPdpStatus", mock.Anything).Return(fmt.Errorf("failed to send PDP status"))
+				mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(fmt.Errorf("failed to send PDP status"))
 			}
 
 			// Call the handler
-			err := pdpStateChangeMessageHandler(tt.message, mockSender)
+			err := pdpStateChangeMessageHandler(context.Background(), tt.message, mockSender)
 
 			// Check the results
 			if tt.expectError {

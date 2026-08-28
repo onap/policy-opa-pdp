@@ -167,7 +167,7 @@ func patchHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	if useKafkaForPatch {
-		if err := handleDynamicUpdateRequestWithKafka(patchInfos, res); err != nil {
+		if err := handleDynamicUpdateRequestWithKafka(req.Context(), patchInfos, res); err != nil {
 			log.Warnf("Error in handling dynamic update request with kafka: %v", err)
 			sendErrorResponse(res, err.Error(), http.StatusInternalServerError)
 			return
@@ -229,7 +229,7 @@ func getPatchInfo(data *[]map[string]interface{}, dataDir string, res http.Respo
 	return patchInfos, nil
 }
 
-func handleDynamicUpdateRequestWithKafka(patchInfos []opasdk.PatchImpl, res http.ResponseWriter) error {
+func handleDynamicUpdateRequestWithKafka(ctx context.Context, patchInfos []opasdk.PatchImpl, res http.ResponseWriter) error {
 
 	if PatchProducer == nil {
 		log.Warnf("Failed to initialize Kafka producer")
@@ -239,7 +239,7 @@ func handleDynamicUpdateRequestWithKafka(patchInfos []opasdk.PatchImpl, res http
 	sender := &publisher.RealPatchSender{
 		Producer: PatchProducer,
 	}
-	if err := sender.SendPatchMessage(patchInfos); err != nil {
+	if err := sender.SendPatchMessage(ctx, patchInfos); err != nil {
 		log.Warnf("Failed to send Patch Messge, %v", err)
 		return err
 	}

@@ -53,6 +53,7 @@ var (
 	JAASLOGIN        string
 	UseKafkaForPatch bool
 	PatchGroupId     string
+	AllowTracing     bool
 )
 
 // Initializes the configuration settings.
@@ -76,6 +77,7 @@ func init() {
 	UseSASLForKAFKA = getEnv("UseSASLForKAFKA", "false")
 	KAFKA_USERNAME, KAFKA_PASSWORD = getSaslJAASLOGINFromEnv()
 	UseKafkaForPatch = getEnvAsBool("USE_KAFKA_FOR_PATCH", false)
+	AllowTracing = getEnvAsBool("ALLOW_TRACING", false)
 	log.Debug("Configuration module: environment initialised")
 }
 

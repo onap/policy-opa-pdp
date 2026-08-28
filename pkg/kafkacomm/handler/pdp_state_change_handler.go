@@ -20,6 +20,7 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
 	"policy-opa-pdp/pkg/kafkacomm/publisher"
 	"policy-opa-pdp/pkg/log"
@@ -29,7 +30,7 @@ import (
 
 // Processes incoming messages indicating a PDP state change.
 // This includes updating the PDP state and sending a status response when the state transitions.
-func pdpStateChangeMessageHandler(message []byte, p publisher.PdpStatusSender) error {
+func pdpStateChangeMessageHandler(ctx context.Context, message []byte, p publisher.PdpStatusSender) error {
 
 	var pdpStateChange model.PdpStateChange
 
@@ -51,7 +52,7 @@ func pdpStateChangeMessageHandler(message []byte, p publisher.PdpStatusSender) e
 	}
 
 	log.Debugf("State change from PASSIVE To : %s", pdpstate.GetState())
-	err = publisher.SendStateChangeResponse(p, &pdpStateChange)
+	err = publisher.SendStateChangeResponse(ctx, p, &pdpStateChange)
 	if err != nil {
 		log.Debugf("Failed to Send State Change Response Message: %v\n", err)
 		return err

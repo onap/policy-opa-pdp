@@ -20,6 +20,7 @@
 package publisher
 
 import (
+	"context"
 	"errors"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/open-policy-agent/opa/v1/storage"
@@ -57,7 +58,7 @@ func TestSendPatchMessage_Success(t *testing.T) {
 
 	mockProducer.On("Produce", mock.Anything).Return(nil)
 
-	err := sender.SendPatchMessage(samplePatchData())
+	err := sender.SendPatchMessage(context.Background(), samplePatchData())
 	assert.NoError(t, err)
 	mockProducer.AssertExpectations(t)
 }
@@ -68,7 +69,7 @@ func TestSendPatchMessage_ProduceError(t *testing.T) {
 
 	mockProducer.On("Produce", mock.Anything).Return(errors.New("kafka error"))
 
-	err := sender.SendPatchMessage(samplePatchData())
+	err := sender.SendPatchMessage(context.Background(), samplePatchData())
 	assert.Error(t, err)
 	assert.EqualError(t, err, "kafka error")
 	mockProducer.AssertExpectations(t)
@@ -86,7 +87,7 @@ func TestSendPatchMessage_MarshalError(t *testing.T) {
 		},
 	}
 
-	err := sender.SendPatchMessage(badData)
+	err := sender.SendPatchMessage(context.Background(), badData)
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "json: unsupported type: chan int")
 }
@@ -103,7 +104,7 @@ func TestSendPatchMessage_PayloadContent(t *testing.T) {
 		Return(nil)
 	cfg.GroupId = "opa-pdp"
 
-	err := sender.SendPatchMessage(samplePatchData())
+	err := sender.SendPatchMessage(context.Background(), samplePatchData())
 	assert.NoError(t, err)
 	mockProducer.AssertExpectations(t)
 }

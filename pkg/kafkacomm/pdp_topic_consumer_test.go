@@ -94,9 +94,32 @@ func TestReadKafkaMessages_Success(t *testing.T) {
 	// Test ReadKafkaMessages
 	msg, err := ReadKafkaMessages(kc)
 	assert.NoError(t, err, "Expected no error when reading message")
-	assert.Equal(t, expectedMsg.Value, msg, "Expected message content to match")
+	assert.Equal(t, expectedMsg, msg, "Expected message to match")
 
 	// Assert expectations
+	mockConsumer.AssertExpectations(t)
+}
+
+// The whole message is returned rather than just its Value because the headers
+// carry the W3C traceparent PAP puts on every message; returning []byte silently
+// discarded it.
+func TestReadKafkaMessages_PreservesHeaders(t *testing.T) {
+	mockConsumer := new(mocks.KafkaConsumerInterface)
+	kc := &KafkaConsumer{Consumer: mockConsumer}
+
+	expectedMsg := &kafka.Message{
+		Value: []byte("test message"),
+		Headers: []kafka.Header{{
+			Key:   "traceparent",
+			Value: []byte("00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01"),
+		}},
+	}
+	mockConsumer.On("ReadMessage", mock.Anything).Return(expectedMsg, nil)
+
+	msg, err := ReadKafkaMessages(kc)
+	assert.NoError(t, err)
+	assert.Equal(t, expectedMsg.Headers, msg.Headers)
+
 	mockConsumer.AssertExpectations(t)
 }
 
