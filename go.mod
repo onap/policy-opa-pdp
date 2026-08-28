@@ -1,6 +1,6 @@
 module policy-opa-pdp
 
-go 1.23.3
+go 1.26.0
 
 require (
 	github.com/confluentinc/confluent-kafka-go/v2 v2.8.0
@@ -8,6 +8,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/oapi-codegen/runtime v1.1.1
 	github.com/open-policy-agent/opa v1.1.0
+	github.com/prometheus/client_golang v1.20.5
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.10.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
@@ -43,7 +44,6 @@ require (
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/prometheus/client_golang v1.20.5 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.55.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect

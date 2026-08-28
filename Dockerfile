@@ -17,7 +17,7 @@
 #   ========================LICENSE_END===================================
 #
 
-FROM golang:1.23-bookworm AS compile
+FROM golang:1.26.7-bookworm AS compile
 
 WORKDIR /src
 
