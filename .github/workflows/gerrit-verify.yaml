@@ -95,7 +95,7 @@ jobs:
     steps:
       - name: "Harden runner"
         # yamllint disable-line rule:line-length
-        uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40 # v2.20.1
+        uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c # v2.21.0
         with:
           egress-policy: audit
       - name: "Clear votes"
@@ -128,7 +128,7 @@ jobs:
       pull-requests: read # repository-metadata-action queries PR data
       issues: read # grype job reads maintainer-approved CVE bypass issues
     # yamllint disable-line rule:line-length
-    uses: lfreleng-actions/go-workflows/.github/workflows/build-test.yaml@f67d53066236d6bf8f696609c19b20d12f5e626a # v0.4.3
+    uses: lfreleng-actions/go-workflows/.github/workflows/build-test.yaml@c5dda19b1a7427be05925031ab8e37e755221d44 # v0.4.4
     with:
       # confluent-kafka-go/v2 requires cgo; build off unless enabled here.
       cgo_enabled: '1'
@@ -155,7 +155,7 @@ jobs:
     steps:
       - name: "Harden runner"
         # yamllint disable-line rule:line-length
-        uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40 # v2.20.1
+        uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c # v2.21.0
         with:
           egress-policy: audit
       - name: "Get conclusion"

@@ -15,7 +15,13 @@ on:
   # github2gerrit fundamentally requires pull_request_target so the
   # mirror job can read repository secrets (the Gerrit SSH key) and
   # write PR comments/labels. Fork PR code is never checked out or
-  # executed here, so the usual pull_request_target risk is avoided.
+  # executed here, so the usual pull_request_target risk is avoided:
+  # since v2.0.0 the reusable workflow checks out only on push events,
+  # and fetches PR refs into a temporary directory instead.
+  #
+  # NOTE: v2.1.0 gates transfer of FORK pull requests on maintainer
+  # approval, so fork contributions no longer reach Gerrit until a
+  # maintainer approves them.
   pull_request_target:  # zizmor: ignore[dangerous-triggers]
     types: [opened, reopened, edited, synchronize, closed]
     branches:
