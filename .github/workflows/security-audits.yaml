@@ -26,24 +26,31 @@ on:
 permissions: {}
 
 jobs:
-  # Nexus IQ (CLM) scan. Disabled pending the NEXUS_IQ_PASSWORD secret and
-  # a Nexus IQ application id; uncomment both this job and the secret to
-  # retire the Jenkins gerrit-nexus-iq-go-clm job.
+  # Nexus IQ (CLM) scan, replacing the Jenkins gerrit-nexus-iq-go-clm job.
   #
-  # build_type: go runs 'go mod tidy' and points the Nexus IQ CLI at
-  # go.sum. Add scan_mode: 'sbom' to reproduce the REST/cyclonedx-gomod
-  # branch this project ran under Jenkins instead.
+  # scan_mode 'sbom' mirrors that job's nexus-iq-use-cli: false, which
+  # took the REST branch: generate a CycloneDX SBOM with cyclonedx-gomod
+  # and POST it to Nexus IQ, rather than running the CLI build analyser
+  # over go.sum. Keeping the same mode keeps the scan history comparable.
+  # Note the upload is fire-and-forget, so this job reports no policy
+  # verdict -- matching the legacy job, which never voted either.
   #
-  # sonatype-lifecycle:
-  #   name: "Sonatype Lifecycle"
-  #   permissions:
-  #     contents: read
-  #   # yamllint disable-line rule:line-length
-  #   uses: lfreleng-actions/security-workflows/.github/workflows/sonatype-lifecycle.yaml@6ee08860f804e9801edc85ff610baf2cefd66b1e # v0.4.0
-  #   with:
-  #     build_type: "go"
-  #   secrets:
-  #     nexus_iq_password: ${{ secrets.NEXUS_IQ_PASSWORD }}
+  # application_id is left to the lane, which derives <owner>-<name> from
+  # the repository under scan: 'onap-policy-opa-pdp'. That is exactly the
+  # id the Jenkins job built from nexus-iq-namespace 'onap-' plus the
+  # project name, so results land against the existing application.
+  sonatype-lifecycle:
+    name: "Sonatype Lifecycle"
+    # yamllint disable-line rule:line-length
+    uses: lfreleng-actions/security-workflows/.github/workflows/sonatype-lifecycle.yaml@6ee08860f804e9801edc85ff610baf2cefd66b1e # v0.4.0
+    permissions:
+      # Needed by the reusable scan job to check out the repository.
+      contents: read
+    secrets:
+      nexus_iq_password: ${{ secrets.NEXUS_IQ_PASSWORD }}
+    with:
+      build_type: "go"
+      scan_mode: "sbom"
 
   # Scan results are found at: https://sonarcloud.io/login
   sonarqube-cloud:
