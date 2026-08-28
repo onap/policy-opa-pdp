@@ -656,13 +656,20 @@ func TestShouldRebuildConsumer(t *testing.T) {
 }
 
 func TestConsumerNonFatalBackoff(t *testing.T) {
+	// Pin the duration this asserts on instead of paying the production one.
+	old := consts.ConsumerTearDownSleepTime
+	consts.ConsumerTearDownSleepTime = 20 * time.Millisecond
+	t.Cleanup(func() { consts.ConsumerTearDownSleepTime = old })
+
 	start := time.Now()
 	consumerNonFatalBackoff()
-	duration := time.Since(start)
-	assert.True(t, duration >= 200*time.Millisecond)
+
+	assert.GreaterOrEqual(t, time.Since(start), consts.ConsumerTearDownSleepTime)
 }
 
 func TestPdpMessageHandler_FatalError_RecoverySuccess(t *testing.T) {
+	shortenConsumerBackoff(t)
+
 	oldRecover := recoverConsumerVar
 	defer func() { recoverConsumerVar = oldRecover }()
 
@@ -695,46 +702,74 @@ func TestPdpMessageHandler_FatalError_RecoverySuccess(t *testing.T) {
             "pdpSubgroup":"opa"
              }`
 	kafkaMsg := &kafka.Message{Value: []byte(message)}
-	newMockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(kafkaMsg, nil).Once()
+	newMockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(kafkaMsg, nil)
 
+	recoveryAttempts := 0
 	recoverConsumerVar = func(kc *kafkacomm.KafkaConsumer, topic, groupId string) (*kafkacomm.KafkaConsumer, error) {
+		recoveryAttempts++
 		return newMockKafkaConsumer, nil
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+	// Backstop only; the handler is stopped by cancel() below once it has processed a
+	// message read from the recovered consumer.
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	mockPublisher := new(MockPdpStatusSender)
 	mockPublisher.On("SendPdpStatus", mock.Anything).Return(nil)
 
+	oldUpdate := pdpUpdateMessageHandlerVar
+	defer func() { pdpUpdateMessageHandlerVar = oldUpdate }()
+	handled := 0
+	pdpUpdateMessageHandlerVar = func(msg []byte, p publisher.PdpStatusSender) error {
+		handled++
+		cancel()
+		return nil
+	}
+
 	err := PdpMessageHandler(ctx, mockKafkaConsumer, "pdp-topic", mockPublisher)
 	assert.NoError(t, err)
+	assert.Equal(t, 1, recoveryAttempts)
+	assert.Equal(t, 1, handled, "handler must switch to the recovered consumer")
 }
 
 func TestPdpMessageHandler_RecoveryFailed(t *testing.T) {
+	shortenConsumerBackoff(t)
+
 	oldRecover := recoverConsumerVar
 	defer func() { recoverConsumerVar = oldRecover }()
 
 	mockConsumer := new(mocks.KafkaConsumerInterface)
 	fatalErr := kafka.NewError(kafka.ErrAllBrokersDown, "brokers down", true)
-	mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(nil, fatalErr).Once()
+	mockConsumer.On("ReadMessage", mock.AnythingOfType("time.Duration")).Return(nil, fatalErr)
 
 	mockKafkaConsumer := &kafkacomm.KafkaConsumer{Consumer: mockConsumer}
 
-	// Mock recovery to fail
+	// Backstop only; the handler is stopped from the stub below.
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Mock recovery to fail. Stop after the second attempt, which also proves the handler
+	// keeps retrying rather than giving up or adopting the nil consumer.
+	recoveryAttempts := 0
 	recoverConsumerVar = func(kc *kafkacomm.KafkaConsumer, topic, groupId string) (*kafkacomm.KafkaConsumer, error) {
+		recoveryAttempts++
+		assert.Same(t, mockKafkaConsumer, kc, "failed recovery must not replace the consumer")
+		if recoveryAttempts == 2 {
+			cancel()
+		}
 		return nil, errors.New("recovery failed")
 	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
-	defer cancel()
 
 	mockPublisher := new(MockPdpStatusSender)
 	err := PdpMessageHandler(ctx, mockKafkaConsumer, "pdp-topic", mockPublisher)
 	assert.NoError(t, err)
+	assert.Equal(t, 2, recoveryAttempts)
 }
 
 func TestPdpMessageHandler_NonFatalError(t *testing.T) {
+	shortenConsumerBackoff(t)
+
 	nonFatalErr := errors.New("transient error")
 
 	mockConsumer := new(mocks.KafkaConsumerInterface)
@@ -751,6 +786,8 @@ func TestPdpMessageHandler_NonFatalError(t *testing.T) {
 }
 
 func TestRecoverConsumer(t *testing.T) {
+	shortenConsumerBackoff(t)
+
 	mockConsumer := new(mocks.KafkaConsumerInterface)
 	mockConsumer.On("Unsubscribe", mock.Anything).Return(nil, nil)
 	mockConsumer.On("Close", mock.Anything).Return(nil, nil)
@@ -762,7 +799,11 @@ func TestRecoverConsumer(t *testing.T) {
 	// Verify that Teardown methods were called
 	mockConsumer.AssertExpectations(t)
 
-	// Suppress unused variable warnings
-	_ = newKc
-	_ = err
+	// The replacement consumer is built by librdkafka, so only its success/failure
+	// contract can be asserted here, not a connection.
+	if err == nil {
+		assert.NotNil(t, newKc)
+	} else {
+		assert.Nil(t, newKc)
+	}
 }

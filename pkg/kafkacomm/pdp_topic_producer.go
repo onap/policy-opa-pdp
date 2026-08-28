@@ -210,7 +210,7 @@ func (kp *KafkaProducer) Produce(kafkaMessage *kafka.Message, eventChan chan kaf
 			newInst, rerr := rebuildProducer(kp, kp.topic)
 			if rerr != nil {
 				log.Println("[Kafka Produce] Rebuild failed:", rerr)
-				time.Sleep(time.Second * time.Duration(attempt))
+				time.Sleep(consts.ProducerRetryBackoffBase * time.Duration(attempt))
 				continue
 			}
 			kp.producer = newInst.producer
@@ -218,7 +218,7 @@ func (kp *KafkaProducer) Produce(kafkaMessage *kafka.Message, eventChan chan kaf
 		}
 
 		// Backoff before next attempt
-		time.Sleep(time.Second * time.Duration(attempt))
+		time.Sleep(consts.ProducerRetryBackoffBase * time.Duration(attempt))
 	}
 
 	// Exhausted retries
