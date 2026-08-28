@@ -320,6 +320,9 @@ func handleShutdown(consumers []*kafkacomm.KafkaConsumer, interruptChannel chan 
 
 	if opaSDKInstance != nil {
 		opaSDKInstance.Stop(context.Background())
+		// OPA's plugin-status goroutine exits on the first Stop, and Stop ends with a
+		// channel handshake against it -- so a second Stop would block forever.
+		opaSDKInstance = nil
 		log.Debugf("OPA instance stopped")
 	}
 
