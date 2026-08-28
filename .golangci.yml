@@ -7,11 +7,12 @@
 #   SA1019 on github.com/open-policy-agent/opa/{sdk,storage,storage/inmem}
 #   ---------------------------------------------------------------------
 #   These OPA v0.x packages are marked deprecated in favour of the
-#   github.com/open-policy-agent/opa/v1 equivalents. opa-pdp intentionally uses
-#   both the v0 and v1 surfaces (see CLAUDE.md: "Two OPA integration modes
-#   coexist"). Migrating off the v0 packages is a substantive dependency change
-#   that must be done deliberately, not as a side effect of a lint gate, so the
-#   deprecation warning is suppressed here until that migration happens.
+#   github.com/open-policy-agent/opa/v1 equivalents. opa-pdp still imports both
+#   surfaces: pkg/opasdk builds its store and SDK instance from the v0 packages,
+#   while everything else (compile, ast, rego) is already on v1. Migrating off
+#   the v0 packages is a substantive dependency change that must be done
+#   deliberately, not as a side effect of a lint gate, so the deprecation
+#   warning is suppressed here until that migration happens.
 #
 # Everything else (errcheck, ineffassign, unused, and all other staticcheck
 # rules) is enforced.

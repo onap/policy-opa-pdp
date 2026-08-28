@@ -31,20 +31,14 @@ import (
 //	   LogMaxSize          - The maximum size of the log file in megabytes.
 //	   LogMaxBackups       - The maximum number of backup log files to retain.
 //	   OpasdkConfigPath    - The file path for the OPA SDK configuration.
-//	   Opa                 - The file path for the OPA binary.
-//	   BuildBundle         - The command to build the bundle.
 //	   Policies            - The directory path for policies.
 //	   Data                - The directory path for policy data.
 //	   DataNode            - The directory path for policy data with node.
-//	   Output              - The output flag for bundle commands.
-//	   BundleTarGz         - The name of the bundle tar.gz file.
-//	   BundleTarGzFile     - The file path for the bundle tar.gz file.
 //	   PdpGroup            - The default PDP group.
 //	   PdpType             - The type of PDP.
 //	   ServerPort          - The port on which the server listens.
 //	   ServerWaitUpTime    - The time to wait for the server to be up, in seconds.
 //	   ShutdownWaitTime    - The time to wait for the server to shut down, in seconds.
-//	   V1Compatible        - The flag for v1 compatibility.
 //	   LatestVersion       - The Version set in response for decision
 //	   MinorVersion        - The Minor version set in response header for decision
 //	   PatchVersion        - The Patch Version set in response header for decison
@@ -64,20 +58,14 @@ var (
 	LogMaxSize              = 10
 	LogMaxBackups           = 3
 	OpasdkConfigPath        = "/app/config/config.json"
-	Opa                     = "/app/opa"
-	BuildBundle             = "build"
 	Policies                = "/opt/policies"
 	Data                    = "/opt/data"
 	DataNode                = "/opt/data/node"
-	Output                  = "-o"
-	BundleTarGz             = "bundle.tar.gz"
-	BundleTarGzFile         = "/app/bundles/bundle.tar.gz"
 	PdpGroup                = "opaGroup"
 	PdpType                 = "opa"
 	ServerPort              = ":8282"
 	ServerWaitUpTime        = 5
 	ShutdownWaitTime        = 5
-	V1Compatible            = "--v1-compatible"
 	LatestVersion           = "1.0.0"
 	MinorVersion            = "0"
 	PatchVersion            = "0"
@@ -95,9 +83,6 @@ var (
 	MaxOutputResponseLength = 200
 	ContentType             = "Content-Type"
 	ApplicationJson         = "application/json"
-	TempRegoPattern         = "policy*.rego"
-	TempPolicyFileRegex     = `/var/logs/policy[0-9]+\.rego`
-	TempRegoFolderPath      = `/var/logs/`
 	StandardPolicyName      = "policy.rego"
 	MaxRequestBodyBytes     = int64(10 * 1024 * 1024)
 
