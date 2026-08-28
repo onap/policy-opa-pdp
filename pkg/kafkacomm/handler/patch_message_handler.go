@@ -38,7 +38,7 @@ var (
 // PatchMessageHandler handles incoming Kafka messages and dispatches them for data patch processing.
 // Error handling is delegated to helper functions in this same file:
 //   - shouldRebuildConsumer(err error) bool
-//   - recoverConsumer(kc *kafkacomm.KafkaConsumer, topic, groupID string) (*kafkacomm.KafkaConsumer, error)
+//   - recoverConsumerVar(kc *kafkacomm.KafkaConsumer, topic, groupID string) (*kafkacomm.KafkaConsumer, error)
 //   - consumerNonFatalBackoff()
 func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic string) error {
 	log.Debug("Starting Patch Message Listener.....")
@@ -53,7 +53,7 @@ func PatchMessageHandler(ctx context.Context, kc *kafkacomm.KafkaConsumer, topic
 				if shouldRebuildConsumer(err) {
 					log.Warnf("Consumer error; rebuilding. err=%v", err)
 					log.Info("Recovering Kafka Consumer......")
-					newKc, recErr := recoverConsumer(kc, topic, cfg.GroupId)
+					newKc, recErr := recoverConsumerVar(kc, topic, cfg.GroupId)
 					if recErr == nil && newKc != nil {
 						kc = newKc
 						log.Info("New consumer initialized")
