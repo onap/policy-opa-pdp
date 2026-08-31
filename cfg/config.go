@@ -23,6 +23,11 @@
 package cfg
 
 import (
+	"errors"
+	"fmt"
+	"net"
+	"strings"
+
 	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 	"os"
@@ -30,15 +35,9 @@ import (
 	"strconv"
 )
 
-// LogLevel        - The log level for the application.
-// BootstrapServer - The Kafka bootstrap server address.
-// Topic           - The Kafka topic to subscribe to.
-// GroupId         - The Kafka consumer group ID.
-// Username        - The username for basic authentication.
-// Password        - The password for basic authentication.
-// UseSASLForKAFKA - Flag to indicate if SASL should be used for Kafka.
-// KAFKA_USERNAME  - The Kafka username for SASL authentication.
-// KAFKA_PASSWORD  - The Kafka password for SASL authentication.
+// The environment variable each of these is read from, its default and its meaning are
+// documented in the configuration table in README.md. That table is the operator-facing
+// contract; duplicating it here is what let the previous comment block drift out of date.
 var (
 	LogLevel         string
 	BootstrapServer  string
@@ -59,14 +58,23 @@ var (
 // Initializes the configuration settings.
 func init() {
 
-	log.SetLevel(log.DebugLevel)
 	log.SetOutput(os.Stdout)
+
+	// The level has to be resolved and applied before the remaining variables are read.
+	// Reading them emits one message per defaulted value, and at the default logrus level
+	// a correctly configured startup drowned in them.
+	LogLevel = getEnv("LOG_LEVEL", "info")
+	if level, err := log.ParseLevel(LogLevel); err != nil {
+		log.SetLevel(log.InfoLevel)
+		log.Warnf("Invalid LOG_LEVEL %q, using info", LogLevel)
+	} else {
+		log.SetLevel(level)
+	}
 
 	log.Debug("###################################### ")
 	log.Debug("OPA-PDP: Starting initialisation ")
 	log.Debug("###################################### ")
 
-	LogLevel = getEnv("LOG_LEVEL", "info")
 	BootstrapServer = getEnv("KAFKA_URL", "kafka:9092")
 	Topic = getEnv("PAP_TOPIC", "policy-pdp-pap")
 	PatchTopic = getEnv("PATCH_TOPIC", "opa-pdp-data")
@@ -86,7 +94,7 @@ func getEnv(key string, defaultVal string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
 	}
-	log.Warnf("%v not defined, using default value", key)
+	log.Debugf("%v not defined, using default value", key)
 	return defaultVal
 }
 
@@ -99,8 +107,95 @@ func getEnvAsBool(key string, defaultVal bool) bool {
 		}
 		return parsed
 	}
-	log.Warnf("%v not defined, using default value: %v", key, defaultVal)
+	log.Debugf("%v not defined, using default value: %v", key, defaultVal)
 	return defaultVal
+}
+
+// Validate reports every problem with the resolved configuration at once, so an operator
+// fixing a deployment sees the whole list rather than one problem per restart.
+//
+// Everything checked here is a misconfiguration that no amount of retrying fixes, and each
+// one otherwise surfaces much later and far from its cause: an empty API_PASSWORD makes
+// validateCredentials reject every request, so the PDP keeps deploying policies over Kafka
+// while answering 401 to every decision.
+func Validate() error {
+	var problems []error
+
+	for _, required := range []struct{ name, value string }{
+		{"API_USER", Username},
+		{"API_PASSWORD", Password},
+		{"KAFKA_URL", BootstrapServer},
+		{"PAP_TOPIC", Topic},
+		{"PATCH_TOPIC", PatchTopic},
+		{"GROUPID", GroupId},
+		{"PATCH_GROUPID", PatchGroupId},
+	} {
+		if required.value == "" {
+			problems = append(problems, fmt.Errorf("%s must not be empty", required.name))
+		}
+	}
+
+	problems = append(problems, validateBootstrapServer()...)
+
+	// The Kafka clients compare this against the literal "true", so "True" or "1" would
+	// silently disable SASL and then fail at connect time as an authentication error.
+	switch UseSASLForKAFKA {
+	case "true":
+		if KAFKA_USERNAME == "" || KAFKA_PASSWORD == "" {
+			problems = append(problems, errors.New(
+				"UseSASLForKAFKA is true but no credentials were parsed from JAASLOGIN"))
+		}
+	case "false":
+	default:
+		problems = append(problems, fmt.Errorf(
+			"UseSASLForKAFKA must be exactly \"true\" or \"false\", got %q", UseSASLForKAFKA))
+	}
+
+	return errors.Join(problems...)
+}
+
+func validateBootstrapServer() []error {
+	if BootstrapServer == "" {
+		return nil
+	}
+
+	var problems []error
+	for _, broker := range strings.Split(BootstrapServer, ",") {
+		broker = strings.TrimSpace(broker)
+		if strings.Contains(broker, "://") {
+			problems = append(problems, fmt.Errorf(
+				"KAFKA_URL entry %q must be host:port, without a scheme", broker))
+			continue
+		}
+
+		_, port, err := net.SplitHostPort(broker)
+		if err != nil {
+			problems = append(problems, fmt.Errorf("KAFKA_URL entry %q must be host:port: %w", broker, err))
+			continue
+		}
+		if parsed, err := strconv.Atoi(port); err != nil || parsed < 1 || parsed > 65535 {
+			problems = append(problems, fmt.Errorf("KAFKA_URL entry %q has an invalid port %q", broker, port))
+		}
+	}
+	return problems
+}
+
+// Summary renders the resolved configuration for a single startup log line. Credentials are
+// reported as set or unset rather than printed.
+func Summary() string {
+	return fmt.Sprintf("LOG_LEVEL=%s KAFKA_URL=%s PAP_TOPIC=%s PATCH_TOPIC=%s GROUPID=%s "+
+		"PATCH_GROUPID=%s API_USER=%s API_PASSWORD=%s UseSASLForKAFKA=%s JAASLOGIN=%s "+
+		"USE_KAFKA_FOR_PATCH=%t ALLOW_TRACING=%t",
+		LogLevel, BootstrapServer, Topic, PatchTopic, GroupId, PatchGroupId,
+		Username, redacted(Password), UseSASLForKAFKA, redacted(KAFKA_PASSWORD),
+		UseKafkaForPatch, AllowTracing)
+}
+
+func redacted(value string) string {
+	if value == "" {
+		return "<unset>"
+	}
+	return "<set>"
 }
 
 func getSaslJAASLOGINFromEnv() (string, string) {

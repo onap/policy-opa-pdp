@@ -46,6 +46,9 @@ import (
 // with the next test's SetupMocks() over the package-level function vars.
 func TestMain(m *testing.M) {
 	registrationDelay = 0
+	// No API_PASSWORD is set in the test environment, so the real cfg.Validate would end
+	// every main() before the behaviour under test runs.
+	validateConfigFunc = func() error { return nil }
 	os.Exit(m.Run())
 }
 
@@ -271,6 +274,34 @@ func TestKafkaNilConsumerInitialization(t *testing.T) {
 	case <-time.After(5 * time.Second):
 		t.Error("main function timed out")
 	}
+}
+
+// An invalid configuration cannot be fixed by starting anyway: an empty API_PASSWORD, for
+// instance, leaves every decision answering 401 while Kafka deployments keep succeeding.
+func TestMain_InvalidConfigurationEndsStartup(t *testing.T) {
+	SetupMocks()
+	t.Cleanup(func() { validateConfigFunc = func() error { return nil } })
+
+	opaInitialised := false
+	initializeOPAFunc = func() error {
+		opaInitialised = true
+		return nil
+	}
+	validateConfigFunc = func() error { return assert.AnError }
+
+	done := make(chan struct{})
+	go func() {
+		main()
+		close(done)
+	}()
+
+	select {
+	case <-done:
+	case <-time.After(5 * time.Second):
+		t.Fatal("main function timed out")
+	}
+
+	assert.False(t, opaInitialised, "nothing may start once the configuration is known to be invalid")
 }
 
 // Both Kubernetes probes are tcpSocket, so a listening socket is enough for traffic to

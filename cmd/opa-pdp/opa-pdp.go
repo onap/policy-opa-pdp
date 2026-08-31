@@ -72,6 +72,7 @@ var (
 	handlePatchMessagesFunc        = handlePatchMessages
 	getOPASingletonInstanceFunc    = opasdk.GetOPASingletonInstance
 	startTracingFunc               = tracing.Init
+	validateConfigFunc             = cfg.Validate
 )
 
 // registrationDelay is the settle time waited before and after starting the
@@ -110,6 +111,14 @@ func main() {
 
 	var useKafkaForPatch = cfg.UseKafkaForPatch
 	log.Debugf("Starting OPA PDP Service")
+
+	// Checked before anything is started: every problem it reports is a misconfiguration
+	// that would otherwise surface much later and far from its cause.
+	if err := validateConfigFunc(); err != nil {
+		log.Errorf("Invalid configuration: %v", err)
+		return
+	}
+	log.Infof("Configuration: %s", cfg.Summary())
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
