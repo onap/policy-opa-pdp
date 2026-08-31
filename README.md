@@ -1,19 +1,58 @@
 # Running docker  policy-opa-pdp
 
 ## Building Docker Image.
-docker build -t opa-pdp:1.0.0 .
+
+The tag follows `version.properties`, which is the single source of the component version:
+
+```
+docker build -t opa-pdp:2.2.0 .
+```
+
+
+## Configuration
+
+The service is configured entirely through environment variables; there is no configuration
+file for the service itself. Values marked as required have no usable default — the service
+logs every problem it finds and refuses to start rather than failing later, far from the
+cause.
+
+| Variable | Default | Required | Purpose |
+|----------|---------|----------|---------|
+| `LOG_LEVEL` | `info` | | logrus level. An unparseable value falls back to `info` with a warning. |
+| `KAFKA_URL` | `kafka:9092` | | Broker list as `host:port`, comma-separated. A scheme (`http://`) or a missing port is rejected at startup. |
+| `PAP_TOPIC` | `policy-pdp-pap` | | Topic carrying `PDP_UPDATE` / `PDP_STATE_CHANGE` from PAP and `PDP_STATUS` back. |
+| `PATCH_TOPIC` | `opa-pdp-data` | | Topic for `OPA_PDP_DATA_PATCH_SYNC`; only used when `USE_KAFKA_FOR_PATCH` is true. |
+| `GROUPID` | `opa-pdp-<uuid>` | | Consumer group for `PAP_TOPIC`. Every replica needs its own, or they share the partitions and each message reaches only one of them. |
+| `PATCH_GROUPID` | `opa-pdp-data-<uuid>` | | Consumer group for `PATCH_TOPIC`. Same requirement. |
+| `API_USER` | `policyadmin` | | Basic-auth user for the HTTP API. |
+| `API_PASSWORD` | *none* | **yes** | Basic-auth password. There is deliberately no default: an empty password makes the credential check reject every request, so the service refuses to start instead. |
+| `UseSASLForKAFKA` | `false` | | Enables SASL/SCRAM-SHA-512 against the brokers. Must be exactly `true` or `false` — the Kafka clients compare against the literal string, so `True` would silently disable it. |
+| `JAASLOGIN` | *none* | when SASL is on | JAAS config string; `username="…"` and `password="…"` are extracted from it. |
+| `USE_KAFKA_FOR_PATCH` | `false` | | Publishes `PATCH /data` to `PATCH_TOPIC` so every replica applies it, instead of patching only the local store. Turn this on whenever more than one replica runs. |
+| `ALLOW_TRACING` | `false` | | See [Distributed Tracing](#distributed-tracing) below. |
+
+The OPA SDK has its own configuration at `/app/config/config.json` (`logging` and
+`decision_logs`), supplied by the compose bind-mount or the OOM configmap.
+
+Deployed policies and data are written to `/opt/policies/<dotted.policy.name>/policy.rego`
+and `/opt/data/<dotted.policy.name>/data.json`. The OPA store itself is in-memory and is not
+persisted, so a restarted instance is empty until PAP pushes the deployment again.
 
 
 ## Generating models with openapi.yaml
 
-1. oapi-codegen -package=oapicodegen  -generate "models" openapi.yaml > models.go
+The request/response DTOs are generated, not hand-written:
+
+```
+oapi-codegen -package=oapicodegen -generate "models" api/openapi.yaml > pkg/model/oapicodegen/models.go
+```
 
 
 ## Creating New Policy
 
 1. Create a tosca policy file that has policy.rego and data.json encoded contents.
 
-2. Ensure data key should have node as prefix. For example refer to test/test_resources/blacklist/policy_blacklist.yaml.
+2. Ensure data key should have node as prefix. For example refer to test/toscapolicies/blacklist/policy_blacklist.yaml.
 
 3. OPA emphasizes that each policy should have a unique policy-name/policy-id,
 
@@ -26,9 +65,9 @@ docker build -t opa-pdp:1.0.0 .
    Allowed: If a policy named onap.org.cell is deployed, then deploying a policy named onap.org.consistency is permitted, as it does not share the same hierarchy.
 
 
-4. Policy key should start (prefixed) with policy-id. For ex refer to test/test_resources/blacklist/policy_blacklist.yaml.
+4. Policy key should start (prefixed) with policy-id. For ex refer to test/toscapolicies/blacklist/policy_blacklist.yaml.
 
-5. Create a deploy.json file to deploy through pap. Refer to file under test/test_resources/blacklist/deploy_blacklist.json.
+5. Create a deploy.json file to deploy through pap. Refer to file under test/toscapolicies/blacklist/deploy_blacklist.json.
 
 ## Deploy Policy Using Docker Compose
 
