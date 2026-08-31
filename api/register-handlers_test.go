@@ -34,6 +34,7 @@ import (
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/decision"
 	"policy-opa-pdp/pkg/healthcheck"
+	"policy-opa-pdp/pkg/readiness"
 	"sync"
 	"testing"
 	"time"
@@ -68,6 +69,9 @@ func registerHandlersOnce() {
 func TestRegisterHandlers(t *testing.T) {
 	registerHandlersOnce()
 
+	readiness.SetReady(true)
+	t.Cleanup(func() { readiness.SetReady(false) })
+
 	tests := []struct {
 		path       string
 		handler    http.HandlerFunc
@@ -75,7 +79,7 @@ func TestRegisterHandlers(t *testing.T) {
 	}{
 		{"/policy/pdpo/v1/decision", decision.OpaDecision, http.StatusUnauthorized},
 		{"/policy/pdpo/v1/healthcheck", healthcheck.HealthCheckHandler, http.StatusUnauthorized},
-		// Readiness probe must return 200 without credentials
+		// Readiness probe must answer without credentials
 		{"/policy/pdpo/v1/readiness", readinessProbe, http.StatusOK},
 	}
 
@@ -409,6 +413,9 @@ func TestRegisterHandlers_DecisionRouteIsTraced(t *testing.T) {
 }
 
 func TestReadinessProbe(t *testing.T) {
+	readiness.SetReady(true)
+	t.Cleanup(func() { readiness.SetReady(false) })
+
 	req := httptest.NewRequest(http.MethodGet, "/ready", nil)
 	rr := httptest.NewRecorder()
 
@@ -421,4 +428,20 @@ func TestReadinessProbe(t *testing.T) {
 
 	body := rr.Body.String()
 	assert.Equal(t, "Ready", body, "expected response body to be 'Ready'")
+}
+
+// The probe answered 200 unconditionally before, which told an orchestrator nothing.
+func TestReadinessProbe_NotReadyBeforeStartupCompletes(t *testing.T) {
+	readiness.SetReady(false)
+
+	req := httptest.NewRequest(http.MethodGet, "/ready", nil)
+	rr := httptest.NewRecorder()
+
+	readinessProbe(rr, req)
+
+	resp := rr.Result()
+	defer func() { _ = resp.Body.Close() }()
+
+	assert.Equal(t, http.StatusServiceUnavailable, resp.StatusCode)
+	assert.Equal(t, "Not ready", rr.Body.String())
 }

@@ -39,6 +39,7 @@ import (
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/opasdk"
 	"policy-opa-pdp/pkg/pdpattributes"
+	"policy-opa-pdp/pkg/readiness"
 	"policy-opa-pdp/pkg/tracing"
 	"syscall"
 	"time"
@@ -117,6 +118,14 @@ func main() {
 	// middleware resolves the tracer provider once, when the handler is built.
 	defer startTracing(ctx)()
 
+	// Initialize OPA components before the port is bound. Both Kubernetes probes are
+	// tcpSocket, so a listening socket alone is enough for traffic to be routed here -
+	// and a decision arriving before the store exists dereferences a nil store.
+	if err := initializeOPAFunc(); err != nil {
+		log.Errorf("OPA initialization failed: %s", err)
+		return
+	}
+
 	// Initialize Handlers and Build Bundle
 	initializeHandlersFunc()
 
@@ -128,17 +137,16 @@ func main() {
 	waitForServerFunc()
 	log.Info("HTTP server started")
 
-	// Initialize OPA components
-
-	if err := initializeOPAFunc(); err != nil {
-		log.Errorf("OPA initialization failed: %s", err)
-		return
-	}
-
 	// Start Kafka Consumer and producer
 	kc, producer, err := startKafkaConsAndProdFunc()
 	if err != nil || kc == nil {
-		log.Warnf("Kafka consumer initialization failed: %v", err)
+		// Creating a consumer or producer does not contact a broker, so this fails only
+		// on bad configuration - which no amount of waiting fixes. Carrying on would
+		// start the message handler against a nil consumer and panic on the first read,
+		// and a PDP that PAP can never reach has nothing to serve anyway. Exit and let
+		// the orchestrator restart with its own backoff.
+		log.Errorf("Kafka consumer initialization failed: %v", err)
+		return
 	}
 	sender := &publisher.RealPdpStatusSender{Producer: producer}
 
@@ -154,6 +162,8 @@ func main() {
 
 	pdpattributes.SetPdpHeartbeatInterval(int64(consts.DefaultHeartbeatMS))
 	go publisher.StartHeartbeatIntervalTimer(pdpattributes.GetPdpHeartbeatInterval(), sender)
+
+	readiness.SetReady(true)
 
 	time.Sleep(registrationDelay)
 	log.Debugf("After registration successful delay")
@@ -317,6 +327,9 @@ func handleShutdown(consumers []*kafkacomm.KafkaConsumer, interruptChannel chan 
 		log.Debugf("Received Termination Signal.......")
 		break
 	}
+	// Fail the readiness probe first so the instance is taken out of rotation before
+	// its consumers and producers are torn down under it.
+	readiness.SetReady(false)
 	cancel()
 	log.Debugf("Loop Exited and shutdown started")
 	signal.Stop(interruptChannel)
