@@ -38,6 +38,7 @@ import (
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/metrics"
 	"policy-opa-pdp/pkg/opasdk"
+	"policy-opa-pdp/pkg/readiness"
 	"time"
 )
 
@@ -166,9 +167,17 @@ func validateCredentials(username, password string) bool {
 
 // handles readiness probe endpoint
 func readinessProbe(res http.ResponseWriter, req *http.Request) {
+	if !readiness.IsReady() {
+		res.WriteHeader(http.StatusServiceUnavailable)
+		writeProbeResponse(res, "Not ready")
+		return
+	}
 	res.WriteHeader(http.StatusOK)
-	_, err := res.Write([]byte("Ready"))
-	if err != nil {
+	writeProbeResponse(res, "Ready")
+}
+
+func writeProbeResponse(res http.ResponseWriter, body string) {
+	if _, err := res.Write([]byte(body)); err != nil {
 		log.Errorf("Failed to write response: %v", err)
 	}
 }

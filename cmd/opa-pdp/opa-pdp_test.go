@@ -273,6 +273,69 @@ func TestKafkaNilConsumerInitialization(t *testing.T) {
 	}
 }
 
+// Both Kubernetes probes are tcpSocket, so a listening socket is enough for traffic to
+// be routed here - and a decision arriving before the store exists dereferences a nil
+// store. The port must therefore not be bound until OPA is initialised.
+func TestMain_InitialisesOPABeforeBindingThePort(t *testing.T) {
+	SetupMocks()
+
+	var order []string
+	initializeOPAFunc = func() error {
+		order = append(order, "opa")
+		return nil
+	}
+	startHTTPServerFunc = func() *http.Server {
+		order = append(order, "http")
+		return &http.Server{}
+	}
+	startKafkaConsAndProdFunc = func() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
+		order = append(order, "kafka")
+		return kafkaConsumer, kafkaProducer, nil
+	}
+
+	done := make(chan struct{})
+	go func() {
+		main()
+		close(done)
+	}()
+
+	select {
+	case <-done:
+	case <-time.After(5 * time.Second):
+		t.Fatal("main function timed out")
+	}
+
+	assert.Equal(t, []string{"opa", "http", "kafka"}, order)
+}
+
+// Reading from a nil consumer panics, and a PDP that PAP can never reach has nothing to
+// serve, so a Kafka failure must end startup rather than start the message handler.
+func TestMain_KafkaFailureDoesNotStartTheMessageHandler(t *testing.T) {
+	SetupMocks()
+
+	handlerStarted := false
+	handleMessagesFunc = func(ctx context.Context, kc *kafkacomm.KafkaConsumer, sender *publisher.RealPdpStatusSender) {
+		handlerStarted = true
+	}
+	startKafkaConsAndProdFunc = func() (*kafkacomm.KafkaConsumer, *kafkacomm.KafkaProducer, error) {
+		return nil, nil, assert.AnError
+	}
+
+	done := make(chan struct{})
+	go func() {
+		main()
+		close(done)
+	}()
+
+	select {
+	case <-done:
+	case <-time.After(5 * time.Second):
+		t.Fatal("main function timed out")
+	}
+
+	assert.False(t, handlerStarted, "the message handler must not run without a consumer")
+}
+
 // Test to verify that the HTTP server starts successfully.
 func TestStartHTTPServer(t *testing.T) {
 	server := startHTTPServer()
