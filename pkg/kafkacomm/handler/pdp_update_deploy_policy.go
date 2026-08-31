@@ -222,7 +222,11 @@ func extractAndDecodeData(policy model.ToscaPolicy) (map[string]string, []string
 
 // upsert policy to sdk.
 func upsertPolicy(policy model.ToscaPolicy) error {
-	decodedContent, keys, _ := extractAndDecodePoliciesVar(policy)
+	decodedContent, keys, err := extractAndDecodePoliciesVar(policy)
+	if err != nil {
+		log.Errorf("Failed to decode policies for %s: %v", policy.Name, err)
+		return err
+	}
 	for _, key := range keys {
 		policyContent := decodedContent[key]
 		err := opasdk.UpsertPolicyVar(context.Background(), key, []byte(policyContent))
@@ -237,7 +241,11 @@ func upsertPolicy(policy model.ToscaPolicy) error {
 
 // handles writing data to sdk.
 func upsertData(policy model.ToscaPolicy) error {
-	decodedDataContent, dataKeys, _ := extractAndDecodeDataVar(policy)
+	decodedDataContent, dataKeys, err := extractAndDecodeDataVar(policy)
+	if err != nil {
+		log.Errorf("Failed to decode data for %s: %v", policy.Name, err)
+		return err
+	}
 	sort.Stable(utils.ByDotCount{Keys: dataKeys, Ascend: true})
 	for _, dataKey := range dataKeys {
 		dataContent := decodedDataContent[dataKey]
@@ -246,7 +254,7 @@ func upsertData(policy model.ToscaPolicy) error {
 		decoder.UseNumber()
 
 		var wdata interface{}
-		err := decoder.Decode(&wdata)
+		err = decoder.Decode(&wdata)
 		if err != nil {
 			log.Errorf("Failed to Insert Data: %s: %v", policy.Name, err)
 			return err
@@ -344,12 +352,19 @@ func deployPolicyAndData(policy model.ToscaPolicy, successPolicies map[string]st
 		metrics.IncrementDeployFailureCount()
 		metrics.IncrementTotalErrorCount()
 		return err
-	} else {
-		successPolicies[policy.Name] = policy.Version
-		if _, err := policymap.UpdateDeployedPoliciesinMap(policy); err != nil {
-			log.Warnf("Failed to store policy data map after deploying policy %s: %v", policy.Name, err)
-		}
 	}
+
+	// The deployed-policies map, not the OPA store, is what decision requests are
+	// validated against - so a policy missing from the map is undecidable however
+	// well the upsert went. Report the deployment as failed and let PAP retry;
+	// re-deploying the same name and version is idempotent.
+	if _, err := policymap.UpdateDeployedPoliciesinMap(policy); err != nil {
+		metrics.IncrementDeployFailureCount()
+		metrics.IncrementTotalErrorCount()
+		return fmt.Errorf("failed to record deployment of %s in the deployed policies map: %v", policy.Name, err)
+	}
+
+	successPolicies[policy.Name] = policy.Version
 	metrics.IncrementDeploySuccessCount()
 	log.Debugf("Loaded Policy: %s", policy.Name)
 	return nil

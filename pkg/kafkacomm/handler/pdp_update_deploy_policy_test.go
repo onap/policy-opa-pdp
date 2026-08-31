@@ -1042,3 +1042,78 @@ func TestUpsertData_Failure(t *testing.T) {
 	// Test assertions
 	assert.Error(t, err)
 }
+
+// A decode failure must abort the upsert, not silently insert nothing and report
+// success.
+func TestUpsertPolicy_DecodeFailureIsPropagated(t *testing.T) {
+	origExtract := extractAndDecodePoliciesVar
+	origUpsert := opasdk.UpsertPolicyVar
+	t.Cleanup(func() {
+		extractAndDecodePoliciesVar = origExtract
+		opasdk.UpsertPolicyVar = origUpsert
+	})
+
+	extractAndDecodePoliciesVar = func(policy model.ToscaPolicy) (map[string]string, []string, error) {
+		return nil, nil, errors.New("illegal base64 data")
+	}
+	upsertCalled := false
+	opasdk.UpsertPolicyVar = func(ctx context.Context, policyID string, policyContent []byte) error {
+		upsertCalled = true
+		return nil
+	}
+
+	err := upsertPolicy(model.ToscaPolicy{Name: "TestPolicy", Version: "1.0.0"})
+
+	assert.Error(t, err, "A policy that cannot be decoded must not deploy successfully")
+	assert.False(t, upsertCalled, "Nothing may be written to the store when decoding failed")
+}
+
+func TestUpsertData_DecodeFailureIsPropagated(t *testing.T) {
+	origExtract := extractAndDecodeDataVar
+	origWrite := opasdk.WriteDataVar
+	t.Cleanup(func() {
+		extractAndDecodeDataVar = origExtract
+		opasdk.WriteDataVar = origWrite
+	})
+
+	extractAndDecodeDataVar = func(policy model.ToscaPolicy) (map[string]string, []string, error) {
+		return nil, nil, errors.New("illegal base64 data")
+	}
+	writeCalled := false
+	opasdk.WriteDataVar = func(ctx context.Context, dataPath string, data interface{}) error {
+		writeCalled = true
+		return nil
+	}
+
+	err := upsertData(model.ToscaPolicy{Name: "TestPolicy", Version: "1.0.0"})
+
+	assert.Error(t, err, "Data that cannot be decoded must not deploy successfully")
+	assert.False(t, writeCalled, "Nothing may be written to the store when decoding failed")
+}
+
+// A policy absent from the deployed-policies map cannot be decided on, so failing
+// to record it must be reported to PAP rather than logged and ignored.
+func TestDeployPolicyAndData_MapUpdateFailureIsReported(t *testing.T) {
+	origBundle := createBundleFuncVar
+	origUpsertPolicy := upsertPolicyFunc
+	origUpsertData := upsertDataFunc
+	origLastDeployed := policymap.LastDeployedPolicies
+	t.Cleanup(func() {
+		createBundleFuncVar = origBundle
+		upsertPolicyFunc = origUpsertPolicy
+		upsertDataFunc = origUpsertData
+		policymap.LastDeployedPolicies = origLastDeployed
+	})
+
+	createBundleFuncVar = func() error { return nil }
+	upsertPolicyFunc = func(policy model.ToscaPolicy) error { return nil }
+	upsertDataFunc = func(policy model.ToscaPolicy) error { return nil }
+	// Makes UpdateDeployedPoliciesinMap fail on unmarshal.
+	policymap.LastDeployedPolicies = "not json"
+
+	successPolicies := make(map[string]string)
+	err := deployPolicyAndData(model.ToscaPolicy{Name: "TestPolicy", Version: "1.0.0"}, successPolicies)
+
+	assert.Error(t, err, "A policy that could not be recorded must not be reported as deployed")
+	assert.Empty(t, successPolicies, "The policy must not appear in the success list")
+}

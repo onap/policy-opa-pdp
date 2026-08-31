@@ -155,7 +155,8 @@ func TestProcessPoliciesTobeUndeployed_Failure_UnmarshalError(t *testing.T) {
 	failures, success := processPoliciesTobeUndeployed(undeployedPolicies)
 
 	assert.Empty(t, success, "Expected no successful undeployments")
-	assert.Empty(t, failures, "Expected failure messages due to unmarshal error")
+	assert.NotEmpty(t, failures, "Expected failure messages due to unmarshal error")
+	assert.Contains(t, failures[0], "failed to read deployed policies")
 }
 
 func TestRemoveDataDirectory(t *testing.T) {
@@ -622,6 +623,7 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 		mockDeleteErr    error
 		mockRemoveErr    error
 		expectedFailures []string
+		expectDeleteCall bool
 	}{
 		{
 			name:             "Success - No errors",
@@ -630,14 +632,18 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 			mockDeleteErr:    nil,
 			mockRemoveErr:    nil,
 			expectedFailures: []string{},
+			expectDeleteCall: true,
 		},
 		{
+			// An unresolved path aborts the deletion: neither the SDK delete nor the
+			// directory removal may run with an empty path.
 			name:             "Failure - analyseEmptyParentNodes error",
 			inputKeyPath:     "/error/path",
 			mockAnalyseErr:   errors.New("failed to analyze"),
 			mockDeleteErr:    nil,
 			mockRemoveErr:    nil,
 			expectedFailures: []string{"failed to analyze"},
+			expectDeleteCall: false,
 		},
 		{
 			name:             "Failure - deleteDataSdkFunc error",
@@ -646,6 +652,7 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 			mockDeleteErr:    errors.New("delete failed"),
 			mockRemoveErr:    nil,
 			expectedFailures: []string{"delete failed"},
+			expectDeleteCall: true,
 		},
 		{
 			name:             "Failure - removeDataDirectoryFunc error",
@@ -654,24 +661,35 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 			mockDeleteErr:    nil,
 			mockRemoveErr:    errors.New("remove failed"),
 			expectedFailures: []string{"remove failed"},
+			expectDeleteCall: true,
 		},
 		{
+			// The analysis failure short-circuits, so the delete and remove errors
+			// that would follow it are never reached.
 			name:             "Failure - Multiple errors",
 			inputKeyPath:     "/multiple/errors",
 			mockAnalyseErr:   errors.New("analyse failed"),
 			mockDeleteErr:    errors.New("delete failed"),
 			mockRemoveErr:    errors.New("remove failed"),
-			expectedFailures: []string{"analyse failed", "delete failed", "remove failed"},
+			expectedFailures: []string{"analyse failed"},
+			expectDeleteCall: false,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// Mock function variables
+			deleteCalled := false
+			// Mirrors the real analyseEmptyParentNodes, which returns an empty path
+			// alongside its error.
 			analyseEmptyParentNodesFunc = func(dataPath string) (string, error) {
-				return dataPath, tt.mockAnalyseErr
+				if tt.mockAnalyseErr != nil {
+					return "", tt.mockAnalyseErr
+				}
+				return dataPath, nil
 			}
 			deleteDataSdkFunc = func(ctx context.Context, dataPath string) error {
+				deleteCalled = true
+				assert.NotEmpty(t, dataPath, "Data must never be deleted with an empty path")
 				return tt.mockDeleteErr
 			}
 			removeDataDirectoryFunc = func(keyPath string) error {
@@ -688,6 +706,7 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 
 			// Validate results
 			assert.Equal(t, tt.expectedFailures, failureMessages, "Unexpected failure messages")
+			assert.Equal(t, tt.expectDeleteCall, deleteCalled, "Unexpected SDK delete invocation")
 		})
 	}
 }

@@ -80,7 +80,10 @@ func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]stri
 	// Unmarshal the last known policies
 	deployedPolicies, err := policymap.UnmarshalLastDeployedPolicies(policymap.LastDeployedPolicies)
 	if err != nil {
+		// Without the deployed policies no undeployment can be matched, and
+		// carrying on would report both zero undeployments and zero failures.
 		log.Warnf("Failed to unmarshal LastDeployedPolicies: %v", err)
+		return []string{fmt.Sprintf("failed to read deployed policies: %v", err)}, successfullyUndeployedPolicies
 	}
 
 	for policyID, policyVersion := range undeployedPolicies {
@@ -192,8 +195,11 @@ func processDataDeletionFromSdkAndDir(keyPath string) []string {
 	var err error
 	// Fetch data first
 	// Call the function to check and Analyse empty parent nodes
+	// Deletion must not continue past this point: the analysis returns an empty
+	// path on error, and deleting an empty path targets the root of the data
+	// document rather than the key being undeployed.
 	if dataPath, err = analyseEmptyParentNodesFunc(keyPath); err != nil {
-		failureMessages = append(failureMessages, err.Error())
+		return append(failureMessages, err.Error())
 	}
 	if err := deleteDataSdkFunc(context.Background(), dataPath); err != nil {
 		log.Errorf("Error while deleting Data from SDK for path : %s , %v", keyPath, err.Error())
