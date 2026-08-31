@@ -78,7 +78,7 @@ func processPoliciesTobeUndeployed(undeployedPolicies map[string]string) ([]stri
 
 	successfullyUndeployedPolicies := make(map[string]string)
 	// Unmarshal the last known policies
-	deployedPolicies, err := policymap.UnmarshalLastDeployedPolicies(policymap.LastDeployedPolicies)
+	deployedPolicies, err := policymap.UnmarshalLastDeployedPolicies(policymap.GetLastDeployedPolicies())
 	if err != nil {
 		// Without the deployed policies no undeployment can be matched, and
 		// carrying on would report both zero undeployments and zero failures.

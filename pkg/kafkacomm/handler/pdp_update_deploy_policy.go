@@ -372,9 +372,10 @@ func deployPolicyAndData(policy model.ToscaPolicy, successPolicies map[string]st
 
 // checks if policy exists in the map.
 func checkIfPolicyAlreadyDeployed(pdpUpdate model.PdpUpdate) []model.ToscaPolicy {
-	if len(policymap.LastDeployedPolicies) > 0 {
-		log.Debugf("Check if Policy is Already Deployed: %v", policymap.LastDeployedPolicies)
-		return policymap.VerifyAndReturnPoliciesToBeDeployed(policymap.LastDeployedPolicies, pdpUpdate)
+	deployedPolicies := policymap.GetLastDeployedPolicies()
+	if len(deployedPolicies) > 0 {
+		log.Debugf("Check if Policy is Already Deployed: %v", deployedPolicies)
+		return policymap.VerifyAndReturnPoliciesToBeDeployed(deployedPolicies, pdpUpdate)
 	}
 	return pdpUpdate.PoliciesToBeDeployed
 }
@@ -413,7 +414,7 @@ func upsertPolicyAndData(policy model.ToscaPolicy, successPolicies map[string]st
 
 // validates whether new policy is parent of the existing policy
 func validateParentPolicy(policy model.ToscaPolicy) (bool, error) {
-	policiesmap, err := policymap.UnmarshalLastDeployedPolicies(policymap.LastDeployedPolicies)
+	policiesmap, err := policymap.UnmarshalLastDeployedPolicies(policymap.GetLastDeployedPolicies())
 	if err != nil {
 		log.Warnf("Failed to extract deployed policies: %v", err)
 		return false, err

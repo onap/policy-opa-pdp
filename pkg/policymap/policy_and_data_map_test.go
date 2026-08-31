@@ -22,6 +22,8 @@ package policymap
 
 import (
 	// "encoding/json"
+	"fmt"
+	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -71,7 +73,7 @@ func TestUnmarshalLastDeployedPolicies_ValidJSON(t *testing.T) {
 }
 
 func TestUpdateDeployedPoliciesinMap(t *testing.T) {
-	LastDeployedPolicies = `{"deployed_policies_dict":[]}`
+	SetLastDeployedPolicies(`{"deployed_policies_dict":[]}`)
 
 	policy := model.ToscaPolicy{
 		Metadata: model.Metadata{
@@ -90,7 +92,7 @@ func TestUpdateDeployedPoliciesinMap(t *testing.T) {
 }
 
 func TestUpdateDeployedPoliciesinMap_Negative(t *testing.T) {
-	LastDeployedPolicies = `{deployed_policies_dict:[]}`
+	SetLastDeployedPolicies(`{deployed_policies_dict:[]}`)
 
 	policy := model.ToscaPolicy{
 		Metadata: model.Metadata{
@@ -108,7 +110,7 @@ func TestUpdateDeployedPoliciesinMap_Negative(t *testing.T) {
 }
 
 func TestRemoveUndeployedPoliciesfromMap(t *testing.T) {
-	LastDeployedPolicies = `{"deployed_policies_dict":[{"policy-id":"test.policy.1","policy-version":"1.0"}]}`
+	SetLastDeployedPolicies(`{"deployed_policies_dict":[{"policy-id":"test.policy.1","policy-version":"1.0"}]}`)
 
 	undeploy := map[string]interface{}{
 		"policy-id":      "test.policy.1",
@@ -121,7 +123,7 @@ func TestRemoveUndeployedPoliciesfromMap(t *testing.T) {
 }
 
 func TestRemoveUndeployedPoliciesfromMap_Negative(t *testing.T) {
-	LastDeployedPolicies = `{"deployed_policies_dict":[{"policy-id":"test.policy.1"policy-version":"1.0"}]}`
+	SetLastDeployedPolicies(`{"deployed_policies_dict":[{"policy-id":"test.policy.1"policy-version":"1.0"}]}`)
 
 	undeploy := map[string]interface{}{
 		"policy-id":      "test.policy.1",
@@ -133,7 +135,7 @@ func TestRemoveUndeployedPoliciesfromMap_Negative(t *testing.T) {
 }
 
 func TestRemoveUndeployedPolicies_NonExistingPolicyfromMap(t *testing.T) {
-	LastDeployedPolicies = `{"deployed_policies_dict":[{"policy-id":"test.policy.1","policy-version":"1.0"}]}`
+	SetLastDeployedPolicies(`{"deployed_policies_dict":[{"policy-id":"test.policy.1","policy-version":"1.0"}]}`)
 
 	undeploy := map[string]interface{}{
 		"policy-id":      "new.policy",
@@ -209,7 +211,7 @@ func TestExtractDeployedPolicies_MissingPolicyID(t *testing.T) {
 }
 
 func TestCheckIfPolicyAlreadyExists(t *testing.T) {
-	LastDeployedPolicies = `{"deployed_policies_dict":[{"policy-id":"existing.policy","policy-version":"1.0"}]}`
+	SetLastDeployedPolicies(`{"deployed_policies_dict":[{"policy-id":"existing.policy","policy-version":"1.0"}]}`)
 
 	exists := CheckIfPolicyAlreadyExists("existing.policy")
 	assert.True(t, exists)
@@ -219,34 +221,87 @@ func TestCheckIfPolicyAlreadyExists(t *testing.T) {
 }
 
 func TestCheckIfPolicyAlreadyExists_JSONParsingFailure(t *testing.T) {
-	LastDeployedPolicies = `{"deployed_policies_dict":[{"policy-id":"existing.policy,"policy-version":"1.0"}]}`
+	SetLastDeployedPolicies(`{"deployed_policies_dict":[{"policy-id":"existing.policy,"policy-version":"1.0"}]}`)
 
 	exists := CheckIfPolicyAlreadyExists("existing.policy")
 	assert.False(t, exists)
 }
 
 func TestGetTotalDeployedPoliciesCountFromMap(t *testing.T) {
-	LastDeployedPolicies = `{"deployed_policies_dict":[{"policy-id":"test.policy.1","policy-version":"1.0"}]}`
+	SetLastDeployedPolicies(`{"deployed_policies_dict":[{"policy-id":"test.policy.1","policy-version":"1.0"}]}`)
 
 	count := GetTotalDeployedPoliciesCountFromMap()
 	assert.Equal(t, 1, count)
 }
 
 func TestGetTotalDeployedPoliciesCountFromMap_Negative(t *testing.T) {
-	LastDeployedPolicies = `{"deployed_policies_dict":[{"policy-id":test.policy.1","policy-version":"1.0"}]}`
+	SetLastDeployedPolicies(`{"deployed_policies_dict":[{"policy-id":test.policy.1","policy-version":"1.0"}]}`)
 
 	count := GetTotalDeployedPoliciesCountFromMap()
 	assert.Equal(t, 0, count)
 }
 
 func TestUpdateDeployedPolicies_AbortsOnCorruptState(t *testing.T) {
-	orig := LastDeployedPolicies
-	t.Cleanup(func() { LastDeployedPolicies = orig })
-	LastDeployedPolicies = "{not valid json" // corrupt
+	orig := GetLastDeployedPolicies()
+	t.Cleanup(func() { SetLastDeployedPolicies(orig) })
+	SetLastDeployedPolicies("{not valid json") // corrupt
 
 	_, err := UpdateDeployedPoliciesinMap(model.ToscaPolicy{})
 	require.Error(t, err, "must not silently wipe the policy list")
-	assert.Equal(t, "{not valid json", LastDeployedPolicies, "state must be untouched on error")
+	assert.Equal(t, "{not valid json", GetLastDeployedPolicies(), "state must be untouched on error")
+}
+
+// The Kafka handler goroutine deploys and undeploys while decision/data requests, the
+// status publisher and the heartbeat read the map. Run those two roles against each
+// other: without the lock this is a data race, and concurrent deployments lose each
+// other's updates because the read-modify-write is not atomic.
+func TestDeployedPoliciesMap_ConcurrentAccess(t *testing.T) {
+	orig := GetLastDeployedPolicies()
+	t.Cleanup(func() { SetLastDeployedPolicies(orig) })
+	SetLastDeployedPolicies(`{"deployed_policies_dict":[]}`)
+
+	const deployers = 50
+	var readerWg, deployWg sync.WaitGroup
+	stopReaders := make(chan struct{})
+
+	for i := 0; i < 4; i++ {
+		readerWg.Add(1)
+		go func() {
+			defer readerWg.Done()
+			for {
+				select {
+				case <-stopReaders:
+					return
+				default:
+					GetLastDeployedPolicies()
+					GetTotalDeployedPoliciesCountFromMap()
+					CheckIfPolicyAlreadyExists("concurrent.policy.1")
+				}
+			}
+		}()
+	}
+
+	for i := 0; i < deployers; i++ {
+		deployWg.Add(1)
+		go func(i int) {
+			defer deployWg.Done()
+			policy := model.ToscaPolicy{
+				Metadata: model.Metadata{
+					PolicyID:      fmt.Sprintf("concurrent.policy.%d", i),
+					PolicyVersion: "1.0.0",
+				},
+			}
+			_, err := UpdateDeployedPoliciesinMap(policy)
+			assert.NoError(t, err)
+		}(i)
+	}
+
+	deployWg.Wait()
+	close(stopReaders)
+	readerWg.Wait()
+
+	assert.Equal(t, deployers, GetTotalDeployedPoliciesCountFromMap(),
+		"every concurrent deployment must survive; a lower count means updates were lost")
 }
 
 func TestExtractDeployedPolicies_SkipsBadEntryKeepsGood(t *testing.T) {

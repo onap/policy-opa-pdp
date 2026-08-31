@@ -253,7 +253,7 @@ func TestExtractAndDecodePolicies(t *testing.T) {
 }
 
 func TestValidateParentPolicy(t *testing.T) {
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["cell.consis"],"policy": ["cell.consis"],"policy-id": "cdll.consis","policy-version": "1.0.0"},{"data": ["parent"],"policy": ["parent"],"policy-id": "parent.policy","policy-version": "1.0.0"}]}` // Reset to valid case
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"data": ["cell.consis"],"policy": ["cell.consis"],"policy-id": "cdll.consis","policy-version": "1.0.0"},{"data": ["parent"],"policy": ["parent"],"policy-id": "parent.policy","policy-version": "1.0.0"}]}`) // Reset to valid case
 	tests := []struct {
 		name       string
 		input      model.ToscaPolicy
@@ -293,12 +293,12 @@ func TestValidateParentPolicy(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// If you want to test malformed policies, adjust policymap.LastDeployedPolicies accordingly
+			// If you want to test malformed policies, adjust the deployed policies map accordingly
 			switch tt.name {
 			case "Malformed last deployed policies":
-				policymap.LastDeployedPolicies = `{"deployed_policies_dict": [}`
+				policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [}`)
 			case "Policy id not present":
-				policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["parent"],"policy": ["parent"],"olicy-id": "parent.policy","policy-version": "1.0.0"}]}` // Reset to valid case
+				policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"data": ["parent"],"policy": ["parent"],"olicy-id": "parent.policy","policy-version": "1.0.0"}]}`) // Reset to valid case
 			}
 			actualPass, actualErr := validateParentPolicy(tt.input)
 			if tt.expectErr {
@@ -419,7 +419,7 @@ func TestCheckIfPolicyAlreadyDeployed_PolicymapEmpty(t *testing.T) {
 		},
 	}
 	// Test case 1: No deployed policies
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": []}` // Simulating an empty LastDeployedPolicies
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": []}`) // Simulating an empty LastDeployedPolicies
 	result := checkIfPolicyAlreadyDeployed(pdpUpdate)
 	assert.Equal(t, pdpUpdate.PoliciesToBeDeployed, result)
 }
@@ -434,7 +434,7 @@ func TestCheckIfPolicyAlreadyDeployed_ExistingPolicy(t *testing.T) {
 		},
 	}
 	// Test case 1: No deployed policies
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["cell.consis"],"policy": ["cell.consis"],"policy-id": "cdll.consis","policy-version": "1.0.0"},{"data": ["parent"],"policy": ["parent"],"policy-id": "TestPolicy1","policy-version": "1.0.0"}]}` // Reset to valid case
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"data": ["cell.consis"],"policy": ["cell.consis"],"policy-id": "cdll.consis","policy-version": "1.0.0"},{"data": ["parent"],"policy": ["parent"],"policy-id": "TestPolicy1","policy-version": "1.0.0"}]}`) // Reset to valid case
 	result := checkIfPolicyAlreadyDeployed(pdpUpdate)
 	assert.NotEqual(t, pdpUpdate.PoliciesToBeDeployed, result)
 }
@@ -574,7 +574,7 @@ func TestHandlePolicyDeployment_Success(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	//Mocking fucntions
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{}]}`) // Reset to valid case
 	createAndStorePolicyDataVar = func(policy model.ToscaPolicy) error { return nil }
 	createBundleFuncVar = func() error {
 		return nil
@@ -611,7 +611,7 @@ func TestHandlePolicyDeployment_ValidateTosca(t *testing.T) {
 		PoliciesToBeUndeployed: []model.ToscaConceptIdentifier{},
 		Name:                   "Test Pdp Update",
 	}
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{}]}`) // Reset to valid case
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
@@ -650,7 +650,7 @@ func TestHandlePolicyDeployment_ValidateParent(t *testing.T) {
 		PoliciesToBeUndeployed: []model.ToscaConceptIdentifier{},
 		Name:                   "Test Pdp Update",
 	}
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["role.hello"],"policy": ["role.hello"],"policy-id": "role.hello","policy-version": "1.0.0"}]}` // Reset to valid case
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"data": ["role.hello"],"policy": ["role.hello"],"policy-id": "role.hello","policy-version": "1.0.0"}]}`) // Reset to valid case
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	validateParentPolicyVar = func(policy model.ToscaPolicy) (bool, error) {
@@ -695,7 +695,7 @@ func TestHandlePolicyDeployment_StorePolicyDataFailure(t *testing.T) {
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	//Mocking fucntions
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{}]}`) // Reset to valid case
 	createAndStorePolicyDataVar = func(policy model.ToscaPolicy) error { return errors.New("Failure in StorePolicyData") }
 	validateParentPolicyVar = func(policy model.ToscaPolicy) (bool, error) { return true, nil }
 	err, _ := handlePolicyDeployment(pdpUpdate, mockSender)
@@ -737,7 +737,7 @@ func TestHandlePolicyDeployment_VerifyBundleFailure(t *testing.T) {
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	//Mocking fucntions
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{}]}`) // Reset to valid case
 	createAndStorePolicyDataVar = func(policy model.ToscaPolicy) error { return nil }
 	validateParentPolicyVar = func(policy model.ToscaPolicy) (bool, error) { return true, nil }
 	createBundleFuncVar = func() error {
@@ -783,7 +783,7 @@ func TestHandlePolicyDeployment_upsertPolicyAndDataFailure(t *testing.T) {
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
 	//Mocking fucntions
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{}]}` // Reset to valid case
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{}]}`) // Reset to valid case
 	createAndStorePolicyDataVar = func(policy model.ToscaPolicy) error { return nil }
 	validateParentPolicyVar = func(policy model.ToscaPolicy) (bool, error) { return true, nil }
 	createBundleFuncVar = func() error {
@@ -1097,19 +1097,19 @@ func TestDeployPolicyAndData_MapUpdateFailureIsReported(t *testing.T) {
 	origBundle := createBundleFuncVar
 	origUpsertPolicy := upsertPolicyFunc
 	origUpsertData := upsertDataFunc
-	origLastDeployed := policymap.LastDeployedPolicies
+	origLastDeployed := policymap.GetLastDeployedPolicies()
 	t.Cleanup(func() {
 		createBundleFuncVar = origBundle
 		upsertPolicyFunc = origUpsertPolicy
 		upsertDataFunc = origUpsertData
-		policymap.LastDeployedPolicies = origLastDeployed
+		policymap.SetLastDeployedPolicies(origLastDeployed)
 	})
 
 	createBundleFuncVar = func() error { return nil }
 	upsertPolicyFunc = func(policy model.ToscaPolicy) error { return nil }
 	upsertDataFunc = func(policy model.ToscaPolicy) error { return nil }
 	// Makes UpdateDeployedPoliciesinMap fail on unmarshal.
-	policymap.LastDeployedPolicies = "not json"
+	policymap.SetLastDeployedPolicies("not json")
 
 	successPolicies := make(map[string]string)
 	err := deployPolicyAndData(model.ToscaPolicy{Name: "TestPolicy", Version: "1.0.0"}, successPolicies)

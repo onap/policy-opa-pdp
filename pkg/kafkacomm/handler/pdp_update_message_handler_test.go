@@ -224,7 +224,7 @@ func TestPdpUpdateMessageHandler_Skipping_Deployment(t *testing.T) {
 		"pdpSubgroup":"opa"
 	}`
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`)
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
@@ -255,7 +255,7 @@ func TestPdpUpdateMessageHandler_FailureIn_Deployment_UnDeployment(t *testing.T)
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["role"],"policy": ["role"],"policy-id": "role","policy-version": "1.0.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"data": ["role"],"policy": ["role"],"policy-id": "role","policy-version": "1.0.0"}]}`)
 	// Mock the policy deployment logic
 	handlePolicyDeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
 
@@ -287,7 +287,7 @@ func TestPdpUpdateMessageHandler_Successful_Undeployment(t *testing.T) {
 		"pdpSubgroup":"opa"
 	}`
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`)
 	//mock the policy undeployment
 	handlePolicyUndeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
 
@@ -340,7 +340,7 @@ func TestPdpUpdateMessageHandler_UnSuccessful_Undeployment(t *testing.T) {
 		"pdpSubgroup":"opa"
 	}`
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": []}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": []}`)
 	//mock the policy undeployment
 	handlePolicyDeploymentVar = func(pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) ([]string, map[string]string) {
 
@@ -370,7 +370,7 @@ func TestPdpUpdateMessageHandler_Partial_FailureIn_Undeployment(t *testing.T) {
 		"pdpSubgroup":"opa"
 	}`
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`)
 	//mock the policy undeployment
 	handlePdpUpdateUndeploymentVar = func(ctx context.Context, pdpUpdate model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 
@@ -708,7 +708,7 @@ func Test_DeploymentHandlerFails(t *testing.T) {
 	        "pdpSubgroup":"opa"
 	}`)
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"data": ["zone"],"policy": ["zone"],"policy-id": "zone","policy-version": "1.0.0"}]}`)
 	mockPublisher := new(mocks.PdpStatusSender)
 	mockPublisher.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	sendFinalResponseVar = func(ctx context.Context, p publisher.PdpStatusSender, update *model.PdpUpdate, policies string, failures []string) error {
@@ -735,7 +735,7 @@ func Test_UndeploymentHandlerFails(t *testing.T) {
 	        "pdpGroup":"opaGroup",
 	        "pdpSubgroup":"opa"
 	}`)
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": []}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": []}`)
 	mockPublisher := new(mocks.PdpStatusSender)
 	handlePdpUpdateUndeploymentVar = func(ctx context.Context, update model.PdpUpdate, p publisher.PdpStatusSender) (string, []string, error) {
 		return "", []string{}, errors.New("undeployment error")

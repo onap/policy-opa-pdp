@@ -78,7 +78,7 @@ func TestSendPdpUpdateResponse_Success_NoPolicies(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
-	policymap.LastDeployedPolicies = ""
+	policymap.SetLastDeployedPolicies("")
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
 
 	err := SendPdpUpdateResponse(context.Background(), mockSender, pdpUpdate, "PDPUpdate Successful")
@@ -92,7 +92,7 @@ func TestSendPdpUpdateResponse_Success_SomeDeployedPolicies(t *testing.T) {
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
 	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
-	policymap.LastDeployedPolicies = "some-policies"
+	policymap.SetLastDeployedPolicies("some-policies")
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
 	err := SendPdpUpdateResponse(context.Background(), mockSender, pdpUpdate, "PDPUpdate Successful")
 	assert.NoError(t, err)
@@ -124,7 +124,7 @@ func TestSendPdpUpdateErrorResponse_SomeDeployedPolicies(t *testing.T) {
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Sending error response"))
 	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
 
-	policymap.LastDeployedPolicies = "some-policies"
+	policymap.SetLastDeployedPolicies("some-policies")
 	// Set mock behavior for policymap
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
 	mockerr := errors.New("Sending Error response")
@@ -143,7 +143,7 @@ func TestSendPdpUpdateErrorResponse_NoPolicies(t *testing.T) {
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(errors.New("Sending error response"))
 	pdpUpdate := &model.PdpUpdate{RequestId: "test-request-id"}
 
-	policymap.LastDeployedPolicies = ""
+	policymap.SetLastDeployedPolicies("")
 	// Set mock behavior for policymap
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
 	mockerr := errors.New("Sending Error response")

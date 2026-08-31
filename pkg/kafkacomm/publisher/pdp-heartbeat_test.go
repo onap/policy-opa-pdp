@@ -114,7 +114,7 @@ func TestSendPDPHeartBeat_SuccessSomeDeployedPolicies(t *testing.T) {
 	mockPolicymap := new(MockPolicymap)
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
-	policymap.LastDeployedPolicies = "some-policies"
+	policymap.SetLastDeployedPolicies("some-policies")
 	// Set mock behavior for policymap
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
 	err := sendPDPHeartBeat(context.Background(), mockSender)
@@ -132,7 +132,7 @@ func TestSendPDPHeartBeat_SuccessNoDeployedPolicies(t *testing.T) {
 	mockPolicymap := new(MockPolicymap)
 	mockSender := new(mocks.PdpStatusSender)
 	mockSender.On("SendPdpStatus", mock.Anything, mock.Anything).Return(nil)
-	policymap.LastDeployedPolicies = ""
+	policymap.SetLastDeployedPolicies("")
 	// Set mock behavior for policymap
 	mockPolicymap.On("ExtractDeployedPolicies", mock.Anything).Return(nil)
 	err := sendPDPHeartBeat(context.Background(), mockSender)

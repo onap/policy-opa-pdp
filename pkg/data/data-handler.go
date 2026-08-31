@@ -368,7 +368,7 @@ func validatePolicyDataPathMatched(dirParts []string, policyId string, res http.
 		dirParts = dirParts[1:]
 	}
 	finalDirParts := strings.Join(dirParts, ".")
-	policiesMap := policymap.LastDeployedPolicies
+	policiesMap := policymap.GetLastDeployedPolicies()
 	matchedPolicy, err := getPolicyByIDVar(policiesMap, policyId)
 	if err != nil {
 		sendErrorResponse(res, err.Error(), http.StatusBadRequest)

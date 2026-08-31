@@ -749,7 +749,7 @@ func TestPatchHandler_InvalidDataPath(t *testing.T) {
 		fmt.Println("error in currentDateTime")
 	}
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "valid-policy","policy-version": "v1"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "valid-policy","policy-version": "v1"}]}`)
 
 	requestBody := &oapicodegen.OPADataUpdateRequest{
 		CurrentDate:     &currentDate,
@@ -1225,9 +1225,9 @@ func TestExtractPatchInfo_NilOpType(t *testing.T) {
 }
 
 // validKafkaPatchRequest builds a PATCH request that passes all validation and
-// reaches the kafka branch. It sets up policymap.LastDeployedPolicies with a
-// policy whose data key matches the URL path. The caller must save/restore
-// cfg.UseKafkaForPatch and policymap.LastDeployedPolicies via t.Cleanup.
+// reaches the kafka branch. It sets up the deployed policies map with a policy
+// whose data key matches the URL path. The caller must save/restore
+// cfg.UseKafkaForPatch and the deployed policies map via t.Cleanup.
 func validKafkaPatchRequest(t *testing.T) *http.Request {
 	t.Helper()
 	ctime := "08:26:41.857Z"
@@ -1260,7 +1260,7 @@ func validKafkaPatchRequest(t *testing.T) *http.Request {
 		t.Fatalf("failed to marshal request body: %v", err)
 	}
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "kafka-test-policy", "policy-version": "v1.0", "data": ["kafka.test"]}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "kafka-test-policy", "policy-version": "v1.0", "data": ["kafka.test"]}]}`)
 
 	req, err := http.NewRequest("PATCH", "/policy/pdpo/v1/data/kafka/test", bytes.NewBuffer(bodyBytes))
 	if err != nil {
@@ -1273,11 +1273,11 @@ func TestPatchHandler_KafkaAccepted_BodyIsValidJSON(t *testing.T) {
 	// Arrange: save and restore globals
 	origKafka := cfg.UseKafkaForPatch
 	origProducer := PatchProducer
-	origPolicies := policymap.LastDeployedPolicies
+	origPolicies := policymap.GetLastDeployedPolicies()
 	t.Cleanup(func() {
 		cfg.UseKafkaForPatch = origKafka
 		PatchProducer = origProducer
-		policymap.LastDeployedPolicies = origPolicies
+		policymap.SetLastDeployedPolicies(origPolicies)
 	})
 
 	cfg.UseKafkaForPatch = true
@@ -1298,11 +1298,11 @@ func TestPatchHandler_KafkaSendFailure_ReturnsError(t *testing.T) {
 	// Arrange: nil PatchProducer triggers "failed to initialize Kafka producer" error
 	origKafka := cfg.UseKafkaForPatch
 	origProducer := PatchProducer
-	origPolicies := policymap.LastDeployedPolicies
+	origPolicies := policymap.GetLastDeployedPolicies()
 	t.Cleanup(func() {
 		cfg.UseKafkaForPatch = origKafka
 		PatchProducer = origProducer
-		policymap.LastDeployedPolicies = origPolicies
+		policymap.SetLastDeployedPolicies(origPolicies)
 	})
 
 	cfg.UseKafkaForPatch = true

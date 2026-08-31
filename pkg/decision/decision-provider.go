@@ -161,7 +161,7 @@ func handleDecisionRequest(res http.ResponseWriter, req *http.Request, errorDtls
 
 // Function to handle policy validation logic
 func handlePolicyValidation(res http.ResponseWriter, decisionReq *oapicodegen.OPADecisionRequest, errorDtls *string, httpStatus *int, policyId *string, policyVersion *string) {
-	policiesMap := policymap.LastDeployedPolicies
+	policiesMap := policymap.GetLastDeployedPolicies()
 	if policiesMap == "" {
 		*errorDtls = "No policies are deployed."
 		*httpStatus = http.StatusBadRequest

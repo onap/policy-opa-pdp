@@ -72,7 +72,7 @@ func SendPdpUpdateResponse(ctx context.Context, s PdpStatusSender, pdpUpdate *mo
 	pdpStatus.RequestID = uuid.New().String()
 	pdpStatus.TimestampMs = fmt.Sprintf("%d", time.Now().UnixMilli())
 
-	policiesMap := policymap.LastDeployedPolicies
+	policiesMap := policymap.GetLastDeployedPolicies()
 
 	if policiesMap != "" {
 		if (policymap.ExtractDeployedPolicies(policiesMap)) == nil {
@@ -120,7 +120,7 @@ func SendPdpUpdateErrorResponse(ctx context.Context, s PdpStatusSender, pdpUpdat
 	pdpStatus.RequestID = uuid.New().String()
 	pdpStatus.TimestampMs = fmt.Sprintf("%d", time.Now().UnixMilli())
 
-	policiesMap := policymap.LastDeployedPolicies
+	policiesMap := policymap.GetLastDeployedPolicies()
 
 	if policiesMap != "" {
 		if (policymap.ExtractDeployedPolicies(policiesMap)) == nil {

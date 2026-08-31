@@ -347,7 +347,7 @@ var mockDecisionResultBool = &sdk.DecisionResult{
 // Test to check invalid UUID in request
 func Test_Invalid_request_UUID(t *testing.T) {
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`)
 
 	originalFunc := OPASingletonInstance
 	// Mock the function
@@ -432,7 +432,7 @@ func Test_valid_HTTP_method(t *testing.T) {
 	}
 	defer func() { OPADecision = originalOPADecision }()
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`)
 
 	originalFunc := OPASingletonInstance
 	// Mock the function
@@ -494,7 +494,7 @@ func Test_Error_Marshalling(t *testing.T) {
 	}
 	defer func() { OPADecision = originalOPADecision }()
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`)
 
 	originalFunc := OPASingletonInstance
 	// Mock the function
@@ -527,7 +527,7 @@ func Test_Invalid_Decision(t *testing.T) {
 	}
 	defer func() { OPADecision = originalOPADecision }()
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`)
 
 	originalFunc := OPASingletonInstance
 	// Mock the function
@@ -573,7 +573,7 @@ func Test_Valid_Decision_String(t *testing.T) {
 	}
 	defer func() { OPADecision = originalOPADecision }()
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`)
 
 	originalFunc := OPASingletonInstance
 	// Mock the function
@@ -613,7 +613,7 @@ func Test_with_boolean_OPA_Decision(t *testing.T) {
 	}
 	defer func() { OPADecision = originalOPADecision }()
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`)
 
 	originalFunc := OPASingletonInstance
 	// Mock the function
@@ -652,7 +652,7 @@ func Test_decision_Result_String(t *testing.T) {
 		return mockDecisionResult, nil
 	}
 	defer func() { OPADecision = originalOPADecision }()
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "s3", "policy-version": "1.0"}]}`)
 
 	originalFunc := OPASingletonInstance
 	// Mock the function
@@ -673,7 +673,7 @@ func Test_decision_Result_String(t *testing.T) {
 var mockPoliciesMap string
 
 func mockLastDeployedPolicies() {
-	policymap.LastDeployedPolicies = mockPoliciesMap
+	policymap.SetLastDeployedPolicies(mockPoliciesMap)
 }
 
 // Test case: No policies deployed

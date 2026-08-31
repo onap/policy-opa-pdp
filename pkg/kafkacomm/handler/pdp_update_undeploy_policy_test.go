@@ -135,7 +135,7 @@ func TestProcessPoliciesTobeUndeployed_Success(t *testing.T) {
 	mockPolicyMap.On("UnmarshalLastDeployedPolicies", mock.Anything).Return(deployedPolicies, nil)
 	mockPolicyMap.On("RemoveUndeployedPoliciesfromMap", mock.Anything).Return("{}", nil)
 
-	policymap.LastDeployedPolicies = `{"test-policy": "v1"}`
+	policymap.SetLastDeployedPolicies(`{"test-policy": "v1"}`)
 
 	failures, success := processPoliciesTobeUndeployed(undeployedPolicies)
 
@@ -150,7 +150,7 @@ func TestProcessPoliciesTobeUndeployed_Failure_UnmarshalError(t *testing.T) {
 	mockPolicyMap := new(MockPolicyMap)
 	mockPolicyMap.On("UnmarshalLastDeployedPolicies", mock.Anything).Return([]map[string]interface{}{}, errors.New("unmarshal error"))
 
-	policymap.LastDeployedPolicies = `invalid json`
+	policymap.SetLastDeployedPolicies(`invalid json`)
 
 	failures, success := processPoliciesTobeUndeployed(undeployedPolicies)
 
@@ -334,7 +334,7 @@ func TestProcessPoliciesTobeUndeployed_FailureInUndeployment(t *testing.T) {
 	// Define undeployed policies
 	undeployedPolicies := map[string]string{"policy2": "1.0.0"}
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "policy2","policy-version": "1.0.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "policy2","policy-version": "1.0.0"}]}`)
 
 	// Override policyUndeploymentActionFunc to return a failure
 	policyUndeploymentActionVar = func(policy map[string]interface{}) []string {
@@ -362,7 +362,7 @@ func TestProcessPoliciesTobeUndeployed_ErrorInRemoveFromMap(t *testing.T) {
 		"policy4": "v1",
 	}
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "policy4","policy-version": "v1"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "policy4","policy-version": "v1"}]}`)
 	removeUndeployedPoliciesfromMapVar = func(undeployedPolicies map[string]interface{}) (string, error) {
 		return "", errors.New("removal error")
 	}
@@ -714,11 +714,11 @@ func TestProcessDataDeletionFromSdkAndDir(t *testing.T) {
 func TestProcessUndeploy_SecondSucceedsAfterFirstFails(t *testing.T) {
 	origAction := policyUndeploymentActionVar
 	origRemove := removeUndeployedPoliciesfromMapVar
-	origLP := policymap.LastDeployedPolicies
+	origLP := policymap.GetLastDeployedPolicies()
 	t.Cleanup(func() {
 		policyUndeploymentActionVar = origAction
 		removeUndeployedPoliciesfromMapVar = origRemove
-		policymap.LastDeployedPolicies = origLP
+		policymap.SetLastDeployedPolicies(origLP)
 	})
 
 	removeUndeployedPoliciesfromMapVar = func(map[string]interface{}) (string, error) { return "", nil }
@@ -729,7 +729,7 @@ func TestProcessUndeploy_SecondSucceedsAfterFirstFails(t *testing.T) {
 		return nil // success
 	}
 
-	policymap.LastDeployedPolicies = `{"deployed_policies_dict": [{"policy-id": "P1","policy-version": "1.0.0"},{"policy-id": "P2","policy-version": "1.0.0"}]}`
+	policymap.SetLastDeployedPolicies(`{"deployed_policies_dict": [{"policy-id": "P1","policy-version": "1.0.0"},{"policy-id": "P2","policy-version": "1.0.0"}]}`)
 
 	undeployed := map[string]string{"P1": "1.0.0", "P2": "1.0.0"}
 	_, success := processPoliciesTobeUndeployed(undeployed)

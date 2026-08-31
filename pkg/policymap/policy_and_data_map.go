@@ -25,6 +25,7 @@ import (
 	"policy-opa-pdp/consts"
 	"policy-opa-pdp/pkg/log"
 	"policy-opa-pdp/pkg/model"
+	"sync"
 )
 
 type (
@@ -32,9 +33,30 @@ type (
 )
 
 var (
-	LastDeployedPolicies  string
+	// lastDeployedPolicies is written by the Kafka handler goroutine while the decision
+	// and data HTTP handlers, the status publisher and the heartbeat all read it, so
+	// every access goes through mu. Read-modify-write callers hold the write lock for
+	// the whole sequence: taking it only around the store would let two concurrent
+	// updates each drop the other's policy.
+	mu                   sync.RWMutex
+	lastDeployedPolicies string
+
 	FormatMapOfAnyTypeVar FormatMapOfAnyTypeFunc[interface{}] = FormatMapofAnyType
 )
+
+// GetLastDeployedPolicies returns the JSON document describing what is currently deployed.
+func GetLastDeployedPolicies() string {
+	mu.RLock()
+	defer mu.RUnlock()
+	return lastDeployedPolicies
+}
+
+// SetLastDeployedPolicies replaces the deployed policies document.
+func SetLastDeployedPolicies(policiesMap string) {
+	mu.Lock()
+	defer mu.Unlock()
+	lastDeployedPolicies = policiesMap
+}
 
 func formatPolicyAndDataMap(deployedPolicies []map[string]interface{}) (string, error) {
 
@@ -49,11 +71,21 @@ func formatPolicyAndDataMap(deployedPolicies []map[string]interface{}) (string, 
 		return "", fmt.Errorf("failed to format json: %v", err)
 	}
 
-	// Update global state
-	LastDeployedPolicies = policyDataJSON
-	log.Infof("PoliciesDeployed Map: %v", LastDeployedPolicies)
+	return policyDataJSON, nil
+}
 
-	return LastDeployedPolicies, nil
+// storeDeployedPoliciesLocked renders deployedPolicies and publishes the result.
+// mu must already be held for writing.
+func storeDeployedPoliciesLocked(deployedPolicies []map[string]interface{}) (string, error) {
+	policyDataJSON, err := formatPolicyAndDataMap(deployedPolicies)
+	if err != nil {
+		return lastDeployedPolicies, err
+	}
+
+	lastDeployedPolicies = policyDataJSON
+	log.Infof("PoliciesDeployed Map: %v", lastDeployedPolicies)
+
+	return lastDeployedPolicies, nil
 }
 
 func FormatMapofAnyType[T any](mapOfAnyType T) (string, error) {
@@ -84,12 +116,14 @@ func UnmarshalLastDeployedPolicies(lastdeployedPolicies string) ([]map[string]in
 }
 
 func UpdateDeployedPoliciesinMap(policy model.ToscaPolicy) (string, error) {
+	mu.Lock()
+	defer mu.Unlock()
 
 	// Unmarshal the last known policies
-	deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
+	deployedPolicies, err := UnmarshalLastDeployedPolicies(lastDeployedPolicies)
 	if err != nil {
 		log.Warnf("Aborting update; LastDeployedPolicies is corrupt: %v", err)
-		return LastDeployedPolicies, err
+		return lastDeployedPolicies, err
 	}
 
 	dataKeys := make([]string, 0, len(policy.Properties.Data))
@@ -110,16 +144,18 @@ func UpdateDeployedPoliciesinMap(policy model.ToscaPolicy) (string, error) {
 		"policy":             policyKeys,
 	}
 	deployedPolicies = append(deployedPolicies, directoryMap)
-	return formatPolicyAndDataMap(deployedPolicies)
+	return storeDeployedPoliciesLocked(deployedPolicies)
 }
 
 func RemoveUndeployedPoliciesfromMap(undeployedPolicy map[string]interface{}) (string, error) {
+	mu.Lock()
+	defer mu.Unlock()
 
 	// Unmarshal the last known policies
-	deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
+	deployedPolicies, err := UnmarshalLastDeployedPolicies(lastDeployedPolicies)
 	if err != nil {
 		log.Warnf("Aborting update; LastDeployedPolicies is corrupt: %v", err)
-		return LastDeployedPolicies, err
+		return lastDeployedPolicies, err
 	}
 
 	remainingPolicies := []map[string]interface{}{}
@@ -134,7 +170,7 @@ func RemoveUndeployedPoliciesfromMap(undeployedPolicy map[string]interface{}) (s
 		}
 	}
 
-	return formatPolicyAndDataMap(remainingPolicies)
+	return storeDeployedPoliciesLocked(remainingPolicies)
 }
 
 func VerifyAndReturnPoliciesToBeDeployed(lastdeployedPoliciesMap string, pdpUpdate model.PdpUpdate) []model.ToscaPolicy {
@@ -203,9 +239,10 @@ func ExtractDeployedPolicies(policiesMap string) []model.ToscaConceptIdentifier 
 }
 
 func CheckIfPolicyAlreadyExists(policyId string) bool {
-	if len(LastDeployedPolicies) > 0 {
+	policiesMap := GetLastDeployedPolicies()
+	if len(policiesMap) > 0 {
 		// Unmarshal the last known policies
-		deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
+		deployedPolicies, err := UnmarshalLastDeployedPolicies(policiesMap)
 		if err != nil {
 			log.Warnf("Failed to unmarshal LastDeployedPolicies While Checking if Policy Already Exists: %v", err)
 		}
@@ -222,7 +259,7 @@ func CheckIfPolicyAlreadyExists(policyId string) bool {
 }
 
 func GetTotalDeployedPoliciesCountFromMap() int {
-	deployedPolicies, err := UnmarshalLastDeployedPolicies(LastDeployedPolicies)
+	deployedPolicies, err := UnmarshalLastDeployedPolicies(GetLastDeployedPolicies())
 	if err != nil {
 		log.Warnf("Failed to unmarshal LastDeployedPolicies While Getting TotalDeployedPoliciesCountFromMap: %v", err)
 		return 0
