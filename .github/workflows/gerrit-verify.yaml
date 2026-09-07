@@ -128,7 +128,7 @@ jobs:
       pull-requests: read # repository-metadata-action queries PR data
       issues: read # grype job reads maintainer-approved CVE bypass issues
     # yamllint disable-line rule:line-length
-    uses: lfreleng-actions/go-workflows/.github/workflows/build-test.yaml@c5dda19b1a7427be05925031ab8e37e755221d44 # v0.4.4
+    uses: lfreleng-actions/go-workflows/.github/workflows/build-test.yaml@f4bb6c5a06e98af555f02d0143403a6c22714f2a # v0.5.1
     with:
       # confluent-kafka-go/v2 requires cgo; build off unless enabled here.
       cgo_enabled: '1'
