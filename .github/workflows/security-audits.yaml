@@ -164,7 +164,7 @@ jobs:
       matrix:
         branch: ${{ fromJson(needs.discover-branches.outputs.branches) }}
     # yamllint disable-line rule:line-length
-    uses: lfreleng-actions/security-workflows/.github/workflows/sonarqube-cloud.yaml@921904035e4559b4bf9069d3e821ffb4db3cfe88 # v0.5.0
+    uses: lfreleng-actions/security-workflows/.github/workflows/sonarqube-cloud.yaml@bdcf7d8d599788e3eb70e2d761c9f6abd49c06e5 # v0.7.0
     permissions:
       # Needed by the reusable scan job to check out the repository.
       contents: read
